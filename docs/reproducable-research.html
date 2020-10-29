@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Seminar 1 Reproducable Research: Projects and RMarkdown Notebooks | Data analysis using R for Psychology</title>
+  <meta name="description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Seminar 1 Reproducable Research: Projects and RMarkdown Notebooks | Data analysis using R for Psychology" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Seminar 1 Reproducable Research: Projects and RMarkdown Notebooks | Data analysis using R for Psychology" />
+  
+  <meta name="twitter:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
+  
+
+<meta name="author" content="Alexander (Sasha) Pastukhov" />
+
+
+<meta name="date" content="2020-10-29" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="getting-started.html"/>
+
+<script src="libs/header-attrs-2.5/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Data analysis using R for Psychology</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-seminar"><i class="fa fa-check"></i>About the seminar</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#note-on-exercises"><i class="fa fa-check"></i>Note on exercises</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-r"><i class="fa fa-check"></i>Why R?</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#tidyverse-versus-base-r"><i class="fa fa-check"></i>Tidyverse versus base R</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html"><i class="fa fa-check"></i>Getting Started</a>
+<ul>
+<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#installing-r"><i class="fa fa-check"></i>Installing R</a></li>
+<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#installing-r-studio"><i class="fa fa-check"></i>Installing R-Studio</a></li>
+<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#rtools"><i class="fa fa-check"></i>Installing RTools</a></li>
+<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#installing-packages"><i class="fa fa-check"></i>Installing packages</a></li>
+<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#keeping-r-and-packages-up-to-date"><i class="fa fa-check"></i>Keeping R and packages up-to-date</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="reproducable-research.html"><a href="reproducable-research.html"><i class="fa fa-check"></i><b>1</b> Reproducable Research: Projects and RMarkdown Notebooks</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="reproducable-research.html"><a href="reproducable-research.html#projects"><i class="fa fa-check"></i><b>1.1</b> Projects</a></li>
+<li class="chapter" data-level="1.2" data-path="reproducable-research.html"><a href="reproducable-research.html#rmarkdown"><i class="fa fa-check"></i><b>1.2</b> RMarkdown</a></li>
+<li class="chapter" data-level="1.3" data-path="reproducable-research.html"><a href="reproducable-research.html#exercise"><i class="fa fa-check"></i><b>1.3</b> Exercise</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data analysis using R for Psychology</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="reproducable-research" class="section level1" number="1">
+<h1><span class="header-section-number">Seminar 1</span> Reproducable Research: Projects and RMarkdown Notebooks</h1>
+<p>Our aim is create reproducible research and analysis. It is a crucial component of the open science movement but is even more important for your own research or study projects. Doing analysis is easy. The trick is to create a self-contained well-documented easy-to-understand reproducible analysis. An analysis that others and future-you can easily understand gives you a deeper insight into the results (less mystery is better in these cases) and makes it easier to communicate them to other researchers or fellow students.</p>
+<div id="projects" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Projects</h2>
+<p>One of the most annoying features of R is that sees files and folders only relative to its “working directory”, which is set via <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/getwd">setwd(dir)</a> function. What makes it particularly confusing, is that your currently open file may be in some other folder. If you simply use <code>File / Open</code>, navigate to that file and open it, it does not change your working directory. Similary, in R-Studio you can navigate through file system using <code>Files</code> tab and open some folder you are interested in but that <strong>does not make it a working directory</strong>. You need to click on <code>More</code> and <code>Set As Working Directory</code> to make this work.</p>
+<p><img src="images/setwd-gui.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>In short, you may feel that you are working in a particular folder but R will have its own ideas about this. Whenever this happens, it is really confusing. To avoid this you should organize any separate project or seminar as an <em>R Project</em>. It assumes that all the necessary files are in the project folder, which is also the working directory. R Studio has some nice project-based touches, like keeping tracking of which files you have open, providing version control, etc. Bottom line, <strong>always</strong> create a new R-project to organize yourself, even if it involves just a single simple file to try something out, because “Nothing is more permanent than a temporary solution!” (which is why you should <strong>always</strong> write your code, as if it is for the long term project, otherwise your temporary solution grows into incomprehensible spaghetti code).</p>
+<p>Let us create a new project for this seminar. Use <code>File / New Project...</code>, which will give you options of creating it in a new directory (you get to come up with a name), using an existing directory (project will be named after that directory), or check it out from remote repository (something we won’t talk about just yet). You can do it either way but this will be the project folder for this seminar and you will need to put all notebooks and external data files into that folder. Next time you need to open it, you can use <code>File / Recent Projects</code> menu, <code>File / Open Project...</code> menu or simply double-click on the <code>&lt;name-of-your-project&gt;.Rproj</code> file in that folder.</p>
+</div>
+<div id="rmarkdown" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> RMarkdown</h2>
+<p><a href="https://rmarkdown.rstudio.com/">RMarkdown notebooks</a> combine formatted text and illustrations with code. When the notebook is “knitted”, all the code is ran and its output, such as tables and figures, is inserted into the final document. This allows you to combine the narrative, explaining the background, the methodology, and conclusion with the actual code that implements what you described.</p>
+<p>Importantly, notebook can be knitted into a variety of formats including HTML, PDF, Word document, EPUB book, etc. Thus, instead of creating plots and tables separately to copy-paste them into your Word file (and then redoing it, if something changed, and trying to find the correct code that you used the last time, and wondering why it does not run anymore…), you simply “knit” the notebook and get the current and complete research report, semester work, presentation, etc. Even more importantly, same goes for others, as they also can knit your notebook and generate its latest version in format they need. All your exercises will be based on RMarkdown notebooks, so you need to familiarize yourself with them.</p>
+<p>We will start by learning the markdown, which is a family of human-oriented markup languages. Markup is the plain text that includes formatting syntax and can be translated into “reach” visually formatted text. For example, HTML and LaTeX are markup languages. The advantage of markup is that you do not need a special program to edit it, any plain text editor will suffice. You need a special program to turn this plain text into the document (for example, Latex to compile a PDF or a browser to view HTML properly) but anyone can read your original file even if they do not have Latex, PDF reader, or a browser installed (you do need Word to read a Word file). <strong>Markdown</strong> markup language was design to make formatting simple and unobtusive, so the plain document is easy to read (you can reading HTML but it is hardly fun!). It is not as feature-rich as HTML or LaTeX but covers most of your usual needs and is very easy to learn!</p>
+<p>Create a new markdown file via <code>File / New File / R Markdown...</code> menu. Use <code>Seminar 1</code> for its title and HTML as default output format. Then you need to save the file (pressing <code>Ctrl + S</code> will suffice) and call the file <code>seminar-01</code> (R Studio will add <code>.Rmd</code> extension automatically). The file you created is not empty, as R Studio is kind enough to provide a template and example for you. Knit the notebook by clicking on <code>Knit</code> button or pressing <code>Ctrl + Shift + K</code> to see how the properly typeset text will look like (it will appear in <code>Viewer</code> tab).</p>
+<p><img src="images/default-notebook.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>Let us go through the default notebook that R Studio created for us.</p>
+<p><img src="images/notebook-header.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>The top part between two sets of <code>---</code> is a notebook header with various configuration options written in <a href="https://yaml.org/">YAML</a> (yes, we have two different markup languages in one file). <code>title</code>, <code>author</code>, and <code>date</code> should be self-explanatory. <code>output</code> defines what kind of output document knitr will generate. You can specify it by hand (e.g., <code>word_document</code>) or just click on drop down next to <code>Knit</code> button and pick the option you like (we will use the default HTML most of the time). These are sufficient for us but there are numerous other options that you can specify, for example, to enable indexing of headers. You can read about at <a href="https://yihui.org/knitr/">yihui.org/knitr</a>.</p>
+<p><img src="images/notebook-setup.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>The next section is the “setup code chunk” that specifies default options on how the code chunks are treated (executed or not, their output is shown or not, etc.). By default code in chunks is run and its output is shown (<code>echo = TRUE</code>) but you can change this behavior on per-chunk basis by pressing the gear button at the top-right. The setup chunk is also a good place where to import your libraries (we will talk about it later) as it is always run before any other chunks (so, even if you forgot to run it to load libraries, R Studio will do this for you).</p>
+<p><img src="images/notebook-text.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>Next, we have plain text with rmarkdown, which get translated into formatting when you click on <code>Knit</code> button. You can write like this anywhere outside of code chunks to explain the logic of your analysis. You should write why and how the analysis is performed but leave technical details to the chunk itself, where you can comment the code. Minimally, I use it to provide a brief explanation about the upcoming figures or tables, e.g. “Compute accuracy per observer and condition. Using binomial mixed models to test for the effect of condition”.</p>
+<p><img src="images/notebook-chunk.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>Finally, we have our first “proper” chunk of code (the “setup” chunk above is a special case). A code chunk is simply the code embedded between
+<code>```{r &lt;name of the chunk}</code> and the seconds set of ticks <code>```</code>. Here <code>r</code> specifies that the code inside is using R language but you can use other languages such as Python, Stan, or SQL. The <code>name of the chunk</code> is optional but I would recommend to have it, as it reminds you what this code is about and it makes it easier to navigate in large notebooks. In the bottom-left corner, you can see which chunk or section you are currently at and, if you click on it, you can quickly navigate to a different chunk. If chunks are not explicitly named, they will get labels <code>Chunk 1</code>, <code>Chunk 2</code>, etc. making it hard to identify them.</p>
+<p><img src="images/notebook-navigation.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>There are also additional options that you can specify per chunk (whether run the code, to show the output, what size the figures should be, etc.). Generally we won’t need these options but you can get an idea about them by looking at the <a href="https://yihui.org/knitr/options/">official manual</a>. You can create chunk by hand or click on “Create chunk” drop-down list (in this case, it will create the chunk at the position of the cursor)</p>
+<p><img src="images/notebook-insert-chunk.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>Finally, you run <strong>all</strong> the code in the chunk by clicking on <code>Run current chunk button</code> at the top-right corner of the chunk or by pressing <code>Ctrl + Shift + Enter</code> when the you are inside the chunk. However, you can also run just a <em>single line</em> or only <em>selected code</em> by pressing <code>Ctrl + Enter</code>. The cool thing about RMarkdown is that you will see the output of that chunk right below it. This means that you can write you code chunk-by-chunk, ensure that each works as intended and only when knit the entire document. Run the chunks in your notebook to see what I mean.</p>
+<p><img src="images/notebook-run-chunk.png" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="exercise" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Exercise</h2>
+<p>For the today’s exercise, I want you to familiarize yourself with markdown. Go to <a href="https://www.markdownguide.org/">markdownguide.org</a> and look at basic and extended syntax (their cheat sheet is also very good). Write any text you want that uses all the formatting and submit the file to MS Teams.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="getting-started.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["data-analysis-using-r-for-psychology.pdf", "data-analysis-using-r-for-psychology.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
