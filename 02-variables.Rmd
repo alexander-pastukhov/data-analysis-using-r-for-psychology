@@ -4,7 +4,7 @@ Before reading the chapter, please download the [exercise notebook](notebooks/Se
 
 ## Vectors and Scalars (and Lists, which are a special case) {#vectors}
 
-Before we can start programming in R, you need to learn about vectors. This is a key concept in R, so your understanding of it will determine how easy it will be for you to use R. Do all of the exercises, even if they feel repetitive, and do not hesitate to ask me whenever something is unclear. Remember, you need to master vectors before you can master R!
+Before we can start programming in R, you need to learn about vectors. This is a key concept in R, so your understanding of it will determine how easy it will be for you to use R. Do all of the exercises, even if they feel simple and repetitive, and do not hesitate to ask me whenever something is unclear. Remember, you need to master vectors before you can master R!
 
 Often, a concept of a variable is describe as a box you can put something in. A box has a name tag on it, which is the _name_ of the variable. Whatever you put in is the _value_ that you store. 
 
@@ -16,7 +16,7 @@ number_of_participants <- 10
 ```
 Here, `number_of_participants` is the name of the variable (name tag for the box we will be using), `10` is the value you store, and `<-` means **"put `10` into variable `number_of_participants`"**. If you know other programming languages, you probably expected the usual assignment operator `=`. Confusingly, you can use it as well, but there are some subtle, yet important, differences in how they operate behind the scenes. We will meet `=` again when we will be talking about functions and, in particular, Tidyverse way of doing things but for now **only use `<-` operator**! 
 
-Unfortunately, the box metaphor you've just learned, doesn't quite work for R. Historically, R was developed as a language for statistical computing, so it was  based on concepts of linear algebra instead of being a "normal" programming language. This means that the primary unit in R is a **vector**, which you may remember from geometry or, hopefully, from linear algebra, as an arrow that goes from 0 to a specific point in space. But from computer science point of view, a vector is just a list of numbers (or some other values, as you will learn later). This means that there are no "single values" in R per se, there are only vectors of length 1,  which are usually called _scalars_ ^[Multiplication of a vector by another vector _transforms_ it but for a single element vector the only transformation you can get is "scaling", hence, the name.]. With respect to the "box metaphor", this means that we have a box with numbered (indexed) slots in it. A simple assignment makes sure that "the box" has as many slots as the values you want to put in and stores these values one after another starting with slot #1. So, the example above `number_of_participants <- 10` creates a variable with one (1) slot and stores the value in it. 
+Unfortunately, the box metaphor you've just learned, doesn't quite work for R. Historically, R was developed as a language for statistical computing, so it was  based on concepts of linear algebra instead of being a "normal" programming language. This means that the primary data unit in R is a **vector**, which you may remember from geometry or, hopefully, from linear algebra, as an arrow that goes from 0 to a specific point in space. But from computer science point of view, a vector is just a list of numbers (or some other values, as you will learn later). This means that there are no "single values" in R per se, there are only vectors variable length including vectors of length 1,  which are usually called _scalars_ ^[Multiplication of a vector by another vector _transforms_ it but for a single element vector the only transformation you can get is "scaling", hence, the name.]. With respect to the "box metaphor", this means that we have a box with numbered (indexed) slots in it. A simple assignment makes sure that "the box" has as many slots as the values you want to put in and stores these values one after another starting with slot #1. So, the example above `number_of_participants <- 10` creates a variable with one (1) slot and stores the value in it.
 
 **Figure with a slot in the box**
 
@@ -24,7 +24,7 @@ But the single value (vector with length of one) is a special case. More general
 ```{r eval=FALSE}
 response <- c(1, 7, 3)
 ```
-Here, you create a variable (box) named `response` that has three slots in it because you want to store three values. You put values `1, 7, 3` into the slots #1, #2, and #3. The `c(1, 7, 3)` notation is how you create a vector in R by **c**oncatenating (or **c**ombining) values^[I find this to be a poor choice of name but we are stuck with, so just get used to it.]. The figure below illustrates the idea:
+Here, you create a variable (box) named `response` that has three slots in it because you want to store three values. You put values `1, 7, 3` into the slots #1, #2, and #3. The `c(1, 7, 3)` notation is how you create a vector in R by [**c**oncatenating](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/c) (or **c**ombining) values^[I find this to be a poor choice of name but we are stuck with, so just get used to it.]. The figure below illustrates the idea:
 
 **Figure with a the 3 slots in box**
 
@@ -47,14 +47,35 @@ First, we  create vector of length 3 via concatenation `c(3, 6, 9)`, then create
 
 **Figure on copying values box**
 
-You can use mathematical operators on vectors, which are performed element-wise. Thus, if you add two vectors of **equal** length, the _first_ element of the first vector is added to the _first_ element of the second vector, _second_ element to _second_, etc.
+**Do exercise #1.**
+
+Remember, everything is a vector! This means that `c(3, 6, 9)` does not **c**oncatenate numbers, it **c**oncatenates three length one vectors (scalars) `3`, `6`, `9`. Thus, **c**oncatenation works on longer vectors in exactly the same way:
+```{r}
+x <- c(1, 2, 3)
+y <- c(4, 5)
+print(c(x, y))
+```
+**Do exercise #2.**
+
+Everything is a vector! This means that when you are using a function, you are always applying (mapping) it to a vector. This, in turn, means that you can apply the function to all values in one go. For example, you can compute a cosine of all values in the vector.
+```{r}
+cos(c(0, pi/4, pi/2, pi, -pi))
+```
+In contrast, in Python or C, you would need to loop over the values and compute the cosine for one value at a time (matrix-based NumPy library is a different story). Or think about Excel, where you need to extend formula over the rows but each row is computed independently (so you can deliberately or accidentally miss some rows). In R, because everything is the vector, the function is applied to every value automatically. Similarly, if you are using aggregating functions, such as `mean()` and `max()`, you can pass a vector and it will return a length-one vector with the value.
+
+```{r}
+mean(c(1, 2, 6, 9))
+```
+## Working with two vectors
+
+You can also use mathematical operations on several vectors. The vectors are matched element-wise. Thus, if you add two vectors of **equal** length, the _first_ element of the first vector is added to the _first_ element of the second vector, _second_ element to _second_, etc.
 ```{r}
 x <- c(1, 4, 5)
 y <- c(2, 7, -3)
 print(x + y)
 ```
 
-**Do exercise to #1.**
+**Do exercise to #3.**
 
 What if vectors are of different length? If the length of the longer vector is a multiple of the shorter vector length, the shorter vector is repeated N-times (where $N = length(longer~vector) / length(shorter~vector)$) and this repeated vector is then used for the mathematical operation. Take a look at the results of the following computation
 
@@ -81,8 +102,67 @@ print(x + y)
 ```
 One thing to keep in mind: R does this length-matching-by-repetition automatically and shows a warning only if two lengths are not multiples of each other. This means that vectors will be matched by length even if that was not your plan (one vector is half the length because you accidentally forgot to add data from second experimental block) and you do not realize that. Thus, do make sure that your vectors are matched in their length, so that you are not caught surprised by this behavior (you can use function [length()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/length) for this).
 
-**Do exercise #2.**
+**Do exercise #4.**
 
+## Vector indexing, single value (#vector-index-single)
+A vector is an ordered list of one or more values (box with one or more slots) and, sometimes, you need only one of the values. Each value (slot in the box) has its own index from 1 till N, where N is the length of the vector. To access that slot you use square brackets `some_vector[index]`. You can both get or set the value for the individual slots the same way as for the whole vector.
 
+```{r}
+x <- c(1, 2, 3)
+# set SECOND element to 4
+x[2] <- 4
 
+# print the entire vector
+print(x)
 
+# print only the third element
+print(x[3])
+```
+If your vectors contains five values, you would expect that using indexes below `1` or above `5` would generate an error. However, in R things are bit more complicated. Index of `0` is a special case and produces an _empty vector_ (vector of length zero).
+```{r}
+x <- c(1, 2, 3)
+x[0]
+```
+
+If you try to get vector element using index that is larger than vector length (so `6` if your vector length is 5), R will return `NA` ("Not Available" / Missing Value). 
+
+```{r}
+x <- c(1, 2, 3)
+x[5]
+```
+In both cases, it won't throw an error or even warn you!
+
+When **setting** the value by index, using `0` will produce no effect (and, also, no error or warning).
+```{r}
+x <- c(1, 2, 3)
+x[0] <- 5
+print(x)
+```
+If set an element those index is **larger** than vector length, the vector will be automatically expanded to that length and all the elements between the old values and the new one will be `NA`.
+```{r}
+x <- c(1, 2, 3)
+x[10] <- 5
+print(x)
+```
+I am bringing these details up to serve as a general warning about R. It is a very powerful language that allows you to be very flexible. Unfortunately, that flexibility means that base R won't stop you from shooting your foot or, even worse, you won't even notice that your foot is shot because it won't generate either errors or warnings, as in example above. Good news id that things are far more restricted and consistent in Tidyverse.
+
+**Do exercise #5.**
+
+Finally, you can use _negative_ indexes. In that case, you **exclude** the value with that index and return or modify the rest.
+```{r}
+x <- c(1, 2, 3, 4, 5)
+# this will return all elements but #3
+x[-3] 
+```
+```{r}
+x <- c(1, 2, 3, 4, 5)
+# this will assign new value to all elements but #2
+x[-2] <- 10
+x
+```
+Given that negative indexing returns everything **but** the indexed value, what do you think will happen here (**Do exercise #6**)?
+```{r eval=FALSE}
+x <- c(1, 2, 3, 4, 5)
+x[-10]
+```
+## Vector indexing, slicing {#vector-index-slicing}
