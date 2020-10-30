@@ -1,0 +1,88 @@
+# Variables {#variables}
+
+Before reading the chapter, please download the [exercise notebook](notebooks/Seminar 02 - Vectors.Rmd), put it into your seminar project folder and open the project. You need both the text and the notebook with exercises to be open, as you will be switching between them.
+
+## Vectors and Scalars (and Lists, which are a special case) {#vectors}
+
+Before we can start programming in R, you need to learn about vectors. This is a key concept in R, so your understanding of it will determine how easy it will be for you to use R. Do all of the exercises, even if they feel repetitive, and do not hesitate to ask me whenever something is unclear. Remember, you need to master vectors before you can master R!
+
+Often, a concept of a variable is describe as a box you can put something in. A box has a name tag on it, which is the _name_ of the variable. Whatever you put in is the _value_ that you store. 
+
+**Figure with a the box**
+
+This "putting in" concepts is reflected in R syntax
+```{r eval=FALSE}
+number_of_participants <- 10
+```
+Here, `number_of_participants` is the name of the variable (name tag for the box we will be using), `10` is the value you store, and `<-` means **"put `10` into variable `number_of_participants`"**. If you know other programming languages, you probably expected the usual assignment operator `=`. Confusingly, you can use it as well, but there are some subtle, yet important, differences in how they operate behind the scenes. We will meet `=` again when we will be talking about functions and, in particular, Tidyverse way of doing things but for now **only use `<-` operator**! 
+
+Unfortunately, the box metaphor you've just learned, doesn't quite work for R. Historically, R was developed as a language for statistical computing, so it was  based on concepts of linear algebra instead of being a "normal" programming language. This means that the primary unit in R is a **vector**, which you may remember from geometry or, hopefully, from linear algebra, as an arrow that goes from 0 to a specific point in space. But from computer science point of view, a vector is just a list of numbers (or some other values, as you will learn later). This means that there are no "single values" in R per se, there are only vectors of length 1,  which are usually called _scalars_ ^[Multiplication of a vector by another vector _transforms_ it but for a single element vector the only transformation you can get is "scaling", hence, the name.]. With respect to the "box metaphor", this means that we have a box with numbered (indexed) slots in it. A simple assignment makes sure that "the box" has as many slots as the values you want to put in and stores these values one after another starting with slot #1. So, the example above `number_of_participants <- 10` creates a variable with one (1) slot and stores the value in it. 
+
+**Figure with a slot in the box**
+
+But the single value (vector with length of one) is a special case. More generally you write:
+```{r eval=FALSE}
+response <- c(1, 7, 3)
+```
+Here, you create a variable (box) named `response` that has three slots in it because you want to store three values. You put values `1, 7, 3` into the slots #1, #2, and #3. The `c(1, 7, 3)` notation is how you create a vector in R by **c**oncatenating (or **c**ombining) values^[I find this to be a poor choice of name but we are stuck with, so just get used to it.]. The figure below illustrates the idea:
+
+**Figure with a the 3 slots in box**
+
+Building on the box metaphor: If you can store something in a box, you can take it out! In the world of computers it works even better, because rather than taking something out, you just make a copy of that and store this copy somewhere else or to use it to compute things. Minimally, we would like to see what is inside of the box. For this, you can use [print](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print) function:
+
+```{r}
+response <- c(1, 7, 3)
+print(response)
+```
+
+Or, we can make a copy of values in one variable and store them in another:
+```{r}
+x <- c(3, 6, 9)
+y <- x 
+
+print(x)
+print(y)
+```
+First, we  create vector of length 3 via concatenation `c(3, 6, 9)`, then create a 3-slot variable `x` and put the numbers into that variable. Next, we make a copy of these three values and store them in a different variable `y`. Importantly, the values in varible `x` stayed as they were. Take a look at the figure below, which graphically illustrate this:
+
+**Figure on copying values box**
+
+You can use mathematical operators on vectors, which are performed element-wise. Thus, if you add two vectors of **equal** length, the _first_ element of the first vector is added to the _first_ element of the second vector, _second_ element to _second_, etc.
+```{r}
+x <- c(1, 4, 5)
+y <- c(2, 7, -3)
+print(x + y)
+```
+
+**Do exercise to #1.**
+
+What if vectors are of different length? If the length of the longer vector is a multiple of the shorter vector length, the shorter vector is repeated N-times (where $N = length(longer~vector) / length(shorter~vector)$) and this repeated vector is then used for the mathematical operation. Take a look at the results of the following computation
+
+```{r}
+x <- c(1, 1, 1, 1, 1, 1)
+y <- c(2, 3)
+print(x + y)
+```
+Here, the values of `y` were repeated three times to match the length of `x`, so the actual computation was `c(1, 1, 1, 1, 1, 1) + c(2, 3, 2, 3, 2, 3)`. A vector of length 1 (scalar) is a special case because any integer is a multiple of 1, so that single value is repeated `length(longer_vector)` times before the operation is performed.
+
+```{r}
+x <- c(1, 2, 3, 4, 5, 6)
+y <- 2
+print(x + y)
+```
+Again, the actual computation is `c(1, 2, 3, 4, 5, 6) + c(2, 2, 2, 2, 2, 2)`. 
+
+Finally, if the length of the longer vector **is not** a multiple of the shorter vector length, R will repeat the shorter vector N times, so that $N = ceiling(length(longer~vector) / length(shorter~vector))$ (where [ceiling()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/Round) rounds a number up) and truncates (throws away) the extra elements it does not need. Although R will do it, it will also throw a warning about mismatching objects' (vectors') lengths.
+
+```{r}
+x <- c(2, 3)
+y <- c(1, 1, 1, 1, 1)
+print(x + y)
+```
+One thing to keep in mind: R does this length-matching-by-repetition automatically and shows a warning only if two lengths are not multiples of each other. This means that vectors will be matched by length even if that was not your plan (one vector is half the length because you accidentally forgot to add data from second experimental block) and you do not realize that. Thus, do make sure that your vectors are matched in their length, so that you are not caught surprised by this behavior (you can use function [length()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/length) for this).
+
+**Do exercise #2.**
+
+
+
+
