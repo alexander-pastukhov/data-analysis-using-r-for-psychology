@@ -66,44 +66,6 @@ In contrast, in Python or C, you would need to loop over the values and compute 
 ```{r}
 mean(c(1, 2, 6, 9))
 ```
-## Working with two vectors
-
-You can also use mathematical operations on several vectors. The vectors are matched element-wise. Thus, if you add two vectors of **equal** length, the _first_ element of the first vector is added to the _first_ element of the second vector, _second_ element to _second_, etc.
-```{r}
-x <- c(1, 4, 5)
-y <- c(2, 7, -3)
-print(x + y)
-```
-
-**Do exercise to #3.**
-
-What if vectors are of different length? If the length of the longer vector is a multiple of the shorter vector length, the shorter vector is repeated N-times (where $N = length(longer~vector) / length(shorter~vector)$) and this repeated vector is then used for the mathematical operation. Take a look at the results of the following computation
-
-```{r}
-x <- c(1, 1, 1, 1, 1, 1)
-y <- c(2, 3)
-print(x + y)
-```
-Here, the values of `y` were repeated three times to match the length of `x`, so the actual computation was `c(1, 1, 1, 1, 1, 1) + c(2, 3, 2, 3, 2, 3)`. A vector of length 1 (scalar) is a special case because any integer is a multiple of 1, so that single value is repeated `length(longer_vector)` times before the operation is performed.
-
-```{r}
-x <- c(1, 2, 3, 4, 5, 6)
-y <- 2
-print(x + y)
-```
-Again, the actual computation is `c(1, 2, 3, 4, 5, 6) + c(2, 2, 2, 2, 2, 2)`. 
-
-Finally, if the length of the longer vector **is not** a multiple of the shorter vector length, R will repeat the shorter vector N times, so that $N = ceiling(length(longer~vector) / length(shorter~vector))$ (where [ceiling()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/Round) rounds a number up) and truncates (throws away) the extra elements it does not need. Although R will do it, it will also throw a warning about mismatching objects' (vectors') lengths.
-
-```{r}
-x <- c(2, 3)
-y <- c(1, 1, 1, 1, 1)
-print(x + y)
-```
-One thing to keep in mind: R does this length-matching-by-repetition automatically and shows a warning only if two lengths are not multiples of each other. This means that vectors will be matched by length even if that was not your plan (one vector is half the length because you accidentally forgot to add data from second experimental block) and you do not realize that. Thus, do make sure that your vectors are matched in their length, so that you are not caught surprised by this behavior (you can use function [length()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/length) for this).
-
-**Do exercise #4.**
-
 ## Vector indexing, single value (#vector-index-single)
 A vector is an ordered list of one or more values (box with one or more slots) and, sometimes, you need only one of the values. Each value (slot in the box) has its own index from 1 till N, where N is the length of the vector. To access that slot you use square brackets `some_vector[index]`. You can both get or set the value for the individual slots the same way as for the whole vector.
 
@@ -162,7 +124,108 @@ x
 ```
 Given that negative indexing returns everything **but** the indexed value, what do you think will happen here (**Do exercise #6**)?
 ```{r eval=FALSE}
-x <- c(1, 2, 3, 4, 5)
+x <- c(10, 20, 30, 40, 50)
 x[-10]
 ```
-## Vector indexing, slicing {#vector-index-slicing}
+## Slicing  {#vector-index-slicing}
+So far we were reading or modifying either the whole vector or just one element of it. But the index you pass in square brackets (you've guess it!) is also a vector! Which means that you can construct a vector of indexes the same way you construct a vector of any values (the only restriction is that index values must integers).
+ 
+```{r}
+x <- c(10, 20, 30, 40, 50)
+x[c(2, 3, 5)]
+```
+Moreover, when constructing a vector index, you can put the index values in the order you require (starting from the end of it, random order, etc.) or use the same index more than once.
+```{r}
+x <- c(10, 20, 30, 40, 50)
+x[c(3, 5, 1, 1, 4)]
+```
+You can also use several negative indexes to exclude multiple values and return the rest. Here, neither order nor the duplicate indexes matter: Regradless of which value you exclude (by index) the first or how many times you exclude it, you still get _the rest_ of the vector in its default order.
+```{r}
+x <- c(10, 20, 30, 40, 50)
+x[c(-4, -2, -2)]
+```
+Note that you cannot mix positive and negative indexes as R, finally, will generate an error.
+```{r eval=FALSE}
+x <- c(10, 20, 30, 40, 50)
+
+# THIS WILL GENERATE AN ERROR: 
+# "Error in x[c(-4, 2, -2)] : only 0's may be mixed with negative subscripts"
+x[c(-4, 2, -2)]
+```
+Finally, here, zero index makes no difference.
+```{r}
+x <- c(10, 20, 30, 40, 50)
+x[c(1, 0, 5, 0, 0, 2, 2)]
+```
+**Do exercise #X.**
+
+## Colon Operator and Sequence Generation {#colon-sequence}
+To simply vector indexing, R provides you with a shortcut to create a range of index. An expression `A:B` (a.k.a.[Colon Operator](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Colon.html)) builds a sequence of integers starting with `A` and ending with **and including(!)** `B` (the latter is not obvious, if you come from Python).
+```{r}
+3:7
+```
+Thus, you can use it to easily create an index and, because everything is a vector!, combine it with other values.
+```{r}
+x <- c(10, 20, 30, 40, 50)
+x[c(1, 3:5)]
+```
+The sequence above is increasing but you can also use the colon operator to construct a decreasing one.
+```{r}
+x <- c(10, 20, 30, 40, 50)
+x[c(5:2)]
+```
+The colon operator is limited to sequence with steps of `1` or `-1`, so for more flexibility you can use `seq(from, to, by, length.out)` (a.k.a [Sequence Generation](https://stat.ethz.ch/R-manual/R-devel/library/base/html/seq.html)). The `from` and `to` are starting and ending values (just like in the colon operator) and you can specify either a step via `by` parameter (as, in "from A to B by C") or via `length.out` parameter (how many values you want to generate).
+Using `by` version:
+```{r}
+seq(1, 5, by=2)
+```
+Same sequence but using `length.out` version:
+```{r}
+seq(1, 5, length.out=3)
+```
+You have probably spotted the `=` symbol. Here, it is not an assignment but is used to specify the parameters when you call a function. Thus, we are still sticking with `<-` **outside** of the function calls but are using `=` **inside** the function calls.
+
+**Go to exercise #X**.
+
+
+## Working with two vectors
+
+You can also use mathematical operations on several vectors. The vectors are matched element-wise. Thus, if you add two vectors of **equal** length, the _first_ element of the first vector is added to the _first_ element of the second vector, _second_ element to _second_, etc.
+```{r}
+x <- c(1, 4, 5)
+y <- c(2, 7, -3)
+print(x + y)
+```
+
+**Do exercise to #3.**
+
+What if vectors are of different length? If the length of the longer vector is a multiple of the shorter vector length, the shorter vector is repeated N-times (where $N = length(longer~vector) / length(shorter~vector)$) and this repeated vector is then used for the mathematical operation. Take a look at the results of the following computation
+
+```{r}
+x <- c(1, 1, 1, 1, 1, 1)
+y <- c(2, 3)
+print(x + y)
+```
+Here, the values of `y` were repeated three times to match the length of `x`, so the actual computation was `c(1, 1, 1, 1, 1, 1) + c(2, 3, 2, 3, 2, 3)`. A vector of length 1 (scalar) is a special case because any integer is a multiple of 1, so that single value is repeated `length(longer_vector)` times before the operation is performed.
+
+```{r}
+x <- c(1, 2, 3, 4, 5, 6)
+y <- 2
+print(x + y)
+```
+Again, the actual computation is `c(1, 2, 3, 4, 5, 6) + c(2, 2, 2, 2, 2, 2)`. 
+
+Finally, if the length of the longer vector **is not** a multiple of the shorter vector length, R will repeat the shorter vector N times, so that $N = ceiling(length(longer~vector) / length(shorter~vector))$ (where [ceiling()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/Round) rounds a number up) and truncates (throws away) the extra elements it does not need. Although R will do it, it will also throw a warning about mismatching objects' (vectors') lengths.
+
+```{r}
+x <- c(2, 3)
+y <- c(1, 1, 1, 1, 1)
+print(x + y)
+```
+One thing to keep in mind: R does this length-matching-by-repetition automatically and shows a warning only if two lengths are not multiples of each other. This means that vectors will be matched by length even if that was not your plan (one vector is half the length because you accidentally forgot to add data from second experimental block) and you do not realize that. Thus, do make sure that your vectors are matched in their length, so that you are not caught surprised by this behavior (you can use function [length()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/length) for this).
+
+**Do exercise #4.**
+
+## Wrap up
+By now you have learned more about vectors and vector operations in R than you probably bargained for. Admittedly, not the most exciting topic! And there was not a single word on psychology, data analysis, or statistics. However, R is obsessed with vectors (everything is a vector!) and understanding them will make it easier to understand tables (lists of vectors, more on that next time) and functional programming, another two core concepts of R. Finish this seminar off by doing the remaining exercises. Let's see whether R can still surprise you!
+
