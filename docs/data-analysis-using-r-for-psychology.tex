@@ -117,7 +117,7 @@
 
 \title{Data analysis using R for Psychology}
 \author{Alexander (Sasha) Pastukhov}
-\date{2020-11-03}
+\date{2020-11-05}
 
 \begin{document}
 \maketitle
@@ -292,12 +292,12 @@ For the today's exercise, I want you to familiarize yourself with markdown. Go t
 \hypertarget{vectors}{%
 \chapter{Vectors! Vectors everywhere!}\label{vectors}}
 
-Before reading the chapter, please download the \href{notebooks/Seminar\%2002\%20-\%20Vectors.Rmd}{exercise notebook}, put it into your seminar project folder and open the project. You need both the text and the notebook with exercises to be open, as you will be switching between them.
+Before reading the chapter, please download the \href{notebooks/Seminar\%2002\%20-\%20Vectors.Rmd}{exercise notebook} (\texttt{Alt\ +\ Click} to download it or right-click as \texttt{Save\ link\ as...}), put it into your seminar project folder and open the project. You need both the text and the notebook with exercises to be open, as you will be switching between them.
 
 Before we can start programming in R, you need to learn about vectors. This is a key concept in R, so your understanding of it will determine how easy it will be for you to use R. Do all of the exercises and do not hesitate to ask me whenever something is unclear. Remember, you need to master vectors before you can master R!
 
 \hypertarget{variables}{%
-\section{Variables}\label{variables}}
+\section{Variables as boxes}\label{variables}}
 
 In programming, the concept of a variable is often described as a box you can put something in. A box has a name tag on it, which is the \emph{name} of the variable. Whatever you put in is the \emph{value} that you store.
 
@@ -313,10 +313,43 @@ This ``putting in'' concepts is reflected in R syntax
 
 Here, \texttt{number\_of\_participants} is the name of the variable (name tag for the box we will be using), \texttt{10} is the value you store, and \texttt{\textless{}-} means \textbf{``put \texttt{10} into variable \texttt{number\_of\_participants}''}. If you know other programming languages, you probably expected the usual assignment operator \texttt{=}. Confusingly, you can use it as well, but there are some subtle, yet important, differences in how they operate behind the scenes. We will meet \texttt{=} again when we will be talking about functions and, in particular, Tidyverse way of doing things but for now \textbf{only use \texttt{\textless{}-} operator}!
 
-\hypertarget{vectors-scalars}{%
-\section{Vectors and scalars}\label{vectors-scalars}}
+\hypertarget{assignment-statement-in-detail}{%
+\section{Assignment statement in detail}\label{assignment-statement-in-detail}}
 
-The box metaphor you've just learned, doesn't quite work for R. Historically, R was developed as a language for statistical computing, so it was based on concepts of linear algebra instead of being a ``normal'' programming language. This means that the primary data unit in R is a \textbf{vector}, which you may remember from geometry or, hopefully, from linear algebra, as an arrow that goes from 0 to a specific point in space. From computer science point of view, a vector is just a list of numbers (or some other values, as you will learn later). This means that there are no ``single values'' in R, there are only vectors of variable length. The special case are vectors of length one, which are called \emph{scalars} \footnote{Multiplication of a vector by another vector \emph{transforms} it but for a single element vector the only transformation you can get is ``scaling'', hence, the name.} (but they are still vectors). With respect to the ``box metaphor'', this means that we always have a box with indexed (numbered) slots in it. A simple assignment makes sure that ``the box'' has as many slots as the values you want to put in and stores these values one after another starting with slot \#1. So, the example above \texttt{number\_of\_participants\ \textless{}-\ 10} creates a variable with one (1) slot and stores the value in it.
+One \textbf{very important} thing to remember about the assignment statement \texttt{\textless{}variable\textgreater{}\ \textless{}-\ \textless{}value\textgreater{}}: the \emph{right side} is evaluated first until the final value is established and then, and only then, it is stored in a \texttt{\textless{}variable\textgreater{}} specified on the left side. This means that you can use the same variable on \emph{both} sides. Take a look at the example
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{\textless{}{-}} \DecValTok{2}
+\FunctionTok{print}\NormalTok{(x)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{\textless{}{-}}\NormalTok{ x }\SpecialCharTok{+} \DecValTok{5}
+\FunctionTok{print}\NormalTok{(x)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 7
+\end{verbatim}
+
+We are storing value \texttt{2} in a variable \texttt{x}. In the next line, the \emph{right side} is evaluated first. This means that the current value of \texttt{x} is substituted in its place on the right side: \texttt{x\ +\ 5} becomes \texttt{2\ +\ 5}. This expression computed and we get \texttt{7}. Now, that the \emph{right side} is fully evaluated, the value can be stored in \texttt{x} replacing (overwriting) the original value it had.
+
+R's use of \texttt{\textless{}-} makes it easier to memorize this \emph{right side is fully evaluated first} rule. However, as noted above, we will meet \texttt{=} operator and this one makes it look like a mathematical equation. However, assignments (storing values in a variable) have nothing in common with mathematical equations (finding values of variables to ensure equality)!
+
+Do exercise 1.
+
+\hypertarget{vectors-scalars}{%
+\section{Vectors and scalars (which are also vectors)}\label{vectors-scalars}}
+
+The box metaphor you've just learned, doesn't quite work for R. Historically, R was developed as a language for statistical computing, so it was based on concepts of linear algebra instead of being a ``normal'' programming language. This means that there is no conceptual divide between single values and containers (arrays, lists, dictionaries, etc.) that hold many single values. Instead, the primary data unit in R is a \textbf{vector}, which you may remember from geometry or, hopefully, from linear algebra, as an arrow that goes from 0 to a specific point in space. From computer science point of view, a vector is just a list of numbers (or some other values, as you will learn later). This means that there are no ``single values'' in R, there are only vectors of variable length. Special cases are vectors of length one, which are called \emph{scalars} \footnote{Multiplication of a vector by another vector \emph{transforms} it but for a single element vector the only transformation you can get is ``scaling'', hence, the name.} (but they are still vectors) and zero length vectors that are, sort of, a Platonic idea of a vector without actual values. With respect to the ``box metaphor'', this means that we always have a box with indexed (numbered) slots in it. A simple assignment makes sure that ``the box'' has as many slots as the values you want to put in and stores these values one after another starting with slot \#1. So, the example above \texttt{number\_of\_participants\ \textless{}-\ 10} creates a variable with one (1) slot and stores the value in it.
 
 \begin{center}\includegraphics[width=0.3\linewidth]{images/box-with-a-slot} \end{center}
 
@@ -374,7 +407,7 @@ Here, we create a 3-slot variable \texttt{x} so that we can put in a vector of l
 
 \begin{center}\includegraphics[width=1\linewidth]{images/copy-vector} \end{center}
 
-\textbf{Do exercise \#1.}
+Do exercise 2.
 
 Remember, everything is a vector! This means that \texttt{c(3,\ 6,\ 9)} does not \textbf{c}oncatenate numbers, it \textbf{c}oncatenates three length one vectors (scalars) \texttt{3}, \texttt{6}, \texttt{9}. Thus, \textbf{c}oncatenation works on longer vectors in exactly the same way:
 
@@ -390,34 +423,10 @@ Remember, everything is a vector! This means that \texttt{c(3,\ 6,\ 9)} does not
 ## [1] 1 2 3 4 5
 \end{verbatim}
 
-\textbf{Do exercise \#2.}
+Do exercise 3.
 
-Did I mention that everything is a vector? This means that when you are using a function, you are always applying it to (mapping it on) a vector. This, in turn, means that you apply the function to \textbf{all values} in one go. For example, you can compute a cosine of all values in the vector.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{cos}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, pi}\SpecialCharTok{/}\DecValTok{4}\NormalTok{, pi}\SpecialCharTok{/}\DecValTok{2}\NormalTok{, pi, }\SpecialCharTok{{-}}\NormalTok{pi))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1]  1.000000e+00  7.071068e-01  6.123032e-17 -1.000000e+00 -1.000000e+00
-\end{verbatim}
-
-In contrast, in Python or C, you would need to loop over the values and compute the cosine for one value at a time (matrix-based NumPy library is a different story). Or think about Excel, where you need to extend formula over the rows but each row is computed independently (so you can deliberately or accidentally miss some rows). In R, because everything is the vector, the function is applied to every value automatically. Similarly, if you are using aggregating functions, such as \texttt{mean()} and \texttt{max()}, you can pass a vector and it will return a length-one vector with the value.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{mean}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{6}\NormalTok{, }\DecValTok{9}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] 4.5
-\end{verbatim}
-
-\hypertarget{vector-indexes-vector-index}{%
-\section{Vector indexes (\#vector-index)}\label{vector-indexes-vector-index}}
+\hypertarget{vector-index}{%
+\section{Vector indexes}\label{vector-index}}
 
 A vector is an ordered list of one or more values (box with one or more slots) and, sometimes, you need only one of the values. Each value (slot in the box) has its own index from 1 till N, where N is the \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/length}{length} of the vector. To access that slot you use square brackets \texttt{some\_vector{[}index{]}}. You can both get and set the value for the individual slots the same way you do it for the whole vector.
 
@@ -447,7 +456,7 @@ A vector is an ordered list of one or more values (box with one or more slots) a
 ## [1] 3
 \end{verbatim}
 
-\textbf{Do exercise 3.}
+Do exercise 4.
 
 Unfortunately, vector indexing in R behaves in a way that may catch you by surprise. If your vectors contains five values, you would expect that index of \texttt{0} (negative indexes are discussed below) or above \texttt{5} generates an error. Not in R! Index of \texttt{0} is a special case and produces an \emph{empty vector} (vector of zero length).
 
@@ -491,7 +500,7 @@ When \textbf{setting} the value by index, using \texttt{0} will produce no effec
 ## [1] 1 2 3
 \end{verbatim}
 
-If you set an element those index is \textbf{larger} than vector length, the vector will be automatically expanded to that length and all the elements between the old values and the new one will be \texttt{NA}.
+If you set an element those index is \textbf{larger} than vector length, the vector will be automatically expanded to that length and all the elements between the old values and the new one will be \texttt{NA} (Missing Value / Not Available).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -505,9 +514,9 @@ If you set an element those index is \textbf{larger} than vector length, the vec
 ##  [1]  1  2  3 NA NA NA NA NA NA  5
 \end{verbatim}
 
-This may sound too technical but I want you learn about this because R conventions are so different from other programming languages and, also, from you would expect in general. If you are not aware of these highly peculiar rules, you may never realize that your code is not working properly because you will never see an error or even a warning! It should also make you more cautious and careful when programming in R. It is a very powerful language that allows you to be very flexible and expressive. Unfortunately, that flexibility means that base R won't stop you from shooting yourself in a foot. Even worse, sometimes you won't even notice that your foot is shot because R won't generate either errors or warnings, as in example above. Good news is that things are far more restricted and consistent in Tidyverse.
+This may sound too technical but I want you to learn about this because R conventions are so different from other programming languages and, also, from you would intuitively expect. If you are not aware of these highly peculiar rules, you may never realize that your code is not working properly because you will never see an error or even a warning! It should also make you more cautious and careful when programming in R. It is a very powerful language that allows you to be very flexible and expressive. Unfortunately, that flexibility means that base R won't stop you from shooting yourself in a foot. Even worse, sometimes you won't even notice that your foot is shot because R won't generate either errors or warnings, as in examples above. Good news is that things are far more restricted and consistent in Tidyverse.
 
-\textbf{Do exercise \#4.}
+Do exercise 5.
 
 Finally, you can use \emph{negative} indexes. In that case, you \textbf{exclude} the value with that index and return or modify the rest.
 
@@ -537,7 +546,6 @@ Finally, you can use \emph{negative} indexes. In that case, you \textbf{exclude}
 \end{verbatim}
 
 Given that negative indexing returns everything \textbf{but} the indexed value, what do you think will happen here?
-\textbf{Do exercise \#5.}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -545,6 +553,125 @@ Given that negative indexing returns everything \textbf{but} the indexed value, 
 \NormalTok{x[}\SpecialCharTok{{-}}\DecValTok{10}\NormalTok{]}
 \end{Highlighting}
 \end{Shaded}
+
+Do exercise 6.
+
+\hypertarget{names-as-index}{%
+\section{Names as Index}\label{names-as-index}}
+
+As you've just learned, every slot in vector has its numeric (integer) index. However, this number only indicates an index of a slot but tells you nothing on how it is conceptually different from a slot with a different index. For example, if we are storing width and height in a vector, remembering their order may be tricky: was it \texttt{box\_size\ \textless{}-\ c(\textless{}width\textgreater{},\ \textless{}depth\textgreater{},\ \textless{}height\textgreater{})} or \texttt{box\_size\ \textless{}-\ c(\textless{}height\textgreater{},\ \textless{}width\textgreater{},\ \textless{}depth\textgreater{})}? Similarly, looking at \texttt{box\_size{[}1{]}} tells that you are definitely using the \emph{first} dimension but is it \texttt{height} or \texttt{width} (or \texttt{depth})?
+
+In R, you can use \emph{names} to supplement numeric indexes. It allows you add meaning to a particular vector index, something that becomes extremely important when we use it for tables. There are two ways to assign names to indexes, either when you are creating the index via \texttt{c()} function or, afterwards, via \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/names}{names()} function.
+
+To create named vector via \texttt{c()} you specify a name before each value as \texttt{c(\textless{}name1\textgreater{}\ =\ \textless{}value1\textgreater{},\ \textless{}name2\textgreater{}\ =\ \textless{}value2\textgreater{},\ ...)}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{box\_size }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"width"}\OtherTok{=}\DecValTok{2}\NormalTok{, }\StringTok{"height"}\OtherTok{=}\DecValTok{4}\NormalTok{, }\StringTok{"depth"}\OtherTok{=}\DecValTok{1}\NormalTok{) }
+\FunctionTok{print}\NormalTok{(box\_size)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  width height  depth 
+##      2      4      1
+\end{verbatim}
+
+Note the names appearing above each value. You can now use either numeric index or name to access the value.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{box\_size }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"width"}\OtherTok{=}\DecValTok{2}\NormalTok{, }\StringTok{"height"}\OtherTok{=}\DecValTok{4}\NormalTok{, }\StringTok{"depth"}\OtherTok{=}\DecValTok{1}\NormalTok{) }
+\FunctionTok{print}\NormalTok{(box\_size[}\DecValTok{1}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## width 
+##     2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(box\_size[}\StringTok{"depth"}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## depth 
+##     1
+\end{verbatim}
+
+Alternatively, you can use \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/names}{names()} function to both get and set the names. The latter works via a \emph{very counterintuitive} syntax \texttt{names(\textless{}vector\textgreater{})\ \textless{}-\ \textless{}vector-with-names\textgreater{}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# without names}
+\NormalTok{box\_size }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{1}\NormalTok{) }
+\FunctionTok{print}\NormalTok{(box\_size)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2 4 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# with names}
+\FunctionTok{names}\NormalTok{(box\_size) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"width"}\NormalTok{, }\StringTok{"height"}\NormalTok{, }\StringTok{"depth"}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(box\_size)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  width height  depth 
+##      2      4      1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# getting all the names}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{names}\NormalTok{(box\_size))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "width"  "height" "depth"
+\end{verbatim}
+
+Because everything is a vector, \texttt{names(\textless{}vector\textgreater{})} is also a vector, meaning that you can get or set just one element of it.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{box\_size }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"width"}\OtherTok{=}\DecValTok{2}\NormalTok{, }\StringTok{"height"}\OtherTok{=}\DecValTok{4}\NormalTok{, }\StringTok{"depth"}\OtherTok{=}\DecValTok{1}\NormalTok{) }
+
+\CommentTok{\# modify SECOND name}
+\FunctionTok{names}\NormalTok{(box\_size)[}\DecValTok{2}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"HEIGHT"}
+\FunctionTok{print}\NormalTok{(box\_size)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  width HEIGHT  depth 
+##      2      4      1
+\end{verbatim}
+
+Finally, if you use a name that is not in the index, this is like using numeric index larger than the vector length. Is in out-of-range numeric index, there will be neither error not warning and you will get an \texttt{NA} back.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{box\_size }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"width"}\OtherTok{=}\DecValTok{2}\NormalTok{, }\StringTok{"height"}\OtherTok{=}\DecValTok{4}\NormalTok{, }\StringTok{"depth"}\OtherTok{=}\DecValTok{1}\NormalTok{) }
+\FunctionTok{print}\NormalTok{(box\_size[}\StringTok{"radius"}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## <NA> 
+##   NA
+\end{verbatim}
+
+Do exercise 7.
 
 \hypertarget{vector-index-slicing}{%
 \section{Slicing}\label{vector-index-slicing}}
@@ -612,6 +739,22 @@ Finally, including zero index makes no difference but generates neither an error
 \begin{verbatim}
 ## [1] 10 50 20 20
 \end{verbatim}
+
+You can also use names instead of numeric indexes.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{box\_size }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"width"}\OtherTok{=}\DecValTok{2}\NormalTok{, }\StringTok{"height"}\OtherTok{=}\DecValTok{4}\NormalTok{, }\StringTok{"depth"}\OtherTok{=}\DecValTok{1}\NormalTok{) }
+\FunctionTok{print}\NormalTok{(box\_size[}\FunctionTok{c}\NormalTok{(}\StringTok{"height"}\NormalTok{, }\StringTok{"width"}\NormalTok{)])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## height  width 
+##      4      2
+\end{verbatim}
+
+However, you cannot mix numeric indexes and names. The reason is that a vector can hold only values of one type (more on that during the next seminar), so all numeric values will be converted to text (\texttt{1} will become \texttt{"1"}) and treated as names rather than indexes.
 
 \hypertarget{colon-sequence}{%
 \section{Colon Operator and Sequence Generation}\label{colon-sequence}}
@@ -681,10 +824,10 @@ Same sequence but using \texttt{length.out} version:
 
 You have probably spotted the \texttt{=} symbol. Here, it is not an assignment but is used to specify values of parameters when you call a function. Thus, we are still sticking with \texttt{\textless{}-} \textbf{outside} of the function calls but are using \texttt{=} \textbf{inside} the function calls.
 
-\textbf{Do exercise \#6.}
+Do exercise 8.
 
-\hypertarget{working-with-two-vectors}{%
-\section{Working with two vectors}\label{working-with-two-vectors}}
+\hypertarget{working-with-two-vectors-of-equal-length}{%
+\section{\texorpdfstring{Working with two vectors of \emph{equal} length}{Working with two vectors of equal length}}\label{working-with-two-vectors-of-equal-length}}
 
 You can also use mathematical operations on several vectors. Here, the vectors are matched element-wise. Thus, if you add two vectors of \emph{equal} length, the \emph{first} element of the first vector is added to the \emph{first} element of the second vector, \emph{second} element to \emph{second}, etc.
 
@@ -692,7 +835,8 @@ You can also use mathematical operations on several vectors. Here, the vectors a
 \begin{Highlighting}[]
 \NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{5}\NormalTok{)}
 \NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{7}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{3}\NormalTok{)}
-\FunctionTok{print}\NormalTok{(x }\SpecialCharTok{+}\NormalTok{ y)}
+\NormalTok{z }\OtherTok{\textless{}{-}}\NormalTok{ x }\SpecialCharTok{+}\NormalTok{ y}
+\FunctionTok{print}\NormalTok{(z)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -700,7 +844,10 @@ You can also use mathematical operations on several vectors. Here, the vectors a
 ## [1]  3 11  2
 \end{verbatim}
 
-\textbf{Do exercise to \#7.}
+Do exercise 9.
+
+\hypertarget{working-with-two-vectors-of-different-length}{%
+\section{\texorpdfstring{Working with two vectors of \emph{different} length}{Working with two vectors of different length}}\label{working-with-two-vectors-of-different-length}}
 
 What if vectors are of \emph{different} length? If the length of the longer vector is a \emph{multiple} of the shorter vector length, the shorter vector is repeated N-times (where \(N = length(longer~vector) / length(shorter~vector)\)) and this length-matched vector is then used for the mathematical operation. Take a look at the results of the following computation
 
@@ -743,8 +890,8 @@ If the length of the longer vector \textbf{is not} a multiple of the shorter vec
 \end{Shaded}
 
 \begin{verbatim}
-## Warning in x + y: longer object length is not a multiple of shorter object
-## length
+## Warning in x + y: Länge des längeren Objektes
+##       ist kein Vielfaches der Länge des kürzeren Objektes
 \end{verbatim}
 
 \begin{verbatim}
@@ -767,12 +914,39 @@ Finally, combining any vector with null length vector produces a null length vec
 
 One thing to keep in mind: R does this length-matching-via-vector-repetition automatically and shows a warning only if two lengths are not multiples of each other. This means that vectors will be matched by length even if that was not your plan. E.g, imagine that your vector that contains experimental condition (e.g.~contrast of the stimulus) is about all ten blocks that participants performed but your vector with responses is, accidentally, only on block \#1. R will \textbf{silently(!)} replicate the responses 10 times to match their length without ever telling you to watch out. Thus, do make sure that your vectors are matched in their length, so that you are not caught surprised by this behavior (you can use function \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/length}{length()} for this). Good news, it is much more strict in Tidyverse, which is designed to make shooting yourself in the foot much harder.
 
-\textbf{Do exercise \#8.}
+Do exercise 10.
+
+\hypertarget{applying-functions-to-a-vector}{%
+\section{Applying functions to a vector}\label{applying-functions-to-a-vector}}
+
+Did I mention that everything is a vector? This means that when you are using a function, you are always applying it to (mapping it on) a vector. This, in turn, means that you apply the function to \textbf{all values} in one go. For example, you can compute a cosine of all values in the vector.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cos}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, pi}\SpecialCharTok{/}\DecValTok{4}\NormalTok{, pi}\SpecialCharTok{/}\DecValTok{2}\NormalTok{, pi, }\SpecialCharTok{{-}}\NormalTok{pi))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  1.000000e+00  7.071068e-01  6.123032e-17 -1.000000e+00 -1.000000e+00
+\end{verbatim}
+
+In contrast, in Python or C, you would need to loop over the values and compute the cosine for one value at a time (matrix-based NumPy library is a different story). Or think about Excel, where you need to extend formula over the rows but each row is computed independently (so you can deliberately or accidentally miss some rows). In R, because everything is the vector, the function is applied to every value automatically. Similarly, if you are using aggregating functions, such as \texttt{mean()} and \texttt{max()}, you can pass a vector and it will return a length-one vector with the value.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mean}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{6}\NormalTok{, }\DecValTok{9}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 4.5
+\end{verbatim}
 
 \hypertarget{wrap-up}{%
 \section{Wrap up}\label{wrap-up}}
 
-By now you have learned more about vectors, vector indexing, and vector operations in R than you probably bargained for. Admittedly, not the most exciting topic. On top of that, there was not a single word on psychology, data analysis, or statistics. However, R is obsessed with vectors (everything is a vector!) and understanding them will make it easier to understand lists (a polyamorous cousin of a vector), tables (special lists of vectors) and functional programming. Finish this seminar by doing remaining exercises. Let's see whether R can still surprise you!
+By now you have learned more about vectors, vector indexing, and vector operations in R than you probably bargained for. Admittedly, not the most exciting topic. On top of that, there was not a single word on psychology, data analysis, or statistics! However, R is obsessed with vectors (everything is a vector!) and understanding them will make it easier to understand lists (a polyamorous cousin of a vector), tables (special kind of lists made of vectors) and functional programming. Finish this seminar by doing remaining exercises. Let's see whether R can still surprise you!
 
   \bibliography{book.bib}
 
