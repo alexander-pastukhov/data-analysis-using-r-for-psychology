@@ -1,0 +1,183 @@
+# Tables and Tibbles (and Tribbles){#tables}
+
+Please download the [exercise notebook](notebooks/Seminar 03 - Tables.Rmd) (`Alt + Click` to download it or right-click as `Save link as...`), put it into your seminar project folder and open the project. You need both the text and the notebook with exercises to be open, as you will be switching between them.
+
+## Primary data types {#primarytypes}
+Last time we talked about the fact that everything is a vector in R. All the examples used numeric vectors which are two of the four primary types in R. 
+
+* Real numbers (double precision floating point numbers) that can be written in decimal notation with or without a decimal point (`123.4` or `42`) or in a scientific notation (`3.14e10`). There are two special values specific to the real numbers: `Inf` (infinity) and `NaN` (not a number). The latter looks similar  `NA` (Not Available / Missing Value) but is a different special case.
+* Integer numbers that can be specified by adding `L` to the end of an integer number `5L`. Without that `L` a _real_ value will be created (`5` would be stored as `5.0`).
+* Logical or Boolean values of `TRUE` (also written as `T`) and `FALSE` (also written as `F`).
+* Character values (strings) that hold text between a pair of matching `"` or `'` characters. The two options mean that you can surround your text by `'` if you need to put a quote inside: `'"I have never let my schooling interfere with my education." Mark Twain'` or by `"` if you need an apostrophe `"participant's response"`.
+
+You can convert from one type to another and check whether a particular vector is of specific type. Note that if a vector cannot be converted to a specified type, it is "converted" to `NA` instead.
+
+* to integer via `as.integer()`  and `is.integer`. When converting
+    * from a real number the fractional part is discarded, so `as.integer(1.8)` → `1` and `as.integer(-2.1)` → `2`
+    * from logical value `as.integer(TRUE)` → 1 and `as.integer(FALSE)` → 0
+    * from string only it is a properly formed number, e.g. `as.integer("12")` → `12` but `as.integer("_12_")` is `NA`. Note that a real number string is converted first to a real number and then to an integer so `as.integer("12.8")` → `12`.
+    * from `NA` → `NA`
+* to real number via `as.numeric()` / `as.double()` and `is.double()` (avoid `is.numeric()` as Hadley Wickham [writes](https://adv-r.hadley.nz/vectors-chap.html) that it is not doing what you would think it should).
+    * from logical value `as.double(TRUE)` → 1.0 and `as.double(FALSE)` → 0.0
+    * from string only it is a properly formed number, e.g. `as.double("12.2")` → `12` but `as.double("12punkt5")` is `NA`
+    * from `NA` → `NA`
+* to logical `TRUE`/`FALSE` via `as.logical` and `is.logical()`.
+    * from integer or real, zero (`0` or `0.0`) is `FALSE`, any other non-zero value is `TRUE`
+    * from a string, it is `TRUE` for `"TRUE"`, "`True"`, `"true"`, or `"T"` but `NA` if `"t"` `"TRue"`, `"truE`, etc. Same goes for `FALSE`.
+    * from `NA` → `NA`
+
+* to a character string via `as.character()` and `is.character()`
+    * numeric values are converted to a string representation with scientific notation being used for large numbers.
+    * logical `TRUE`/`T` and `FALSE`/`T` are converted to `"TRUE"` and `"FALSE"`.
+    * `NA` → `NA`
+
+::: {.infobox .practice}
+Do exercise 1.
+:::
+
+## In vector all values must be of the same type
+**All** values in a vector must be of the same type - all integer, all double, all logical, or all strings. This ensures that you can apply the same function or operation to the entire vector without worrying about type compatibility. This means, however, that you cannot mix different value types in a vector. If you do try to concatenate vectors of different types, all values will be converted to a more general / flexible type. Thus, if you mix numbers and logical values, you will end up with a vector of numbers. Mixing anything with strings will convert the entire vector to string. Mixing in `NA` does not change the vector type.
+
+::: {.infobox .practice}
+Do exercise 2.
+:::
+
+## Tables, a.k.a. data frames {#data.frame}
+We have spent so much time on vectors because a data table is merely a vector (well, technically, a [list](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/list)) of vectors, with each vector as a column. The default way to construct a table, which are called _data frames_ in R, is via [data.frame()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/data.frame) function.
+```{r}
+our_first_table <- data.frame(numeric_column = c(1, 2, 3, 4), 
+                              character_column = c("A", "B", "C", "D"),
+                              logical_column = c(TRUE, F, T, FALSE))
+
+our_first_table
+```
+
+Once you create a table, it will appear in your environment, so you can see it in the _Environment_ tab and view it by clicking on it or typing `View(table_name)` in the console (not the capital V in the `View()`).
+
+```{r echo=FALSE, out.width = "100%", fig.align = 'center'}
+knitr::include_graphics("images/viewing-table.png")
+```
+
+::: {.infobox .practice}
+Do exercise 3.
+:::
+
+
+Because all columns in a table **must** have the same number of rows. This is similar to the process of [matching vectors' length](#different-length-vectors) that you have learned the last time. However, it works automatically only if length of _all_ vectors is a multiple of the longest length. Thus, the example below will work, as the longest vector (`numeric_column`) is 6, `character_column` length is 3, so it will be repeated twice, and `logical_column` length is 2 so it will be repeated thrice. 
+```{r}
+the_table <- data.frame(numeric_column = 1:6,                  # length 6 
+                        character_column = c("A", "B", "C"),   # length 3
+                        logical_column = c(TRUE, FALSE))       # length 2
+the_table
+```
+
+If the simple _multple-of-length_ rule does not work, R (finally!) generates an error.
+```{r eval=FALSE}
+# this will generate an error: arguments imply differing number of rows
+the_table <- data.frame(numeric_column = 1:7,                 # length 7
+                        character_column = c("A", "B", "C"))  # length 3, cannot be multiplied by an integer to get 7
+```
+
+::: {.infobox .practice}
+Do exercise 4.
+:::
+
+
+Just as with the vectors, you can extract or modify only some elements (rows, columns, subsets) of a table. There are several ways to do it, as you can extract individual elements, individual columns, individual rows, or some rows and some columns. Subsetting tables is not the most exciting and fairly confusing topic but you need to understand it as in the R code that you will encounter different notations could be used interchangeably.
+
+## Extracting a single vector / column
+
+To access individual _vectors_ (a.k.a. columns  or variables) use dollar notation `table$column_name` (this should be your default way) or **double** square brackets, `table[[column_name]]` or `table[[column_index]]`. Note that you cannot use multiple indexes (`c(1, 2)`) or slicing (e.g., `1:2`) with double square brackets. The important if subtle detail is that this notation returns a _vector_, just a like one that you create via `c()` function.
+```{r}
+our_first_table <- data.frame(numeric_column = c(1, 2, 3), 
+                              character_column = c("A", "B", "C"),
+                              logical_column = c(TRUE, F, T))
+
+# via $ notation
+our_first_table$numeric_column
+
+# via name and double square brackets
+our_first_table[['numeric_column']]
+
+# via index and double square brackets
+our_first_table[[1]]
+```
+
+
+```{r echo=FALSE, out.width = "100%", fig.align = 'center'}
+knitr::include_graphics("images/table-column.png")
+```
+
+## Extracting part of a table
+Alternatively, you can extract or access a rectangular part of the table via **single** square brackets. To get one or more columns you can use their names or indexes just as you did with vectors.
+
+```{r}
+our_first_table <- data.frame(numeric_column = c(1, 2, 3), 
+                              character_column = c("A", "B", "C"),
+                              logical_column = c(TRUE, F, T))
+
+# via index
+our_first_table[1]
+
+# via name 
+our_first_table['numeric_column']
+
+# via slicing
+our_first_table[1:2]
+```
+
+```{r echo=FALSE, out.width = "100%", fig.align = 'center'}
+knitr::include_graphics("images/table-subtable.png")
+```
+
+
+
+Again, note that first two call get you a single-column table not a vector. You still need to use  the column name to access its values.
+
+```{r}
+our_first_table <- data.frame(numeric_column = c(1, 2, 3), 
+                              character_column = c("A", "B", "C"),
+                              logical_column = c(TRUE, F, T))
+
+table_copy <- our_first_table[1]
+table_copy$numeric_column
+```
+
+To select a subset rows and columns you write `table[rows, column]`. If you omit either rows or columns this implies that you want _all_ rows or columns.
+```{r}
+our_first_table <- data.frame(numeric_column = c(1, 2, 3), 
+                              character_column = c("A", "B", "C"),
+                              logical_column = c(TRUE, F, T))
+
+# getting ALL rows for the FIRST column -> this gives you a VECTOR
+our_first_table[, 1]
+
+# getting FIRST row for ALL columns -> this gives you DATA.FRAME
+our_first_table[1, ]
+
+# ALL rows and ALL columns, equivalent to just writing `our_first_table` or `our_first_table[]`
+our_first_table[,]
+
+# getting SECOND element of the THIRD column
+our_first_table[2, 3]
+
+# getting first two elements of the logical_column
+our_first_table[1:2, "logical_column"]
+```
+
+```{r echo=FALSE, out.width = "100%", fig.align = 'center'}
+knitr::include_graphics("images/table-rows-columns.png")
+```
+
+::: {.infobox .practice}
+Do exercise 5.
+:::
+
+## Tibble, a better data.frame
+
+## Tribble, table from text
+
+## Reading example tables
+
+## Reading tables from disk
+
