@@ -143,7 +143,7 @@ This may sound too technical but I want you to learn about this because R conven
 Do exercise 5.
 :::
 
-Finally, you can use _negative_ indexes. In that case, you **exclude** the value with that index and return or modify the rest.
+Also, you can use _negative_ indexes. In that case, you **exclude** the value with that index and return or modify the rest.
 ```{r}
 x <- c(1, 2, 3, 4, 5)
 # this will return all elements but #3
@@ -167,6 +167,11 @@ x[-10]
 Do exercise 6.
 :::
 
+Finally, somewhat illogically, the entire vector is returned if you do not specify the index in the square brackets. Here, lack of index means "everything". 
+```{r }
+x <- c(10, 20, 30, 40, 50)
+x[]
+```
 
 ## Names as Index
 As you've just learned, every slot in vector has its numeric (integer) index. However, this number only indicates an index of a slot but tells you nothing on how it is conceptually different from a slot with a different index. For example, if we are storing width and height in a vector, remembering their order may be tricky: was it `box_size <- c(<width>, <depth>, <height>)` or `box_size <- c(<height>, <width>, <depth>)`? Similarly, looking at `box_size[1]` tells that you are definitely using the _first_ dimension but is it `height` or `width` (or `depth`)? 
@@ -310,7 +315,7 @@ print(z)
 Do exercise 9.
 :::
 
-## Working with two vectors of _different_ length
+## Working with two vectors of _different_ length {#different-length-vectors}
 
 What if vectors are of _different_ length? If the length of the longer vector is a _multiple_ of the shorter vector length, the shorter vector is repeated N-times (where $N = length(longer~vector) / length(shorter~vector)$) and this length-matched vector is then used for the mathematical operation. Take a look at the results of the following computation
 ```{r}
