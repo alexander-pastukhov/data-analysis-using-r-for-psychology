@@ -173,11 +173,75 @@ knitr::include_graphics("images/table-rows-columns.png")
 Do exercise 5.
 :::
 
-## Tibble, a better data.frame
+## Using libraries {#library}
+There is a better way to construct a table but to use it, we need to first import a library that implements it. As with most modern programming languages, the real power of R is not what comes bundled with it (very little, as a matter of fact) but community developed libraries that extend it. We already discussed how you [install libraries](#install.packages). For that you use [library()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/library) function (it has a sister function `require()` but it should be used inside functions and packages not in scripts or notebooks). So, to use _tidyverse_ library that you already installed, you simply write
+```{r eval=FALSE}
+library(tidyverse)
 
-## Tribble, table from text
+# or
+library("tidyverse")
+```
 
-## Reading example tables
+One thing to keep in mind is that if you import two libraries that have a function with same name, the function from the _latter_ package will overwrite the function from the former. You will get a warning but if you miss it, it may be very confusing. My favorite stumbling block are functions `filter()` from `dplyr` package (we will use it extensively, as it filters table's rows) and `filter()` function from `signal` package (applies a filter to a time-series). This overwriting of one function by another can lead to very odd looking mistakes (it took me an hour to figure it out the first time). Here are the warnings I should have paid attention to.
+```{r}
+library(dplyr)
+library(signal)
+```
+Thus, keep that in mind or, better still, explicitly mention which package the function is coming from via `library::function()` notation. In this case, you will use the function that you are interested in and need not to worry about other functions with the same name that may conflict with it. In general, it is a good idea to _always_ disambiguate function's library but in practice it may make your code hard to read by littering it with `library::` prefixes. Thus, you will need to find a balance between disambiguation and readability.
+```{r}
+library(tibble)
 
-## Reading tables from disk
+# imported from the library into the global environment
+print(tribble(~a, 1))
+
+# used directly from the package
+tibble::tribble(~a, 1)
+```
+
+When using a notebook (so, in our case, always) put the libraries into _setup_ chunk of the notebook. This ensures that your libraries are always initialized, even if you first run some other chunk. Word of advice, keep you library list in alphabetical order. Because libraries are very specialized, you will need quite a few of them for a typical analysis. Keeping them alphabetically organized makes it easier to see whether you imported the required library and whether you need to install a new one.
+
+## Tibble, a better data.frame {#tibble}
+Although the `data.frame()` function is the default way of creating a table, it is a legacy implementation with numerous shortcomings. Tidyverse implemented its own version of the table called [tibble()](https://tibble.tidyverse.org/) that provides a more rigorous and consistent behavior. For example, it allows you to use any symbols for the columns names (including spaces), prints out only beginning of the table rather than entire table, etc. It also gives more warnings. If you try to access a non-existing column both `data.frame()` and `tibble()` will return `NULL` but the former will do it silently, whereas the latter will complain.
+
+```{r}
+library(tibble)
+
+# data.frame will return NULL silently
+df <- data.frame(b = 1)
+print(df$A)
+
+# data.frame will return NULL for a variable that does not exist
+
+tbl <- tibble(b = 1)
+print(tbl$A)
+```
+In short, `tibble()` provides a more robust version of a `data.frame` but otherwise behaves identically to. Thus, it should be your default choice for a table.
+
+## Tribble, table from text {#tribble}
+The tibble package also provides an easier to read way of constructing tables via the [tribble()](https://tibble.tidyverse.org/reference/tribble.html) function. Here, you use tilde to specify column names, and then write the content row-by-row.
+```{r }
+tribble(
+    ~x, ~y,
+    1,  "a",
+    2,  "b"
+)
+```
+
+::: {.infobox .practice}
+Do exercise 6.
+:::
+
+## Reading example tables {#data}
+One of the great things about R is that most packages come with an example data set that illustrates their function. You can see the list of some of them [here](https://www.rdocumentation.org/packages/datasets). In case of example data set, you need to import the library it is part of and then load them by writing `data(tablename)`. For example, to use use `mpg` data on fuel economy from `ggplot2` package, you need to import the library first, and then call `data(mpg)`.
+
+```{r}
+library(ggplot2)
+data(mpg)
+print(mpg)
+```
+## Reading csv files {#readr}
+
+## Reading Excel files {#readxl}
+
+## Reading files from other programs
 
