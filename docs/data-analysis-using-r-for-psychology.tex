@@ -117,7 +117,7 @@
 
 \title{Data analysis using R for Psychology}
 \author{Alexander (Sasha) Pastukhov}
-\date{2020-11-05}
+\date{2020-11-10}
 
 \begin{document}
 \maketitle
@@ -518,7 +518,7 @@ This may sound too technical but I want you to learn about this because R conven
 
 Do exercise 5.
 
-Finally, you can use \emph{negative} indexes. In that case, you \textbf{exclude} the value with that index and return or modify the rest.
+Also, you can use \emph{negative} indexes. In that case, you \textbf{exclude} the value with that index and return or modify the rest.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -555,6 +555,19 @@ Given that negative indexing returns everything \textbf{but} the indexed value, 
 \end{Shaded}
 
 Do exercise 6.
+
+Finally, somewhat illogically, the entire vector is returned if you do not specify the index in the square brackets. Here, lack of index means ``everything''.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{20}\NormalTok{, }\DecValTok{30}\NormalTok{, }\DecValTok{40}\NormalTok{, }\DecValTok{50}\NormalTok{)}
+\NormalTok{x[]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 10 20 30 40 50
+\end{verbatim}
 
 \hypertarget{names-as-index}{%
 \section{Names as Index}\label{names-as-index}}
@@ -846,8 +859,8 @@ You can also use mathematical operations on several vectors. Here, the vectors a
 
 Do exercise 9.
 
-\hypertarget{working-with-two-vectors-of-different-length}{%
-\section{\texorpdfstring{Working with two vectors of \emph{different} length}{Working with two vectors of different length}}\label{working-with-two-vectors-of-different-length}}
+\hypertarget{different-length-vectors}{%
+\section{\texorpdfstring{Working with two vectors of \emph{different} length}{Working with two vectors of different length}}\label{different-length-vectors}}
 
 What if vectors are of \emph{different} length? If the length of the longer vector is a \emph{multiple} of the shorter vector length, the shorter vector is repeated N-times (where \(N = length(longer~vector) / length(shorter~vector)\)) and this length-matched vector is then used for the mathematical operation. Take a look at the results of the following computation
 
@@ -890,8 +903,8 @@ If the length of the longer vector \textbf{is not} a multiple of the shorter vec
 \end{Shaded}
 
 \begin{verbatim}
-## Warning in x + y: Länge des längeren Objektes
-##       ist kein Vielfaches der Länge des kürzeren Objektes
+## Warning in x + y: longer object length is not a multiple of shorter object
+## length
 \end{verbatim}
 
 \begin{verbatim}
@@ -947,6 +960,352 @@ In contrast, in Python or C, you would need to loop over the values and compute 
 \section{Wrap up}\label{wrap-up}}
 
 By now you have learned more about vectors, vector indexing, and vector operations in R than you probably bargained for. Admittedly, not the most exciting topic. On top of that, there was not a single word on psychology, data analysis, or statistics! However, R is obsessed with vectors (everything is a vector!) and understanding them will make it easier to understand lists (a polyamorous cousin of a vector), tables (special kind of lists made of vectors) and functional programming. Finish this seminar by doing remaining exercises. Let's see whether R can still surprise you!
+
+\hypertarget{tables}{%
+\chapter{Tables and Tibbles (and Tribbles)}\label{tables}}
+
+Please download the \href{notebooks/Seminar\%2003\%20-\%20Tables.Rmd}{exercise notebook} (\texttt{Alt\ +\ Click} to download it or right-click as \texttt{Save\ link\ as...}), put it into your seminar project folder and open the project. You need both the text and the notebook with exercises to be open, as you will be switching between them.
+
+\hypertarget{primarytypes}{%
+\section{Primary data types}\label{primarytypes}}
+
+Last time we talked about the fact that everything is a vector in R. All the examples used numeric vectors which are two of the four primary types in R.
+
+\begin{itemize}
+\tightlist
+\item
+  Real numbers (double precision floating point numbers) that can be written in decimal notation with or without a decimal point (\texttt{123.4} or \texttt{42}) or in a scientific notation (\texttt{3.14e10}). There are two special values specific to the real numbers: \texttt{Inf} (infinity) and \texttt{NaN} (not a number). The latter looks similar \texttt{NA} (Not Available / Missing Value) but is a different special case.
+\item
+  Integer numbers that can be specified by adding \texttt{L} to the end of an integer number \texttt{5L}. Without that \texttt{L} a \emph{real} value will be created (\texttt{5} would be stored as \texttt{5.0}).
+\item
+  Logical or Boolean values of \texttt{TRUE} (also written as \texttt{T}) and \texttt{FALSE} (also written as \texttt{F}).
+\item
+  Character values (strings) that hold text between a pair of matching \texttt{"} or \texttt{\textquotesingle{}} characters. The two options mean that you can surround your text by \texttt{\textquotesingle{}} if you need to put a quote inside: \texttt{\textquotesingle{}"I\ have\ never\ let\ my\ schooling\ interfere\ with\ my\ education."\ Mark\ Twain\textquotesingle{}} or by \texttt{"} if you need an apostrophe \texttt{"participant\textquotesingle{}s\ response"}.
+\end{itemize}
+
+You can convert from one type to another and check whether a particular vector is of specific type. Note that if a vector cannot be converted to a specified type, it is ``converted'' to \texttt{NA} instead.
+
+\begin{itemize}
+\tightlist
+\item
+  to integer via \texttt{as.integer()} and \texttt{is.integer}. When converting
+
+  \begin{itemize}
+  \tightlist
+  \item
+    from a real number the fractional part is discarded, so \texttt{as.integer(1.8)} → \texttt{1} and \texttt{as.integer(-2.1)} → \texttt{2}
+  \item
+    from logical value \texttt{as.integer(TRUE)} → 1 and \texttt{as.integer(FALSE)} → 0
+  \item
+    from string only it is a properly formed number, e.g.~\texttt{as.integer("12")} → \texttt{12} but \texttt{as.integer("\_12\_")} is \texttt{NA}. Note that a real number string is converted first to a real number and then to an integer so \texttt{as.integer("12.8")} → \texttt{12}.
+  \item
+    from \texttt{NA} → \texttt{NA}
+  \end{itemize}
+\item
+  to real number via \texttt{as.numeric()} / \texttt{as.double()} and \texttt{is.double()} (avoid \texttt{is.numeric()} as Hadley Wickham \href{https://adv-r.hadley.nz/vectors-chap.html}{writes} that it is not doing what you would think it should).
+
+  \begin{itemize}
+  \tightlist
+  \item
+    from logical value \texttt{as.double(TRUE)} → 1.0 and \texttt{as.double(FALSE)} → 0.0
+  \item
+    from string only it is a properly formed number, e.g.~\texttt{as.double("12.2")} → \texttt{12} but \texttt{as.double("12punkt5")} is \texttt{NA}
+  \item
+    from \texttt{NA} → \texttt{NA}
+  \end{itemize}
+\item
+  to logical \texttt{TRUE}/\texttt{FALSE} via \texttt{as.logical} and \texttt{is.logical()}.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    from integer or real, zero (\texttt{0} or \texttt{0.0}) is \texttt{FALSE}, any other non-zero value is \texttt{TRUE}
+  \item
+    from a string, it is \texttt{TRUE} for \texttt{"TRUE"}, "\texttt{True"}, \texttt{"true"}, or \texttt{"T"} but \texttt{NA} if \texttt{"t"} \texttt{"TRue"}, \texttt{"truE}, etc. Same goes for \texttt{FALSE}.
+  \item
+    from \texttt{NA} → \texttt{NA}
+  \end{itemize}
+\item
+  to a character string via \texttt{as.character()} and \texttt{is.character()}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    numeric values are converted to a string representation with scientific notation being used for large numbers.
+  \item
+    logical \texttt{TRUE}/\texttt{T} and \texttt{FALSE}/\texttt{T} are converted to \texttt{"TRUE"} and \texttt{"FALSE"}.
+  \item
+    \texttt{NA} → \texttt{NA}
+  \end{itemize}
+\end{itemize}
+
+Do exercise 1.
+
+\hypertarget{in-vector-all-values-must-be-of-the-same-type}{%
+\section{In vector all values must be of the same type}\label{in-vector-all-values-must-be-of-the-same-type}}
+
+\textbf{All} values in a vector must be of the same type - all integer, all double, all logical, or all strings. This ensures that you can apply the same function or operation to the entire vector without worrying about type compatibility. This means, however, that you cannot mix different value types in a vector. If you do try to concatenate vectors of different types, all values will be converted to a more general / flexible type. Thus, if you mix numbers and logical values, you will end up with a vector of numbers. Mixing anything with strings will convert the entire vector to string. Mixing in \texttt{NA} does not change the vector type.
+
+Do exercise 2.
+
+\hypertarget{data.frame}{%
+\section{Tables, a.k.a. data frames}\label{data.frame}}
+
+We have spent so much time on vectors because a data table is merely a vector (well, technically, a \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/list}{list}) of vectors, with each vector as a column. The default way to construct a table, which are called \emph{data frames} in R, is via \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/data.frame}{data.frame()} function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{our\_first\_table }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{numeric\_column =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{), }
+                              \AttributeTok{character\_column =} \FunctionTok{c}\NormalTok{(}\StringTok{"A"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"C"}\NormalTok{, }\StringTok{"D"}\NormalTok{),}
+                              \AttributeTok{logical\_column =} \FunctionTok{c}\NormalTok{(}\ConstantTok{TRUE}\NormalTok{, F, T, }\ConstantTok{FALSE}\NormalTok{))}
+
+\NormalTok{our\_first\_table}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   numeric_column character_column logical_column
+## 1              1                A           TRUE
+## 2              2                B          FALSE
+## 3              3                C           TRUE
+## 4              4                D          FALSE
+\end{verbatim}
+
+Once you create a table, it will appear in your environment, so you can see it in the \emph{Environment} tab and view it by clicking on it or typing \texttt{View(table\_name)} in the console (not the capital V in the \texttt{View()}).
+
+\begin{center}\includegraphics[width=1\linewidth]{images/viewing-table} \end{center}
+
+Do exercise 3.
+
+Because all columns in a table \textbf{must} have the same number of rows. This is similar to the process of \protect\hyperlink{different-length-vectors}{matching vectors' length} that you have learned the last time. However, it works automatically only if length of \emph{all} vectors is a multiple of the longest length. Thus, the example below will work, as the longest vector (\texttt{numeric\_column}) is 6, \texttt{character\_column} length is 3, so it will be repeated twice, and \texttt{logical\_column} length is 2 so it will be repeated thrice.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{the\_table }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{numeric\_column =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{6}\NormalTok{,                  }\CommentTok{\# length 6 }
+                        \AttributeTok{character\_column =} \FunctionTok{c}\NormalTok{(}\StringTok{"A"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"C"}\NormalTok{),   }\CommentTok{\# length 3}
+                        \AttributeTok{logical\_column =} \FunctionTok{c}\NormalTok{(}\ConstantTok{TRUE}\NormalTok{, }\ConstantTok{FALSE}\NormalTok{))       }\CommentTok{\# length 2}
+\NormalTok{the\_table}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   numeric_column character_column logical_column
+## 1              1                A           TRUE
+## 2              2                B          FALSE
+## 3              3                C           TRUE
+## 4              4                A          FALSE
+## 5              5                B           TRUE
+## 6              6                C          FALSE
+\end{verbatim}
+
+If the simple \emph{multple-of-length} rule does not work, R (finally!) generates an error.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# this will generate an error: arguments imply differing number of rows}
+\NormalTok{the\_table }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{numeric\_column =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{7}\NormalTok{,                 }\CommentTok{\# length 7}
+                        \AttributeTok{character\_column =} \FunctionTok{c}\NormalTok{(}\StringTok{"A"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"C"}\NormalTok{))  }\CommentTok{\# length 3, cannot be multiplied by an integer to get 7}
+\end{Highlighting}
+\end{Shaded}
+
+Do exercise 4.
+
+Just as with the vectors, you can extract or modify only some elements (rows, columns, subsets) of a table. There are several ways to do it, as you can extract individual elements, individual columns, individual rows, or some rows and some columns. Subsetting tables is not the most exciting and fairly confusing topic but you need to understand it as in the R code that you will encounter different notations could be used interchangeably.
+
+\hypertarget{extracting-a-single-vector-column}{%
+\section{Extracting a single vector / column}\label{extracting-a-single-vector-column}}
+
+To access individual \emph{vectors} (a.k.a. columns or variables) use dollar notation \texttt{table\$column\_name} (this should be your default way) or \textbf{double} square brackets, \texttt{table{[}{[}column\_name{]}{]}} or \texttt{table{[}{[}column\_index{]}{]}}. Note that you cannot use multiple indexes (\texttt{c(1,\ 2)}) or slicing (e.g., \texttt{1:2}) with double square brackets. The important if subtle detail is that this notation returns a \emph{vector}, just a like one that you create via \texttt{c()} function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{our\_first\_table }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{numeric\_column =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{), }
+                              \AttributeTok{character\_column =} \FunctionTok{c}\NormalTok{(}\StringTok{"A"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"C"}\NormalTok{),}
+                              \AttributeTok{logical\_column =} \FunctionTok{c}\NormalTok{(}\ConstantTok{TRUE}\NormalTok{, F, T))}
+
+\CommentTok{\# via $ notation}
+\NormalTok{our\_first\_table}\SpecialCharTok{$}\NormalTok{numeric\_column}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1 2 3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# via name and double square brackets}
+\NormalTok{our\_first\_table[[}\StringTok{\textquotesingle{}numeric\_column\textquotesingle{}}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1 2 3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# via index and double square brackets}
+\NormalTok{our\_first\_table[[}\DecValTok{1}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1 2 3
+\end{verbatim}
+
+\begin{center}\includegraphics[width=1\linewidth]{images/table-column} \end{center}
+
+\hypertarget{extracting-part-of-a-table}{%
+\section{Extracting part of a table}\label{extracting-part-of-a-table}}
+
+Alternatively, you can extract or access a rectangular part of the table via \textbf{single} square brackets. To get one or more columns you can use their names or indexes just as you did with vectors.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{our\_first\_table }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{numeric\_column =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{), }
+                              \AttributeTok{character\_column =} \FunctionTok{c}\NormalTok{(}\StringTok{"A"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"C"}\NormalTok{),}
+                              \AttributeTok{logical\_column =} \FunctionTok{c}\NormalTok{(}\ConstantTok{TRUE}\NormalTok{, F, T))}
+
+\CommentTok{\# via index}
+\NormalTok{our\_first\_table[}\DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   numeric_column
+## 1              1
+## 2              2
+## 3              3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# via name }
+\NormalTok{our\_first\_table[}\StringTok{\textquotesingle{}numeric\_column\textquotesingle{}}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   numeric_column
+## 1              1
+## 2              2
+## 3              3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# via slicing}
+\NormalTok{our\_first\_table[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   numeric_column character_column
+## 1              1                A
+## 2              2                B
+## 3              3                C
+\end{verbatim}
+
+\begin{center}\includegraphics[width=1\linewidth]{images/table-subtable} \end{center}
+
+Again, note that first two call get you a single-column table not a vector. You still need to use the column name to access its values.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{our\_first\_table }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{numeric\_column =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{), }
+                              \AttributeTok{character\_column =} \FunctionTok{c}\NormalTok{(}\StringTok{"A"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"C"}\NormalTok{),}
+                              \AttributeTok{logical\_column =} \FunctionTok{c}\NormalTok{(}\ConstantTok{TRUE}\NormalTok{, F, T))}
+
+\NormalTok{table\_copy }\OtherTok{\textless{}{-}}\NormalTok{ our\_first\_table[}\DecValTok{1}\NormalTok{]}
+\NormalTok{table\_copy}\SpecialCharTok{$}\NormalTok{numeric\_column}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1 2 3
+\end{verbatim}
+
+To select a subset rows and columns you write \texttt{table{[}rows,\ column{]}}. If you omit either rows or columns this implies that you want \emph{all} rows or columns.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{our\_first\_table }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{numeric\_column =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{), }
+                              \AttributeTok{character\_column =} \FunctionTok{c}\NormalTok{(}\StringTok{"A"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"C"}\NormalTok{),}
+                              \AttributeTok{logical\_column =} \FunctionTok{c}\NormalTok{(}\ConstantTok{TRUE}\NormalTok{, F, T))}
+
+\CommentTok{\# getting ALL rows for the FIRST column {-}\textgreater{} this gives you a VECTOR}
+\NormalTok{our\_first\_table[, }\DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1 2 3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# getting FIRST row for ALL columns {-}\textgreater{} this gives you DATA.FRAME}
+\NormalTok{our\_first\_table[}\DecValTok{1}\NormalTok{, ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   numeric_column character_column logical_column
+## 1              1                A           TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# ALL rows and ALL columns, equivalent to just writing \textasciigrave{}our\_first\_table\textasciigrave{} or \textasciigrave{}our\_first\_table[]\textasciigrave{}}
+\NormalTok{our\_first\_table[,]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   numeric_column character_column logical_column
+## 1              1                A           TRUE
+## 2              2                B          FALSE
+## 3              3                C           TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# getting SECOND element of the THIRD column}
+\NormalTok{our\_first\_table[}\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# getting first two elements of the logical\_column}
+\NormalTok{our\_first\_table[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{, }\StringTok{"logical\_column"}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  TRUE FALSE
+\end{verbatim}
+
+\begin{center}\includegraphics[width=1\linewidth]{images/table-rows-columns} \end{center}
+
+Do exercise 5.
+
+\hypertarget{tibble-a-better-data.frame}{%
+\section{Tibble, a better data.frame}\label{tibble-a-better-data.frame}}
+
+\hypertarget{tribble-table-from-text}{%
+\section{Tribble, table from text}\label{tribble-table-from-text}}
+
+\hypertarget{reading-example-tables}{%
+\section{Reading example tables}\label{reading-example-tables}}
+
+\hypertarget{reading-tables-from-disk}{%
+\section{Reading tables from disk}\label{reading-tables-from-disk}}
 
   \bibliography{book.bib}
 
