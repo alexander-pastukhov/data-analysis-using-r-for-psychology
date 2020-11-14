@@ -37,7 +37,7 @@ Getting back to _ggplot2_. A plot in _ggplot2_ is described in three parts:
 
 1. Relationship between data and visual properties of the plot (which variables map on axes, color, size, fill, etc.).
 2. Geometrical primitives that visualize your data (points, lines, error bars, etc.).
-3. Additional properties of the plot (scaling of axes, labels, etc.)
+3. Additional properties of the plot (scaling of axes, labels, annotations, etc.)
 
 You always need the first one. But you do not need to specify the other two, even though a plot without geometry in it looks very empty. Let us start with a very simple artificial example table below.
 ```{r echo=FALSE, message=FALSE, warning=FALSE,  fig.align="center"}
@@ -49,14 +49,47 @@ simple_tidy_data <-
 knitr::kable(simple_tidy_data)
 ```
 
+We plot it with `Intensity` as x-axis, `Condition` as color (this also means that data is grouped by color), and `Response` as y-axis.
 ```{r}
 ggplot(data=simple_tidy_data, aes(x = Intensity, y = Response, color=Condition)) + 
   geom_line()
 ```
-As I already wrote, technically, you do not need the geometry `+geom_point()` bit, so let us drop it and compare the plots.
+As I already wrote, technically, you do not need the geometry `+geom_line()` bit, so let us drop it and compare the plots.
 ```{r fig.align = 'center'}
 ggplot(data=simple_tidy_data, aes(x = Intensity, y = Response, color=Condition))
 ```
-Told you it will look empty and yet you can already see _ggplot2_ in action. Notice that axes are already labeled and their limits are already optimally set. You cannot see legends (they are not plotted without geometry) but they are also ready. This is because our initial call specified the most important part: _how_ the individual variables map on various properties of the plot even before we know which visuals we will use. Thus, we specified that x-axis will represent the displacement and ggplot2 already figured the range of values and knows just _where_ it is going to plot whatever we decide to plot. Any specific geometry must 
+Told you it will look empty and yet you can already see _ggplot2_ in action. Notice that axes are already labeled and their limits are already set. You cannot see the legend (they are not plotted without geometry) but it is also ready. This is because our initial call specified the most important part: _how_ the individual variables map on various properties of the plot even before we know which visuals we will use to plot the data. When we specified that x-axis will represent the `Intensity` ggplot2 figured out the range of values, so it knows just _where_ it is going to plot whatever we decide to plot. Whether points, lines, bar, error bars and what not will span only that range. Same goes for other properties such as color. We wanted _color_ to represent the number condition. Again, we may not know what exactly we will be plotting (points, lines?) or even how many different things we will be putting on the plot (points + lines? points + lines + linear fit?) but we do know that whatever visual we add, if it can have color, its color _must_ depict condition for that data point. The beauty of ggplot2 is that it analyses your data and figures out how many colors you need and is ready to consistently apply them to any visual you will later add It will ensure that all points, bars, lines, etc. will have consistent coordinates scaling, color-, size-, fill-mapping that are the same across the entire plot. This may sound trivial but typically (e.g., Matlab, Matplotlib), it is _your_ job to make sure that all these properties match and that they represent the same value across all visual elements. And it is a pretty tedious job, particularly when you decide to change your mapping and have to redo all individual components by hand. In ggplot2, this dissociation between mapping and visuals means you can tinker with one of them at a time. E.g. keep the visuals but change grouping or see if condition is easier to via shape or line type, size of the point? Or you can keep the mapping and see whether adding another visual will make the plot clearer. As noted, the mapping also _groups_ your data, so when you use group-based visual information (e.g. a linear regression line) it will know what data belongs together and so will perform this computation per group. 
 
-Whether it will be points or lines or error bars, the plot limits are already known, so every visual will live on that common space. Same goes for other properties. For example, we wanted _color_ to represent the number of cylinders in the engine. At this point, we may not even know what exactly we will be plotting (points, lines, boxplots?) or even how many different things we will be putting on the plot (points + lines? points + lines + error bars?) but we do know that whatever visual we add, if it can have color, its color must reflect number of cylinders for that data point. The beauty of ggplot2 is that it analyses your data and figures out how many colors you need and is ready to consistently apply it the same way to any visual you will later want. It will ensure that all points, bars, lines, etc. will have consistent color-mapping that is the same across entire plot. This may sound trivial but typically (e.g., Matlab, Matplotlib), it is _your_ job to make sure that colors match and that they represent the same value across all visual elements. And it is a pretty lame job, particularly when you decide to change your mapping and have to redo all individual components by hand. In ggplot2, this dissociation between mapping and visuals means you can tinker with one of them at a time. E.g. keep the visuals but see drive train is easier to see via color, shape, or size of the point? Or keep the mapping and see whether adding other visual will make the plot clearer? The mapping also _groups_ your data, so when you use group-based visual information (e.g. a linear regression line) it will know what data belongs together and so will perform this computation per group.
+Let us see how you can keep the relationship mapping but play with visuals. Let us have both lines and points.
+```{r fig.align = 'center'}
+ggplot(data=simple_tidy_data, aes(x = Intensity, y = Response, color=Condition)) + 
+  geom_line() +
+  geom_point() # this is new!
+```
+
+Just to be clear, we _kept_ the relationship between variables and properties but said "Oh, and throw in some points please". And ggplot2 knows how the points are group, where should they appear and which colors they must have. But we want more!
+```{r fig.align = 'center'}
+ggplot(data=simple_tidy_data, aes(x = Intensity, y = Response, color=Condition)) + 
+  geom_line() +
+  geom_point() +
+  geom_smooth(method="lm", se=FALSE, linetype="dashed") # a linear regression over all dots in the group
+```
+Now we added a linear regression line that helps us to see just how linear the relationship between `Intensity` and `Response` is. Again, we simply wished for another visual (`method="lm"` means that we wanted to average data via linear regression, `se=FALSE` means no standard error stripe, `linetype="dashed"` just makes it easier to distinguish from the solid data line).
+
+Or, we can keep the _visuals_ but see whether swapping mapping between `Condition` and `Intensity` would be more interesting (we need to specify `group=Intensity` as continuous data is not grouped automatically).
+```{r fig.align = 'center'}
+ggplot(data=simple_tidy_data, aes(x = Condition, y = Response, color=Intensity, group=Intensity)) + 
+  geom_line() +
+  geom_point() +
+  geom_smooth(method="lm", se=FALSE, linetype="dashed") # a linear regression over all dots in the group
+```
+Or, we can check whether splitting into several plots helps.
+```{r fig.align = 'center'}
+ggplot(data=simple_tidy_data, aes(x = Intensity, y = Response, color=Condition)) + 
+  geom_line() +
+  geom_point() +
+  geom_smooth(method="lm", se=FALSE, linetype="dashed") +
+  facet_grid(. ~ Condition)
+```
+Again, note that all three plots live on the same scale for x- and y-axis, making them easy to compare (you fully appreciate this magic if you ever struggled with ensuring consistent scaling by hand in Matlab). I went through so many examples to stress how you can _think_ about the mapping and visuals independently. And I hope you can see how this makes it easy to think either about _which_ relationships you want to show or _how_ you want to show them.
+
