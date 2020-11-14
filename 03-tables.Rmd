@@ -173,11 +173,142 @@ knitr::include_graphics("images/table-rows-columns.png")
 Do exercise 5.
 :::
 
-## Tibble, a better data.frame
+## Using libraries {#library}
+There is a better way to construct a table but to use it, we need to first import a library that implements it. As with most modern programming languages, the real power of R is not what comes bundled with it (very little, as a matter of fact) but community developed libraries that extend it. We already discussed how you [install libraries](#install.packages). For that you use [library()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/library) function (it has a sister function `require()` but it should be used inside functions and packages not in scripts or notebooks). So, to use _tidyverse_ library that you already installed, you simply write
+```{r eval=FALSE}
+library(tidyverse)
+# or
+library("tidyverse")
+```
 
-## Tribble, table from text
+One thing to keep in mind is that if you import two libraries that have a function with same name, the function from the _latter_ package will overwrite (mask) the function from the former. You will get a warning but if you miss it, it may be very confusing. My favorite stumbling block are functions `filter()` from `dplyr` package (we will use it extensively, as it filters a table by row) and `filter()` function from `signal` package (applies a filter to a time-series). This overwriting of one function by another can lead to very odd looking mistakes. In my case I though I was using `dplyr::filter()` and could not understand the error message I was getting, it it took me an hour to figure it out the first time. Here are the warnings I should have paid attention to.
+```{r}
+library(dplyr)
+library(signal)
+```
+Thus, keep that in mind or, better still, explicitly mention which package the function is coming from via `library::function()` notation. In this case, you will use the function that you are interested in and need not to worry about other functions with the same name that may conflict with it. In general, it is a good idea to _always_ disambiguate function via library but in practice it may make your code hard to read by littering it with `library::` prefixes. Thus, you will need to find a balance between disambiguation and readability.
+```{r}
+library(tibble)
 
-## Reading example tables
+# imported from the library into the global environment
+print(tribble(~a, 1))
 
-## Reading tables from disk
+# used directly from the package
+tibble::tribble(~a, 1)
+```
 
+When using a notebook (so, in our case, always) put the libraries into _setup_ chunk of the notebook. This ensures that your libraries are always initialized, even if you first run some other chunk. Word of advice, keep you library list in alphabetical order. Because libraries are very specialized, you will need quite a few of them for a typical analysis. Keeping them alphabetically organized makes it easier to see whether you imported the required library and whether you need to install a new one.
+
+## Tibble, a better data.frame {#tibble}
+Although the `data.frame()` function is the default way of creating a table, it is a legacy implementation with numerous shortcomings. Tidyverse implemented its own version of the table called [tibble()](https://tibble.tidyverse.org/) that provides a more rigorous control and more consistent behavior. For example, it allows you to use any symbols for the columns names (including spaces), prints out only beginning of the table rather than entire table, etc. It also gives more warnings. If you try to access a non-existing column both `data.frame()` and `tibble()` will return `NULL` but the former will do it silently, whereas the latter will complain.
+
+```{r}
+library(tibble)
+
+# data.frame will return NULL silently
+df <- data.frame(b = 1)
+print(df$A)
+
+# data.frame will return NULL for a variable that does not exist
+
+tbl <- tibble(b = 1)
+print(tbl$A)
+```
+In short, `tibble()` provides a more robust version of a `data.frame` but otherwise behaves (mostly) identically to it. Thus, it should be your default choice for a table.
+
+## Tribble, table from text {#tribble}
+The tibble package also provides an easier to read way of constructing tables via the [tribble()](https://tibble.tidyverse.org/reference/tribble.html) function. Here, you use tilde to specify column names, and then write the content row-by-row.
+```{r }
+tribble(
+    ~x, ~y,
+    1,  "a",
+    2,  "b"
+)
+```
+
+::: {.infobox .practice}
+Do exercise 6.
+:::
+
+## Reading example tables {#data}
+One of the great things about R is that most packages come with an example data set that illustrates their function. You can see the list of some of them [here](https://www.rdocumentation.org/packages/datasets). In case of example data set, you need to import the library it is part of and then load them by writing `data(tablename)`. For example, to use use `mpg` data on fuel economy from `ggplot2` package, you need to import the library first, and then call `data(mpg)`.
+
+```{r}
+library(ggplot2)
+data(mpg) # this create a "promise" of the data
+print(mpg) # any action on the promise leads to data appearing in the environment
+```
+## Reading csv files {#readr}
+So far we covered creating a table by hand via `data.frame()`, `tibble()`, or `tribble()` functions and loading an example table from a package via `data()` function. More commonly, you will need to read a table from an external file. These files can come in many formats because they are generated by different experimental software. Below, you will see how to handle those but my recommendation is to always store your data in a csv ([Comma-separated values](https://en.wikipedia.org/wiki/Comma-separated_values)) files. These are simple plain text files, which means you can open them in any text editor, with each line representing a single row (typically, top row contains column names) with individual columns separated by some symbol or symbols. Typical separators are a comma (hence, the name), a semicolon (this is frequently used in Germany, with comma serving as a decimal point), a tabulator, or even a space symbol. Here is an example of such file
+```
+Participant,Block,Trial,Contrast,Correct
+A1,1,1,0.5,TRUE
+A1,1,2,1.0,TRUE
+A1,1,2,0.05,FALSE
+...
+```
+that is turned into a table when loaded
+```{r echo=FALSE, out.width = "70%", fig.align = 'center'}
+knitr::include_graphics("images/results-csv-table.png")
+```
+
+There are several ways of reading CSV files in R. The default way by using [read.csv()](https://stat.ethz.ch/R-manual/R-devel/library/utils/html/read.table.html) function that comes has different versions optimized for different combinations of the decimal point and separator symbols, e.g. `read.csv2()` assumes a comma for the decimal point and semicolon as a separator. However, a better way is to use [readr](https://readr.tidyverse.org/) library that implements same functions. Names of the functions are slightly different with underscore replacing the dot, so `readr::read_csv()` is a replacement for `read.csv()`. These are faster (although it will be noticeable only on large data sets), do not convert text to factor variables (we will talk about factors later but this default conversion by `read.csv()` can be very confusing), etc. 
+
+However, most important difference between `read.csv()` and `read_csv()` is they constraint the content of a CSV file. `read.csv()` has not assumptions about which columns are in the file and what their value types are. It simply reads them as is, _silently_ guessing their type.
+```{r}
+results <- read.csv("data/example.csv")
+results
+```
+You can use `read_csv()` the same way and it will work the same way but warn you about the table structure it deduced.
+```{r}
+results <- readr::read_csv("data/example.csv")
+results
+```
+
+This annoying _Column specification_ print out, which gets even more annoying if you need to read many CSV files, is there for a reason: it wants to annoy you! Because the only way to turn it off and stop being annoyed is to specify the column structure yourself via `col_types` parameter. As a matter of fact, the print out you get is where, so you can take a look at it, adjust it, if necessary, and copy-paste to the `read_csv` call. By default, it suggested `double` values for `Block` and `Trial` but we know they are integers, so we can copy-paste the suggested structure, replace `col_double()` with `col_integer()` and read the table without a warning.
+
+```{r}
+library(readr)
+results <- read_csv("data/example.csv", 
+                    col_types = cols(Participant = col_character(),
+                                     Block = col_integer(), # read_csv suggested col_double() but we know better
+                                     Trial = col_integer(), # read_csv suggested col_double() but we know better
+                                     Contrast = col_double(),
+                                     Correct = col_logical()))
+results
+```
+You may feel that this a lot of extra work just to suppress an annoying but, ultimately, harmless warning. Your code will work with or without it, right? Well, _hopefully_ it will but you probably want to _know_ that it will work not _hope_ for it. Imagine that you accidentally overwrote your experimental data file with data from a different experiment (that happens more often than one would want). You still have `results.csv` file in your project folder and so the `read.csv()` will read it as is (it does not know what should be in that file) and your analysis code will fail in some mysterious ways at a much later point (because, remember, if you try to access a column/variable that does not exist in the table, you just get `NULL` rather than an error). You will eventually trace it back to the wrong data file but that will cost time and nerves. However, if you specify the column structure in `read_csv()` it will show warning, if the file does not match the description. It would warn about wrong column names (`TheBlock` in the example below) and about wrong type (it does not like `TRUE`/`FALSE` in a column it expected to find integers in).
+
+```{r}
+library(readr)
+results <- read_csv("data/example.csv", 
+                    col_types = cols(Participant = col_character(),
+                                     TheBlock = col_integer(), # read_csv suggested col_double() but we know better
+                                     Trial = col_integer(), # read_csv suggested col_double() but we know better
+                                     Contrast = col_double(),
+                                     Correct = col_integer()))
+```
+
+Personally, I would prefer for `read_csv()` to fail in cases like these but having a nice red warning is already very helpful to quickly detect the problem with your data (and if your data is wrong, your whole analysis is meaningless). Thus, _always_ use `read_` rather than `read.` functions and _always_ specify the table structure. The lazy, and my preferred, way to do it, is to first read the file without specifying the structure and copy-paste-edit the warning column-specification message into the code.
+
+::: {.infobox .practice}
+Do exercise 7, you need [face_rank.csv](data/face_rank.csv) file for it. Download it and place it in the project folder. _Warning_, if you use Chrome or any Chromium-based browsers like MS Edge, Opera,  etc. they might, for some odd reason, automatically *rename it* into _face_rank.xls_ during the download. Just rename it back to _face_rank.csv_, because the file is not converted to an Excel, it is only the extension that gets changed (why? No idea, ask Google!).
+:::
+
+## Reading Excel files {#readxl}
+There are several libraries that allow you to read Excel files directly. My personal preference is [readxl](https://readxl.tidyverse.org/) package, which is part of the Tidyverse. Warning, it will be installed as part of the Tidyverse (i.e., when you typed `install.packages(tidyverse)`) but you still need to import it explicitly via `library(readxl)`. Because an Excel file has many sheets, by default the `read_excel()` function reads the _first_ sheet but you can specify it via a `sheet` parameter using its index `read_excel("my_excel_file.xls", sheet=2)` or name `read_excel("my_excel_file.xls", sheet="addendum")`.
+
+::: {.infobox .practice}
+Do exercise 8, you need [face_rank.xlsx](data/face_rank.xlsx) file for it.
+:::
+
+You can read about further options at the package's website but I would generally discourage you from using Excel for your work and, definitely, for your data analysis. Because, you see, Excel is very smart and it can figure out the _true_ meaning and type of columns by itself. The fact that you might disagree is your problem. Excel knows what is best for you. The easiest way to screw a CSV file up is to open it in Excel and immediately save it. The file name will remain the same but Excel will "adjust" the content as it feels is better for you (you don't need to be consluted with). If you think I am exaggerating, read this [article](https://www.theverge.com/2020/8/6/21355674/human-genes-rename-microsoft-excel-misreading-dates) at The Verge on how Excel messed up thousands of human genome data tables but turning some values into dates (because why not?). So now the entire community is _renaming_ some genes because it is easier to waste literally thousands of man-hours on that than to fix Excel. In short, friends don't let friends use Excel.
+
+
+## Reading files from other programs
+World is a very diverse place, so you are likely to encounter a wide range of data files generated by Matlab, SPSS, SAS, etc. There are two ways to import the data. First, that I would recommend, use the original program (Matlab, SPSS, SAS, etc.) to export data as a CSV file. Every program can read and write CSV, so it a good common ground. Moreover, this is simple format with no embedded formulas (as in Excel), service structures, etc. Finally, if you store your data in CSV, you do not need a special program to work with it. In short, unless you have a good reason, store your data in CSV files. 
+
+However, sometimes you have a file but you do not have the program (Matlab, SPSS, SAS, etc.). This is the second way, when you can use various R libaries, starting with [foreign](https://www.rdocumentation.org/packages/foreign), which can handle most typical cases, e.g., SPSS, SAS, State, or Minitab. The problem here, is that all the programs differ in the internal file formats and what exactly is included. For example, when importing from an SPSS sav-file via [read.spss](https://www.rdocumentation.org/packages/foreign/versions/0.8-80/topics/read.spss) you will get a list with various components rather than a data.frame. You can force the function to convert everything to a single table via `to.data.frame=TRUE` option but you may lose some information. Bottom line, you need to be extra careful when importing from other formats and the safest way is to ensure complete and full export of the data to a CSV from the original program.
+
+## Wrap up
+We have started with vectors and now extended them to tables. Next time, we will look at how to visualize the data using The Grammar of Graphics approach.
