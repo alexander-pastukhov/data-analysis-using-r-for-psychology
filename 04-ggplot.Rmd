@@ -1,0 +1,66 @@
+# Grammar of Graphics {#ggplot2}
+
+In previous seminar, you have learned about tables, which are the main way of representing data in psychological research and in R. In the following seminars, you will learn how to manipulate the data in these tables: change it, aggregate or transform individual groups of data, use it for statistical analysis. But before that you need to understand how to store your data in the table in the optimal way. First, I will introduce the idea of _tidy data_, the concept that gave [Tidyverse](https://www.tidyverse.org/) its name. Next, we will see how tidy data helps you visualize the relationships between variables. Don't forget to download the [notebook]().
+
+## Tidy data {#tidydata}
+The tidy data follows [three rules](https://r4ds.had.co.nz/tidy-data.html):
+
+* variables are in columns,
+* observations are in rows,
+* values are in cells.
+
+This probably sound very straightforward to the point when you wonder "Can a table not by tidy?" As a matter of fact _a lot_ of typical results of psychological experiments are not tidy. Imagine an experiment where participants rated a face based on symmetry, attractiveness, and trustworthiness. Typically (at least in my experience), the data will stored as follows:
+```{r echo=FALSE, out.width = "80%", fig.align = 'center'}
+knitr::include_graphics("images/face-table.png")
+```
+
+This is a very typical table optimized for _humans_. I single row contains all responses about a single face, so it is easy to visually compare responses of individual observers. Sometimes, the table is even wider so that a single row holds all responses from a single observer (in my experience, a lot of online surveys produce data in this format).
+```{r echo=FALSE, out.width = "100%", fig.align = 'center'}
+knitr::include_graphics("images/face-table-verywide.png")
+```
+
+So, what is wrong with it? Don't we have variables in columns, observations in rows, and values in cells? Not really. You can already see it when comparing the two tables above. The _face_ identity is a variable, however, in the second table it is hidden in column names. Some columns are about face `M1`, other columns are about `M2`, etc. So, if you are interested in analyzing symmetry judgments across all faces and participants, you will need to select all columns that end with `.Symmetry` and figure out a way to extract the face identity from columns' names. Thus, face _is_ a variable but is not a column in the second table. 
+
+Then, what about the first table, which has `Face` as a column, is it tidy? The short answer: Not really but that depends on your goals as well! In the experiment, we collected _responses_ (these are numbers in cells) about different type of _judgments_. The latter are a variable but is hidden in column names. Thus, a _tidy_ table for this data would be
+```{r echo=FALSE, out.width = "100%", fig.align = 'center'}
+knitr::include_graphics("images/face-table-narrow.png")
+```
+
+This table is very tidy and it makes it easy to group data by every different combination of variables (e.g. per face and judgment, per participant and judgment, etc.). However, it may not always be necessarily the best way to represent the data. For example, if you would like to model `Trustworthiness` using `symmetry` and `attractiveness` as predictors, when the first table is more suitable. Thus, table structure must fit your needs, not the other way around. Still, what you want is a _tidy_ table because it is best suited for most things you will want to do with the data and because it makes it easy to transform the data to match your specific needs (e.g., going from the third table to the first one via pivoting).
+
+Most data you will get from experiments will not be tidy. We will spent quite some time in learning how to tidy it up but first let us see how an already tidy data makes it easy to visualize relationships in it.
+
+## Grammar of Graphics, a.k.a. _ggplot2_ {#ggplot2}
+[ggplot2](https://ggplot2.tidyverse.org/) package is my main tool for visualizations in R. Its advantage is an approach of describing a plot that is conceptually different from most other software, e.g. Matlab,  Matplotlib in Python, etc. Another reason to use ggplot2 is it tends to make really good looking production-ready plots (this is not a given, a default-looking Matlab plot is pretty ugly) as Hadley Wickham was heavily influenced by works of [Edward Tufte](https://www.edwardtufte.com/tufte/). This aspect goes beyond our seminar (although, if you are interested, I might make a Christmas-special on that) but if you will need to visualize data in the future, I strongly recommend reading Tufte's books. In fact, it is such an aesthetically pleasing experience that I would recommend reading them in any case.
+
+Getting back to _ggplot2_. A plot in _ggplot2_ is described in three parts:
+
+1. Relationship between data and visual properties of the plot (which variables map on axes, color, size, fill, etc.).
+2. Geometrical primitives that visualize your data (points, lines, error bars, etc.).
+3. Additional properties of the plot (scaling of axes, labels, etc.)
+
+You always need the first one. But you do not need to specify the other two, even though a plot without geometry in it looks very empty. Let us start with an example using [mpg](https://ggplot2.tidyverse.org/reference/mpg.html) data. Here we will plot engine displacement on x-axis, the measured miles-per-gallon in a city cycle on y-axis, number of cylinders as color, and type of drive train (front-wheel, read-whell, or four-wheel) as shape.
+
+```{r fig.align = 'center'}
+# simple_tidy_data <- tibble::tribble(
+#   ~
+# )
+
+
+library(ggplot2)
+data(mpg)
+
+ggplot(data=mpg, aes(x = displ, y = cty, size=cyl, color=drv)) + 
+  geom_point()
+
+
+ggplot(data=msleep, aes(x=brainwt, y=sleep_total, color=vore)) + 
+  geom_point()
+```
+As I already wrote, technically, you do not need the geometry `+geom_point()` bit, so let us drop it and compare the plots.
+```{r fig.align = 'center'}
+ggplot(data=mpg, aes(x = displ, y = cty, size=cyl, color=drv))
+```
+Told you it will look empty and yet you can already see _ggplot2_ in action. Notice that axes are already labeled and their limits are already optimally set. You cannot see legends (they are not plotted without geometry) but they are also ready. This is because our initial call specified the most important part: _how_ the individual variables map on various properties of the plot even before we know which visuals we will use. Thus, we specified that x-axis will represent the displacement and ggplot2 already figured the range of values and knows just _where_ it is going to plot whatever we decide to plot. Any specific geometry must 
+
+Whether it will be points or lines or error bars, the plot limits are already known, so every visual will live on that common space. Same goes for other properties. For example, we wanted _color_ to represent the number of cylinders in the engine. At this point, we may not even know what exactly we will be plotting (points, lines, boxplots?) or even how many different things we will be putting on the plot (points + lines? points + lines + error bars?) but we do know that whatever visual we add, if it can have color, its color must reflect number of cylinders for that data point. The beauty of ggplot2 is that it analyses your data and figures out how many colors you need and is ready to consistently apply it the same way to any visual you will later want. It will ensure that all points, bars, lines, etc. will have consistent color-mapping that is the same across entire plot. This may sound trivial but typically (e.g., Matlab, Matplotlib), it is _your_ job to make sure that colors match and that they represent the same value across all visual elements. And it is a pretty lame job, particularly when you decide to change your mapping and have to redo all individual components by hand. In ggplot2, this dissociation between mapping and visuals means you can tinker with one of them at a time. E.g. keep the visuals but see drive train is easier to see via color, shape, or size of the point? Or keep the mapping and see whether adding other visual will make the plot clearer? The mapping also _groups_ your data, so when you use group-based visual information (e.g. a linear regression line) it will know what data belongs together and so will perform this computation per group.
