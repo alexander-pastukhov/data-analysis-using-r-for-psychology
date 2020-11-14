@@ -39,23 +39,19 @@ Getting back to _ggplot2_. A plot in _ggplot2_ is described in three parts:
 2. Geometrical primitives that visualize your data (points, lines, error bars, etc.).
 3. Additional properties of the plot (scaling of axes, labels, etc.)
 
-You always need the first one. But you do not need to specify the other two, even though a plot without geometry in it looks very empty. Let us start with an example using [mpg](https://ggplot2.tidyverse.org/reference/mpg.html) data. Here we will plot engine displacement on x-axis, the measured miles-per-gallon in a city cycle on y-axis, number of cylinders as color, and type of drive train (front-wheel, read-whell, or four-wheel) as shape.
-
+You always need the first one. But you do not need to specify the other two, even though a plot without geometry in it looks very empty. Let us start with a very simple artificial example table below. At the moment, do not worry how I generate it, you will learn the details in the upcoming seminars.
 ```{r fig.align = 'center'}
-# simple_tidy_data <- tibble::tribble(
-#   ~
-# )
+library(tidyverse)
+simple_tidy_data <- 
+  expand.grid(Condition = c("A", "B", "C"), Intensity = 1:8) %>%
+  mutate(Response = rnorm(n(), 1, 0.2) + rnorm(n(), as.numeric(as.factor(Condition)), 0.2) * 2 + rnorm(n(), Intensity, 0.4))
 
+knitr::kable(simple_tidy_data)
+```
 
-library(ggplot2)
-data(mpg)
-
-ggplot(data=mpg, aes(x = displ, y = cty, size=cyl, color=drv)) + 
-  geom_point()
-
-
-ggplot(data=msleep, aes(x=brainwt, y=sleep_total, color=vore)) + 
-  geom_point()
+```{r}
+ggplot(data=simple_tidy_data, aes(x = Intensity, y = Response, color=Condition)) + 
+  geom_line()
 ```
 As I already wrote, technically, you do not need the geometry `+geom_point()` bit, so let us drop it and compare the plots.
 ```{r fig.align = 'center'}
