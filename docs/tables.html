@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2020-11-10" />
+<meta name="date" content="2020-11-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -150,7 +150,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#installing-r"><i class="fa fa-check"></i>Installing R</a></li>
 <li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#installing-r-studio"><i class="fa fa-check"></i>Installing R-Studio</a></li>
 <li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#rtools"><i class="fa fa-check"></i>Installing RTools</a></li>
-<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#installing-packages"><i class="fa fa-check"></i>Installing packages</a></li>
+<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#install.packages"><i class="fa fa-check"></i>Installing packages</a></li>
 <li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#keeping-r-and-packages-up-to-date"><i class="fa fa-check"></i>Keeping R and packages up-to-date</a></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="reproducable-research.html"><a href="reproducable-research.html"><i class="fa fa-check"></i><b>1</b> Reproducable Research: Projects and RMarkdown Notebooks</a>
@@ -180,10 +180,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.3" data-path="tables.html"><a href="tables.html#data.frame"><i class="fa fa-check"></i><b>3.3</b> Tables, a.k.a. data frames</a></li>
 <li class="chapter" data-level="3.4" data-path="tables.html"><a href="tables.html#extracting-a-single-vector-column"><i class="fa fa-check"></i><b>3.4</b> Extracting a single vector / column</a></li>
 <li class="chapter" data-level="3.5" data-path="tables.html"><a href="tables.html#extracting-part-of-a-table"><i class="fa fa-check"></i><b>3.5</b> Extracting part of a table</a></li>
-<li class="chapter" data-level="3.6" data-path="tables.html"><a href="tables.html#tibble-a-better-data.frame"><i class="fa fa-check"></i><b>3.6</b> Tibble, a better data.frame</a></li>
-<li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#tribble-table-from-text"><i class="fa fa-check"></i><b>3.7</b> Tribble, table from text</a></li>
-<li class="chapter" data-level="3.8" data-path="tables.html"><a href="tables.html#reading-example-tables"><i class="fa fa-check"></i><b>3.8</b> Reading example tables</a></li>
-<li class="chapter" data-level="3.9" data-path="tables.html"><a href="tables.html#reading-tables-from-disk"><i class="fa fa-check"></i><b>3.9</b> Reading tables from disk</a></li>
+<li class="chapter" data-level="3.6" data-path="tables.html"><a href="tables.html#library"><i class="fa fa-check"></i><b>3.6</b> Using libraries</a></li>
+<li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#tibble"><i class="fa fa-check"></i><b>3.7</b> Tibble, a better data.frame</a></li>
+<li class="chapter" data-level="3.8" data-path="tables.html"><a href="tables.html#tribble"><i class="fa fa-check"></i><b>3.8</b> Tribble, table from text</a></li>
+<li class="chapter" data-level="3.9" data-path="tables.html"><a href="tables.html#data"><i class="fa fa-check"></i><b>3.9</b> Reading example tables</a></li>
+<li class="chapter" data-level="3.10" data-path="tables.html"><a href="tables.html#readr"><i class="fa fa-check"></i><b>3.10</b> Reading csv files</a></li>
+<li class="chapter" data-level="3.11" data-path="tables.html"><a href="tables.html#readxl"><i class="fa fa-check"></i><b>3.11</b> Reading Excel files</a></li>
+<li class="chapter" data-level="3.12" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.12</b> Reading files from other programs</a></li>
+<li class="chapter" data-level="3.13" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.13</b> Wrap up</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown and FontAwesome</a><li>
@@ -376,17 +380,189 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Do exercise 5.</p>
 </div>
 </div>
-<div id="tibble-a-better-data.frame" class="section level2" number="3.6">
-<h2><span class="header-section-number">3.6</span> Tibble, a better data.frame</h2>
+<div id="library" class="section level2" number="3.6">
+<h2><span class="header-section-number">3.6</span> Using libraries</h2>
+<p>There is a better way to construct a table but to use it, we need to first import a library that implements it. As with most modern programming languages, the real power of R is not what comes bundled with it (very little, as a matter of fact) but community developed libraries that extend it. We already discussed how you <a href="getting-started.html#install.packages">install libraries</a>. For that you use <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/library">library()</a> function (it has a sister function <code>require()</code> but it should be used inside functions and packages not in scripts or notebooks). So, to use <em>tidyverse</em> library that you already installed, you simply write</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="tables.html#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb115-2"><a href="tables.html#cb115-2" aria-hidden="true" tabindex="-1"></a><span class="co"># or</span></span>
+<span id="cb115-3"><a href="tables.html#cb115-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span></code></pre></div>
+<p>One thing to keep in mind is that if you import two libraries that have a function with same name, the function from the <em>latter</em> package will overwrite (mask) the function from the former. You will get a warning but if you miss it, it may be very confusing. My favorite stumbling block are functions <code>filter()</code> from <code>dplyr</code> package (we will use it extensively, as it filters a table by row) and <code>filter()</code> function from <code>signal</code> package (applies a filter to a time-series). This overwriting of one function by another can lead to very odd looking mistakes. In my case I though I was using <code>dplyr::filter()</code> and could not understand the error message I was getting, it it took me an hour to figure it out the first time. Here are the warnings I should have paid attention to.</p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="tables.html#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
+<pre><code>## 
+## Attache Paket: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="tables.html#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(signal)</span></code></pre></div>
+<pre><code>## 
+## Attache Paket: &#39;signal&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     filter</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, poly</code></pre>
+<p>Thus, keep that in mind or, better still, explicitly mention which package the function is coming from via <code>library::function()</code> notation. In this case, you will use the function that you are interested in and need not to worry about other functions with the same name that may conflict with it. In general, it is a good idea to <em>always</em> disambiguate function via library but in practice it may make your code hard to read by littering it with <code>library::</code> prefixes. Thus, you will need to find a balance between disambiguation and readability.</p>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="tables.html#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb124-2"><a href="tables.html#cb124-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-3"><a href="tables.html#cb124-3" aria-hidden="true" tabindex="-1"></a><span class="co"># imported from the library into the global environment</span></span>
+<span id="cb124-4"><a href="tables.html#cb124-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">tribble</span>(<span class="sc">~</span>a, <span class="dv">1</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##       a
+##   &lt;dbl&gt;
+## 1     1</code></pre>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="tables.html#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="co"># used directly from the package</span></span>
+<span id="cb126-2"><a href="tables.html#cb126-2" aria-hidden="true" tabindex="-1"></a>tibble<span class="sc">::</span><span class="fu">tribble</span>(<span class="sc">~</span>a, <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##       a
+##   &lt;dbl&gt;
+## 1     1</code></pre>
+<p>When using a notebook (so, in our case, always) put the libraries into <em>setup</em> chunk of the notebook. This ensures that your libraries are always initialized, even if you first run some other chunk. Word of advice, keep you library list in alphabetical order. Because libraries are very specialized, you will need quite a few of them for a typical analysis. Keeping them alphabetically organized makes it easier to see whether you imported the required library and whether you need to install a new one.</p>
 </div>
-<div id="tribble-table-from-text" class="section level2" number="3.7">
-<h2><span class="header-section-number">3.7</span> Tribble, table from text</h2>
+<div id="tibble" class="section level2" number="3.7">
+<h2><span class="header-section-number">3.7</span> Tibble, a better data.frame</h2>
+<p>Although the <code>data.frame()</code> function is the default way of creating a table, it is a legacy implementation with numerous shortcomings. Tidyverse implemented its own version of the table called <a href="https://tibble.tidyverse.org/">tibble()</a> that provides a more rigorous control and more consistent behavior. For example, it allows you to use any symbols for the columns names (including spaces), prints out only beginning of the table rather than entire table, etc. It also gives more warnings. If you try to access a non-existing column both <code>data.frame()</code> and <code>tibble()</code> will return <code>NULL</code> but the former will do it silently, whereas the latter will complain.</p>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="tables.html#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb128-2"><a href="tables.html#cb128-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb128-3"><a href="tables.html#cb128-3" aria-hidden="true" tabindex="-1"></a><span class="co"># data.frame will return NULL silently</span></span>
+<span id="cb128-4"><a href="tables.html#cb128-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">b =</span> <span class="dv">1</span>)</span>
+<span id="cb128-5"><a href="tables.html#cb128-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df<span class="sc">$</span>A)</span></code></pre></div>
+<pre><code>## NULL</code></pre>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="tables.html#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="co"># data.frame will return NULL for a variable that does not exist</span></span>
+<span id="cb130-2"><a href="tables.html#cb130-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb130-3"><a href="tables.html#cb130-3" aria-hidden="true" tabindex="-1"></a>tbl <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">b =</span> <span class="dv">1</span>)</span>
+<span id="cb130-4"><a href="tables.html#cb130-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(tbl<span class="sc">$</span>A)</span></code></pre></div>
+<pre><code>## Warning: Unknown or uninitialised column: `A`.</code></pre>
+<pre><code>## NULL</code></pre>
+<p>In short, <code>tibble()</code> provides a more robust version of a <code>data.frame</code> but otherwise behaves (mostly) identically to it. Thus, it should be your default choice for a table.</p>
 </div>
-<div id="reading-example-tables" class="section level2" number="3.8">
-<h2><span class="header-section-number">3.8</span> Reading example tables</h2>
+<div id="tribble" class="section level2" number="3.8">
+<h2><span class="header-section-number">3.8</span> Tribble, table from text</h2>
+<p>The tibble package also provides an easier to read way of constructing tables via the <a href="https://tibble.tidyverse.org/reference/tribble.html">tribble()</a> function. Here, you use tilde to specify column names, and then write the content row-by-row.</p>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="tables.html#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tribble</span>(</span>
+<span id="cb133-2"><a href="tables.html#cb133-2" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span>x, <span class="sc">~</span>y,</span>
+<span id="cb133-3"><a href="tables.html#cb133-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>,  <span class="st">&quot;a&quot;</span>,</span>
+<span id="cb133-4"><a href="tables.html#cb133-4" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span>,  <span class="st">&quot;b&quot;</span></span>
+<span id="cb133-5"><a href="tables.html#cb133-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>## # A tibble: 2 x 2
+##       x y    
+##   &lt;dbl&gt; &lt;chr&gt;
+## 1     1 a    
+## 2     2 b</code></pre>
+<div class="infobox practice">
+<p>Do exercise 6.</p>
 </div>
-<div id="reading-tables-from-disk" class="section level2" number="3.9">
-<h2><span class="header-section-number">3.9</span> Reading tables from disk</h2>
+</div>
+<div id="data" class="section level2" number="3.9">
+<h2><span class="header-section-number">3.9</span> Reading example tables</h2>
+<p>One of the great things about R is that most packages come with an example data set that illustrates their function. You can see the list of some of them <a href="https://www.rdocumentation.org/packages/datasets">here</a>. In case of example data set, you need to import the library it is part of and then load them by writing <code>data(tablename)</code>. For example, to use use <code>mpg</code> data on fuel economy from <code>ggplot2</code> package, you need to import the library first, and then call <code>data(mpg)</code>.</p>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="tables.html#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb135-2"><a href="tables.html#cb135-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(mpg) <span class="co"># this create a &quot;promise&quot; of the data</span></span>
+<span id="cb135-3"><a href="tables.html#cb135-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(mpg) <span class="co"># any action on the promise leads to data appearing in the environment</span></span></code></pre></div>
+<pre><code>## # A tibble: 234 x 11
+##    manufacturer model    displ  year   cyl trans   drv     cty   hwy fl    class
+##    &lt;chr&gt;        &lt;chr&gt;    &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
+##  1 audi         a4         1.8  1999     4 auto(l~ f        18    29 p     comp~
+##  2 audi         a4         1.8  1999     4 manual~ f        21    29 p     comp~
+##  3 audi         a4         2    2008     4 manual~ f        20    31 p     comp~
+##  4 audi         a4         2    2008     4 auto(a~ f        21    30 p     comp~
+##  5 audi         a4         2.8  1999     6 auto(l~ f        16    26 p     comp~
+##  6 audi         a4         2.8  1999     6 manual~ f        18    26 p     comp~
+##  7 audi         a4         3.1  2008     6 auto(a~ f        18    27 p     comp~
+##  8 audi         a4 quat~   1.8  1999     4 manual~ 4        18    26 p     comp~
+##  9 audi         a4 quat~   1.8  1999     4 auto(l~ 4        16    25 p     comp~
+## 10 audi         a4 quat~   2    2008     4 manual~ 4        20    28 p     comp~
+## # ... with 224 more rows</code></pre>
+</div>
+<div id="readr" class="section level2" number="3.10">
+<h2><span class="header-section-number">3.10</span> Reading csv files</h2>
+<p>So far we covered creating a table by hand via <code>data.frame()</code>, <code>tibble()</code>, or <code>tribble()</code> functions and loading an example table from a package via <code>data()</code> function. More commonly, you will need to read a table from an external file. These files can come in many formats because they are generated by different experimental software. Below, you will see how to handle those but my recommendation is to always store your data in a csv (<a href="https://en.wikipedia.org/wiki/Comma-separated_values">Comma-separated values</a>) files. These are simple plain text files, which means you can open them in any text editor, with each line representing a single row (typically, top row contains column names) with individual columns separated by some symbol or symbols. Typical separators are a comma (hence, the name), a semicolon (this is frequently used in Germany, with comma serving as a decimal point), a tabulator, or even a space symbol. Here is an example of such file</p>
+<pre><code>Participant,Block,Trial,Contrast,Correct
+A1,1,1,0.5,TRUE
+A1,1,2,1.0,TRUE
+A1,1,2,0.05,FALSE
+...</code></pre>
+<p>that is turned into a table when loaded
+<img src="images/results-csv-table.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>There are several ways of reading CSV files in R. The default way by using <a href="https://stat.ethz.ch/R-manual/R-devel/library/utils/html/read.table.html">read.csv()</a> function that comes has different versions optimized for different combinations of the decimal point and separator symbols, e.g. <code>read.csv2()</code> assumes a comma for the decimal point and semicolon as a separator. However, a better way is to use <a href="https://readr.tidyverse.org/">readr</a> library that implements same functions. Names of the functions are slightly different with underscore replacing the dot, so <code>readr::read_csv()</code> is a replacement for <code>read.csv()</code>. These are faster (although it will be noticeable only on large data sets), do not convert text to factor variables (we will talk about factors later but this default conversion by <code>read.csv()</code> can be very confusing), etc.</p>
+<p>However, most important difference between <code>read.csv()</code> and <code>read_csv()</code> is they constraint the content of a CSV file. <code>read.csv()</code> has not assumptions about which columns are in the file and what their value types are. It simply reads them as is, <em>silently</em> guessing their type.</p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="tables.html#cb138-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/example.csv&quot;</span>)</span>
+<span id="cb138-2"><a href="tables.html#cb138-2" aria-hidden="true" tabindex="-1"></a>results</span></code></pre></div>
+<pre><code>##   Participant Block Trial Contrast Correct
+## 1          A1     1     1     0.50    TRUE
+## 2          A1     1     2     1.00    TRUE
+## 3          A1     1     2     0.05   FALSE</code></pre>
+<p>You can use <code>read_csv()</code> the same way and it will work the same way but warn you about the table structure it deduced.</p>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="tables.html#cb140-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">&quot;data/example.csv&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+## -- Column specification --------------------------------------------------------
+## cols(
+##   Participant = col_character(),
+##   Block = col_double(),
+##   Trial = col_double(),
+##   Contrast = col_double(),
+##   Correct = col_logical()
+## )</code></pre>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="tables.html#cb142-1" aria-hidden="true" tabindex="-1"></a>results</span></code></pre></div>
+<pre><code>## # A tibble: 3 x 5
+##   Participant Block Trial Contrast Correct
+##   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;  
+## 1 A1              1     1     0.5  TRUE   
+## 2 A1              1     2     1    TRUE   
+## 3 A1              1     2     0.05 FALSE</code></pre>
+<p>This annoying <em>Column specification</em> print out, which gets even more annoying if you need to read many CSV files, is there for a reason: it wants to annoy you! Because the only way to turn it off and stop being annoyed is to specify the column structure yourself via <code>col_types</code> parameter. As a matter of fact, the print out you get is where, so you can take a look at it, adjust it, if necessary, and copy-paste to the <code>read_csv</code> call. By default, it suggested <code>double</code> values for <code>Block</code> and <code>Trial</code> but we know they are integers, so we can copy-paste the suggested structure, replace <code>col_double()</code> with <code>col_integer()</code> and read the table without a warning.</p>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="tables.html#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb144-2"><a href="tables.html#cb144-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/example.csv&quot;</span>, </span>
+<span id="cb144-3"><a href="tables.html#cb144-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Participant =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb144-4"><a href="tables.html#cb144-4" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Block =</span> <span class="fu">col_integer</span>(), <span class="co"># read_csv suggested col_double() but we know better</span></span>
+<span id="cb144-5"><a href="tables.html#cb144-5" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Trial =</span> <span class="fu">col_integer</span>(), <span class="co"># read_csv suggested col_double() but we know better</span></span>
+<span id="cb144-6"><a href="tables.html#cb144-6" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Contrast =</span> <span class="fu">col_double</span>(),</span>
+<span id="cb144-7"><a href="tables.html#cb144-7" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Correct =</span> <span class="fu">col_logical</span>()))</span>
+<span id="cb144-8"><a href="tables.html#cb144-8" aria-hidden="true" tabindex="-1"></a>results</span></code></pre></div>
+<pre><code>## # A tibble: 3 x 5
+##   Participant Block Trial Contrast Correct
+##   &lt;chr&gt;       &lt;int&gt; &lt;int&gt;    &lt;dbl&gt; &lt;lgl&gt;  
+## 1 A1              1     1     0.5  TRUE   
+## 2 A1              1     2     1    TRUE   
+## 3 A1              1     2     0.05 FALSE</code></pre>
+<p>You may feel that this a lot of extra work just to suppress an annoying but, ultimately, harmless warning. Your code will work with or without it, right? Well, <em>hopefully</em> it will but you probably want to <em>know</em> that it will work not <em>hope</em> for it. Imagine that you accidentally overwrote your experimental data file with data from a different experiment (that happens more often than one would want). You still have <code>results.csv</code> file in your project folder and so the <code>read.csv()</code> will read it as is (it does not know what should be in that file) and your analysis code will fail in some mysterious ways at a much later point (because, remember, if you try to access a column/variable that does not exist in the table, you just get <code>NULL</code> rather than an error). You will eventually trace it back to the wrong data file but that will cost time and nerves. However, if you specify the column structure in <code>read_csv()</code> it will show warning, if the file does not match the description. It would warn about wrong column names (<code>TheBlock</code> in the example below) and about wrong type (it does not like <code>TRUE</code>/<code>FALSE</code> in a column it expected to find integers in).</p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="tables.html#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb146-2"><a href="tables.html#cb146-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/example.csv&quot;</span>, </span>
+<span id="cb146-3"><a href="tables.html#cb146-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Participant =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb146-4"><a href="tables.html#cb146-4" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">TheBlock =</span> <span class="fu">col_integer</span>(), <span class="co"># read_csv suggested col_double() but we know better</span></span>
+<span id="cb146-5"><a href="tables.html#cb146-5" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Trial =</span> <span class="fu">col_integer</span>(), <span class="co"># read_csv suggested col_double() but we know better</span></span>
+<span id="cb146-6"><a href="tables.html#cb146-6" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Contrast =</span> <span class="fu">col_double</span>(),</span>
+<span id="cb146-7"><a href="tables.html#cb146-7" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Correct =</span> <span class="fu">col_integer</span>()))</span></code></pre></div>
+<pre><code>## Warning: The following named parsers don&#39;t match the column names: TheBlock</code></pre>
+<pre><code>## Warning: 3 parsing failures.
+## row     col   expected actual               file
+##   1 Correct an integer  TRUE  &#39;data/example.csv&#39;
+##   2 Correct an integer  TRUE  &#39;data/example.csv&#39;
+##   3 Correct an integer  FALSE &#39;data/example.csv&#39;</code></pre>
+<p>Personally, I would prefer for <code>read_csv()</code> to fail in cases like these but having a nice red warning is already very helpful to quickly detect the problem with your data (and if your data is wrong, your whole analysis is meaningless). Thus, <em>always</em> use <code>read_</code> rather than <code>read.</code> functions and <em>always</em> specify the table structure. The lazy, and my preferred, way to do it, is to first read the file without specifying the structure and copy-paste-edit the warning column-specification message into the code.</p>
+<div class="infobox practice">
+<p>Do exercise 7, you need <a href="data/face_rank.csv">face_rank.csv</a> file for it. Download it and place it in the project folder. <em>Warning</em>, if you use Chrome or any Chromium-based browsers like MS Edge, Opera, etc. they might, for some odd reason, automatically <em>rename it</em> into <em>face_rank.xls</em> during the download. Just rename it back to <em>face_rank.csv</em>, because the file is not converted to an Excel, it is only the extension that gets changed (why? No idea, ask Google!).</p>
+</div>
+</div>
+<div id="readxl" class="section level2" number="3.11">
+<h2><span class="header-section-number">3.11</span> Reading Excel files</h2>
+<p>There are several libraries that allow you to read Excel files directly. My personal preference is <a href="https://readxl.tidyverse.org/">readxl</a> package, which is part of the Tidyverse. Warning, it will be installed as part of the Tidyverse (i.e., when you typed <code>install.packages(tidyverse)</code>) but you still need to import it explicitly via <code>library(readxl)</code>. Because an Excel file has many sheets, by default the <code>read_excel()</code> function reads the <em>first</em> sheet but you can specify it via a <code>sheet</code> parameter using its index <code>read_excel("my_excel_file.xls", sheet=2)</code> or name <code>read_excel("my_excel_file.xls", sheet="addendum")</code>.</p>
+<div class="infobox practice">
+<p>Do exercise 8, you need <a href="data/face_rank.xlsx">face_rank.xlsx</a> file for it.</p>
+</div>
+<p>You can read about further options at the package’s website but I would generally discourage you from using Excel for your work and, definitely, for your data analysis. Because, you see, Excel is very smart and it can figure out the <em>true</em> meaning and type of columns by itself. The fact that you might disagree is your problem. Excel knows what is best for you. The easiest way to screw a CSV file up is to open it in Excel and immediately save it. The file name will remain the same but Excel will “adjust” the content as it feels is better for you (you don’t need to be consluted with). If you think I am exaggerating, read this <a href="https://www.theverge.com/2020/8/6/21355674/human-genes-rename-microsoft-excel-misreading-dates">article</a> at The Verge on how Excel messed up thousands of human genome data tables by turning some values into dates (because why not?). So now the entire community is <em>renaming</em> some genes because it is easier to waste literally thousands of man-hours on that than to fix Excel. In short, friends don’t let friends use Excel.</p>
+</div>
+<div id="reading-files-from-other-programs" class="section level2" number="3.12">
+<h2><span class="header-section-number">3.12</span> Reading files from other programs</h2>
+<p>World is a very diverse place, so you are likely to encounter a wide range of data files generated by Matlab, SPSS, SAS, etc. There are two ways to import the data. First, that I would recommend, use the original program (Matlab, SPSS, SAS, etc.) to export data as a CSV file. Every program can read and write CSV, so it a good common ground. Moreover, this is simple format with no embedded formulas (as in Excel), service structures, etc. Finally, if you store your data in CSV, you do not need a special program to work with it. In short, unless you have a good reason, store your data in CSV files.</p>
+<p>However, sometimes you have a file but you do not have the program (Matlab, SPSS, SAS, etc.). This is the second way, when you can use various R libaries, starting with <a href="https://www.rdocumentation.org/packages/foreign">foreign</a>, which can handle most typical cases, e.g., SPSS, SAS, State, or Minitab. The problem here, is that all the programs differ in the internal file formats and what exactly is included. For example, when importing from an SPSS sav-file via <a href="https://www.rdocumentation.org/packages/foreign/versions/0.8-80/topics/read.spss">read.spss</a> you will get a list with various components rather than a data.frame. You can force the function to convert everything to a single table via <code>to.data.frame=TRUE</code> option but you may lose some information. Bottom line, you need to be extra careful when importing from other formats and the safest way is to ensure complete and full export of the data to a CSV from the original program.</p>
+</div>
+<div id="wrap-up-1" class="section level2" number="3.13">
+<h2><span class="header-section-number">3.13</span> Wrap up</h2>
+<p>We have started with vectors and now extended them to tables. Next time, we will look at how to visualize the data using The Grammar of Graphics approach.</p>
 
 </div>
 </div>

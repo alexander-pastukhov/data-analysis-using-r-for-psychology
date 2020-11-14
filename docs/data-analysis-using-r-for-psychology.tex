@@ -117,7 +117,7 @@
 
 \title{Data analysis using R for Psychology}
 \author{Alexander (Sasha) Pastukhov}
-\date{2020-11-10}
+\date{2020-11-14}
 
 \begin{document}
 \maketitle
@@ -192,8 +192,8 @@ I will explain the necessary details on using R-Studio throughout the seminar bu
 
 If you are using Windows, we might need \href{https://cran.r-project.org/bin/windows/Rtools/}{Rtools} for building and running some packages. You do not need to install it at the beginning, but when we will need it later, just following the link above, download the latest \emph{Rtools} version, run the installer using the defaults and \textbf{follow the instructions on that page to put Rtools on the PATH}! (I do not repeat them here, because they might change).
 
-\hypertarget{installing-packages}{%
-\section*{Installing packages}\label{installing-packages}}
+\hypertarget{install.packages}{%
+\section*{Installing packages}\label{install.packages}}
 \addcontentsline{toc}{section}{Installing packages}
 
 The real power of R lies in a vast community-driven family of packages suitable for any occasion. The default repository used by R and R-Studio is \href{https://cran.r-project.org/}{The Comprehensive R Archive Network} (a.k.a. \emph{CRAN}). It has very strict requirements for submitted packages, which makes it very annoying for the authors but ensures high quality. Most packages are well-documented and come with example data and code. We will use CRAN as a sole source for packages, but there are alternatives, such as \href{http://www.bioconductor.org/}{Bioconductor} that might have a package that is missing at CRAN. The Bioconductor relies on its own package manager, so you will need to consult the latest manual on their website.
@@ -903,8 +903,8 @@ If the length of the longer vector \textbf{is not} a multiple of the shorter vec
 \end{Shaded}
 
 \begin{verbatim}
-## Warning in x + y: longer object length is not a multiple of shorter object
-## length
+## Warning in x + y: Länge des längeren Objektes
+##       ist kein Vielfaches der Länge des kürzeren Objektes
 \end{verbatim}
 
 \begin{verbatim}
@@ -1295,17 +1295,338 @@ To select a subset rows and columns you write \texttt{table{[}rows,\ column{]}}.
 
 Do exercise 5.
 
-\hypertarget{tibble-a-better-data.frame}{%
-\section{Tibble, a better data.frame}\label{tibble-a-better-data.frame}}
+\hypertarget{library}{%
+\section{Using libraries}\label{library}}
 
-\hypertarget{tribble-table-from-text}{%
-\section{Tribble, table from text}\label{tribble-table-from-text}}
+There is a better way to construct a table but to use it, we need to first import a library that implements it. As with most modern programming languages, the real power of R is not what comes bundled with it (very little, as a matter of fact) but community developed libraries that extend it. We already discussed how you \protect\hyperlink{install.packages}{install libraries}. For that you use \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/library}{library()} function (it has a sister function \texttt{require()} but it should be used inside functions and packages not in scripts or notebooks). So, to use \emph{tidyverse} library that you already installed, you simply write
 
-\hypertarget{reading-example-tables}{%
-\section{Reading example tables}\label{reading-example-tables}}
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\CommentTok{\# or}
+\FunctionTok{library}\NormalTok{(}\StringTok{"tidyverse"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
-\hypertarget{reading-tables-from-disk}{%
-\section{Reading tables from disk}\label{reading-tables-from-disk}}
+One thing to keep in mind is that if you import two libraries that have a function with same name, the function from the \emph{latter} package will overwrite (mask) the function from the former. You will get a warning but if you miss it, it may be very confusing. My favorite stumbling block are functions \texttt{filter()} from \texttt{dplyr} package (we will use it extensively, as it filters a table by row) and \texttt{filter()} function from \texttt{signal} package (applies a filter to a time-series). This overwriting of one function by another can lead to very odd looking mistakes. In my case I though I was using \texttt{dplyr::filter()} and could not understand the error message I was getting, it it took me an hour to figure it out the first time. Here are the warnings I should have paid attention to.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(dplyr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attache Paket: 'dplyr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(signal)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attache Paket: 'signal'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:dplyr':
+## 
+##     filter
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     filter, poly
+\end{verbatim}
+
+Thus, keep that in mind or, better still, explicitly mention which package the function is coming from via \texttt{library::function()} notation. In this case, you will use the function that you are interested in and need not to worry about other functions with the same name that may conflict with it. In general, it is a good idea to \emph{always} disambiguate function via library but in practice it may make your code hard to read by littering it with \texttt{library::} prefixes. Thus, you will need to find a balance between disambiguation and readability.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tibble)}
+
+\CommentTok{\# imported from the library into the global environment}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{tribble}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{a, }\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1 x 1
+##       a
+##   <dbl>
+## 1     1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# used directly from the package}
+\NormalTok{tibble}\SpecialCharTok{::}\FunctionTok{tribble}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{a, }\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1 x 1
+##       a
+##   <dbl>
+## 1     1
+\end{verbatim}
+
+When using a notebook (so, in our case, always) put the libraries into \emph{setup} chunk of the notebook. This ensures that your libraries are always initialized, even if you first run some other chunk. Word of advice, keep you library list in alphabetical order. Because libraries are very specialized, you will need quite a few of them for a typical analysis. Keeping them alphabetically organized makes it easier to see whether you imported the required library and whether you need to install a new one.
+
+\hypertarget{tibble}{%
+\section{Tibble, a better data.frame}\label{tibble}}
+
+Although the \texttt{data.frame()} function is the default way of creating a table, it is a legacy implementation with numerous shortcomings. Tidyverse implemented its own version of the table called \href{https://tibble.tidyverse.org/}{tibble()} that provides a more rigorous control and more consistent behavior. For example, it allows you to use any symbols for the columns names (including spaces), prints out only beginning of the table rather than entire table, etc. It also gives more warnings. If you try to access a non-existing column both \texttt{data.frame()} and \texttt{tibble()} will return \texttt{NULL} but the former will do it silently, whereas the latter will complain.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tibble)}
+
+\CommentTok{\# data.frame will return NULL silently}
+\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{b =} \DecValTok{1}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{A)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NULL
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# data.frame will return NULL for a variable that does not exist}
+
+\NormalTok{tbl }\OtherTok{\textless{}{-}} \FunctionTok{tibble}\NormalTok{(}\AttributeTok{b =} \DecValTok{1}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(tbl}\SpecialCharTok{$}\NormalTok{A)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Unknown or uninitialised column: `A`.
+\end{verbatim}
+
+\begin{verbatim}
+## NULL
+\end{verbatim}
+
+In short, \texttt{tibble()} provides a more robust version of a \texttt{data.frame} but otherwise behaves (mostly) identically to it. Thus, it should be your default choice for a table.
+
+\hypertarget{tribble}{%
+\section{Tribble, table from text}\label{tribble}}
+
+The tibble package also provides an easier to read way of constructing tables via the \href{https://tibble.tidyverse.org/reference/tribble.html}{tribble()} function. Here, you use tilde to specify column names, and then write the content row-by-row.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{tribble}\NormalTok{(}
+    \SpecialCharTok{\textasciitilde{}}\NormalTok{x, }\SpecialCharTok{\textasciitilde{}}\NormalTok{y,}
+    \DecValTok{1}\NormalTok{,  }\StringTok{"a"}\NormalTok{,}
+    \DecValTok{2}\NormalTok{,  }\StringTok{"b"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 2 x 2
+##       x y    
+##   <dbl> <chr>
+## 1     1 a    
+## 2     2 b
+\end{verbatim}
+
+Do exercise 6.
+
+\hypertarget{data}{%
+\section{Reading example tables}\label{data}}
+
+One of the great things about R is that most packages come with an example data set that illustrates their function. You can see the list of some of them \href{https://www.rdocumentation.org/packages/datasets}{here}. In case of example data set, you need to import the library it is part of and then load them by writing \texttt{data(tablename)}. For example, to use use \texttt{mpg} data on fuel economy from \texttt{ggplot2} package, you need to import the library first, and then call \texttt{data(mpg)}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{data}\NormalTok{(mpg) }\CommentTok{\# this create a "promise" of the data}
+\FunctionTok{print}\NormalTok{(mpg) }\CommentTok{\# any action on the promise leads to data appearing in the environment}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 234 x 11
+##    manufacturer model    displ  year   cyl trans   drv     cty   hwy fl    class
+##    <chr>        <chr>    <dbl> <int> <int> <chr>   <chr> <int> <int> <chr> <chr>
+##  1 audi         a4         1.8  1999     4 auto(l~ f        18    29 p     comp~
+##  2 audi         a4         1.8  1999     4 manual~ f        21    29 p     comp~
+##  3 audi         a4         2    2008     4 manual~ f        20    31 p     comp~
+##  4 audi         a4         2    2008     4 auto(a~ f        21    30 p     comp~
+##  5 audi         a4         2.8  1999     6 auto(l~ f        16    26 p     comp~
+##  6 audi         a4         2.8  1999     6 manual~ f        18    26 p     comp~
+##  7 audi         a4         3.1  2008     6 auto(a~ f        18    27 p     comp~
+##  8 audi         a4 quat~   1.8  1999     4 manual~ 4        18    26 p     comp~
+##  9 audi         a4 quat~   1.8  1999     4 auto(l~ 4        16    25 p     comp~
+## 10 audi         a4 quat~   2    2008     4 manual~ 4        20    28 p     comp~
+## # ... with 224 more rows
+\end{verbatim}
+
+\hypertarget{readr}{%
+\section{Reading csv files}\label{readr}}
+
+So far we covered creating a table by hand via \texttt{data.frame()}, \texttt{tibble()}, or \texttt{tribble()} functions and loading an example table from a package via \texttt{data()} function. More commonly, you will need to read a table from an external file. These files can come in many formats because they are generated by different experimental software. Below, you will see how to handle those but my recommendation is to always store your data in a csv (\href{https://en.wikipedia.org/wiki/Comma-separated_values}{Comma-separated values}) files. These are simple plain text files, which means you can open them in any text editor, with each line representing a single row (typically, top row contains column names) with individual columns separated by some symbol or symbols. Typical separators are a comma (hence, the name), a semicolon (this is frequently used in Germany, with comma serving as a decimal point), a tabulator, or even a space symbol. Here is an example of such file
+
+\begin{verbatim}
+Participant,Block,Trial,Contrast,Correct
+A1,1,1,0.5,TRUE
+A1,1,2,1.0,TRUE
+A1,1,2,0.05,FALSE
+...
+\end{verbatim}
+
+that is turned into a table when loaded
+
+\begin{center}\includegraphics[width=0.7\linewidth]{images/results-csv-table} \end{center}
+
+There are several ways of reading CSV files in R. The default way by using \href{https://stat.ethz.ch/R-manual/R-devel/library/utils/html/read.table.html}{read.csv()} function that comes has different versions optimized for different combinations of the decimal point and separator symbols, e.g.~\texttt{read.csv2()} assumes a comma for the decimal point and semicolon as a separator. However, a better way is to use \href{https://readr.tidyverse.org/}{readr} library that implements same functions. Names of the functions are slightly different with underscore replacing the dot, so \texttt{readr::read\_csv()} is a replacement for \texttt{read.csv()}. These are faster (although it will be noticeable only on large data sets), do not convert text to factor variables (we will talk about factors later but this default conversion by \texttt{read.csv()} can be very confusing), etc.
+
+However, most important difference between \texttt{read.csv()} and \texttt{read\_csv()} is they constraint the content of a CSV file. \texttt{read.csv()} has not assumptions about which columns are in the file and what their value types are. It simply reads them as is, \emph{silently} guessing their type.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{results }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/example.csv"}\NormalTok{)}
+\NormalTok{results}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Participant Block Trial Contrast Correct
+## 1          A1     1     1     0.50    TRUE
+## 2          A1     1     2     1.00    TRUE
+## 3          A1     1     2     0.05   FALSE
+\end{verbatim}
+
+You can use \texttt{read\_csv()} the same way and it will work the same way but warn you about the table structure it deduced.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{results }\OtherTok{\textless{}{-}}\NormalTok{ readr}\SpecialCharTok{::}\FunctionTok{read\_csv}\NormalTok{(}\StringTok{"data/example.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## -- Column specification --------------------------------------------------------
+## cols(
+##   Participant = col_character(),
+##   Block = col_double(),
+##   Trial = col_double(),
+##   Contrast = col_double(),
+##   Correct = col_logical()
+## )
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{results}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 3 x 5
+##   Participant Block Trial Contrast Correct
+##   <chr>       <dbl> <dbl>    <dbl> <lgl>  
+## 1 A1              1     1     0.5  TRUE   
+## 2 A1              1     2     1    TRUE   
+## 3 A1              1     2     0.05 FALSE
+\end{verbatim}
+
+This annoying \emph{Column specification} print out, which gets even more annoying if you need to read many CSV files, is there for a reason: it wants to annoy you! Because the only way to turn it off and stop being annoyed is to specify the column structure yourself via \texttt{col\_types} parameter. As a matter of fact, the print out you get is where, so you can take a look at it, adjust it, if necessary, and copy-paste to the \texttt{read\_csv} call. By default, it suggested \texttt{double} values for \texttt{Block} and \texttt{Trial} but we know they are integers, so we can copy-paste the suggested structure, replace \texttt{col\_double()} with \texttt{col\_integer()} and read the table without a warning.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(readr)}
+\NormalTok{results }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"data/example.csv"}\NormalTok{, }
+                    \AttributeTok{col\_types =} \FunctionTok{cols}\NormalTok{(}\AttributeTok{Participant =} \FunctionTok{col\_character}\NormalTok{(),}
+                                     \AttributeTok{Block =} \FunctionTok{col\_integer}\NormalTok{(), }\CommentTok{\# read\_csv suggested col\_double() but we know better}
+                                     \AttributeTok{Trial =} \FunctionTok{col\_integer}\NormalTok{(), }\CommentTok{\# read\_csv suggested col\_double() but we know better}
+                                     \AttributeTok{Contrast =} \FunctionTok{col\_double}\NormalTok{(),}
+                                     \AttributeTok{Correct =} \FunctionTok{col\_logical}\NormalTok{()))}
+\NormalTok{results}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 3 x 5
+##   Participant Block Trial Contrast Correct
+##   <chr>       <int> <int>    <dbl> <lgl>  
+## 1 A1              1     1     0.5  TRUE   
+## 2 A1              1     2     1    TRUE   
+## 3 A1              1     2     0.05 FALSE
+\end{verbatim}
+
+You may feel that this a lot of extra work just to suppress an annoying but, ultimately, harmless warning. Your code will work with or without it, right? Well, \emph{hopefully} it will but you probably want to \emph{know} that it will work not \emph{hope} for it. Imagine that you accidentally overwrote your experimental data file with data from a different experiment (that happens more often than one would want). You still have \texttt{results.csv} file in your project folder and so the \texttt{read.csv()} will read it as is (it does not know what should be in that file) and your analysis code will fail in some mysterious ways at a much later point (because, remember, if you try to access a column/variable that does not exist in the table, you just get \texttt{NULL} rather than an error). You will eventually trace it back to the wrong data file but that will cost time and nerves. However, if you specify the column structure in \texttt{read\_csv()} it will show warning, if the file does not match the description. It would warn about wrong column names (\texttt{TheBlock} in the example below) and about wrong type (it does not like \texttt{TRUE}/\texttt{FALSE} in a column it expected to find integers in).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(readr)}
+\NormalTok{results }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"data/example.csv"}\NormalTok{, }
+                    \AttributeTok{col\_types =} \FunctionTok{cols}\NormalTok{(}\AttributeTok{Participant =} \FunctionTok{col\_character}\NormalTok{(),}
+                                     \AttributeTok{TheBlock =} \FunctionTok{col\_integer}\NormalTok{(), }\CommentTok{\# read\_csv suggested col\_double() but we know better}
+                                     \AttributeTok{Trial =} \FunctionTok{col\_integer}\NormalTok{(), }\CommentTok{\# read\_csv suggested col\_double() but we know better}
+                                     \AttributeTok{Contrast =} \FunctionTok{col\_double}\NormalTok{(),}
+                                     \AttributeTok{Correct =} \FunctionTok{col\_integer}\NormalTok{()))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: The following named parsers don't match the column names: TheBlock
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: 3 parsing failures.
+## row     col   expected actual               file
+##   1 Correct an integer  TRUE  'data/example.csv'
+##   2 Correct an integer  TRUE  'data/example.csv'
+##   3 Correct an integer  FALSE 'data/example.csv'
+\end{verbatim}
+
+Personally, I would prefer for \texttt{read\_csv()} to fail in cases like these but having a nice red warning is already very helpful to quickly detect the problem with your data (and if your data is wrong, your whole analysis is meaningless). Thus, \emph{always} use \texttt{read\_} rather than \texttt{read.} functions and \emph{always} specify the table structure. The lazy, and my preferred, way to do it, is to first read the file without specifying the structure and copy-paste-edit the warning column-specification message into the code.
+
+Do exercise 7, you need \href{data/face_rank.csv}{face\_rank.csv} file for it. Download it and place it in the project folder. \emph{Warning}, if you use Chrome or any Chromium-based browsers like MS Edge, Opera, etc. they might, for some odd reason, automatically \emph{rename it} into \emph{face\_rank.xls} during the download. Just rename it back to \emph{face\_rank.csv}, because the file is not converted to an Excel, it is only the extension that gets changed (why? No idea, ask Google!).
+
+\hypertarget{readxl}{%
+\section{Reading Excel files}\label{readxl}}
+
+There are several libraries that allow you to read Excel files directly. My personal preference is \href{https://readxl.tidyverse.org/}{readxl} package, which is part of the Tidyverse. Warning, it will be installed as part of the Tidyverse (i.e., when you typed \texttt{install.packages(tidyverse)}) but you still need to import it explicitly via \texttt{library(readxl)}. Because an Excel file has many sheets, by default the \texttt{read\_excel()} function reads the \emph{first} sheet but you can specify it via a \texttt{sheet} parameter using its index \texttt{read\_excel("my\_excel\_file.xls",\ sheet=2)} or name \texttt{read\_excel("my\_excel\_file.xls",\ sheet="addendum")}.
+
+Do exercise 8, you need \href{data/face_rank.xlsx}{face\_rank.xlsx} file for it.
+
+You can read about further options at the package's website but I would generally discourage you from using Excel for your work and, definitely, for your data analysis. Because, you see, Excel is very smart and it can figure out the \emph{true} meaning and type of columns by itself. The fact that you might disagree is your problem. Excel knows what is best for you. The easiest way to screw a CSV file up is to open it in Excel and immediately save it. The file name will remain the same but Excel will ``adjust'' the content as it feels is better for you (you don't need to be consluted with). If you think I am exaggerating, read this \href{https://www.theverge.com/2020/8/6/21355674/human-genes-rename-microsoft-excel-misreading-dates}{article} at The Verge on how Excel messed up thousands of human genome data tables by turning some values into dates (because why not?). So now the entire community is \emph{renaming} some genes because it is easier to waste literally thousands of man-hours on that than to fix Excel. In short, friends don't let friends use Excel.
+
+\hypertarget{reading-files-from-other-programs}{%
+\section{Reading files from other programs}\label{reading-files-from-other-programs}}
+
+World is a very diverse place, so you are likely to encounter a wide range of data files generated by Matlab, SPSS, SAS, etc. There are two ways to import the data. First, that I would recommend, use the original program (Matlab, SPSS, SAS, etc.) to export data as a CSV file. Every program can read and write CSV, so it a good common ground. Moreover, this is simple format with no embedded formulas (as in Excel), service structures, etc. Finally, if you store your data in CSV, you do not need a special program to work with it. In short, unless you have a good reason, store your data in CSV files.
+
+However, sometimes you have a file but you do not have the program (Matlab, SPSS, SAS, etc.). This is the second way, when you can use various R libaries, starting with \href{https://www.rdocumentation.org/packages/foreign}{foreign}, which can handle most typical cases, e.g., SPSS, SAS, State, or Minitab. The problem here, is that all the programs differ in the internal file formats and what exactly is included. For example, when importing from an SPSS sav-file via \href{https://www.rdocumentation.org/packages/foreign/versions/0.8-80/topics/read.spss}{read.spss} you will get a list with various components rather than a data.frame. You can force the function to convert everything to a single table via \texttt{to.data.frame=TRUE} option but you may lose some information. Bottom line, you need to be extra careful when importing from other formats and the safest way is to ensure complete and full export of the data to a CSV from the original program.
+
+\hypertarget{wrap-up-1}{%
+\section{Wrap up}\label{wrap-up-1}}
+
+We have started with vectors and now extended them to tables. Next time, we will look at how to visualize the data using The Grammar of Graphics approach.
 
   \bibliography{book.bib}
 
