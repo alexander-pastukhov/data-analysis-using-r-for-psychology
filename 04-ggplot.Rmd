@@ -1,4 +1,4 @@
-# Grammar of Graphics {#ggplot2}
+# Grammar of Graphics {#ggplot2-seminar}
 
 In previous seminar, you have learned about tables, which are the main way of representing data in psychological research and in R. In the following seminars, you will learn how to manipulate the data in these tables: change it, aggregate or transform individual groups of data, use it for statistical analysis. But before that you need to understand how to store your data in the table in the optimal way. First, I will introduce the idea of _tidy data_, the concept that gave [Tidyverse](https://www.tidyverse.org/) its name. Next, we will see how tidy data helps you visualize the relationships between variables. Don't forget to download the [notebook]().
 
@@ -39,8 +39,8 @@ Getting back to _ggplot2_. A plot in _ggplot2_ is described in three parts:
 2. Geometrical primitives that visualize your data (points, lines, error bars, etc.).
 3. Additional properties of the plot (scaling of axes, labels, etc.)
 
-You always need the first one. But you do not need to specify the other two, even though a plot without geometry in it looks very empty. Let us start with a very simple artificial example table below. At the moment, do not worry how I generate it, you will learn the details in the upcoming seminars.
-```{r fig.align = 'center'}
+You always need the first one. But you do not need to specify the other two, even though a plot without geometry in it looks very empty. Let us start with a very simple artificial example table below.
+```{r echo=FALSE, message=FALSE, warning=FALSE,  fig.align="center"}
 library(tidyverse)
 simple_tidy_data <- 
   expand.grid(Condition = c("A", "B", "C"), Intensity = 1:8) %>%
@@ -55,7 +55,7 @@ ggplot(data=simple_tidy_data, aes(x = Intensity, y = Response, color=Condition))
 ```
 As I already wrote, technically, you do not need the geometry `+geom_point()` bit, so let us drop it and compare the plots.
 ```{r fig.align = 'center'}
-ggplot(data=mpg, aes(x = displ, y = cty, size=cyl, color=drv))
+ggplot(data=simple_tidy_data, aes(x = Intensity, y = Response, color=Condition))
 ```
 Told you it will look empty and yet you can already see _ggplot2_ in action. Notice that axes are already labeled and their limits are already optimally set. You cannot see legends (they are not plotted without geometry) but they are also ready. This is because our initial call specified the most important part: _how_ the individual variables map on various properties of the plot even before we know which visuals we will use. Thus, we specified that x-axis will represent the displacement and ggplot2 already figured the range of values and knows just _where_ it is going to plot whatever we decide to plot. Any specific geometry must 
 
