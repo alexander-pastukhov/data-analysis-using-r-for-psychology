@@ -117,7 +117,7 @@
 
 \title{Data analysis using R for Psychology}
 \author{Alexander (Sasha) Pastukhov}
-\date{2020-11-14}
+\date{2020-11-25}
 
 \begin{document}
 \maketitle
@@ -130,11 +130,15 @@
 \chapter*{Introduction}\label{introduction}}
 \addcontentsline{toc}{chapter}{Introduction}
 
+This is a material for \emph{Applied data analysis for psychology using the open-source software R} seminar as taught at \href{https://www.uni-bamberg.de/psychologie/}{Institute of Psychology} at University of Bamberg.
+
+This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+
 \hypertarget{about-the-seminar}{%
 \section*{About the seminar}\label{about-the-seminar}}
 \addcontentsline{toc}{section}{About the seminar}
 
-This is a material for \emph{Applied data analysis for psychology using the open-source software R} seminar. Each chapter covers a single seminar, introducing necessary ideas and is accompanied by a notebook with exercises, which you need to complete and submit. The material assumes no foreknowledge of R or programming in general from the reader. Its purpose is to gradually build up your knowledge and introduce to a typical analysis pipeline. It is based on a data that is typical for the field (repeated measures, appearance, accuracy and response time measurements, Likert scale reports, etc.), you are welcome to suggest your own data set for analysis. Even if you already performed the analysis using some other program, it would still be insightful to compare the different ways and, perhaps, you might gain a new insight. Plus, it is more engaging to work on your data.
+Each chapter covers a single seminar, introducing necessary ideas and is accompanied by a notebook with exercises, which you need to complete and submit. The material assumes no foreknowledge of R or programming in general from the reader. Its purpose is to gradually build up your knowledge and introduce to a typical analysis pipeline. It is based on a data that is typical for the field (repeated measures, appearance, accuracy and response time measurements, Likert scale reports, etc.), you are welcome to suggest your own data set for analysis. Even if you already performed the analysis using some other program, it would still be insightful to compare the different ways and, perhaps, you might gain a new insight. Plus, it is more engaging to work on your data.
 
 Remember that throughout the seminar you can and should(!) always ask me whenever something is unclear, you do not understand a concept or logic behind certain code. Do not hesitate to write me in the team or (better) directly to me in the chat (in the latter case, the notifications are harder miss and we don't spam others with our conversation).
 
@@ -903,8 +907,8 @@ If the length of the longer vector \textbf{is not} a multiple of the shorter vec
 \end{Shaded}
 
 \begin{verbatim}
-## Warning in x + y: Länge des längeren Objektes
-##       ist kein Vielfaches der Länge des kürzeren Objektes
+## Warning in x + y: longer object length is not a multiple of shorter object
+## length
 \end{verbatim}
 
 \begin{verbatim}
@@ -1009,7 +1013,7 @@ You can convert from one type to another and check whether a particular vector i
   \item
     from logical value \texttt{as.double(TRUE)} → 1.0 and \texttt{as.double(FALSE)} → 0.0
   \item
-    from string only it is a properly formed number, e.g.~\texttt{as.double("12.2")} → \texttt{12} but \texttt{as.double("12punkt5")} is \texttt{NA}
+    from string only it is a properly formed number, e.g.~\texttt{as.double("12.2")} → \texttt{12.2} but \texttt{as.double("12punkt5")} is \texttt{NA}
   \item
     from \texttt{NA} → \texttt{NA}
   \end{itemize}
@@ -1318,7 +1322,7 @@ One thing to keep in mind is that if you import two libraries that have a functi
 
 \begin{verbatim}
 ## 
-## Attache Paket: 'dplyr'
+## Attaching package: 'dplyr'
 \end{verbatim}
 
 \begin{verbatim}
@@ -1341,7 +1345,7 @@ One thing to keep in mind is that if you import two libraries that have a functi
 
 \begin{verbatim}
 ## 
-## Attache Paket: 'signal'
+## Attaching package: 'signal'
 \end{verbatim}
 
 \begin{verbatim}
@@ -1614,7 +1618,7 @@ There are several libraries that allow you to read Excel files directly. My pers
 
 Do exercise 8, you need \href{data/face_rank.xlsx}{face\_rank.xlsx} file for it.
 
-You can read about further options at the package's website but I would generally discourage you from using Excel for your work and, definitely, for your data analysis. Because, you see, Excel is very smart and it can figure out the \emph{true} meaning and type of columns by itself. The fact that you might disagree is your problem. Excel knows what is best for you. The easiest way to screw a CSV file up is to open it in Excel and immediately save it. The file name will remain the same but Excel will ``adjust'' the content as it feels is better for you (you don't need to be consluted with). If you think I am exaggerating, read this \href{https://www.theverge.com/2020/8/6/21355674/human-genes-rename-microsoft-excel-misreading-dates}{article} at The Verge on how Excel messed up thousands of human genome data tables by turning some values into dates (because why not?). So now the entire community is \emph{renaming} some genes because it is easier to waste literally thousands of man-hours on that than to fix Excel. In short, friends don't let friends use Excel.
+You can read about further options at the package's website but I would generally discourage you from using Excel for your work and, definitely, for your data analysis. Because, you see, Excel is very smart and it can figure out the \emph{true} meaning and type of columns by itself. The fact that you might disagree is your problem. Excel knows what is best for you. The easiest way to screw a CSV file up is to open it in Excel and immediately save it. The file name will remain the same but Excel will ``adjust'' the content as it feels is better for you (you don't need to be consulted with). If you think I am exaggerating, read this \href{https://www.theverge.com/2020/8/6/21355674/human-genes-rename-microsoft-excel-misreading-dates}{article} at The Verge on how Excel messed up thousands of human genome data tables by turning some values into dates (because why not?). So now the entire community is \emph{renaming} some genes because it is easier to waste literally thousands of man-hours on that than to fix Excel. In short, friends don't let friends use Excel.
 
 \hypertarget{reading-files-from-other-programs}{%
 \section{Reading files from other programs}\label{reading-files-from-other-programs}}
@@ -1627,6 +1631,375 @@ However, sometimes you have a file but you do not have the program (Matlab, SPSS
 \section{Wrap up}\label{wrap-up-1}}
 
 We have started with vectors and now extended them to tables. Next time, we will look at how to visualize the data using The Grammar of Graphics approach.
+
+\hypertarget{ggplot2}{%
+\chapter{Grammar of Graphics}\label{ggplot2}}
+
+In previous seminar, you have learned about tables that are the main way of representing data in psychological research and in R. In the following seminars, you will learn how to manipulate the data in these tables: change it, aggregate or transform individual groups of data, use it for statistical analysis. But before that you need to understand how to store your data in the table in the optimal way. First, I will introduce the idea of \emph{tidy data}, the concept that gave \href{https://www.tidyverse.org/}{Tidyverse} its name. Next, we will see how tidy data helps you visualize the relationships between variables. Don't forget to download the \href{}{notebook}.
+
+\hypertarget{tidydata}{%
+\section{Tidy data}\label{tidydata}}
+
+The tidy data follows \href{https://r4ds.had.co.nz/tidy-data.html}{three rules}:
+
+\begin{itemize}
+\tightlist
+\item
+  variables are in columns,
+\item
+  observations are in rows,
+\item
+  values are in cells.
+\end{itemize}
+
+This probably sound very straightforward to the point that you wonder ``Can a table not by tidy?'' As a matter of fact \emph{a lot} of typical results of psychological experiments are not tidy. Imagine an experiment where participants rated a face on symmetry, attractiveness, and trustworthiness. Typically (at least in my experience), the data will stored as follows:
+
+\begin{tabular}{c|c|c|c|c}
+\hline
+Participant & Face & Symmetry & Attractiveness & Trustworthiness\\
+\hline
+1 & M1 & 6 & 4 & 3\\
+\hline
+1 & M2 & 4 & 7 & 6\\
+\hline
+2 & M1 & 5 & 2 & 1\\
+\hline
+2 & M2 & 3 & 7 & 2\\
+\hline
+\end{tabular}
+
+This is a very typical table optimized for \emph{humans}. A single row contains all responses about a single face, so it is easy to visually compare responses of individual observers. Often, the table is even wider so that a single row holds all responses from a single observer (in my experience, a lot of online surveys produce data in this format).
+
+\begin{tabular}{c|c|c|c|c|c|c}
+\hline
+Participant & M1.Symmetry & M1.Attractiveness & M1.Trustworthiness & M2.Symmetry & M2.Attractiveness & M2.Trustworthiness\\
+\hline
+1 & 6 & 4 & 3 & 4 & 7 & 6\\
+\hline
+1 & 5 & 2 & 1 & 3 & 7 & 2\\
+\hline
+\end{tabular}
+
+So, what is wrong with it? Don't we have variables in columns, observations in rows, and values in cells? Not really. You can already see it when comparing the two tables above. The \emph{face} identity is a variable, however, in the second table it is hidden in column names. Some columns are about face \texttt{M1}, other columns are about \texttt{M2}, etc. So, if you are interested in analyzing symmetry judgments across all faces and participants, you will need to select all columns that end with \texttt{.Symmetry} and figure out a way to extract the face identity from columns' names. Thus, face \emph{is} a variable but is not a column in the second table.
+
+Then, what about the first table, which has \texttt{Face} as a column, is it tidy? The short answer: Not really but that depends on your goals as well! In the experiment, we collected \emph{responses} (these are numbers in cells) for different type of \emph{judgments}. The latter are a variable but it is hidden in column names. Thus, a \emph{tidy} table for this data would be
+
+\begin{tabular}{c|c|c|c|c}
+\hline
+Participant & Face & Trustworthiness & Judgment & Response\\
+\hline
+1 & M1 & 3 & Symmetry & 6\\
+\hline
+1 & M1 & 3 & Attractiveness & 4\\
+\hline
+1 & M2 & 6 & Symmetry & 4\\
+\hline
+1 & M2 & 6 & Attractiveness & 7\\
+\hline
+2 & M1 & 1 & Symmetry & 5\\
+\hline
+2 & M1 & 1 & Attractiveness & 2\\
+\hline
+2 & M2 & 2 & Symmetry & 3\\
+\hline
+2 & M2 & 2 & Attractiveness & 7\\
+\hline
+\end{tabular}
+
+This table is (very) tidy and it makes it easy to group data by every different combination of variables (e.g.~per face and judgment, per participant and judgment), perform statistical analysis, etc. However, it may not always be the best way to represent the data. For example, if you would like to model \texttt{Trustworthiness} using \texttt{Symmetry} and \texttt{Attractiveness} as predictors, when the first table is more suitable. At the end, the table structure must fit your needs, not the other way around. Still, what you probably want is a \emph{tidy} table because it is best suited for most things you will want to do with the data and because it makes it easy to transform the data to match your specific needs (e.g., going from the third table to the first one via pivoting).
+
+Most data you will get from experiments will not be tidy. We will spent quite some time in learning how to tidy it up but first let us see how an already tidy data makes it easy to visualize relationships in it.
+
+\hypertarget{ggplot2-1}{%
+\section{ggplot2}\label{ggplot2-1}}
+
+\href{https://ggplot2.tidyverse.org/}{ggplot2} package is my main tool for data visualization in R. ggplot2 tends to make really good looking production-ready plots (this is not a given, a default-looking Matlab plot is, or used to be when I used Matlab, pretty ugly). Hadley Wickham was influenced by works of \href{https://www.edwardtufte.com/tufte/}{Edward Tufte} when developing ggplot2. Although the aesthetic aspect goes beyond our seminar (although, if you are interested, I might make a Christmas-special on that), if you will need to visualize data in the future, I strongly recommend reading Tufte's books. In fact, it is such an informative and aesthetically pleasing experience that I would recommend reading them in any case.
+
+More importantly, ggplot2 uses a grammar-based approach of describing a plot that makes it conceptually different from most other software such as Matlab, Matplotlib in Python, etc. A plot in \emph{ggplot2} is described in three parts:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Aesthetics: Relationship between data and visual properties that define working space of the plot (which variables map on axes, color, size, fill, etc.).
+\item
+  Geometrical primitives that visualize your data (points, lines, error bars, etc.) that are \emph{added} to the plot.
+\item
+  Other properties of the plot (scaling of axes, labels, annotations, etc.) that are \emph{added} to the plot.
+\end{enumerate}
+
+You always need the first one. But you do not need to specify the other two, even though a plot without geometry in it looks very empty. Let us start with a very simple artificial example table below.
+
+\begin{tabular}{l|r|r}
+\hline
+Condition & Intensity & Response\\
+\hline
+A & 1 & 0.5335855\\
+\hline
+B & 1 & -1.5111154\\
+\hline
+C & 1 & -3.7921724\\
+\hline
+A & 2 & 0.9237805\\
+\hline
+B & 2 & -1.1232606\\
+\hline
+C & 2 & -2.8172923\\
+\hline
+A & 3 & 1.5227667\\
+\hline
+B & 3 & 0.2085982\\
+\hline
+C & 3 & -1.8335226\\
+\hline
+A & 4 & 2.3076458\\
+\hline
+B & 4 & 1.5724902\\
+\hline
+C & 4 & -1.4147178\\
+\hline
+A & 5 & 3.5830194\\
+\hline
+B & 5 & 1.4426020\\
+\hline
+C & 5 & 0.3900801\\
+\hline
+A & 6 & 5.4424623\\
+\hline
+B & 6 & 2.4253928\\
+\hline
+C & 6 & 1.4574921\\
+\hline
+A & 7 & 6.5549429\\
+\hline
+B & 7 & 3.2999731\\
+\hline
+C & 7 & 1.8715974\\
+\hline
+A & 8 & 7.1870846\\
+\hline
+B & 8 & 3.9406991\\
+\hline
+C & 8 & 4.0550026\\
+\hline
+\end{tabular}
+
+We plot this data by 1) \emph{defining aesthetics} (mapping \texttt{Intensity} on to x-axis, \texttt{Response}on y-axis, and \texttt{Condition} on color) and 2) \emph{adding} lines to the plot (note the plus in \texttt{+\ geom\_line()}).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data=}\NormalTok{simple\_tidy\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Intensity, }\AttributeTok{y =}\NormalTok{ Response, }\AttributeTok{color=}\NormalTok{Condition)) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_line}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-80-1.pdf}
+
+As I already wrote, technically, we only thing you need to define is aesthetics, so let us not add anything to the plot (drop the \texttt{+geom\_line()}).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data=}\NormalTok{simple\_tidy\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Intensity, }\AttributeTok{y =}\NormalTok{ Response, }\AttributeTok{color=}\NormalTok{Condition))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-81-1} \end{center}
+
+Told you it will look empty and yet you can see \emph{ggplot2} in action. Notice that axes are labeled and their limits are set. You cannot see the legend (they are not plotted without corresponding geometry) but it is also ready. This is because our initial call specified the most important part: how the individual variables map on various properties even before we told \emph{ggplot2} which visuals we will use to plot the data. When we specified that x-axis will represent the \texttt{Intensity}, ggplot2 figured out the range of values, so it knows \emph{where} it is going to plot whatever we decide to plot. Points, lines, bar, error bars and what not will span only that range. Same goes for other properties such as color. We wanted \emph{color} to represent the condition. Again, we may not know what exactly we will be plotting (points, lines?) or even how many different visuals we will be adding to the plot (just lines? points + lines? points + lines + linear fit?) but we do know that whatever visual we add, if it can have color, its color \emph{must} represent condition for that data point. The beauty of \emph{ggplot2} is that it analyses your data and figures out how many colors you need and is ready to apply them \emph{consistently} to all visuals you will later add. It will ensure that all points, bars, lines, etc. will have consistent coordinates scaling, color-, size-, fill-mapping that are the same across the entire plot. This may sound trivial but typically (e.g., Matlab, Matplotlib), it is \emph{your} job to make sure that all these properties match and that they represent the same value across all visual elements. And this is a pretty tedious job, particularly when you decide to change your mappings and have to redo all individual components by hand. In \emph{ggplot2}, this dissociation between mapping and visuals means you can tinker with one of them at a time. E.g. keep the visuals but change grouping or see if effect of condition is easier to see via line type, size or shape of the point? Or you can keep the mapping and see whether adding another visual will make the plot easier to understand. Note that some mapping also \emph{groups} your data, so when you use group-based visual information (e.g.~a linear regression line) it will know what data belongs together and so will perform this computation per group.
+
+Let us see how you can keep the relationship mapping but add more visuals. Let us add both lines and points.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data=}\NormalTok{simple\_tidy\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Intensity, }\AttributeTok{y =}\NormalTok{ Response, }\AttributeTok{color=}\NormalTok{Condition)) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\CommentTok{\# this is new!}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-82-1} \end{center}
+
+In the plot above, we \emph{kept} the relationship between variables and properties but said ``Oh, and throw in some points please''. And ggplot2 knows how to add the points so that they appear at proper location and in proper color. But we want more!
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data=}\NormalTok{simple\_tidy\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Intensity, }\AttributeTok{y =}\NormalTok{ Response, }\AttributeTok{color=}\NormalTok{Condition)) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \CommentTok{\# a linear regression over all dots in the group}
+  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{method=}\StringTok{"lm"}\NormalTok{, }\AttributeTok{formula =}\NormalTok{ y }\SpecialCharTok{\textasciitilde{}}\NormalTok{ x, }\AttributeTok{se=}\ConstantTok{FALSE}\NormalTok{, }\AttributeTok{linetype=}\StringTok{"dashed"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-83-1} \end{center}
+
+Now we added a linear regression line that helps us to better see the relationship between \texttt{Intensity} and \texttt{Response}. Again, we simply wished for another visual to be added (\texttt{method="lm"} means that we wanted to average data via linear regression with \texttt{formula\ =\ y\ \textasciitilde{}\ x} meaning that we regress y-axis on x-axis with no further covariates, \texttt{se=FALSE} means no standard error stripe, \texttt{linetype="dashed"} just makes it easier to distinguish from the solid data line).
+
+Or, we can keep the \emph{visuals} but see whether changing \emph{mapping} would make it more informative (we need to specify \texttt{group=Intensity} as continuous data is not grouped automatically).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data=}\NormalTok{simple\_tidy\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Condition, }\AttributeTok{y =}\NormalTok{ Response, }\AttributeTok{color=}\NormalTok{Intensity, }\AttributeTok{group=}\NormalTok{Intensity)) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{method=}\StringTok{"lm"}\NormalTok{, }\AttributeTok{se=}\ConstantTok{FALSE}\NormalTok{,  }\AttributeTok{formula =}\NormalTok{ y }\SpecialCharTok{\textasciitilde{}}\NormalTok{ x, }\AttributeTok{linetype=}\StringTok{"dashed"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-84-1} \end{center}
+
+Or, we can check whether splitting into several plots helps.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data=}\NormalTok{simple\_tidy\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Intensity, }\AttributeTok{y =}\NormalTok{ Response, }\AttributeTok{color=}\NormalTok{Condition)) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{method=}\StringTok{"lm"}\NormalTok{, }\AttributeTok{formula =}\NormalTok{ y }\SpecialCharTok{\textasciitilde{}}\NormalTok{ x, }\AttributeTok{se=}\ConstantTok{FALSE}\NormalTok{, }\AttributeTok{linetype=}\StringTok{"dashed"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{facet\_grid}\NormalTok{(. }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Condition) }\CommentTok{\# makes a separate subplot for each group}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-85-1} \end{center}
+
+Again, note that all three plots live on the same scale for x- and y-axis, making them easy to compare (you fully appreciate this magic if you ever struggled with ensuring optimal and consistent scaling by hand in Matlab). I went through so many examples to stress how ggplot allows you to think about the aesthetics of variable mapping \emph{independently} of the actual visual representation (and vice versa). So now lets us explore \emph{ggplot2} by doing exercises.
+
+I recommend using \href{https://ggplot2.tidyverse.org/}{ggplot2 reference page} and \href{https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf}{cheatsheet} when you are doing the exercises.
+
+\hypertarget{auto-efficiency-continuous-x-axis}{%
+\section{Auto efficiency: continuous x-axis}\label{auto-efficiency-continuous-x-axis}}
+
+We start by visualizing how car efficiency, measured as miles-per-gallon, is affected by various factors such as production year, size of the engine, type of transmission, etc. The data is in table \href{https://ggplot2.tidyverse.org/reference/mpg.html}{mpg}, which is part of the \emph{ggplot2} package. Thus, you need to first \protect\hyperlink{library}{import} the library and then load the table via \protect\hyperlink{data}{data()} function. Take a look at the \href{https://ggplot2.tidyverse.org/reference/mpg.html}{table description} to familiarize yourself with the variables.
+
+First, let us look at the relationship between car efficiency in the city cycle (\texttt{cty}), engine displacement (\texttt{displ}), and drive train type (\texttt{drv}) using color points. Reminder, the call should look as
+
+\begin{verbatim}
+[ggplot2](https://ggplot2.tidyverse.org/reference/ggplot.html)(data_table_name, [aes](https://ggplot2.tidyverse.org/reference/aes.html)(x = var1, y = var2, color = var3, shape = var4, ...)) + 
+  geom_primitive1() + 
+  geom_primitive2() +
+  ...
+\end{verbatim}
+
+Think about which variables are mapped on each axes and which is best depicted as color.
+
+Do exercise 1.
+
+Do you see any clear dependence? Let us try to making it more evident by adding \href{https://ggplot2.tidyverse.org/reference/geom_smooth.html}{geom\_smooth} geometric primitive.
+
+Do exercise 2.
+
+Both engine size (displacement) and drive train have a clear effect on car efficiency. Let us visualize the number of cylinders (\texttt{cyl}) as well. Including it by mapping it on the \emph{size} of geometry.
+
+Do exercise 3.
+
+Currently, we are mixing together cars produced at different times. Let us visually separate them by turning each year into a subplot via \href{https://ggplot2.tidyverse.org/reference/facet_wrap.html}{facet\_wrap} function.
+
+Do exercise 4.
+
+The dependence you plotted does not look linear but instead is saturating at certain low level of efficiency. This sort of dependencies could be easier to see on a logarithmic scale. See functions for different \href{https://ggplot2.tidyverse.org/reference/scale_continuous.html}{scales} and use logarithmic scaling for y-axis.
+
+Do exercise 5.
+
+Note that by now we managed to include \emph{five} variables into our plots. We can continue this by including transmission or fuel type but that would be pushing it, as too many variables can make a plot confusing and cryptic. Instead, let us make it prettier by using more meaningful axes labels (\texttt{xlab()}, \texttt{ylab()} functions) and adding a plot title (\href{https://ggplot2.tidyverse.org/reference/labs.html}{labs}).
+
+Do exercise 6.
+
+\hypertarget{auto-efficiency-discrete-x-axis}{%
+\section{Auto efficiency: discrete x-axis}\label{auto-efficiency-discrete-x-axis}}
+
+The previous section use a continuous engine displacement variable for x-axis (at least that is my assumption on how you mapped the variables). Frequently, you need to plot data for discrete groups: experimental groups, conditions, treatments, etc. Let us practice on the same \href{https://ggplot2.tidyverse.org/reference/mpg.html}{mpg} data set but visualize relationship between the drive train (\texttt{drv}) and highway cycle efficiency (\texttt{hwy}). Start by using point as visuals.
+
+Do exercise 7.
+
+One problem with the plot is that all points are plotted at the same x-axis location. This means that if two points share the location, they overlap and appear as just one dot. This makes it hard to understand the density: one point can mean one point, or two, or a hundred. A better way to plot such data is by using \href{https://ggplot2.tidyverse.org/reference/geom_boxplot.html}{box} or {]}violin{]}(\url{https://ggplot2.tidyverse.org/reference/geom_violin.html}) plots. Experiment by using them instead of points.
+
+Do exercise 8.
+
+Again, let's up the ante and split plots via both number of cylinders and year of manufacturing. Use \href{https://ggplot2.tidyverse.org/reference/facet_grid.html}{facet\_grid} function to generate grid of plots.
+
+Do exercise 9.
+
+Let us again improve our presentation by using better axes labels and figure title.
+
+Do exercise 10.
+
+\hypertarget{mammals-sleep-single-variable}{%
+\section{Mammals sleep: single variable}\label{mammals-sleep-single-variable}}
+
+Now lets us work on plotting a distribution for a single variable using \href{https://ggplot2.tidyverse.org/reference/msleep.html}{mammals sleep dataset}. For this, you need to map \texttt{sleep\_total} variable on x-axis and plot a \href{https://ggplot2.tidyverse.org/reference/geom_histogram.html}{histogram}. Explore the available options, in particular \texttt{bins} that determines the bins number and, therefore, their size. Note that there is no ``correct'' number of bins to use. \emph{ggplot2} defaults to 30 but a small sample would be probably better served with fewer bins and, vice versa, with a large data set you can afford hundred of bins.
+
+Do exercise 11.
+
+Using a histogram gives you exact counts per each bin. However, the appearance may change quite dramatically if you would use fewer or more bins. An alternative way to represent the same information is via \href{https://ggplot2.tidyverse.org/reference/geom_density.html}{smoothed density estimates}. They use a sliding window and compute an estimate at each point but also include points \emph{around} it and weight them according to a kernel (e.g.~a Gaussian one). This makes the plot look smoother and will mask sudden jumps in density (counts) as you, effectively, average over many bins. Whether this approach is better for visualizing data depends on the sample you have and message you are trying to get across. It is always worth checking both (just like it is worth checking different number of bins in histogram) to see which way is the best for your specific case.
+
+Do exercise 12.
+
+Let us return to using histograms and plot a distribution per \texttt{vore} variable (it is \texttt{carnivore}, \texttt{omnivore}, \texttt{herbivore}, or \texttt{NA}). You can map it on the \texttt{fill} color of the histogram, so that each \emph{vore} kind will be binned separately.
+
+Do exercise 13.
+
+The plot may look confusing because by default \emph{ggplot2} colors values for each group differently but stacks all of them together to produce the total histogram counts. One way to disentangle the individual histograms is via \href{https://ggplot2.tidyverse.org/reference/facet_grid.html}{facet\_grid} function. Use it to plot \texttt{vore} distribution in separate rows.
+
+Do exercise 14.
+
+That did the trick but there is an alternative way to plot individual distributions on the same plot by setting \texttt{position} argument of geom\_histogram to \texttt{"identity"} (it is \texttt{"stack"} by default).
+
+Do exercise 15.
+
+Hmm, shouldn't we have more carnivores, what is going on? Opacity is the answer. A bar ``in front'' occludes any bars that are ``behind'' it. Go back to the exercise and fix that by specifying \texttt{alpha} argument that controls transparency. It is \texttt{1} (completely opaque) by default and can go down to \texttt{0} (fully transparent as in ``invisible''), so see which intermediate value works the best.
+
+\hypertarget{mapping-for-all-visuals-versus-just-one-visual}{%
+\section{Mapping for all visuals versus just one visual}\label{mapping-for-all-visuals-versus-just-one-visual}}
+
+In the previous exercise, you assigned a constant value to \texttt{alpha} (transparency) argument. You could do this in \emph{two} places, inside of either \texttt{ggplot()} or \texttt{geom\_histogram()} call. In the former case, you would have set \texttt{alpha} level for \emph{all} geometric primitives on the plot, whereas in the latter you do it only for the histogram. To better see the difference, reuse your code for plotting city cycle efficiency versus engine size (should be exercise \#6) and set \texttt{alpha} either for all visuals (in \texttt{ggplot2}) or in some visuals (e.g.~only for points) to see the difference.
+
+Do exercise 16.
+
+\hypertarget{mapping-on-variables-versus-constants}{%
+\section{Mapping on variables versus constants}\label{mapping-on-variables-versus-constants}}
+
+In the previous exercise, you assigned a constant value to \texttt{alpha} (transparency) argument. However, transparency is just a property just like \texttt{x}, \texttt{color}, or \texttt{size}. Thus, there are \emph{two} ways you can use them:
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{inside} \texttt{aes(x=column)}, where \texttt{column} is column in the table you supplied via \texttt{data=}
+\item
+  \emph{outside} of \texttt{aes} by stating \texttt{x=value}, where value is some constant value or a variable \emph{that is not in the table}.
+\end{itemize}
+
+Test this but setting the \texttt{size} in the previous plot to a constant outside of aesthetics or to a variable inside of it.
+
+Do exercise 17.
+
+\hypertarget{themes}{%
+\section{Themes}\label{themes}}
+
+Finally, if you are not a fan of the way the plots look, you can quickly modify this by using some other theme. You can define it yourself (there are lots of options you can specify for your \href{https://ggplot2.tidyverse.org/reference/theme.html}{theme}) or can use one of the \href{https://ggplot2.tidyverse.org/reference/ggtheme.html}{ready-mades}. Explore the latter option, find the one you like the best.
+
+Do exercise 18.
+
+\hypertarget{you-aint-seen-nothing-yet}{%
+\section{You ain't seen nothing yet}\label{you-aint-seen-nothing-yet}}
+
+What you explored is just a tip of the iceberg. There are many more geometric primitive, annotations, scales, themes, etc. It will take an entire separate seminar to do \emph{ggplot2} justice. However, the basics will get you started and you can always consult reference, books (see below), or me once you need more.
+
+\hypertarget{further-reading}{%
+\section{Further reading}\label{further-reading}}
+
+If plotting data is part of your daily routine, I recommend reading \href{https://ggplot2-book.org/}{ggplot2 book}. It gives you an in-depth view of the package and goes through many possibilities that it offers. You may need all of them but I find useful to know that they exists (who knows, I might need them one day). Another book worth reading is \href{https://kieranhealy.org/publications/dataviz/}{Data Visualization: A Practical Introduction.} by Kieran Healy.
+
+\hypertarget{extending-ggplot2}{%
+\section{Extending ggplot2}\label{extending-ggplot2}}
+
+There are 80 (as of 19.11.2020) extensions that you find at \href{https://exts.ggplot2.tidyverse.org/gallery/}{ggplot2 website}. They add more ways to plot your data, more themes, animated plots, etc. If you feel that \emph{ggplot2} does not have the geometric primitives you need, take a look at the gallery and, most likely, you will find something that fits your bill.
+
+One package that is \emph{not} in the gallery is \href{https://patchwork.data-imaginist.com/}{patchwork}. It was created ``to make it ridiculously simple to combine separate ggplots into the same graphic''. It is a bold promise but authors do make good on it. It is probably the easiest way to combine multiple plots but you can also consider \href{https://github.com/wilkelab/cowplot}{cowplot} and \href{https://cran.r-project.org/web/packages/gridExtra/index.html}{gridExtra} packages.
+
+\hypertarget{ggplot2-cannot-do-everything}{%
+\section{ggplot2 cannot do everything}\label{ggplot2-cannot-do-everything}}
+
+There are many different plotting routines and packages for R but I would recommend to use \emph{ggplot2} as your main tool. However, that does not mean that it must be your only tool, after all, CRAN is brimming with packages. In particular, \emph{ggplot2} is built for plotting data from a single tidy table, meaning it is less optimal for plotting data in other cases. E.g., you can use it to combine information from several tables in one plot but things become less automatic and consistent. Similarly, you can plot data which is stored in non-tidy tables or even in individual vectors but that makes it less intuitive and more convoluted. No package can do everything and \emph{ggplot2} is no exception.
 
   \bibliography{book.bib}
 

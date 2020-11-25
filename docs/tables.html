@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2020-11-14" />
+<meta name="date" content="2020-11-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="vectors.html"/>
-
+<link rel="next" href="ggplot2.html"/>
 <script src="libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -189,6 +189,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.12" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.12</b> Reading files from other programs</a></li>
 <li class="chapter" data-level="3.13" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.13</b> Wrap up</a></li>
 </ul></li>
+<li class="chapter" data-level="4" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>4</b> Grammar of Graphics</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="ggplot2.html"><a href="ggplot2.html#tidydata"><i class="fa fa-check"></i><b>4.1</b> Tidy data</a></li>
+<li class="chapter" data-level="4.2" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-1"><i class="fa fa-check"></i><b>4.2</b> ggplot2</a></li>
+<li class="chapter" data-level="4.3" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-continuous-x-axis"><i class="fa fa-check"></i><b>4.3</b> Auto efficiency: continuous x-axis</a></li>
+<li class="chapter" data-level="4.4" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-discrete-x-axis"><i class="fa fa-check"></i><b>4.4</b> Auto efficiency: discrete x-axis</a></li>
+<li class="chapter" data-level="4.5" data-path="ggplot2.html"><a href="ggplot2.html#mammals-sleep-single-variable"><i class="fa fa-check"></i><b>4.5</b> Mammals sleep: single variable</a></li>
+<li class="chapter" data-level="4.6" data-path="ggplot2.html"><a href="ggplot2.html#mapping-for-all-visuals-versus-just-one-visual"><i class="fa fa-check"></i><b>4.6</b> Mapping for all visuals versus just one visual</a></li>
+<li class="chapter" data-level="4.7" data-path="ggplot2.html"><a href="ggplot2.html#mapping-on-variables-versus-constants"><i class="fa fa-check"></i><b>4.7</b> Mapping on variables versus constants</a></li>
+<li class="chapter" data-level="4.8" data-path="ggplot2.html"><a href="ggplot2.html#themes"><i class="fa fa-check"></i><b>4.8</b> Themes</a></li>
+<li class="chapter" data-level="4.9" data-path="ggplot2.html"><a href="ggplot2.html#you-aint-seen-nothing-yet"><i class="fa fa-check"></i><b>4.9</b> You ain’t seen nothing yet</a></li>
+<li class="chapter" data-level="4.10" data-path="ggplot2.html"><a href="ggplot2.html#further-reading"><i class="fa fa-check"></i><b>4.10</b> Further reading</a></li>
+<li class="chapter" data-level="4.11" data-path="ggplot2.html"><a href="ggplot2.html#extending-ggplot2"><i class="fa fa-check"></i><b>4.11</b> Extending ggplot2</a></li>
+<li class="chapter" data-level="4.12" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-cannot-do-everything"><i class="fa fa-check"></i><b>4.12</b> ggplot2 cannot do everything</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown and FontAwesome</a><li>
 
@@ -233,7 +248,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>to real number via <code>as.numeric()</code> / <code>as.double()</code> and <code>is.double()</code> (avoid <code>is.numeric()</code> as Hadley Wickham <a href="https://adv-r.hadley.nz/vectors-chap.html">writes</a> that it is not doing what you would think it should).
 <ul>
 <li>from logical value <code>as.double(TRUE)</code> → 1.0 and <code>as.double(FALSE)</code> → 0.0</li>
-<li>from string only it is a properly formed number, e.g. <code>as.double("12.2")</code> → <code>12</code> but <code>as.double("12punkt5")</code> is <code>NA</code></li>
+<li>from string only it is a properly formed number, e.g. <code>as.double("12.2")</code> → <code>12.2</code> but <code>as.double("12punkt5")</code> is <code>NA</code></li>
 <li>from <code>NA</code> → <code>NA</code></li>
 </ul></li>
 <li>to logical <code>TRUE</code>/<code>FALSE</code> via <code>as.logical</code> and <code>is.logical()</code>.
@@ -389,7 +404,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>One thing to keep in mind is that if you import two libraries that have a function with same name, the function from the <em>latter</em> package will overwrite (mask) the function from the former. You will get a warning but if you miss it, it may be very confusing. My favorite stumbling block are functions <code>filter()</code> from <code>dplyr</code> package (we will use it extensively, as it filters a table by row) and <code>filter()</code> function from <code>signal</code> package (applies a filter to a time-series). This overwriting of one function by another can lead to very odd looking mistakes. In my case I though I was using <code>dplyr::filter()</code> and could not understand the error message I was getting, it it took me an hour to figure it out the first time. Here are the warnings I should have paid attention to.</p>
 <div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="tables.html#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
 <pre><code>## 
-## Attache Paket: &#39;dplyr&#39;</code></pre>
+## Attaching package: &#39;dplyr&#39;</code></pre>
 <pre><code>## The following objects are masked from &#39;package:stats&#39;:
 ## 
 ##     filter, lag</code></pre>
@@ -398,7 +413,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##     intersect, setdiff, setequal, union</code></pre>
 <div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="tables.html#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(signal)</span></code></pre></div>
 <pre><code>## 
-## Attache Paket: &#39;signal&#39;</code></pre>
+## Attaching package: &#39;signal&#39;</code></pre>
 <pre><code>## The following object is masked from &#39;package:dplyr&#39;:
 ## 
 ##     filter</code></pre>
@@ -553,7 +568,7 @@ A1,1,2,0.05,FALSE
 <div class="infobox practice">
 <p>Do exercise 8, you need <a href="data/face_rank.xlsx">face_rank.xlsx</a> file for it.</p>
 </div>
-<p>You can read about further options at the package’s website but I would generally discourage you from using Excel for your work and, definitely, for your data analysis. Because, you see, Excel is very smart and it can figure out the <em>true</em> meaning and type of columns by itself. The fact that you might disagree is your problem. Excel knows what is best for you. The easiest way to screw a CSV file up is to open it in Excel and immediately save it. The file name will remain the same but Excel will “adjust” the content as it feels is better for you (you don’t need to be consluted with). If you think I am exaggerating, read this <a href="https://www.theverge.com/2020/8/6/21355674/human-genes-rename-microsoft-excel-misreading-dates">article</a> at The Verge on how Excel messed up thousands of human genome data tables by turning some values into dates (because why not?). So now the entire community is <em>renaming</em> some genes because it is easier to waste literally thousands of man-hours on that than to fix Excel. In short, friends don’t let friends use Excel.</p>
+<p>You can read about further options at the package’s website but I would generally discourage you from using Excel for your work and, definitely, for your data analysis. Because, you see, Excel is very smart and it can figure out the <em>true</em> meaning and type of columns by itself. The fact that you might disagree is your problem. Excel knows what is best for you. The easiest way to screw a CSV file up is to open it in Excel and immediately save it. The file name will remain the same but Excel will “adjust” the content as it feels is better for you (you don’t need to be consulted with). If you think I am exaggerating, read this <a href="https://www.theverge.com/2020/8/6/21355674/human-genes-rename-microsoft-excel-misreading-dates">article</a> at The Verge on how Excel messed up thousands of human genome data tables by turning some values into dates (because why not?). So now the entire community is <em>renaming</em> some genes because it is easier to waste literally thousands of man-hours on that than to fix Excel. In short, friends don’t let friends use Excel.</p>
 </div>
 <div id="reading-files-from-other-programs" class="section level2" number="3.12">
 <h2><span class="header-section-number">3.12</span> Reading files from other programs</h2>
@@ -566,20 +581,13 @@ A1,1,2,0.05,FALSE
 
 </div>
 </div>
-
-
-
-
-
-
-
             </section>
 
           </div>
         </div>
       </div>
-<a href="vectors.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="vectors.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ggplot2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
