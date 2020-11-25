@@ -117,22 +117,152 @@ ggplot(data=simple_tidy_data, aes(x = Intensity, y = Response, color=Condition))
   geom_smooth(method="lm", formula = y ~ x, se=FALSE, linetype="dashed") +
   facet_grid(. ~ Condition) # makes a separate subplot for each group
 ```
-Again, note that all three plots live on the same scale for x- and y-axis, making them easy to compare (you fully appreciate this magic if you ever struggled with ensuring optimal and consistent scaling by hand in Matlab). I went through so many examples to stress how ggplot allows you to think about the aesthetics of variable mappping _independently_ of the actual visual representation (and vice versa). So now lets us explore _ggplot2_ by doing exercises.
+Again, note that all three plots live on the same scale for x- and y-axis, making them easy to compare (you fully appreciate this magic if you ever struggled with ensuring optimal and consistent scaling by hand in Matlab). I went through so many examples to stress how ggplot allows you to think about the aesthetics of variable mapping _independently_ of the actual visual representation (and vice versa). So now lets us explore _ggplot2_ by doing exercises.
 
-## Visualizing auto efficiency
+I recommend using [ggplot2 reference page](https://ggplot2.tidyverse.org/) and [cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf) when you are doing the exercises.
+
+## Auto efficiency: continuous x-axis
+We start by visualizing how car efficiency, measured as miles-per-gallon, is affected by various factors such as production year, size of the engine, type of transmission, etc. The data is in table [mpg](https://ggplot2.tidyverse.org/reference/mpg.html), which is part of the _ggplot2_ package. Thus, you need to first [import](#library) the library and then load the table via [data()](#data) function. Take a look at the [table description](https://ggplot2.tidyverse.org/reference/mpg.html) to familiarize yourself with the variables.
+
+First, let us look at the relationship between car efficiency in the city cycle (`cty`), engine displacement (`displ`), and drive train type (`drv`) using color points. Reminder, the call should look as
+```
+[ggplot2](https://ggplot2.tidyverse.org/reference/ggplot.html)(data_table_name, [aes](https://ggplot2.tidyverse.org/reference/aes.html)(x = var1, y = var2, color = var3, shape = var4, ...)) + 
+  geom_primitive1() + 
+  geom_primitive2() +
+  ...
+```
+Think about which variables are mapped on each axes and which is best depicted as color.
+
+::: {.infobox .practice}
+Do exercise 1.
+:::
+
+Do you see any clear dependence? Let us try to making it more evident by adding [geom_smooth](https://ggplot2.tidyverse.org/reference/geom_smooth.html) geometric primitive.
+
+::: {.infobox .practice}
+Do exercise 2.
+:::
+
+Both engine size (displacement) and drive train have a clear effect on car efficiency. Let us visualize the number of cylinders (`cyl`) as well. Including it by mapping it on the _size_ of geometry.
+
+::: {.infobox .practice}
+Do exercise 3.
+:::
+
+Currently, we are mixing together cars produced at different times. Let us visually separate them by turning each year into a subplot via [facet_wrap](https://ggplot2.tidyverse.org/reference/facet_wrap.html) function.
+
+::: {.infobox .practice}
+Do exercise 4.
+:::
+
+The dependence you plotted does not look linear but instead is saturating at certain low level of efficiency. This sort of dependencies could be easier to see on a logarithmic scale. See functions for different [scales](https://ggplot2.tidyverse.org/reference/scale_continuous.html) and use logarithmic scaling for y-axis.
+
+::: {.infobox .practice}
+Do exercise 5.
+:::
+
+Note that by now we managed to include _five_ variables into our plots. We can continue this by including transmission or fuel type but that would be pushing it, as too many variables can make a plot confusing and cryptic. Instead, let us make it prettier by using more meaningful axes labels (`xlab()`, `ylab()` functions) and adding a plot title ([labs](https://ggplot2.tidyverse.org/reference/labs.html)).
+
+::: {.infobox .practice}
+Do exercise 6.
+:::
+
+## Auto efficiency: discrete x-axis
+The previous section use a continuous engine displacement variable for x-axis (at least that is my assumption on how you mapped the variables). Frequently, you need to plot data for discrete groups: experimental groups, conditions, treatments, etc. Let us practice on the same [mpg](https://ggplot2.tidyverse.org/reference/mpg.html) data set but visualize relationship between the drive train (`drv`) and highway cycle efficiency (`hwy`). Start by using point as visuals.
+
+::: {.infobox .practice}
+Do exercise 7.
+:::
+
+One problem with the plot is that all points are plotted at the same x-axis location. This means that if two points share the location, they overlap and appear as just one dot. This makes it hard to understand the density: one point can mean one point, or two, or a hundred. A better way to plot such data is by using [box](https://ggplot2.tidyverse.org/reference/geom_boxplot.html) or ]violin](https://ggplot2.tidyverse.org/reference/geom_violin.html) plots. Experiment by using them instead of points.
+
+::: {.infobox .practice}
+Do exercise 8.
+:::
+
+Again, let's up the ante and split plots via both number of cylinders and year of manufacturing. Use [facet_grid](https://ggplot2.tidyverse.org/reference/facet_grid.html) function to generate grid of plots.
+
+::: {.infobox .practice}
+Do exercise 9.
+:::
+
+Let us again improve our presentation by using better axes labels and figure title.
+
+::: {.infobox .practice}
+Do exercise 10.
+:::
 
 
+## Mammals sleep: single variable
+Now lets us work on plotting a distribution for a single variable using [mammals sleep dataset](https://ggplot2.tidyverse.org/reference/msleep.html). For this, you need to map `sleep_total` variable on x-axis and plot a [histogram](https://ggplot2.tidyverse.org/reference/geom_histogram.html). Explore the available options, in particular `bins` that determines the bins number and, therefore, their size. Note that there is no "correct" number of bins to use. _ggplot2_ defaults to 30 but a small sample would be probably better served with fewer bins and, vice versa, with a large data set you can afford hundred of bins.
 
-## Extending ggplot2
-What you explored is just a tip of the iceberg. There are 80 (as of 19.11.2020) extensions that you find  at [ggplot2 website](https://exts.ggplot2.tidyverse.org/gallery/). They add more ways to plot your data, more themes, animated plots, etc. If you feel that _ggplot2_ does not have the geometric primitives you need, take a look at the gallery and, most likely, you will find something that fits your bill. 
+::: {.infobox .practice}
+Do exercise 11.
+:::
 
-One package that is _not_ in the gallery is [patchwork](https://patchwork.data-imaginist.com/). It was created "to make it ridiculously simple to combine separate ggplots into the same graphic". It is a bold promise but authors do make good on it. It is probably the easiest way to  combine multiple plots but you can also consider [cowplot](https://github.com/wilkelab/cowplot) and [gridExtra](https://cran.r-project.org/web/packages/gridExtra/index.html) packages.
+Using a histogram gives you exact counts per each bin. However, the appearance may change quite dramatically if you would use fewer or more bins. An alternative way to represent the same information is via [smoothed density estimates](https://ggplot2.tidyverse.org/reference/geom_density.html). They use a sliding window and compute an estimate at each point but also include points _around_ it and weight them according to a kernel (e.g. a Gaussian one). This makes the plot look smoother and will mask sudden jumps in density (counts) as you, effectively, average over many bins. Whether this approach is better for visualizing data depends on the sample you have and message you are trying to get across. It is always worth checking both (just like it is worth checking different number of bins in histogram) to see which way is the best for your specific case.
+
+::: {.infobox .practice}
+Do exercise 12.
+:::
+
+Let us return to using histograms and plot a distribution per `vore` variable (it is `carnivore`, `omnivore`, `herbivore`, or `NA`). You can map it on the `fill` color of the histogram, so that each _vore_ kind will be binned separately.
+
+::: {.infobox .practice}
+Do exercise 13.
+:::
+
+The plot may look confusing because by default _ggplot2_ colors values for each group differently but stacks all of them together to produce the total histogram counts. One way to disentangle the individual histograms is via [facet_grid](https://ggplot2.tidyverse.org/reference/facet_grid.html) function. Use it to plot `vore` distribution in separate rows.
+
+::: {.infobox .practice}
+Do exercise 14.
+:::
+
+That did the trick but there is an alternative way to plot individual distributions on the same plot by setting `position` argument of geom_histogram to `"identity"` (it is `"stack"` by default).
+
+::: {.infobox .practice}
+Do exercise 15.
+:::
+
+Hmm, shouldn't we have more carnivores, what is going on? Opacity is the answer. A bar "in front" occludes any bars that are "behind" it. Go back to the exercise and fix that by specifying `alpha` argument that controls transparency. It is `1` (completely opaque) by default and can go down to `0` (fully transparent as in "invisible"), so see which intermediate value works the best.
+
+## Mapping for all visuals versus just one visual
+In the previous exercise, you assigned a constant value to `alpha` (transparency) argument. You could do this in _two_ places,  inside of either `ggplot()` or `geom_histogram()` call. In the former case, you would have set `alpha` level for _all_ geometric primitives on the plot, whereas in the latter you do it only for the histogram. To better see the difference, reuse your code for plotting city cycle efficiency versus engine size (should be exercise #6) and set `alpha` either for all visuals (in `ggplot2`) or in some visuals (e.g. only for points) to see the difference.
+
+::: {.infobox .practice}
+Do exercise 16.
+:::
+
+## Mapping on variables versus constants
+In the previous exercise, you assigned a constant value to `alpha` (transparency) argument. However, transparency is just a property just like `x`, `color`, or `size`. Thus, there are _two_ ways you can use them:
+
+* _inside_ `aes(x=column)`, where `column` is column in the table you supplied via `data=`
+* _outside_ of `aes` by stating `x=value`, where value is some constant value or a variable _that is not in the table_.
+
+Test this but setting the `size` in the previous plot to a constant outside of aesthetics or to a variable inside of it.
+
+::: {.infobox .practice}
+Do exercise 17.
+:::
+
+## Themes
+
+Finally, if you are not a fan of the way the plots look, you can quickly modify this by using some other theme. You can define it yourself (there are lots of options you can specify for your [theme](https://ggplot2.tidyverse.org/reference/theme.html)) or can use one of the [ready-mades](https://ggplot2.tidyverse.org/reference/ggtheme.html). Explore the latter option, find the one you like the best.
+
+::: {.infobox .practice}
+Do exercise 18.
+:::
+
+## You ain't seen nothing yet
+What you explored is just a tip of the iceberg. There are many more geometric primitive, annotations, scales, themes, etc. It will take an entire separate seminar to do _ggplot2_ justice. However, the basics will get you started and you can always consult reference, books (see below), or me once you need more.
 
 ## Further reading
 If plotting data is part of your daily routine, I recommend reading [ggplot2 book](https://ggplot2-book.org/). It gives you an in-depth view of the package and goes through many possibilities that it offers. You may need all of them but I find useful to know that they exists (who knows, I might need them one day). Another book worth reading is [Data Visualization: A Practical Introduction.](https://kieranhealy.org/publications/dataviz/) by Kieran Healy.
 
+## Extending ggplot2
+There are 80 (as of 19.11.2020) extensions that you find  at [ggplot2 website](https://exts.ggplot2.tidyverse.org/gallery/). They add more ways to plot your data, more themes, animated plots, etc. If you feel that _ggplot2_ does not have the geometric primitives you need, take a look at the gallery and, most likely, you will find something that fits your bill. 
 
-## Wrap up
-There are many different plotting routines and packages for R but I would recommend to use _ggplot2_ as your main tool. However, that does not mean that it must be your only tool, after all, CRAN is brimming with packages. In particular, _ggplot2_ is built for plotting data from a single tidy table, meaning it is less optimal for plotting data in other cases. E.g., you can use it to combine information from several tidy tables in one plot but things become less automatic and consistent. Similarly, you can plot data which is stored in non-tidy tables or even in individual vectors but that makes it even more convoluted. No package can do everything and _ggplot2_ is no exception. 
+One package that is _not_ in the gallery is [patchwork](https://patchwork.data-imaginist.com/). It was created "to make it ridiculously simple to combine separate ggplots into the same graphic". It is a bold promise but authors do make good on it. It is probably the easiest way to  combine multiple plots but you can also consider [cowplot](https://github.com/wilkelab/cowplot) and [gridExtra](https://cran.r-project.org/web/packages/gridExtra/index.html) packages.
 
-
+## ggplot2 cannot do everything
+There are many different plotting routines and packages for R but I would recommend to use _ggplot2_ as your main tool. However, that does not mean that it must be your only tool, after all, CRAN is brimming with packages. In particular, _ggplot2_ is built for plotting data from a single tidy table, meaning it is less optimal for plotting data in other cases. E.g., you can use it to combine information from several tables in one plot but things become less automatic and consistent. Similarly, you can plot data which is stored in non-tidy tables or even in individual vectors but that makes it less intuitive and more convoluted. No package can do everything and _ggplot2_ is no exception.
