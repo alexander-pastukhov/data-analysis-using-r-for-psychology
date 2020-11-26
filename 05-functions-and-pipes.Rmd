@@ -1,0 +1,138 @@
+# Functions and pipes {#seminar05}
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+```
+
+In this seminar, we will start practicing modifying and aggregating the data. More importantly, you will learn about _functions_ in R, as they are the second most important concept in R and are everywhere (just like vectors). Finally, you will learn how to _pipe_ your computation through series of computations without creating a mess of temporary variables or nested calls.
+
+## Functions
+In the previous seminars, you have learned that you can store information variables — "boxes with slots" — as [vectors](#vectors) or as [tables](##tables) (bundles of vectors of equal length). To use these variables and the values you stored in them, you need functions. Which is why we will spend some time understanding them.
+
+In programming, function is an _isolated_ code with a name that receives some input, performs some action on them, and, optionally, returns a value. The concepts of functions comes from mathematics, so it might be easier to illustrate them using R implementations of mathematical functions. For example, you may remember sinus function from trigonometry. It is typically abbreviated as `sin`, it takes a numeric value of angle (in radians) and returns a corresponding value between -1 and 1: $sin(0) = 0$, $sin(\pi/2) = 1$, etc.
+
+```{r echo=FALSE, fig.align="center", message=FALSE, warning=FALSE}
+angle <- seq(0, 2*pi, length.out = 100)
+
+ggplot(data=NULL, aes(x=angle, y=sin(angle))) + 
+  geom_line() + 
+  geom_point(aes(x = c(0, pi/2), y=sin(c(0, pi/2))))
+```
+In R, you write a function using the following template
+```r
+name_of_the_function <- function(parameter1, parameter2, parameter3, ...){
+  ...some code that computes the value...
+  return(value);
+}
+```
+
+Thus, `sin` function with a single parameter `angle` would look like something this
+```r
+sin <- function(angle){
+  ...some math that actually computes the value...
+  return(value);
+}
+```
+
+Once we have the function, we can use it by _calling_ it, you simply write `sin(0)` and get the answer.
+```{r}
+sin(0)
+```
+
+As you hopefully remember, everything is a vector, so instead of using a scalar `0` (merely a vector of length of one) you can write
+```{r}
+sin(seq(0, 3.141593, length.out = 5))
+```
+
+You can think of functions parameters as local function variables those values are set before the function is called. A function can have any number of parameters, including zero^[This, probably, means that the function always does the same thing or a random thing and you cannot influence this], one, or many parameters. For example, an arctangent `atan2` function takes coordinates (`y` and `x`, in that order!) and returns a corresponding angle in radians
+```{r}
+atan2(c(0, 1), c(1, 1))
+```
+A definition of this function would look something like this
+```r
+atan2 <- function(y, x){
+  ...magic that uses values of y and x parameters...
+  ...to compute the angle_in_rad value...
+  return(angle_in_rad);
+}
+```
+
+::: {.infobox .practice}
+Do exercise 1.
+:::
+
+## Writing a function
+Let us start practicing computing things in R and writing functions at the same time. We will begin by implementing a very simple function that double a value of a given number. We will write this in steps. First, think about how you would call this function (meaningful names are your path to readable and usable code!) and how many parameters it will have. Write the definition of the function but without any code inside or a return statement at the end of it.
+
+::: {.infobox .practice}
+Do exercise 2.1
+:::
+
+Next, think about the code that does the required (doubling-the-value) computation using the parameter. Write that code in exercise 2.2 and test it by creating a variable with the same name as your parameter inside the function. E.g., if my parameter name is `the_number`, I would test it as
+```r
+the_number <- 1
+...my code to double the value...
+```
+::: {.infobox .practice}
+Do exercise 2.2
+:::
+
+By now you have your formal function definition (exercise 2.1) and the actual code that should do inside (exercise 2.2). Now we just need to combine them by putting the code inside the function and _returning_ the value. You can do this two ways: 
+
+1) you can store the results of the computation in a separate local variable and then return that variable, 
+2) return the results of the computation directly
+```
+# 1) first store in a local variable, then return it
+result <- ...some computation you perform...
+return(result);
+
+# 2) returning results of computation directly
+return(...some computation you perform...)
+```
+Pick the one you feel is more appropriate and combine the code in exercise 2.3. Below the function definition, call the function to show that it works.
+
+::: {.infobox .practice}
+Do exercise 2.3
+:::
+
+More practice is good, so write a function that would convert angle in _degrees_ to _radians_. The formula is $$rad = \frac{deg \cdot \pi}{180}$$.
+
+::: {.infobox .practice}
+Do exercise 3
+:::
+
+## Function with three parameters
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Everything is a function
+Every computation you can perform in R is implemented as a function, even when using one does not look like a function call. For example, `+` addition operation is a function. Typically, you write `2 + 3`, so no round brackets, no comma-separated list of parameters, it looks different. But this is just a special implementation of a function call (known as [function operator](http://adv-r.had.co.nz/Function-operators.html)) that makes code more readable for humans. You can actually call `+` function the way you call a normal function by using backticks around its name.
+```{r}
+2 + 3
+
+# note the `backticks` around +
+`+`(2, 3)
+```
+Even the assignments statement `<-` is, you've guessed it, a function
+```{r}
+`<-`(some_variable, 1)
+some_variable
+```
+This does not mean that you should start using operators as functions (although, if it helps to make a particular code clearer, then, why not?), merely to stress that there is one way to program any computation in R — as a function — regardless of how it may appear in the code. Later on, you will learn how to [apply](https://stat.ethz.ch/R-manual/R-devel/library/base/html/apply.html) functions to vectors or tables, so it helps to know that you can apply _any_ function, even the one that looks like an operator.
+
+## Using (or not using) explicit return statement
