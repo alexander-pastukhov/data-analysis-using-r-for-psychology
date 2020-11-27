@@ -5,20 +5,23 @@ library(glue)
 library(tidyverse)
 ```
 
-In this seminar, we will start practicing modifying and aggregating the data. More importantly, you will learn about _functions_ in R, as they are the second most important concept in R and are everywhere (just like vectors). Finally, you will learn how to _pipe_ your computation through series of computations without creating a mess of temporary variables or nested calls.
+In this seminar, we will start practicing modifying and aggregating the data. More importantly, you will learn about _functions_ in R, as they are the second most important concept in R and are everywhere (just like vectors). Finally, you will learn how to _pipe_ your computation through series of functions without creating a mess of temporary variables or nested calls.
 
 ## Functions
-In the previous seminars, you have learned that you can store information variables — "boxes with slots" — as [vectors](#vectors) or as [tables](##tables) (bundles of vectors of equal length). To use these variables and the values you stored in them, you need functions. Which is why we will spend some time understanding them.
+In the previous seminars, you have learned that you can store information in variables — "boxes with slots" — as [vectors](#vectors) or as [tables](##tables) (bundles of vectors of equal length). To use these stored values you need functions, which is why we will spend some time understanding them.
 
-In programming, function is an _isolated_ code with a name that receives some input, performs some action on them, and, optionally, returns a value. The concepts of functions comes from mathematics, so it might be easier to illustrate them using R implementations of mathematical functions. For example, you may remember sinus function from trigonometry. It is typically abbreviated as `sin`, it takes a numeric value of angle (in radians) and returns a corresponding value between -1 and 1: $sin(0) = 0$, $sin(\pi/2) = 1$, etc.
+In programming, function is an _isolated_ code with a name that receives some input, performs some action on them, and, optionally, returns a value. The concepts of functions comes from mathematics, so it might be easier to understand them using R implementation of mathematical functions. For example, you may remember sinus function from trigonometry. It is typically abbreviated as `sin`, it takes a numeric value of angle (in radians) as its input and returns a corresponding value between -1 and 1: $sin(0) = 0$, $sin(\pi/2) = 1$, etc.
 
 ```{r echo=FALSE, fig.align="center", message=FALSE, warning=FALSE}
 angle <- seq(0, 2*pi, length.out = 100)
 
 ggplot(data=NULL, aes(x=angle, y=sin(angle))) + 
   geom_line() + 
-  geom_point(aes(x = c(0, pi/2), y=sin(c(0, pi/2))))
+  geom_point(aes(x = c(0, pi/2), y=sin(c(0, pi/2)))) + 
+  scale_x_continuous(breaks = c(0, pi/2, pi, 3*pi/2, 2*pi),
+                     labels = c(0, expression(pi~"/2"), expression(pi), expression("3"~pi~"/2"), expression("2"~pi)))
 ```
+
 In R, you write a function using the following template
 ```r
 name_of_the_function <- function(parameter1, parameter2, parameter3, ...){
@@ -27,7 +30,7 @@ name_of_the_function <- function(parameter1, parameter2, parameter3, ...){
 }
 ```
 
-Thus, `sin` function with a single parameter `angle` would look like something this
+Thus, `sin` function with a single parameter `angle` would look something like this
 ```r
 sin <- function(angle){
   ...some math that actually computes the value...
@@ -63,13 +66,13 @@ Do exercise 1.
 :::
 
 ## Writing a function
-Let us start practicing computing things in R and writing functions at the same time. We will begin by implementing a very simple function that double a value of a given number. We will write this in steps. First, think about how you would call this function (meaningful names are your path to readable and usable code!) and how many parameters it will have. Write the definition of the function but without any code inside or a return statement at the end of it.
+Let us start practicing computing things in R and writing functions at the same time. We will begin by implementing a very simple function that doubles a given number. We will write this in steps. First, think about how you would name this function (meaningful names are your path to readable and usable code!) and how many parameters it will have. Write the definition of the function but without any code inside or a return statement at the end of it.
 
 ::: {.infobox .practice}
 Do exercise 2.1
 :::
 
-Next, think about the code that does the required (doubling-the-value) computation using the parameter. Write that code in exercise 2.2 and test it by creating a variable with the same name as your parameter inside the function. E.g., if my parameter name is `the_number`, I would test it as
+Next, think about the code that does _double-the-value_ computation based on the parameter. Write that code in exercise 2.2 and test it by creating a variable with the same name as your parameter inside the function. E.g., if my parameter name is `the_number`, I would test it as
 ```r
 the_number <- 1
 ...my code to double the value...
@@ -78,17 +81,17 @@ the_number <- 1
 Do exercise 2.2
 :::
 
-By now you have your formal function definition (exercise 2.1) and the actual code that should do inside (exercise 2.2). Now we just need to combine them by putting the code inside the function and _returning_ the value. You can do this two ways: 
+By now you have your formal function definition (exercise 2.1) and the actual code that should go inside (exercise 2.2). Now, we just need to combine them by putting the code inside the function and _returning_ the value. You can do this two ways: 
 
 1) you can store the results of the computation in a separate local variable and then return that variable, 
 2) return the results of the computation directly
 ```
 # 1) first store in a local variable, then return it
-result <- ...some computation you perform...
-return(result);
+  result <- ...some computation you perform...
+  return(result);
 
 # 2) returning results of computation directly
-return(...some computation you perform...)
+  return(...some computation you perform...)
 ```
 Do it _both_ ways combining the code in exercises 2.3 and 2.4. Below the function definition, call the function to test that it works.
 
@@ -96,22 +99,23 @@ Do it _both_ ways combining the code in exercises 2.3 and 2.4. Below the functio
 Do exercise 2.3 and 2.4
 :::
 
-More practice is good, so write a function that would convert angle in _degrees_ to _radians_. The formula is
-$$rad = \frac{deg \cdot \pi}{180}$$. Decide whether you want to a have a local variable or to return the computation directly.
+More practice is good, so write a function that would convert an angle in _degrees_ to _radians_. The formula is
+$$rad = \frac{deg \cdot \pi}{180}$$
+Decide whether you want to a have a local variable or to return the results of the computation directly.
 
 ::: {.infobox .practice}
 Do exercise 3
 :::
 
 ## Scopes: Global versus Local variables
-I suggested that you use a _local_ variable to store the results of double-it-up computation before returning it. But why did I call it _local_? This is because a function has it own _scope_ — environment with variables and functions — that is (mostly) independent from the scope of the global script. Unfortunately, environment scopes in R are different nd more complicated than those in other programming languages, such Python, C/C++, or Java. 
+I suggested that you use a  variable to store the results of double-it-up computation before returning it. But why did I call it _local_? This is because a function has it own _scope_ — environment with variables and functions — that is (mostly) independent from the scope of the global script. Unfortunately, environment scopes in R are different and more complicated than those in other programming languages, such Python, C/C++, or Java, so pay attention and be careful in the future. 
 
-The _global_ scope/environment is the environment for the code _outside_ of functions. All _global_ variables, the ones that you define in the code _outside_ of functions, live where. You can see what you have in the global scope any time by looking at _Environment_ tab (note the _Global Environment_ tag). 
+The _global_ scope/environment is the environment for the code _outside_ of functions. All _global_ variables, the ones that you define in the code _outside_ of functions (typing in the console, running scripts, chunks of code in notebooks, etc.), live where. You can see what you have in the global scope any time by looking at _Environment_ tab (note the _Global Environment_ tag). 
 ```{r echo=FALSE, out.width = "70%", fig.align = 'center'}
 knitr::include_graphics("images/environment-tab.png")
 ```
 
-In my case, it has one table (`mpg`, all tables go under _Data_), three vectors (`angle`, `some_variable`, and `x`, all vectors go under `Values`), and an example function from exercise #2 that I created (`double_it`, all functions for under _Functions_, makes sense). However, it has no access to parameters of the functions and variables that you define inside these function. When you run a function, it has it own scope/environment that includes _parameters_ of the function (e.g., `the_number` for my `double_it` function), any _local_ variables you create inside that function (e.g., `result <- ...some computation you perform...` creates such local variable), and a **copy** of all _global_ variables. In my opinion, that last bit was not a particularly good design decision and can be very counter-intuitive. In the code below, take a look at the comments that specify the accessibility of the variable between global script and functions (ignore [glue](https://glue.tidyverse.org/reference/glue.html) for a moment, it _glues_ variable value into the text, so I use it to make printouts easier to trace)^[These rules — a **copy** of a global scope is accessible inside a function but function scope is inaccessible from outside — should be how _you_ write your code. However, R's motto is "anything is possible", so be aware that _other people_ may not respect these rules. This should not be an issue most of the time but if you are curious how R can let you break all rules of good and responsible programming, read [Advanced R](https://adv-r.hadley.nz/) book by Hadley Wickham. However, it is really **advanced**, aimed primarily at programmers who develop R and packages, not at scientists who use them.]
+In my case, it has one table (`mpg`, all tables go under _Data_), three vectors (`angle`, `some_variable`, and `x`, all vectors go under `Values`), and an example function from exercise #2 that I created (`double_it`, all functions for under _Functions_, makes sense). However, it has no access to parameters of the functions and variables that you define inside these function. When you run a function, it has it own scope/environment that includes _parameters_ of the function (e.g., `the_number` for my `double_it` function), any _local_ variables you create inside that function (e.g., `result <- ...some computation you perform...` creates such local variable), and a **copy** of all _global_ variables. In the code below, take a look at the comments that specify the accessibility of the variable between global script and functions (ignore [glue](https://glue.tidyverse.org/reference/glue.html) for a moment, it _glues_ variable value into the text, so I use it to make printouts easier to trace)^[These rules — a **copy** of a global scope is accessible inside a function but function scope is inaccessible from outside — should be how _you_ write your code. However, R's motto is "anything is possible", so be aware that _other people_ may not respect these rules. This should not be an issue most of the time but if you are curious how R can let you break all rules of good responsible programming and do totally crazy things, read [Advanced R](https://adv-r.hadley.nz/) book by Hadley Wickham. However, it is really **advanced**, aimed primarily at programmers who develop R and packages, not at scientists who use them.]
 
 ```{r}
 # this is a GLOBAL variable
@@ -143,6 +147,7 @@ i_am_test_function(5)
 # the variable outside is unchanged because we modify its COPY, not the variable itself
 print(glue("UNCHANGED global_variable after the function call: {global_variable}"))
 ```
+
 ::: {.infobox .practice}
 Do exercise 4 to build understanding of scopes.
 :::
@@ -157,13 +162,13 @@ Do exercise 5.
 :::
 
 ## Table as a parameter
-So far, we passed only vectors (a.k.a. values) to functions but you can pass any object including tables^[And even functions themselves, not just what they computed! This is part of _functional programming_ you will learn about later.]. Let us use [mpg](https://ggplot2.tidyverse.org/reference/mpg.html) table from the _ggplot2_ package. Write a function that takes a table as a _parameter_ (so it does not assume that table exists in the global environment) and computes and returns average miles-per-gallon efficiency based on city `cty` and highway `hwy` test cycles. Do it in _two_ ways. First, compute and return a vector of values based on the table passed as parameter. Second, do the same computation but add the result _to the table_ as `mpg` column and return the entire table.
+So far, we passed only vectors (a.k.a. values) to functions but you can pass any object including tables^[And even functions themselves, not just what they computed! This is part of _functional programming_ you will learn about later.]. Let us use [mpg](https://ggplot2.tidyverse.org/reference/mpg.html) table from the _ggplot2_ package. Write a function that takes a table as a _parameter_ (so it does not assume that table exists in the global environment and do not use `mpg` as a parameter name, call it something else) and computes and returns average miles-per-gallon efficiency based on city `cty` and highway `hwy` test cycles. Do it in _two_ ways. First, compute and return a vector of values based on the table passed as parameter. Second, do the same computation but add the result _to the table function receive as a parameter_ as `avg_mpg` column and return the entire table.
 
 ::: {.infobox .practice}
 Do exercise 6.
 :::
 
-Let us write another function that will compute [mean](https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html) efficiency for a particular cycle, either city or highway. For this, the function will take _two_ parameters: the table itself and a string with the name of the column. You can then use it to access the column via [double square brackets](#get-single-column). To summarize, you function takes a table and a string with a column name and returns a single number (mean for the specified column). E.g.
+Let us write another function that will compute [mean](https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html) efficiency for a particular cycle, either city or highway. For this, the function will take _two_ parameters: 1) the table itself and 2) a string with the name of the column. You can then use it to access the column via [double square brackets](#get-single-column) notation. To summarize, your function takes 1) a table and 2) a string with a column name and returns a single number (mean for the specified column). E.g.
 ```r
 average_efficiency(mpg, "cty") # should return 16.85897
 ```
@@ -182,7 +187,7 @@ Alternatively, you can use the value returned by `deg2rad()` directly as a param
 ```r
 sin(deg2rad(90)) # returns 1
 ```
-In this case, the computation goes _inside-out_: The innermost function gets computed first, the function that uses its return value, etc. Kind of like assembling a Russian doll: you start with an innermost, put it inside a slightly bigger one, now take that one put it inside the next, etc. Nesting means that you do not need to pollute you memory with temporary variables^[The worst case scenario, you use same `temp` variable for things like that, forget to initialize it properly at some point, spend half-a-day trying to understand why your code works but results don't make sense.] and make you code more expressive as nesting explicitly informs the reader that intermediate results are of no value by themselves and are not saved for later use.
+In this case, the computation proceeds in an _inside-out_ order: The innermost function gets computed first, the function that uses its return value is next, etc. Kind of like assembling a Russian doll: you start with an innermost, put it inside a slightly bigger one, now take that one put it inside the next, etc. Nesting means that you do not need to pollute you memory with temporary variables^[The worst case scenario, you use same `temp` variable for things like that, forget to initialize it properly at some point, spend half-a-day trying to understand why your code works but results don't make sense.] and make you code more expressive as nesting explicitly informs the reader that intermediate results are of no value by themselves and are not saved for later use.
 
 ::: {.infobox .practice}
 Do exercise 8.
@@ -203,13 +208,13 @@ deg2rad(90) %>% sin() # also return 1
 Do exercise 9.
 :::
 
-All functions in the examples you worked with had only one parameter, thus `single-output %>% single-input` piping is very straightforward. But what if one of the function takes more than one parameter? By default, `%>%` puts  the piped value into the _first_ parameter. Thus `4 %>% radius(3)` is equivalent to `radius(4, 3)`. Although this default is very useful (the entire tidyverse is build around this idea of piping a value into the _first_ parameter), sometimes you need that value as some other parameter (e.g., when you are pre-processing the data before piping it into a statistical test, the latter typically take `formula` as the first parameter and `data` as second). For this, you can use a special dot variable: `.`, which is a hidden temporary variable that holds the value you are handing over via a pipe. Thus,
+All functions in the examples you worked with had only one parameter and `single-output %>% single-input` piping is very straightforward. But what if one of the function takes more than one parameter? By default, `%>%` puts  the piped value into the _first_ parameter. Thus `4 %>% radius(3)` is equivalent to `radius(4, 3)`. Although this default is very useful (the entire Tidyverse is build around this idea of piping a value into the _first_ parameter), sometimes you need that value as some other parameter (e.g., when you are pre-processing the data before piping it into a statistical test, the latter typically takes `formula` as the first parameter and `data` as second). For this, you can use a special dot variable: `.`, which is a hidden temporary variable that holds the value you are handing over via a pipe^[Yes, it is the same variable that you use over-and-over again but magritt package makes sure to clean it up after each call, so you are not in danger of incidentally using a value from a previous call.]. Thus,
 ```r
 z <- 4
 w <- 3
 z %>% radius(w) # is equivalent to radius(z, w)
 
-# note the dot!
+# Note the dot!
 z %>% radius(w, .) # is equivalent to radius(w, z)
 ```
 
@@ -240,3 +245,24 @@ some_variable
 This does not mean that you should start using operators as functions (although, if it helps to make a particular code clearer, then, why not?), merely to stress that there is one way to program any computation in R — as a function — regardless of how it may appear in the code. Later on, you will learn how to [apply](https://stat.ethz.ch/R-manual/R-devel/library/base/html/apply.html) functions to vectors or tables, so it helps to know that you can apply _any_ function, even the one that looks like an operator.
 
 ## Using (or not using) explicit return statement
+In the code above I have always used the return statement. However, explicit `return(some_value)` can be omitted if it is the _last_ line, so you just write:
+```{r}
+some_fun <- function(){
+  x <- 1
+  return(x)
+}
+
+some_other_fun <- function(){
+  x <- 2
+  x
+}
+
+yet_another_fun <- function(){
+  3
+}
+
+some_fun()
+some_other_fun()
+yet_another_fun()
+```
+The lack of return statement in the final line is actually an [officially recommended style](https://style.tidyverse.org/functions.html) but I am vary of this approach because "explicit is better than implicit". This omission may be reasonable if it comes at the very end of a long pipe but, in general, I would recommend using return.
