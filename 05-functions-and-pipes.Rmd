@@ -199,6 +199,30 @@ deg2rad(90) %>% sin() # also return 1
 90 %>% deg2rad() %>% sin() # also returns 1
 ```
 
+::: {.infobox .practice}
+Do exercise 9.
+:::
+
+All functions in the examples you worked with had only one parameter, thus `single-output %>% single-input` piping is very straightforward. But what if one of the function takes more than one parameter? By default, `%>%` puts  the piped value into the _first_ parameter. Thus `4 %>% radius(3)` is equivalent to `radius(4, 3)`. Although this default is very useful (the entire tidyverse is build around this idea of piping a value into the _first_ parameter), sometimes you need that value as some other parameter (e.g., when you are pre-processing the data before piping it into a statistical test, the latter typically take `formula` as the first parameter and `data` as second). For this, you can use a special dot variable: `.`, which is a hidden temporary variable that holds the value you are handing over via a pipe. Thus,
+```r
+z <- 4
+w <- 3
+z %>% radius(w) # is equivalent to radius(z, w)
+
+# note the dot!
+z %>% radius(w, .) # is equivalent to radius(w, z)
+```
+
+Note that because `.` is a variable, you can use it several times just as you can use any variable
+```r
+4 %>% radius(., .) # is equivalent to radius(4, 4)
+```
+
+::: {.infobox .practice}
+Do exercise 10.
+:::
+
+
 
 ## Everything is a function
 Every computation you can perform in R is implemented as a function, even when using one does not look like a function call. For example, `+` addition operation is a function. Typically, you write `2 + 3`, so no round brackets, no comma-separated list of parameters, it looks different. But this is just a special implementation of a function call (known as [function operator](http://adv-r.had.co.nz/Function-operators.html)) that makes code more readable for humans. You can actually call `+` function the way you call a normal function by using backticks around its name.
