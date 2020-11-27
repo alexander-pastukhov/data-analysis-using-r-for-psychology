@@ -38,7 +38,15 @@ Write the code that implements the "double-the-value" computation and test it by
 ```
 
 Combined code from 02-1 and 02-2, make sure you `return` the result  of computation. Test it by calling the function in the same chunk (you can do this only _after_ the function was defined!).
+
+Store results in a local variable and return its value.
 ```{r exercise 02-3}
+
+```
+
+
+Return computation directly (no extra variable).
+```{r exercise 02-4}
 
 ```
 
@@ -48,4 +56,99 @@ Write a function that would convert angle in _degrees_ to _radians_. The formula
 
 ```
 
+## Exercise 04
+Study the code and decide on what will be printed. Hint, it might help to write comments next to each line that uses a variable to state whether it is a global variable, parameter (can have the same name as a global variable, "overwriting" it), or a local variable (can have the same name as a global variable or a parameter, "overwriting" them). Once you wrote down the answer, run the code to check it.
+
+**Answer #1:**
+```{r exercise 04-1}
+x <- 1
+my_function <- function(){
+  x <- x + 1
+}
+print(x)
+```
+**Answer #2:**
+```{r exercise 04-2}
+x <- 1
+my_function <- function(){
+  x <- x + 1
+}
+my_function()
+print(x)
+```
+
+**Answer #3:**
+```{r exercise 04-3}
+x <- 1
+my_function <- function(){
+  x <- x + 1
+  return(x)
+}
+x <- my_function()
+print(x)
+```
+**Answer #4:**
+```{r exercise 04-4}
+x <- 1
+my_function <- function(x){
+  y <- x + 1
+  return(y)
+}
+x <- my_function(5)
+print(x)
+```
+
+**Answer #5:**
+```{r exercise 04-5}
+x <- 1
+my_function <- function(x){
+  x <- 2
+  return(x)
+}
+x <- my_function(5)
+print(x)
+```
+
+**Answer #6:**
+```{r exercise 04-6}
+x <- 1
+my_function <- function(x){
+  y <- x + 1
+  return(x)
+}
+x <- my_function(5)
+print(x)
+```
+**Answer #7:**
+```{r exercise 04-7}
+x <- 1
+my_function <- function(x){
+  y <- x + 1
+  return(x  + y)
+}
+x <- my_function(x) + x
+print(x)
+```
+## Exercise 05
+Write a function that takes _three_ parameters rather than one, add the first two, subtracts the third one, and returns the results of the computation.
+```{r exercise 05}
+
+```
+
+
+## Exercise 06
+use [mpg](https://ggplot2.tidyverse.org/reference/mpg.html) table from the _ggplot2_ package. Write a function that takes a table as a _parameter_ (so it does not assume that table exists in the global environment) and computes and returns average miles-per-gallon efficiency based on city `cty` and highway `hwy` test cycles. 
+
+Compute and return a vector of values based on the table passed as parameter. 
+```{r exercise 06-1}
+```
+
+Do the same computation but add the result _to the table_ as `mpg` column and return the entire table.
+```{r exercise 06-2}
+```
+
+## Exercise 07
+Write function that computes [mean](https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html) efficiency for a particular cycle, either city or highway. For this, the function will take _two_ parameters: the table itself and a string with the name of the column. You can then use it to access the column via [double square brackets](#get-single-column). In short, you function takes a table and a string with a column name and returns a single number (mean for the specified column).
+```{r exercise 07}
+```
 

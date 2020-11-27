@@ -1,6 +1,7 @@
 # Functions and pipes {#seminar05}
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
+library(glue)
 library(tidyverse)
 ```
 
@@ -89,35 +90,114 @@ return(result);
 # 2) returning results of computation directly
 return(...some computation you perform...)
 ```
-Pick the one you feel is more appropriate and combine the code in exercise 2.3. Below the function definition, call the function to show that it works.
+Do it _both_ ways combining the code in exercises 2.3 and 2.4. Below the function definition, call the function to test that it works.
 
 ::: {.infobox .practice}
-Do exercise 2.3
+Do exercise 2.3 and 2.4
 :::
 
-More practice is good, so write a function that would convert angle in _degrees_ to _radians_. The formula is $$rad = \frac{deg \cdot \pi}{180}$$.
+More practice is good, so write a function that would convert angle in _degrees_ to _radians_. The formula is
+$$rad = \frac{deg \cdot \pi}{180}$$. Decide whether you want to a have a local variable or to return the computation directly.
 
 ::: {.infobox .practice}
 Do exercise 3
 :::
 
-## Function with three parameters
+## Scopes: Global versus Local variables
+I suggested that you use a _local_ variable to store the results of double-it-up computation before returning it. But why did I call it _local_? This is because a function has it own _scope_ — environment with variables and functions — that is (mostly) independent from the scope of the global script. Unfortunately, environment scopes in R are different nd more complicated than those in other programming languages, such Python, C/C++, or Java. 
 
+The _global_ scope/environment is the environment for the code _outside_ of functions. All _global_ variables, the ones that you define in the code _outside_ of functions, live where. You can see what you have in the global scope any time by looking at _Environment_ tab (note the _Global Environment_ tag). 
+```{r echo=FALSE, out.width = "70%", fig.align = 'center'}
+knitr::include_graphics("images/environment-tab.png")
+```
 
+In my case, it has one table (`mpg`, all tables go under _Data_), three vectors (`angle`, `some_variable`, and `x`, all vectors go under `Values`), and an example function from exercise #2 that I created (`double_it`, all functions for under _Functions_, makes sense). However, it has no access to parameters of the functions and variables that you define inside these function. When you run a function, it has it own scope/environment that includes _parameters_ of the function (e.g., `the_number` for my `double_it` function), any _local_ variables you create inside that function (e.g., `result <- ...some computation you perform...` creates such local variable), and a **copy** of all _global_ variables. In my opinion, that last bit was not a particularly good design decision and can be very counter-intuitive. In the code below, take a look at the comments that specify the accessibility of the variable between global script and functions (ignore [glue](https://glue.tidyverse.org/reference/glue.html) for a moment, it _glues_ variable value into the text, so I use it to make printouts easier to trace)^[These rules — a **copy** of a global scope is accessible inside a function but function scope is inaccessible from outside — should be how _you_ write your code. However, R's motto is "anything is possible", so be aware that _other people_ may not respect these rules. This should not be an issue most of the time but if you are curious how R can let you break all rules of good and responsible programming, read [Advanced R](https://adv-r.hadley.nz/) book by Hadley Wickham. However, it is really **advanced**, aimed primarily at programmers who develop R and packages, not at scientists who use them.]
 
+```{r}
+# this is a GLOBAL variable
+global_variable <- 1
 
+i_am_test_function <- function(parameter){
+  # parameter live is a local function scope
+  # its values are set when you call a function
+  print(glue("  parameter inside the function: {parameter}"))
+  
+  # local variable created inside the function
+  # it is invisible from outside
+  local_variable <- 2
+  print(glue("  local_variable inside the function: {local_variable}"))
+  
+  # here, a_global_variable is a LOCAL COPY of the the global variable
+  # of the same name. You can use this COPY
+  print(glue("  COPY of global_variable inside the function: {global_variable}"))
+  
+  # you can modify the LOCAL COPY but that won't affect the original!
+  global_variable <- 3
+  print(glue("  CHANGED COPY of global_variable inside the function: {global_variable}"))
+}
 
+print(glue("global_variable before the function call: {global_variable}"))
 
+i_am_test_function(5)
 
+# the variable outside is unchanged because we modify its COPY, not the variable itself
+print(glue("UNCHANGED global_variable after the function call: {global_variable}"))
+```
+::: {.infobox .practice}
+Do exercise 4 to build understanding of scopes.
+:::
 
+## Function with two parameters
+Let us write a function that takes _two_ parameters — `x` and `y` — and computes a _radius_ (distance from `(0,0)` to `(x, y)`)^[This function is complementary to `atan2()`, as two of them allow transformation of coordinates from cartesian to polar coordinate system]. The formula is 
+$$R = \sqrt{x^2 + y^2}$$
+This is very similar to exercises 2 and 3, with number of parameters being the only difference.
 
+::: {.infobox .practice}
+Do exercise 5.
+:::
 
+## Table as a parameter
+So far, we passed only vectors (a.k.a. values) to functions but you can pass any object including tables^[And even functions themselves, not just what they computed! This is part of _functional programming_ you will learn about later.]. Let us use [mpg](https://ggplot2.tidyverse.org/reference/mpg.html) table from the _ggplot2_ package. Write a function that takes a table as a _parameter_ (so it does not assume that table exists in the global environment) and computes and returns average miles-per-gallon efficiency based on city `cty` and highway `hwy` test cycles. Do it in _two_ ways. First, compute and return a vector of values based on the table passed as parameter. Second, do the same computation but add the result _to the table_ as `mpg` column and return the entire table.
 
+::: {.infobox .practice}
+Do exercise 6.
+:::
 
+Let us write another function that will compute [mean](https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html) efficiency for a particular cycle, either city or highway. For this, the function will take _two_ parameters: the table itself and a string with the name of the column. You can then use it to access the column via [double square brackets](#get-single-column). To summarize, you function takes a table and a string with a column name and returns a single number (mean for the specified column). E.g.
+```r
+average_efficiency(mpg, "cty") # should return 16.85897
+```
+::: {.infobox .practice}
+Do exercise 7.
+:::
 
+## Nested calls
+What if you need to call several functions in a single chain to compute the result? Think about the function from exercise #3 that converts degree to radians. The most likely use scenario for it is when you convert degrees to radians and use that to compute sinus (or some other trigonometric function). There are different ways you can do this. For example, you can store the angle in radians in some temporary variable (e.g., `angle_in_radians`) and then pass it to sinus function
+```r
+angle_in_radians <- deg2rad(90) # angle_in_radians gets is set to 1.570796
+sin(angle_in_radians) # returns 1
+```
 
+Alternatively, you can use the value returned by `deg2rad()` directly as a parameter for function `sin()`
+```r
+sin(deg2rad(90)) # returns 1
+```
+In this case, the computation goes _inside-out_: The innermost function gets computed first, the function that uses its return value, etc. Kind of like assembling a Russian doll: you start with an innermost, put it inside a slightly bigger one, now take that one put it inside the next, etc. Nesting means that you do not need to pollute you memory with temporary variables^[The worst case scenario, you use same `temp` variable for things like that, forget to initialize it properly at some point, spend half-a-day trying to understand why your code works but results don't make sense.] and make you code more expressive as nesting explicitly informs the reader that intermediate results are of no value by themselves and are not saved for later use.
 
+::: {.infobox .practice}
+Do exercise 8.
+:::
 
+## Piping
+Although nesting is better than having tons of intermediate variables, lots of nesting can be mightily confusing. Tidyverse has an alternative way to chain or, in Tidyverse-speak, [pipe](https://magrittr.tidyverse.org/reference/pipe.html) a computation through series of function calls. The magic operator is `%>%` (that's the pipe) and here is how it transforms our nested call
+
+```r
+sin(deg2rad(90)) # returns 1
+
+deg2rad(90) %>% sin() # also return 1
+
+90 %>% deg2rad() %>% sin() # also returns 1
+```
 
 
 ## Everything is a function
