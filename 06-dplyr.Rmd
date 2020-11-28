@@ -47,5 +47,25 @@ mpg %>%
 ## dplyr {#dplyr}
 All functions discussed below are part of [dplyr](https://dplyr.tidyverse.org/)^[The name should invoke an image of data pliers. According to Hadley Wickham, you can pronounce it any way you like.] "grammar of data manipulation" package.
 
+## select(): selecting columns {#select}
+[Select](https://dplyr.tidyverse.org/reference/select.html) verb allows you to select/pick columns in a table using their names. This is very similar to using columns names for indexing tables you have learned in [seminar 3](#table-indexing). 
+
+First, let us make a shorter version of `mpg` table by using only the first five rows. Note, you can also pick first N rows via [head()](https://stat.ethz.ch/R-manual/R-devel/library/utils/html/head.html) function.
+```{r}
+short_mpg <- mpg[1:5, ]
+
+# same "first five rows" but via head()
+short_mpg <- head(mpg, 5)
+
+knitr::kable(short_mpg)
+```
+
+Here is how you can select only `model` and `cty` columns via square brackets notation 
+```{r}
+short_mpg[, c("model", "cty")] %>%
+  knitr::kable()
+```
+
+
 ## mutate {#mutate}
 
