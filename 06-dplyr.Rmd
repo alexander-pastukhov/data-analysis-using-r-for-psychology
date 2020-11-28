@@ -213,7 +213,90 @@ In the second seminar, you learned about vector indexing when access _some_ elem
 x <- 1:5
 x[c(TRUE, TRUE, FALSE, TRUE, FALSE)]
 ```
+This is particularly useful, if you are interested in elements that satisfy certain condition. For example, you want all _negative_ values and you can use condition `x<5` that will produce a vector of logical values that, in turn, can be used as index
+```{r}
+x <- c(-2, 5, 3, -5, -1)
+x[x<0]
+```
+You can have conditions of any complexity by combining them via _and_ `&` and _or_ `|` operators. For example, if you want number below -1 or above 3 (be careful to have space between `<` and `-`, otherwise it will be interpreted as assignment `<-`).
+```{r}
+x <- c(-2, 5, 3, -5, -1)
+x[(x< -1) | (x>3)]
+```
+::: {.infobox .practice}
+Do exercise 4.
+:::
 
+Sometimes you may want to know the actual index of elements for _which_ some condition is `TRUE`. Function [which()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/which.html) does exactly that.
+```{r}
+x <- c(-2, 5, 3, -5, -1)
+which( (x< -1) | (x>3) )
+```
 
-## mutate {#mutate}
+## `filter()` rows by values
+Now that you understand conditions and logical indexing, using [filter()](https://dplyr.tidyverse.org/reference/filter.html) is very straightforward: You simple put condition that describes rows that you want to _retain_ inside the `filter()` call. For example, we can look at efficiency only for two-seater cars.
+```r
+mpg %>%
+  filter(class == "2seater")
+```
+```{r echo=FALSE}
+mpg %>%
+  filter(class == "2seater") %>%
+  knitr::kable()
+```
 
+You can use information from any row, so we can look for midsize cars with four-wheel drive.
+```r
+mpg %>%
+  filter(class == "midsize" & drv == "4")
+```
+```{r echo=FALSE}
+mpg %>%
+  filter(class == "midsize" & drv == "4") %>%
+  knitr::kable()  
+```
+
+::: {.infobox .practice}
+Do exercise 5.
+:::
+
+Note that you can emulate `filter()` in a very straightforward way using single-brackets base R, the main difference is that you need to prefix every column with the table name, so `mpg$class` instead of just `class`.
+```r
+mpg[mpg$class == "midsize" & mpg$drv == "4", ]
+```
+```{r echo=FALSE}
+mpg[mpg$class == "midsize" & mpg$drv == "4", ] %>%
+  knitr::kable()  
+```
+So why use `filter()` then? In isolation, as a single line computation, both options are equally compact and clear (apart from all the extra `table$` in base R). But pipe-oriented nature of the `filter()` makes it more suitable for chains of computations, which is the main advantage of Tidyverse.
+
+## `arrange()` rows in a particular order
+Sometimes you might need to sort your table so that rows go in a particular order^[In my experience, this mostly happens when you need to print out or view a table.]. In Tidyverse, you [arrange](https://dplyr.tidyverse.org/reference/arrange.html) rows based on values of specific variables. This verb is very straightforward, you simply list all variables that must be used for sorting in the order the sorting must be carried out. I.e., first the table is sorted based on the value of the first variable. Then, for equal values of that variable, rows are sorted based on the second variable, etc. By default, rows are arranged in ascending order but you can reverse it by putting a variable inside of [desc()](https://dplyr.tidyverse.org/reference/desc.html) function. Here is the `short_mpg` table arranged by city cycle highway efficiency (ascending order) and engine displacement (descending order, note the order of the last two rows).
+```r
+short_mpg %>%
+  arrange(cty, desc(displ)) 
+```
+```{r}
+short_mpg %>%
+  arrange(cty, desc(displ)) %>%
+  knitr::kable()
+```
+
+::: {.infobox .practice}
+Do exercise 6.
+:::
+
+You can arrange a table using base R via [order()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/order.html) function that gives index of ordered elements and can be used inside of single bracket notation.
+```r
+short_mpg[order(short_mpg$cty, -short_mpg$displ), ]
+```
+```{r}
+short_mpg[order(short_mpg$cty, -short_mpg$displ), ] %>%
+  knitr::kable()
+```
+::: {.infobox .practice}
+Do exercise 7.
+:::
+
+## `mutate()` columns {#mutate}
+In Tidyverse, [mutate](https://dplyr.tidyverse.org/reference/mutate.html) function allows you to both add new columns/variables to a table and change the existing ones. It works
