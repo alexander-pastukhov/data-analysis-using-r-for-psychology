@@ -201,14 +201,18 @@ print((x < 10) & (y >= 1))
 Do exercise 4.
 :::
 
-All examples above used scalars but you remember that _everything is a vector_, including values that we used (they are just vectors of length one). Accordingly, same logic works for vectors of arbitrary length with comparisons working element-wise.
+All examples above used scalars but you remember that _everything is a vector_, including values that we used (they are just vectors of length one). Accordingly, same logic works for vectors of arbitrary length with comparisons working element-wise, so you get a vector of the same length with `TRUE` or `FALSE` values for each comparison.
 
 ::: {.infobox .practice}
 Do exercise 4.
 :::
 
 ## Logical indexing {#logical-indexing}
-When
+In the second seminar, you learned about vector indexing when access _some_ elements of a vector by specifying index of elements you are interested in. There is an alternative way, called _logical indexing_, when instead you supply an equal length vector of _logical values_ and you get elements of the original vector whenever the logical value is `TRUE`
+```{r}
+x <- 1:5
+x[c(TRUE, TRUE, FALSE, TRUE, FALSE)]
+```
 
 
 ## mutate {#mutate}
