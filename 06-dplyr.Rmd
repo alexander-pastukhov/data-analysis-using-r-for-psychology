@@ -161,11 +161,54 @@ Do exercise 1.
 
 Simple names and their negation will be sufficient for most of your projects. However, I would recommend taking a look at the [official manual](https://dplyr.tidyverse.org/reference/select.html) just to see that `select` offers a lot of flexibility (selecting by column type, by partial name matching, etc), something that might be useful for you in your later work.
 
-## `filter()` rows by values {#filter}
-[filter()](https://dplyr.tidyverse.org/reference/filter.html) function is complementary to `select()`: the latter slices your table vertically, `filter()` slices it horizontally. The idea is fairly straightforward: You specify condition(s) and you get only the rows that satisfy them. To use filtering properly, you need to understand conditions with logical operators and logical indexing.
+### Conditions {#conditions}
+Before we can work with the next verb, you need to understand conditions. Conditions are statements about certain values that are either `TRUE` or `FALSE`. In the simplest case, you can check whether two values (one in a variable and one hard-coded) are equal via `==` operator
+```{r}
+x <- 5
+print(x == 5)
+print(x == 3)
+```
+For numeric values, you can use all usual comparison operators including _not equal_ `!=`, _less than_ `<`, _greater than_ `>`, _less than or equal to_ `<=` (note the order of symbols!), and _greater than or equal to_ `>=` (again, note the order of symbols).
 
-### Conditions
-In R you create a set of statements about value and they will be evaluated to see whether 
+::: {.infobox .practice}
+Do exercise 2.
+:::
+
+You can negate a statement via _not_ `!` symbol as `!TRUE` is `FALSE` and vice versa. However, note that round brackets in the examples below! They are critical to express the _order_ of computation. Anything _inside_ the brackets is evaluated first. And if you have brackets inside the brackets, similar to nested functions, it is the innermost expression that get evaluated first. In the example below, `x==5` is evaluated first and logical inversion happens only after it. In this particular example, you may not need them but I would suggest using them to ensure clarity.
+```{r}
+x <- 5
+print(!(x == 5))
+print(!(x == 3))
+
+
+```
+::: {.infobox .practice}
+Do exercise 3.
+:::
+
+You can also combine several conditions using _and_ `&` and _or_ `|` operators. Again, note round brackets that explicitly define what is evaluated first.
+```{r}
+x <- 5
+y <- 2
+
+# x is not equal to 5 OR y is equal to 1
+print((x != 5) | (y == 1))
+
+# x less than 10 AND y is greater than or equal to 1
+print((x < 10) & (y >= 1))
+```
+::: {.infobox .practice}
+Do exercise 4.
+:::
+
+All examples above used scalars but you remember that _everything is a vector_, including values that we used (they are just vectors of length one). Accordingly, same logic works for vectors of arbitrary length with comparisons working element-wise.
+
+::: {.infobox .practice}
+Do exercise 4.
+:::
+
+## Logical indexing {#logical-indexing}
+When
 
 
 ## mutate {#mutate}
