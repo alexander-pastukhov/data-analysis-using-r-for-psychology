@@ -47,24 +47,125 @@ mpg %>%
 ## dplyr {#dplyr}
 All functions discussed below are part of [dplyr](https://dplyr.tidyverse.org/)^[The name should invoke an image of data pliers. According to Hadley Wickham, you can pronounce it any way you like.] "grammar of data manipulation" package.
 
-## select(): selecting columns {#select}
+## `select()` columns by name {#select}
 [Select](https://dplyr.tidyverse.org/reference/select.html) verb allows you to select/pick columns in a table using their names. This is very similar to using columns names for indexing tables you have learned in [seminar 3](#table-indexing). 
 
-First, let us make a shorter version of `mpg` table by using only the first five rows. Note, you can also pick first N rows via [head()](https://stat.ethz.ch/R-manual/R-devel/library/utils/html/head.html) function.
+First, let us make a shorter version of `mpg` table by keeping only the first five rows. Note that you can also pick first N rows via [head()](https://stat.ethz.ch/R-manual/R-devel/library/utils/html/head.html) function.
 ```{r}
 short_mpg <- mpg[1:5, ]
 
-# same "first five rows" but via head()
+# same "first five rows" but via head() function
 short_mpg <- head(mpg, 5)
 
 knitr::kable(short_mpg)
 ```
 
 Here is how you can select only `model` and `cty` columns via square brackets notation 
-```{r}
+```r
+short_mpg[, c("model", "cty")] 
+```
+```{r echo=FALSE}
 short_mpg[, c("model", "cty")] %>%
   knitr::kable()
 ```
+And here how it is done via `select()`, note the lack of quotes around the names! 
+```r
+short_mpg %>%
+  select(model, cty)
+```
+```{r echo=FALSE}
+short_mpg %>%
+  select(model, cty) %>%
+  knitr::kable()
+```
+
+The idea of Tidyverse functions is to adopt to you, so you _can_ use quotes or pass a vector of strings with column names. All calls below produce the same effect, so pick the style you prefer (mine, is in the code _above_) and stick to it^[In general, bad but consistent styling is better than an inconsistent mix of good styles.].
+```r
+short_mpg %>%
+  select(c("model", "cty"))
+  
+short_mpg %>%
+  select("model", "cty")
+  
+short_mpg %>%
+  select(c(model, cty))
+```
+
+As you surely remember, you can use negation to select _other_ indexes within a vector (`c(4, 5, 6)[-2]` gives you `[4, 6]`). For single bracket notation this mechanism does not work with column _names_ (only with their indexes). However, `select` has you covered, so we can select everything _but_ `cty` and `model`
+```r
+short_mpg %>%
+  select(-cty, -model)
+```
+```{r echo=FALSE}
+short_mpg %>%
+  select(-cty, -model) %>%
+  knitr::kable()
+```
+In the current version of `dplyr`, you can do the same negation via `!` (a `logical not` operator, you will meet later), moreover, it is now a recommended way of writing the selection^[At least, `-` is not mentioned anymore, even though it still works.]. The `-` and `!` are not synonyms and the difference is subtle but important, see below.
+```r
+# will produce the same result as above
+short_mpg %>%
+  select(!cty, !model)
+```
+
+As with the direct selection above, you can use negation with names as strings, you can negate a vector of names, etc. Again, it is mostly a matter of taste with consistency being more important than a specific choice you make.
+```r
+# will produce the same result as above
+short_mpg %>%
+  select(!c("cty", "model"))
+
+short_mpg %>%
+  select(!"cty", !"model"))
+  
+short_mpg %>%
+  select(!c(cty, model))
+```
+
+Unlike vector indexing that forbids mixing positive and negative indexing, `select` does allow for it. However, **do not use it**^[Unless you know what you are doing and that is the simplest and clearest way to achieve this.] because results can be fairly counter-intuitive and, on top of that, `-` and `!` work somewhat differently. Note the difference between `!` and `-`: In the former case only the `!model` part appears to have the effect, whereas in case of `-` only `cty` works.
+```r
+short_mpg %>%
+  select(cty, !model)
+```
+```{r echo=FALSE}
+short_mpg %>%
+  select(cty, !model) %>%
+  knitr::kable()
+```
+
+```r
+short_mpg %>%
+  select(cty, -model)
+```
+```{r echo=FALSE}
+short_mpg %>%
+  select(cty, -model) %>%
+  knitr::kable()
+```
+
+To make things even, worse ` select(-model, cty)` work the same way as  `select(cty, !model)` (sigh...)
+```r
+short_mpg %>%
+  select(-model, cty)
+```
+```{r echo=FALSE}
+short_mpg %>%
+  select(-model, cty) %>%
+  knitr::kable()
+```
+
+So, bottom line, do not mix positive and negative indexing in `select`! I am showing you this only to signal the potential danger.
+
+::: {.infobox .practice}
+Do exercise 1.
+:::
+
+Simple names and their negation will be sufficient for most of your projects. However, I would recommend taking a look at the [official manual](https://dplyr.tidyverse.org/reference/select.html) just to see that `select` offers a lot of flexibility (selecting by column type, by partial name matching, etc), something that might be useful for you in your later work.
+
+## `filter()` rows by values {#filter}
+[filter()](https://dplyr.tidyverse.org/reference/filter.html) function is complementary to `select()`: the latter slices your table vertically, `filter()` slices it horizontally. The idea is fairly straightforward: You specify condition(s) and you get only the rows that satisfy them. To use filtering properly, you need to understand conditions with logical operators and logical indexing.
+
+### Conditions
+In R you create a set of statements about value and they will be evaluated to see whether 
 
 
 ## mutate {#mutate}
