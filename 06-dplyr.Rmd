@@ -161,7 +161,7 @@ Do exercise 1.
 
 Simple names and their negation will be sufficient for most of your projects. However, I would recommend taking a look at the [official manual](https://dplyr.tidyverse.org/reference/select.html) just to see that `select` offers a lot of flexibility (selecting by column type, by partial name matching, etc), something that might be useful for you in your later work.
 
-### Conditions {#conditions}
+## Conditions {#conditions}
 Before we can work with the next verb, you need to understand conditions. Conditions are statements about certain values that are either `TRUE` or `FALSE`. In the simplest case, you can check whether two values (one in a variable and one hard-coded) are equal via `==` operator
 ```{r}
 x <- 5
@@ -299,4 +299,93 @@ Do exercise 7.
 :::
 
 ## `mutate()` columns {#mutate}
-In Tidyverse, [mutate](https://dplyr.tidyverse.org/reference/mutate.html) function allows you to both add new columns/variables to a table and change the existing ones. It works
+In Tidyverse, [mutate](https://dplyr.tidyverse.org/reference/mutate.html) function allows you to both add new columns/variables to a table and change the existing ones. In essence, it is equivalent to a simple column assignment statement in base R.
+```{r}
+# base R
+short_mpg$avg_mpg <- (short_mpg$cty + short_mpg$hwy) / 2
+
+# Tidyverse equivalent
+short_mpg <- 
+  short_mpg %>%
+  mutate(avg_mpg = (short_mpg$cty + short_mpg$hwy) / 2)
+```
+
+Note two critical differences. First, `mutate()` takes a table as an input and returns a table as an output. This is why you start with a table, pipe it to mutate, and assign the results _back_ to the original variable. If you have more verbs/lines, it is the output of the last computation that is assigned to the variable on the left-hand side of assignment^[R does have `->` statement, so, technically, you can pipe your computation and then assign it to a variable `table %>% mutate() -> table`. However, this style is generally discouraged as starting with `table <- table %>%` makes it clear that you modify and store the computation, whereas `table %>%` signals that you pipe the results to an output: console, table, plot, etc.]. Look at the listing below that indexes each line by when it is executed.
+```r
+some_table <-    # 3. We assign the result to the original table, only once all the code below has been executed.
+  some_table %>% # 1. We start here, with the original table and pipe to the next computation
+  mutate(...)    # 2. We add/change columns inside of the table. The output is a table which we use for assignment all the way at the top.
+```
+Second, you are performing a computation _inside_ the call of the `mutate()` function, so `avg_mpg = (short_mpg$cty + short_mpg$hwy) / 2` is a _parameter_ that you pass to it (yes, it does not look like one). This is why you use `=` rather than a normal assignment arrow `<-`. Unfortunately, you _can_ use `<-` inside the `mutate` and the computation will work as intended but, for internal-processing reasons, the _entire statement_, rather than just the left-hand side, will be used as a column name. Thus, use `<-` _outside_ and `=` _inside_ of Tydiverse verbs.
+```{r}
+short_mpg %>%
+  mutate(avg_mpg = (short_mpg$cty + short_mpg$hwy) / 2,      # column name will be avp_mpg
+         avg_mpg <- (short_mpg$cty + short_mpg$hwy) / 2) %>% # column name will be `avg_mpg <- (short_mpg$cty + short_mpg$hwy) / 2`
+  knitr::kable()
+```
+As shown in the example above, you can perform several computations within a single `mutate` call and they are executed one after another, just as they would be when using base R.
+::: {.infobox .practice}
+Do exercise 7.
+:::
+
+Finally, `mutate` has a cousin-verb called `transmute` that works the same way but _discards_ all original columns that were not modified. You probably won't use this verb all too often but I want you to be able to recognize it, as its name and function are very similar to `mutate` and the two are easy to confuse.
+```{r}
+short_mpg %>%
+  transmute(avg_mpg = (short_mpg$cty + short_mpg$hwy) / 2) %>%
+  knitr::kable()
+```
+## `summarize()` table by `group`  {#summarize}
+This verb is used when you _aggregate_ across _all_ rows, reducing them to a _single value_. Some examples of an aggregating functions that are probably already familiar to you are [mean](https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html), [median](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/median.html), [standard deviation](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/sd.html), [min/max](https://stat.ethz.ch/R-manual/R-patched/library/base/html/Extremes.html). However, you can "aggregate" by taking a first or a last value or even by putting in a constant. Important is that `summarize` expects that it should assign a _single_ value to the column. 
+
+If you use `summarize` on an _ungrouped_ table (these are the only tables we've been working on so far), it keeps only the computed columns, which makes you wonder "what's the point?"
+```{r}
+mpg %>%
+  summarise(avg_cty = mean(cty),
+            avg_hwy = mean(hwy))
+```
+However, the real power of `summarize` (and of `mutate`) becomes evident when it is applied to the data that is _grouped by_ certain criteria. [group_by()](https://dplyr.tidyverse.org/reference/group_by.html) verb groups the rows of the table based values of variables you specified. Behind the scenes, this turns your single table into set of tables, so that your Tidyverse verbs are applied to _each_ table _separately_. This ability to parse your table into different groups of rows (all rows that belong to a particular participant, or participant and condition, or rows per block, or per trial), change that grouping on the fly, return back to the original full table, etc. makes analysis a breeze. Here  is how  we can compute average efficiency not across all cars (as in the code above) but for each car class separately.
+
+```{r}
+mpg %>%
+  # there are seven different classes of cars, so group_by(cars)  will
+  # create seven hidden independent tables and all verbs below will be 
+  # applied to each table separately
+  group_by(class)  %>%
+  
+  # same mean computation but per table and we've got seven of them
+  summarise(avg_cty = mean(cty),
+            avg_hwy = mean(hwy), .groups = "drop") %>%
+  knitr::kable()
+```
+Note that summarize still expects us to compute a _single_ value per table but because we do it for seven tables, we get seven rows in our resultant table.  And `group_by` makes it easy to group data in any way you want. Are you interested in manufacturers instead car classes? Easy!
+```{r}
+mpg %>%
+  group_by(manufacturer)  %>%
+  # same mean computation but per table and we've got seven of them
+  summarise(avg_cty = mean(cty),
+            avg_hwy = mean(hwy), .groups = "drop") %>%
+  knitr::kable()
+```
+How about efficiency per class _and_ year? Still easy!
+```{r}
+mpg %>%
+  group_by(class, year)  %>%
+  # same mean computation but per table and we've got seven of them
+  summarise(avg_cty = mean(cty),
+            avg_hwy = mean(hwy), .groups = "drop") %>%
+  knitr::kable()
+```
+Finally, `ungroup()` verb removes all the grouping and turns your data into a single table.
+
+::: {.infobox .practice}
+Do exercise 8.
+:::
+
+You can replicate the functionality of `group_by` + `summarize` in base R via [aggregate()](https://stat.ethz.ch/R-manual/R-patched/library/stats/html/aggregate.html) and `group_by` + `mutate` via [by](https://stat.ethz.ch/R-manual/R-patched/library/base/html/by.html) functions. However, they are less straightforward in use as they rely on functional programming and require both grouping and summary function within a single call.
+
+## Putting it all together
+Now you have enough tools at your disposal to start programming a continuous analysis pipeline!
+
+::: {.infobox .practice}
+Do exercise 9.
+:::
