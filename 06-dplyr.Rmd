@@ -383,6 +383,9 @@ Do exercise 8.
 
 You can replicate the functionality of `group_by` + `summarize` in base R via [aggregate()](https://stat.ethz.ch/R-manual/R-patched/library/stats/html/aggregate.html) and `group_by` + `mutate` via [by](https://stat.ethz.ch/R-manual/R-patched/library/base/html/by.html) functions. However, they are less straightforward in use as they rely on functional programming and require both grouping and summary function within a single call.
 
+## When should I use Tidyverse?
+As you saw above, whatever Tidyverse can do, base R can do as well. So why use a non-standard family of packages? If you are using each function is isolation, there is probably not much sense in it. Base R can do it equally well and _each individual_ function is also compact and simple. However, if you need to _chain_ your computation, which is almost always the case, Tidyverse's ability to pipe the entire sequence of functions in consistent-looking and, therefore, easy to understand way is a game-changer. Thus, pick your style. Either go "all in" with Tidyverse, stick to base R, or find some other alternative package family. However, as far as the seminar is concerned, it will be almost exclusively Tydiverse from now on.
+
 ## Putting it all together
 Now you have enough tools at your disposal to start programming a continuous analysis pipeline!
 
