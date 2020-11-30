@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Seminar 5 Functions and pipes | Data analysis using R for Psychology</title>
+  <meta name="description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Seminar 5 Functions and pipes | Data analysis using R for Psychology" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Seminar 5 Functions and pipes | Data analysis using R for Psychology" />
+  
+  <meta name="twitter:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
+  
+
+<meta name="author" content="Alexander (Sasha) Pastukhov" />
+
+
+<meta name="date" content="2020-11-30" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="ggplot2.html"/>
+
+<script src="libs/header-attrs-2.5/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="font-awesome.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Data analysis using R for Psychology</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-seminar"><i class="fa fa-check"></i>About the seminar</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#content-of-the-seminar"><i class="fa fa-check"></i>Content of the seminar</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#note-on-exercises"><i class="fa fa-check"></i>Note on exercises</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-r"><i class="fa fa-check"></i>Why R?</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#tidyverse-versus-base-r"><i class="fa fa-check"></i>Tidyverse versus base R</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html"><i class="fa fa-check"></i>Getting Started</a>
+<ul>
+<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#installing-r"><i class="fa fa-check"></i>Installing R</a></li>
+<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#installing-r-studio"><i class="fa fa-check"></i>Installing R-Studio</a></li>
+<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#rtools"><i class="fa fa-check"></i>Installing RTools</a></li>
+<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#install.packages"><i class="fa fa-check"></i>Installing packages</a></li>
+<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#keeping-r-and-packages-up-to-date"><i class="fa fa-check"></i>Keeping R and packages up-to-date</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="reproducable-research.html"><a href="reproducable-research.html"><i class="fa fa-check"></i><b>1</b> Reproducable Research: Projects and RMarkdown Notebooks</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="reproducable-research.html"><a href="reproducable-research.html#projects"><i class="fa fa-check"></i><b>1.1</b> Projects</a></li>
+<li class="chapter" data-level="1.2" data-path="reproducable-research.html"><a href="reproducable-research.html#rmarkdown"><i class="fa fa-check"></i><b>1.2</b> RMarkdown</a></li>
+<li class="chapter" data-level="1.3" data-path="reproducable-research.html"><a href="reproducable-research.html#exercise"><i class="fa fa-check"></i><b>1.3</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="vectors.html"><a href="vectors.html"><i class="fa fa-check"></i><b>2</b> Vectors! Vectors everywhere!</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="vectors.html"><a href="vectors.html#variables"><i class="fa fa-check"></i><b>2.1</b> Variables as boxes</a></li>
+<li class="chapter" data-level="2.2" data-path="vectors.html"><a href="vectors.html#assignment-statement-in-detail"><i class="fa fa-check"></i><b>2.2</b> Assignment statement in detail</a></li>
+<li class="chapter" data-level="2.3" data-path="vectors.html"><a href="vectors.html#vectors-scalars"><i class="fa fa-check"></i><b>2.3</b> Vectors and scalars (which are also vectors)</a></li>
+<li class="chapter" data-level="2.4" data-path="vectors.html"><a href="vectors.html#vector-index"><i class="fa fa-check"></i><b>2.4</b> Vector indexes</a></li>
+<li class="chapter" data-level="2.5" data-path="vectors.html"><a href="vectors.html#names-as-index"><i class="fa fa-check"></i><b>2.5</b> Names as Index</a></li>
+<li class="chapter" data-level="2.6" data-path="vectors.html"><a href="vectors.html#vector-index-slicing"><i class="fa fa-check"></i><b>2.6</b> Slicing</a></li>
+<li class="chapter" data-level="2.7" data-path="vectors.html"><a href="vectors.html#colon-sequence"><i class="fa fa-check"></i><b>2.7</b> Colon Operator and Sequence Generation</a></li>
+<li class="chapter" data-level="2.8" data-path="vectors.html"><a href="vectors.html#working-with-two-vectors-of-equal-length"><i class="fa fa-check"></i><b>2.8</b> Working with two vectors of <em>equal</em> length</a></li>
+<li class="chapter" data-level="2.9" data-path="vectors.html"><a href="vectors.html#different-length-vectors"><i class="fa fa-check"></i><b>2.9</b> Working with two vectors of <em>different</em> length</a></li>
+<li class="chapter" data-level="2.10" data-path="vectors.html"><a href="vectors.html#applying-functions-to-a-vector"><i class="fa fa-check"></i><b>2.10</b> Applying functions to a vector</a></li>
+<li class="chapter" data-level="2.11" data-path="vectors.html"><a href="vectors.html#wrap-up"><i class="fa fa-check"></i><b>2.11</b> Wrap up</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="tables.html"><a href="tables.html"><i class="fa fa-check"></i><b>3</b> Tables and Tibbles (and Tribbles)</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tables.html"><a href="tables.html#primarytypes"><i class="fa fa-check"></i><b>3.1</b> Primary data types</a></li>
+<li class="chapter" data-level="3.2" data-path="tables.html"><a href="tables.html#in-vector-all-values-must-be-of-the-same-type"><i class="fa fa-check"></i><b>3.2</b> In vector all values must be of the same type</a></li>
+<li class="chapter" data-level="3.3" data-path="tables.html"><a href="tables.html#data.frame"><i class="fa fa-check"></i><b>3.3</b> Tables, a.k.a. data frames</a></li>
+<li class="chapter" data-level="3.4" data-path="tables.html"><a href="tables.html#extracting-a-single-vector-column-get-single-column"><i class="fa fa-check"></i><b>3.4</b> Extracting a single vector / column [#get-single-column]</a></li>
+<li class="chapter" data-level="3.5" data-path="tables.html"><a href="tables.html#extracting-part-of-a-table"><i class="fa fa-check"></i><b>3.5</b> Extracting part of a table</a></li>
+<li class="chapter" data-level="3.6" data-path="tables.html"><a href="tables.html#library"><i class="fa fa-check"></i><b>3.6</b> Using libraries</a></li>
+<li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#tibble"><i class="fa fa-check"></i><b>3.7</b> Tibble, a better data.frame</a></li>
+<li class="chapter" data-level="3.8" data-path="tables.html"><a href="tables.html#tribble"><i class="fa fa-check"></i><b>3.8</b> Tribble, table from text</a></li>
+<li class="chapter" data-level="3.9" data-path="tables.html"><a href="tables.html#data"><i class="fa fa-check"></i><b>3.9</b> Reading example tables</a></li>
+<li class="chapter" data-level="3.10" data-path="tables.html"><a href="tables.html#readr"><i class="fa fa-check"></i><b>3.10</b> Reading csv files</a></li>
+<li class="chapter" data-level="3.11" data-path="tables.html"><a href="tables.html#readxl"><i class="fa fa-check"></i><b>3.11</b> Reading Excel files</a></li>
+<li class="chapter" data-level="3.12" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.12</b> Reading files from other programs</a></li>
+<li class="chapter" data-level="3.13" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.13</b> Wrap up</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>4</b> Grammar of Graphics</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="ggplot2.html"><a href="ggplot2.html#tidydata"><i class="fa fa-check"></i><b>4.1</b> Tidy data</a></li>
+<li class="chapter" data-level="4.2" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-1"><i class="fa fa-check"></i><b>4.2</b> ggplot2</a></li>
+<li class="chapter" data-level="4.3" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-continuous-x-axis"><i class="fa fa-check"></i><b>4.3</b> Auto efficiency: continuous x-axis</a></li>
+<li class="chapter" data-level="4.4" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-discrete-x-axis"><i class="fa fa-check"></i><b>4.4</b> Auto efficiency: discrete x-axis</a></li>
+<li class="chapter" data-level="4.5" data-path="ggplot2.html"><a href="ggplot2.html#mammals-sleep-single-variable"><i class="fa fa-check"></i><b>4.5</b> Mammals sleep: single variable</a></li>
+<li class="chapter" data-level="4.6" data-path="ggplot2.html"><a href="ggplot2.html#mapping-for-all-visuals-versus-just-one-visual"><i class="fa fa-check"></i><b>4.6</b> Mapping for all visuals versus just one visual</a></li>
+<li class="chapter" data-level="4.7" data-path="ggplot2.html"><a href="ggplot2.html#mapping-on-variables-versus-constants"><i class="fa fa-check"></i><b>4.7</b> Mapping on variables versus constants</a></li>
+<li class="chapter" data-level="4.8" data-path="ggplot2.html"><a href="ggplot2.html#themes"><i class="fa fa-check"></i><b>4.8</b> Themes</a></li>
+<li class="chapter" data-level="4.9" data-path="ggplot2.html"><a href="ggplot2.html#you-aint-seen-nothing-yet"><i class="fa fa-check"></i><b>4.9</b> You ain’t seen nothing yet</a></li>
+<li class="chapter" data-level="4.10" data-path="ggplot2.html"><a href="ggplot2.html#further-reading"><i class="fa fa-check"></i><b>4.10</b> Further reading</a></li>
+<li class="chapter" data-level="4.11" data-path="ggplot2.html"><a href="ggplot2.html#extending-ggplot2"><i class="fa fa-check"></i><b>4.11</b> Extending ggplot2</a></li>
+<li class="chapter" data-level="4.12" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-cannot-do-everything"><i class="fa fa-check"></i><b>4.12</b> ggplot2 cannot do everything</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="seminar05.html"><a href="seminar05.html"><i class="fa fa-check"></i><b>5</b> Functions and pipes</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="seminar05.html"><a href="seminar05.html#functions"><i class="fa fa-check"></i><b>5.1</b> Functions</a></li>
+<li class="chapter" data-level="5.2" data-path="seminar05.html"><a href="seminar05.html#writing-a-function"><i class="fa fa-check"></i><b>5.2</b> Writing a function</a></li>
+<li class="chapter" data-level="5.3" data-path="seminar05.html"><a href="seminar05.html#scopes-global-versus-local-variables"><i class="fa fa-check"></i><b>5.3</b> Scopes: Global versus Local variables</a></li>
+<li class="chapter" data-level="5.4" data-path="seminar05.html"><a href="seminar05.html#function-with-two-parameters"><i class="fa fa-check"></i><b>5.4</b> Function with two parameters</a></li>
+<li class="chapter" data-level="5.5" data-path="seminar05.html"><a href="seminar05.html#table-as-a-parameter"><i class="fa fa-check"></i><b>5.5</b> Table as a parameter</a></li>
+<li class="chapter" data-level="5.6" data-path="seminar05.html"><a href="seminar05.html#nested-calls"><i class="fa fa-check"></i><b>5.6</b> Nested calls</a></li>
+<li class="chapter" data-level="5.7" data-path="seminar05.html"><a href="seminar05.html#piping"><i class="fa fa-check"></i><b>5.7</b> Piping</a></li>
+<li class="chapter" data-level="5.8" data-path="seminar05.html"><a href="seminar05.html#everything-is-a-function"><i class="fa fa-check"></i><b>5.8</b> Everything is a function</a></li>
+<li class="chapter" data-level="5.9" data-path="seminar05.html"><a href="seminar05.html#using-or-not-using-explicit-return-statement"><i class="fa fa-check"></i><b>5.9</b> Using (or not using) explicit return statement</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown and FontAwesome</a><li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data analysis using R for Psychology</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="seminar05" class="section level1" number="5">
+<h1><span class="header-section-number">Seminar 5</span> Functions and pipes</h1>
+<p>In this seminar, you will learn about <em>functions</em> in R, as they are the second most important concept in R and are everywhere (just like vectors). You will also learn how to <em>pipe</em> your computation through series of functions without creating a mess of temporary variables or nested calls. Don’t forget to download the <a href="notebooks/Seminar%2005%20-%20functions.Rmd">notebook</a>.</p>
+<div id="functions" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Functions</h2>
+<p>In the previous seminars, you have learned that you can store information in variables — “boxes with slots” — as <a href="vectors.html#vectors">vectors</a> or as <a href="##tables">tables</a> (bundles of vectors of equal length). To use these stored values for computation you need functions. In programming, function is an <em>isolated</em> code with a name that receives some input, performs some action on them, and, optionally, returns a value<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>. The concepts of functions comes from mathematics, so it might be easier to understand them using R implementation of mathematical functions. For example, you may remember sinus function from trigonometry. It is typically abbreviated as <code>sin</code>, it takes a numeric value of angle (in radians) as its <em>input</em> and returns a corresponding value between -1 and 1: <span class="math inline">\(sin(0) = 0\)</span>, <span class="math inline">\(sin(\pi/2) = 1\)</span>, etc. (this is its <em>output</em>).</p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-87-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>In R, you write a function using the following template<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a></p>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="seminar05.html#cb156-1" aria-hidden="true" tabindex="-1"></a>name_of_the_function <span class="ot">&lt;-</span> <span class="cf">function</span>(parameter1, parameter2, parameter3, ...){</span>
+<span id="cb156-2"><a href="seminar05.html#cb156-2" aria-hidden="true" tabindex="-1"></a>  ...some code that computes the value...</span>
+<span id="cb156-3"><a href="seminar05.html#cb156-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(value);</span>
+<span id="cb156-4"><a href="seminar05.html#cb156-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Thus, <code>sin</code> function with a single parameter <code>angle</code> would look something like this</p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="seminar05.html#cb157-1" aria-hidden="true" tabindex="-1"></a>sin <span class="ot">&lt;-</span> <span class="cf">function</span>(angle){</span>
+<span id="cb157-2"><a href="seminar05.html#cb157-2" aria-hidden="true" tabindex="-1"></a>  ...some math that actually computes sin_of_angle using value of angle parameter ...</span>
+<span id="cb157-3"><a href="seminar05.html#cb157-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(sin_of_angle);</span>
+<span id="cb157-4"><a href="seminar05.html#cb157-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Once we have the function, we can use it by <em>calling</em> it. You simply write <code>sin(0)</code> and get the answer!</p>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="seminar05.html#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sin</span>(<span class="dv">0</span>)</span></code></pre></div>
+<pre><code>## [1] 0</code></pre>
+<p>As you hopefully remember, everything is a vector, so instead of using a scalar <code>0</code> (merely a vector of length of one) you can write and apply this function to (compute sinus for) every element in the vector.</p>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="seminar05.html#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sin</span>(<span class="fu">seq</span>(<span class="dv">0</span>, <span class="fl">3.141593</span>, <span class="at">length.out =</span> <span class="dv">5</span>))</span></code></pre></div>
+<pre><code>## [1]  0.000000e+00  7.071068e-01  1.000000e+00  7.071066e-01 -3.464102e-07</code></pre>
+<p>You can think of functions parameters as local function variables those values are set before the function is called. A function can have any number of parameters, including zero<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>, one, or many parameters. For example, an arctangent <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Trig.html">atan2</a> function takes 2D coordinates (<code>y</code> and <code>x</code>, in that order!) and returns a corresponding angle in radians (relative to <code>(0, 0)</code> point).</p>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="seminar05.html#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="fu">atan2</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span></code></pre></div>
+<pre><code>## [1] 0.0000000 0.7853982</code></pre>
+<p>A definition of this function would look something like this</p>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="seminar05.html#cb164-1" aria-hidden="true" tabindex="-1"></a>atan2 <span class="ot">&lt;-</span> <span class="cf">function</span>(y, x){</span>
+<span id="cb164-2"><a href="seminar05.html#cb164-2" aria-hidden="true" tabindex="-1"></a>  ...magic that uses values of y and x parameters...</span>
+<span id="cb164-3"><a href="seminar05.html#cb164-3" aria-hidden="true" tabindex="-1"></a>  ...to compute the angle_in_rad value...</span>
+<span id="cb164-4"><a href="seminar05.html#cb164-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(angle_in_rad);</span>
+<span id="cb164-5"><a href="seminar05.html#cb164-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="infobox practice">
+<p>Do exercise 1.</p>
+</div>
+</div>
+<div id="writing-a-function" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> Writing a function</h2>
+<p>Let us start practicing computing things in R and writing functions at the same time. We will begin by implementing a very simple function that doubles a given number. We will write this function in steps. First, think about how you would name<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> this function (meaningful names are your path to readable and usable code!) and how many parameters it will have. Write the all the definition of the function but without any code inside of wiggle brackets (so, no actual computation or a return statement at the end of it).</p>
+<div class="infobox practice">
+<p>Do exercise 2.1</p>
+</div>
+<p>Next, think about the code that does <em>double-the-value</em> computation based on the parameter. This is the code that will eventually go inside of the wiggly brackets. Write that code in exercise 2.2 and test it by creating a variable with the same name as your parameter inside the function. E.g., if my parameter name is <code>the_number</code>, I would test it as</p>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="seminar05.html#cb165-1" aria-hidden="true" tabindex="-1"></a>the_number <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb165-2"><a href="seminar05.html#cb165-2" aria-hidden="true" tabindex="-1"></a>...my code to double the value usign the_number variable...</span></code></pre></div>
+<div class="infobox practice">
+<p>Do exercise 2.2</p>
+</div>
+<p>By now you have your formal function definition (exercise 2.1) and the actual code that should go inside (exercise 2.2). Now, we just need to combine them by putting the code inside the function and <em>returning</em> the value. You can do this two ways:</p>
+<ol style="list-style-type: decimal">
+<li>you can store the results of the computation in a separate local variable and then return that variable,</li>
+<li>return the results of the computation directly</li>
+</ol>
+<pre><code># 1) first store in a local variable, then return it
+  result &lt;- ...some computation you perform...
+  return(result);
+
+# 2) returning results of computation directly
+  return(...some computation you perform...);</code></pre>
+<p>Do it <em>both</em> ways in exercises 2.3 and 2.4. Call the function to test that it works.</p>
+<div class="infobox practice">
+<p>Do exercise 2.3 and 2.4</p>
+</div>
+<p>More practice is good, so write a function that converts an angle in <em>degrees</em> to <em>radians</em>. The formula is
+<span class="math display">\[rad = \frac{deg \cdot \pi}{180}\]</span>
+Decide whether you want to a have an intermediate local variable inside the function or to return the results of the computation directly.</p>
+<div class="infobox practice">
+<p>Do exercise 3</p>
+</div>
+</div>
+<div id="scopes-global-versus-local-variables" class="section level2" number="5.3">
+<h2><span class="header-section-number">5.3</span> Scopes: Global versus Local variables</h2>
+<p>I suggested that you use a variable to store the results of double-it-up computation before returning it. But why did I call it <em>local</em>? This is because each function has it own <em>scope</em> (environment with variables and functions) that is (mostly) independent from the scope of the global script. Unfortunately, environment scopes in R are different and more complicated than those in other programming languages, such Python, C/C++, or Java, so pay attention and be careful in the future.</p>
+<p>The <em>global</em> scope/environment is the environment for the code <em>outside</em> of functions. All <em>global</em> variables and functions, the ones that you define in the code <em>outside</em> of functions (typing in the console, running scripts, chunks of code in notebooks, etc.), live where. You can see what you have in the global scope at any time by looking at <em>Environment</em> tab (note the <em>Global Environment</em> tag).
+<img src="images/environment-tab.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>In my case, it has one table (<code>mpg</code>, all tables go under <em>Data</em>), three vectors (<code>angle</code>, <code>some_variable</code>, and <code>x</code>, all vectors go under <code>Values</code>), and an example function from exercise #2 that I created (<code>double_it</code>, all functions go under <em>Functions</em>, makes sense). However, it has no access to parameters of the functions and variables that you define inside these function. When you run a function, it has it own scope/environment that includes <em>parameters</em> of the function (e.g., <code>the_number</code> for my <code>double_it</code> function and the value it was assigned during the call), any <em>local</em> variables you create inside that function (e.g., <code>result &lt;- ...some computation you perform...</code> creates such local variable), and a <strong>copy(!)</strong> of all <em>global</em> variables. In the code below, take a look at the comments that specify the accessibility of variables between global script and functions (ignore <a href="https://glue.tidyverse.org/reference/glue.html">glue</a> for a moment, it <em>glues</em> variable value into the text, so I use it to make printouts easier to trace)<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a></p>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="seminar05.html#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is a GLOBAL variable</span></span>
+<span id="cb167-2"><a href="seminar05.html#cb167-2" aria-hidden="true" tabindex="-1"></a>global_variable <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb167-3"><a href="seminar05.html#cb167-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb167-4"><a href="seminar05.html#cb167-4" aria-hidden="true" tabindex="-1"></a>i_am_test_function <span class="ot">&lt;-</span> <span class="cf">function</span>(parameter){</span>
+<span id="cb167-5"><a href="seminar05.html#cb167-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># parameter live is a local function scope</span></span>
+<span id="cb167-6"><a href="seminar05.html#cb167-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># its values are set when you call a function</span></span>
+<span id="cb167-7"><a href="seminar05.html#cb167-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">glue</span>(<span class="st">&quot;  parameter inside the function: {parameter}&quot;</span>))</span>
+<span id="cb167-8"><a href="seminar05.html#cb167-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb167-9"><a href="seminar05.html#cb167-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># local variable created inside the function</span></span>
+<span id="cb167-10"><a href="seminar05.html#cb167-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># it is invisible from outside</span></span>
+<span id="cb167-11"><a href="seminar05.html#cb167-11" aria-hidden="true" tabindex="-1"></a>  local_variable <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb167-12"><a href="seminar05.html#cb167-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">glue</span>(<span class="st">&quot;  local_variable inside the function: {local_variable}&quot;</span>))</span>
+<span id="cb167-13"><a href="seminar05.html#cb167-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb167-14"><a href="seminar05.html#cb167-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># here, a_global_variable is a LOCAL COPY of the the global variable</span></span>
+<span id="cb167-15"><a href="seminar05.html#cb167-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># of the same name. You can use this COPY</span></span>
+<span id="cb167-16"><a href="seminar05.html#cb167-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">glue</span>(<span class="st">&quot;  COPY of global_variable inside the function: {global_variable}&quot;</span>))</span>
+<span id="cb167-17"><a href="seminar05.html#cb167-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb167-18"><a href="seminar05.html#cb167-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># you can modify the LOCAL COPY but that won&#39;t affect the original!</span></span>
+<span id="cb167-19"><a href="seminar05.html#cb167-19" aria-hidden="true" tabindex="-1"></a>  global_variable <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb167-20"><a href="seminar05.html#cb167-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">glue</span>(<span class="st">&quot;  CHANGED COPY of global_variable inside the function: {global_variable}&quot;</span>))</span>
+<span id="cb167-21"><a href="seminar05.html#cb167-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb167-22"><a href="seminar05.html#cb167-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb167-23"><a href="seminar05.html#cb167-23" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">glue</span>(<span class="st">&quot;global_variable before the function call: {global_variable}&quot;</span>))</span></code></pre></div>
+<pre><code>## global_variable before the function call: 1</code></pre>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="seminar05.html#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">i_am_test_function</span>(<span class="dv">5</span>)</span></code></pre></div>
+<pre><code>##   parameter inside the function: 5
+##   local_variable inside the function: 2
+##   COPY of global_variable inside the function: 1
+##   CHANGED COPY of global_variable inside the function: 3</code></pre>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="seminar05.html#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the variable outside is unchanged because we modify its COPY, not the variable itself</span></span>
+<span id="cb171-2"><a href="seminar05.html#cb171-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">glue</span>(<span class="st">&quot;UNCHANGED global_variable after the function call: {global_variable}&quot;</span>))</span></code></pre></div>
+<pre><code>## UNCHANGED global_variable after the function call: 1</code></pre>
+<div class="infobox practice">
+<p>Do exercise 4 to build understanding of scopes.</p>
+</div>
+</div>
+<div id="function-with-two-parameters" class="section level2" number="5.4">
+<h2><span class="header-section-number">5.4</span> Function with two parameters</h2>
+<p>Let us write a function that takes <em>two</em> parameters — <code>x</code> and <code>y</code> — and computes <em>radius</em> (distance from <code>(0,0)</code> to <code>(x, y)</code>)<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a>. The formula is
+<span class="math display">\[R = \sqrt{x^2 + y^2}\]</span>
+This is very similar to exercises 2 and 3, with number of parameters being the only difference.</p>
+<div class="infobox practice">
+<p>Do exercise 5.</p>
+</div>
+</div>
+<div id="table-as-a-parameter" class="section level2" number="5.5">
+<h2><span class="header-section-number">5.5</span> Table as a parameter</h2>
+<p>So far, we passed only vectors (a.k.a. values) to functions but you can pass any object including tables<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a>. Let us use <a href="https://ggplot2.tidyverse.org/reference/mpg.html">mpg</a> table from the <em>ggplot2</em> package. Write a function that takes a table as a <em>parameter</em>. This mean that function should not assume that table with this name exists in the global environment. Do not use <code>mpg</code> as a parameter name (makes is confusing), call it something else. The function should compute and return average miles-per-gallon efficiency based on city <code>cty</code> and highway <code>hwy</code> test cycles. Do it in <em>two</em> ways. First, compute and return <em>a vector</em> based on the table passed as parameter. Second, do the same computation but add the result <em>to the table function received as a parameter</em> (call the column <code>avg_mpg</code>) and return the entire table.</p>
+<div class="infobox practice">
+<p>Do exercise 6.</p>
+</div>
+<p>Let us write another function that computes <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html">mean</a> efficiency for a particular cycle, either city or highway. For this, the function will take <em>two</em> parameters: 1) the table itself and 2) a string (text variable) with the name of the column. You can then use it to access the column via <a href="#get-single-column">double square brackets</a> notation. To summarize, your function takes 1) a table and 2) a string with a column name and returns a single number (mean for the specified column). E.g.</p>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="seminar05.html#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="fu">average_efficiency</span>(mpg, <span class="st">&quot;cty&quot;</span>) <span class="co"># should return 16.85897</span></span></code></pre></div>
+<div class="infobox practice">
+<p>Do exercise 7.</p>
+</div>
+</div>
+<div id="nested-calls" class="section level2" number="5.6">
+<h2><span class="header-section-number">5.6</span> Nested calls</h2>
+<p>What if you need to call several functions in a single chain to compute the result? Think about the function from exercise #3 that converts degree to radians. Its most likely usage scenario is to convert degrees to radians and use that to compute sinus (or some other trigonometric function). There are different ways you can do this. For example, you can store the angle in radians in some temporary variable (e.g., <code>angle_in_radians</code>) and then pass it to sinus function during the next call.</p>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="seminar05.html#cb174-1" aria-hidden="true" tabindex="-1"></a>angle_in_radians <span class="ot">&lt;-</span> <span class="fu">deg2rad</span>(<span class="dv">90</span>) <span class="co"># functoin returns 1.570796, this value is stored in angle_in_radians</span></span>
+<span id="cb174-2"><a href="seminar05.html#cb174-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sin</span>(angle_in_radians) <span class="co"># returns 1</span></span></code></pre></div>
+<p>Alternatively, you can use the value returned by <code>deg2rad()</code> directly as a parameter for function <code>sin()</code></p>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="seminar05.html#cb175-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sin</span>(<span class="fu">deg2rad</span>(<span class="dv">90</span>)) <span class="co"># returns 1</span></span></code></pre></div>
+<p>In this case, the computation proceeds in an <em>inside-out</em> order: The innermost function gets computed first, the function that uses its return value is next, etc. Kind of like assembling a Russian doll: you start with an innermost, put it inside a slightly bigger one, now take that one put it inside the next, etc. Nesting means that you do not need to pollute you memory with temporary variables<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a> and make your code more expressive as nesting explicitly informs the reader that intermediate results are of no value by themselves and are not saved for later use.</p>
+<div class="infobox practice">
+<p>Do exercise 8.</p>
+</div>
+</div>
+<div id="piping" class="section level2" number="5.7">
+<h2><span class="header-section-number">5.7</span> Piping</h2>
+<p>Although nesting is better than having tons of intermediate variables, lots of nesting can be mightily confusing. Tidyverse has an alternative way to chain or, in Tidyverse-speak, <a href="https://magrittr.tidyverse.org/reference/pipe.html">pipe</a> a computation through a series of function calls. The magic operator is <code>%&gt;%</code> (that’s the pipe) and here is how it transforms our nested call</p>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="seminar05.html#cb176-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sin</span>(<span class="fu">deg2rad</span>(<span class="dv">90</span>)) <span class="co"># returns 1</span></span>
+<span id="cb176-2"><a href="seminar05.html#cb176-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb176-3"><a href="seminar05.html#cb176-3" aria-hidden="true" tabindex="-1"></a><span class="fu">deg2rad</span>(<span class="dv">90</span>) <span class="sc">%&gt;%</span> <span class="fu">sin</span>() <span class="co"># also return 1</span></span>
+<span id="cb176-4"><a href="seminar05.html#cb176-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb176-5"><a href="seminar05.html#cb176-5" aria-hidden="true" tabindex="-1"></a><span class="dv">90</span> <span class="sc">%&gt;%</span> <span class="fu">deg2rad</span>() <span class="sc">%&gt;%</span> <span class="fu">sin</span>() <span class="co"># also returns 1</span></span></code></pre></div>
+<div class="infobox practice">
+<p>Do exercise 9.</p>
+</div>
+<p>All functions you worked in the exercise with had only one parameter and <code>single-output %&gt;% single-input</code> piping is very straightforward. But what if one of the functions takes more than one parameter? By default, <code>%&gt;%</code> puts the piped value into the <em>first</em> parameter. Thus <code>4 %&gt;% radius(3)</code> is equivalent to <code>radius(4, 3)</code>. Although this default is very useful (the entire Tidyverse is build around this idea of piping a value into the <em>first</em> parameter), sometimes you need that value as some <em>other</em> parameter (e.g., when you are pre-processing the data before piping it into a statistical test, the latter typically takes <code>formula</code> as the first parameter and <code>data</code> as second). For this, you can use a special dot variable: <code>.</code>, which is a hidden<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a> temporary variable that holds the value you are piping through via <code>%&gt;%</code><a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a>. Thus,</p>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="seminar05.html#cb177-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb177-2"><a href="seminar05.html#cb177-2" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb177-3"><a href="seminar05.html#cb177-3" aria-hidden="true" tabindex="-1"></a>z <span class="sc">%&gt;%</span> <span class="fu">radius</span>(w) <span class="co"># is equivalent to radius(z, w)</span></span>
+<span id="cb177-4"><a href="seminar05.html#cb177-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb177-5"><a href="seminar05.html#cb177-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Note the dot!</span></span>
+<span id="cb177-6"><a href="seminar05.html#cb177-6" aria-hidden="true" tabindex="-1"></a>z <span class="sc">%&gt;%</span> <span class="fu">radius</span>(w, .) <span class="co"># is equivalent to radius(w, z)</span></span></code></pre></div>
+<p>Note that because <code>.</code> is a variable, you can use it several times just as you can use several times any variable</p>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="seminar05.html#cb178-1" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span> <span class="sc">%&gt;%</span> <span class="fu">radius</span>(., .) <span class="co"># is equivalent to radius(4, 4)</span></span></code></pre></div>
+<div class="infobox practice">
+<p>Do exercise 10.</p>
+</div>
+</div>
+<div id="everything-is-a-function" class="section level2" number="5.8">
+<h2><span class="header-section-number">5.8</span> Everything is a function</h2>
+<p>Every computation you perform in R is implemented as a function, even when using one does not look like a function call. For example, <code>+</code> addition operation is a function. Typically, you write <code>2 + 3</code>, so no round brackets, no comma-separated list of parameters, it looks different. But this is just a special implementation of a function call (known as <a href="http://adv-r.had.co.nz/Function-operators.html">function operator</a>) that makes code more readable for humans. You can actually call <code>+</code> function the way you call a normal function by using backticks around its name.</p>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="seminar05.html#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span></span></code></pre></div>
+<pre><code>## [1] 5</code></pre>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="seminar05.html#cb181-1" aria-hidden="true" tabindex="-1"></a><span class="co"># note the `backticks` around +</span></span>
+<span id="cb181-2"><a href="seminar05.html#cb181-2" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">+</span><span class="st">`</span>(<span class="dv">2</span>, <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## [1] 5</code></pre>
+<p>Even the assignments statement <code>&lt;-</code> is, you’ve guessed it, a function</p>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="seminar05.html#cb183-1" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">&lt;-</span><span class="st">`</span>(some_variable, <span class="dv">1</span>)</span>
+<span id="cb183-2"><a href="seminar05.html#cb183-2" aria-hidden="true" tabindex="-1"></a>some_variable</span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<p>This does not mean that you should start using operators as functions (although, if it helps to make a particular code clearer, then, why not?), merely to stress that there is only one way to program any computation in R — as a function — regardless of how it may appear in the code. Later on, you will learn how to <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/apply.html">apply</a> functions to vectors or tables (or, a Tidyversion of that, how to use functions to <a href="https://purrr.tidyverse.org/">map</a> inputs to outputs), so it helps to know that you can apply <em>any</em> function, even the one that looks like an operator.</p>
+</div>
+<div id="using-or-not-using-explicit-return-statement" class="section level2" number="5.9">
+<h2><span class="header-section-number">5.9</span> Using (or not using) explicit return statement</h2>
+<p>In the code above I have always used the return statement. However, explicit <code>return(some_value)</code> can be omitted if it is the <em>last</em> line in a function, so you just write the value (variable) itself:</p>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="seminar05.html#cb185-1" aria-hidden="true" tabindex="-1"></a>some_fun <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb185-2"><a href="seminar05.html#cb185-2" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb185-3"><a href="seminar05.html#cb185-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(x)</span>
+<span id="cb185-4"><a href="seminar05.html#cb185-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb185-5"><a href="seminar05.html#cb185-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb185-6"><a href="seminar05.html#cb185-6" aria-hidden="true" tabindex="-1"></a>some_other_fun <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb185-7"><a href="seminar05.html#cb185-7" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb185-8"><a href="seminar05.html#cb185-8" aria-hidden="true" tabindex="-1"></a>  x</span>
+<span id="cb185-9"><a href="seminar05.html#cb185-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb185-10"><a href="seminar05.html#cb185-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb185-11"><a href="seminar05.html#cb185-11" aria-hidden="true" tabindex="-1"></a>yet_another_fun <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb185-12"><a href="seminar05.html#cb185-12" aria-hidden="true" tabindex="-1"></a>  <span class="dv">3</span></span>
+<span id="cb185-13"><a href="seminar05.html#cb185-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb185-14"><a href="seminar05.html#cb185-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb185-15"><a href="seminar05.html#cb185-15" aria-hidden="true" tabindex="-1"></a><span class="fu">some_fun</span>()</span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="seminar05.html#cb187-1" aria-hidden="true" tabindex="-1"></a><span class="fu">some_other_fun</span>()</span></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="seminar05.html#cb189-1" aria-hidden="true" tabindex="-1"></a><span class="fu">yet_another_fun</span>()</span></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<p>The lack of return statement in the final line is actually an <a href="https://style.tidyverse.org/functions.html">officially recommended style</a> but I am vary of this approach because “explicit is better than implicit.” This omission may be reasonable if it comes at the very end of a long pipe but, in general, I would recommend using return.</p>
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="footnotes">
+<hr />
+<ol start="3">
+<li id="fn3"><p>Function that does not return a value, probably, generates its output to a console, external file, etc. There is little point in running a function that does not affect the world.<a href="seminar05.html#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p>Did you spot the assignment <code>&lt;-</code> operator? Yes, you are storing a function code in a variable. So when you call this function by name, you are asking to run the code stored inside that variable.<a href="seminar05.html#fnref4" class="footnote-back">↩︎</a></p></li>
+<li id="fn5"><p>This, probably, means that the function always does the same thing or a random thing and you cannot influence this.<a href="seminar05.html#fnref5" class="footnote-back">↩︎</a></p></li>
+<li id="fn6"><p><code>double_or_nothing</code>?<a href="seminar05.html#fnref6" class="footnote-back">↩︎</a></p></li>
+<li id="fn7"><p>These rules — a <strong>copy</strong> of a global scope is accessible inside a function but function scope is inaccessible from outside — should be how <em>you</em> write your code. However, R’s motto is “anything is possible,” so be aware that <em>other people</em> may not respect these rules. This should not be an issue most of the time but if you are curious how R can let you break all rules of good responsible programming and do totally crazy things, read <a href="https://adv-r.hadley.nz/">Advanced R</a> book by Hadley Wickham. However, it is really <strong>advanced</strong>, aimed primarily at programmers who develop R and packages, not at scientists who use them.<a href="seminar05.html#fnref7" class="footnote-back">↩︎</a></p></li>
+<li id="fn8"><p>This function is complementary to <code>atan2()</code>, as two of them allow transformation of coordinates from cartesian to polar coordinate system<a href="seminar05.html#fnref8" class="footnote-back">↩︎</a></p></li>
+<li id="fn9"><p>And even functions themselves, not just what they computed! This is part of <em>functional programming</em> you will learn about later.<a href="seminar05.html#fnref9" class="footnote-back">↩︎</a></p></li>
+<li id="fn10"><p>The worst case scenario is when you use same <code>temp</code> variable for things like that, forget to initialize / change its value it properly at some point, spend half-a-day trying to understand why your code works but results don’t make sense.<a href="seminar05.html#fnref10" class="footnote-back">↩︎</a></p></li>
+<li id="fn11"><p>It won’t show up in your Global Environment tab.<a href="seminar05.html#fnref11" class="footnote-back">↩︎</a></p></li>
+<li id="fn12"><p>Yes, it is the same variable that you use over-and-over again but <code>magritt</code> package makes sure to clean it up after each call, so you are not in danger of incidentally using a value from a previous call.<a href="seminar05.html#fnref12" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="ggplot2.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["data-analysis-using-r-for-psychology.pdf", "data-analysis-using-r-for-psychology.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

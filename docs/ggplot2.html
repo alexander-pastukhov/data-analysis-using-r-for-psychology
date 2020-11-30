@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2020-11-25" />
+<meta name="date" content="2020-11-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="tables.html"/>
-
+<link rel="next" href="seminar05.html"/>
 <script src="libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -178,7 +178,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.1" data-path="tables.html"><a href="tables.html#primarytypes"><i class="fa fa-check"></i><b>3.1</b> Primary data types</a></li>
 <li class="chapter" data-level="3.2" data-path="tables.html"><a href="tables.html#in-vector-all-values-must-be-of-the-same-type"><i class="fa fa-check"></i><b>3.2</b> In vector all values must be of the same type</a></li>
 <li class="chapter" data-level="3.3" data-path="tables.html"><a href="tables.html#data.frame"><i class="fa fa-check"></i><b>3.3</b> Tables, a.k.a. data frames</a></li>
-<li class="chapter" data-level="3.4" data-path="tables.html"><a href="tables.html#extracting-a-single-vector-column"><i class="fa fa-check"></i><b>3.4</b> Extracting a single vector / column</a></li>
+<li class="chapter" data-level="3.4" data-path="tables.html"><a href="tables.html#extracting-a-single-vector-column-get-single-column"><i class="fa fa-check"></i><b>3.4</b> Extracting a single vector / column [#get-single-column]</a></li>
 <li class="chapter" data-level="3.5" data-path="tables.html"><a href="tables.html#extracting-part-of-a-table"><i class="fa fa-check"></i><b>3.5</b> Extracting part of a table</a></li>
 <li class="chapter" data-level="3.6" data-path="tables.html"><a href="tables.html#library"><i class="fa fa-check"></i><b>3.6</b> Using libraries</a></li>
 <li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#tibble"><i class="fa fa-check"></i><b>3.7</b> Tibble, a better data.frame</a></li>
@@ -203,6 +203,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.10" data-path="ggplot2.html"><a href="ggplot2.html#further-reading"><i class="fa fa-check"></i><b>4.10</b> Further reading</a></li>
 <li class="chapter" data-level="4.11" data-path="ggplot2.html"><a href="ggplot2.html#extending-ggplot2"><i class="fa fa-check"></i><b>4.11</b> Extending ggplot2</a></li>
 <li class="chapter" data-level="4.12" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-cannot-do-everything"><i class="fa fa-check"></i><b>4.12</b> ggplot2 cannot do everything</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="seminar05.html"><a href="seminar05.html"><i class="fa fa-check"></i><b>5</b> Functions and pipes</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="seminar05.html"><a href="seminar05.html#functions"><i class="fa fa-check"></i><b>5.1</b> Functions</a></li>
+<li class="chapter" data-level="5.2" data-path="seminar05.html"><a href="seminar05.html#writing-a-function"><i class="fa fa-check"></i><b>5.2</b> Writing a function</a></li>
+<li class="chapter" data-level="5.3" data-path="seminar05.html"><a href="seminar05.html#scopes-global-versus-local-variables"><i class="fa fa-check"></i><b>5.3</b> Scopes: Global versus Local variables</a></li>
+<li class="chapter" data-level="5.4" data-path="seminar05.html"><a href="seminar05.html#function-with-two-parameters"><i class="fa fa-check"></i><b>5.4</b> Function with two parameters</a></li>
+<li class="chapter" data-level="5.5" data-path="seminar05.html"><a href="seminar05.html#table-as-a-parameter"><i class="fa fa-check"></i><b>5.5</b> Table as a parameter</a></li>
+<li class="chapter" data-level="5.6" data-path="seminar05.html"><a href="seminar05.html#nested-calls"><i class="fa fa-check"></i><b>5.6</b> Nested calls</a></li>
+<li class="chapter" data-level="5.7" data-path="seminar05.html"><a href="seminar05.html#piping"><i class="fa fa-check"></i><b>5.7</b> Piping</a></li>
+<li class="chapter" data-level="5.8" data-path="seminar05.html"><a href="seminar05.html#everything-is-a-function"><i class="fa fa-check"></i><b>5.8</b> Everything is a function</a></li>
+<li class="chapter" data-level="5.9" data-path="seminar05.html"><a href="seminar05.html#using-or-not-using-explicit-return-statement"><i class="fa fa-check"></i><b>5.9</b> Using (or not using) explicit return statement</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown and FontAwesome</a><li>
@@ -310,7 +322,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="center">6</td>
 </tr>
 <tr class="even">
-<td align="center">1</td>
+<td align="center">2</td>
 <td align="center">5</td>
 <td align="center">2</td>
 <td align="center">1</td>
@@ -416,122 +428,122 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">1</td>
-<td align="right">0.6154113</td>
+<td align="right">0.0896124</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">1</td>
-<td align="right">-2.0525448</td>
+<td align="right">-1.9655578</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">1</td>
-<td align="right">-4.5805081</td>
+<td align="right">-3.0625317</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">2</td>
-<td align="right">1.7803141</td>
+<td align="right">1.8780307</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">2</td>
-<td align="right">-1.2021342</td>
+<td align="right">-0.1911446</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">2</td>
-<td align="right">-1.9246629</td>
+<td align="right">-4.4869391</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">3</td>
-<td align="right">2.3134353</td>
+<td align="right">2.4152635</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">3</td>
-<td align="right">0.5996408</td>
+<td align="right">-0.2854280</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">3</td>
-<td align="right">-2.7889547</td>
+<td align="right">-1.3204374</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">4</td>
-<td align="right">2.8193919</td>
+<td align="right">2.8919551</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">4</td>
-<td align="right">0.6361769</td>
+<td align="right">1.9789732</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">4</td>
-<td align="right">-2.5809664</td>
+<td align="right">-1.2012296</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">5</td>
-<td align="right">3.7135191</td>
+<td align="right">3.9605998</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">5</td>
-<td align="right">1.9721155</td>
+<td align="right">2.0251187</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">5</td>
-<td align="right">-0.4416329</td>
+<td align="right">0.9507679</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">6</td>
-<td align="right">5.0182176</td>
+<td align="right">5.4688714</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">6</td>
-<td align="right">3.9519454</td>
+<td align="right">3.6838889</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">6</td>
-<td align="right">1.5323201</td>
+<td align="right">2.3054345</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">7</td>
-<td align="right">6.0452472</td>
+<td align="right">5.4319681</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">7</td>
-<td align="right">3.5301836</td>
+<td align="right">3.0285476</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">7</td>
-<td align="right">2.2085716</td>
+<td align="right">1.8692838</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">8</td>
-<td align="right">7.3278358</td>
+<td align="right">6.8682115</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">8</td>
-<td align="right">5.4985898</td>
+<td align="right">4.9592469</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">8</td>
-<td align="right">2.1782760</td>
+<td align="right">3.5038964</td>
 </tr>
 </tbody>
 </table>
@@ -693,20 +705,13 @@ Again, note that all three plots live on the same scale for x- and y-axis, makin
 
 </div>
 </div>
-
-
-
-
-
-
-
             </section>
 
           </div>
         </div>
       </div>
-<a href="tables.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="tables.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="seminar05.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
