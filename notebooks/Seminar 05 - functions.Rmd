@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Exercise 01
-Take a look at the function definition below and fill in the answers
+Take a look at the function definition and fill-in the answers below
 ```{r exercise 01-definition, eval=FALSE}
 cos <- function(angle_in_radians){
   ...magic...
@@ -25,9 +25,8 @@ cos <- function(angle_in_radians){
 
 ```
 
-
 ## Exercise 02
- Write the definition of a function that double a value, you do not need to write any code inside or a return statement at the end of it.
+ Write a definition of a function that doubles a value, you do not need to write any code inside of wiggle brackets (so no computation or a return statement at the end of it).
 ```{r exercise 02-1}
 
 ```
@@ -37,7 +36,7 @@ Write the code that implements the "double-the-value" computation and test it by
 
 ```
 
-Combined code from 02-1 and 02-2, make sure you `return` the result  of computation. Test it by calling the function in the same chunk (you can do this only _after_ the function was defined!).
+Combine code from 02-1 and 02-2, make sure you `return` the result of computation. Test it by calling the function in the same chunk (you can do this only _after_ the function was defined!).
 
 Store results in a local variable and return its value.
 ```{r exercise 02-3}
@@ -51,7 +50,7 @@ Return computation directly (no extra variable).
 ```
 
 ## Exercise 03
-Write a function that would convert angle in _degrees_ to _radians_. The formula is $$rad = \frac{deg \cdot \pi}{180}$$.
+Write a function that converts an angle in _degrees_ to _radians_. The formula is $$rad = \frac{deg \cdot \pi}{180}$$.
 ```{r exercise 03}
 
 ```
@@ -67,6 +66,7 @@ my_function <- function(){
 }
 print(x)
 ```
+
 **Answer #2:**
 ```{r exercise 04-2}
 x <- 1
@@ -87,6 +87,7 @@ my_function <- function(){
 x <- my_function()
 print(x)
 ```
+
 **Answer #4:**
 ```{r exercise 04-4}
 x <- 1
@@ -119,6 +120,7 @@ my_function <- function(x){
 x <- my_function(5)
 print(x)
 ```
+
 **Answer #7:**
 ```{r exercise 04-7}
 x <- 1
@@ -129,21 +131,23 @@ my_function <- function(x){
 x <- my_function(x) + x
 print(x)
 ```
+
 ## Exercise 05
-Write a function that takes _three_ parameters rather than one, add the first two, subtracts the third one, and returns the results of the computation.
+Let us write a function that takes _two_ parameters — `x` and `y` — and computes _radius_ (distance from `(0,0)` to `(x, y)`). The formula is 
+$$R = \sqrt{x^2 + y^2}$$
 ```{r exercise 05}
 
 ```
 
 
 ## Exercise 06
-use [mpg](https://ggplot2.tidyverse.org/reference/mpg.html) table from the _ggplot2_ package. Write a function that takes a table as a _parameter_ (so it does not assume that table exists in the global environment) and computes and returns average miles-per-gallon efficiency based on city `cty` and highway `hwy` test cycles. 
+use [mpg](https://ggplot2.tidyverse.org/reference/mpg.html) table from the _ggplot2_ package. Write a function that takes a table as a _parameter_ (so it does not assume that table exists in the global environment), computes and returns average miles-per-gallon efficiency based on city `cty` and highway `hwy` test cycles.
 
 Compute and return a vector of values based on the table passed as parameter. 
 ```{r exercise 06-1}
 ```
 
-Do the same computation but add the result _to the table_ as `mpg` column and return the entire table.
+Do the same computation but add the result _to the table_ as `avg_mpg` column and return the entire table.
 ```{r exercise 06-2}
 ```
 
@@ -152,3 +156,57 @@ Write function that computes [mean](https://stat.ethz.ch/R-manual/R-devel/librar
 ```{r exercise 07}
 ```
 
+## Exercise 08
+What will be the order of computation in the example below?
+**Answer: **
+```{r exercise 08-1}
+atan2(sqrt(abs(4)), abs(sqrt(log(5))))
+```
+
+Decompose the call above into a sequence of calls using temporary variables. Check that you get the same final answer!
+```{r exercise 08-2}
+```
+
+## Exercise 09
+Assume that you need to compute an 1) absolute value, 2) square root, and 3) logarithm of a number (pick the one you like) in that order, so logarithm of square root of absolute number. Write this computation using temporary variables, nested call, and pipes (`%>%`). Check that all three versions give you the same answer.
+
+```{r exercise 09-1 temporary variables}
+```
+
+```{r exercise 09-2 nested calls}
+```
+
+```{r exercise 09-3 pipes}
+```
+
+## Exercise 10
+Write a function that has three parameters, each holding a value, and returns the _smallest_ number (you can use [min](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Extremes.html)) function for that. Use `%>%` to pipe value to
+
+1. first parameter (other two parameters here and below, should be specified inside the call)
+2. second parameter
+3. third parameter
+4. first and second parameters
+5. second and third parameters
+6. all three parameters
+
+```{r exercise 10-1 define function}
+```
+
+```{r exercise 10-2 pipe to first parameter}
+```
+
+```{r exercise 10-3 pipe to second parameter}
+```
+
+```{r exercise 10-4 pipe to third parameter}
+```
+
+```{r exercise 10-5 pipe to first and second parameter}
+```
+
+```{r exercise 10-6 pipe to second and third parameter}
+```
+
+
+```{r exercise 10-7 pipe to all three parameters}
+```
