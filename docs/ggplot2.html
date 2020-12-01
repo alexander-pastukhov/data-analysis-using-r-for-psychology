@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2020-11-30" />
+<meta name="date" content="2020-12-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -179,7 +179,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2" data-path="tables.html"><a href="tables.html#in-vector-all-values-must-be-of-the-same-type"><i class="fa fa-check"></i><b>3.2</b> In vector all values must be of the same type</a></li>
 <li class="chapter" data-level="3.3" data-path="tables.html"><a href="tables.html#data.frame"><i class="fa fa-check"></i><b>3.3</b> Tables, a.k.a. data frames</a></li>
 <li class="chapter" data-level="3.4" data-path="tables.html"><a href="tables.html#extracting-a-single-vector-column-get-single-column"><i class="fa fa-check"></i><b>3.4</b> Extracting a single vector / column [#get-single-column]</a></li>
-<li class="chapter" data-level="3.5" data-path="tables.html"><a href="tables.html#extracting-part-of-a-table"><i class="fa fa-check"></i><b>3.5</b> Extracting part of a table</a></li>
+<li class="chapter" data-level="3.5" data-path="tables.html"><a href="tables.html#table-indexing"><i class="fa fa-check"></i><b>3.5</b> Extracting part of a table</a></li>
 <li class="chapter" data-level="3.6" data-path="tables.html"><a href="tables.html#library"><i class="fa fa-check"></i><b>3.6</b> Using libraries</a></li>
 <li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#tibble"><i class="fa fa-check"></i><b>3.7</b> Tibble, a better data.frame</a></li>
 <li class="chapter" data-level="3.8" data-path="tables.html"><a href="tables.html#tribble"><i class="fa fa-check"></i><b>3.8</b> Tribble, table from text</a></li>
@@ -215,6 +215,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.7" data-path="seminar05.html"><a href="seminar05.html#piping"><i class="fa fa-check"></i><b>5.7</b> Piping</a></li>
 <li class="chapter" data-level="5.8" data-path="seminar05.html"><a href="seminar05.html#everything-is-a-function"><i class="fa fa-check"></i><b>5.8</b> Everything is a function</a></li>
 <li class="chapter" data-level="5.9" data-path="seminar05.html"><a href="seminar05.html#using-or-not-using-explicit-return-statement"><i class="fa fa-check"></i><b>5.9</b> Using (or not using) explicit return statement</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>6</b> Tidyverse: dplyr</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="dplyr.html"><a href="dplyr.html#tidyverse-philosophy"><i class="fa fa-check"></i><b>6.1</b> Tidyverse philosophy</a></li>
+<li class="chapter" data-level="6.2" data-path="dplyr.html"><a href="dplyr.html#select"><i class="fa fa-check"></i><b>6.2</b> <code>select()</code> columns by name</a></li>
+<li class="chapter" data-level="6.3" data-path="dplyr.html"><a href="dplyr.html#conditions"><i class="fa fa-check"></i><b>6.3</b> Conditions</a></li>
+<li class="chapter" data-level="6.4" data-path="dplyr.html"><a href="dplyr.html#logical-indexing"><i class="fa fa-check"></i><b>6.4</b> Logical indexing</a></li>
+<li class="chapter" data-level="6.5" data-path="dplyr.html"><a href="dplyr.html#filter-rows-by-values"><i class="fa fa-check"></i><b>6.5</b> <code>filter()</code> rows by values</a></li>
+<li class="chapter" data-level="6.6" data-path="dplyr.html"><a href="dplyr.html#arrange-rows-in-a-particular-order"><i class="fa fa-check"></i><b>6.6</b> <code>arrange()</code> rows in a particular order</a></li>
+<li class="chapter" data-level="6.7" data-path="dplyr.html"><a href="dplyr.html#mutate"><i class="fa fa-check"></i><b>6.7</b> <code>mutate()</code> columns</a></li>
+<li class="chapter" data-level="6.8" data-path="dplyr.html"><a href="dplyr.html#summarize"><i class="fa fa-check"></i><b>6.8</b> <code>summarize()</code> table by <code>groups</code></a></li>
+<li class="chapter" data-level="6.9" data-path="dplyr.html"><a href="dplyr.html#putting-it-all-together"><i class="fa fa-check"></i><b>6.9</b> Putting it all together</a></li>
+<li class="chapter" data-level="6.10" data-path="dplyr.html"><a href="dplyr.html#should-i-use-tidyverse"><i class="fa fa-check"></i><b>6.10</b> Should I use Tidyverse?</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown and FontAwesome</a><li>
@@ -428,158 +441,158 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">1</td>
-<td align="right">0.0896124</td>
+<td align="right">0.2721947</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">1</td>
-<td align="right">-1.9655578</td>
+<td align="right">-2.2448103</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">1</td>
-<td align="right">-3.0625317</td>
+<td align="right">-3.4543225</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">2</td>
-<td align="right">1.8780307</td>
+<td align="right">0.8212780</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">2</td>
-<td align="right">-0.1911446</td>
+<td align="right">-1.0035770</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">2</td>
-<td align="right">-4.4869391</td>
+<td align="right">-2.7508725</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">3</td>
-<td align="right">2.4152635</td>
+<td align="right">2.3452145</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">3</td>
-<td align="right">-0.2854280</td>
+<td align="right">0.2661392</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">3</td>
-<td align="right">-1.3204374</td>
+<td align="right">-1.4732193</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">4</td>
-<td align="right">2.8919551</td>
+<td align="right">3.4156106</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">4</td>
-<td align="right">1.9789732</td>
+<td align="right">2.6127569</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">4</td>
-<td align="right">-1.2012296</td>
+<td align="right">-0.4920049</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">5</td>
-<td align="right">3.9605998</td>
+<td align="right">3.4150041</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">5</td>
-<td align="right">2.0251187</td>
+<td align="right">1.4192579</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">5</td>
-<td align="right">0.9507679</td>
+<td align="right">-0.1123961</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">6</td>
-<td align="right">5.4688714</td>
+<td align="right">4.9993775</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">6</td>
-<td align="right">3.6838889</td>
+<td align="right">3.6303512</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">6</td>
-<td align="right">2.3054345</td>
+<td align="right">1.4819125</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">7</td>
-<td align="right">5.4319681</td>
+<td align="right">7.1357140</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">7</td>
-<td align="right">3.0285476</td>
+<td align="right">3.3308427</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">7</td>
-<td align="right">1.8692838</td>
+<td align="right">2.1421757</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">8</td>
-<td align="right">6.8682115</td>
+<td align="right">7.3543760</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">8</td>
-<td align="right">4.9592469</td>
+<td align="right">5.0674171</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">8</td>
-<td align="right">3.5038964</td>
+<td align="right">3.6040968</td>
 </tr>
 </tbody>
 </table>
 <p>We plot this data by 1) <em>defining aesthetics</em> (mapping <code>Intensity</code> on to x-axis, <code>Response</code>on y-axis, and <code>Condition</code> on color) and 2) <em>adding</em> lines to the plot (note the plus in <code>+ geom_line()</code>).</p>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="ggplot2.html#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Intensity, <span class="at">y =</span> Response, <span class="at">color=</span>Condition)) <span class="sc">+</span> </span>
-<span id="cb149-2"><a href="ggplot2.html#cb149-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="ggplot2.html#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Intensity, <span class="at">y =</span> Response, <span class="at">color=</span>Condition)) <span class="sc">+</span> </span>
+<span id="cb145-2"><a href="ggplot2.html#cb145-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code></pre></div>
 <p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-80-1.png" width="672" /></p>
 <p>As I already wrote, technically, we only thing you need to define is aesthetics, so let us not add anything to the plot (drop the <code>+geom_line()</code>).</p>
-<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="ggplot2.html#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Intensity, <span class="at">y =</span> Response, <span class="at">color=</span>Condition))</span></code></pre></div>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="ggplot2.html#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Intensity, <span class="at">y =</span> Response, <span class="at">color=</span>Condition))</span></code></pre></div>
 <p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-81-1.png" width="672" style="display: block; margin: auto;" />
 Told you it will look empty and yet you can see <em>ggplot2</em> in action. Notice that axes are labeled and their limits are set. You cannot see the legend (they are not plotted without corresponding geometry) but it is also ready. This is because our initial call specified the most important part: how the individual variables map on various properties even before we told <em>ggplot2</em> which visuals we will use to plot the data. When we specified that x-axis will represent the <code>Intensity</code>, ggplot2 figured out the range of values, so it knows <em>where</em> it is going to plot whatever we decide to plot. Points, lines, bar, error bars and what not will span only that range. Same goes for other properties such as color. We wanted <em>color</em> to represent the condition. Again, we may not know what exactly we will be plotting (points, lines?) or even how many different visuals we will be adding to the plot (just lines? points + lines? points + lines + linear fit?) but we do know that whatever visual we add, if it can have color, its color <em>must</em> represent condition for that data point. The beauty of <em>ggplot2</em> is that it analyses your data and figures out how many colors you need and is ready to apply them <em>consistently</em> to all visuals you will later add. It will ensure that all points, bars, lines, etc. will have consistent coordinates scaling, color-, size-, fill-mapping that are the same across the entire plot. This may sound trivial but typically (e.g., Matlab, Matplotlib), it is <em>your</em> job to make sure that all these properties match and that they represent the same value across all visual elements. And this is a pretty tedious job, particularly when you decide to change your mappings and have to redo all individual components by hand. In <em>ggplot2</em>, this dissociation between mapping and visuals means you can tinker with one of them at a time. E.g. keep the visuals but change grouping or see if effect of condition is easier to see via line type, size or shape of the point? Or you can keep the mapping and see whether adding another visual will make the plot easier to understand. Note that some mapping also <em>groups</em> your data, so when you use group-based visual information (e.g. a linear regression line) it will know what data belongs together and so will perform this computation per group.</p>
 <p>Let us see how you can keep the relationship mapping but add more visuals. Let us add both lines and points.</p>
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="ggplot2.html#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Intensity, <span class="at">y =</span> Response, <span class="at">color=</span>Condition)) <span class="sc">+</span> </span>
-<span id="cb151-2"><a href="ggplot2.html#cb151-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb151-3"><a href="ggplot2.html#cb151-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="co"># this is new!</span></span></code></pre></div>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="ggplot2.html#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Intensity, <span class="at">y =</span> Response, <span class="at">color=</span>Condition)) <span class="sc">+</span> </span>
+<span id="cb147-2"><a href="ggplot2.html#cb147-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb147-3"><a href="ggplot2.html#cb147-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="co"># this is new!</span></span></code></pre></div>
 <p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-82-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>In the plot above, we <em>kept</em> the relationship between variables and properties but said “Oh, and throw in some points please.” And ggplot2 knows how to add the points so that they appear at proper location and in proper color. But we want more!</p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="ggplot2.html#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Intensity, <span class="at">y =</span> Response, <span class="at">color=</span>Condition)) <span class="sc">+</span> </span>
-<span id="cb152-2"><a href="ggplot2.html#cb152-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb152-3"><a href="ggplot2.html#cb152-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb152-4"><a href="ggplot2.html#cb152-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># a linear regression over all dots in the group</span></span>
-<span id="cb152-5"><a href="ggplot2.html#cb152-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">se=</span><span class="cn">FALSE</span>, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="ggplot2.html#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Intensity, <span class="at">y =</span> Response, <span class="at">color=</span>Condition)) <span class="sc">+</span> </span>
+<span id="cb148-2"><a href="ggplot2.html#cb148-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb148-3"><a href="ggplot2.html#cb148-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb148-4"><a href="ggplot2.html#cb148-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># a linear regression over all dots in the group</span></span>
+<span id="cb148-5"><a href="ggplot2.html#cb148-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">se=</span><span class="cn">FALSE</span>, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) </span></code></pre></div>
 <p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-83-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Now we added a linear regression line that helps us to better see the relationship between <code>Intensity</code> and <code>Response</code>. Again, we simply wished for another visual to be added (<code>method="lm"</code> means that we wanted to average data via linear regression with <code>formula = y ~ x</code> meaning that we regress y-axis on x-axis with no further covariates, <code>se=FALSE</code> means no standard error stripe, <code>linetype="dashed"</code> just makes it easier to distinguish from the solid data line).</p>
 <p>Or, we can keep the <em>visuals</em> but see whether changing <em>mapping</em> would make it more informative (we need to specify <code>group=Intensity</code> as continuous data is not grouped automatically).</p>
-<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="ggplot2.html#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Condition, <span class="at">y =</span> Response, <span class="at">color=</span>Intensity, <span class="at">group=</span>Intensity)) <span class="sc">+</span> </span>
-<span id="cb153-2"><a href="ggplot2.html#cb153-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb153-3"><a href="ggplot2.html#cb153-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb153-4"><a href="ggplot2.html#cb153-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, <span class="at">se=</span><span class="cn">FALSE</span>,  <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="ggplot2.html#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Condition, <span class="at">y =</span> Response, <span class="at">color=</span>Intensity, <span class="at">group=</span>Intensity)) <span class="sc">+</span> </span>
+<span id="cb149-2"><a href="ggplot2.html#cb149-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb149-3"><a href="ggplot2.html#cb149-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb149-4"><a href="ggplot2.html#cb149-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, <span class="at">se=</span><span class="cn">FALSE</span>,  <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>)</span></code></pre></div>
 <p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-84-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Or, we can check whether splitting into several plots helps.</p>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="ggplot2.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Intensity, <span class="at">y =</span> Response, <span class="at">color=</span>Condition)) <span class="sc">+</span> </span>
-<span id="cb154-2"><a href="ggplot2.html#cb154-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb154-3"><a href="ggplot2.html#cb154-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb154-4"><a href="ggplot2.html#cb154-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">se=</span><span class="cn">FALSE</span>, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
-<span id="cb154-5"><a href="ggplot2.html#cb154-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(. <span class="sc">~</span> Condition) <span class="co"># makes a separate subplot for each group</span></span></code></pre></div>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="ggplot2.html#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Intensity, <span class="at">y =</span> Response, <span class="at">color=</span>Condition)) <span class="sc">+</span> </span>
+<span id="cb150-2"><a href="ggplot2.html#cb150-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb150-3"><a href="ggplot2.html#cb150-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb150-4"><a href="ggplot2.html#cb150-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">se=</span><span class="cn">FALSE</span>, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
+<span id="cb150-5"><a href="ggplot2.html#cb150-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(. <span class="sc">~</span> Condition) <span class="co"># makes a separate subplot for each group</span></span></code></pre></div>
 <p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-85-1.png" width="672" style="display: block; margin: auto;" />
 Again, note that all three plots live on the same scale for x- and y-axis, making them easy to compare (you fully appreciate this magic if you ever struggled with ensuring optimal and consistent scaling by hand in Matlab). I went through so many examples to stress how ggplot allows you to think about the aesthetics of variable mapping <em>independently</em> of the actual visual representation (and vice versa). So now lets us explore <em>ggplot2</em> by doing exercises.</p>
 <p>I recommend using <a href="https://ggplot2.tidyverse.org/">ggplot2 reference page</a> and <a href="https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf">cheatsheet</a> when you are doing the exercises.</p>

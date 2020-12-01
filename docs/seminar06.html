@@ -1,0 +1,1789 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Seminar 6 Tidyverse: dplyr | Data analysis using R for Psychology</title>
+  <meta name="description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Seminar 6 Tidyverse: dplyr | Data analysis using R for Psychology" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Seminar 6 Tidyverse: dplyr | Data analysis using R for Psychology" />
+  
+  <meta name="twitter:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
+  
+
+<meta name="author" content="Alexander (Sasha) Pastukhov" />
+
+
+<meta name="date" content="2020-12-01" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="seminar05.html"/>
+
+<script src="libs/header-attrs-2.5/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="font-awesome.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Data analysis using R for Psychology</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-seminar"><i class="fa fa-check"></i>About the seminar</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#content-of-the-seminar"><i class="fa fa-check"></i>Content of the seminar</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#note-on-exercises"><i class="fa fa-check"></i>Note on exercises</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-r"><i class="fa fa-check"></i>Why R?</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#tidyverse-versus-base-r"><i class="fa fa-check"></i>Tidyverse versus base R</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html"><i class="fa fa-check"></i>Getting Started</a>
+<ul>
+<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#installing-r"><i class="fa fa-check"></i>Installing R</a></li>
+<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#installing-r-studio"><i class="fa fa-check"></i>Installing R-Studio</a></li>
+<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#rtools"><i class="fa fa-check"></i>Installing RTools</a></li>
+<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#install.packages"><i class="fa fa-check"></i>Installing packages</a></li>
+<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#keeping-r-and-packages-up-to-date"><i class="fa fa-check"></i>Keeping R and packages up-to-date</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="reproducable-research.html"><a href="reproducable-research.html"><i class="fa fa-check"></i><b>1</b> Reproducable Research: Projects and RMarkdown Notebooks</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="reproducable-research.html"><a href="reproducable-research.html#projects"><i class="fa fa-check"></i><b>1.1</b> Projects</a></li>
+<li class="chapter" data-level="1.2" data-path="reproducable-research.html"><a href="reproducable-research.html#rmarkdown"><i class="fa fa-check"></i><b>1.2</b> RMarkdown</a></li>
+<li class="chapter" data-level="1.3" data-path="reproducable-research.html"><a href="reproducable-research.html#exercise"><i class="fa fa-check"></i><b>1.3</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="vectors.html"><a href="vectors.html"><i class="fa fa-check"></i><b>2</b> Vectors! Vectors everywhere!</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="vectors.html"><a href="vectors.html#variables"><i class="fa fa-check"></i><b>2.1</b> Variables as boxes</a></li>
+<li class="chapter" data-level="2.2" data-path="vectors.html"><a href="vectors.html#assignment-statement-in-detail"><i class="fa fa-check"></i><b>2.2</b> Assignment statement in detail</a></li>
+<li class="chapter" data-level="2.3" data-path="vectors.html"><a href="vectors.html#vectors-scalars"><i class="fa fa-check"></i><b>2.3</b> Vectors and scalars (which are also vectors)</a></li>
+<li class="chapter" data-level="2.4" data-path="vectors.html"><a href="vectors.html#vector-index"><i class="fa fa-check"></i><b>2.4</b> Vector indexes</a></li>
+<li class="chapter" data-level="2.5" data-path="vectors.html"><a href="vectors.html#names-as-index"><i class="fa fa-check"></i><b>2.5</b> Names as Index</a></li>
+<li class="chapter" data-level="2.6" data-path="vectors.html"><a href="vectors.html#vector-index-slicing"><i class="fa fa-check"></i><b>2.6</b> Slicing</a></li>
+<li class="chapter" data-level="2.7" data-path="vectors.html"><a href="vectors.html#colon-sequence"><i class="fa fa-check"></i><b>2.7</b> Colon Operator and Sequence Generation</a></li>
+<li class="chapter" data-level="2.8" data-path="vectors.html"><a href="vectors.html#working-with-two-vectors-of-equal-length"><i class="fa fa-check"></i><b>2.8</b> Working with two vectors of <em>equal</em> length</a></li>
+<li class="chapter" data-level="2.9" data-path="vectors.html"><a href="vectors.html#different-length-vectors"><i class="fa fa-check"></i><b>2.9</b> Working with two vectors of <em>different</em> length</a></li>
+<li class="chapter" data-level="2.10" data-path="vectors.html"><a href="vectors.html#applying-functions-to-a-vector"><i class="fa fa-check"></i><b>2.10</b> Applying functions to a vector</a></li>
+<li class="chapter" data-level="2.11" data-path="vectors.html"><a href="vectors.html#wrap-up"><i class="fa fa-check"></i><b>2.11</b> Wrap up</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="tables.html"><a href="tables.html"><i class="fa fa-check"></i><b>3</b> Tables and Tibbles (and Tribbles)</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tables.html"><a href="tables.html#primarytypes"><i class="fa fa-check"></i><b>3.1</b> Primary data types</a></li>
+<li class="chapter" data-level="3.2" data-path="tables.html"><a href="tables.html#in-vector-all-values-must-be-of-the-same-type"><i class="fa fa-check"></i><b>3.2</b> In vector all values must be of the same type</a></li>
+<li class="chapter" data-level="3.3" data-path="tables.html"><a href="tables.html#data.frame"><i class="fa fa-check"></i><b>3.3</b> Tables, a.k.a. data frames</a></li>
+<li class="chapter" data-level="3.4" data-path="tables.html"><a href="tables.html#extracting-a-single-vector-column"><i class="fa fa-check"></i><b>3.4</b> Extracting a single vector / column</a></li>
+<li class="chapter" data-level="3.5" data-path="tables.html"><a href="tables.html#table-indexing"><i class="fa fa-check"></i><b>3.5</b> Extracting part of a table</a></li>
+<li class="chapter" data-level="3.6" data-path="tables.html"><a href="tables.html#library"><i class="fa fa-check"></i><b>3.6</b> Using libraries</a></li>
+<li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#tibble"><i class="fa fa-check"></i><b>3.7</b> Tibble, a better data.frame</a></li>
+<li class="chapter" data-level="3.8" data-path="tables.html"><a href="tables.html#tribble"><i class="fa fa-check"></i><b>3.8</b> Tribble, table from text</a></li>
+<li class="chapter" data-level="3.9" data-path="tables.html"><a href="tables.html#data"><i class="fa fa-check"></i><b>3.9</b> Reading example tables</a></li>
+<li class="chapter" data-level="3.10" data-path="tables.html"><a href="tables.html#readr"><i class="fa fa-check"></i><b>3.10</b> Reading csv files</a></li>
+<li class="chapter" data-level="3.11" data-path="tables.html"><a href="tables.html#readxl"><i class="fa fa-check"></i><b>3.11</b> Reading Excel files</a></li>
+<li class="chapter" data-level="3.12" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.12</b> Reading files from other programs</a></li>
+<li class="chapter" data-level="3.13" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.13</b> Wrap up</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>4</b> Grammar of Graphics</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="ggplot2.html"><a href="ggplot2.html#tidydata"><i class="fa fa-check"></i><b>4.1</b> Tidy data</a></li>
+<li class="chapter" data-level="4.2" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-1"><i class="fa fa-check"></i><b>4.2</b> ggplot2</a></li>
+<li class="chapter" data-level="4.3" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-continuous-x-axis"><i class="fa fa-check"></i><b>4.3</b> Auto efficiency: continuous x-axis</a></li>
+<li class="chapter" data-level="4.4" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-discrete-x-axis"><i class="fa fa-check"></i><b>4.4</b> Auto efficiency: discrete x-axis</a></li>
+<li class="chapter" data-level="4.5" data-path="ggplot2.html"><a href="ggplot2.html#mammals-sleep-single-variable"><i class="fa fa-check"></i><b>4.5</b> Mammals sleep: single variable</a></li>
+<li class="chapter" data-level="4.6" data-path="ggplot2.html"><a href="ggplot2.html#mapping-for-all-visuals-versus-just-one-visual"><i class="fa fa-check"></i><b>4.6</b> Mapping for all visuals versus just one visual</a></li>
+<li class="chapter" data-level="4.7" data-path="ggplot2.html"><a href="ggplot2.html#mapping-on-variables-versus-constants"><i class="fa fa-check"></i><b>4.7</b> Mapping on variables versus constants</a></li>
+<li class="chapter" data-level="4.8" data-path="ggplot2.html"><a href="ggplot2.html#themes"><i class="fa fa-check"></i><b>4.8</b> Themes</a></li>
+<li class="chapter" data-level="4.9" data-path="ggplot2.html"><a href="ggplot2.html#you-aint-seen-nothing-yet"><i class="fa fa-check"></i><b>4.9</b> You ain’t seen nothing yet</a></li>
+<li class="chapter" data-level="4.10" data-path="ggplot2.html"><a href="ggplot2.html#further-reading"><i class="fa fa-check"></i><b>4.10</b> Further reading</a></li>
+<li class="chapter" data-level="4.11" data-path="ggplot2.html"><a href="ggplot2.html#extending-ggplot2"><i class="fa fa-check"></i><b>4.11</b> Extending ggplot2</a></li>
+<li class="chapter" data-level="4.12" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-cannot-do-everything"><i class="fa fa-check"></i><b>4.12</b> ggplot2 cannot do everything</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="seminar05.html"><a href="seminar05.html"><i class="fa fa-check"></i><b>5</b> Functions and pipes</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="seminar05.html"><a href="seminar05.html#functions"><i class="fa fa-check"></i><b>5.1</b> Functions</a></li>
+<li class="chapter" data-level="5.2" data-path="seminar05.html"><a href="seminar05.html#writing-a-function"><i class="fa fa-check"></i><b>5.2</b> Writing a function</a></li>
+<li class="chapter" data-level="5.3" data-path="seminar05.html"><a href="seminar05.html#scopes-global-versus-local-variables"><i class="fa fa-check"></i><b>5.3</b> Scopes: Global versus Local variables</a></li>
+<li class="chapter" data-level="5.4" data-path="seminar05.html"><a href="seminar05.html#function-with-two-parameters"><i class="fa fa-check"></i><b>5.4</b> Function with two parameters</a></li>
+<li class="chapter" data-level="5.5" data-path="seminar05.html"><a href="seminar05.html#table-as-a-parameter"><i class="fa fa-check"></i><b>5.5</b> Table as a parameter</a></li>
+<li class="chapter" data-level="5.6" data-path="seminar05.html"><a href="seminar05.html#nested-calls"><i class="fa fa-check"></i><b>5.6</b> Nested calls</a></li>
+<li class="chapter" data-level="5.7" data-path="seminar05.html"><a href="seminar05.html#piping"><i class="fa fa-check"></i><b>5.7</b> Piping</a></li>
+<li class="chapter" data-level="5.8" data-path="seminar05.html"><a href="seminar05.html#everything-is-a-function"><i class="fa fa-check"></i><b>5.8</b> Everything is a function</a></li>
+<li class="chapter" data-level="5.9" data-path="seminar05.html"><a href="seminar05.html#using-or-not-using-explicit-return-statement"><i class="fa fa-check"></i><b>5.9</b> Using (or not using) explicit return statement</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="seminar06.html"><a href="seminar06.html"><i class="fa fa-check"></i><b>6</b> Tidyverse: dplyr</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="seminar06.html"><a href="seminar06.html#tidyverse-philosophy"><i class="fa fa-check"></i><b>6.1</b> Tidyverse philosophy</a></li>
+<li class="chapter" data-level="6.2" data-path="seminar06.html"><a href="seminar06.html#dplyr"><i class="fa fa-check"></i><b>6.2</b> dplyr</a></li>
+<li class="chapter" data-level="6.3" data-path="seminar06.html"><a href="seminar06.html#select"><i class="fa fa-check"></i><b>6.3</b> <code>select()</code> columns by name</a></li>
+<li class="chapter" data-level="6.4" data-path="seminar06.html"><a href="seminar06.html#conditions"><i class="fa fa-check"></i><b>6.4</b> Conditions</a></li>
+<li class="chapter" data-level="6.5" data-path="seminar06.html"><a href="seminar06.html#logical-indexing"><i class="fa fa-check"></i><b>6.5</b> Logical indexing</a></li>
+<li class="chapter" data-level="6.6" data-path="seminar06.html"><a href="seminar06.html#filter-rows-by-values"><i class="fa fa-check"></i><b>6.6</b> <code>filter()</code> rows by values</a></li>
+<li class="chapter" data-level="6.7" data-path="seminar06.html"><a href="seminar06.html#arrange-rows-in-a-particular-order"><i class="fa fa-check"></i><b>6.7</b> <code>arrange()</code> rows in a particular order</a></li>
+<li class="chapter" data-level="6.8" data-path="seminar06.html"><a href="seminar06.html#mutate"><i class="fa fa-check"></i><b>6.8</b> <code>mutate()</code> columns</a></li>
+<li class="chapter" data-level="6.9" data-path="seminar06.html"><a href="seminar06.html#summarize"><i class="fa fa-check"></i><b>6.9</b> <code>summarize()</code> table by <code>groups</code></a></li>
+<li class="chapter" data-level="6.10" data-path="seminar06.html"><a href="seminar06.html#putting-it-all-together"><i class="fa fa-check"></i><b>6.10</b> Putting it all together</a></li>
+<li class="chapter" data-level="6.11" data-path="seminar06.html"><a href="seminar06.html#should-i-use-tidyverse"><i class="fa fa-check"></i><b>6.11</b> Should I use Tidyverse?</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown and FontAwesome</a><li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data analysis using R for Psychology</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="seminar06" class="section level1" number="6">
+<h1><span class="header-section-number">Seminar 6</span> Tidyverse: dplyr</h1>
+<p>Now that you understand vectors, tables, functions, and pipes, we can start with data analysis and Tidyverse way of doing it.</p>
+<div id="tidyverse-philosophy" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> Tidyverse philosophy</h2>
+<p>Data analysis is different from “normal” programming as it mostly involves a series of sequential operations on the same table. You might load the table, transform some variables, filter data, select smaller subset of columns, aggregate by summarizing across different groups of variables before plotting it or formally analyzing it via statistical tests. Tidyverse is built around this serial nature of data analysis of piping a table through a chain of functions. Accordingly, Tidyverse functions take a <em>table</em> (<code>data.frame</code> or <code>tibble</code>) as their <em>first</em> parameter, which makes piping simpler, and return a <em>modified table</em> as an output. This <em>table-in → table-out</em> consistency makes it easy to pipe these operations one after another. For me, it helps to think about Tidyverse functions as <em>verbs</em>: Actions that I perform on the table at each step.</p>
+<p>Here is quick teaser of how such sequential piping works. Below, we will examine each verb/function separately and I will also show you how same operations can be carried out using base R. Note that I put each verb/function on a separate line. This makes it easier to understand how many different operations you perform (number of lines), how complex they are (how long individuals lines of code are), and makes them easy to read line-by-line.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="seminar06.html#cb1-1"></a>mpg2lpk &lt;-<span class="st"> </span><span class="fl">2.82481061</span></span>
+<span id="cb1-2"><a href="seminar06.html#cb1-2"></a></span>
+<span id="cb1-3"><a href="seminar06.html#cb1-3"></a>mpg <span class="op">%&gt;%</span></span>
+<span id="cb1-4"><a href="seminar06.html#cb1-4"></a><span class="st">  </span><span class="co"># we filter the table by rows, </span></span>
+<span id="cb1-5"><a href="seminar06.html#cb1-5"></a><span class="st">  </span><span class="co"># only keeping rows for which year is 2008</span></span>
+<span id="cb1-6"><a href="seminar06.html#cb1-6"></a><span class="st">  </span><span class="kw">filter</span>(year <span class="op">==</span><span class="st"> </span><span class="dv">2008</span>) <span class="op">%&gt;%</span></span>
+<span id="cb1-7"><a href="seminar06.html#cb1-7"></a><span class="st">  </span></span>
+<span id="cb1-8"><a href="seminar06.html#cb1-8"></a><span class="st">  </span><span class="co"># we change cty and hwy columns by turning</span></span>
+<span id="cb1-9"><a href="seminar06.html#cb1-9"></a><span class="st">  </span><span class="co"># miles/gallon into liters/kilometer</span></span>
+<span id="cb1-10"><a href="seminar06.html#cb1-10"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">cty =</span> cty <span class="op">/</span><span class="st"> </span>mpg2lpk,</span>
+<span id="cb1-11"><a href="seminar06.html#cb1-11"></a>         <span class="dt">hwy =</span> hwy <span class="op">/</span><span class="st"> </span>mpg2lpk) <span class="op">%&gt;%</span></span>
+<span id="cb1-12"><a href="seminar06.html#cb1-12"></a><span class="st">  </span></span>
+<span id="cb1-13"><a href="seminar06.html#cb1-13"></a><span class="st">  </span><span class="co"># we create a new column by computing an </span></span>
+<span id="cb1-14"><a href="seminar06.html#cb1-14"></a><span class="st">  </span><span class="co"># average efficiency as mean between city and highway cycles</span></span>
+<span id="cb1-15"><a href="seminar06.html#cb1-15"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">avg_mpg =</span> (cty <span class="op">+</span><span class="st"> </span>hwy) <span class="op">/</span><span class="st"> </span><span class="dv">2</span>) <span class="op">%&gt;%</span></span>
+<span id="cb1-16"><a href="seminar06.html#cb1-16"></a><span class="st">  </span></span>
+<span id="cb1-17"><a href="seminar06.html#cb1-17"></a><span class="st">  </span><span class="co"># we reduce the table to only two columns</span></span>
+<span id="cb1-18"><a href="seminar06.html#cb1-18"></a><span class="st">  </span><span class="co"># class (of car) and avg_mpg</span></span>
+<span id="cb1-19"><a href="seminar06.html#cb1-19"></a><span class="st">  </span><span class="kw">select</span>(class, avg_mpg) <span class="op">%&gt;%</span></span>
+<span id="cb1-20"><a href="seminar06.html#cb1-20"></a><span class="st">  </span></span>
+<span id="cb1-21"><a href="seminar06.html#cb1-21"></a><span class="st">  </span><span class="co"># we group by each class of car</span></span>
+<span id="cb1-22"><a href="seminar06.html#cb1-22"></a><span class="st">  </span><span class="co"># and compute average efficiency for each group (class of car)</span></span>
+<span id="cb1-23"><a href="seminar06.html#cb1-23"></a><span class="st">  </span><span class="kw">group_by</span>(class) <span class="op">%&gt;%</span></span>
+<span id="cb1-24"><a href="seminar06.html#cb1-24"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">class_avg_mpg =</span> <span class="kw">mean</span>(avg_mpg), <span class="dt">.groups=</span><span class="st">&quot;drop&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb1-25"><a href="seminar06.html#cb1-25"></a><span class="st">  </span></span>
+<span id="cb1-26"><a href="seminar06.html#cb1-26"></a><span class="st">  </span><span class="co"># we sort table rows to go from worst to best on efficiency</span></span>
+<span id="cb1-27"><a href="seminar06.html#cb1-27"></a><span class="st">  </span><span class="kw">arrange</span>(class_avg_mpg) <span class="op">%&gt;%</span></span>
+<span id="cb1-28"><a href="seminar06.html#cb1-28"></a><span class="st">  </span></span>
+<span id="cb1-29"><a href="seminar06.html#cb1-29"></a><span class="st">  </span><span class="co"># we kable (Knit the tABLE) to make it look nicer in the document</span></span>
+<span id="cb1-30"><a href="seminar06.html#cb1-30"></a><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>()</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">class</th>
+<th align="right">class_avg_mpg</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">pickup</td>
+<td align="right">5.299679</td>
+</tr>
+<tr class="even">
+<td align="left">suv</td>
+<td align="right">5.707006</td>
+</tr>
+<tr class="odd">
+<td align="left">minivan</td>
+<td align="right">6.655313</td>
+</tr>
+<tr class="even">
+<td align="left">2seater</td>
+<td align="right">7.139122</td>
+</tr>
+<tr class="odd">
+<td align="left">subcompact</td>
+<td align="right">8.153201</td>
+</tr>
+<tr class="even">
+<td align="left">midsize</td>
+<td align="right">8.386572</td>
+</tr>
+<tr class="odd">
+<td align="left">compact</td>
+<td align="right">8.721421</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="dplyr" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> dplyr</h2>
+<p>All functions discussed below are part of <a href="https://dplyr.tidyverse.org/">dplyr</a><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> “grammar of data manipulation” package.</p>
+</div>
+<div id="select" class="section level2" number="6.3">
+<h2><span class="header-section-number">6.3</span> <code>select()</code> columns by name</h2>
+<p><a href="https://dplyr.tidyverse.org/reference/select.html">Select</a> verb allows you to select/pick columns in a table using their names. This is very similar to using columns names as indexes for tables that you have learned in <a href="tables.html#table-indexing">seminar 3</a>.</p>
+<p>First, let us make a shorter version of <code>mpg</code> table by keeping only the first five rows. Note that you can also pick first N rows via <a href="https://stat.ethz.ch/R-manual/R-devel/library/utils/html/head.html">head()</a> function.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="seminar06.html#cb2-1"></a>short_mpg &lt;-<span class="st"> </span>mpg[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, ]</span>
+<span id="cb2-2"><a href="seminar06.html#cb2-2"></a></span>
+<span id="cb2-3"><a href="seminar06.html#cb2-3"></a><span class="co"># same &quot;first five rows&quot; but via head() function</span></span>
+<span id="cb2-4"><a href="seminar06.html#cb2-4"></a>short_mpg &lt;-<span class="st"> </span><span class="kw">head</span>(mpg, <span class="dv">5</span>)</span>
+<span id="cb2-5"><a href="seminar06.html#cb2-5"></a></span>
+<span id="cb2-6"><a href="seminar06.html#cb2-6"></a>knitr<span class="op">::</span><span class="kw">kable</span>(short_mpg)</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">manufacturer</th>
+<th align="left">model</th>
+<th align="right">displ</th>
+<th align="right">year</th>
+<th align="right">cyl</th>
+<th align="left">trans</th>
+<th align="left">drv</th>
+<th align="right">cty</th>
+<th align="right">hwy</th>
+<th align="left">fl</th>
+<th align="left">class</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">audi</td>
+<td align="left">a4</td>
+<td align="right">1.8</td>
+<td align="right">1999</td>
+<td align="right">4</td>
+<td align="left">auto(l5)</td>
+<td align="left">f</td>
+<td align="right">18</td>
+<td align="right">29</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="even">
+<td align="left">audi</td>
+<td align="left">a4</td>
+<td align="right">1.8</td>
+<td align="right">1999</td>
+<td align="right">4</td>
+<td align="left">manual(m5)</td>
+<td align="left">f</td>
+<td align="right">21</td>
+<td align="right">29</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="odd">
+<td align="left">audi</td>
+<td align="left">a4</td>
+<td align="right">2.0</td>
+<td align="right">2008</td>
+<td align="right">4</td>
+<td align="left">manual(m6)</td>
+<td align="left">f</td>
+<td align="right">20</td>
+<td align="right">31</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="even">
+<td align="left">audi</td>
+<td align="left">a4</td>
+<td align="right">2.0</td>
+<td align="right">2008</td>
+<td align="right">4</td>
+<td align="left">auto(av)</td>
+<td align="left">f</td>
+<td align="right">21</td>
+<td align="right">30</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="odd">
+<td align="left">audi</td>
+<td align="left">a4</td>
+<td align="right">2.8</td>
+<td align="right">1999</td>
+<td align="right">6</td>
+<td align="left">auto(l5)</td>
+<td align="left">f</td>
+<td align="right">16</td>
+<td align="right">26</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+</tbody>
+</table>
+<p>Here is how you can select only <code>model</code> and <code>cty</code> columns via square brackets notation</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="seminar06.html#cb3-1"></a>short_mpg[, <span class="kw">c</span>(<span class="st">&quot;model&quot;</span>, <span class="st">&quot;cty&quot;</span>)] </span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">model</th>
+<th align="right">cty</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">a4</td>
+<td align="right">18</td>
+</tr>
+<tr class="even">
+<td align="left">a4</td>
+<td align="right">21</td>
+</tr>
+<tr class="odd">
+<td align="left">a4</td>
+<td align="right">20</td>
+</tr>
+<tr class="even">
+<td align="left">a4</td>
+<td align="right">21</td>
+</tr>
+<tr class="odd">
+<td align="left">a4</td>
+<td align="right">16</td>
+</tr>
+</tbody>
+</table>
+<p>And here how it is done via <code>select()</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="seminar06.html#cb4-1"></a>short_mpg <span class="op">%&gt;%</span></span>
+<span id="cb4-2"><a href="seminar06.html#cb4-2"></a><span class="st">  </span><span class="kw">select</span>(model, cty)</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">model</th>
+<th align="right">cty</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">a4</td>
+<td align="right">18</td>
+</tr>
+<tr class="even">
+<td align="left">a4</td>
+<td align="right">21</td>
+</tr>
+<tr class="odd">
+<td align="left">a4</td>
+<td align="right">20</td>
+</tr>
+<tr class="even">
+<td align="left">a4</td>
+<td align="right">21</td>
+</tr>
+<tr class="odd">
+<td align="left">a4</td>
+<td align="right">16</td>
+</tr>
+</tbody>
+</table>
+<p>The idea of Tidyverse functions is to adopt to you, so you <em>can</em> use quotes or pass a vector of strings with column names. All calls below produce the same effect, so pick the style you prefer (mine, is in the code <em>above</em>) and stick to it<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="seminar06.html#cb5-1"></a>short_mpg <span class="op">%&gt;%</span></span>
+<span id="cb5-2"><a href="seminar06.html#cb5-2"></a><span class="st">  </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="st">&quot;model&quot;</span>, <span class="st">&quot;cty&quot;</span>))</span>
+<span id="cb5-3"><a href="seminar06.html#cb5-3"></a>  </span>
+<span id="cb5-4"><a href="seminar06.html#cb5-4"></a>short_mpg <span class="op">%&gt;%</span></span>
+<span id="cb5-5"><a href="seminar06.html#cb5-5"></a><span class="st">  </span><span class="kw">select</span>(<span class="st">&quot;model&quot;</span>, <span class="st">&quot;cty&quot;</span>)</span>
+<span id="cb5-6"><a href="seminar06.html#cb5-6"></a>  </span>
+<span id="cb5-7"><a href="seminar06.html#cb5-7"></a>short_mpg <span class="op">%&gt;%</span></span>
+<span id="cb5-8"><a href="seminar06.html#cb5-8"></a><span class="st">  </span><span class="kw">select</span>(<span class="kw">c</span>(model, cty))</span></code></pre></div>
+<p>As you surely remember, you can use negation to select <em>other</em> indexes within a vector (<code>c(4, 5, 6)[-2]</code> gives you <code>[4, 6]</code>). For the single bracket notation this mechanism does not work with column <em>names</em> (only with their indexes). However, <code>select</code> has you covered, so we can select everything <em>but</em> <code>cty</code> and <code>model</code></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="seminar06.html#cb6-1"></a>short_mpg <span class="op">%&gt;%</span></span>
+<span id="cb6-2"><a href="seminar06.html#cb6-2"></a><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>cty, <span class="op">-</span>model)</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">manufacturer</th>
+<th align="right">displ</th>
+<th align="right">year</th>
+<th align="right">cyl</th>
+<th align="left">trans</th>
+<th align="left">drv</th>
+<th align="right">hwy</th>
+<th align="left">fl</th>
+<th align="left">class</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">audi</td>
+<td align="right">1.8</td>
+<td align="right">1999</td>
+<td align="right">4</td>
+<td align="left">auto(l5)</td>
+<td align="left">f</td>
+<td align="right">29</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="even">
+<td align="left">audi</td>
+<td align="right">1.8</td>
+<td align="right">1999</td>
+<td align="right">4</td>
+<td align="left">manual(m5)</td>
+<td align="left">f</td>
+<td align="right">29</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="odd">
+<td align="left">audi</td>
+<td align="right">2.0</td>
+<td align="right">2008</td>
+<td align="right">4</td>
+<td align="left">manual(m6)</td>
+<td align="left">f</td>
+<td align="right">31</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="even">
+<td align="left">audi</td>
+<td align="right">2.0</td>
+<td align="right">2008</td>
+<td align="right">4</td>
+<td align="left">auto(av)</td>
+<td align="left">f</td>
+<td align="right">30</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="odd">
+<td align="left">audi</td>
+<td align="right">2.8</td>
+<td align="right">1999</td>
+<td align="right">6</td>
+<td align="left">auto(l5)</td>
+<td align="left">f</td>
+<td align="right">26</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+</tbody>
+</table>
+<p>In the current version of <code>dplyr</code>, you can do the same negation via <code>!</code> (a <code>logical not</code> operator, you will meet later), moreover, it is now a recommended way of writing the selection<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>. The <code>-</code> and <code>!</code> are not synonyms and the difference is subtle but important, see below.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="seminar06.html#cb7-1"></a><span class="co"># will produce the same result as above</span></span>
+<span id="cb7-2"><a href="seminar06.html#cb7-2"></a>short_mpg <span class="op">%&gt;%</span></span>
+<span id="cb7-3"><a href="seminar06.html#cb7-3"></a><span class="st">  </span><span class="kw">select</span>(<span class="op">!</span>cty, <span class="op">!</span>model)</span></code></pre></div>
+<p>As with the direct selection above, you can use negation with names as strings, you can negate a vector of names, etc. Again, it is mostly a matter of taste with consistency being more important than a specific choice you make.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="seminar06.html#cb8-1"></a><span class="co"># will produce the same result as above</span></span>
+<span id="cb8-2"><a href="seminar06.html#cb8-2"></a>short_mpg <span class="op">%&gt;%</span></span>
+<span id="cb8-3"><a href="seminar06.html#cb8-3"></a><span class="st">  </span><span class="kw">select</span>(<span class="op">!</span><span class="kw">c</span>(<span class="st">&quot;cty&quot;</span>, <span class="st">&quot;model&quot;</span>))</span>
+<span id="cb8-4"><a href="seminar06.html#cb8-4"></a></span>
+<span id="cb8-5"><a href="seminar06.html#cb8-5"></a>short_mpg <span class="op">%&gt;%</span></span>
+<span id="cb8-6"><a href="seminar06.html#cb8-6"></a><span class="st">  </span><span class="kw">select</span>(<span class="op">!</span><span class="st">&quot;cty&quot;</span>, <span class="op">!</span><span class="st">&quot;model&quot;</span>)<span class="er">)</span></span>
+<span id="cb8-7"><a href="seminar06.html#cb8-7"></a>  </span>
+<span id="cb8-8"><a href="seminar06.html#cb8-8"></a>short_mpg <span class="op">%&gt;%</span></span>
+<span id="cb8-9"><a href="seminar06.html#cb8-9"></a><span class="st">  </span><span class="kw">select</span>(<span class="op">!</span><span class="kw">c</span>(cty, model))</span></code></pre></div>
+<p>Unlike vector indexing that forbids mixing positive and negative indexing, <code>select</code> does allow for it. However, <strong>do not use it</strong><a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> because results can be fairly counter-intuitive and, on top of that, <code>-</code> and <code>!</code> work somewhat differently. Note the difference between <code>!</code> and <code>-</code>: In the former case only the <code>!model</code> part appears to have the effect, whereas in case of <code>-</code> only <code>cty</code> works.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="seminar06.html#cb9-1"></a>short_mpg <span class="op">%&gt;%</span></span>
+<span id="cb9-2"><a href="seminar06.html#cb9-2"></a><span class="st">  </span><span class="kw">select</span>(cty, <span class="op">!</span>model)</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="right">cty</th>
+<th align="left">manufacturer</th>
+<th align="right">displ</th>
+<th align="right">year</th>
+<th align="right">cyl</th>
+<th align="left">trans</th>
+<th align="left">drv</th>
+<th align="right">hwy</th>
+<th align="left">fl</th>
+<th align="left">class</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">18</td>
+<td align="left">audi</td>
+<td align="right">1.8</td>
+<td align="right">1999</td>
+<td align="right">4</td>
+<td align="left">auto(l5)</td>
+<td align="left">f</td>
+<td align="right">29</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="even">
+<td align="right">21</td>
+<td align="left">audi</td>
+<td align="right">1.8</td>
+<td align="right">1999</td>
+<td align="right">4</td>
+<td align="left">manual(m5)</td>
+<td align="left">f</td>
+<td align="right">29</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="odd">
+<td align="right">20</td>
+<td align="left">audi</td>
+<td align="right">2.0</td>
+<td align="right">2008</td>
+<td align="right">4</td>
+<td align="left">manual(m6)</td>
+<td align="left">f</td>
+<td align="right">31</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="even">
+<td align="right">21</td>
+<td align="left">audi</td>
+<td align="right">2.0</td>
+<td align="right">2008</td>
+<td align="right">4</td>
+<td align="left">auto(av)</td>
+<td align="left">f</td>
+<td align="right">30</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="odd">
+<td align="right">16</td>
+<td align="left">audi</td>
+<td align="right">2.8</td>
+<td align="right">1999</td>
+<td align="right">6</td>
+<td align="left">auto(l5)</td>
+<td align="left">f</td>
+<td align="right">26</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="seminar06.html#cb10-1"></a>short_mpg <span class="op">%&gt;%</span></span>
+<span id="cb10-2"><a href="seminar06.html#cb10-2"></a><span class="st">  </span><span class="kw">select</span>(cty, <span class="op">-</span>model)</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="right">cty</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">18</td>
+</tr>
+<tr class="even">
+<td align="right">21</td>
+</tr>
+<tr class="odd">
+<td align="right">20</td>
+</tr>
+<tr class="even">
+<td align="right">21</td>
+</tr>
+<tr class="odd">
+<td align="right">16</td>
+</tr>
+</tbody>
+</table>
+<p>To make things even, worse <code>select(-model, cty)</code> work the same way as <code>select(cty, !model)</code> (sigh…)</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="seminar06.html#cb11-1"></a>short_mpg <span class="op">%&gt;%</span></span>
+<span id="cb11-2"><a href="seminar06.html#cb11-2"></a><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>model, cty)</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">manufacturer</th>
+<th align="right">displ</th>
+<th align="right">year</th>
+<th align="right">cyl</th>
+<th align="left">trans</th>
+<th align="left">drv</th>
+<th align="right">cty</th>
+<th align="right">hwy</th>
+<th align="left">fl</th>
+<th align="left">class</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">audi</td>
+<td align="right">1.8</td>
+<td align="right">1999</td>
+<td align="right">4</td>
+<td align="left">auto(l5)</td>
+<td align="left">f</td>
+<td align="right">18</td>
+<td align="right">29</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="even">
+<td align="left">audi</td>
+<td align="right">1.8</td>
+<td align="right">1999</td>
+<td align="right">4</td>
+<td align="left">manual(m5)</td>
+<td align="left">f</td>
+<td align="right">21</td>
+<td align="right">29</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="odd">
+<td align="left">audi</td>
+<td align="right">2.0</td>
+<td align="right">2008</td>
+<td align="right">4</td>
+<td align="left">manual(m6)</td>
+<td align="left">f</td>
+<td align="right">20</td>
+<td align="right">31</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="even">
+<td align="left">audi</td>
+<td align="right">2.0</td>
+<td align="right">2008</td>
+<td align="right">4</td>
+<td align="left">auto(av)</td>
+<td align="left">f</td>
+<td align="right">21</td>
+<td align="right">30</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="odd">
+<td align="left">audi</td>
+<td align="right">2.8</td>
+<td align="right">1999</td>
+<td align="right">6</td>
+<td align="left">auto(l5)</td>
+<td align="left">f</td>
+<td align="right">16</td>
+<td align="right">26</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+</tbody>
+</table>
+<p>So, bottom line, do not mix positive and negative indexing in <code>select</code>! I am showing you this only to signal the potential danger.</p>
+<div class="infobox practice">
+<p>Do exercise 1.</p>
+</div>
+<p>Simple names and their negation will be sufficient for most of your projects. However, I would recommend taking a look at the <a href="https://dplyr.tidyverse.org/reference/select.html">official manual</a> just to see that <code>select</code> offers a lot of flexibility (selecting range of columns, by column type, by partial name matching, etc), something that might be useful for you in your later work.</p>
+</div>
+<div id="conditions" class="section level2" number="6.4">
+<h2><span class="header-section-number">6.4</span> Conditions</h2>
+<p>Before we can work with the next verb, you need to understand conditions. Conditions are statements about values that are either <code>TRUE</code> or <code>FALSE</code>. In the simplest case, you can check whether two values (one in a variable and one hard-coded) are equal via <code>==</code> operator</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="seminar06.html#cb12-1"></a>x &lt;-<span class="st"> </span><span class="dv">5</span></span>
+<span id="cb12-2"><a href="seminar06.html#cb12-2"></a><span class="kw">print</span>(x <span class="op">==</span><span class="st"> </span><span class="dv">5</span>)</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="seminar06.html#cb14-1"></a><span class="kw">print</span>(x <span class="op">==</span><span class="st"> </span><span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<p>For numeric values, you can use all usual comparison operators including <em>not equal</em> <code>!=</code>, <em>less than</em> <code>&lt;</code>, <em>greater than</em> <code>&gt;</code>, <em>less than or equal to</em> <code>&lt;=</code> (note the order of symbols!), and <em>greater than or equal to</em> <code>&gt;=</code> (again, note the order of symbols).</p>
+<div class="infobox practice">
+<p>Do exercise 2.</p>
+</div>
+<p>You can negate a statement via <em>not</em> <code>!</code> symbol as <code>!TRUE</code> is <code>FALSE</code> and vice versa. However, note that round brackets in the examples below! They are critical to express the <em>order</em> of computation. Anything <em>inside</em> the brackets is evaluated first. And if you have brackets inside the brackets, similar to nested functions, it is the innermost expression that get evaluated first. In the example below, <code>x==5</code> is evaluated first and logical inversion happens only after it. In this particular example, you may not need them but I would suggest using them to ensure clarity.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="seminar06.html#cb16-1"></a>x &lt;-<span class="st"> </span><span class="dv">5</span></span>
+<span id="cb16-2"><a href="seminar06.html#cb16-2"></a><span class="kw">print</span>(<span class="op">!</span>(x <span class="op">==</span><span class="st"> </span><span class="dv">5</span>))</span></code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="seminar06.html#cb18-1"></a><span class="kw">print</span>(<span class="op">!</span>(x <span class="op">==</span><span class="st"> </span><span class="dv">3</span>))</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="infobox practice">
+<p>Do exercise 3.</p>
+</div>
+<p>You can also combine several conditions using <em>and</em> <code>&amp;</code> and <em>or</em> <code>|</code> operators. Again, note round brackets that explicitly define what is evaluated first.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="seminar06.html#cb20-1"></a>x &lt;-<span class="st"> </span><span class="dv">5</span></span>
+<span id="cb20-2"><a href="seminar06.html#cb20-2"></a>y &lt;-<span class="st"> </span><span class="dv">2</span></span>
+<span id="cb20-3"><a href="seminar06.html#cb20-3"></a></span>
+<span id="cb20-4"><a href="seminar06.html#cb20-4"></a><span class="co"># x is not equal to 5 OR y is equal to 1</span></span>
+<span id="cb20-5"><a href="seminar06.html#cb20-5"></a><span class="kw">print</span>((x <span class="op">!=</span><span class="st"> </span><span class="dv">5</span>) <span class="op">|</span><span class="st"> </span>(y <span class="op">==</span><span class="st"> </span><span class="dv">1</span>))</span></code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="seminar06.html#cb22-1"></a><span class="co"># x less than 10 AND y is greater than or equal to 1</span></span>
+<span id="cb22-2"><a href="seminar06.html#cb22-2"></a><span class="kw">print</span>((x <span class="op">&lt;</span><span class="st"> </span><span class="dv">10</span>) <span class="op">&amp;</span><span class="st"> </span>(y <span class="op">&gt;=</span><span class="st"> </span><span class="dv">1</span>))</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="infobox practice">
+<p>Do exercise 4.</p>
+</div>
+<p>All examples above used scalars but you remember that <em>everything is a vector</em>, including values that we used (they are just vectors of length one). Accordingly, same logic works for vectors of arbitrary length with comparisons working element-wise, so you get a vector of the same length with <code>TRUE</code> or <code>FALSE</code> values for each <em>pairwise</em> comparison.</p>
+<div class="infobox practice">
+<p>Do exercise 4.</p>
+</div>
+</div>
+<div id="logical-indexing" class="section level2" number="6.5">
+<h2><span class="header-section-number">6.5</span> Logical indexing</h2>
+<p>In the second seminar, you learned about vector indexing when you access <em>some</em> elements of a vector by specifying their index. There is an alternative way, called <em>logical indexing</em>, when instead you supply a vector of equal length with <em>logical values</em> and you get elements of the original vector whenever the logical value is <code>TRUE</code></p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="seminar06.html#cb24-1"></a>x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">5</span></span>
+<span id="cb24-2"><a href="seminar06.html#cb24-2"></a>x[<span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">TRUE</span>, <span class="ot">FALSE</span>)]</span></code></pre></div>
+<pre><code>## [1] 1 2 4</code></pre>
+<p>This is particularly useful, if you are interested in elements that satisfy certain condition. For example, you want all <em>negative</em> values and you can use condition <code>x&lt;5</code> that will produce a vector of logical values that, in turn, can be used as index</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="seminar06.html#cb26-1"></a>x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">-5</span>, <span class="dv">-1</span>)</span>
+<span id="cb26-2"><a href="seminar06.html#cb26-2"></a>x[x<span class="op">&lt;</span><span class="dv">0</span>]</span></code></pre></div>
+<pre><code>## [1] -2 -5 -1</code></pre>
+<p>You can have conditions of any complexity by combining them via <em>and</em> <code>&amp;</code> and <em>or</em> <code>|</code> operators. For example, if you want number below -1 or above 3 (be careful to have space between <code>&lt;</code> and <code>-</code>, otherwise it will be interpreted as assignment <code>&lt;-</code>).</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="seminar06.html#cb28-1"></a>x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">-5</span>, <span class="dv">-1</span>)</span>
+<span id="cb28-2"><a href="seminar06.html#cb28-2"></a>x[(x<span class="op">&lt;</span><span class="st"> </span><span class="dv">-1</span>) <span class="op">|</span><span class="st"> </span>(x<span class="op">&gt;</span><span class="dv">3</span>)]</span></code></pre></div>
+<pre><code>## [1] -2  5 -5</code></pre>
+<div class="infobox practice">
+<p>Do exercise 4.</p>
+</div>
+<p>Sometimes you may want to know the actual index of elements for <em>which</em> some condition is <code>TRUE</code>. Function <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/which.html">which()</a> does exactly that.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="seminar06.html#cb30-1"></a>x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">-5</span>, <span class="dv">-1</span>)</span>
+<span id="cb30-2"><a href="seminar06.html#cb30-2"></a><span class="kw">which</span>( (x<span class="op">&lt;</span><span class="st"> </span><span class="dv">-1</span>) <span class="op">|</span><span class="st"> </span>(x<span class="op">&gt;</span><span class="dv">3</span>) )</span></code></pre></div>
+<pre><code>## [1] 1 2 4</code></pre>
+</div>
+<div id="filter-rows-by-values" class="section level2" number="6.6">
+<h2><span class="header-section-number">6.6</span> <code>filter()</code> rows by values</h2>
+<p>Now that you understand conditions and logical indexing, using <a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a> is very straightforward: You simply put condition that describes rows that you want to <em>retain</em> inside the <code>filter()</code> call. For example, we can look at efficiency only for two-seater cars.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="seminar06.html#cb32-1"></a>mpg <span class="op">%&gt;%</span></span>
+<span id="cb32-2"><a href="seminar06.html#cb32-2"></a><span class="st">  </span><span class="kw">filter</span>(class <span class="op">==</span><span class="st"> &quot;2seater&quot;</span>)</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">manufacturer</th>
+<th align="left">model</th>
+<th align="right">displ</th>
+<th align="right">year</th>
+<th align="right">cyl</th>
+<th align="left">trans</th>
+<th align="left">drv</th>
+<th align="right">cty</th>
+<th align="right">hwy</th>
+<th align="left">fl</th>
+<th align="left">class</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">chevrolet</td>
+<td align="left">corvette</td>
+<td align="right">5.7</td>
+<td align="right">1999</td>
+<td align="right">8</td>
+<td align="left">manual(m6)</td>
+<td align="left">r</td>
+<td align="right">16</td>
+<td align="right">26</td>
+<td align="left">p</td>
+<td align="left">2seater</td>
+</tr>
+<tr class="even">
+<td align="left">chevrolet</td>
+<td align="left">corvette</td>
+<td align="right">5.7</td>
+<td align="right">1999</td>
+<td align="right">8</td>
+<td align="left">auto(l4)</td>
+<td align="left">r</td>
+<td align="right">15</td>
+<td align="right">23</td>
+<td align="left">p</td>
+<td align="left">2seater</td>
+</tr>
+<tr class="odd">
+<td align="left">chevrolet</td>
+<td align="left">corvette</td>
+<td align="right">6.2</td>
+<td align="right">2008</td>
+<td align="right">8</td>
+<td align="left">manual(m6)</td>
+<td align="left">r</td>
+<td align="right">16</td>
+<td align="right">26</td>
+<td align="left">p</td>
+<td align="left">2seater</td>
+</tr>
+<tr class="even">
+<td align="left">chevrolet</td>
+<td align="left">corvette</td>
+<td align="right">6.2</td>
+<td align="right">2008</td>
+<td align="right">8</td>
+<td align="left">auto(s6)</td>
+<td align="left">r</td>
+<td align="right">15</td>
+<td align="right">25</td>
+<td align="left">p</td>
+<td align="left">2seater</td>
+</tr>
+<tr class="odd">
+<td align="left">chevrolet</td>
+<td align="left">corvette</td>
+<td align="right">7.0</td>
+<td align="right">2008</td>
+<td align="right">8</td>
+<td align="left">manual(m6)</td>
+<td align="left">r</td>
+<td align="right">15</td>
+<td align="right">24</td>
+<td align="left">p</td>
+<td align="left">2seater</td>
+</tr>
+</tbody>
+</table>
+<p>You can use information from any row, so we can look for midsize cars with four-wheel drive.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="seminar06.html#cb33-1"></a>mpg <span class="op">%&gt;%</span></span>
+<span id="cb33-2"><a href="seminar06.html#cb33-2"></a><span class="st">  </span><span class="kw">filter</span>(class <span class="op">==</span><span class="st"> &quot;midsize&quot;</span> <span class="op">&amp;</span><span class="st"> </span>drv <span class="op">==</span><span class="st"> &quot;4&quot;</span>)</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">manufacturer</th>
+<th align="left">model</th>
+<th align="right">displ</th>
+<th align="right">year</th>
+<th align="right">cyl</th>
+<th align="left">trans</th>
+<th align="left">drv</th>
+<th align="right">cty</th>
+<th align="right">hwy</th>
+<th align="left">fl</th>
+<th align="left">class</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">audi</td>
+<td align="left">a6 quattro</td>
+<td align="right">2.8</td>
+<td align="right">1999</td>
+<td align="right">6</td>
+<td align="left">auto(l5)</td>
+<td align="left">4</td>
+<td align="right">15</td>
+<td align="right">24</td>
+<td align="left">p</td>
+<td align="left">midsize</td>
+</tr>
+<tr class="even">
+<td align="left">audi</td>
+<td align="left">a6 quattro</td>
+<td align="right">3.1</td>
+<td align="right">2008</td>
+<td align="right">6</td>
+<td align="left">auto(s6)</td>
+<td align="left">4</td>
+<td align="right">17</td>
+<td align="right">25</td>
+<td align="left">p</td>
+<td align="left">midsize</td>
+</tr>
+<tr class="odd">
+<td align="left">audi</td>
+<td align="left">a6 quattro</td>
+<td align="right">4.2</td>
+<td align="right">2008</td>
+<td align="right">8</td>
+<td align="left">auto(s6)</td>
+<td align="left">4</td>
+<td align="right">16</td>
+<td align="right">23</td>
+<td align="left">p</td>
+<td align="left">midsize</td>
+</tr>
+</tbody>
+</table>
+<div class="infobox practice">
+<p>Do exercise 5.</p>
+</div>
+<p>Note that you can emulate <code>filter()</code> in a very straightforward way using single-brackets base R, the main difference is that you need to prefix every column with the table name, so <code>mpg$class</code> instead of just <code>class</code><a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="seminar06.html#cb34-1"></a>mpg[mpg<span class="op">$</span>class <span class="op">==</span><span class="st"> &quot;midsize&quot;</span> <span class="op">&amp;</span><span class="st"> </span>mpg<span class="op">$</span>drv <span class="op">==</span><span class="st"> &quot;4&quot;</span>, ]</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">manufacturer</th>
+<th align="left">model</th>
+<th align="right">displ</th>
+<th align="right">year</th>
+<th align="right">cyl</th>
+<th align="left">trans</th>
+<th align="left">drv</th>
+<th align="right">cty</th>
+<th align="right">hwy</th>
+<th align="left">fl</th>
+<th align="left">class</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">audi</td>
+<td align="left">a6 quattro</td>
+<td align="right">2.8</td>
+<td align="right">1999</td>
+<td align="right">6</td>
+<td align="left">auto(l5)</td>
+<td align="left">4</td>
+<td align="right">15</td>
+<td align="right">24</td>
+<td align="left">p</td>
+<td align="left">midsize</td>
+</tr>
+<tr class="even">
+<td align="left">audi</td>
+<td align="left">a6 quattro</td>
+<td align="right">3.1</td>
+<td align="right">2008</td>
+<td align="right">6</td>
+<td align="left">auto(s6)</td>
+<td align="left">4</td>
+<td align="right">17</td>
+<td align="right">25</td>
+<td align="left">p</td>
+<td align="left">midsize</td>
+</tr>
+<tr class="odd">
+<td align="left">audi</td>
+<td align="left">a6 quattro</td>
+<td align="right">4.2</td>
+<td align="right">2008</td>
+<td align="right">8</td>
+<td align="left">auto(s6)</td>
+<td align="left">4</td>
+<td align="right">16</td>
+<td align="right">23</td>
+<td align="left">p</td>
+<td align="left">midsize</td>
+</tr>
+</tbody>
+</table>
+<p>So why use <code>filter()</code> then? In isolation, as a single line computation, both options are equally compact and clear (apart from all the extra <code>table$</code> in base R). But pipe-oriented nature of the <code>filter()</code> makes it more suitable for chains of computations, which is the main advantage of Tidyverse.</p>
+</div>
+<div id="arrange-rows-in-a-particular-order" class="section level2" number="6.7">
+<h2><span class="header-section-number">6.7</span> <code>arrange()</code> rows in a particular order</h2>
+<p>Sometimes you might need to sort your table so that rows go in a particular order<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a>. In Tidyverse, you <a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a> rows based on values of specific variables. This verb is very straightforward, you simply list all variables that must be used for sorting in the order the sorting must be carried out. I.e., first the table is sorted based on values of the first variable. Then, for equal values of that variable, rows are sorted based on the second variable, etc. By default, rows are arranged in ascending order but you can reverse it by putting a variable inside of <a href="https://dplyr.tidyverse.org/reference/desc.html">desc()</a> function. Here is the <code>short_mpg</code> table arranged by city cycle highway efficiency (ascending order) and engine displacement (descending order, note the order of the last two rows).</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="seminar06.html#cb35-1"></a>short_mpg <span class="op">%&gt;%</span></span>
+<span id="cb35-2"><a href="seminar06.html#cb35-2"></a><span class="st">  </span><span class="kw">arrange</span>(cty, <span class="kw">desc</span>(displ)) </span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="seminar06.html#cb36-1"></a>short_mpg <span class="op">%&gt;%</span></span>
+<span id="cb36-2"><a href="seminar06.html#cb36-2"></a><span class="st">  </span><span class="kw">arrange</span>(cty, <span class="kw">desc</span>(displ)) <span class="op">%&gt;%</span></span>
+<span id="cb36-3"><a href="seminar06.html#cb36-3"></a><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>()</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">manufacturer</th>
+<th align="left">model</th>
+<th align="right">displ</th>
+<th align="right">year</th>
+<th align="right">cyl</th>
+<th align="left">trans</th>
+<th align="left">drv</th>
+<th align="right">cty</th>
+<th align="right">hwy</th>
+<th align="left">fl</th>
+<th align="left">class</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">audi</td>
+<td align="left">a4</td>
+<td align="right">2.8</td>
+<td align="right">1999</td>
+<td align="right">6</td>
+<td align="left">auto(l5)</td>
+<td align="left">f</td>
+<td align="right">16</td>
+<td align="right">26</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="even">
+<td align="left">audi</td>
+<td align="left">a4</td>
+<td align="right">1.8</td>
+<td align="right">1999</td>
+<td align="right">4</td>
+<td align="left">auto(l5)</td>
+<td align="left">f</td>
+<td align="right">18</td>
+<td align="right">29</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="odd">
+<td align="left">audi</td>
+<td align="left">a4</td>
+<td align="right">2.0</td>
+<td align="right">2008</td>
+<td align="right">4</td>
+<td align="left">manual(m6)</td>
+<td align="left">f</td>
+<td align="right">20</td>
+<td align="right">31</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="even">
+<td align="left">audi</td>
+<td align="left">a4</td>
+<td align="right">2.0</td>
+<td align="right">2008</td>
+<td align="right">4</td>
+<td align="left">auto(av)</td>
+<td align="left">f</td>
+<td align="right">21</td>
+<td align="right">30</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="odd">
+<td align="left">audi</td>
+<td align="left">a4</td>
+<td align="right">1.8</td>
+<td align="right">1999</td>
+<td align="right">4</td>
+<td align="left">manual(m5)</td>
+<td align="left">f</td>
+<td align="right">21</td>
+<td align="right">29</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+</tbody>
+</table>
+<div class="infobox practice">
+<p>Do exercise 6.</p>
+</div>
+<p>You can arrange a table using base R via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/order.html">order()</a> function that gives index of ordered elements and can be used inside of single bracket notation.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="seminar06.html#cb37-1"></a>short_mpg[<span class="kw">order</span>(short_mpg<span class="op">$</span>cty, <span class="op">-</span>short_mpg<span class="op">$</span>displ), ]</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="seminar06.html#cb38-1"></a>short_mpg[<span class="kw">order</span>(short_mpg<span class="op">$</span>cty, <span class="op">-</span>short_mpg<span class="op">$</span>displ), ] <span class="op">%&gt;%</span></span>
+<span id="cb38-2"><a href="seminar06.html#cb38-2"></a><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>()</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">manufacturer</th>
+<th align="left">model</th>
+<th align="right">displ</th>
+<th align="right">year</th>
+<th align="right">cyl</th>
+<th align="left">trans</th>
+<th align="left">drv</th>
+<th align="right">cty</th>
+<th align="right">hwy</th>
+<th align="left">fl</th>
+<th align="left">class</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">audi</td>
+<td align="left">a4</td>
+<td align="right">2.8</td>
+<td align="right">1999</td>
+<td align="right">6</td>
+<td align="left">auto(l5)</td>
+<td align="left">f</td>
+<td align="right">16</td>
+<td align="right">26</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="even">
+<td align="left">audi</td>
+<td align="left">a4</td>
+<td align="right">1.8</td>
+<td align="right">1999</td>
+<td align="right">4</td>
+<td align="left">auto(l5)</td>
+<td align="left">f</td>
+<td align="right">18</td>
+<td align="right">29</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="odd">
+<td align="left">audi</td>
+<td align="left">a4</td>
+<td align="right">2.0</td>
+<td align="right">2008</td>
+<td align="right">4</td>
+<td align="left">manual(m6)</td>
+<td align="left">f</td>
+<td align="right">20</td>
+<td align="right">31</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="even">
+<td align="left">audi</td>
+<td align="left">a4</td>
+<td align="right">2.0</td>
+<td align="right">2008</td>
+<td align="right">4</td>
+<td align="left">auto(av)</td>
+<td align="left">f</td>
+<td align="right">21</td>
+<td align="right">30</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+<tr class="odd">
+<td align="left">audi</td>
+<td align="left">a4</td>
+<td align="right">1.8</td>
+<td align="right">1999</td>
+<td align="right">4</td>
+<td align="left">manual(m5)</td>
+<td align="left">f</td>
+<td align="right">21</td>
+<td align="right">29</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+</tr>
+</tbody>
+</table>
+<div class="infobox practice">
+<p>Do exercise 7.</p>
+</div>
+</div>
+<div id="mutate" class="section level2" number="6.8">
+<h2><span class="header-section-number">6.8</span> <code>mutate()</code> columns</h2>
+<p>In Tidyverse, <a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a> function allows you to both add new columns/variables to a table and change the existing ones. In essence, it is equivalent to a simple column assignment statement in base R.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="seminar06.html#cb39-1"></a><span class="co"># base R</span></span>
+<span id="cb39-2"><a href="seminar06.html#cb39-2"></a>short_mpg<span class="op">$</span>avg_mpg &lt;-<span class="st"> </span>(short_mpg<span class="op">$</span>cty <span class="op">+</span><span class="st"> </span>short_mpg<span class="op">$</span>hwy) <span class="op">/</span><span class="st"> </span><span class="dv">2</span></span>
+<span id="cb39-3"><a href="seminar06.html#cb39-3"></a></span>
+<span id="cb39-4"><a href="seminar06.html#cb39-4"></a><span class="co"># Tidyverse equivalent</span></span>
+<span id="cb39-5"><a href="seminar06.html#cb39-5"></a>short_mpg &lt;-<span class="st"> </span></span>
+<span id="cb39-6"><a href="seminar06.html#cb39-6"></a><span class="st">  </span>short_mpg <span class="op">%&gt;%</span></span>
+<span id="cb39-7"><a href="seminar06.html#cb39-7"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">avg_mpg =</span> (short_mpg<span class="op">$</span>cty <span class="op">+</span><span class="st"> </span>short_mpg<span class="op">$</span>hwy) <span class="op">/</span><span class="st"> </span><span class="dv">2</span>)</span></code></pre></div>
+<p>Note two critical differences. First, <code>mutate()</code> takes a table as an input and returns a table as an output. This is why you start with a table, pipe it to mutate, and assign the results <em>back</em> to the original variable. If you have more verbs/lines, it is the output of the last computation that is assigned to the variable on the left-hand side of assignment<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a>. Look at the listing below that indexes each line by when it is executed.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="seminar06.html#cb40-1"></a>some_table &lt;-<span class="st">    </span><span class="co"># 3. We assign the result to the original table, only once all the code below has been executed.</span></span>
+<span id="cb40-2"><a href="seminar06.html#cb40-2"></a><span class="st">  </span>some_table <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># 1. We start here, with the original table and pipe to the next computation</span></span>
+<span id="cb40-3"><a href="seminar06.html#cb40-3"></a><span class="st">  </span><span class="kw">mutate</span>(...)    <span class="co"># 2. We add/change columns inside of the table. The output is a table which we use for assignment all the way at the top.</span></span></code></pre></div>
+<p>Second, you are performing a computation <em>inside</em> the call of the <code>mutate()</code> function, so <code>avg_mpg = (short_mpg$cty + short_mpg$hwy) / 2</code> is a <em>parameter</em> that you pass to it (yes, it does not look like one). This is why you use <code>=</code> rather than a normal assignment arrow <code>&lt;-</code>. Unfortunately, you <em>can</em> use <code>&lt;-</code> inside the <code>mutate</code> and the computation will work as intended but, for internal-processing reasons, the <em>entire statement</em>, rather than just the left-hand side, will be used as a column name. Thus, use <code>&lt;-</code> <em>outside</em> and <code>=</code> <em>inside</em> of Tydiverse verbs.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="seminar06.html#cb41-1"></a>short_mpg <span class="op">%&gt;%</span></span>
+<span id="cb41-2"><a href="seminar06.html#cb41-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">avg_mpg =</span> (short_mpg<span class="op">$</span>cty <span class="op">+</span><span class="st"> </span>short_mpg<span class="op">$</span>hwy) <span class="op">/</span><span class="st"> </span><span class="dv">2</span>,      <span class="co"># column name will be avp_mpg</span></span>
+<span id="cb41-3"><a href="seminar06.html#cb41-3"></a>         avg_mpg &lt;-<span class="st"> </span>(short_mpg<span class="op">$</span>cty <span class="op">+</span><span class="st"> </span>short_mpg<span class="op">$</span>hwy) <span class="op">/</span><span class="st"> </span><span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># column name will be `avg_mpg &lt;- (short_mpg$cty + short_mpg$hwy) / 2`</span></span>
+<span id="cb41-4"><a href="seminar06.html#cb41-4"></a><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>()</span></code></pre></div>
+<table>
+<colgroup>
+<col width="10%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="3%" />
+<col width="9%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="2%" />
+<col width="6%" />
+<col width="6%" />
+<col width="37%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">manufacturer</th>
+<th align="left">model</th>
+<th align="right">displ</th>
+<th align="right">year</th>
+<th align="right">cyl</th>
+<th align="left">trans</th>
+<th align="left">drv</th>
+<th align="right">cty</th>
+<th align="right">hwy</th>
+<th align="left">fl</th>
+<th align="left">class</th>
+<th align="right">avg_mpg</th>
+<th align="right">avg_mpg &lt;- (short_mpg<span class="math inline">\(cty + short_mpg\)</span>hwy)/2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">audi</td>
+<td align="left">a4</td>
+<td align="right">1.8</td>
+<td align="right">1999</td>
+<td align="right">4</td>
+<td align="left">auto(l5)</td>
+<td align="left">f</td>
+<td align="right">18</td>
+<td align="right">29</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+<td align="right">23.5</td>
+<td align="right">23.5</td>
+</tr>
+<tr class="even">
+<td align="left">audi</td>
+<td align="left">a4</td>
+<td align="right">1.8</td>
+<td align="right">1999</td>
+<td align="right">4</td>
+<td align="left">manual(m5)</td>
+<td align="left">f</td>
+<td align="right">21</td>
+<td align="right">29</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+<td align="right">25.0</td>
+<td align="right">25.0</td>
+</tr>
+<tr class="odd">
+<td align="left">audi</td>
+<td align="left">a4</td>
+<td align="right">2.0</td>
+<td align="right">2008</td>
+<td align="right">4</td>
+<td align="left">manual(m6)</td>
+<td align="left">f</td>
+<td align="right">20</td>
+<td align="right">31</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+<td align="right">25.5</td>
+<td align="right">25.5</td>
+</tr>
+<tr class="even">
+<td align="left">audi</td>
+<td align="left">a4</td>
+<td align="right">2.0</td>
+<td align="right">2008</td>
+<td align="right">4</td>
+<td align="left">auto(av)</td>
+<td align="left">f</td>
+<td align="right">21</td>
+<td align="right">30</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+<td align="right">25.5</td>
+<td align="right">25.5</td>
+</tr>
+<tr class="odd">
+<td align="left">audi</td>
+<td align="left">a4</td>
+<td align="right">2.8</td>
+<td align="right">1999</td>
+<td align="right">6</td>
+<td align="left">auto(l5)</td>
+<td align="left">f</td>
+<td align="right">16</td>
+<td align="right">26</td>
+<td align="left">p</td>
+<td align="left">compact</td>
+<td align="right">21.0</td>
+<td align="right">21.0</td>
+</tr>
+</tbody>
+</table>
+<p>As shown in the example above, you can perform several computations within a single <code>mutate</code> call and they are executed one after another, just as they would be when using base R.
+::: {.infobox .practice}
+Do exercise 7.
+:::</p>
+<p>Finally, <code>mutate</code> has a cousin-verb called <code>transmute</code> that works the same way but <em>discards</em> all original columns that were not modified. You probably won’t use this verb all too often but I want you to be able to recognize it, as its name and function are very similar to <code>mutate</code> and the two are easy to confuse.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="seminar06.html#cb42-1"></a>short_mpg <span class="op">%&gt;%</span></span>
+<span id="cb42-2"><a href="seminar06.html#cb42-2"></a><span class="st">  </span><span class="kw">transmute</span>(<span class="dt">avg_mpg =</span> (short_mpg<span class="op">$</span>cty <span class="op">+</span><span class="st"> </span>short_mpg<span class="op">$</span>hwy) <span class="op">/</span><span class="st"> </span><span class="dv">2</span>) <span class="op">%&gt;%</span></span>
+<span id="cb42-3"><a href="seminar06.html#cb42-3"></a><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>()</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="right">avg_mpg</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">23.5</td>
+</tr>
+<tr class="even">
+<td align="right">25.0</td>
+</tr>
+<tr class="odd">
+<td align="right">25.5</td>
+</tr>
+<tr class="even">
+<td align="right">25.5</td>
+</tr>
+<tr class="odd">
+<td align="right">21.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="summarize" class="section level2" number="6.9">
+<h2><span class="header-section-number">6.9</span> <code>summarize()</code> table by <code>groups</code></h2>
+<p>This verb is used when you <em>aggregate</em> across <em>all</em> rows, reducing them to a <em>single value</em>. Some examples of aggregating functions that are probably already familiar to you are <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html">mean</a>, <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/median.html">median</a>, <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/sd.html">standard deviation</a>, <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/Extremes.html">min/max</a>. However, you can “aggregate” by taking a first or a last value or even by putting in a constant. Important is that <code>summarize</code> expects that it should assign a <em>single</em> value to the column.</p>
+<p>If you use <code>summarize</code> on an <em>ungrouped</em> table (these are the only tables we’ve been working on so far), it keeps only the computed columns, which makes you wonder “what’s the point?”</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="seminar06.html#cb43-1"></a>mpg <span class="op">%&gt;%</span></span>
+<span id="cb43-2"><a href="seminar06.html#cb43-2"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg_cty =</span> <span class="kw">mean</span>(cty),</span>
+<span id="cb43-3"><a href="seminar06.html#cb43-3"></a>            <span class="dt">avg_hwy =</span> <span class="kw">mean</span>(hwy))</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 2
+##   avg_cty avg_hwy
+##     &lt;dbl&gt;   &lt;dbl&gt;
+## 1    16.9    23.4</code></pre>
+<p>However, the real power of <code>summarize</code> (and of <code>mutate</code>) becomes evident when it is applied to the data that is <em>grouped by</em> certain criteria. <a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by()</a> verb groups the rows of the table based values of variables you specified. Behind the scenes, this turns your single table into set of tables, so that your Tidyverse verbs are applied to <em>each</em> table <em>separately</em>. This ability to parse your table into different groups of rows (all rows that belong to a particular participant, or participant and condition, or rows per block, or per trial), change that grouping on the fly, return back to the original full table, etc. makes analysis a breeze. Here is how we can compute average efficiency not across all cars (as in the code above) but for each car class separately.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="seminar06.html#cb45-1"></a>mpg <span class="op">%&gt;%</span></span>
+<span id="cb45-2"><a href="seminar06.html#cb45-2"></a><span class="st">  </span><span class="co"># there are seven different classes of cars, so group_by(cars)  will</span></span>
+<span id="cb45-3"><a href="seminar06.html#cb45-3"></a><span class="st">  </span><span class="co"># create seven hidden independent tables and all verbs below will be </span></span>
+<span id="cb45-4"><a href="seminar06.html#cb45-4"></a><span class="st">  </span><span class="co"># applied to each table separately</span></span>
+<span id="cb45-5"><a href="seminar06.html#cb45-5"></a><span class="st">  </span><span class="kw">group_by</span>(class)  <span class="op">%&gt;%</span></span>
+<span id="cb45-6"><a href="seminar06.html#cb45-6"></a><span class="st">  </span></span>
+<span id="cb45-7"><a href="seminar06.html#cb45-7"></a><span class="st">  </span><span class="co"># same mean computation but per table and we&#39;ve got seven of them</span></span>
+<span id="cb45-8"><a href="seminar06.html#cb45-8"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg_cty =</span> <span class="kw">mean</span>(cty),</span>
+<span id="cb45-9"><a href="seminar06.html#cb45-9"></a>            <span class="dt">avg_hwy =</span> <span class="kw">mean</span>(hwy), <span class="dt">.groups =</span> <span class="st">&quot;drop&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb45-10"><a href="seminar06.html#cb45-10"></a><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>()</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">class</th>
+<th align="right">avg_cty</th>
+<th align="right">avg_hwy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">2seater</td>
+<td align="right">15.40000</td>
+<td align="right">24.80000</td>
+</tr>
+<tr class="even">
+<td align="left">compact</td>
+<td align="right">20.12766</td>
+<td align="right">28.29787</td>
+</tr>
+<tr class="odd">
+<td align="left">midsize</td>
+<td align="right">18.75610</td>
+<td align="right">27.29268</td>
+</tr>
+<tr class="even">
+<td align="left">minivan</td>
+<td align="right">15.81818</td>
+<td align="right">22.36364</td>
+</tr>
+<tr class="odd">
+<td align="left">pickup</td>
+<td align="right">13.00000</td>
+<td align="right">16.87879</td>
+</tr>
+<tr class="even">
+<td align="left">subcompact</td>
+<td align="right">20.37143</td>
+<td align="right">28.14286</td>
+</tr>
+<tr class="odd">
+<td align="left">suv</td>
+<td align="right">13.50000</td>
+<td align="right">18.12903</td>
+</tr>
+</tbody>
+</table>
+<p>Note that summarize still expects us to compute a <em>single</em> value per table but because we do it for <em>seven tables</em>, we get <em>seven rows</em> in our resultant table. And <code>group_by</code> makes it easy to group data in any way you want. Are you interested in manufacturers instead car classes? Easy!</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="seminar06.html#cb46-1"></a>mpg <span class="op">%&gt;%</span></span>
+<span id="cb46-2"><a href="seminar06.html#cb46-2"></a><span class="st">  </span><span class="kw">group_by</span>(manufacturer)  <span class="op">%&gt;%</span></span>
+<span id="cb46-3"><a href="seminar06.html#cb46-3"></a><span class="st">  </span><span class="co"># same mean computation but per table and we&#39;ve got seven of them</span></span>
+<span id="cb46-4"><a href="seminar06.html#cb46-4"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg_cty =</span> <span class="kw">mean</span>(cty),</span>
+<span id="cb46-5"><a href="seminar06.html#cb46-5"></a>            <span class="dt">avg_hwy =</span> <span class="kw">mean</span>(hwy), <span class="dt">.groups =</span> <span class="st">&quot;drop&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb46-6"><a href="seminar06.html#cb46-6"></a><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>()</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">manufacturer</th>
+<th align="right">avg_cty</th>
+<th align="right">avg_hwy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">audi</td>
+<td align="right">17.61111</td>
+<td align="right">26.44444</td>
+</tr>
+<tr class="even">
+<td align="left">chevrolet</td>
+<td align="right">15.00000</td>
+<td align="right">21.89474</td>
+</tr>
+<tr class="odd">
+<td align="left">dodge</td>
+<td align="right">13.13514</td>
+<td align="right">17.94595</td>
+</tr>
+<tr class="even">
+<td align="left">ford</td>
+<td align="right">14.00000</td>
+<td align="right">19.36000</td>
+</tr>
+<tr class="odd">
+<td align="left">honda</td>
+<td align="right">24.44444</td>
+<td align="right">32.55556</td>
+</tr>
+<tr class="even">
+<td align="left">hyundai</td>
+<td align="right">18.64286</td>
+<td align="right">26.85714</td>
+</tr>
+<tr class="odd">
+<td align="left">jeep</td>
+<td align="right">13.50000</td>
+<td align="right">17.62500</td>
+</tr>
+<tr class="even">
+<td align="left">land rover</td>
+<td align="right">11.50000</td>
+<td align="right">16.50000</td>
+</tr>
+<tr class="odd">
+<td align="left">lincoln</td>
+<td align="right">11.33333</td>
+<td align="right">17.00000</td>
+</tr>
+<tr class="even">
+<td align="left">mercury</td>
+<td align="right">13.25000</td>
+<td align="right">18.00000</td>
+</tr>
+<tr class="odd">
+<td align="left">nissan</td>
+<td align="right">18.07692</td>
+<td align="right">24.61538</td>
+</tr>
+<tr class="even">
+<td align="left">pontiac</td>
+<td align="right">17.00000</td>
+<td align="right">26.40000</td>
+</tr>
+<tr class="odd">
+<td align="left">subaru</td>
+<td align="right">19.28571</td>
+<td align="right">25.57143</td>
+</tr>
+<tr class="even">
+<td align="left">toyota</td>
+<td align="right">18.52941</td>
+<td align="right">24.91176</td>
+</tr>
+<tr class="odd">
+<td align="left">volkswagen</td>
+<td align="right">20.92593</td>
+<td align="right">29.22222</td>
+</tr>
+</tbody>
+</table>
+<p>How about efficiency per class <em>and</em> year? Still easy!</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="seminar06.html#cb47-1"></a>mpg <span class="op">%&gt;%</span></span>
+<span id="cb47-2"><a href="seminar06.html#cb47-2"></a><span class="st">  </span><span class="kw">group_by</span>(class, year)  <span class="op">%&gt;%</span></span>
+<span id="cb47-3"><a href="seminar06.html#cb47-3"></a><span class="st">  </span><span class="co"># same mean computation but per table and we&#39;ve got seven of them</span></span>
+<span id="cb47-4"><a href="seminar06.html#cb47-4"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg_cty =</span> <span class="kw">mean</span>(cty),</span>
+<span id="cb47-5"><a href="seminar06.html#cb47-5"></a>            <span class="dt">avg_hwy =</span> <span class="kw">mean</span>(hwy), <span class="dt">.groups =</span> <span class="st">&quot;drop&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb47-6"><a href="seminar06.html#cb47-6"></a><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>()</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">class</th>
+<th align="right">year</th>
+<th align="right">avg_cty</th>
+<th align="right">avg_hwy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">2seater</td>
+<td align="right">1999</td>
+<td align="right">15.50000</td>
+<td align="right">24.50000</td>
+</tr>
+<tr class="even">
+<td align="left">2seater</td>
+<td align="right">2008</td>
+<td align="right">15.33333</td>
+<td align="right">25.00000</td>
+</tr>
+<tr class="odd">
+<td align="left">compact</td>
+<td align="right">1999</td>
+<td align="right">19.76000</td>
+<td align="right">27.92000</td>
+</tr>
+<tr class="even">
+<td align="left">compact</td>
+<td align="right">2008</td>
+<td align="right">20.54545</td>
+<td align="right">28.72727</td>
+</tr>
+<tr class="odd">
+<td align="left">midsize</td>
+<td align="right">1999</td>
+<td align="right">18.15000</td>
+<td align="right">26.50000</td>
+</tr>
+<tr class="even">
+<td align="left">midsize</td>
+<td align="right">2008</td>
+<td align="right">19.33333</td>
+<td align="right">28.04762</td>
+</tr>
+<tr class="odd">
+<td align="left">minivan</td>
+<td align="right">1999</td>
+<td align="right">16.16667</td>
+<td align="right">22.50000</td>
+</tr>
+<tr class="even">
+<td align="left">minivan</td>
+<td align="right">2008</td>
+<td align="right">15.40000</td>
+<td align="right">22.20000</td>
+</tr>
+<tr class="odd">
+<td align="left">pickup</td>
+<td align="right">1999</td>
+<td align="right">13.00000</td>
+<td align="right">16.81250</td>
+</tr>
+<tr class="even">
+<td align="left">pickup</td>
+<td align="right">2008</td>
+<td align="right">13.00000</td>
+<td align="right">16.94118</td>
+</tr>
+<tr class="odd">
+<td align="left">subcompact</td>
+<td align="right">1999</td>
+<td align="right">21.57895</td>
+<td align="right">29.00000</td>
+</tr>
+<tr class="even">
+<td align="left">subcompact</td>
+<td align="right">2008</td>
+<td align="right">18.93750</td>
+<td align="right">27.12500</td>
+</tr>
+<tr class="odd">
+<td align="left">suv</td>
+<td align="right">1999</td>
+<td align="right">13.37931</td>
+<td align="right">17.55172</td>
+</tr>
+<tr class="even">
+<td align="left">suv</td>
+<td align="right">2008</td>
+<td align="right">13.60606</td>
+<td align="right">18.63636</td>
+</tr>
+</tbody>
+</table>
+<p>Finally, <code>ungroup()</code> verb removes all the grouping and turns your data into a single table.</p>
+<div class="infobox practice">
+<p>Do exercise 8.</p>
+</div>
+<p>You can replicate the functionality of <code>group_by</code> + <code>summarize</code> in base R via <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/aggregate.html">aggregate()</a> and <code>group_by</code> + <code>mutate</code> via <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/by.html">by</a> functions. However, they are somewhat less straightforward in use as they rely on functional programming and require both grouping and summary function within a single call.</p>
+</div>
+<div id="putting-it-all-together" class="section level2" number="6.10">
+<h2><span class="header-section-number">6.10</span> Putting it all together</h2>
+<p>Now you have enough tools at your disposal to start programming a continuous analysis pipeline!</p>
+<div class="infobox practice">
+<p>Do exercise 9.</p>
+</div>
+</div>
+<div id="should-i-use-tidyverse" class="section level2" number="6.11">
+<h2><span class="header-section-number">6.11</span> Should I use Tidyverse?</h2>
+<p>As you saw above, whatever Tidyverse can do, base R can do as well. So why use a non-standard family of packages? If you are using each function in isolation, there is probably not much sense in this. Base R can do it equally well and <em>each individual</em> function is also compact and simple. However, if you need to <em>chain</em> your computation, which is almost always the case, Tidyverse’s ability to pipe the entire sequence of functions in a simple consistent and, therefore, easy to understand way is a game-changer. In the long run, pick your style. Either go “all in” with Tidyverse (that is my approach), stick to base R, or find some alternative package family. However, as far as the seminar is concerned, it will be almost exclusively Tydiverse from now on.</p>
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>The name should invoke an image of data pliers. According to Hadley Wickham, you can pronounce it any way you like.<a href="seminar06.html#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>In general, bad but consistent styling is better than an inconsistent mix of good styles.<a href="seminar06.html#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>At least, <code>-</code> is not mentioned anymore, even though it still works.<a href="seminar06.html#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p>Unless you know what you are doing and that is the simplest and clearest way to achieve this.<a href="seminar06.html#fnref4" class="footnote-back">↩︎</a></p></li>
+<li id="fn5"><p>You can sidestep this issue via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/with.html">with()</a> function, although I am not a big fan of this approach.<a href="seminar06.html#fnref5" class="footnote-back">↩︎</a></p></li>
+<li id="fn6"><p>In my experience, this mostly happens when you need to print out or view a table.<a href="seminar06.html#fnref6" class="footnote-back">↩︎</a></p></li>
+<li id="fn7"><p>R does have <code>-&gt;</code> statement, so, technically, you can pipe your computation and then assign it to a variable <code>table %&gt;% mutate() -&gt; table</code>. However, this style is generally discouraged as starting with <code>table &lt;- table %&gt;%</code> makes it clear that you modify and store the computation, whereas <code>table %&gt;%</code> signals that you pipe the results to an output: console, printed-out table, plot, etc.<a href="seminar06.html#fnref7" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="seminar05.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["data-analysis-using-r-for-psychology.pdf", "data-analysis-using-r-for-psychology.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

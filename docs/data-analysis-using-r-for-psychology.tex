@@ -117,7 +117,7 @@
 
 \title{Data analysis using R for Psychology}
 \author{Alexander (Sasha) Pastukhov}
-\date{2020-11-30}
+\date{2020-12-01}
 
 \begin{document}
 \maketitle
@@ -1160,8 +1160,8 @@ To access individual \emph{vectors} (a.k.a. columns or variables) use dollar not
 
 \begin{center}\includegraphics[width=1\linewidth]{images/table-column} \end{center}
 
-\hypertarget{extracting-part-of-a-table}{%
-\section{Extracting part of a table}\label{extracting-part-of-a-table}}
+\hypertarget{table-indexing}{%
+\section{Extracting part of a table}\label{table-indexing}}
 
 Alternatively, you can extract or access a rectangular part of the table via \textbf{single} square brackets. To get one or more columns you can use their names or indexes just as you did with vectors.
 
@@ -1335,29 +1335,6 @@ One thing to keep in mind is that if you import two libraries that have a functi
 ## The following objects are masked from 'package:base':
 ## 
 ##     intersect, setdiff, setequal, union
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(signal)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## 
-## Attaching package: 'signal'
-\end{verbatim}
-
-\begin{verbatim}
-## The following object is masked from 'package:dplyr':
-## 
-##     filter
-\end{verbatim}
-
-\begin{verbatim}
-## The following objects are masked from 'package:stats':
-## 
-##     filter, poly
 \end{verbatim}
 
 Thus, keep that in mind or, better still, explicitly mention which package the function is coming from via \texttt{library::function()} notation. In this case, you will use the function that you are interested in and need not to worry about other functions with the same name that may conflict with it. In general, it is a good idea to \emph{always} disambiguate function via library but in practice it may make your code hard to read by littering it with \texttt{library::} prefixes. Thus, you will need to find a balance between disambiguation and readability.
@@ -1734,53 +1711,53 @@ You always need the first one. But you do not need to specify the other two, eve
 \hline
 Condition & Intensity & Response\\
 \hline
-A & 1 & -0.2943317\\
+A & 1 & 0.0496272\\
 \hline
-B & 1 & -0.8283743\\
+B & 1 & -1.5360443\\
 \hline
-C & 1 & -4.0632603\\
+C & 1 & -4.5436258\\
 \hline
-A & 2 & 0.6597813\\
+A & 2 & 1.3026641\\
 \hline
-B & 2 & -0.5967463\\
+B & 2 & -1.7912486\\
 \hline
-C & 2 & -3.5912325\\
+C & 2 & -2.7475456\\
 \hline
-A & 3 & 1.4901224\\
+A & 3 & 1.5018363\\
 \hline
-B & 3 & 0.2104729\\
+B & 3 & -1.1777133\\
 \hline
-C & 3 & -1.8316432\\
+C & 3 & -3.0938807\\
 \hline
-A & 4 & 3.3433950\\
+A & 4 & 3.0447694\\
 \hline
-B & 4 & 0.0515323\\
+B & 4 & 1.3077832\\
 \hline
-C & 4 & -1.3706368\\
+C & 4 & -1.4666246\\
 \hline
-A & 5 & 4.4257255\\
+A & 5 & 4.2699611\\
 \hline
-B & 5 & 2.6010568\\
+B & 5 & 1.8204252\\
 \hline
-C & 5 & 0.4974106\\
+C & 5 & -0.4817456\\
 \hline
-A & 6 & 5.3096968\\
+A & 6 & 5.3526468\\
 \hline
-B & 6 & 2.7380560\\
+B & 6 & 3.8401629\\
 \hline
-C & 6 & 1.3153597\\
+C & 6 & 0.5054996\\
 \hline
-A & 7 & 6.1850339\\
+A & 7 & 5.9646503\\
 \hline
-B & 7 & 3.0995118\\
+B & 7 & 4.1055944\\
 \hline
-C & 7 & 0.5297254\\
+C & 7 & 2.3800681\\
 \hline
-A & 8 & 7.5790007\\
+A & 8 & 7.5237158\\
 \hline
-B & 8 & 4.8293166\\
+B & 8 & 4.5929914\\
 \hline
-C & 8 & 3.5335056\\
+C & 8 & 2.5638388\\
 \hline
 \end{tabular}
 
@@ -2383,6 +2360,847 @@ In the code above I have always used the return statement. However, explicit \te
 \end{verbatim}
 
 The lack of return statement in the final line is actually an \href{https://style.tidyverse.org/functions.html}{officially recommended style} but I am vary of this approach because ``explicit is better than implicit''. This omission may be reasonable if it comes at the very end of a long pipe but, in general, I would recommend using return.
+
+\hypertarget{dplyr}{%
+\chapter{Tidyverse: dplyr}\label{dplyr}}
+
+Now that you understand vectors, tables, functions, and pipes, we can start with data analysis and Tidyverse way of doing it. All functions discussed below are part of \href{https://dplyr.tidyverse.org/}{dplyr}\footnote{The name should invoke an image of data pliers. According to Hadley Wickham, you can pronounce it any way you like.} ``grammar of data manipulation'' package.
+
+\hypertarget{tidyverse-philosophy}{%
+\section{Tidyverse philosophy}\label{tidyverse-philosophy}}
+
+Data analysis is different from ``normal'' programming as it mostly involves a series of sequential operations on the same table. You might load the table, transform some variables, filter data, select smaller subset of columns, aggregate by summarizing across different groups of variables before plotting it or formally analyzing it via statistical tests. Tidyverse is built around this serial nature of data analysis of piping a table through a chain of functions. Accordingly, Tidyverse functions take a \emph{table} (\texttt{data.frame} or \texttt{tibble}) as their \emph{first} parameter, which makes piping simpler, and return a \emph{modified table} as an output. This \emph{table-in → table-out} consistency makes it easy to pipe these operations one after another. For me, it helps to think about Tidyverse functions as \emph{verbs}: Actions that I perform on the table at each step.
+
+Here is quick teaser of how such sequential piping works. Below, we will examine each verb/function separately and I will also show you how same operations can be carried out using base R. Note that I put each verb/function on a separate line. This makes it easier to understand how many different operations you perform (number of lines), how complex they are (how long individuals lines of code are), and makes them easy to read line-by-line.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mpg2lpk }\OtherTok{\textless{}{-}} \FloatTok{2.82481061}
+
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# we filter the table by rows, }
+  \CommentTok{\# only keeping rows for which year is 2008}
+  \FunctionTok{filter}\NormalTok{(year }\SpecialCharTok{==} \DecValTok{2008}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  
+  \CommentTok{\# we change cty and hwy columns by turning}
+  \CommentTok{\# miles/gallon into liters/kilometer}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{cty =}\NormalTok{ cty }\SpecialCharTok{/}\NormalTok{ mpg2lpk,}
+         \AttributeTok{hwy =}\NormalTok{ hwy }\SpecialCharTok{/}\NormalTok{ mpg2lpk) }\SpecialCharTok{\%\textgreater{}\%}
+  
+  \CommentTok{\# we create a new column by computing an }
+  \CommentTok{\# average efficiency as mean between city and highway cycles}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{avg\_mpg =}\NormalTok{ (cty }\SpecialCharTok{+}\NormalTok{ hwy) }\SpecialCharTok{/} \DecValTok{2}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  
+  \CommentTok{\# we reduce the table to only two columns}
+  \CommentTok{\# class (of car) and avg\_mpg}
+  \FunctionTok{select}\NormalTok{(class, avg\_mpg) }\SpecialCharTok{\%\textgreater{}\%}
+  
+  \CommentTok{\# we group by each class of car}
+  \CommentTok{\# and compute average efficiency for each group (class of car)}
+  \FunctionTok{group\_by}\NormalTok{(class) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{class\_avg\_mpg =} \FunctionTok{mean}\NormalTok{(avg\_mpg), }\AttributeTok{.groups=}\StringTok{"drop"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  
+  \CommentTok{\# we sort table rows to go from worst to best on efficiency}
+  \FunctionTok{arrange}\NormalTok{(class\_avg\_mpg) }\SpecialCharTok{\%\textgreater{}\%}
+  
+  \CommentTok{\# we kable (Knit the tABLE) to make it look nicer in the document}
+\NormalTok{  knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{l|r}
+\hline
+class & class\_avg\_mpg\\
+\hline
+pickup & 5.299679\\
+\hline
+suv & 5.707006\\
+\hline
+minivan & 6.655313\\
+\hline
+2seater & 7.139122\\
+\hline
+subcompact & 8.153201\\
+\hline
+midsize & 8.386572\\
+\hline
+compact & 8.721421\\
+\hline
+\end{tabular}
+
+\hypertarget{select}{%
+\section{\texorpdfstring{\texttt{select()} columns by name}{select() columns by name}}\label{select}}
+
+\href{https://dplyr.tidyverse.org/reference/select.html}{Select} verb allows you to select/pick columns in a table using their names. This is very similar to using columns names as indexes for tables that you have learned in \protect\hyperlink{table-indexing}{seminar 3}.
+
+First, let us make a shorter version of \texttt{mpg} table by keeping only the first five rows. Note that you can also pick first N rows via \href{https://stat.ethz.ch/R-manual/R-devel/library/utils/html/head.html}{head()} function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{short\_mpg }\OtherTok{\textless{}{-}}\NormalTok{ mpg[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{, ]}
+
+\CommentTok{\# same "first five rows" but via head() function}
+\NormalTok{short\_mpg }\OtherTok{\textless{}{-}} \FunctionTok{head}\NormalTok{(mpg, }\DecValTok{5}\NormalTok{)}
+
+\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(short\_mpg)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{l|l|r|r|r|l|l|r|r|l|l}
+\hline
+manufacturer & model & displ & year & cyl & trans & drv & cty & hwy & fl & class\\
+\hline
+audi & a4 & 1.8 & 1999 & 4 & auto(l5) & f & 18 & 29 & p & compact\\
+\hline
+audi & a4 & 1.8 & 1999 & 4 & manual(m5) & f & 21 & 29 & p & compact\\
+\hline
+audi & a4 & 2.0 & 2008 & 4 & manual(m6) & f & 20 & 31 & p & compact\\
+\hline
+audi & a4 & 2.0 & 2008 & 4 & auto(av) & f & 21 & 30 & p & compact\\
+\hline
+audi & a4 & 2.8 & 1999 & 6 & auto(l5) & f & 16 & 26 & p & compact\\
+\hline
+\end{tabular}
+
+Here is how you can select only \texttt{model} and \texttt{cty} columns via square brackets notation
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{short\_mpg[, }\FunctionTok{c}\NormalTok{(}\StringTok{"model"}\NormalTok{, }\StringTok{"cty"}\NormalTok{)] }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{l|r}
+\hline
+model & cty\\
+\hline
+a4 & 18\\
+\hline
+a4 & 21\\
+\hline
+a4 & 20\\
+\hline
+a4 & 21\\
+\hline
+a4 & 16\\
+\hline
+\end{tabular}
+
+And here how it is done via \texttt{select()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{short\_mpg }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(model, cty)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{l|r}
+\hline
+model & cty\\
+\hline
+a4 & 18\\
+\hline
+a4 & 21\\
+\hline
+a4 & 20\\
+\hline
+a4 & 21\\
+\hline
+a4 & 16\\
+\hline
+\end{tabular}
+
+The idea of Tidyverse functions is to adopt to you, so you \emph{can} use quotes or pass a vector of strings with column names. All calls below produce the same effect, so pick the style you prefer (mine, is in the code \emph{above}) and stick to it\footnote{In general, bad but consistent styling is better than an inconsistent mix of good styles.}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{short\_mpg }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"model"}\NormalTok{, }\StringTok{"cty"}\NormalTok{))}
+  
+\NormalTok{short\_mpg }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\StringTok{"model"}\NormalTok{, }\StringTok{"cty"}\NormalTok{)}
+  
+\NormalTok{short\_mpg }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\FunctionTok{c}\NormalTok{(model, cty))}
+\end{Highlighting}
+\end{Shaded}
+
+As you surely remember, you can use negation to select \emph{other} indexes within a vector (\texttt{c(4,\ 5,\ 6){[}-2{]}} gives you \texttt{{[}4,\ 6{]}}). For the single bracket notation this mechanism does not work with column \emph{names} (only with their indexes). However, \texttt{select} has you covered, so we can select everything \emph{but} \texttt{cty} and \texttt{model}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{short\_mpg }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{cty, }\SpecialCharTok{{-}}\NormalTok{model)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{l|r|r|r|l|l|r|l|l}
+\hline
+manufacturer & displ & year & cyl & trans & drv & hwy & fl & class\\
+\hline
+audi & 1.8 & 1999 & 4 & auto(l5) & f & 29 & p & compact\\
+\hline
+audi & 1.8 & 1999 & 4 & manual(m5) & f & 29 & p & compact\\
+\hline
+audi & 2.0 & 2008 & 4 & manual(m6) & f & 31 & p & compact\\
+\hline
+audi & 2.0 & 2008 & 4 & auto(av) & f & 30 & p & compact\\
+\hline
+audi & 2.8 & 1999 & 6 & auto(l5) & f & 26 & p & compact\\
+\hline
+\end{tabular}
+
+In the current version of \texttt{dplyr}, you can do the same negation via \texttt{!} (a \texttt{logical\ not} operator, you will meet later), moreover, it is now a recommended way of writing the selection\footnote{At least, \texttt{-} is not mentioned anymore, even though it still works.}. The \texttt{-} and \texttt{!} are not synonyms and the difference is subtle but important, see below.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# will produce the same result as above}
+\NormalTok{short\_mpg }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{!}\NormalTok{cty, }\SpecialCharTok{!}\NormalTok{model)}
+\end{Highlighting}
+\end{Shaded}
+
+As with the direct selection above, you can use negation with names as strings, you can negate a vector of names, etc. Again, it is mostly a matter of taste with consistency being more important than a specific choice you make.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# will produce the same result as above}
+\NormalTok{short\_mpg }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{c}\NormalTok{(}\StringTok{"cty"}\NormalTok{, }\StringTok{"model"}\NormalTok{))}
+
+\NormalTok{short\_mpg }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{!}\StringTok{"cty"}\NormalTok{, }\SpecialCharTok{!}\StringTok{"model"}\NormalTok{)}\ErrorTok{)}
+  
+\NormalTok{short\_mpg }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{c}\NormalTok{(cty, model))}
+\end{Highlighting}
+\end{Shaded}
+
+Unlike vector indexing that forbids mixing positive and negative indexing, \texttt{select} does allow for it. However, \textbf{do not use it}\footnote{Unless you know what you are doing and that is the simplest and clearest way to achieve this.} because results can be fairly counter-intuitive and, on top of that, \texttt{-} and \texttt{!} work somewhat differently. Note the difference between \texttt{!} and \texttt{-}: In the former case only the \texttt{!model} part appears to have the effect, whereas in case of \texttt{-} only \texttt{cty} works.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{short\_mpg }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(cty, }\SpecialCharTok{!}\NormalTok{model)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{r|l|r|r|r|l|l|r|l|l}
+\hline
+cty & manufacturer & displ & year & cyl & trans & drv & hwy & fl & class\\
+\hline
+18 & audi & 1.8 & 1999 & 4 & auto(l5) & f & 29 & p & compact\\
+\hline
+21 & audi & 1.8 & 1999 & 4 & manual(m5) & f & 29 & p & compact\\
+\hline
+20 & audi & 2.0 & 2008 & 4 & manual(m6) & f & 31 & p & compact\\
+\hline
+21 & audi & 2.0 & 2008 & 4 & auto(av) & f & 30 & p & compact\\
+\hline
+16 & audi & 2.8 & 1999 & 6 & auto(l5) & f & 26 & p & compact\\
+\hline
+\end{tabular}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{short\_mpg }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(cty, }\SpecialCharTok{{-}}\NormalTok{model)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{r}
+\hline
+cty\\
+\hline
+18\\
+\hline
+21\\
+\hline
+20\\
+\hline
+21\\
+\hline
+16\\
+\hline
+\end{tabular}
+
+To make things even, worse \texttt{select(-model,\ cty)} work the same way as \texttt{select(cty,\ !model)} (sigh\ldots)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{short\_mpg }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{model, cty)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{l|r|r|r|l|l|r|r|l|l}
+\hline
+manufacturer & displ & year & cyl & trans & drv & cty & hwy & fl & class\\
+\hline
+audi & 1.8 & 1999 & 4 & auto(l5) & f & 18 & 29 & p & compact\\
+\hline
+audi & 1.8 & 1999 & 4 & manual(m5) & f & 21 & 29 & p & compact\\
+\hline
+audi & 2.0 & 2008 & 4 & manual(m6) & f & 20 & 31 & p & compact\\
+\hline
+audi & 2.0 & 2008 & 4 & auto(av) & f & 21 & 30 & p & compact\\
+\hline
+audi & 2.8 & 1999 & 6 & auto(l5) & f & 16 & 26 & p & compact\\
+\hline
+\end{tabular}
+
+So, bottom line, do not mix positive and negative indexing in \texttt{select}! I am showing you this only to signal the potential danger.
+
+Do exercise 1.
+
+Simple names and their negation will be sufficient for most of your projects. However, I would recommend taking a look at the \href{https://dplyr.tidyverse.org/reference/select.html}{official manual} just to see that \texttt{select} offers a lot of flexibility (selecting range of columns, by column type, by partial name matching, etc), something that might be useful for you in your later work.
+
+\hypertarget{conditions}{%
+\section{Conditions}\label{conditions}}
+
+Before we can work with the next verb, you need to understand conditions. Conditions are statements about values that are either \texttt{TRUE} or \texttt{FALSE}. In the simplest case, you can check whether two values (one in a variable and one hard-coded) are equal via \texttt{==} operator
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{\textless{}{-}} \DecValTok{5}
+\FunctionTok{print}\NormalTok{(x }\SpecialCharTok{==} \DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(x }\SpecialCharTok{==} \DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+For numeric values, you can use all usual comparison operators including \emph{not equal} \texttt{!=}, \emph{less than} \texttt{\textless{}}, \emph{greater than} \texttt{\textgreater{}}, \emph{less than or equal to} \texttt{\textless{}=} (note the order of symbols!), and \emph{greater than or equal to} \texttt{\textgreater{}=} (again, note the order of symbols).
+
+Do exercise 2.
+
+You can negate a statement via \emph{not} \texttt{!} symbol as \texttt{!TRUE} is \texttt{FALSE} and vice versa. However, note that round brackets in the examples below! They are critical to express the \emph{order} of computation. Anything \emph{inside} the brackets is evaluated first. And if you have brackets inside the brackets, similar to nested functions, it is the innermost expression that get evaluated first. In the example below, \texttt{x==5} is evaluated first and logical inversion happens only after it. In this particular example, you may not need them but I would suggest using them to ensure clarity.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{\textless{}{-}} \DecValTok{5}
+\FunctionTok{print}\NormalTok{(}\SpecialCharTok{!}\NormalTok{(x }\SpecialCharTok{==} \DecValTok{5}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\SpecialCharTok{!}\NormalTok{(x }\SpecialCharTok{==} \DecValTok{3}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+Do exercise 3.
+
+You can also combine several conditions using \emph{and} \texttt{\&} and \emph{or} \texttt{\textbar{}} operators. Again, note round brackets that explicitly define what is evaluated first.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{\textless{}{-}} \DecValTok{5}
+\NormalTok{y }\OtherTok{\textless{}{-}} \DecValTok{2}
+
+\CommentTok{\# x is not equal to 5 OR y is equal to 1}
+\FunctionTok{print}\NormalTok{((x }\SpecialCharTok{!=} \DecValTok{5}\NormalTok{) }\SpecialCharTok{|}\NormalTok{ (y }\SpecialCharTok{==} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# x less than 10 AND y is greater than or equal to 1}
+\FunctionTok{print}\NormalTok{((x }\SpecialCharTok{\textless{}} \DecValTok{10}\NormalTok{) }\SpecialCharTok{\&}\NormalTok{ (y }\SpecialCharTok{\textgreater{}=} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+Do exercise 4.
+
+All examples above used scalars but you remember that \emph{everything is a vector}, including values that we used (they are just vectors of length one). Accordingly, same logic works for vectors of arbitrary length with comparisons working element-wise, so you get a vector of the same length with \texttt{TRUE} or \texttt{FALSE} values for each \emph{pairwise} comparison.
+
+Do exercise 5.
+
+\hypertarget{logical-indexing}{%
+\section{Logical indexing}\label{logical-indexing}}
+
+In the second seminar, you learned about vector indexing when you access \emph{some} elements of a vector by specifying their index. There is an alternative way, called \emph{logical indexing}, when instead you supply a vector of equal length with \emph{logical values} and you get elements of the original vector whenever the logical value is \texttt{TRUE}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\DecValTok{5}
+\NormalTok{x[}\FunctionTok{c}\NormalTok{(}\ConstantTok{TRUE}\NormalTok{, }\ConstantTok{TRUE}\NormalTok{, }\ConstantTok{FALSE}\NormalTok{, }\ConstantTok{TRUE}\NormalTok{, }\ConstantTok{FALSE}\NormalTok{)]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1 2 4
+\end{verbatim}
+
+This is particularly useful, if you are interested in elements that satisfy certain condition. For example, you want all \emph{negative} values and you can use condition \texttt{x\textless{}5} that will produce a vector of logical values that, in turn, can be used as index
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{3}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{)}
+\NormalTok{x[x}\SpecialCharTok{\textless{}}\DecValTok{0}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -2 -5 -1
+\end{verbatim}
+
+You can have conditions of any complexity by combining them via \emph{and} \texttt{\&} and \emph{or} \texttt{\textbar{}} operators. For example, if you want number below -1 or above 3 (be careful to have space between \texttt{\textless{}} and \texttt{-}, otherwise it will be interpreted as assignment \texttt{\textless{}-}).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{3}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{)}
+\NormalTok{x[(x}\SpecialCharTok{\textless{}} \SpecialCharTok{{-}}\DecValTok{1}\NormalTok{) }\SpecialCharTok{|}\NormalTok{ (x}\SpecialCharTok{\textgreater{}}\DecValTok{3}\NormalTok{)]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -2  5 -5
+\end{verbatim}
+
+Do exercise 6.
+
+Sometimes you may want to know the actual index of elements for \emph{which} some condition is \texttt{TRUE}. Function \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/which.html}{which()} does exactly that.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{3}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{)}
+\FunctionTok{which}\NormalTok{( (x}\SpecialCharTok{\textless{}} \SpecialCharTok{{-}}\DecValTok{1}\NormalTok{) }\SpecialCharTok{|}\NormalTok{ (x}\SpecialCharTok{\textgreater{}}\DecValTok{3}\NormalTok{) )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1 2 4
+\end{verbatim}
+
+\hypertarget{filter-rows-by-values}{%
+\section{\texorpdfstring{\texttt{filter()} rows by values}{filter() rows by values}}\label{filter-rows-by-values}}
+
+Now that you understand conditions and logical indexing, using \href{https://dplyr.tidyverse.org/reference/filter.html}{filter()} is very straightforward: You simply put condition that describes rows that you want to \emph{retain} inside the \texttt{filter()} call. For example, we can look at efficiency only for two-seater cars.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(class }\SpecialCharTok{==} \StringTok{"2seater"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{l|l|r|r|r|l|l|r|r|l|l}
+\hline
+manufacturer & model & displ & year & cyl & trans & drv & cty & hwy & fl & class\\
+\hline
+chevrolet & corvette & 5.7 & 1999 & 8 & manual(m6) & r & 16 & 26 & p & 2seater\\
+\hline
+chevrolet & corvette & 5.7 & 1999 & 8 & auto(l4) & r & 15 & 23 & p & 2seater\\
+\hline
+chevrolet & corvette & 6.2 & 2008 & 8 & manual(m6) & r & 16 & 26 & p & 2seater\\
+\hline
+chevrolet & corvette & 6.2 & 2008 & 8 & auto(s6) & r & 15 & 25 & p & 2seater\\
+\hline
+chevrolet & corvette & 7.0 & 2008 & 8 & manual(m6) & r & 15 & 24 & p & 2seater\\
+\hline
+\end{tabular}
+
+You can use information from any row, so we can look for midsize cars with four-wheel drive.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(class }\SpecialCharTok{==} \StringTok{"midsize"} \SpecialCharTok{\&}\NormalTok{ drv }\SpecialCharTok{==} \StringTok{"4"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{l|l|r|r|r|l|l|r|r|l|l}
+\hline
+manufacturer & model & displ & year & cyl & trans & drv & cty & hwy & fl & class\\
+\hline
+audi & a6 quattro & 2.8 & 1999 & 6 & auto(l5) & 4 & 15 & 24 & p & midsize\\
+\hline
+audi & a6 quattro & 3.1 & 2008 & 6 & auto(s6) & 4 & 17 & 25 & p & midsize\\
+\hline
+audi & a6 quattro & 4.2 & 2008 & 8 & auto(s6) & 4 & 16 & 23 & p & midsize\\
+\hline
+\end{tabular}
+
+Do exercise 7.
+
+Note that you can emulate \texttt{filter()} in a very straightforward way using single-brackets base R, the main difference is that you need to prefix every column with the table name, so \texttt{mpg\$class} instead of just \texttt{class}\footnote{You can sidestep this issue via \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/with.html}{with()} function, although I am not a big fan of this approach.}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mpg[mpg}\SpecialCharTok{$}\NormalTok{class }\SpecialCharTok{==} \StringTok{"midsize"} \SpecialCharTok{\&}\NormalTok{ mpg}\SpecialCharTok{$}\NormalTok{drv }\SpecialCharTok{==} \StringTok{"4"}\NormalTok{, ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{l|l|r|r|r|l|l|r|r|l|l}
+\hline
+manufacturer & model & displ & year & cyl & trans & drv & cty & hwy & fl & class\\
+\hline
+audi & a6 quattro & 2.8 & 1999 & 6 & auto(l5) & 4 & 15 & 24 & p & midsize\\
+\hline
+audi & a6 quattro & 3.1 & 2008 & 6 & auto(s6) & 4 & 17 & 25 & p & midsize\\
+\hline
+audi & a6 quattro & 4.2 & 2008 & 8 & auto(s6) & 4 & 16 & 23 & p & midsize\\
+\hline
+\end{tabular}
+
+So why use \texttt{filter()} then? In isolation, as a single line computation, both options are equally compact and clear (apart from all the extra \texttt{table\$} in base R). But pipe-oriented nature of the \texttt{filter()} makes it more suitable for chains of computations, which is the main advantage of Tidyverse.
+
+\hypertarget{arrange-rows-in-a-particular-order}{%
+\section{\texorpdfstring{\texttt{arrange()} rows in a particular order}{arrange() rows in a particular order}}\label{arrange-rows-in-a-particular-order}}
+
+Sometimes you might need to sort your table so that rows go in a particular order\footnote{In my experience, this mostly happens when you need to print out or view a table.}. In Tidyverse, you \href{https://dplyr.tidyverse.org/reference/arrange.html}{arrange} rows based on values of specific variables. This verb is very straightforward, you simply list all variables that must be used for sorting in the order the sorting must be carried out. I.e., first the table is sorted based on values of the first variable. Then, for equal values of that variable, rows are sorted based on the second variable, etc. By default, rows are arranged in ascending order but you can reverse it by putting a variable inside of \href{https://dplyr.tidyverse.org/reference/desc.html}{desc()} function. Here is the \texttt{short\_mpg} table arranged by city cycle highway efficiency (ascending order) and engine displacement (descending order, note the order of the last two rows).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{short\_mpg }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(cty, }\FunctionTok{desc}\NormalTok{(displ)) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{short\_mpg }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(cty, }\FunctionTok{desc}\NormalTok{(displ)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{l|l|r|r|r|l|l|r|r|l|l}
+\hline
+manufacturer & model & displ & year & cyl & trans & drv & cty & hwy & fl & class\\
+\hline
+audi & a4 & 2.8 & 1999 & 6 & auto(l5) & f & 16 & 26 & p & compact\\
+\hline
+audi & a4 & 1.8 & 1999 & 4 & auto(l5) & f & 18 & 29 & p & compact\\
+\hline
+audi & a4 & 2.0 & 2008 & 4 & manual(m6) & f & 20 & 31 & p & compact\\
+\hline
+audi & a4 & 2.0 & 2008 & 4 & auto(av) & f & 21 & 30 & p & compact\\
+\hline
+audi & a4 & 1.8 & 1999 & 4 & manual(m5) & f & 21 & 29 & p & compact\\
+\hline
+\end{tabular}
+
+Do exercise 8.
+
+You can arrange a table using base R via \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/order.html}{order()} function that gives index of ordered elements and can be used inside of single bracket notation. You can control for ascending/descending of a specific variable using \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/rev.html}{rev()} function (base R equivalent of \href{https://dplyr.tidyverse.org/reference/desc.html}{desc()} function).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{short\_mpg[}\FunctionTok{order}\NormalTok{(short\_mpg}\SpecialCharTok{$}\NormalTok{cty, }\FunctionTok{rev}\NormalTok{(short\_mpg}\SpecialCharTok{$}\NormalTok{displ)), ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{short\_mpg[}\FunctionTok{order}\NormalTok{(short\_mpg}\SpecialCharTok{$}\NormalTok{cty, }\FunctionTok{rev}\NormalTok{(short\_mpg}\SpecialCharTok{$}\NormalTok{displ)), ] }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{l|l|r|r|r|l|l|r|r|l|l}
+\hline
+manufacturer & model & displ & year & cyl & trans & drv & cty & hwy & fl & class\\
+\hline
+audi & a4 & 2.8 & 1999 & 6 & auto(l5) & f & 16 & 26 & p & compact\\
+\hline
+audi & a4 & 1.8 & 1999 & 4 & auto(l5) & f & 18 & 29 & p & compact\\
+\hline
+audi & a4 & 2.0 & 2008 & 4 & manual(m6) & f & 20 & 31 & p & compact\\
+\hline
+audi & a4 & 2.0 & 2008 & 4 & auto(av) & f & 21 & 30 & p & compact\\
+\hline
+audi & a4 & 1.8 & 1999 & 4 & manual(m5) & f & 21 & 29 & p & compact\\
+\hline
+\end{tabular}
+
+Do exercise 9.
+
+\hypertarget{mutate}{%
+\section{\texorpdfstring{\texttt{mutate()} columns}{mutate() columns}}\label{mutate}}
+
+In Tidyverse, \href{https://dplyr.tidyverse.org/reference/mutate.html}{mutate} function allows you to both add new columns/variables to a table and change the existing ones. In essence, it is equivalent to a simple column assignment statement in base R.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# base R}
+\NormalTok{short\_mpg}\SpecialCharTok{$}\NormalTok{avg\_mpg }\OtherTok{\textless{}{-}}\NormalTok{ (short\_mpg}\SpecialCharTok{$}\NormalTok{cty }\SpecialCharTok{+}\NormalTok{ short\_mpg}\SpecialCharTok{$}\NormalTok{hwy) }\SpecialCharTok{/} \DecValTok{2}
+
+\CommentTok{\# Tidyverse equivalent}
+\NormalTok{short\_mpg }\OtherTok{\textless{}{-}} 
+\NormalTok{  short\_mpg }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{avg\_mpg =}\NormalTok{ (short\_mpg}\SpecialCharTok{$}\NormalTok{cty }\SpecialCharTok{+}\NormalTok{ short\_mpg}\SpecialCharTok{$}\NormalTok{hwy) }\SpecialCharTok{/} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Note two critical differences. First, \texttt{mutate()} takes a table as an input and returns a table as an output. This is why you start with a table, pipe it to mutate, and assign the results \emph{back} to the original variable. If you have more verbs/lines, it is the output of the last computation that is assigned to the variable on the left-hand side of assignment\footnote{R does have \texttt{-\textgreater{}} statement, so, technically, you can pipe your computation and then assign it to a variable \texttt{table\ \%\textgreater{}\%\ mutate()\ -\textgreater{}\ table}. However, this style is generally discouraged as starting with \texttt{table\ \textless{}-\ table\ \%\textgreater{}\%} makes it clear that you modify and store the computation, whereas \texttt{table\ \%\textgreater{}\%} signals that you pipe the results to an output: console, printed-out table, plot, etc.}. Look at the listing below that indexes each line by when it is executed.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{some\_table }\OtherTok{\textless{}{-}}    \CommentTok{\# 3. We assign the result to the original table, only once all the code below has been executed.}
+\NormalTok{  some\_table }\SpecialCharTok{\%\textgreater{}\%} \CommentTok{\# 1. We start here, with the original table and pipe to the next computation}
+  \FunctionTok{mutate}\NormalTok{(...)    }\CommentTok{\# 2. We add/change columns inside of the table. The output is a table which we use for assignment all the way at the top.}
+\end{Highlighting}
+\end{Shaded}
+
+Second, you are performing a computation \emph{inside} the call of the \texttt{mutate()} function, so \texttt{avg\_mpg\ =\ (short\_mpg\$cty\ +\ short\_mpg\$hwy)\ /\ 2} is a \emph{parameter} that you pass to it (yes, it does not look like one). This is why you use \texttt{=} rather than a normal assignment arrow \texttt{\textless{}-}. Unfortunately, you \emph{can} use \texttt{\textless{}-} inside the \texttt{mutate} and the computation will work as intended but, for internal-processing reasons, the \emph{entire statement}, rather than just the left-hand side, will be used as a column name. Thus, use \texttt{\textless{}-} \emph{outside} and \texttt{=} \emph{inside} of Tydiverse verbs.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{short\_mpg }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{avg\_mpg =}\NormalTok{ (short\_mpg}\SpecialCharTok{$}\NormalTok{cty }\SpecialCharTok{+}\NormalTok{ short\_mpg}\SpecialCharTok{$}\NormalTok{hwy) }\SpecialCharTok{/} \DecValTok{2}\NormalTok{,      }\CommentTok{\# column name will be avp\_mpg}
+\NormalTok{         avg\_mpg }\OtherTok{\textless{}{-}}\NormalTok{ (short\_mpg}\SpecialCharTok{$}\NormalTok{cty }\SpecialCharTok{+}\NormalTok{ short\_mpg}\SpecialCharTok{$}\NormalTok{hwy) }\SpecialCharTok{/} \DecValTok{2}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \CommentTok{\# column name will be \textasciigrave{}avg\_mpg \textless{}{-} (short\_mpg$cty + short\_mpg$hwy) / 2\textasciigrave{}}
+\NormalTok{  knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{l|l|r|r|r|l|l|r|r|l|l|r|r}
+\hline
+manufacturer & model & displ & year & cyl & trans & drv & cty & hwy & fl & class & avg\_mpg & avg\_mpg <- (short\_mpg\$cty + short\_mpg\$hwy)/2\\
+\hline
+audi & a4 & 1.8 & 1999 & 4 & auto(l5) & f & 18 & 29 & p & compact & 23.5 & 23.5\\
+\hline
+audi & a4 & 1.8 & 1999 & 4 & manual(m5) & f & 21 & 29 & p & compact & 25.0 & 25.0\\
+\hline
+audi & a4 & 2.0 & 2008 & 4 & manual(m6) & f & 20 & 31 & p & compact & 25.5 & 25.5\\
+\hline
+audi & a4 & 2.0 & 2008 & 4 & auto(av) & f & 21 & 30 & p & compact & 25.5 & 25.5\\
+\hline
+audi & a4 & 2.8 & 1999 & 6 & auto(l5) & f & 16 & 26 & p & compact & 21.0 & 21.0\\
+\hline
+\end{tabular}
+
+As shown in the example above, you can perform several computations within a single \texttt{mutate} call and they are executed one after another, just as they would be when using base R.
+
+Do exercise 10.
+
+Finally, \texttt{mutate} has a cousin-verb called \texttt{transmute} that works the same way but \emph{discards} all original columns that were not modified. You probably won't use this verb all too often but I want you to be able to recognize it, as its name and function are very similar to \texttt{mutate} and the two are easy to confuse.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{short\_mpg }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{transmute}\NormalTok{(}\AttributeTok{avg\_mpg =}\NormalTok{ (short\_mpg}\SpecialCharTok{$}\NormalTok{cty }\SpecialCharTok{+}\NormalTok{ short\_mpg}\SpecialCharTok{$}\NormalTok{hwy) }\SpecialCharTok{/} \DecValTok{2}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(}\AttributeTok{align =} \StringTok{"c"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{c}
+\hline
+avg\_mpg\\
+\hline
+23.5\\
+\hline
+25.0\\
+\hline
+25.5\\
+\hline
+25.5\\
+\hline
+21.0\\
+\hline
+\end{tabular}
+
+\hypertarget{summarize}{%
+\section{\texorpdfstring{\texttt{summarize()} table by \texttt{groups}}{summarize() table by groups}}\label{summarize}}
+
+This verb is used when you \emph{aggregate} across \emph{all} rows, reducing them to a \emph{single value}. Some examples of aggregating functions that are probably already familiar to you are \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html}{mean}, \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/median.html}{median}, \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/sd.html}{standard deviation}, \href{https://stat.ethz.ch/R-manual/R-patched/library/base/html/Extremes.html}{min/max}. However, you can ``aggregate'' by taking a first or a last value or even by putting in a constant. Important is that \texttt{summarize} expects that it should assign a \emph{single} value to the column.
+
+If you use \texttt{summarize} on an \emph{ungrouped} table (these are the only tables we've been working on so far), it keeps only the computed columns, which makes you wonder ``what's the point?''
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{avg\_cty =} \FunctionTok{mean}\NormalTok{(cty),}
+            \AttributeTok{avg\_hwy =} \FunctionTok{mean}\NormalTok{(hwy))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1 x 2
+##   avg_cty avg_hwy
+##     <dbl>   <dbl>
+## 1    16.9    23.4
+\end{verbatim}
+
+However, the real power of \texttt{summarize} (and of \texttt{mutate}) becomes evident when it is applied to the data that is \emph{grouped by} certain criteria. \href{https://dplyr.tidyverse.org/reference/group_by.html}{group\_by()} verb groups the rows of the table based values of variables you specified. Behind the scenes, this turns your single table into set of tables, so that your Tidyverse verbs are applied to \emph{each} table \emph{separately}. This ability to parse your table into different groups of rows (all rows that belong to a particular participant, or participant and condition, or rows per block, or per trial), change that grouping on the fly, return back to the original full table, etc. makes analysis a breeze. Here is how we can compute average efficiency not across all cars (as in the code above) but for each car class separately.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# there are seven different classes of cars, so group\_by(cars)  will}
+  \CommentTok{\# create seven hidden independent tables and all verbs below will be }
+  \CommentTok{\# applied to each table separately}
+  \FunctionTok{group\_by}\NormalTok{(class)  }\SpecialCharTok{\%\textgreater{}\%}
+  
+  \CommentTok{\# same mean computation but per table and we\textquotesingle{}ve got seven of them}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{avg\_cty =} \FunctionTok{mean}\NormalTok{(cty),}
+            \AttributeTok{avg\_hwy =} \FunctionTok{mean}\NormalTok{(hwy), }\AttributeTok{.groups =} \StringTok{"drop"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{l|r|r}
+\hline
+class & avg\_cty & avg\_hwy\\
+\hline
+2seater & 15.40000 & 24.80000\\
+\hline
+compact & 20.12766 & 28.29787\\
+\hline
+midsize & 18.75610 & 27.29268\\
+\hline
+minivan & 15.81818 & 22.36364\\
+\hline
+pickup & 13.00000 & 16.87879\\
+\hline
+subcompact & 20.37143 & 28.14286\\
+\hline
+suv & 13.50000 & 18.12903\\
+\hline
+\end{tabular}
+
+Note that summarize still expects us to compute a \emph{single} value per table but because we do it for \emph{seven tables}, we get \emph{seven rows} in our resultant table. And \texttt{group\_by} makes it easy to group data in any way you want. Are you interested in manufacturers instead car classes? Easy!
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(manufacturer)  }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# same mean computation but per table and we\textquotesingle{}ve got seven of them}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{avg\_cty =} \FunctionTok{mean}\NormalTok{(cty),}
+            \AttributeTok{avg\_hwy =} \FunctionTok{mean}\NormalTok{(hwy), }\AttributeTok{.groups =} \StringTok{"drop"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{l|r|r}
+\hline
+manufacturer & avg\_cty & avg\_hwy\\
+\hline
+audi & 17.61111 & 26.44444\\
+\hline
+chevrolet & 15.00000 & 21.89474\\
+\hline
+dodge & 13.13514 & 17.94595\\
+\hline
+ford & 14.00000 & 19.36000\\
+\hline
+honda & 24.44444 & 32.55556\\
+\hline
+hyundai & 18.64286 & 26.85714\\
+\hline
+jeep & 13.50000 & 17.62500\\
+\hline
+land rover & 11.50000 & 16.50000\\
+\hline
+lincoln & 11.33333 & 17.00000\\
+\hline
+mercury & 13.25000 & 18.00000\\
+\hline
+nissan & 18.07692 & 24.61538\\
+\hline
+pontiac & 17.00000 & 26.40000\\
+\hline
+subaru & 19.28571 & 25.57143\\
+\hline
+toyota & 18.52941 & 24.91176\\
+\hline
+volkswagen & 20.92593 & 29.22222\\
+\hline
+\end{tabular}
+
+How about efficiency per class \emph{and} year? Still easy!
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mpg }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(class, year)  }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# same mean computation but per table and we\textquotesingle{}ve got seven of them}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{avg\_cty =} \FunctionTok{mean}\NormalTok{(cty),}
+            \AttributeTok{avg\_hwy =} \FunctionTok{mean}\NormalTok{(hwy), }\AttributeTok{.groups =} \StringTok{"drop"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{l|r|r|r}
+\hline
+class & year & avg\_cty & avg\_hwy\\
+\hline
+2seater & 1999 & 15.50000 & 24.50000\\
+\hline
+2seater & 2008 & 15.33333 & 25.00000\\
+\hline
+compact & 1999 & 19.76000 & 27.92000\\
+\hline
+compact & 2008 & 20.54545 & 28.72727\\
+\hline
+midsize & 1999 & 18.15000 & 26.50000\\
+\hline
+midsize & 2008 & 19.33333 & 28.04762\\
+\hline
+minivan & 1999 & 16.16667 & 22.50000\\
+\hline
+minivan & 2008 & 15.40000 & 22.20000\\
+\hline
+pickup & 1999 & 13.00000 & 16.81250\\
+\hline
+pickup & 2008 & 13.00000 & 16.94118\\
+\hline
+subcompact & 1999 & 21.57895 & 29.00000\\
+\hline
+subcompact & 2008 & 18.93750 & 27.12500\\
+\hline
+suv & 1999 & 13.37931 & 17.55172\\
+\hline
+suv & 2008 & 13.60606 & 18.63636\\
+\hline
+\end{tabular}
+
+Finally, \texttt{ungroup()} verb removes all the grouping and turns your data into a single table.
+
+Do exercise 11.
+
+You can replicate the functionality of \texttt{group\_by} + \texttt{summarize} in base R via \href{https://stat.ethz.ch/R-manual/R-patched/library/stats/html/aggregate.html}{aggregate()} and \texttt{group\_by} + \texttt{mutate} via \href{https://stat.ethz.ch/R-manual/R-patched/library/base/html/by.html}{by} functions. However, they are somewhat less straightforward in use as they rely on functional programming and require both grouping and summary function within a single call.
+
+\hypertarget{putting-it-all-together}{%
+\section{Putting it all together}\label{putting-it-all-together}}
+
+Now you have enough tools at your disposal to start programming a continuous analysis pipeline!
+
+Do exercise 12.
+
+\hypertarget{should-i-use-tidyverse}{%
+\section{Should I use Tidyverse?}\label{should-i-use-tidyverse}}
+
+As you saw above, whatever Tidyverse can do, base R can do as well. So why use a non-standard family of packages? If you are using each function in isolation, there is probably not much sense in this. Base R can do it equally well and \emph{each individual} function is also compact and simple. However, if you need to \emph{chain} your computation, which is almost always the case, Tidyverse's ability to pipe the entire sequence of functions in a simple consistent and, therefore, easy to understand way is a game-changer. In the long run, pick your style. Either go ``all in'' with Tidyverse (that is my approach), stick to base R, or find some alternative package family. However, as far as the seminar is concerned, it will be almost exclusively Tydiverse from now on.
 
   \bibliography{book.bib}
 
