@@ -1,10 +1,11 @@
-# Tidyverse: dplyr {#seminar06}
+# Tidyverse: dplyr {#dplyr}
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 library(tidyverse)
 ```
 
-Now that you understand vectors, tables, functions, and pipes, we can start with data analysis and Tidyverse way of doing it. 
+Now that you understand vectors, tables, functions, and pipes, we can start with data analysis and Tidyverse way of doing it. All functions discussed below are part of [dplyr](https://dplyr.tidyverse.org/)^[The name should invoke an image of data pliers. According to Hadley Wickham, you can pronounce it any way you like.] "grammar of data manipulation" package.
+
 
 ## Tidyverse philosophy
 Data analysis is different from "normal" programming as it mostly involves a series of sequential operations on the same table. You might load the table, transform some variables, filter data, select smaller subset of columns, aggregate by summarizing across different groups of variables before plotting it or formally analyzing it via statistical tests. Tidyverse is built around this serial nature of data analysis of piping a table through a chain of functions. Accordingly, Tidyverse functions take a _table_ (`data.frame` or `tibble`) as their _first_ parameter, which makes piping simpler, and return a _modified table_ as an output. This _table-in → table-out_ consistency makes it easy to pipe these operations one after another. For me, it helps to think about Tidyverse functions as _verbs_: Actions that I perform on the table at each step. 
@@ -43,8 +44,6 @@ mpg %>%
   # we kable (Knit the tABLE) to make it look nicer in the document
   knitr::kable()
 ```
-## dplyr {#dplyr}
-All functions discussed below are part of [dplyr](https://dplyr.tidyverse.org/)^[The name should invoke an image of data pliers. According to Hadley Wickham, you can pronounce it any way you like.] "grammar of data manipulation" package.
 
 ## `select()` columns by name {#select}
 [Select](https://dplyr.tidyverse.org/reference/select.html) verb allows you to select/pick columns in a table using their names. This is very similar to using columns names as indexes for tables that you have learned in [seminar 3](#table-indexing). 
@@ -205,7 +204,7 @@ Do exercise 4.
 All examples above used scalars but you remember that _everything is a vector_, including values that we used (they are just vectors of length one). Accordingly, same logic works for vectors of arbitrary length with comparisons working element-wise, so you get a vector of the same length with `TRUE` or `FALSE` values for each _pairwise_ comparison.
 
 ::: {.infobox .practice}
-Do exercise 4.
+Do exercise 5.
 :::
 
 ## Logical indexing {#logical-indexing}
@@ -226,7 +225,7 @@ x <- c(-2, 5, 3, -5, -1)
 x[(x< -1) | (x>3)]
 ```
 ::: {.infobox .practice}
-Do exercise 4.
+Do exercise 6.
 :::
 
 Sometimes you may want to know the actual index of elements for _which_ some condition is `TRUE`. Function [which()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/which.html) does exactly that.
@@ -259,7 +258,7 @@ mpg %>%
 ```
 
 ::: {.infobox .practice}
-Do exercise 5.
+Do exercise 7.
 :::
 
 Note that you can emulate `filter()` in a very straightforward way using single-brackets base R, the main difference is that you need to prefix every column with the table name, so `mpg$class` instead of just `class`^[You can sidestep this issue via [with()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/with.html) function, although I am not a big fan of this approach.].
@@ -286,19 +285,20 @@ short_mpg %>%
 ```
 
 ::: {.infobox .practice}
-Do exercise 6.
+Do exercise 8.
 :::
 
-You can arrange a table using base R via [order()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/order.html) function that gives index of ordered elements and can be used inside of single bracket notation.
+You can arrange a table using base R via [order()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/order.html) function that gives index of ordered elements and can be used inside of single bracket notation. You can control for ascending/descending of a specific variable using [rev()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/rev.html) function (base R equivalent of [desc()](https://dplyr.tidyverse.org/reference/desc.html) function).
+
 ```r
-short_mpg[order(short_mpg$cty, -short_mpg$displ), ]
+short_mpg[order(short_mpg$cty, rev(short_mpg$displ)), ]
 ```
 ```{r}
-short_mpg[order(short_mpg$cty, -short_mpg$displ), ] %>%
+short_mpg[order(short_mpg$cty, rev(short_mpg$displ)), ] %>%
   knitr::kable()
 ```
 ::: {.infobox .practice}
-Do exercise 7.
+Do exercise 9.
 :::
 
 ## `mutate()` columns {#mutate}
@@ -328,15 +328,16 @@ short_mpg %>%
 ```
 
 As shown in the example above, you can perform several computations within a single `mutate` call and they are executed one after another, just as they would be when using base R.
+
 ::: {.infobox .practice}
-Do exercise 7.
+Do exercise 10.
 :::
 
 Finally, `mutate` has a cousin-verb called `transmute` that works the same way but _discards_ all original columns that were not modified. You probably won't use this verb all too often but I want you to be able to recognize it, as its name and function are very similar to `mutate` and the two are easy to confuse.
 ```{r}
 short_mpg %>%
   transmute(avg_mpg = (short_mpg$cty + short_mpg$hwy) / 2) %>%
-  knitr::kable()
+  knitr::kable(align = "c")
 ```
 
 ## `summarize()` table by `groups`  {#summarize}
@@ -387,7 +388,7 @@ mpg %>%
 Finally, `ungroup()` verb removes all the grouping and turns your data into a single table.
 
 ::: {.infobox .practice}
-Do exercise 8.
+Do exercise 11.
 :::
 
 You can replicate the functionality of `group_by` + `summarize` in base R via [aggregate()](https://stat.ethz.ch/R-manual/R-patched/library/stats/html/aggregate.html) and `group_by` + `mutate` via [by](https://stat.ethz.ch/R-manual/R-patched/library/base/html/by.html) functions. However, they are somewhat less straightforward in use as they rely on functional programming and require both grouping and summary function within a single call.
@@ -396,7 +397,7 @@ You can replicate the functionality of `group_by` + `summarize` in base R via [a
 Now you have enough tools at your disposal to start programming a continuous analysis pipeline!
 
 ::: {.infobox .practice}
-Do exercise 9.
+Do exercise 12.
 :::
 
 ## Should I use Tidyverse?
