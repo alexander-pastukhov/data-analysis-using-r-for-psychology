@@ -89,17 +89,161 @@ responses_as_factor <- factor(responses, labels = c("negative", "neutral", "posi
 responses_as_factor
 ```
 
-For the next exercise, copy-paste the code from exercise #1 and alter it so the labels would be `"sphere"` (for `"heavy poles sphere"`), `"octo-band"` (for `"stripes-8"`), `"quad-band"` (`"stripes-4"`), `"dual-band"` (for `"stripes-2"`) and levels will be in that order.
+You can see _indexes_ that were assigned to each level by converting `letter_as_factor` to a numeric vector. In this case, R throws away labels and returns indexes.
+```{r}
+as.numeric(letters_as_factor)
+```
+
+However, be careful when level labels are numbers. In the example below, you might be expecting that `as.numeric(tens)` should give you `[20, 40, 30]` but these are labels! If you need to convert labels to numbers, you have to do it in two steps `as.numeric(as.character(tens))`: `as.character()` turns factors to strings (using labels) and `as.numeric()` converts those labels to numbers (if that conversion can work).
+```{r}
+tens <- factor(c(20, 40, 30))
+print(tens)
+print(as.numeric(tens))
+print(as.numeric(as.character(tens)))
+```
+
+For the next exercise, copy-paste the code from exercise #1 and alter it so the labels are `"sphere"` (for `"heavy poles sphere"`), `"quad band"` (for `"stripes-8"`), `"dual band"` (`"stripes-4"`), `"single band"` (for `"stripes-2"`) and levels are be in that order. Your plot should look something like this.
+
+```{r echo=FALSE, fig.align='center'}
+results %>%
+  select(-filename) %>%
+  mutate(SameResponse = Response1 == Response2)  %>%
+  mutate(Prime = factor(Prime, 
+                        levels= c("heavy poles sphere", "stripes-8", "stripes-4", "stripes-2"),
+                        labels = c("sphere", "quad band", "dual band", "single band")),
+         Probe = factor(Probe, 
+                        levels= c("heavy poles sphere", "stripes-8", "stripes-4", "stripes-2"),
+                        labels = c("sphere", "quad band", "dual band", "single band")),) %>%
+  group_by(Participant, Prime, Probe) %>%
+  summarise(Psame = mean(SameResponse), .groups="drop") %>%
+  
+  ggplot(aes(x=Probe, y=Psame, color=Probe)) + 
+  geom_boxplot() + 
+  facet_wrap(.~Prime)
+```
 
 ::: {.infobox .practice}
 Do exercise 2.
 :::
 
 ## Forcats {#forcats}
-Tidyverse has a package [forcats](https://forcats.tidyverse.org/)^[The package's name is anagram of _factors_.] that makes working with factors easier.
+Tidyverse has a package [forcats](https://forcats.tidyverse.org/)^[The package's name is anagram of _factors_.] that makes working with factors easier. For example, it allows to reorder levels either by hand ([fct_relevel()](https://forcats.tidyverse.org/reference/fct_relevel.html)) or automatically based on the [order of appearance](https://forcats.tidyverse.org/reference/fct_inorder.html), [frequency](https://forcats.tidyverse.org/reference/fct_inorder.html), [value of other variable](https://forcats.tidyverse.org/reference/fct_reorder.html), etc. It also gives you flexible tool to changes labels either by hand ([fct_recode()](https://forcats.tidyverse.org/reference/fct_recode.html)), by [lumping](https://forcats.tidyverse.org/reference/fct_lump.html)  some levels together, by [anonymising them](https://forcats.tidyverse.org/reference/fct_anon.html), etc. In my work, I mostly use reordering ([fct_relevel()](https://forcats.tidyverse.org/reference/fct_relevel.html)) and renaming ([fct_recode()](https://forcats.tidyverse.org/reference/fct_recode.html)) of factors by hand. These two functions that you will need to use in exercise #3. However, if you find yourself working with factors, it is a good idea to check [forcats](https://forcats.tidyverse.org/) functions to see whether they can make your life easier.
 
-## Plottng group averages
+To reorder factor by hand, you simply state the desired order of factors, similar to they way you specify this via `levels=` parameters in `factor()` function. However, in [fct_relevel()](https://forcats.tidyverse.org/reference/fct_relevel.html) you can move only _some_ factors and others are "pushed to the back".
+```{r}
+letters <- c("C", "A", "D", "B", "A", "B")
+letters_as_factor <- factor(letters, levels = c("B", "C", "D", "A"))
+print(letters_as_factor)
+```
 
+```{r}
+# specifying order for ALL levels
+letters_as_factor <- fct_relevel(letters_as_factor, "D", "C", "B", "A")
+print(letters_as_factor)
+```
+
+```{r}
+# specifying order for just ONE level, the rest are "pushed back"
+# "A" should now be the first level and the rest are pushed back in their original order
+letters_as_factor <- fct_relevel(letters_as_factor, "A")
+print(letters_as_factor)
+```
+You can also put a level at the very back, as second level, etc. [fct_relevel()](https://forcats.tidyverse.org/reference/fct_relevel.html) is very flexible, so check reference whenever you use it.
+
+To rename individual levels you use [fct_recode()](https://forcats.tidyverse.org/reference/fct_recode.html) by providing `new = old` pairs of values.
+```{r}
+letters_as_factor <- factor(c("C", "A", "D", "B", "A", "B"))
+letters_as_factor <- fct_recode(letters_as_factor, "_A_" = "A", "_C_" = "C")
+print(letters_as_factor)
+```
+Note that this allows you to merge levels by hand.
+```{r}
+letters_as_factor <- factor(c("C", "A", "D", "B", "A", "B"))
+letters_as_factor <- fct_recode(letters_as_factor, "_AC_" = "A", "_AC_" = "C")
+print(letters_as_factor)
+```
+
+For exercise #3, redo exercise #2 but using [fct_relevel()](https://forcats.tidyverse.org/reference/fct_relevel.html) and [fct_recode()](https://forcats.tidyverse.org/reference/fct_recode.html). You still need to use `factor()` function to convert `Prime` and `Probe` to factor but do not specify levels and labels. Use [fct_relevel()](https://forcats.tidyverse.org/reference/fct_relevel.html) and [fct_recode()](https://forcats.tidyverse.org/reference/fct_recode.html) inside `mutate()` verbs to reorder and relabel factor values (or, first relabel and then reorder, whatever is more intuitive for you).
+
+::: {.infobox .practice}
+Do exercise 3.
+:::
+
+## Plotting group averages
+Let us keep practicing and extend our analysis to compute and plots averages and 89% confidence interval for each condition (`Prime`×`Probe`) over all participants. You already know how to compute an average. To compute confidence interval, you need to compute its lower and upper limits separate. For this, you need to compute [quantiles](https://en.wikipedia.org/wiki/Quantile). A quantile for 0.1 (10%) tells you a value, so that 10% of all values in the vector are below it, the quantile of 0.9 (90%) means that only 10% of values are above it (or 90% are below). So, an 80% confidence intervals includes values that are between 10% and 90% or, alternatively, between 0.1 and 0.9 quantiles.
+```{r echo=FALSE, fig.align='center', out.width="100%"}
+quantile_example <- 
+  tibble(x = 0:50,
+         Values = case_when(x < quantile(x, 0.1) ~ "10% of values are SMALLER (to the left of this line)",
+                            x > quantile(x, 0.9) ~ "10% of values are LARGER (to the right of this line)",
+                            TRUE ~ "80% of values are between the lines")) %>%
+  mutate(Values = fct_relevel(Values, "10% of values are LARGER (to the right of this line)", "80% of values are between the lines"))
+
+ggplot(data=quantile_example, aes(x=x, y=1, color=Values)) + 
+  geom_point() + 
+  geom_vline(xintercept = quantile(quantile_example$x, c(0.1, 0.9))) +
+  labs(subtitle = "80% confidence interval")
+```
+
+
+Use preprocessing code from exercise #3 but, once you computed proportion per `Participant`×`Prime`×`Probe`, you need to group data over `Prime`×`Probe` to computer average performance across observers as well as 89% confidence interval (think about what are the lower and upper limits for 89% CI). You can compute quantiles using the function of the same name: [quantile()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html). Then, use [geom_point()](https://ggplot2.tidyverse.org/reference/geom_point.html) to plot the mean response and [geom_errorbar()](https://ggplot2.tidyverse.org/reference/geom_linerange.html) to plot 89% CI (you will need to map the two variable you computed to `ymin` and `ymax` properties). The plot should like like this (hint, drop color mapping and map `Prime` to `group` property).
+
+```{r echo=FALSE, fig.align='center'}
+results %>%
+  select(-filename) %>%
+  mutate(SameResponse = Response1 == Response2)  %>%
+  mutate(Prime = factor(Prime, 
+                        levels= c("heavy poles sphere", "stripes-8", "stripes-4", "stripes-2"),
+                        labels = c("sphere", "quad band", "dual band", "single band")),
+         Probe = factor(Probe, 
+                        levels= c("heavy poles sphere", "stripes-8", "stripes-4", "stripes-2"),
+                        labels = c("sphere", "quad band", "dual band", "single band")),) %>%
+  group_by(Participant, Prime, Probe) %>%
+  summarise(Psame = mean(SameResponse), .groups="drop") %>%
+  
+  group_by(Prime, Probe) %>%
+  summarise(Pavg = mean(Psame), 
+            CIlower = quantile(Psame, (1-0.89)/2),
+            CIupper = quantile(Psame, 1-(1-0.89)/2),
+            .groups="drop") %>%
+  
+  ggplot(aes(x=Probe, y=Pavg, ymin=CIlower, ymax=CIupper, group=Prime)) + 
+  geom_point() + 
+  geom_line() +
+  geom_errorbar() +
+  facet_wrap(.~Prime)
+```
+
+::: {.infobox .practice}
+Do exercise 4.
+:::
+
+Tweak code from exercise 4 to plot all lines on the same plot and use color property to distinguish between different primes.
+
+```{r echo=FALSE, fig.align='center'}
+results %>%
+  select(-filename) %>%
+  mutate(SameResponse = Response1 == Response2)  %>%
+  mutate(Prime = factor(Prime, 
+                        levels= c("heavy poles sphere", "stripes-8", "stripes-4", "stripes-2"),
+                        labels = c("sphere", "quad band", "dual band", "single band")),
+         Probe = factor(Probe, 
+                        levels= c("heavy poles sphere", "stripes-8", "stripes-4", "stripes-2"),
+                        labels = c("sphere", "quad band", "dual band", "single band")),) %>%
+  group_by(Participant, Prime, Probe) %>%
+  summarise(Psame = mean(SameResponse), .groups="drop") %>%
+  
+  group_by(Prime, Probe) %>%
+  summarise(Pavg = mean(Psame), 
+            CIlower = quantile(Psame, (1-0.89)/2),
+            CIupper = quantile(Psame, 1-(1-0.89)/2),
+            .groups="drop") %>%
+  
+  ggplot(aes(x=Probe, y=Pavg, ymin=CIlower, ymax=CIupper, color=Prime, group=Prime)) + 
+  geom_point() + 
+  geom_line() +
+  geom_errorbar()
+```
 ## `do`ing things {#do}
 Averages via do()
 
