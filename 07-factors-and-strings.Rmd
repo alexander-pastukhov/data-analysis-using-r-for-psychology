@@ -1,4 +1,4 @@
-# Factors and Strings {#seminar07}
+# Factors and Joins {#seminar07}
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 library(tidyverse)
@@ -184,9 +184,12 @@ ggplot(data=quantile_example, aes(x=x, y=1, color=Values)) +
   geom_vline(xintercept = quantile(quantile_example$x, c(0.1, 0.9))) +
   labs(subtitle = "80% confidence interval")
 ```
-
-
-Use preprocessing code from exercise #3 but, once you computed proportion per `Participant`×`Prime`×`Probe`, you need to group data over `Prime`×`Probe` to computer average performance across observers as well as 89% confidence interval (think about what are the lower and upper limits for 89% CI). You can compute quantiles using the function of the same name: [quantile()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html). Then, use [geom_point()](https://ggplot2.tidyverse.org/reference/geom_point.html) to plot the mean response and [geom_errorbar()](https://ggplot2.tidyverse.org/reference/geom_linerange.html) to plot 89% CI (you will need to map the two variable you computed to `ymin` and `ymax` properties). The plot should like like this (hint, drop color mapping and map `Prime` to `group` property).
+To compute this, R has function [quantile()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html).
+```{r}
+x <- 0:50
+quantile(x, 0.1)
+```
+Use preprocessing code from exercise #3 but, once you computed proportion per `Participant`×`Prime`×`Probe`, you need to group data over `Prime`×`Probe` to compute average performance across observers plus the 89% confidence interval (think about what are the lower and upper limits for 89% CI). Then, use [geom_point()](https://ggplot2.tidyverse.org/reference/geom_point.html) plus [geom_line()](https://ggplot2.tidyverse.org/reference/geom_path.html) to plot the mean response and [geom_errorbar()](https://ggplot2.tidyverse.org/reference/geom_linerange.html) to plot 89% CI (you will need to map the two variable you computed to `ymin` and `ymax` properties). The plot should like like this (hint, drop color mapping and map `Prime` to `group` property).
 
 ```{r echo=FALSE, fig.align='center'}
 results %>%
@@ -219,7 +222,6 @@ Do exercise 4.
 :::
 
 Tweak code from exercise 4 to plot all lines on the same plot and use color property to distinguish between different primes.
-
 ```{r echo=FALSE, fig.align='center'}
 results %>%
   select(-filename) %>%
@@ -244,11 +246,110 @@ results %>%
   geom_line() +
   geom_errorbar()
 ```
-## `do`ing things {#do}
-Averages via do()
+::: {.infobox .practice}
+Do exercise 5.
+:::
 
-## Working with file system {#fs}
+## Looking at similarity
+From the plots above, you get a sense that identities of the probe and prime (objects before and after the interruption) matter. Single band appears to be the poorest prime (its line is lowest) and probe (its dots are lower than the rest). Conversely, sphere is an excellent prime (line at the top) and probe (dots are very high). However, a different study, which used same four objects, showed that a similar looking history effect but for longer interruptions (1000 ms rather than 50 ms) was modulated by objects similarity. Let us check that hypothesis by computing a rough difference measure. It will assume that their difference is proportional to the absolute "distance" between them on x-axis in the above plot^[This measure assumes metric distance, which is a very strong assumption.]. E.g., distance between a sphere and a sphere is 0, but between sphere and quad-band or single-band and dual-band is 1. Difference between sphere and dual-band is 2, etc. You can compute it by converting _factor_ variables `Prime` and `Probe` to integers (this assumes that levels are in the correct order). Then, you can compute the [absolute difference](https://stat.ethz.ch/R-manual/R-devel/library/base/html/MathFun.html) between those indexes and store it as a new column (e.g. `Difference`). Next, group by `Difference` and `Participant` to compute average probability of the same response. Your plot should look like this (you will need to map `Difference` on `group` to get four box plots rather than one).
 
-## Reading and merging
+```{r echo=FALSE, fig.align='center'}
+results %>%
+  select(-filename) %>%
+  mutate(SameResponse = Response1 == Response2)  %>%
+  mutate(Prime = factor(Prime, 
+                        levels= c("heavy poles sphere", "stripes-8", "stripes-4", "stripes-2"),
+                        labels = c("sphere", "quad band", "dual band", "single band")),
+         Probe = factor(Probe, 
+                        levels= c("heavy poles sphere", "stripes-8", "stripes-4", "stripes-2"),
+                        labels = c("sphere", "quad band", "dual band", "single band")),) %>%
+  group_by(Participant, Prime, Probe) %>%
+  summarise(Psame = mean(SameResponse), .groups="drop") %>%
+  
+  ungroup() %>%
+  mutate(iPrime = as.integer(Prime),
+         iProbe = as.integer(Probe),
+         Difference = abs(iPrime - iProbe)) %>%
+  
+  group_by(Participant, Difference) %>%
+  summarise(Pavg = mean(Psame), 
+            CIlower = quantile(Psame, (1-0.89)/2),
+            CIupper = quantile(Psame, 1-(1-0.89)/2),
+            .groups="drop") %>%
+  
+  ggplot(aes(x=Difference, y=Pavg, ymin=CIlower, ymax=CIupper, group=Difference)) + 
+  geom_boxplot()
+```
 
+::: {.infobox .practice}
+Do exercise 6.
+:::
+
+## Joining tables
+Sometimes, different information is stored in separate tables. For example, information on participants' demographics can be stored separately from their responses. The former is the same for all trials and conditions, so it makes little sense to duplicate it. However, for the actual analysis, you need to add this information, merging or, in Tidyverse-speak, [joining](https://dplyr.tidyverse.org/reference/mutate-joins.html) two tables. To join two tables you must specify "key" columns, columns that contain values that will be used to match rows between the tables.
+
+Assume that we have two tables that both have column named `ID` that contains a unique of a participant. For the second table, I use functions [rep()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/rep.html) to repeat each `ID` three times and [runif()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Uniform.html) to generate random number from a specific range. Note that we have participant `"D"` in `demographics` but participants `"E"` in `reports`!
+```{r}
+demographics <- tibble(ID = c("A", "B", "C", "D"),
+                       Age = c(20, 19, 30, 22))
+
+knitr::kable(demographics)
+
+reports <- tibble(ID = rep(c("A", "B", "C", "E"), each=2),
+                  Report = runif(length(ID), 1, 7))
+
+knitr::kable(reports)
+```
+ Here, `ID` column will serve as a key to indicate which rows from two columns belong together. _dplyr_ implements four [Mutating joins](https://dplyr.tidyverse.org/reference/mutate-joins.html) which differ in how the two tables are joined, if a key value is missing in one of them. The `inner_join()` only include the rows for which key value is present in **both** tables. In our case, only `"A"`, `"B"`, and `"C"` participants are in both tables, so _inner join_ will discard rows with `"D"` (not present in `reports`) and `"E"` (not present in `demographics`).
+```{r}
+inner_join(demographics, reports, by="ID") %>%
+  knitr::kable()
+```
+Conversely, `full_join()` will include all rows from both tables but will fill missing values with `NA` (_Not Available_ / _Missing Values_). Thus, it will put `NA` for the `Age` of participant `"E"` and `Report` of participant `"D"`.
+```{r}
+full_join(demographics, reports, by="ID") %>%
+  knitr::kable()
+```
+The `left_join()` and `right_join()` include all the row from, respectively, left and right (first and second) tables but discard extra keys from the other one. Note that two functions are just mirror opposites, so doing `left_join(demographics, reports, by="ID")` is equivalent (but for order of columns and rows) to `right_join(reports, demographics, by="ID")`.
+```{r}
+left_join(demographics, reports, by="ID") %>%
+  knitr::kable()
+
+right_join(demographics, reports, by="ID") %>%
+  knitr::kable()
+```
+
+You can also use more than one key. Note in the example below, there are no missing / extra keys, so all four joins will produce the same results, they differ only in how they treat those missing/extra keys.
+```{r}
+demographics <- tibble(ID = c("A", "B", "A", "B"),
+                       Gender = c("M", "F", "F", "M"),
+                       Age = c(20, 19, 30, 22))
+
+knitr::kable(demographics)
+
+reports <- tibble(ID = c("A", "B", "A", "B"),
+                  Gender = c("M", "F", "F", "M"),
+                  Report = runif(length(ID), 1, 7))
+knitr::kable(reports)
+
+inner_join(demographics, reports, by=c("ID", "Gender")) %>%
+  knitr::kable()
+```
+
+Finally, you key columns can be named _differently_ in two tables. In this case, you need to "match" them explicitly.
+```{r}
+demographics <- tibble(VPCode = c("A", "B", "A", "B"),
+                       Sex = c("M", "F", "F", "M"),
+                       Age = c(20, 19, 30, 22))
+
+knitr::kable(demographics)
+
+reports <- tibble(ID = c("A", "B", "A", "B"),
+                  Gender = c("M", "F", "F", "M"),
+                  Report = runif(length(ID), 1, 7))
+knitr::kable(reports)
+
+inner_join(demographics, reports, by=c("VPCode"="ID", "Sex"="Gender")) %>%
+  knitr::kable()
+```
 
