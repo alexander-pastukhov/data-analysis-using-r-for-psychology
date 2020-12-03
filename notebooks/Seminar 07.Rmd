@@ -35,3 +35,40 @@ For exercise #3, redo exercise #2 but using [fct_relevel()](https://forcats.tidy
 
 ```{r exercise 03}
 ```
+
+## Exercise 04. Averages per facet
+Compute for each condition (`Prime`×`Probe`) over all participants. Use preprocessing code from exercise #3 but, once you computed proportion per `Participant`×`Prime`×`Probe`, you need to group data over `Prime`×`Probe` to compute average performance across observers.
+
+```{r exercise 04}
+```
+
+## Exercise 05. Averages per facet
+Use table that you computed in exercise #4. Plot the results using [geom_point()](https://ggplot2.tidyverse.org/reference/geom_point.html) plus [geom_line()](https://ggplot2.tidyverse.org/reference/geom_path.html) to plot the mean response.
+
+```{r exercise 05}
+```
+
+## Exercise 06. Averages in one plot
+Tweak code from exercise 5 to plot all lines on the same plot and use color property to distinguish between different primes.
+
+```{r exercise 06}
+```
+
+## Exercise 07. Confidence intervals.
+Modify code from from exercise #6 to compute two additional variables/columns for lower and upper limits of the 89% confidence interval (think about what these limits are for 89% CI). Then, use [geom_errorbar()](https://ggplot2.tidyverse.org/reference/geom_linerange.html) to plot 89% CI (you will need to map the two variable you computed to `ymin` and `ymax` properties).
+
+```{r exercise 07}
+```
+
+## Exercise 08. Difference measure.
+Compute difference between shapes by converting _factor_ variables `Prime` and `Probe` to integers (this assumes that levels are in the correct order). Then, you can compute the [absolute difference](https://stat.ethz.ch/R-manual/R-devel/library/base/html/MathFun.html) between those indexes and store it as a new column (e.g. `Difference`). Next, group by `Difference` and `Participant` to compute average probability of the same response. Your plot should look like this (you will need to map `Difference` on `group` to get four box plots rather than one).
+
+```{r exercise 08}
+```
+
+## Exercise 09. Joins
+Download files _IM.csv_ and _GP.csv_. These are participants responses on two questionnaires with each participant identified by their ID (`Participant` in _IM.csv_ and `Respondent` in _GP.csv_), `Condition` (which experimental group they belong to), and their `Gender`. Read both tables and join them so that there no missing values in the table (some participants are missing in `GP.csv`, so there are _three_ joins that can do this, which one will you pick?). Then, turn `Condition` and `Gender` into factors, so that for `Condition` levels are `"control"` (`1`) and `"game"` (`2`) and for `Gender` levels are `"female"` (`1`) and `"male"` (`2`).
+
+```{r exercise 09}
+```
+
