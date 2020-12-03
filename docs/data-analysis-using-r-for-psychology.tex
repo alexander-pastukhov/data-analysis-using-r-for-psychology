@@ -1509,7 +1509,7 @@ You can use \texttt{read\_csv()} the same way and it will work the same way but 
 
 \begin{verbatim}
 ## 
-## -- Column specification -------------------------------------------------
+## -- Column specification --------------------------------------------------------
 ## cols(
 ##   Participant = col_character(),
 ##   Block = col_double(),
@@ -1711,53 +1711,53 @@ You always need the first one. But you do not need to specify the other two, eve
 \hline
 Condition & Intensity & Response\\
 \hline
-A & 1 & 1.3319239\\
+A & 1 & 0.5663090\\
 \hline
-B & 1 & -2.0896796\\
+B & 1 & -1.0874725\\
 \hline
-C & 1 & -3.6244074\\
+C & 1 & -4.9812443\\
 \hline
-A & 2 & 1.1183078\\
+A & 2 & 1.1223007\\
 \hline
-B & 2 & -0.5309489\\
+B & 2 & -1.5109150\\
 \hline
-C & 2 & -3.1375726\\
+C & 2 & -3.3495068\\
 \hline
-A & 3 & 1.2627846\\
+A & 3 & 1.7081609\\
 \hline
-B & 3 & -0.2544714\\
+B & 3 & 0.0378649\\
 \hline
-C & 3 & -1.9774106\\
+C & 3 & -2.4093036\\
 \hline
-A & 4 & 3.3181063\\
+A & 4 & 3.8649377\\
 \hline
-B & 4 & 0.5739382\\
+B & 4 & 1.3795900\\
 \hline
-C & 4 & -0.5343104\\
+C & 4 & -0.9101866\\
 \hline
-A & 5 & 4.4429645\\
+A & 5 & 3.1935274\\
 \hline
-B & 5 & 2.0147220\\
+B & 5 & 2.7089360\\
 \hline
-C & 5 & -0.0029169\\
+C & 5 & -0.6413292\\
 \hline
-A & 6 & 5.0592156\\
+A & 6 & 5.8834957\\
 \hline
-B & 6 & 3.4607830\\
+B & 6 & 3.5942428\\
 \hline
-C & 6 & 1.2956705\\
+C & 6 & 1.3319902\\
 \hline
-A & 7 & 6.0717262\\
+A & 7 & 6.3565962\\
 \hline
-B & 7 & 3.8498113\\
+B & 7 & 3.2742205\\
 \hline
-C & 7 & 0.8925900\\
+C & 7 & 1.7867472\\
 \hline
-A & 8 & 7.7862968\\
+A & 8 & 5.9383089\\
 \hline
-B & 8 & 5.1307503\\
+B & 8 & 5.2841307\\
 \hline
-C & 8 & 2.5190542\\
+C & 8 & 3.1008283\\
 \hline
 \end{tabular}
 
@@ -3244,7 +3244,7 @@ Your final plot should look something like this
 
 Do exercise 1.
 
-When you examine the plot, you can see some sort of non-monotonic dependence with a dip for \texttt{"stripes-2"} and \texttt{"stripes-4"} objects. In reality, the dependence is monotonic, it is merely the order of values on the x-axis that is wrong. The correct order, based on the area of an object covered with dots, is \texttt{"heavy\ poles\ sphere"}, \texttt{"stripes-8"}, \texttt{"stripes-4"}, \texttt{"stripes-8"}. Both \texttt{Prime} and \texttt{Probe} are \emph{ordinal} variables called \emph{factors} in R. Thus, to fix the order and to make object names a bit better looking, we must figure out how to work with factors in R.
+When you examine the plot, you can see some sort of non-monotonic dependence with a dip for \texttt{"stripes-2"} and \texttt{"stripes-4"} objects. In reality, the dependence is monotonic, it is merely the order of values on the x-axis that is wrong. The correct order, based on the area of an object covered with dots, is \texttt{"heavy\ poles\ sphere"}, \texttt{"stripes-8"}, \texttt{"stripes-4"}, \texttt{"stripes-2"}. Both \texttt{Prime} and \texttt{Probe} are \emph{ordinal} variables called \emph{factors} in R. Thus, to fix the order and to make object names a bit better looking, we must figure out how to work with factors in R.
 
 \hypertarget{factors}{%
 \section{Factors}\label{factors}}
@@ -3611,21 +3611,21 @@ D & 22\\
 \hline
 ID & Report\\
 \hline
-A & 6.374015\\
+A & 2.316301\\
 \hline
-A & 3.152013\\
+A & 4.479329\\
 \hline
-B & 5.907995\\
+B & 5.354452\\
 \hline
-B & 5.536827\\
+B & 6.424225\\
 \hline
-C & 6.465702\\
+C & 6.667037\\
 \hline
-C & 2.185221\\
+C & 1.321844\\
 \hline
-E & 4.952076\\
+E & 5.167554\\
 \hline
-E & 5.635000\\
+E & 1.632126\\
 \hline
 \end{tabular}
 
@@ -3642,17 +3642,17 @@ Here, \texttt{ID} column will serve as a key to indicate which rows from two col
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 6.374015\\
+A & 20 & 2.316301\\
 \hline
-A & 20 & 3.152013\\
+A & 20 & 4.479329\\
 \hline
-B & 19 & 5.907995\\
+B & 19 & 5.354452\\
 \hline
-B & 19 & 5.536827\\
+B & 19 & 6.424225\\
 \hline
-C & 30 & 6.465702\\
+C & 30 & 6.667037\\
 \hline
-C & 30 & 2.185221\\
+C & 30 & 1.321844\\
 \hline
 \end{tabular}
 
@@ -3669,23 +3669,23 @@ Conversely, \texttt{full\_join()} will include all rows from both tables but wil
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 6.374015\\
+A & 20 & 2.316301\\
 \hline
-A & 20 & 3.152013\\
+A & 20 & 4.479329\\
 \hline
-B & 19 & 5.907995\\
+B & 19 & 5.354452\\
 \hline
-B & 19 & 5.536827\\
+B & 19 & 6.424225\\
 \hline
-C & 30 & 6.465702\\
+C & 30 & 6.667037\\
 \hline
-C & 30 & 2.185221\\
+C & 30 & 1.321844\\
 \hline
 D & 22 & NA\\
 \hline
-E & NA & 4.952076\\
+E & NA & 5.167554\\
 \hline
-E & NA & 5.635000\\
+E & NA & 1.632126\\
 \hline
 \end{tabular}
 
@@ -3702,17 +3702,17 @@ The \texttt{left\_join()} and \texttt{right\_join()} include all the row from, r
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 6.374015\\
+A & 20 & 2.316301\\
 \hline
-A & 20 & 3.152013\\
+A & 20 & 4.479329\\
 \hline
-B & 19 & 5.907995\\
+B & 19 & 5.354452\\
 \hline
-B & 19 & 5.536827\\
+B & 19 & 6.424225\\
 \hline
-C & 30 & 6.465702\\
+C & 30 & 6.667037\\
 \hline
-C & 30 & 2.185221\\
+C & 30 & 1.321844\\
 \hline
 D & 22 & NA\\
 \hline
@@ -3729,21 +3729,21 @@ D & 22 & NA\\
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 6.374015\\
+A & 20 & 2.316301\\
 \hline
-A & 20 & 3.152013\\
+A & 20 & 4.479329\\
 \hline
-B & 19 & 5.907995\\
+B & 19 & 5.354452\\
 \hline
-B & 19 & 5.536827\\
+B & 19 & 6.424225\\
 \hline
-C & 30 & 6.465702\\
+C & 30 & 6.667037\\
 \hline
-C & 30 & 2.185221\\
+C & 30 & 1.321844\\
 \hline
-E & NA & 4.952076\\
+E & NA & 5.167554\\
 \hline
-E & NA & 5.635000\\
+E & NA & 1.632126\\
 \hline
 \end{tabular}
 
@@ -3786,13 +3786,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 5.305390\\
+A & M & 1.993724\\
 \hline
-B & F & 2.543506\\
+B & F & 2.642609\\
 \hline
-A & F & 6.935476\\
+A & F & 1.632594\\
 \hline
-B & M & 1.276730\\
+B & M & 5.392910\\
 \hline
 \end{tabular}
 
@@ -3807,13 +3807,13 @@ B & M & 1.276730\\
 \hline
 ID & Gender & Age & Report\\
 \hline
-A & M & 20 & 5.305390\\
+A & M & 20 & 1.993724\\
 \hline
-B & F & 19 & 2.543506\\
+B & F & 19 & 2.642609\\
 \hline
-A & F & 30 & 6.935476\\
+A & F & 30 & 1.632594\\
 \hline
-B & M & 22 & 1.276730\\
+B & M & 22 & 5.392910\\
 \hline
 \end{tabular}
 
@@ -3856,13 +3856,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 1.495235\\
+A & M & 4.719688\\
 \hline
-B & F & 3.205623\\
+B & F & 2.627792\\
 \hline
-A & F & 5.788019\\
+A & F & 5.146503\\
 \hline
-B & M & 1.943052\\
+B & M & 6.047642\\
 \hline
 \end{tabular}
 
@@ -3877,62 +3877,19 @@ B & M & 1.943052\\
 \hline
 VPCode & Sex & Age & Report\\
 \hline
-A & M & 20 & 1.495235\\
+A & M & 20 & 4.719688\\
 \hline
-B & F & 19 & 3.205623\\
+B & F & 19 & 2.627792\\
 \hline
-A & F & 30 & 5.788019\\
+A & F & 30 & 5.146503\\
 \hline
-B & M & 22 & 1.943052\\
+B & M & 22 & 6.047642\\
 \hline
 \end{tabular}
 
 Download files \href{data/IM.csv}{IM.csv} and \href{data/GP.csv}{GP.csv} that you need for exercise \#8. These are participants responses on two questionnaires with each participant identified by their ID (\texttt{Participant} in \emph{IM.csv} and \texttt{Respondent} in \emph{GP.csv}), \texttt{Condition} (which experimental group they belong to), and their \texttt{Gender}. Read both tables and join them so that there no missing values in the table (some participants are missing in \texttt{GP.csv}, so there are \emph{three} joins that can do this, which one will you pick?). Then, turn \texttt{Condition} and \texttt{Gender} into factors, so that for \texttt{Condition} levels are \texttt{"control"} (\texttt{1}) and \texttt{"game"} (\texttt{2}) and for \texttt{Gender} levels are \texttt{"female"} (\texttt{1}) and \texttt{"male"} (\texttt{2}).
 
 Do exercise 9.
-
-\hypertarget{comparing-effect-between-two-studies}{%
-\section{Comparing effect between two studies}\label{comparing-effect-between-two-studies}}
-
-For your final challenge, let us compare the effect between studies. First, download the \href{data/bands-adaptation.csv}{bands-adaptation.csv} file. This will be a fairly long analysis but you already know everything you need to perform it. We want to compare average probability of the same response between the two studies. You already know how to compute average probability of the same response for each pair of shapes (thus, averaging other all observers), as you did it exercise \#4. Reuse the code and store the table with averages in a new variable (I called it \texttt{persistence\_avg}). The table should have just three columns.
-
-\begin{tabular}{l|l|r}
-\hline
-Prime & Probe & Pavg\\
-\hline
-sphere & sphere & 0.9366667\\
-\hline
-sphere & quad band & 0.9233333\\
-\hline
-sphere & dual band & 0.8885185\\
-\hline
-sphere & single band & 0.7507407\\
-\hline
-quad band & sphere & 0.9533333\\
-\hline
-quad band & quad band & 0.9333333\\
-\hline
-quad band & dual band & 0.8729630\\
-\hline
-quad band & single band & 0.7885185\\
-\hline
-dual band & sphere & 0.9033333\\
-\hline
-dual band & quad band & 0.9229630\\
-\hline
-dual band & dual band & 0.7418519\\
-\hline
-dual band & single band & 0.7707407\\
-\hline
-single band & sphere & 0.7814815\\
-\hline
-single band & quad band & 0.8311111\\
-\hline
-single band & dual band & 0.7751852\\
-\hline
-single band & single band & 0.5792593\\
-\hline
-\end{tabular}
 
   \bibliography{book.bib}
 
