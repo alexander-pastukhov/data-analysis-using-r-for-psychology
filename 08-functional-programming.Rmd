@@ -1,0 +1,22 @@
+## Comparing effect between two studies
+For your final challenge, let us compare the effect between studies. First, download the [bands-adaptation.csv](data/bands-adaptation.csv) file. This will be a fairly long analysis but you already know everything you need to perform it. We want to compare average probability of the same response between the two studies. You already know how to compute average probability of the same response for each pair of shapes (thus, averaging other all observers), as you did it exercise #4. Reuse the code and store the table with averages in a new variable (I called it `persistence_avg`). The table should have just three columns.
+```{r echo=FALSE, fig.align='center'}
+persistence_avg <-
+  results %>%
+  select(-filename) %>%
+  mutate(SameResponse = Response1 == Response2)  %>%
+  mutate(Prime = factor(Prime,
+                        levels= c("heavy poles sphere", "stripes-8", "stripes-4", "stripes-2"),
+                        labels = c("sphere", "quad band", "dual band", "single band")),
+         Probe = factor(Probe,
+                        levels= c("heavy poles sphere", "stripes-8", "stripes-4", "stripes-2"),
+                        labels = c("sphere", "quad band", "dual band", "single band")),) %>%
+  group_by(Participant, Prime, Probe) %>%
+  summarise(Psame = mean(SameResponse), .groups="drop") %>%
+
+  group_by(Prime, Probe) %>%
+  summarise(Pavg = mean(Psame),
+            .groups="drop")
+
+knitr::kable(persistence_avg)
+```
