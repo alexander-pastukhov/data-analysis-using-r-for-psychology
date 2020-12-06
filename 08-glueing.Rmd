@@ -1,11 +1,11 @@
-# Pivoting: Tables wide and long {#seminar08}
+# Glueing and sprintfing {#seminar08}
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(glue)
 library(tidyverse)
 ```
 
-Today, you will learn how tidy and untidy your table but first, let us practice more, utilizing knowledge and skill from previous seminars!  Grab the [exercise notebook](notebooks/Seminar 08.Rmd) and let's get started.
+Let us practice more, utilizing knowledge and skill from previous seminars!  Grab the [exercise notebook](notebooks/Seminar 08.Rmd) and let's get started.
 
 ## Comparing effect between two studies
 In the previous seminar, you analyzed how perceptual stability was influenced by change of object's shape for very brief interruptions (50 ms). For those brief interval, your perception is determined primarily by _neural persistence_, a lingering neural activity of neurons that represented 3D rotation before the interruption. However, you can curtail it using _a mask_, another object rotating around orthogonal axis. In this case, perception dominated by _neural fatigue_ (also known as habituation or adaptation) of previously active neurons. Here, the measurement is the same (but the an intervening mask) but the expectations about similarity of reports is opposite: The stronger is the influence of the previous object, the _lower_ is the probability of the same direction of rotation report (a tired neuron should be overwhelmed by competition that codes for the opposite direction of rotation). Long story short, if same groups of neurons are involved in both _neural persistence_ and _neural fatigue_, we except negative correlation, so that higher proportion of same reports in persistence lead to lower proportion for fatigue and vice versa. 
@@ -25,7 +25,7 @@ Here is the outline of the analysis:
 * Merge two tables by `Prime` and `Probe`, store results in a new variable (the name is up to you). Note that each table has column with average proportion of same responses. You probably used the same name for this variable for both columns (if not, do use the same name, like `Pavg`). Joining functions are average of this possibility and use _suffixes_ to differentiate which table the original column came from. By defaults `suffix = c(".x", ".y")`, so that that column `Pavg` from the first (left) table will become `Pavg.x` and the other one `Pavg.y`. We can do better than `c(".x", ".y")`! Use suffix parameter but use meaningful suffixes. The table should have four columns and sixteen rows.
 * Plot average proportion of same responses for adaptation versus persistence. Use points for individual values and add linear regression line via `geom_smooth()`. The final plot should look approximately like this:
 
-```{r eval=FALSE, fig.align='center', include=FALSE}
+```{r echol=FALSE, fig.align='center', include=FALSE}
 persistence <-
   read_csv("data/persistence.csv", 
            col_types = cols(filename = col_character(),
@@ -102,8 +102,6 @@ single_package_weight <- 1.2
 glue("Ten packages weight {single_package_weight * 10} kg")
 ```
 
-There is not much more to know about [glue](https://glue.tidyverse.org/), so its simplicity makes it a great tool to format strings using values. However, because it is so simple to use, it is not the most flexible way for formatting strings. Later, you will learn about [C-style string formatting](https://stat.ethz.ch/R-manual/R-patched/library/base/html/sprintf.html) (same as Python's old string formatting).
-
 So, compute the correlation, glue it into the text and put it as a title of the plot.
 ```{r echo=FALSE}
 ggplot(both_effects, aes(x=Pavg_persistence, y=Pavg_adaptation)) + 
@@ -117,4 +115,46 @@ ggplot(both_effects, aes(x=Pavg_persistence, y=Pavg_adaptation)) +
 ::: {.infobox .practice}
 Do exercise 2.
 :::
+
+## sprintf {#sprintf}
+Simplicity makes [glue](https://glue.tidyverse.org/) a great tool to insert values into, because there isn't much more to know about. However, because it is so simple to use, it is not the most flexible way for formatting strings. Instead, you can use [sprintf](https://stat.ethz.ch/R-manual/R-patched/library/base/html/sprintf.html) function that provides C-style string formatting (same as Python's original string formatting). 
+
+The general function call is `sprintf("string with formatting", value1, value2, value)`, where values are are inserted into the string. In `"string with formatting"`, you specify where you want to put the value via `%` symbol that is followed by an _optional_ formatting info and the _required_ symbol that defines the **type** of the value. The type symbols are
+
+* `s` for string
+* `d` for an integer
+* `f` for a float value using a "fixed point" decimal notation
+* `e` for a float value usaing an exponential notation (e.g., `1e2`).
+* `g` for an "optimally" printed float value, so that exponential notation is used for large values (_e.g._, `10e5` instead of `100000`).
+
+Here is an example of formatting a string using an integer:
+```{r}
+sprintf("I had %d pancakes for breakfast", 10)
+```
+
+You are not limited to a single value that you can put into a string. You can specify more locations via `%` but you must make sure that you pass the right number of values. Before running it, can you figure out which call will actually work (and what will be the output ) and which will produce an error?
+
+```{r}
+sprintf("I had %d pancakes and either %d  or %d stakes for dinner", 2)
+sprintf("I had %d pancakes and %d stakes for dinner", 7, 10)
+sprintf("I had %d pancakes and %d stakes for dinner", 1, 7, 10)
+```
+
+::: {.infobox .practice}
+Do exercise 3.
+:::
+
+In case of real values you have two options: `%f` and `%g`. The latter uses scientific notation (e.g. `1e10` for `10000000000`) to make a representation more compact. When formatting floating numbers, you can specify the number of decimal points to be displayed.
+```{r}
+e <- 2.71828182845904523536028747135266249775724709369995
+sprintf("Euler's number is roughly %.4f", e)
+```
+
+Repeat exercise #2 but use `sprintf()` in place of `glue()`.
+::: {.infobox .practice}
+Do exercise 4.
+:::
+
+## Wrap up
+That's it for today! See you after the Christmas break!
 
