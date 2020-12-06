@@ -21,7 +21,7 @@ In the first exercise, I want you to implement the actual analysis performed in 
 1. [Load](#readr) the data in a table. Name of the variable is up to you. Typically, I use names like `data`, `reports`, `results`, etc. Don't forget to specify columns' type.
 2. Exclude `filename` column (it duplicates `Participant` and `Session` columns).
 3. Compute a new variable `SameResponse` which is `TRUE` when `Response1` and `Response2` match each other (in the experiment, that means that an object was rotating in the same direction before and after the intervention).
-4. For every combination of `Participant`, `Prime` and `Probe` compute proportion of same responses.
+4. For every combination of `Participant`, `Prime` and `Probe` compute proportion of same responses. You can do this in to ways. Recall that `as.integer(TRUE)` is `1` and `as.integer(FALSE)` is `0`. Thus, you can either compute proportion as [mean](https://stat.ethz.ch/R-manual/R-patched/library/base/html/mean.html) or compute the  [sum](https://stat.ethz.ch/R-manual/R-patched/library/base/html/sum.html) of same responses and divide it by total number of trials. Use function [n()](https://dplyr.tidyverse.org/reference/n.html) for the latter, it return the total number of rows in the table or the group. Try doing it both ways.
 5. Plot the results with `Probe` variable on x-axis, proportion of same responses on y-axis, and use `Prime` to facet plots. Use box plots (or violin plots) to visualize the data. Try adding color, labels, etc. to make plots look nice.
 
 Your final plot should look something like this

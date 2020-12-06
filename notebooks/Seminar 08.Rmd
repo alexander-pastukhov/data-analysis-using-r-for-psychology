@@ -1,0 +1,31 @@
+---
+  title: "Seminar 07"
+output: html_document
+---
+
+  ```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+```
+
+## Exercise 01.
+* Load and analyze [persistence.csv](data/persistence.csv). You can reuse your code from the previous seminar, however, I strongly recommend redoing it here from scratch. If it is easy, it won't take much time. If it is not, you definitely need to practice more, so do it! Compute the following in a single sequence using piping and store results in a variable `persistence`. The table must have only three columns `Prime`, `Probe` and column for average proportion of same responses, and 16 rows (four primes × four probes).
+  1. [read](#readr) the data in a table.
+  2. Compute a new variable `SameResponse` which is `TRUE` when `Response1` and `Response2` match each other (in the experiment, that means that an object was rotating in the same direction before and after the intervention).
+  3. Convert `Prime` and `Probe` to factors and use labels "sphere" (for "heavy poles sphere"), "quad band" (for "stripes-8"), "dual band" ("stripes-4"), "single band" (for "stripes-2").
+  4. For every combination of `Participant`, `Prime` and `Probe` compute proportion of same responses.
+  5. For every combination of `Prime` and `Probe` compute _average_ proportion of same responses.
+* Load and analyze [bands-adaptation.csv](data/bands-adaptation.csv). First, load the table and take a look at its contents or just open the file and text editor _but not in Excel_ (the latter might change it, if you accidentally agree to save the file). Again, implement all steps in a single sequence using piping and store results in a variable `adaptation`. The table must have only three columns `Prime`, `Probe` and column for average proportion of same responses, and 16 rows (four primes × four probes).
+  1. Convert `Prime` and `Probe` to factors and use same labels as for persistence. So "sphere" (for "Sphere"), "quad band" (for "Quadro"), "dual band" ("Dual"), "single band" (for "Single").
+  2. Compute proportion of same responses per `Participant`, `Prime`, and `Probe` using number of same responses (`Nsame`) and the total number of trials (`Ntotal`).
+  3. Compute average proportion of same responses per `Prime` and `Probe`.
+* Merge two tables by `Prime` and `Probe`, store results in a new variable (the name is up to you). Note that each table has column with average proportion of same responses. You probably used the same name for this variable for both columns (if not, do use the same name, like `Pavg`). Joining functions are average of this possibility and use _suffixes_ to differentiate which table the original column came from. By defaults `suffix = c(".x", ".y")`, so that that column `Pavg` from the first (left) table will become `Pavg.x` and the other one `Pavg.y`. We can do better than `c(".x", ".y")`! Use suffix parameter but use meaningful suffixes. The table should have four columns and sixteen rows.
+* Plot average proportion of same responses for adaptation versus persistence. Use points for individual values and add linear regression line via `geom_smooth()`.
+
+```{r exercise 01}
+
+```
+
+
+
