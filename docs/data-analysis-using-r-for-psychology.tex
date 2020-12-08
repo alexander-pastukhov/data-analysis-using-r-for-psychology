@@ -117,7 +117,7 @@
 
 \title{Data analysis using R for Psychology}
 \author{Alexander (Sasha) Pastukhov}
-\date{2020-12-03}
+\date{2020-12-08}
 
 \begin{document}
 \maketitle
@@ -1711,53 +1711,53 @@ You always need the first one. But you do not need to specify the other two, eve
 \hline
 Condition & Intensity & Response\\
 \hline
-A & 1 & 0.5663090\\
+A & 1 & -0.8787747\\
 \hline
-B & 1 & -1.0874725\\
+B & 1 & -1.4981794\\
 \hline
-C & 1 & -4.9812443\\
+C & 1 & -4.3744854\\
 \hline
-A & 2 & 1.1223007\\
+A & 2 & 0.7673961\\
 \hline
-B & 2 & -1.5109150\\
+B & 2 & -1.1187705\\
 \hline
-C & 2 & -3.3495068\\
+C & 2 & -2.5422652\\
 \hline
-A & 3 & 1.7081609\\
+A & 3 & 1.5865615\\
 \hline
-B & 3 & 0.0378649\\
+B & 3 & -0.6881711\\
 \hline
-C & 3 & -2.4093036\\
+C & 3 & -1.3063003\\
 \hline
-A & 4 & 3.8649377\\
+A & 4 & 2.6204925\\
 \hline
-B & 4 & 1.3795900\\
+B & 4 & 1.5668620\\
 \hline
-C & 4 & -0.9101866\\
+C & 4 & -0.3951947\\
 \hline
-A & 5 & 3.1935274\\
+A & 5 & 4.2079556\\
 \hline
-B & 5 & 2.7089360\\
+B & 5 & 0.5112327\\
 \hline
-C & 5 & -0.6413292\\
+C & 5 & -0.4694130\\
 \hline
-A & 6 & 5.8834957\\
+A & 6 & 5.4688146\\
 \hline
-B & 6 & 3.5942428\\
+B & 6 & 2.9337794\\
 \hline
-C & 6 & 1.3319902\\
+C & 6 & 1.3236091\\
 \hline
-A & 7 & 6.3565962\\
+A & 7 & 6.5428242\\
 \hline
-B & 7 & 3.2742205\\
+B & 7 & 3.9890223\\
 \hline
-C & 7 & 1.7867472\\
+C & 7 & 3.0343190\\
 \hline
-A & 8 & 5.9383089\\
+A & 8 & 5.8446808\\
 \hline
-B & 8 & 5.2841307\\
+B & 8 & 3.7914017\\
 \hline
-C & 8 & 3.1008283\\
+C & 8 & 2.6456399\\
 \hline
 \end{tabular}
 
@@ -3233,7 +3233,7 @@ In the first exercise, I want you to implement the actual analysis performed in 
 \item
   Compute a new variable \texttt{SameResponse} which is \texttt{TRUE} when \texttt{Response1} and \texttt{Response2} match each other (in the experiment, that means that an object was rotating in the same direction before and after the intervention).
 \item
-  For every combination of \texttt{Participant}, \texttt{Prime} and \texttt{Probe} compute proportion of same responses.
+  For every combination of \texttt{Participant}, \texttt{Prime} and \texttt{Probe} compute proportion of same responses. You can do this in to ways. Recall that \texttt{as.integer(TRUE)} is \texttt{1} and \texttt{as.integer(FALSE)} is \texttt{0}. Thus, you can either compute proportion as \href{https://stat.ethz.ch/R-manual/R-patched/library/base/html/mean.html}{mean} or compute the \href{https://stat.ethz.ch/R-manual/R-patched/library/base/html/sum.html}{sum} of same responses and divide it by total number of trials. Use function \href{https://dplyr.tidyverse.org/reference/n.html}{n()} for the latter, it return the total number of rows in the table or the group. Try doing it both ways.
 \item
   Plot the results with \texttt{Probe} variable on x-axis, proportion of same responses on y-axis, and use \texttt{Prime} to facet plots. Use box plots (or violin plots) to visualize the data. Try adding color, labels, etc. to make plots look nice.
 \end{enumerate}
@@ -3611,21 +3611,21 @@ D & 22\\
 \hline
 ID & Report\\
 \hline
-A & 2.316301\\
+A & 6.517771\\
 \hline
-A & 4.479329\\
+A & 6.236586\\
 \hline
-B & 5.354452\\
+B & 5.606450\\
 \hline
-B & 6.424225\\
+B & 4.266958\\
 \hline
-C & 6.667037\\
+C & 5.879181\\
 \hline
-C & 1.321844\\
+C & 1.926250\\
 \hline
-E & 5.167554\\
+E & 2.199116\\
 \hline
-E & 1.632126\\
+E & 5.601366\\
 \hline
 \end{tabular}
 
@@ -3642,17 +3642,17 @@ Here, \texttt{ID} column will serve as a key to indicate which rows from two col
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 2.316301\\
+A & 20 & 6.517771\\
 \hline
-A & 20 & 4.479329\\
+A & 20 & 6.236586\\
 \hline
-B & 19 & 5.354452\\
+B & 19 & 5.606450\\
 \hline
-B & 19 & 6.424225\\
+B & 19 & 4.266958\\
 \hline
-C & 30 & 6.667037\\
+C & 30 & 5.879181\\
 \hline
-C & 30 & 1.321844\\
+C & 30 & 1.926250\\
 \hline
 \end{tabular}
 
@@ -3669,23 +3669,23 @@ Conversely, \texttt{full\_join()} will include all rows from both tables but wil
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 2.316301\\
+A & 20 & 6.517771\\
 \hline
-A & 20 & 4.479329\\
+A & 20 & 6.236586\\
 \hline
-B & 19 & 5.354452\\
+B & 19 & 5.606450\\
 \hline
-B & 19 & 6.424225\\
+B & 19 & 4.266958\\
 \hline
-C & 30 & 6.667037\\
+C & 30 & 5.879181\\
 \hline
-C & 30 & 1.321844\\
+C & 30 & 1.926250\\
 \hline
 D & 22 & NA\\
 \hline
-E & NA & 5.167554\\
+E & NA & 2.199116\\
 \hline
-E & NA & 1.632126\\
+E & NA & 5.601366\\
 \hline
 \end{tabular}
 
@@ -3702,17 +3702,17 @@ The \texttt{left\_join()} and \texttt{right\_join()} include all the row from, r
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 2.316301\\
+A & 20 & 6.517771\\
 \hline
-A & 20 & 4.479329\\
+A & 20 & 6.236586\\
 \hline
-B & 19 & 5.354452\\
+B & 19 & 5.606450\\
 \hline
-B & 19 & 6.424225\\
+B & 19 & 4.266958\\
 \hline
-C & 30 & 6.667037\\
+C & 30 & 5.879181\\
 \hline
-C & 30 & 1.321844\\
+C & 30 & 1.926250\\
 \hline
 D & 22 & NA\\
 \hline
@@ -3729,21 +3729,21 @@ D & 22 & NA\\
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 2.316301\\
+A & 20 & 6.517771\\
 \hline
-A & 20 & 4.479329\\
+A & 20 & 6.236586\\
 \hline
-B & 19 & 5.354452\\
+B & 19 & 5.606450\\
 \hline
-B & 19 & 6.424225\\
+B & 19 & 4.266958\\
 \hline
-C & 30 & 6.667037\\
+C & 30 & 5.879181\\
 \hline
-C & 30 & 1.321844\\
+C & 30 & 1.926250\\
 \hline
-E & NA & 5.167554\\
+E & NA & 2.199116\\
 \hline
-E & NA & 1.632126\\
+E & NA & 5.601366\\
 \hline
 \end{tabular}
 
@@ -3786,13 +3786,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 1.993724\\
+A & M & 4.066666\\
 \hline
-B & F & 2.642609\\
+B & F & 3.207513\\
 \hline
-A & F & 1.632594\\
+A & F & 5.456291\\
 \hline
-B & M & 5.392910\\
+B & M & 6.588105\\
 \hline
 \end{tabular}
 
@@ -3807,13 +3807,13 @@ B & M & 5.392910\\
 \hline
 ID & Gender & Age & Report\\
 \hline
-A & M & 20 & 1.993724\\
+A & M & 20 & 4.066666\\
 \hline
-B & F & 19 & 2.642609\\
+B & F & 19 & 3.207513\\
 \hline
-A & F & 30 & 1.632594\\
+A & F & 30 & 5.456291\\
 \hline
-B & M & 22 & 5.392910\\
+B & M & 22 & 6.588105\\
 \hline
 \end{tabular}
 
@@ -3856,13 +3856,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 4.719688\\
+A & M & 1.913509\\
 \hline
-B & F & 2.627792\\
+B & F & 1.632121\\
 \hline
-A & F & 5.146503\\
+A & F & 4.848507\\
 \hline
-B & M & 6.047642\\
+B & M & 6.953688\\
 \hline
 \end{tabular}
 
@@ -3877,19 +3877,176 @@ B & M & 6.047642\\
 \hline
 VPCode & Sex & Age & Report\\
 \hline
-A & M & 20 & 4.719688\\
+A & M & 20 & 1.913509\\
 \hline
-B & F & 19 & 2.627792\\
+B & F & 19 & 1.632121\\
 \hline
-A & F & 30 & 5.146503\\
+A & F & 30 & 4.848507\\
 \hline
-B & M & 22 & 6.047642\\
+B & M & 22 & 6.953688\\
 \hline
 \end{tabular}
 
 Download files \href{data/IM.csv}{IM.csv} and \href{data/GP.csv}{GP.csv} that you need for exercise \#8. These are participants responses on two questionnaires with each participant identified by their ID (\texttt{Participant} in \emph{IM.csv} and \texttt{Respondent} in \emph{GP.csv}), \texttt{Condition} (which experimental group they belong to), and their \texttt{Gender}. Read both tables and join them so that there no missing values in the table (some participants are missing in \texttt{GP.csv}, so there are \emph{three} joins that can do this, which one will you pick?). Then, turn \texttt{Condition} and \texttt{Gender} into factors, so that for \texttt{Condition} levels are \texttt{"control"} (\texttt{1}) and \texttt{"game"} (\texttt{2}) and for \texttt{Gender} levels are \texttt{"female"} (\texttt{1}) and \texttt{"male"} (\texttt{2}).
 
 Do exercise 9.
+
+\hypertarget{seminar08}{%
+\chapter{Glueing and sprintfing}\label{seminar08}}
+
+Let us practice more, utilizing knowledge and skill from previous seminars! Grab the \href{notebooks/Seminar\%2008.Rmd}{exercise notebook} and let's get started.
+
+\hypertarget{comparing-effect-between-two-studies}{%
+\section{Comparing effect between two studies}\label{comparing-effect-between-two-studies}}
+
+In the previous seminar, you analyzed how perceptual stability was influenced by change of object's shape for very brief interruptions (50 ms). For those brief interval, your perception is determined primarily by \emph{neural persistence}, a lingering neural activity of neurons that represented 3D rotation before the interruption. However, you can curtail it using \emph{a mask}, another object rotating around orthogonal axis. In this case, perception dominated by \emph{neural fatigue} (also known as habituation or adaptation) of previously active neurons. Here, the measurement is the same (but the an intervening mask) but the expectations about similarity of reports is opposite: The stronger is the influence of the previous object, the \emph{lower} is the probability of the same direction of rotation report (a tired neuron should be overwhelmed by competition that codes for the opposite direction of rotation). Long story short, if same groups of neurons are involved in both \emph{neural persistence} and \emph{neural fatigue}, we except negative correlation, so that higher proportion of same reports in persistence lead to lower proportion for fatigue and vice versa.
+
+Here is the outline of the analysis:
+
+\begin{itemize}
+\tightlist
+\item
+  Load and analyze \href{data/persistence.csv}{persistence.csv}. You can reuse your code from the previous seminar, however, I strongly recommend redoing it here from scratch. If it is easy, it won't take much time. If it is not, you definitely need to practice more, so do it! Compute the following in a single sequence using piping and store results in a variable \texttt{persistence}. The table must have only three columns \texttt{Prime}, \texttt{Probe} and column for average proportion of same responses, and 16 rows (four primes × four probes).
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    \protect\hyperlink{readr}{read} the data in a table.
+  \item
+    Compute a new variable \texttt{SameResponse} which is \texttt{TRUE} when \texttt{Response1} and \texttt{Response2} match each other (in the experiment, that means that an object was rotating in the same direction before and after the intervention).
+  \item
+    Convert \texttt{Prime} and \texttt{Probe} to factors and use labels ``sphere'' (for ``heavy poles sphere''), ``quad band'' (for ``stripes-8''), ``dual band'' (``stripes-4''), ``single band'' (for ``stripes-2'').
+  \item
+    For every combination of \texttt{Participant}, \texttt{Prime} and \texttt{Probe} compute proportion of same responses.
+  \item
+    For every combination of \texttt{Prime} and \texttt{Probe} compute \emph{average} proportion of same responses.
+  \end{enumerate}
+\item
+  Load and analyze \href{data/bands-adaptation.csv}{bands-adaptation.csv}. First, load the table and take a look at its contents or just open the file and text editor \emph{but not in Excel} (the latter might change it, if you accidentally agree to save the file). Again, implement all steps in a single sequence using piping and store results in a variable \texttt{adaptation}. The table must have only three columns \texttt{Prime}, \texttt{Probe} and column for average proportion of same responses, and 16 rows (four primes × four probes).
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    Convert \texttt{Prime} and \texttt{Probe} to factors and use same labels as for persistence. So ``sphere'' (for ``Sphere''), ``quad band'' (for ``Quadro''), ``dual band'' (``Dual''), ``single band'' (for ``Single'').
+  \item
+    Compute proportion of same responses per \texttt{Participant}, \texttt{Prime}, and \texttt{Probe} using number of same responses (\texttt{Nsame}) and the total number of trials (\texttt{Ntotal}).
+  \item
+    Compute average proportion of same responses per \texttt{Prime} and \texttt{Probe}.
+  \end{enumerate}
+\item
+  Merge two tables by \texttt{Prime} and \texttt{Probe}, store results in a new variable (the name is up to you). Note that each table has column with average proportion of same responses. You probably used the same name for this variable for both columns (if not, do use the same name, like \texttt{Pavg}). Joining functions are average of this possibility and use \emph{suffixes} to differentiate which table the original column came from. By defaults \texttt{suffix\ =\ c(".x",\ ".y")}, so that that column \texttt{Pavg} from the first (left) table will become \texttt{Pavg.x} and the other one \texttt{Pavg.y}. We can do better than \texttt{c(".x",\ ".y")}! Use suffix parameter but use meaningful suffixes. The table should have four columns and sixteen rows.
+\item
+  Plot average proportion of same responses for adaptation versus persistence. Use points for individual values and add linear regression line via \texttt{geom\_smooth()}. The final plot should look approximately like this:
+\end{itemize}
+
+Do exercise 1.
+
+\hypertarget{gluing-in-correlation-strength-information.}{%
+\section{Gluing in correlation strength information.}\label{gluing-in-correlation-strength-information.}}
+
+Let us be more precise about the strength of the correlation between the two variables. First, compute it via \href{https://stat.ethz.ch/R-manual/R-patched/library/stats/html/cor.html}{cor} function. Use function \href{https://stat.ethz.ch/R-manual/R-patched/library/base/html/Round.html}{round} to round it to just two decimal places. Then, use \href{https://glue.tidyverse.org/}{glue()} (see below) to make the title look nice and put it as a title or subtitle of the plot via \href{https://ggplot2.tidyverse.org/reference/labs.html}{labs}.
+
+Function \texttt{glue()} lives in the package of the same name that you will need to import separately (it is part of the tidyverse but is not imported automatically). It makes it simple to ``glue'' values directly into a string. You simply surround the R code by wiggle brackets and the result of the code execution is glued in. If you use just a variable, its value will be glued-in.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{answer }\OtherTok{\textless{}{-}} \DecValTok{42}
+\NormalTok{bad\_answer }\OtherTok{\textless{}{-}} \DecValTok{41}
+\FunctionTok{glue}\NormalTok{(}\StringTok{"The answer is \{answer\}, not \{bad\_answer\}"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## The answer is 42, not 41
+\end{verbatim}
+
+But, you can put \emph{any} code inside, although, the more code you put, the harder it will be to read and understand it.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{single\_package\_weight }\OtherTok{\textless{}{-}} \FloatTok{1.2}
+\FunctionTok{glue}\NormalTok{(}\StringTok{"Ten packages weight \{single\_package\_weight * 10\} kg"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Ten packages weight 12 kg
+\end{verbatim}
+
+So, compute the correlation, glue it into the text and put it as a title of the plot.
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-156-1.pdf}
+
+Do exercise 2.
+
+\hypertarget{sprintf}{%
+\section{sprintf}\label{sprintf}}
+
+Simplicity makes \href{https://glue.tidyverse.org/}{glue} a great tool to insert values into, because there isn't much more to know about. However, because it is so simple to use, it is not the most flexible way for formatting strings. Instead, you can use \href{https://stat.ethz.ch/R-manual/R-patched/library/base/html/sprintf.html}{sprintf} function that provides C-style string formatting (same as Python's original string formatting).
+
+The general function call is \texttt{sprintf("string\ with\ formatting",\ value1,\ value2,\ value)}, where values are are inserted into the string. In \texttt{"string\ with\ formatting"}, you specify where you want to put the value via \texttt{\%} symbol that is followed by an \emph{optional} formatting info and the \emph{required} symbol that defines the \textbf{type} of the value. The type symbols are
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{s} for string
+\item
+  \texttt{d} for an integer
+\item
+  \texttt{f} for a float value using a ``fixed point'' decimal notation
+\item
+  \texttt{e} for a float value usaing an exponential notation (e.g., \texttt{1e2}).
+\item
+  \texttt{g} for an ``optimally'' printed float value, so that exponential notation is used for large values (\emph{e.g.}, \texttt{10e5} instead of \texttt{100000}).
+\end{itemize}
+
+Here is an example of formatting a string using an integer:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"I had \%d pancakes for breakfast"}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "I had 10 pancakes for breakfast"
+\end{verbatim}
+
+You are not limited to a single value that you can put into a string. You can specify more locations via \texttt{\%} but you must make sure that you pass the right number of values. Before running it, can you figure out which call will actually work (and what will be the output ) and which will produce an error?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"I had \%d pancakes and either \%d  or \%d stakes for dinner"}\NormalTok{, }\DecValTok{2}\NormalTok{)}
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"I had \%d pancakes and \%d stakes for dinner"}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"I had \%d pancakes and \%d stakes for dinner"}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Do exercise 3.
+
+In case of real values you have two options: \texttt{\%f} and \texttt{\%g}. The latter uses scientific notation (e.g.~\texttt{1e10} for \texttt{10000000000}) to make a representation more compact. When formatting floating numbers, you can specify the number of decimal points to be displayed.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{e }\OtherTok{\textless{}{-}} \FloatTok{2.71828182845904523536028747135266249775724709369995}
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Euler\textquotesingle{}s number is roughly \%.4f"}\NormalTok{, e)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Euler's number is roughly 2.7183"
+\end{verbatim}
+
+Repeat exercise \#2 but use \texttt{sprintf()} in place of \texttt{glue()}.
+::: \{.infobox .practice\}
+Do exercise 4.
+:::
+
+\hypertarget{wrap-up-2}{%
+\section{Wrap up}\label{wrap-up-2}}
+
+That's it for today! See you after the Christmas break!
 
   \bibliography{book.bib}
 

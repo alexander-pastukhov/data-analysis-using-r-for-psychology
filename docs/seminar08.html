@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Data analysis using R for Psychology</title>
+  <title>Seminar 8 Glueing and sprintfing | Data analysis using R for Psychology</title>
   <meta name="description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Data analysis using R for Psychology" />
+  <meta property="og:title" content="Seminar 8 Glueing and sprintfing | Data analysis using R for Psychology" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Data analysis using R for Psychology" />
+  <meta name="twitter:title" content="Seminar 8 Glueing and sprintfing | Data analysis using R for Psychology" />
   
   <meta name="twitter:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
+<link rel="prev" href="seminar07.html"/>
 
-<link rel="next" href="getting-started.html"/>
 <script src="libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -267,48 +267,123 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Data analysis using R for Psychology</h1>
-<p class="author"><em>Alexander (Sasha) Pastukhov</em></p>
-<p class="date"><em>2020-12-08</em></p>
+<div id="seminar08" class="section level1" number="8">
+<h1><span class="header-section-number">Seminar 8</span> Glueing and sprintfing</h1>
+<p>Let us practice more, utilizing knowledge and skill from previous seminars! Grab the <a href="notebooks/Seminar%2008.Rmd">exercise notebook</a> and let’s get started.</p>
+<div id="comparing-effect-between-two-studies" class="section level2" number="8.1">
+<h2><span class="header-section-number">8.1</span> Comparing effect between two studies</h2>
+<p>In the previous seminar, you analyzed how perceptual stability was influenced by change of object’s shape for very brief interruptions (50 ms). For those brief interval, your perception is determined primarily by <em>neural persistence</em>, a lingering neural activity of neurons that represented 3D rotation before the interruption. However, you can curtail it using <em>a mask</em>, another object rotating around orthogonal axis. In this case, perception dominated by <em>neural fatigue</em> (also known as habituation or adaptation) of previously active neurons. Here, the measurement is the same (but the an intervening mask) but the expectations about similarity of reports is opposite: The stronger is the influence of the previous object, the <em>lower</em> is the probability of the same direction of rotation report (a tired neuron should be overwhelmed by competition that codes for the opposite direction of rotation). Long story short, if same groups of neurons are involved in both <em>neural persistence</em> and <em>neural fatigue</em>, we except negative correlation, so that higher proportion of same reports in persistence lead to lower proportion for fatigue and vice versa.</p>
+<p>Here is the outline of the analysis:</p>
+<ul>
+<li>Load and analyze <a href="data/persistence.csv">persistence.csv</a>. You can reuse your code from the previous seminar, however, I strongly recommend redoing it here from scratch. If it is easy, it won’t take much time. If it is not, you definitely need to practice more, so do it! Compute the following in a single sequence using piping and store results in a variable <code>persistence</code>. The table must have only three columns <code>Prime</code>, <code>Probe</code> and column for average proportion of same responses, and 16 rows (four primes × four probes).
+<ol style="list-style-type: decimal">
+<li><a href="tables.html#readr">read</a> the data in a table.</li>
+<li>Compute a new variable <code>SameResponse</code> which is <code>TRUE</code> when <code>Response1</code> and <code>Response2</code> match each other (in the experiment, that means that an object was rotating in the same direction before and after the intervention).</li>
+<li>Convert <code>Prime</code> and <code>Probe</code> to factors and use labels “sphere” (for “heavy poles sphere”), “quad band” (for “stripes-8”), “dual band” (“stripes-4”), “single band” (for “stripes-2”).</li>
+<li>For every combination of <code>Participant</code>, <code>Prime</code> and <code>Probe</code> compute proportion of same responses.</li>
+<li>For every combination of <code>Prime</code> and <code>Probe</code> compute <em>average</em> proportion of same responses.</li>
+</ol></li>
+<li>Load and analyze <a href="data/bands-adaptation.csv">bands-adaptation.csv</a>. First, load the table and take a look at its contents or just open the file and text editor <em>but not in Excel</em> (the latter might change it, if you accidentally agree to save the file). Again, implement all steps in a single sequence using piping and store results in a variable <code>adaptation</code>. The table must have only three columns <code>Prime</code>, <code>Probe</code> and column for average proportion of same responses, and 16 rows (four primes × four probes).
+<ol style="list-style-type: decimal">
+<li>Convert <code>Prime</code> and <code>Probe</code> to factors and use same labels as for persistence. So “sphere” (for “Sphere”), “quad band” (for “Quadro”), “dual band” (“Dual”), “single band” (for “Single”).</li>
+<li>Compute proportion of same responses per <code>Participant</code>, <code>Prime</code>, and <code>Probe</code> using number of same responses (<code>Nsame</code>) and the total number of trials (<code>Ntotal</code>).</li>
+<li>Compute average proportion of same responses per <code>Prime</code> and <code>Probe</code>.</li>
+</ol></li>
+<li>Merge two tables by <code>Prime</code> and <code>Probe</code>, store results in a new variable (the name is up to you). Note that each table has column with average proportion of same responses. You probably used the same name for this variable for both columns (if not, do use the same name, like <code>Pavg</code>). Joining functions are average of this possibility and use <em>suffixes</em> to differentiate which table the original column came from. By defaults <code>suffix = c(".x", ".y")</code>, so that that column <code>Pavg</code> from the first (left) table will become <code>Pavg.x</code> and the other one <code>Pavg.y</code>. We can do better than <code>c(".x", ".y")</code>! Use suffix parameter but use meaningful suffixes. The table should have four columns and sixteen rows.</li>
+<li>Plot average proportion of same responses for adaptation versus persistence. Use points for individual values and add linear regression line via <code>geom_smooth()</code>. The final plot should look approximately like this:</li>
+</ul>
+<div class="infobox practice">
+<p>Do exercise 1.</p>
 </div>
-<div id="introduction" class="section level1 unnumbered">
-<h1>Introduction</h1>
-<p>This is a material for <em>Applied data analysis for psychology using the open-source software R</em> seminar as taught at <a href="https://www.uni-bamberg.de/psychologie/">Institute of Psychology</a> at University of Bamberg.</p>
-<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
-<div id="about-the-seminar" class="section level2 unnumbered">
-<h2>About the seminar</h2>
-<p>Each chapter covers a single seminar, introducing necessary ideas and is accompanied by a notebook with exercises, which you need to complete and submit. The material assumes no foreknowledge of R or programming in general from the reader. Its purpose is to gradually build up your knowledge and introduce to a typical analysis pipeline. It is based on a data that is typical for the field (repeated measures, appearance, accuracy and response time measurements, Likert scale reports, etc.), you are welcome to suggest your own data set for analysis. Even if you already performed the analysis using some other program, it would still be insightful to compare the different ways and, perhaps, you might gain a new insight. Plus, it is more engaging to work on your data.</p>
-<p>Remember that throughout the seminar you can and should(!) always ask me whenever something is unclear, you do not understand a concept or logic behind certain code. Do not hesitate to write me in the team or (better) directly to me in the chat (in the latter case, the notifications are harder miss and we don’t spam others with our conversation).</p>
-<p>You will need to submit your assignment one day before the next seminar (Tuesday before noon at the latest), so I would have time evaluate it and provide feedback.</p>
-<p>As a final assignment, you will need to program a full analysis pipeline for a given data set (or, if you want, for your data set). All the necessary steps will be covered by the seminar material. Please inform me, If you require a grade, as then I will create a more specific description for you to have a clear understanding of how the program will be graded.</p>
 </div>
-<div id="content-of-the-seminar" class="section level2 unnumbered">
-<h2>Content of the seminar</h2>
-<p>The ultimate goal of the seminar is to give you tools to perform a complete analysis of a typical psychology research data, including data import and merging, pre-processing, aggregating, plotting, and performing statistical analysis. We will start with very basic R programming concepts (vectors, tables) before proceeding to learn about data import and visualization via <a href="https://ggplot2.tidyverse.org/">the grammar of graphics</a>. Next, we will learn about piping that makes sequential analysis easy to write and read. Then, we will see how combine piping with Tidyverse <em>verbs</em>. Next, we will see how to use, visualize, and report statistical models. Finally, you will learn the power of functional programming that provides ultimate flexibility in R.</p>
+<div id="gluing-in-correlation-strength-information." class="section level2" number="8.2">
+<h2><span class="header-section-number">8.2</span> Gluing in correlation strength information.</h2>
+<p>Let us be more precise about the strength of the correlation between the two variables. First, compute it via <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/cor.html">cor</a> function. Use function <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/Round.html">round</a> to round it to just two decimal places. Then, use <a href="https://glue.tidyverse.org/">glue()</a> (see below) to make the title look nice and put it as a title or subtitle of the plot via <a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a>.</p>
+<p>Function <code>glue()</code> lives in the package of the same name that you will need to import separately (it is part of the tidyverse but is not imported automatically). It makes it simple to “glue” values directly into a string. You simply surround the R code by wiggle brackets and the result of the code execution is glued in. If you use just a variable, its value will be glued-in.</p>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="seminar08.html#cb275-1" aria-hidden="true" tabindex="-1"></a>answer <span class="ot">&lt;-</span> <span class="dv">42</span></span>
+<span id="cb275-2"><a href="seminar08.html#cb275-2" aria-hidden="true" tabindex="-1"></a>bad_answer <span class="ot">&lt;-</span> <span class="dv">41</span></span>
+<span id="cb275-3"><a href="seminar08.html#cb275-3" aria-hidden="true" tabindex="-1"></a><span class="fu">glue</span>(<span class="st">&quot;The answer is {answer}, not {bad_answer}&quot;</span>)</span></code></pre></div>
+<pre><code>## The answer is 42, not 41</code></pre>
+<p>But, you can put <em>any</em> code inside, although, the more code you put, the harder it will be to read and understand it.</p>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="seminar08.html#cb277-1" aria-hidden="true" tabindex="-1"></a>single_package_weight <span class="ot">&lt;-</span> <span class="fl">1.2</span></span>
+<span id="cb277-2"><a href="seminar08.html#cb277-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glue</span>(<span class="st">&quot;Ten packages weight {single_package_weight * 10} kg&quot;</span>)</span></code></pre></div>
+<pre><code>## Ten packages weight 12 kg</code></pre>
+<p>So, compute the correlation, glue it into the text and put it as a title of the plot.
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-156-1.png" width="672" /></p>
+<div class="infobox practice">
+<p>Do exercise 2.</p>
 </div>
-<div id="note-on-exercises" class="section level2 unnumbered">
-<h2>Note on exercises</h2>
-<p>In many exercises your will be not writing the code but reading and understanding it. Your job in this case is “to think like a computer.” Your advantage is that computers are very dumb, so instructions for them must be written in very simple, clear, and unambiguous way. This means that, with practice, reading code is easy for a human (well, reading a well-written code is easy, you will eventually encounter “spaghetti-code” which is easier to rewrite from scratch than to understand). In each case, you simply go through the code line-by-line, doing all computations by hand and writing down values stored in the variables (if there are too many to keep track of). Once you go through the code in this manner, it should be completely transparent for you. No mysteries should remain, you should have no doubts or uncertainty about any(!) line. Moreover, you then can run the code and check that the values you are getting from computer match yours. Any difference means you made a mistake and code is working differently from how you think it does. In any case, <strong>if you not 100% sure about any line of code, ask me, so we can go through it together!</strong></p>
-<p>In a sense, this is the most important programming skill. It is impossible to learn how to write, if you cannot read first! Moreover, when programming you will probably spend more time reading the code and making sure that it works correctly than writing the new code. Thus, use this opportunity to practice and never use the code that you do not understand completely. Thus, there is nothing wrong in using <a href="https://stackoverflow.com/">stackoverflow</a> but do make sure you understand the code you copied!</p>
 </div>
-<div id="why-r" class="section level2 unnumbered">
-<h2>Why R?</h2>
-<p>There are many software tools that allow you preprocess, plot, and analyze your data. Some cost money (SPSS, Matlab), some are free just like R (Python, Julia). Moreover, you can replicate all the analysis that we will perform using Python in combination with <a href="https://jupyter.org/">Jupyter notebooks</a> (for reproducable analysis), <a href="https://pandas.pydata.org/">Pandas</a> (for Excel-style table) and <a href="https://www.statsmodels.org/stable/index.html">statmodels</a> (for statistical analysis). However, R in combination with piping and <a href="https://www.tidyverse.org/">Tidyverse</a> family of packages is optimized for data analysis, making it easy to write simple, powerful and expressive code that is very easy to understand (a huge plus, as you will discover). I will run circles around myself trying to replicate the same analysis in Python or Matlab. In addition, R is loved by mathematicians and statisticians, so it tends to have implementations for all cutting edge methods (my impression is that even Python is lagging behind it in that respect).</p>
+<div id="sprintf" class="section level2" number="8.3">
+<h2><span class="header-section-number">8.3</span> sprintf</h2>
+<p>Simplicity makes <a href="https://glue.tidyverse.org/">glue</a> a great tool to insert values into, because there isn’t much more to know about. However, because it is so simple to use, it is not the most flexible way for formatting strings. Instead, you can use <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/sprintf.html">sprintf</a> function that provides C-style string formatting (same as Python’s original string formatting).</p>
+<p>The general function call is <code>sprintf("string with formatting", value1, value2, value)</code>, where values are are inserted into the string. In <code>"string with formatting"</code>, you specify where you want to put the value via <code>%</code> symbol that is followed by an <em>optional</em> formatting info and the <em>required</em> symbol that defines the <strong>type</strong> of the value. The type symbols are</p>
+<ul>
+<li><code>s</code> for string</li>
+<li><code>d</code> for an integer</li>
+<li><code>f</code> for a float value using a “fixed point” decimal notation</li>
+<li><code>e</code> for a float value usaing an exponential notation (e.g., <code>1e2</code>).</li>
+<li><code>g</code> for an “optimally” printed float value, so that exponential notation is used for large values (<em>e.g.</em>, <code>10e5</code> instead of <code>100000</code>).</li>
+</ul>
+<p>Here is an example of formatting a string using an integer:</p>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="seminar08.html#cb279-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes for breakfast&quot;</span>, <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;I had 10 pancakes for breakfast&quot;</code></pre>
+<p>You are not limited to a single value that you can put into a string. You can specify more locations via <code>%</code> but you must make sure that you pass the right number of values. Before running it, can you figure out which call will actually work (and what will be the output ) and which will produce an error?</p>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="seminar08.html#cb281-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes and either %d  or %d stakes for dinner&quot;</span>, <span class="dv">2</span>)</span>
+<span id="cb281-2"><a href="seminar08.html#cb281-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes and %d stakes for dinner&quot;</span>, <span class="dv">7</span>, <span class="dv">10</span>)</span>
+<span id="cb281-3"><a href="seminar08.html#cb281-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes and %d stakes for dinner&quot;</span>, <span class="dv">1</span>, <span class="dv">7</span>, <span class="dv">10</span>)</span></code></pre></div>
+<div class="infobox practice">
+<p>Do exercise 3.</p>
 </div>
-<div id="tidyverse-versus-base-r" class="section level2 unnumbered">
-<h2>Tidyverse versus base R</h2>
-<p>I will be teaching what one might call a “dialect” of R, based on <a href="https://www.tidyverse.org/">Tidyverse</a> family of packages. R is extremely flexible, making it possible to redefine its own syntax. Because of that Tidyverse-based code is very different from the base R code to the point that it might look like written in a completely different language (which, in a sense, it is). Although Tidyverse, at least in my opinion, is a better way, we will start with <em>base R</em>, so that you will be able to read and understand code written outside of Tidyverse, as it is also very common.</p>
+<p>In case of real values you have two options: <code>%f</code> and <code>%g</code>. The latter uses scientific notation (e.g. <code>1e10</code> for <code>10000000000</code>) to make a representation more compact. When formatting floating numbers, you can specify the number of decimal points to be displayed.</p>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="seminar08.html#cb282-1" aria-hidden="true" tabindex="-1"></a>e <span class="ot">&lt;-</span> <span class="fl">2.71828182845904523536028747135266249775724709369995</span></span>
+<span id="cb282-2"><a href="seminar08.html#cb282-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;Euler&#39;s number is roughly %.4f&quot;</span>, e)</span></code></pre></div>
+<pre><code>## [1] &quot;Euler&#39;s number is roughly 2.7183&quot;</code></pre>
+<p>Repeat exercise #2 but use <code>sprintf()</code> in place of <code>glue()</code>.
+::: {.infobox .practice}
+Do exercise 4.
+:::</p>
+</div>
+<div id="wrap-up-2" class="section level2" number="8.4">
+<h2><span class="header-section-number">8.4</span> Wrap up</h2>
+<p>That’s it for today! See you after the Christmas break!</p>
 
 </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             </section>
 
           </div>
         </div>
       </div>
+<a href="seminar07.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
-<a href="getting-started.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

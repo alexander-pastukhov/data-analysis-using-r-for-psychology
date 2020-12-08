@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2020-12-03" />
+<meta name="date" content="2020-12-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -240,6 +240,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.7" data-path="seminar07.html"><a href="seminar07.html#looking-at-similarity"><i class="fa fa-check"></i><b>7.7</b> Looking at similarity</a></li>
 <li class="chapter" data-level="7.8" data-path="seminar07.html"><a href="seminar07.html#joining-tables"><i class="fa fa-check"></i><b>7.8</b> Joining tables</a></li>
 </ul></li>
+<li class="chapter" data-level="8" data-path="seminar08.html"><a href="seminar08.html"><i class="fa fa-check"></i><b>8</b> Glueing and sprintfing</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="seminar08.html"><a href="seminar08.html#comparing-effect-between-two-studies"><i class="fa fa-check"></i><b>8.1</b> Comparing effect between two studies</a></li>
+<li class="chapter" data-level="8.2" data-path="seminar08.html"><a href="seminar08.html#gluing-in-correlation-strength-information."><i class="fa fa-check"></i><b>8.2</b> Gluing in correlation strength information.</a></li>
+<li class="chapter" data-level="8.3" data-path="seminar08.html"><a href="seminar08.html#sprintf"><i class="fa fa-check"></i><b>8.3</b> sprintf</a></li>
+<li class="chapter" data-level="8.4" data-path="seminar08.html"><a href="seminar08.html#wrap-up-2"><i class="fa fa-check"></i><b>8.4</b> Wrap up</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown and FontAwesome</a><li>
 
@@ -452,122 +459,122 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">1</td>
-<td align="right">0.8774579</td>
+<td align="right">-0.8001315</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">1</td>
-<td align="right">-1.9392097</td>
+<td align="right">-2.9444452</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">1</td>
-<td align="right">-3.8268926</td>
+<td align="right">-2.9168376</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">2</td>
-<td align="right">0.3723746</td>
+<td align="right">0.2488881</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">2</td>
-<td align="right">-1.4592903</td>
+<td align="right">0.6610556</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">2</td>
-<td align="right">-3.1383640</td>
+<td align="right">-3.7735339</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">3</td>
-<td align="right">2.4954732</td>
+<td align="right">2.3162507</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">3</td>
-<td align="right">-0.6208743</td>
+<td align="right">0.1711663</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">3</td>
-<td align="right">-2.0940925</td>
+<td align="right">-1.0334443</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">4</td>
-<td align="right">2.1572369</td>
+<td align="right">3.6222108</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">4</td>
-<td align="right">-0.2570650</td>
+<td align="right">1.4116970</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">4</td>
-<td align="right">-1.5601590</td>
+<td align="right">-0.7978824</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">5</td>
-<td align="right">3.7321465</td>
+<td align="right">3.8694123</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">5</td>
-<td align="right">3.0219939</td>
+<td align="right">1.5673111</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">5</td>
-<td align="right">0.0678305</td>
+<td align="right">0.0982654</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">6</td>
-<td align="right">4.5424300</td>
+<td align="right">4.8314482</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">6</td>
-<td align="right">2.8431420</td>
+<td align="right">3.4979978</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">6</td>
-<td align="right">0.7913141</td>
+<td align="right">0.4678690</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">7</td>
-<td align="right">5.8263269</td>
+<td align="right">6.5773607</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">7</td>
-<td align="right">4.0160003</td>
+<td align="right">4.6265924</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">7</td>
-<td align="right">1.1301412</td>
+<td align="right">1.9555855</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">8</td>
-<td align="right">6.6348267</td>
+<td align="right">6.7376568</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">8</td>
-<td align="right">4.5245333</td>
+<td align="right">5.3488207</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">8</td>
-<td align="right">2.7032695</td>
+<td align="right">2.0004197</td>
 </tr>
 </tbody>
 </table>
