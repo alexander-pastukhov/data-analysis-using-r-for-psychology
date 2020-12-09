@@ -288,7 +288,7 @@ short_mpg %>%
 Do exercise 8.
 :::
 
-You can arrange a table using base R via [order()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/order.html) function that gives index of ordered elements and can be used inside of single bracket notation. You can control for ascending/descending of a specific variable using [rev()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/rev.html) function (base R equivalent of [desc()](https://dplyr.tidyverse.org/reference/desc.html) function).
+You can arrange a table using base R via [order()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/order.html) function that gives index of ordered elements and can be used inside of single bracket notation. You can control for ascending/descending of a specific variable using [rev()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/rev.html) function that is applied _after_ ordering, so `rev(order(...))`.
 
 ```r
 short_mpg[order(short_mpg$cty, rev(short_mpg$displ)), ]
