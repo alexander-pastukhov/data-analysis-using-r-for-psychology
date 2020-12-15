@@ -117,7 +117,7 @@
 
 \title{Data analysis using R for Psychology}
 \author{Alexander (Sasha) Pastukhov}
-\date{2020-12-08}
+\date{2020-12-15}
 
 \begin{document}
 \maketitle
@@ -1711,53 +1711,53 @@ You always need the first one. But you do not need to specify the other two, eve
 \hline
 Condition & Intensity & Response\\
 \hline
-A & 1 & -0.8787747\\
+A & 1 & -0.1899597\\
 \hline
-B & 1 & -1.4981794\\
+B & 1 & -2.5456544\\
 \hline
-C & 1 & -4.3744854\\
+C & 1 & -4.1648555\\
 \hline
-A & 2 & 0.7673961\\
+A & 2 & 1.3526617\\
 \hline
-B & 2 & -1.1187705\\
+B & 2 & -0.9422854\\
 \hline
-C & 2 & -2.5422652\\
+C & 2 & -3.6926423\\
 \hline
-A & 3 & 1.5865615\\
+A & 3 & 1.5496843\\
 \hline
-B & 3 & -0.6881711\\
+B & 3 & -0.3776177\\
 \hline
-C & 3 & -1.3063003\\
+C & 3 & -0.9269355\\
 \hline
-A & 4 & 2.6204925\\
+A & 4 & 3.0782720\\
 \hline
-B & 4 & 1.5668620\\
+B & 4 & 0.4756052\\
 \hline
-C & 4 & -0.3951947\\
+C & 4 & -0.9757856\\
 \hline
-A & 5 & 4.2079556\\
+A & 5 & 3.8547945\\
 \hline
-B & 5 & 0.5112327\\
+B & 5 & 2.3916313\\
 \hline
-C & 5 & -0.4694130\\
+C & 5 & -0.7526468\\
 \hline
-A & 6 & 5.4688146\\
+A & 6 & 4.5487696\\
 \hline
-B & 6 & 2.9337794\\
+B & 6 & 3.7160985\\
 \hline
-C & 6 & 1.3236091\\
+C & 6 & 0.9689939\\
 \hline
-A & 7 & 6.5428242\\
+A & 7 & 5.9292334\\
 \hline
-B & 7 & 3.9890223\\
+B & 7 & 3.3911424\\
 \hline
-C & 7 & 3.0343190\\
+C & 7 & 1.4597969\\
 \hline
-A & 8 & 5.8446808\\
+A & 8 & 6.4179146\\
 \hline
-B & 8 & 3.7914017\\
+B & 8 & 5.9747686\\
 \hline
-C & 8 & 2.6456399\\
+C & 8 & 3.5874581\\
 \hline
 \end{tabular}
 
@@ -2912,7 +2912,7 @@ audi & a4 & 1.8 & 1999 & 4 & manual(m5) & f & 21 & 29 & p & compact\\
 
 Do exercise 8.
 
-You can arrange a table using base R via \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/order.html}{order()} function that gives index of ordered elements and can be used inside of single bracket notation. You can control for ascending/descending of a specific variable using \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/rev.html}{rev()} function (base R equivalent of \href{https://dplyr.tidyverse.org/reference/desc.html}{desc()} function).
+You can arrange a table using base R via \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/order.html}{order()} function that gives index of ordered elements and can be used inside of single bracket notation. You can control for ascending/descending of a specific variable using \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/rev.html}{rev()} function that is applied \emph{after} ordering, so \texttt{rev(order(...))}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2958,7 +2958,7 @@ In Tidyverse, \href{https://dplyr.tidyverse.org/reference/mutate.html}{mutate} f
 \CommentTok{\# Tidyverse equivalent}
 \NormalTok{short\_mpg }\OtherTok{\textless{}{-}} 
 \NormalTok{  short\_mpg }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{avg\_mpg =}\NormalTok{ (short\_mpg}\SpecialCharTok{$}\NormalTok{cty }\SpecialCharTok{+}\NormalTok{ short\_mpg}\SpecialCharTok{$}\NormalTok{hwy) }\SpecialCharTok{/} \DecValTok{2}\NormalTok{)}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{avg\_mpg =}\NormalTok{ (cty }\SpecialCharTok{+}\NormalTok{ hwy) }\SpecialCharTok{/} \DecValTok{2}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2977,15 +2977,15 @@ Second, you are performing a computation \emph{inside} the call of the \texttt{m
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{short\_mpg }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{avg\_mpg =}\NormalTok{ (short\_mpg}\SpecialCharTok{$}\NormalTok{cty }\SpecialCharTok{+}\NormalTok{ short\_mpg}\SpecialCharTok{$}\NormalTok{hwy) }\SpecialCharTok{/} \DecValTok{2}\NormalTok{,      }\CommentTok{\# column name will be avp\_mpg}
-\NormalTok{         avg\_mpg }\OtherTok{\textless{}{-}}\NormalTok{ (short\_mpg}\SpecialCharTok{$}\NormalTok{cty }\SpecialCharTok{+}\NormalTok{ short\_mpg}\SpecialCharTok{$}\NormalTok{hwy) }\SpecialCharTok{/} \DecValTok{2}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \CommentTok{\# column name will be \textasciigrave{}avg\_mpg \textless{}{-} (short\_mpg$cty + short\_mpg$hwy) / 2\textasciigrave{}}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{avg\_mpg =}\NormalTok{  (cty }\SpecialCharTok{+}\NormalTok{ hwy) }\SpecialCharTok{/} \DecValTok{2}\NormalTok{,      }\CommentTok{\# column name will be avp\_mpg}
+\NormalTok{         avg\_mpg }\OtherTok{\textless{}{-}}\NormalTok{ (cty }\SpecialCharTok{+}\NormalTok{ hwy) }\SpecialCharTok{/} \DecValTok{2}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \CommentTok{\# column name will be \textasciigrave{}avg\_mpg \textless{}{-} (short\_mpg$cty + short\_mpg$hwy) / 2\textasciigrave{}}
 \NormalTok{  knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{tabular}{l|l|r|r|r|l|l|r|r|l|l|r|r}
 \hline
-manufacturer & model & displ & year & cyl & trans & drv & cty & hwy & fl & class & avg\_mpg & avg\_mpg <- (short\_mpg\$cty + short\_mpg\$hwy)/2\\
+manufacturer & model & displ & year & cyl & trans & drv & cty & hwy & fl & class & avg\_mpg & avg\_mpg <- (cty + hwy)/2\\
 \hline
 audi & a4 & 1.8 & 1999 & 4 & auto(l5) & f & 18 & 29 & p & compact & 23.5 & 23.5\\
 \hline
@@ -3008,7 +3008,7 @@ Finally, \texttt{mutate} has a cousin-verb called \texttt{transmute} that works 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{short\_mpg }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{transmute}\NormalTok{(}\AttributeTok{avg\_mpg =}\NormalTok{ (short\_mpg}\SpecialCharTok{$}\NormalTok{cty }\SpecialCharTok{+}\NormalTok{ short\_mpg}\SpecialCharTok{$}\NormalTok{hwy) }\SpecialCharTok{/} \DecValTok{2}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{transmute}\NormalTok{(}\AttributeTok{avg\_mpg =}\NormalTok{ (cty }\SpecialCharTok{+}\NormalTok{ hwy) }\SpecialCharTok{/} \DecValTok{2}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
 \NormalTok{  knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(}\AttributeTok{align =} \StringTok{"c"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -3611,21 +3611,21 @@ D & 22\\
 \hline
 ID & Report\\
 \hline
-A & 6.517771\\
+A & 5.163255\\
 \hline
-A & 6.236586\\
+A & 6.516827\\
 \hline
-B & 5.606450\\
+B & 5.586424\\
 \hline
-B & 4.266958\\
+B & 5.594673\\
 \hline
-C & 5.879181\\
+C & 6.750344\\
 \hline
-C & 1.926250\\
+C & 1.789564\\
 \hline
-E & 2.199116\\
+E & 1.662990\\
 \hline
-E & 5.601366\\
+E & 2.236357\\
 \hline
 \end{tabular}
 
@@ -3642,17 +3642,17 @@ Here, \texttt{ID} column will serve as a key to indicate which rows from two col
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 6.517771\\
+A & 20 & 5.163255\\
 \hline
-A & 20 & 6.236586\\
+A & 20 & 6.516827\\
 \hline
-B & 19 & 5.606450\\
+B & 19 & 5.586424\\
 \hline
-B & 19 & 4.266958\\
+B & 19 & 5.594673\\
 \hline
-C & 30 & 5.879181\\
+C & 30 & 6.750344\\
 \hline
-C & 30 & 1.926250\\
+C & 30 & 1.789564\\
 \hline
 \end{tabular}
 
@@ -3669,23 +3669,23 @@ Conversely, \texttt{full\_join()} will include all rows from both tables but wil
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 6.517771\\
+A & 20 & 5.163255\\
 \hline
-A & 20 & 6.236586\\
+A & 20 & 6.516827\\
 \hline
-B & 19 & 5.606450\\
+B & 19 & 5.586424\\
 \hline
-B & 19 & 4.266958\\
+B & 19 & 5.594673\\
 \hline
-C & 30 & 5.879181\\
+C & 30 & 6.750344\\
 \hline
-C & 30 & 1.926250\\
+C & 30 & 1.789564\\
 \hline
 D & 22 & NA\\
 \hline
-E & NA & 2.199116\\
+E & NA & 1.662990\\
 \hline
-E & NA & 5.601366\\
+E & NA & 2.236357\\
 \hline
 \end{tabular}
 
@@ -3702,17 +3702,17 @@ The \texttt{left\_join()} and \texttt{right\_join()} include all the row from, r
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 6.517771\\
+A & 20 & 5.163255\\
 \hline
-A & 20 & 6.236586\\
+A & 20 & 6.516827\\
 \hline
-B & 19 & 5.606450\\
+B & 19 & 5.586424\\
 \hline
-B & 19 & 4.266958\\
+B & 19 & 5.594673\\
 \hline
-C & 30 & 5.879181\\
+C & 30 & 6.750344\\
 \hline
-C & 30 & 1.926250\\
+C & 30 & 1.789564\\
 \hline
 D & 22 & NA\\
 \hline
@@ -3729,21 +3729,21 @@ D & 22 & NA\\
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 6.517771\\
+A & 20 & 5.163255\\
 \hline
-A & 20 & 6.236586\\
+A & 20 & 6.516827\\
 \hline
-B & 19 & 5.606450\\
+B & 19 & 5.586424\\
 \hline
-B & 19 & 4.266958\\
+B & 19 & 5.594673\\
 \hline
-C & 30 & 5.879181\\
+C & 30 & 6.750344\\
 \hline
-C & 30 & 1.926250\\
+C & 30 & 1.789564\\
 \hline
-E & NA & 2.199116\\
+E & NA & 1.662990\\
 \hline
-E & NA & 5.601366\\
+E & NA & 2.236357\\
 \hline
 \end{tabular}
 
@@ -3786,13 +3786,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 4.066666\\
+A & M & 2.958016\\
 \hline
-B & F & 3.207513\\
+B & F & 6.695415\\
 \hline
-A & F & 5.456291\\
+A & F & 6.426108\\
 \hline
-B & M & 6.588105\\
+B & M & 5.318184\\
 \hline
 \end{tabular}
 
@@ -3807,13 +3807,13 @@ B & M & 6.588105\\
 \hline
 ID & Gender & Age & Report\\
 \hline
-A & M & 20 & 4.066666\\
+A & M & 20 & 2.958016\\
 \hline
-B & F & 19 & 3.207513\\
+B & F & 19 & 6.695415\\
 \hline
-A & F & 30 & 5.456291\\
+A & F & 30 & 6.426108\\
 \hline
-B & M & 22 & 6.588105\\
+B & M & 22 & 5.318184\\
 \hline
 \end{tabular}
 
@@ -3856,13 +3856,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 1.913509\\
+A & M & 3.803198\\
 \hline
-B & F & 1.632121\\
+B & F & 2.289860\\
 \hline
-A & F & 4.848507\\
+A & F & 6.876649\\
 \hline
-B & M & 6.953688\\
+B & M & 4.984777\\
 \hline
 \end{tabular}
 
@@ -3877,13 +3877,13 @@ B & M & 6.953688\\
 \hline
 VPCode & Sex & Age & Report\\
 \hline
-A & M & 20 & 1.913509\\
+A & M & 20 & 3.803198\\
 \hline
-B & F & 19 & 1.632121\\
+B & F & 19 & 2.289860\\
 \hline
-A & F & 30 & 4.848507\\
+A & F & 30 & 6.876649\\
 \hline
-B & M & 22 & 6.953688\\
+B & M & 22 & 4.984777\\
 \hline
 \end{tabular}
 

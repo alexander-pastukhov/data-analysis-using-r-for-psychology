@@ -310,7 +310,7 @@ short_mpg$avg_mpg <- (short_mpg$cty + short_mpg$hwy) / 2
 # Tidyverse equivalent
 short_mpg <- 
   short_mpg %>%
-  mutate(avg_mpg = (short_mpg$cty + short_mpg$hwy) / 2)
+  mutate(avg_mpg = (cty + hwy) / 2)
 ```
 
 Note two critical differences. First, `mutate()` takes a table as an input and returns a table as an output. This is why you start with a table, pipe it to mutate, and assign the results _back_ to the original variable. If you have more verbs/lines, it is the output of the last computation that is assigned to the variable on the left-hand side of assignment^[R does have `->` statement, so, technically, you can pipe your computation and then assign it to a variable `table %>% mutate() -> table`. However, this style is generally discouraged as starting with `table <- table %>%` makes it clear that you modify and store the computation, whereas `table %>%` signals that you pipe the results to an output: console, printed-out table, plot, etc.]. Look at the listing below that indexes each line by when it is executed.
@@ -322,8 +322,8 @@ some_table <-    # 3. We assign the result to the original table, only once all 
 Second, you are performing a computation _inside_ the call of the `mutate()` function, so `avg_mpg = (short_mpg$cty + short_mpg$hwy) / 2` is a _parameter_ that you pass to it (yes, it does not look like one). This is why you use `=` rather than a normal assignment arrow `<-`. Unfortunately, you _can_ use `<-` inside the `mutate` and the computation will work as intended but, for internal-processing reasons, the _entire statement_, rather than just the left-hand side, will be used as a column name. Thus, use `<-` _outside_ and `=` _inside_ of Tydiverse verbs.
 ```{r}
 short_mpg %>%
-  mutate(avg_mpg = (short_mpg$cty + short_mpg$hwy) / 2,      # column name will be avp_mpg
-         avg_mpg <- (short_mpg$cty + short_mpg$hwy) / 2) %>% # column name will be `avg_mpg <- (short_mpg$cty + short_mpg$hwy) / 2`
+  mutate(avg_mpg =  (cty + hwy) / 2,      # column name will be avp_mpg
+         avg_mpg <- (cty + hwy) / 2) %>% # column name will be `avg_mpg <- (short_mpg$cty + short_mpg$hwy) / 2`
   knitr::kable()
 ```
 
@@ -336,7 +336,7 @@ Do exercise 10.
 Finally, `mutate` has a cousin-verb called `transmute` that works the same way but _discards_ all original columns that were not modified. You probably won't use this verb all too often but I want you to be able to recognize it, as its name and function are very similar to `mutate` and the two are easy to confuse.
 ```{r}
 short_mpg %>%
-  transmute(avg_mpg = (short_mpg$cty + short_mpg$hwy) / 2) %>%
+  transmute(avg_mpg = (cty + hwy) / 2) %>%
   knitr::kable(align = "c")
 ```
 
