@@ -25,7 +25,7 @@ Here is the outline of the analysis:
 * Merge two tables by `Prime` and `Probe`, store results in a new variable (the name is up to you). Note that each table has column with average proportion of same responses. You probably used the same name for this variable for both columns (if not, do use the same name, like `Pavg`). Joining functions are average of this possibility and use _suffixes_ to differentiate which table the original column came from. By defaults `suffix = c(".x", ".y")`, so that that column `Pavg` from the first (left) table will become `Pavg.x` and the other one `Pavg.y`. We can do better than `c(".x", ".y")`! Use suffix parameter but use meaningful suffixes. The table should have four columns and sixteen rows.
 * Plot average proportion of same responses for adaptation versus persistence. Use points for individual values and add linear regression line via `geom_smooth()`. The final plot should look approximately like this:
 
-```{r echol=FALSE, fig.align='center', include=FALSE}
+```{r echo=FALSE, fig.align='center'}
 persistence <-
   read_csv("data/persistence.csv", 
            col_types = cols(filename = col_character(),
