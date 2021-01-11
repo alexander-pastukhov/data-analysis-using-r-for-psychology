@@ -1,0 +1,131 @@
+# Tidyng your data {#seminar09}
+It is fun to work with tidy complete data. Unfortunately, more often than not you will need to preprocess and tidy it up before you can process it. Tidyverse has [tidyr](https://tidyr.tidyverse.org/) package that helps you with some of the problems.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+## Pivoting between long and wide format
+Recall the idea of [tidy data](#tidydata): 
+
+* variables are in columns,
+* observations are in rows,
+* values are in cells.
+
+And, also recall, that quite often data is stored in a wide format that is easier for humans read.
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+widish_df <- 
+  tibble(Participant = c(1, 1, 2, 2),
+         Face = rep(c("M1", "M2"), 2), 
+         Symmetry = c(6, 4, 5, 3),
+         Attractiveness = c(4, 7, 2, 7),
+         Trustworthiness = c(3, 6, 1, 2))
+
+knitr::kable(widish_df, align="c")
+```
+Here, `Symmetry`, `Attractiveness`, `Trustworthiness` are different face properties participants responded on, whereas values are `Response` they gave. You can work with a table like that but it is often more convenient to have instead a column `Property` that will code which face property participants respond on and a column `Response` to hold values. Then, you can easily split or group your data by property while performing the same analysis on all of them.
+
+The function to do this is [pivot_longer()](https://tidyr.tidyverse.org/reference/pivot_longer.html). It takes a table, which you can pipe  to the function, and vector of column names that need to be transformed. All _column names_ go to one new column and all the _values_ go to another new column. Defaults names of these two columns are, respectively, `"name"` and `"value"` but you can specify something more suitable via, respectively, `names_to` and `values_to` parameters. There are many more bells-and-whistles (name and value transformations, removing a prefix via regular expressions, etc.), so recommend looking at the manual and a [vignette](https://tidyr.tidyverse.org/articles/pivot.html). However, in most cases these for parameters will be all you need, so let us see `pivot_longer` in action. 
+
+I assume that table presented above is in `widish_df` table. The columns that we want to transform are  `Symmetry`, `Attractiveness`, `Trustworthiness`. Thus, the simplest call with all defaults is
+```r
+tidyr::pivot_longer(widish_df, 
+                    cols=c("Symmetry", "Attractiveness", "Trustworthiness"))
+```
+```{r echo=FALSE}
+tidyr::pivot_longer(widish_df, 
+                    cols=c("Symmetry", "Attractiveness", "Trustworthiness")) %>%
+  knitr::kable()
+```
+
+When you compare the two tables, you will see that original three columns × four rows are now stretched into twelve rows and name-value pairs are consistent across the two tables^[By the way, this simple math check may seem as a trivial point but this is a kind of simple sanity check that you should perform routinely. This way you _know_ rather than _hope_ that transformation did what it should. I also check value is a few rows to make sure that I didn't mess things up. Catching simple errors early saves you a lot of time!]. As noted above, you can use better names for new columns (I use [head()](https://stat.ethz.ch/R-manual/R-devel/library/utils/html/head.html) function to show only first 4 rows to save space, because data is the same): 
+```r
+longish_df <- 
+  tidyr::pivot_longer(widish_df, 
+                      cols=c("Symmetry", "Attractiveness", "Trustworthiness"),
+                      names_to="Property",
+                      values_to="Response")
+                      
+head(longish_df, 4)
+```
+```{r echo=FALSE}
+longish_df <- 
+  tidyr::pivot_longer(widish_df, 
+                      cols=c("Symmetry", "Attractiveness", "Trustworthiness"),
+                      names_to="Property",
+                      values_to="Response")
+
+head(longish_df, 4) %>%
+  knitr::kable()
+```
+
+You also can go from wide to long representation via [pivot_wider()](https://tidyr.tidyverse.org/reference/pivot_wider.html) function. The logic is reverse, you need to specify which columns contain column names and which contain their values. For our example table the names of the columns are in the column `Property` and values are in `Response`. So to undo our previous transformation^[I used table as an explicit first argument for `pivot_longer()` but piped it to `pivot_wider()`, why? To remind you that these two ways are the interchangeable and that both put the table as a parameter into the function.]
+```r
+longish_df %>%
+  pivot_wider(names_from = "Property", values_from="Response")
+```
+```{r echo=FALSE}
+longish_df %>%
+  pivot_wider(names_from = "Property", values_from="Response") %>%
+  knitr::kable()
+```
+
+And our original wide table is back! As `pivot_longer`, `pivot_wider` has plenty of parameters to fine-tune pivoting, so you should check them to know what it can do.
+
+## Pivot it yourself
+Let us put this new knowledge to practice, using [GP.csv](data/GP.csv) file. We would like to know whether responses to individual items in a questionnaire appear to be different based on a condition. Do the computations below in a single pipeline. Advice, do it one step at a time, checking the table and making sure that you get expected results before piping it and adding the next operation.
+
+1. Read the file, make sure you specify column types.
+2. Convert `Condition` column to a factor with `1` corresponding to `"Game"` and `2` to `"Exp"`.
+3. Pivot all `GP..` columns. You should get a table with five columns: `Respondent`, `Condition`, `Gender`, `name` (or a column name that you specified), and `value` (or a column name that you specified). Hint, you can use slicing `:` to specify the range of columns or [starts_with()](https://tidyselect.r-lib.org/reference/starts_with.html) function to specify a common prefix. Try both approaches.
+4. Group data by condition and GP item and compute median and [median absolute deviation](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/mad.html) of responses. These are robust versions of mean and standard deviation, better suitable for a potentially asymmetric data.
+
+Now you have a table that has median and MAD values for each combination and item. Plot them to compare them visually. Use median responses for y-value of points and median±MAD for error bars. Do you think there is difference between the conditions based on this plot?
+```{r echo=FALSE, fig.align='center'}
+gp <-
+  read_csv("data/GP.csv", 
+           col_types = cols(.default=col_integer(),
+                            Respondent = col_character(),
+                            Condition = col_integer(),
+                            Gender = col_integer())) %>%
+  mutate(Condition = factor(Condition, labels=c("Game", "Exp"))) %>%
+  pivot_longer(cols=starts_with("GP"), names_to="Item", values_to="Response") %>%
+  # pivot_longer(cols="GP01_01":"GP03_01", names_to="Item", values_to="Response")
+
+  group_by(Condition, Item) %>%
+  summarise(MedianResponse = median(Response),
+            ResponseMAD = mad(Response),
+            .groups="drop")
+
+ggplot(gp, aes(x=Condition, y=MedianResponse, ymin=MedianResponse - ResponseMAD, ymax=MedianResponse+ResponseMAD, color=Condition)) + 
+  geom_point() + 
+  geom_errorbar() +
+  facet_wrap(.~Item, ncol=6)
+```
+
+::: {.infobox .practice}
+Do exercise 1.
+:::
+
+Perform similar analysis but do not group data and summarize the data. Instead, use box plots to show the variability. Which visualization do you prefer?
+
+```{r echo=FALSE, fig.align='center'}
+gp <-
+  read_csv("data/GP.csv", 
+           col_types = cols(.default=col_integer(),
+                            Respondent = col_character(),
+                            Condition = col_integer(),
+                            Gender = col_integer())) %>%
+  mutate(Condition = factor(Condition, labels=c("Game", "Exp"))) %>%
+  pivot_longer(cols=starts_with("GP"), names_to="Item", values_to="Response")
+
+ggplot(gp, aes(x=Condition, y=Response, color=Condition)) + 
+  geom_boxplot() + 
+  facet_wrap(.~Item, ncol=6)
+```
+
+::: {.infobox .practice}
+Do exercise 2.
+:::
+
+
