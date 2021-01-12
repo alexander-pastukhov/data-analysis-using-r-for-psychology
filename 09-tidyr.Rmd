@@ -204,7 +204,7 @@ adaptation %>%
   knitr::kable()
 ```
 
-The overall procedure is very straightforward:
+The overall procedure is fairly straightforward:
 
 1. Read the file (don't forget to specify column types)
 2. Computer `Psame` proportion of same responses given number of total responses.
@@ -216,5 +216,211 @@ The overall procedure is very straightforward:
 Do exercise 3.
 :::
 
-## Separate string into several columns
+Let us practice more and create group average summary as a square 5×4 table with a single row per _Prime_ and four columns for _Probe_ plus a column that says which prime the row corresponds to. As a value for each cell, we want to code _median ± MAD_. The table should look like this:
 
+```{r echo=FALSE}
+adaptation %>%
+  mutate(Psame = Nsame / Ntotal,
+         Prime = factor(Prime, levels = c("Sphere", "Quadro", "Dual", "Single")),
+         Probe = factor(Probe, levels = c("Sphere", "Quadro", "Dual", "Single"))) %>%
+  group_by(Prime, Probe) %>%
+  summarise(Pmedian = round(median(Psame), 2),
+            Pmad = round(mad(Psame), 2),
+            Pinfo = glue::glue("{Pmedian} ± {Pmad}"),
+            .groups = "drop") %>%
+  pivot_wider(id_cols = "Prime", names_from="Probe", values_from="Pinfo") %>%
+  knitr::kable(align = "c")
+```
+
+You know everything you need, so think about how you would implement this as a _single_ pipeline. Hints: to match my table you will definitely to convert `Prime` and `Probe` to factors to ensure consistent ordering (otherwise, they will be sorted alphabetically), you will need to use [glue](#gluing-in-correlation-strength-in) in combination with [round()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Round.html) to form the summary info or you can use [sprintf](#sprintf). And, of course, you will need to pivot the table wider.
+
+::: {.infobox .practice}
+Do exercise 4.
+:::
+
+## Extracting information from a string
+Quite often, a string value is a code to contains several different pieces of information. For example, in the toy table on face perception, we have been working with, `Face` column code gender of the face `"M"` (table is short but you can easily assume that faces of both genders were used) and the second is its index (`1` and `2`). When we worked with [persistence](data/persistence.csv), `Participant` column encoded year of birth and gender, whereas `Session` contained detailed information about year, month, day, hour, minutes, and seconds all merged together. There are several ways to extract this information, either via [separate()](https://tidyr.tidyverse.org/reference/separate.html) function, discussed below, or via [extract()](https://tidyr.tidyverse.org/reference/extract.html) function or using string processing library [stringr](https://stringr.tidyverse.org/).
+
+## Separate
+Use of [separate()](https://tidyr.tidyverse.org/reference/separate.html) functions is generally straightforward: you pass the name of the column that you want to split, names of the columns it needs to be split into, a separator symbol or indexes of splitting positions. Examples using the face table should make it clear. Reminder, this is the original wide table and we want to separate `Face` into `FaceGender` and `FaceIndex`.
+
+```{r eacho=FALSE}
+widish_df %>%
+  knitr::kable()
+```
+
+As there is a very convenient "dash" between the two, we can use it for a separator symbol:
+```r
+widish_df %>%
+  separate(Face, into=c("FaceGender", "FaceIndex"), sep="-")
+```
+```{r echo=FALSE}
+widish_df %>%
+  separate(Face, into=c("FaceGender", "FaceIndex"), sep="-") %>%
+  knitr::kable()
+```
+
+Note that the original `Face` column is gone. We can keep it via `remove=FALSE` option
+```r
+widish_df %>%
+  separate(Face, into=c("FaceGender", "FaceIndex"), sep="-", remove=FALSE)
+```
+```{r echo=FALSE}
+widish_df %>%
+  separate(Face, into=c("FaceGender", "FaceIndex"), sep="-", remove=FALSE) %>%
+  knitr::kable()
+```
+
+We also do not need to extract _all_ information. For example, we can extract only face gender or face index. To get only the gender, we only specify _one_ `into` column and add `extra="drop"` parameter, telling `separate()` to drop any extra piece it obtained:
+```r
+widish_df %>%
+  separate(Face, into=c("Gender"), sep="-", remove=FALSE, extra="drop")
+```
+```{r echo=FALSE}
+widish_df %>%
+  separate(Face, into=c("Gender"), sep="-", remove=FALSE, extra="drop") %>%
+  knitr::kable()
+```
+
+Alternatively, we can explicitly _ignore_ pieces by using `NA` for their column name:
+```r
+widish_df %>%
+  separate(Face, into=c("Gender", NA), sep="-", remove=FALSE)
+```
+```{r}
+widish_df %>%
+  separate(Face, into=c("Gender", NA), sep="-", remove=FALSE) %>%
+  knitr::kable()
+```
+
+What about keeping only the _second_ piece in a `FaceIndex` column? We ignore the first one via `NA`
+```r
+widish_df %>%
+  separate(Face, into=c(NA, "Index"), sep="-", remove=FALSE)
+```
+```{r}
+widish_df %>%
+  separate(Face, into=c(NA, "Index"), sep="-", remove=FALSE) %>%
+  knitr::kable()
+```
+
+Let's practice. Use `separate()` to preprocess [persistence](data/persistence.csv) data and create two new columns for hour and minutes from `Session` column. Do it in a single pipeline, starting with reading the file. You results should look like this, think about columns that are drop or keep (this is only first four rows, think of how you can limit your output the same way via [head()](https://stat.ethz.ch/R-manual/R-devel/library/utils/html/head.html) function):
+```{r echo=FALSE}
+read_csv("data/persistence.csv",
+         col_types = cols(filename = col_character(),
+                          Participant = col_character(),
+                          Session = col_character(),
+                          Block = col_double(),
+                          Trial = col_double(),
+                          OnsetDelay = col_double(),
+                          Bias = col_character(),
+                          Prime = col_character(),
+                          Probe = col_character(),
+                          Response1 = col_character(),
+                          Response2 = col_character(),
+                          RT1 = col_double(),
+                          RT2 = col_double()
+                        )) %>%
+  select(-filename) %>%
+  separate(Session, into=c(NA, NA, NA, "Hour", "Minutes", NA), sep="-") %>%
+  head(4) %>%
+  knitr::kable()
+```
+
+::: {.infobox .practice}
+Do exercise 5.
+:::
+
+As noted above, if position of individual pieces is fixed, you can specify it explicitly. Let us make out toy table a bit more explicit
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+widish_df <- 
+  tibble(Participant = c(1, 1, 2, 2),
+         Face = rep(c("Female-01", "Female-02"), 2), 
+         Symmetry = c(6, 4, 5, 3),
+         Attractiveness = c(4, 7, 2, 7),
+         Trustworthiness = c(3, 6, 1, 2))
+
+knitr::kable(widish_df, align="c")
+```
+
+
+For our toy faces table, the first piece is the gender and the last one is its index. Thus, we tell `separate()` starting position each pieces, starting with the _second_ one:
+```r
+widish_df %>%
+  separate(Face, into=c("FaceGender", "Dash", "FaceIndex"), sep=c(6, 7))
+```
+```{r}
+widish_df %>%
+  separate(Face, into=c("FaceGender", "Dash", "FaceIndex"), sep=c(6, 7), remove=FALSE) %>%
+  knitr::kable()
+```
+
+Here, I've create `Dash` column for the separator but, of course, I could have omitted it via `NA` column name.
+```r
+widish_df %>%
+  separate(Face, into=c("FaceGender", NA, "FaceIndex"), sep=c(4, 5))
+```
+```{r}
+widish_df %>%
+  separate(Face, into=c("FaceGender", NA, "FaceIndex"), sep=c(6, 7)) %>%
+  knitr::kable()
+```
+
+Practice time! Using same [persistence](data/persistence.csv) data extract birth year and gender of participants from `Participant` code (keep the code though!). Put a nice extra touch by converting year to a number and gender into a factor type. Here is how should look like:
+
+```{r echo=FALSE}
+read_csv("data/persistence.csv",
+         col_types = cols(filename = col_character(),
+                          Participant = col_character(),
+                          Session = col_character(),
+                          Block = col_double(),
+                          Trial = col_double(),
+                          OnsetDelay = col_double(),
+                          Bias = col_character(),
+                          Prime = col_character(),
+                          Probe = col_character(),
+                          Response1 = col_character(),
+                          Response2 = col_character(),
+                          RT1 = col_double(),
+                          RT2 = col_double()
+                        )) %>%
+  select(-filename) %>%
+  separate(Participant, into=c(NA, "BirthYear", "Gender"), sep=c(3, 7), remove = FALSE) %>%
+  mutate(BirthYear = as.integer(BirthYear),
+         Gender = factor(Gender, levels=c("F", "M"), labels=c("Male", "Female"))) %>%
+  head(4) %>%
+  knitr::kable()
+```
+
+::: {.infobox .practice}
+Do exercise 6.
+:::
+
+## Completing data
+Sometimes data is missing 
+
+```{r}
+clear_percepts <- 
+  read_csv2("data/clear-percepts.csv",
+            col_types = cols(
+                             Session = col_character(),
+                              Participant = col_character(),
+                              Block = col_double(),
+                              Condition = col_character(),
+                              Display = col_character(),
+                              OnsetDelay = col_double(),
+                              Percept = col_character(),
+                              Time = col_double(),
+                              Duration = col_double(),
+                              iPercept = col_double(),
+                              SpeedUp_first = col_logical())) %>%
+  group_by(Participant, Condition, Display) %>%
+  summarize(Dmedian = median(Duration), .groups="drop") %>%
+  ungroup() %>%
+  pivot_wider(id_cols=c("Participant", "Condition", "Display"), names_from = "Display", values_from="Dmedian")
+
+
+ggplot(clear_percepts, aes(x=`KDE 45`, y=`NC`)) + 
+  geom_point() +
+  facet_grid(.~Condition)
+```
