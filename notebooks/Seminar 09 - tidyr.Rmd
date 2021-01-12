@@ -1,0 +1,46 @@
+---
+  title: "Seminar 08"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+```
+
+## Exercise 01.
+Analyze _GP.csv_ data, a questionnaire on gaming habits, which was conducted prior to an experiment to check whether two groups of participants assigned to _Game_ and _Experiment_ conditions have similar gaming habits. We would like to visually inspect responses to individual items in a questionnaire appear for different conditions, as this will tell us whether we should expect a difference. Split the computations below into two pipelines. One that loads and pre-processes the data (steps 1-3). Another one that produces a summary and stores it into a different table (step 4). Advice, implement it one step at a time, checking the table and making sure that you get expected results before piping it and adding the next operation.
+
+1. Read the file, make sure you specify column types.
+2. Convert `Condition` column to a factor with `1` corresponding to `"Game"` and `2` to `"Exp"`.
+3. Pivot all `GP..` columns. You should get a table with five columns: `Respondent`, `Condition`, `Gender`, `name` (or a column name that you specified), and `value` (or a column name that you specified). Hint, you can use slicing `:` to specify the range of columns or [starts_with()](https://tidyselect.r-lib.org/reference/starts_with.html) function to specify a common prefix. Try both approaches.
+4. Group data by condition and GP item and compute median and [median absolute deviation](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/mad.html) of responses. These are robust versions of mean and standard deviation, better suitable for data with potential outliers.
+
+Now you have a table that has median and MAD values for each combination and item. Plot them to compare them visually. Use median responses for y-value of points and median±MAD for error bars. Use facets and color to make it easier to identify the items and conditions.
+```{r exercise 01}
+
+```
+
+## Exercise 02
+Perform similar analysis but do not group data and summarize the data. Instead, use box plots to show the variability.
+
+```{r exercise 02}
+
+```
+
+## Exercise 03
+
+Pivot _adaptation_ data to a wide format that is easier for humans to read.
+
+1. Read the file (don't forget to specify column types)
+2. Computer `Psame` proportion of same responses given number of total responses.
+3. Pivot the table wider, think about your id columns. Also try without specifying any and see what you get.
+4. Compute an average stability across all probes and put it into a new `Average` column. You can do it "by hand" or you can use [rowSums()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/colSums.html) to compute it. In the latter case, you need to use `.` to refer to the table inside the `mutate()` function and you will need to normalize it by the number of probes to get an average instead of the sum.
+5. Pipe it to the output, using [knitr::kable()](https://bookdown.org/yihui/rmarkdown-cookbook/kable.html).
+
+```{r exercise 03}
+
+```
+
