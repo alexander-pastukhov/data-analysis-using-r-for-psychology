@@ -397,7 +397,33 @@ Do exercise 6.
 :::
 
 ## Missing data
-Sometimes data is missing. It can be missing _explicitly_ with `NA` standing for `Not Available` / `Missing` data. Or, it can be missing _implicitly_ when there is simply no entry for a particular condition. In the latter case, the strategy is to make missing values explicit first (discussed below). When you have missing values, represented by `NA` in R, you must decide how to deal with them: you can use this information directly as missing data can be diagnostic in itself, you can impute it using either a sophisticated statistical methods or via a simple average/default value strategy, or you can exclude them from the analysis. 
+Sometimes data is missing. It can be missing _explicitly_ with `NA` standing for `Not Available` / `Missing` data. Or, it can be missing _implicitly_ when there is simply no entry for a particular condition. In the latter case, the strategy is to make missing values explicit first (discussed below). When you have missing values, represented by `NA` in R, you must decide how to deal with them: you can use this information directly as missing data can be diagnostic in itself, you can impute it using either a sophisticated statistical methods or via a simple average/default value strategy, or you can exclude them from the analysis.
+
+To make implicit missing data explicit, _tidyr_ provides function [complete()](https://tidyr.tidyverse.org/reference/complete.html) that figures out all combinations of values for columns that you specified, finds missing combinations and adds with using `NA` or a specified default value. Imagine our toy table was incomplete (no data for Participant `1` and Face `Female-02`)
+```{r echo=FALSE}
+incomplete_df <- head(widish_df, 3)
+
+incomplete_df %>%
+  knitr::kable()
+```
+
+We can complete that table
+```r
+incomplete_df %>%
+  complete(Participant, Face)
+```
+```{r echo=FALSE}
+incomplete_df %>%
+  complete(Participant, Face) %>%
+  knitr::kable()
+```
+
+We could also supply default values via `fill` parameter that takes a named list^[Lists are like vectors that you know but they can hold values of any type without auto-converting them. `data.frame` is a list, tibble is a list, most of things that are not a vector are lists.] `list(column_name = default_value)`:
+```{r echo=FALSE}
+incomplete_df %>%
+  complete(Participant, Face, fill=list(Attractiveness=0, Symmetry=0)) %>%
+  knitr::kable()
+```
 
 There are two approaches on excluding missing values. You can exclude all incomplete rows which have missing values in _any_ variable via [na.omit()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/na.fail.html) (base R function) or [drop_na()](https://tidyr.tidyverse.org/reference/drop_na.html) (_tidyr_ package function). Or you can exclude rows only if they have `NA` in a specific columns by specifying their names. 
 
@@ -463,10 +489,62 @@ Now, implement code that uses logical indexing as a [function](#seminar05) that 
 Do exercise 9.
 :::
 
-As noted above, you can also impute values. The simplest strategy is to use either a fixed or an average (mean, median, etc.) value. _tidyr_ function that performs a simple substitution is [replace_na()](https://tidyr.tidyverse.org/reference/replace_na.html)^[There is also an inverse function [na_if()](https://dplyr.tidyverse.org/reference/na_if.html) that converts a specific value to an `NA`.] and, as a second parameter, it takes a named list^[Lists are like vectors that you know but they can hold values of any type without auto-converting them. `data.frame` is a list, tibble is a list, most of things that are not a vector are lists.] of values `list(column_name = value_for_NA)`. For our toy table, we can replace missing `Attractiveness` and `Symmetry` values with some default value, e.g. `0` and `-1` (this is very arbitrary, just to demonstrate how it works!)
+As noted above, you can also impute values. The simplest strategy is to use either a fixed or an average (mean, median, etc.) value. _tidyr_ function that performs a simple substitution is [replace_na()](https://tidyr.tidyverse.org/reference/replace_na.html)^[There is also an inverse function [na_if()](https://dplyr.tidyverse.org/reference/na_if.html) that converts a specific value to an `NA`.] and, as a second parameter, it takes a named list of values `list(column_name = value_for_NA)`. For our toy table, we can replace missing `Attractiveness` and `Symmetry` values with some default value, e.g. `0` and `-1` (this is very arbitrary, just to demonstrate how it works!)
 ```{r}
 widish_df_with_NA %>%
   replace_na(list(Attractiveness = 0, Symmetry = -1)) %>%
   knitr::kable()
 ```
 
+Unfortunately, `replace_na()` works only with constant values and does not handle grouped tables very well^[At least I wasn't able to figure out how to do this.] So to replace an `NA` with a mean value of a grouped data, we need to combine some of our old knowledge with an [ifelse(conditon, value_if_true, value_if_false)](https://stat.ethz.ch/R-manual/R-devel/library/base/html/ifelse.html) function. Here is how it works to replace all negative values in a vector with a `0` and all non-negative with `1`: 
+```{r}
+v <- c(-1, 3, 5, -2, 5)
+ifelse(v < 0, 0, 1)
+```
+It works _per element_ and you can use original values themselves. Here is how to replace only negative values but keep the positive ones:
+```{r}
+v <- c(-1, 3, 5, -2, 5)
+ifelse(v < 0, 0, v)
+```
+We, essentially, tell the function, "if the condition is false, use the original value". Now, your turn! Using the same vector and `ifelse()` function, replace negative values with a [maximal](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Extremes.html) value of the vector. I know it is `5` but you cannot hardcode it, that's the point of the exercise!
+
+::: {.infobox .practice}
+Do exercise 10.
+:::
+
+Now that you know how to use `ifelse()`, replacing `NA` with a mean will be (relatively) easy. Use [adaptation_with_na](data/adaptation_with_na.csv) table and replace missing information using participant-specific mean. This is the same table as above, so you need to compute `Psame` first. However, missing values in `Nsame` and `Ntotal` will result in `NA` for a corresponding `Psame`. Replace them with mean `Psame` _per participant_. This will require knowledge of additional details. First, you can compute [mean()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html) ignoring any `NA` using `na.rm` parameter. Second, you will need to use [is.na()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html) to detect values that you need to replace with the mean. Third, reminder, in order to apply some function per participant (stimulus, etc.), you need to first [group](https://dplyr.tidyverse.org/reference/group_by.html) your data. This entire computation should be implemented as a single pipeline.
+
+This is how the original table with missing values looks like (arranged by `Prime` and `Probe`)
+```{r echo=FALSE}
+adaptation_na <-
+  read_csv("data/adaptation_with_na.csv",
+           col_types = cols(Participant = col_character(),
+                            Prime = col_character(),
+                            Probe = col_character(),
+                            Nsame = col_double(),
+                            Ntotal = col_double()
+                          )) %>%
+  mutate(Psame = Nsame / Ntotal)
+
+adaptation_na %>%
+  arrange(Prime, Probe) %>%
+  head(4) %>%
+  knitr::kable()
+```
+
+And here is the same table with imputed participant mean (I show it in a separate column just so you can see when it has been imputed)
+```{r echo=FALSE}
+adaptation_na %>%
+  group_by(Participant) %>%
+  mutate(Pavg = mean(Psame, na.rm=TRUE)) %>%
+  mutate(Psame = ifelse(is.na(Psame), mean(Psame, na.rm = TRUE), Psame)) %>%
+  arrange(Prime, Probe) %>%
+  head(4) %>%
+  knitr::kable()
+```
+
+::: {.infobox .practice}
+Do exercise 11.
+:::
+
+Great work!

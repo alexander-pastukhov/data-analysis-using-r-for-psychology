@@ -1,5 +1,5 @@
 ---
-  title: "Seminar 08"
+  title: "Seminar 09"
 output: html_document
 ---
 
@@ -58,4 +58,43 @@ Using _persistence_ data, extract `Hour` and `Minutes` from `Session` column. Do
 
 ## Exercise 06
 Using same [persistence](data/persistence.csv) data extract birth year and gender of participants from `Participant` code (keep the code though!). Put a nice extra touch by converting year to a number and gender into a factor type.
+
+```{r exercise 06}
+
+```
+
+
+## Exercise 07
+Create you own table with missing values and exclude missing values using `na.omit()` and `na_drop()`.
+
+```{r exercise 07}
+
+```
+
+## Exercise 08
+Replicate functionality of `na_drop()` using [is.na()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html) in combination with [filter](#filter) dplyr function or logical indexing. Implement code that excludes rows if they contain `NA` in a specific column using these two approaches.
+
+```{r exercise 08}
+
+```
+
+## Exercise 09
+Implement code from the previous exercise that used logical indexing as a [function](#seminar05) that takes `data.frame` (table) as a first argument and name a of a single column as a second, filters out rows with `NA` in that column and return the table back.
+
+```{r exercise 09}
+
+```
+
+## Exercise 10
+Use  `ifelse()` function to replace negative values with a [maximal](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Extremes.html) value of the vector. I know it is `5` but you cannot hardcode it, that's the point of the exercise!
+
+```{r exercise 10}
+v <- c(-1, 3, 5, -2, 5)
+```
+
+## Exercise 11
+Use _adaptation_with_na_ table and replace missing information using participant-specific mean. This is the same table as above, so you need to compute `Psame` first. However, missing values in `Nsame` and `Ntotal` will result in `NA` for a corresponding `Psame`. Replace them with mean `Psame` _per participant_. This will require knowledge of additional details. First, you can compute [mean()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html) ignoring any `NA` using `na.rm` parameter. Second, you will need to use [is.na()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html) to detect values that you need to replace with the mean. Third, reminder, in order to apply some function per participant (stimulus, etc.), you need to first [group](https://dplyr.tidyverse.org/reference/group_by.html) your data. This entire computation should be implemented as a single pipeline.
+
+```{r exercise 11}
+```
 
