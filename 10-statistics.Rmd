@@ -1,0 +1,62 @@
+# Statistical modeling {#seminar10}
+
+
+## Correlation
+
+[cor()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.html) and [cor.test()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.test.html) with the latter also returning test statistics and significance.
+
+Bayesian correlation via `correlationBF()` function, part of [BayesFactor](https://richarddmorey.github.io/BayesFactor) package.
+
+A more general approach is to use bootstrapping via [boot](https://cran.r-project.org/package=boot) package.
+
+## Pairwise comparisons
+Student's t-Test [t.test()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/t.test.html)
+
+Wilcoxon Rank Sum and Signed Rank Tests [wilcox.test()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/wilcox.test.html)
+
+Package [coin](http://coin.r-forge.r-project.org/) has implements many tests, including permutation tests, such as Two- and K-sample Fisher-Pitman permutation test via `oneway_test()`, see [vignette](https://cran.r-project.org/web/packages/coin/vignettes/coin.pdf) for details. 
+
+```{r}
+diffusion <- data.frame(
+    pd = c(0.80, 0.83, 1.89, 1.04, 1.45, 1.38, 1.91, 1.64, 0.73, 1.46,
+           1.15, 0.88, 0.90, 0.74, 1.21),
+    age = factor(rep(c("At term", "12-26 Weeks"), c(10, 5)))
+)
+
+(wt <- wilcox_test(pd ~ age, data = diffusion,
+                   distribution = "exact", conf.int = TRUE))
+
+## Extract observed Wilcoxon statistic
+## Note: this is the sum of the ranks for age = "12-26 Weeks"
+statistic(wt, type = "linear")
+
+
+oneway_test(pd ~ age, data = diffusion)
+```
+
+
+## (Generalized) Linear Models 
+
+[lm()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/lm.html)
+
+Generalized linear models
+[glm()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/glm.html)
+
+Bayesian regression via [rstanarm](https://mc-stan.org/rstanarm/) and [BRMS](https://github.com/paul-buerkner/brms).
+
+## ANOVA
+
+Basic analysis of variance [aov()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/aov.html)
+
+Repeated-measures ANOVA via `anova_test` from [rstatix](https://github.com/kassambara/rstatix) package.
+
+Bayesian ANOVA via `anovaBF` function from [BayesFactor](https://richarddmorey.github.io/BayesFactor) package.
+
+
+## (Generalized) Linear Mixed Models
+
+Package [lme4](https://github.com/lme4/lme4) and [lmerTest](https://github.com/runehaubo/lmerTestR)
+
+Bayesian hierarchical models via [rstanarm](https://mc-stan.org/rstanarm/) and [BRMS](https://github.com/paul-buerkner/brms).
+
+
