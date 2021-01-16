@@ -1,0 +1,60 @@
+# Repeating a computation {#seminar11}
+One the most powerful features of R is that it is vector-based. Remember, everything is a vector (or a list). In the previous seminars you saw you can apply a function, a filter, or perform a computation on all values of a vector or all rows in a table in a single call. However, sometimes, you need to go over one value or row at a time explicitly. There are different scenarios when it can be useful. For example, if you are computing a time-series, it might be easier to use an explicit `for` loop to compute current value based on previous state of the system. Or, if you change the type of data or number of values, such as looping/iterating over file names to load individual files and merge them into a single table or fitting different models.
+
+## `rep()` {#rep}
+The most basic repetition mechanism in R is [rep()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/rep.html) function. It takes a vector and repeats it or each individual value specified number of times. The former, repeating the entire vector, is done via `times` parameter.
+```{r}
+rep(c(1, 2, 3), times=4)
+```
+
+The latter, repeating each element specified number of times before repeating the next one, is done via `each` parameter.
+```{r}
+rep(c(1, 2, 3), each=4)
+```
+
+You can specify length of the output vector via `length.out`. When combined with `times` it can be useful for producing truncated vectors. E.g., when we repeat a three element vector but we want to get ten values. Using `times` only, we can get either nine (`times=3`) or twelve (`times=4`), not ten. `length.out=10` makes it happen.
+```{r}
+rep(c(1, 2, 3), times=4, length.out = 10)
+```
+
+You should be more careful when combining `length.out` with `each`, as each value is repeated `each` times and, if `length.out` is longer, the same sequence is repeated again. Could be confusing and you might get a very unbalanced repeated sequence.
+```{r}
+rep(c(1, 2, 3), each=8, length.out = 10)
+```
+
+::: {.infobox .practice}
+Do exercise 1.
+:::
+
+## Lists {#list}
+Before we continue with repetitions and iterations, you need to learn about lists. A [list](https://stat.ethz.ch/R-manual/R-devel/library/base/html/list.html) is different from a vector in that it can hold any kind of objects of different types. They can be of different size and complexity: vectors, other lists, objects (R has several systems of objects). Because lists are a very convenient way of putting heterogeneous data together, they are a backbone of most things that are more complex than a simple vector. Actually, you already met them as `data.frame` or `tibble`. Both are, among other things, named lists of vectors (columns). So, you already know how to access their elements via double bracket or dollar notations.
+
+## For loop {#forloop}
+You can loop (iterate) over elements of a vector or list via a [for](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html) loop, which is very similar to for-loops in other languages. The general format is
+```r
+for(loop_variable in vector_or_list){
+  ...some operations using loop_variable that
+  changes its value on each iteration... 
+}
+```
+
+Note the curly brackets. We used them before to put the code inside a function. Here, we use them to put the code inside the loop. The loop is repeated as many times as the number of elements in a vector or a list with a loop variable^[Just a reminder, the loop variable can have _any_ name. Often, you see people using `i` (I guess, for **i**ndex or **i**teration) but I would strongly recommend going for a more meaningful name.] getting assigned each vector/list value on each iteration. Thus, to print each value of a vector we can do
+```{r}
+for(a_number in c(1, 5, 200)){
+  print(a_number)
+}
+```
+
+A typical scenario is for the loop variable to be an _index_ that can be used to access element of a vector or a list. You can build a vector of indexes via `start:stop` sequence tool we used for [slicing](#vector-index-slicing). You can compute a length of an object via [length()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/length.html) function. For a `data.frame` or a `tibble`, you can figure out number of rows and columns via, respectively, [nrow()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/nrow.html) and [ncol()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/nrow.html) functions. 
+
+```{r}
+vector_of_some_numbers <- c(1, 5, 200)
+for(index in 1:length(vector_of_some_numbers)){
+  print(vector_of_some_numbers[index])
+}
+```
+
+::: {.infobox .practice}
+Do exercise 2.
+:::
+
