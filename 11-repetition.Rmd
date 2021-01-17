@@ -1,4 +1,8 @@
 # Repeating a computation {#seminar11}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
 One the most powerful features of R is that it is vector-based. Remember, everything is a vector (or a list). In the previous seminars you saw you can apply a function, a filter, or perform a computation on all values of a vector or all rows in a table in a single call. However, sometimes, you need to go over one value or row at a time explicitly. There are different scenarios when it can be useful. For example, if you are computing a time-series, it might be easier to use an explicit `for` loop to compute current value based on previous state of the system. Or, if you change the type of data or number of values, such as looping/iterating over file names to load individual files and merge them into a single table or fitting different models.
 
 ## `rep()` {#rep}
@@ -26,11 +30,46 @@ rep(c(1, 2, 3), each=8, length.out = 10)
 Do exercise 1.
 :::
 
+## Repeating combinations
+To create a table with all combinations of values, you can use either base R [expand.grid()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/expand.grid.html) or tidyr's implementation [expand_grid()](https://tidyr.tidyverse.org/reference/expand_grid.html). The latter is a bit more robust and can expand even table and matrice, see the documentation for the differences.
+
+The usage is very straightforward, you provide column names and values and you get all combinations of their values.
+```r
+expand.grid(gender=c("female", "male"), 
+            handidness=c("right", "left"),
+            colorblindness=c(TRUE, FALSE))
+```
+```{r echo=FALSE}
+expand.grid(gender=c("female", "male"), 
+            handidness=c("right", "left"),
+            colorblindness=c(TRUE, FALSE)) %>%
+  knitr::kable()
+```
+
+Note that `expand.grid()` and `expand_grid()` vary in the order in which they vary values within columns 
+```r
+expand_grid(gender=c("female", "male"), 
+            handidness=c("right", "left"),
+            colorblindness=c(TRUE, FALSE))
+```
+```{r echo=FALSE}
+expand_grid(gender=c("female", "male"), 
+            handidness=c("right", "left"),
+            colorblindness=c(TRUE, FALSE)) %>%
+  knitr::kable()
+```
+
+::: {.infobox .practice}
+Do exercise 2.
+:::
+
 ## Lists {#list}
 Before we continue with repetitions and iterations, you need to learn about lists. A [list](https://stat.ethz.ch/R-manual/R-devel/library/base/html/list.html) is different from a vector in that it can hold any kind of objects of different types. They can be of different size and complexity: vectors, other lists, objects (R has several systems of objects). Because lists are a very convenient way of putting heterogeneous data together, they are a backbone of most things that are more complex than a simple vector. Actually, you already met them as `data.frame` or `tibble`. Both are, among other things, named lists of vectors (columns). So, you already know how to access their elements via double bracket or dollar notations.
 
 ## For loop {#forloop}
-You can loop (iterate) over elements of a vector or list via a [for](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html) loop, which is very similar to for-loops in other languages. The general format is
+You can loop (iterate) over elements of a vector or list via a [for](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html) loop, which is very similar to for-loops in other programming languages. However, use of the `for` loop in R is fairly rare, because vectors are a fundamental build block and R is inherently vectorized (you can do the same thing to all values, not to one value at a time). Thus, almost always, you can do the same thing but using simpler or more expressive tools. In a sense, `for` loop is very un-R, so if you find yourself using it, consider whether there is a simpler or more expressive way. At the same time, if `for` loop _is_ the simplest or clearest way to write you code, by all means, use it!
+
+The general format is
 ```r
 for(loop_variable in vector_or_list){
   ...some operations using loop_variable that
@@ -55,6 +94,133 @@ for(index in 1:length(vector_of_some_numbers)){
 ```
 
 ::: {.infobox .practice}
-Do exercise 2.
+Do exercise 3.
+:::
+
+You can also _nest_ loops.
+```{r}
+for(letter in c("A", "B", "C")){
+  for(number in 1:2){
+    print(letter)
+  }
+}
+```
+
+::: {.infobox .practice}
+Do exercise 4.
+:::
+
+As I have noted above, loops are particularly useful when you current value depends on a previous one (or many previous values). In the next exercise, use `for` loop to create a random walk (length 10) starting at value zero with each next step drawn randomly from a normal distribution with mean of 0.5 and standard deviation of 2 (the function you are looking for is [rnorm()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html)). You end-produce might look like this
+```{r echo=FALSE}
+cumsum(c(0, rnorm(9, 0.5, 2)))
+```
+
+::: {.infobox .practice}
+Do exercise 5.
+:::
+
+## Using for loop to load and join multiple data files
+Your analysis starts with loading the data that you will analyze. Quite often, data for individual participants is stored in different files but with identical structure, so you need code that figures out which files you need to load, loads them on at a time and then binds them to one final table. I will walk you through the detail and then you We will implement the code that loads and merges individual files for persistence study. Download the [persistence.zip](data/persistence.zip) and unzip into `Persistence` subfolder (we do not want to create a mess in your main folder!).
+
+First, you need to have a vector with relevant file names. Package you are looking for is [fs](https://github.com/r-lib/fs) (for **f**ile **s**ystem). It has everything you need to work with the file system, including working with file names (dropping or adding path, extension, etc.), creating/moving/deleting files, checking whether file exists, and what not. One function that I use the most is [dir_ls()](https://www.rdocumentation.org/packages/fs/versions/1.5.0/topics/dir_ls) that list files in a specified folder. The two parameters you need are `path` to your folder (you can use relative path) and, optionally, `glob` filter string. The latter is a [globbing](https://en.wikipedia.org/wiki/Glob_(programming)) wildcard pattern, where `*` stands for "any sequence of characters" and `?` stand for "one arbitrary character. For a csv file, this pattern would be `"*.csv"`. Test this single function call using appropriate `path` and `glob` parameters and make sure you get all the files in _Persistence_ folder.
+
+Next, you need to create a full table variable (I, typically, call it `results` or `reports`) and initialize it to an empty `data.frame()`. Next, you loop over file names, [read](#readr) one file at a time (don't forget to specify column types or will get a lot of warnings), and then use [bind_rows](https://dplyr.tidyverse.org/reference/bind.html) to combine the full table and the new table you loaded. Note that [bind_rows](https://dplyr.tidyverse.org/reference/bind.html) returns a _new_ table, so you need to assign it back to the original full table variable. Once you are done, your table should have 5232 rows and twelve columns.
+```{r echo=FALSE}
+results <- data.frame()
+for(file in fs::dir_ls(path="Persistence/", glob="*.csv"))
+{
+  current_file <- read_csv(file, 
+                           col_types = cols(Participant = col_character(),
+                                            Session = col_character(),
+                                            Block = col_double(),
+                                            Trial = col_double(),
+                                            OnsetDelay = col_double(),
+                                            Bias = col_character(),
+                                            Shape1 = col_character(),
+                                            Shape2 = col_character(),
+                                            Response1 = col_character(),
+                                            Response2 = col_character(),
+                                            RT1 = col_double(),
+                                            RT2 = col_double()
+                                          ))
+  results <- bind_rows(results, current_file)
+}
+
+results %>%
+  head(6) %>%
+  knitr::kable()
+```
+
+  
+::: {.infobox .practice}
+Do exercise 6.
+:::
+ 
+## Apply {#apply}
+
+As noted above, for loops do the job by might not be the most elegant way of doing things. In R, you can [apply](https://stat.ethz.ch/R-manual/R-devel/library/base/html/apply.html) a function to each row or column of a matrix. In addition, there are more case-specific version of it, such [lapply](https://stat.ethz.ch/R-manual/R-devel/library/base/html/lapply.html). 
+
+The function is called `apply` because you _apply_ it to values of a vector. In a sense, you have been applying functions the whole time by calling them. For example, we might compute a sinus of a sequence of numbers as
+```{r}
+sin(seq(0, pi, length.out = 5))
+```
+
+Or, we can _apply_ sinus function to a number sequence 
+```{r}
+sapply(seq(0, pi, length.out = 5), sin)
+```
+
+You might ask, what is then the point to use `apply`? Not much for simple vector cases like this, but is very useful when you have two dimensional data, as you can apply a function along horizontal (rows) or vertical (columns) margin. For example, imagine you need to compute an average (or median, or any other quantile) of each row or column in a matrix (something you might do fairly often for posterior samples in Bayesian statistics). 
+
+Let us create a simple 3 by 4 matrix of normally distributed random numbers. 
+```{r}
+# A 
+a_matrix <- matrix(rnorm(12), nrow = 3)
+a_matrix
+```
+
+We would expect median value of any row or column to be 0 but because we have so few data points, they will be close but not exactly zero. Computing median for each row (we should get _three_ numbers)
+```{r}
+apply(a_matrix, 1, median)
+```
+
+Similarly for a column (here, it should be _four_ numbers)
+```{r}
+apply(a_matrix, 2, median)
+```
+
+I will not go into any further details on these functions, concentrating on similar functionality by [purrr](#purrr) package. However, if you find yourself working with matrices or needing to apply a function to rows of a data frame, [apply](https://stat.ethz.ch/R-manual/R-devel/library/base/html/apply.html) might be a simpler solution. Keep this option in mind, if you feel that either looping or purrring looks inadequate.
+
+## Purrr {#purrr}
+Package [purrr](https://purrr.tidyverse.org/) is part of the tidyverse. It provides functional programming approach similar to (apply)[#apply] but it easier to use (IMHO) and it has a more explicit and consistent way to describe and combine the output. Language-wise, you do not _apply_ a function, you use it to [map](https://purrr.tidyverse.org/reference/map.html) inputs on outputs^[Means the same thing but this is a linear algebra way of expressing of what a function does.] 
+
+The basic [map()](https://purrr.tidyverse.org/reference/map.html) function always returns a list but you can explicitly state that you expect a number (`map_dbl()`) and all outputs will be combined into a numeric vector. And, unlike `apply`, `map_dbl()` will generate an error if outputs cannot be converted to numeric. Or, you can specify that you expect each output to be a `data.frame`. In this case, you can automatically bind them by rows via `map_dfr()` or by columns via `map_dfc()`. Again, if all outputs cannot be converted to a `data.frame`,  either function will loudly complain (which is good!).
+
+The basic call is similar to [apply](#apply) but is easier to use as you can explicitly address current value via `.` variable and you can write a "normal" function call, prefixing it with a `~`. Here is the example of computing the sinus again. First, same a `apply`
+```{r}
+map_dbl(seq(0, pi, length.out = 5), sin)
+```
+
+Now, we a magic tilde `~`. Note an explicit call to `sin()` function with `.` as an argument. 
+```{r}
+map_dbl(seq(0, pi, length.out = 5), ~sin(.))
+```
+
+Again, using `map_dbl()` in this case looks as a complete overkill. So let us do something more relevant. Let us implement loading and merging of persistence study files.  Use `map_dfr()` function and `~` call notation, remember `.` would then correspond to a single value from the vector of file names. Again, you should get a single table with twelve columns and 5232 rows.
+
+::: {.infobox .practice}
+Do exercise 7.
+:::
+
+You have just _mapped_ inputs on outputs using `read_csv()` but functional programming is particularly useful, if you program your own functions. Let us program a function that takes a filename, load the file and returns total number of trials/rows (if you forgot how to compute number of rows in a table, see [above](#forloop)). Once you have a function, use it with `map_dbl` and a vector of persistence filenames. You should get a vector of ten values. Now we can easily see that there was something wrong with one of the files and we must pay attention to the amount of data that we have.
+
+```{r echo=FALSE}
+results %>%
+  group_by(Participant) %>%
+  summarise(N=n(), .groups="drop") %>%
+  pull(N)
+```
+::: {.infobox .practice}
+Do exercise 8.
 :::
 
