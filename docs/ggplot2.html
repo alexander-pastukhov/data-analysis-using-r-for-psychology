@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2021-01-13" />
+<meta name="date" content="2021-01-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -243,7 +243,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8" data-path="seminar08.html"><a href="seminar08.html"><i class="fa fa-check"></i><b>8</b> Glueing and sprintfing</a>
 <ul>
 <li class="chapter" data-level="8.1" data-path="seminar08.html"><a href="seminar08.html#comparing-effect-between-two-studies"><i class="fa fa-check"></i><b>8.1</b> Comparing effect between two studies</a></li>
-<li class="chapter" data-level="8.2" data-path="seminar08.html"><a href="seminar08.html#gluing-in-correlation-strength-information."><i class="fa fa-check"></i><b>8.2</b> Gluing in correlation strength information.</a></li>
+<li class="chapter" data-level="8.2" data-path="seminar08.html"><a href="seminar08.html#glue"><i class="fa fa-check"></i><b>8.2</b> Gluing in correlation strength information.</a></li>
 <li class="chapter" data-level="8.3" data-path="seminar08.html"><a href="seminar08.html#sprintf"><i class="fa fa-check"></i><b>8.3</b> sprintf</a></li>
 <li class="chapter" data-level="8.4" data-path="seminar08.html"><a href="seminar08.html#wrap-up-2"><i class="fa fa-check"></i><b>8.4</b> Wrap up</a></li>
 </ul></li>
@@ -255,6 +255,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.4" data-path="seminar09.html"><a href="seminar09.html#extracting-information-from-a-string"><i class="fa fa-check"></i><b>9.4</b> Extracting information from a string</a></li>
 <li class="chapter" data-level="9.5" data-path="seminar09.html"><a href="seminar09.html#separate"><i class="fa fa-check"></i><b>9.5</b> Separate</a></li>
 <li class="chapter" data-level="9.6" data-path="seminar09.html"><a href="seminar09.html#missing-data"><i class="fa fa-check"></i><b>9.6</b> Missing data</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="seminar11.html"><a href="seminar11.html"><i class="fa fa-check"></i><b>10</b> Repeating a computation</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="seminar11.html"><a href="seminar11.html#rep"><i class="fa fa-check"></i><b>10.1</b> <code>rep()</code></a></li>
+<li class="chapter" data-level="10.2" data-path="seminar11.html"><a href="seminar11.html#repeating-combinations"><i class="fa fa-check"></i><b>10.2</b> Repeating combinations</a></li>
+<li class="chapter" data-level="10.3" data-path="seminar11.html"><a href="seminar11.html#list"><i class="fa fa-check"></i><b>10.3</b> Lists</a></li>
+<li class="chapter" data-level="10.4" data-path="seminar11.html"><a href="seminar11.html#forloop"><i class="fa fa-check"></i><b>10.4</b> For loop</a></li>
+<li class="chapter" data-level="10.5" data-path="seminar11.html"><a href="seminar11.html#using-for-loop-to-load-and-join-multiple-data-files"><i class="fa fa-check"></i><b>10.5</b> Using for loop to load and join multiple data files</a></li>
+<li class="chapter" data-level="10.6" data-path="seminar11.html"><a href="seminar11.html#apply"><i class="fa fa-check"></i><b>10.6</b> Apply</a></li>
+<li class="chapter" data-level="10.7" data-path="seminar11.html"><a href="seminar11.html#purrr"><i class="fa fa-check"></i><b>10.7</b> Purrr</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="seminar10.html"><a href="seminar10.html"><i class="fa fa-check"></i><b>11</b> Statistical modeling</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="seminar10.html"><a href="seminar10.html#formula-notation"><i class="fa fa-check"></i><b>11.1</b> Formula notation</a></li>
+<li class="chapter" data-level="11.2" data-path="seminar10.html"><a href="seminar10.html#correlation"><i class="fa fa-check"></i><b>11.2</b> Correlation</a></li>
+<li class="chapter" data-level="11.3" data-path="seminar10.html"><a href="seminar10.html#pairwise-comparisons"><i class="fa fa-check"></i><b>11.3</b> Pairwise comparisons</a></li>
+<li class="chapter" data-level="11.4" data-path="seminar10.html"><a href="seminar10.html#anova"><i class="fa fa-check"></i><b>11.4</b> ANOVA</a></li>
+<li class="chapter" data-level="11.5" data-path="seminar10.html"><a href="seminar10.html#GLMM"><i class="fa fa-check"></i><b>11.5</b> (Generalized) Linear Models</a></li>
+<li class="chapter" data-level="11.6" data-path="seminar10.html"><a href="seminar10.html#generalized-linear-mixed-models"><i class="fa fa-check"></i><b>11.6</b> (Generalized) Linear Mixed Models</a></li>
+<li class="chapter" data-level="11.7" data-path="seminar10.html"><a href="seminar10.html#practice"><i class="fa fa-check"></i><b>11.7</b> Practice</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown and FontAwesome</a><li>
@@ -468,122 +488,122 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">1</td>
-<td align="right">1.0856498</td>
+<td align="right">0.2147672</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">1</td>
-<td align="right">-2.8819540</td>
+<td align="right">-1.7532121</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">1</td>
-<td align="right">-4.0650819</td>
+<td align="right">-4.1136551</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">2</td>
-<td align="right">0.9516880</td>
+<td align="right">1.9260062</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">2</td>
-<td align="right">-0.1322742</td>
+<td align="right">-0.8941432</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">2</td>
-<td align="right">-3.1895325</td>
+<td align="right">-3.6358920</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">3</td>
-<td align="right">1.3104671</td>
+<td align="right">2.0894682</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">3</td>
-<td align="right">-0.4770092</td>
+<td align="right">-0.2710696</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">3</td>
-<td align="right">-0.5003957</td>
+<td align="right">-2.0559337</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">4</td>
-<td align="right">3.6049830</td>
+<td align="right">3.2044265</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">4</td>
-<td align="right">0.4880045</td>
+<td align="right">0.9833836</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">4</td>
-<td align="right">-1.6596413</td>
+<td align="right">-1.9056113</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">5</td>
-<td align="right">4.1353009</td>
+<td align="right">4.3526563</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">5</td>
-<td align="right">1.4348158</td>
+<td align="right">1.8395396</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">5</td>
-<td align="right">-0.0540415</td>
+<td align="right">1.3807430</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">6</td>
-<td align="right">5.1936607</td>
+<td align="right">4.4996961</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">6</td>
-<td align="right">1.5304574</td>
+<td align="right">3.5032106</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">6</td>
-<td align="right">1.6390696</td>
+<td align="right">1.7087311</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">7</td>
-<td align="right">6.4546089</td>
+<td align="right">7.0017564</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">7</td>
-<td align="right">3.3640599</td>
+<td align="right">4.0144904</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">7</td>
-<td align="right">1.1154758</td>
+<td align="right">1.3625336</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">8</td>
-<td align="right">6.3017491</td>
+<td align="right">7.2174559</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">8</td>
-<td align="right">5.4590612</td>
+<td align="right">4.9179154</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">8</td>
-<td align="right">3.1044976</td>
+<td align="right">4.2822041</td>
 </tr>
 </tbody>
 </table>
