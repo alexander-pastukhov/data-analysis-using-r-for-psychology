@@ -86,7 +86,7 @@ ggplot(both_effects, aes(x=Pavg_persistence, y=Pavg_adaptation)) +
 Do exercise 1.
 :::
 
-## Gluing in correlation strength information.
+## Gluing in correlation strength information.{#glue}
 Let us be more precise about the strength of the correlation between the two variables. First, compute it via [cor](https://stat.ethz.ch/R-manual/R-patched/library/stats/html/cor.html) function. Use function [round](https://stat.ethz.ch/R-manual/R-patched/library/base/html/Round.html) to round it to just two decimal places. Then, use [glue()](https://glue.tidyverse.org/) (see below) to make the title look nice and put it as a title or subtitle of the plot via [labs](https://ggplot2.tidyverse.org/reference/labs.html).
 
 Function `glue()` lives in the package of the same name that you will need to import separately (it is part of the tidyverse but is not imported automatically). It makes it simple to "glue" values directly into a string. You simply surround the R code by wiggle brackets and the result of the code execution is glued in. If you use just a variable, its value will be glued-in.

@@ -240,5 +240,85 @@ drop1(lmert_fit)
 
 You can also use Bayesian generalized linear modeling via [rstanarm](https://mc-stan.org/rstanarm/) and [BRMS](https://github.com/paul-buerkner/brms) packages. The former is somewhat faster, as it does not require model compilation (makes big difference when data is small but you test a lot of models), but is less flexible.
 
+## Practice
+Download the [exercise notebook](notebooks/Seminar 11 - statistics.Rmd) and [switching rates](data/switching-rates.zip) data for the practice. Unzip the latter, you should get `switching-rates` subfolder in your project.
 
+In this project, which was part of EMPRA and was eventually [published](http://jov.arvojournals.org/article.aspx?doi=10.1167/19.6.1) in Journal of Vision, we were interested whether speed of subjective perceptual changes when viewing different bistable displays was correlated. In other words, if you are switching faster than average on one stimulus (kinetic-depth effect, KDE), are you also going to be faster than average on Necker Cube (NC)? These results tell how much neural processing networks are shared for perception of different visual properties.
 
+In the experiment participant viewed each display (`KDE -45`, `KDE 45` and `NC`) and reported on its state via `left`, `right`, or `unclear` button. Each row in the table corresponds to a press of the button and perception lasts until the _next_ button press. 
+
+We would like to know whether switching rates (duration of individual percepts) are correlated. For this you need to (single pipeline!):
+1. Load and merge all csv-files from `switching-rates` folder.
+2. Compute new variable `Duration` for each percept using `Time` column. For this, you need to use function [lead()](https://dplyr.tidyverse.org/reference/lead-lag.html) that gives you value of a specified column in the _next_ row (or `NA`, if this is the last row, see examples in documentation). Note that you need to do this separately for each `Participant` and `Block`, as using `Time` from different block, even if rows are one after another, does not make sense.
+3. Exclude `unclear` and `end of the block` percepts (we are interested only in clear definitive perception, so only `left` and `right` reports).
+
+You should have a table with information about each clear perceptual state that every participant reported. 
+```{r echo=FALSE}
+results <- 
+  purrr::map_dfr(fs::dir_ls(path="switching-rates", glob = "*.csv"), 
+                 ~read_delim(., delim = ";", locale = locale(decimal_mark = ","), 
+                               col_types = cols(Session = col_character(),
+                                                Participant = col_character(),
+                                                Block = col_double(),
+                                                Condition = col_character(),
+                                                Display = col_character(),
+                                                OnsetDelay = col_double(),
+                                                Percept = col_character(),
+                                                Time = col_double())))  %>%
+  
+  # mutate(Display = factor(Display),
+  #        Display = forcats::fct_recode(Display, "KDE_CCW" = "KDE -45", "KDE_CW" = "KDE 45")) %>%
+  group_by(Participant, Condition, Block) %>%
+  mutate(Duration = lead(Time) - Time) %>%
+  filter(!Percept %in% c("unclear", "end of the block"))
+
+results %>%
+  head(5) %>%
+  knitr::kable()
+```
+
+Now, let us concentrate on `Passive` condition and compute  _average_ duration for every participant and display. All steps should be in a single pipeline and should create a new table.
+
+1. Filter table, so that you only have `Passive` condition.
+2. For each participant, condition, and stimulus compute _median_ duration of percepts, ignoring whether it is `left` or `right`, we assume they are reasonbly similar.
+3. Pivot table so that each `Display` will be a separate column.
+
+Here is the summary `passive_df` table
+```{r echo=FALSE}
+passive_df <- 
+  results %>%
+  filter(Condition == "Passive") %>%
+  group_by(Participant, Display) %>%
+  summarize(Dmedian = median(Duration), .groups="drop") %>%
+  pivot_wider(id_cols = "Participant", names_from="Display", values_from = "Dmedian")
+
+passive_df %>%
+  head(5) %>%
+  knitr::kable()
+```
+
+Now we can look at correlation (or the lack of it) for each pair of stimuli, starting with two KDEs. Our column names have spaces in them, so you need to enclose them via backticks `` `KDE -45` `` rather than writing them as is. You need to
+
+1. Compute Pearson's correlation and store results in a separate variable (e.g. `cor_results` or something like that).
+2. Make a scatter plot of data with nice labeling. Use [coord_fixed()](https://ggplot2.tidyverse.org/reference/coord_fixed.html) to make sure that scale is the same for x- and y-axis.
+3. Add nice subtitle via [labs()](https://ggplot2.tidyverse.org/reference/labs.html) primitive in ggplot2. It should have correlation statistics summary. Remember, you can [glue](#glue) or [sprintf](#sprintf) it together.
+
+Here is my plot
+```{r echo=FALSE}
+cor_results <- cor.test(passive_df$`KDE -45`, passive_df$`KDE 45`)
+ggplot(passive_df, aes(x=`KDE -45`, y=`KDE 45`)) +
+  geom_point() +
+  coord_fixed(clip="off") +
+  labs(subtitle = sprintf("t(%d)=%.1f, p=%f", cor_results$parameter, cor_results$statistic, cor_results$p.value))
+```
+
+```{r echo=FALSE}
+stim1 <- "KDE -45"
+stim2 <- "KDE 45"
+cor_results <- cor.test(passive_df[[stim1]], passive_df[[stim2]])
+
+ggplot(passive_df, aes_(x=as.name(stim1), y=as.name(stim2))) + 
+  geom_point() + 
+  coord_fixed(clip="off") + 
+  labs(subtitle = sprintf("t(%d)=%.1f, p=%f", cor_results$parameter, cor_results$statistic, cor_results$p.value))
+```
