@@ -1,0 +1,244 @@
+# Statistical modeling {#seminar10}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+I suspect that this is a seminar that you were waiting for the most as it finally tells you how to call statistical functions in R. However, from my perspective, it is the least useful seminar in the entire course because if you know statistics and you know which specific tool you need, figuring out how to use it in R is fairly trivial. Conversely, if your knowledge of statistics is approximate, knowing how to call functions will do you little good. The catch about statistical models is that they are very easy to run (even if you implement them by hand from scratch) but they are easy to misuse and very hard to interpret^[In the Statistical Rethinking seminar we spend three seminars learning how to understand and interpret a simple linear multiple regression with just two predictors. And the conclusion is that even in this simple case, you are not guaranteed to fully understand it. And if you think that you can easily interpret an interaction term even for two continuous predictors...].
+
+To make things worse, computers and algorithms do not care. In absolute majority of cases, statistical models will happily accept any input you provide, even if it is completely unsuitable, and spit out numbers. Unfortunately, it is on you, not on the computer, to know what you are doing and whether results even make sense. The only solution to this problem: do not spare any effort to learn statistics. Having a solid understanding of a basic regression analysis will help you in figuring out which statistical tools are applicable and, even more importantly, which will definitely misguide you. This is why I will give an general overview with some examples simulations but I will not explain here when and why you should use a particular tool or how to interpret the outputs. Want to know more? Attend my **Statistical Rethinking** seminar or read an excellent [book](https://www.routledge.com/Statistical-Rethinking-A-Bayesian-Course-with-Examples-in-R-and-STAN/McElreath/p/book/9780367139919) by Richard McElreath that the seminar is based on.
+
+## Formula notation
+Using statistical models in R is particularly easy because most packages make use of a [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) to describe a model. Different functions and packages interpret the formula _mostly_ the same way with differences arising due to how random effects or additional parameters are described. Here is an example of a formula:
+```r
+y ~ 1 + x1 + x2 + x1:x2
+```
+
+It says that the outcome variable `y` should be a modeled as a linear combination of an intercept `1` (can be omitted in a formula), predictor variables `x1` and `x2`, plus their interaction `x1:x2`. This also assume that all these variables are in a single table that you also supply to the function (typically called `data` parameter). Same formula can be shortened by using `*` which means "all predictors and their interaction", thus (omitting redundant intercept)
+```r
+y ~ x1*x2
+```
+
+You can also _exclude_ specific terms via `-`. So, if you insist that the intercept _must_ go through 0, you write "exclude intercept term" as `-1`
+```r
+y ~ x1*x2 - 1
+```
+
+Or you can exclude a specific term or an interaction. The two formulas below are equivalent with a main effect for `x2` and an interaction term but no main effect for `x1`. However, I would generally discourage you from using `-` as the first formula is much harder to understand (or, much easier to misunderstand).
+```r
+y ~ x1*x2 - x1
+y ~ x2 + x1:x2
+```
+
+## Correlation
+To compute correlation, use function [cor()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.html). You have a choice of `method`, either `"pearson"` (default, Pearson's product moment correlation coefficient), or rank-based `"kendall"` (Kendall's tau) or `"spearman"` (Spearman's rho).
+
+```{r}
+df <- 
+  tibble(x = rnorm(100)) %>%
+  mutate(y = rnorm(n(), x, 0.5))
+cor(df$x, df$y, method="pearson")
+```
+Alternatively, you can use [cor.test()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.test.html) that also computes test statistics and significance.
+```{r}
+cor_result <- cor.test(df$x, df$y, method="pearson")
+cor_result
+```
+
+`cor.test` returns a list, so you can access its individual elements^[Use (names())[https://stat.ethz.ch/R-manual/R-devel/library/base/html/names.html] function to get names of all elements.] via a double-bracket or `$` notation.
+```{r}
+cor_result$p.value
+```
+
+Bayesian correlation with a posterior distribution for the correlation coefficient and Bayes Factor as a measure of significance, can be computed via `correlationBF()` function, which is part of [BayesFactor](https://richarddmorey.github.io/BayesFactor) package.
+```{r message=FALSE, warning=FALSE}
+library(BayesFactor)
+correlationBF(df$x, df$y)
+cor_bf <- correlationBF(df$x, df$y, posterior = TRUE, iterations=1000)
+ggplot(data=NULL, aes(x=c(cor_bf[, "rho"]))) + 
+  geom_histogram(bins=50, ) + 
+  xlab("Pearson's rho")
+```
+
+## Pairwise comparisons
+For pairwise comparisons for normally distributed data, you can use Student's t-Test via [t.test()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/t.test.html). Here, I generate to `x` as a normally distributed normal variable and `y`, as a normally distributed variable random whose mean is `x+0.5`. I am using library [ggbeeswarm](https://github.com/eclarke/ggbeeswarm) to generate the nicely looking cloud of dots.
+
+```{r}
+set.seed(14454)
+df <- 
+  tibble(x = rnorm(100, mean = 1, sd = 1)) %>%
+  mutate(y = rnorm(100, mean = x + 0.3, sd = 1))
+```
+```{r echo=FALSE}
+library(ggbeeswarm)
+tibble(Value = c(df$x, df$y),
+       Variable = c(rep("x", nrow(df)), rep("y", nrow(df)))) %>%
+  ggplot(aes(x=Variable, y=Value)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_quasirandom(method="tukeyDense")  
+```
+
+You can perform _t-test_ assuming that samples in two variables are independent 
+```{r}
+t.test(df$x, df$y, paired = FALSE)
+```
+Or, that they are paired, i.e., repeated-measures design (note the change in estimates, statistics, and significance).
+```{r}
+t.test(df$x, df$y, paired = TRUE)
+```
+
+You can also use formula notation, if one variable describes grouping
+```{r}
+df_group <-
+  tibble(x = c(df$x, df$y),
+         group = factor(c(rep("A", 100), rep("B", 100))))
+```
+```{r echo=FALSE}
+df_group %>%
+  head(4) %>%
+  knitr::kable()
+```
+```{r}
+t.test(x ~ group, data=df_group, paired=TRUE)
+```
+
+A Bayesian version is provided via `ttestBF()` function, which is part of the [BayesFactor](https://richarddmorey.github.io/BayesFactor) package.
+```{r}
+library(BayesFactor)
+ttestBF(x = df$x, y=df$y, paired=TRUE)
+```
+
+For a non-parametric pairwise test, you can use Wilcoxon Rank Sum and Signed Rank Tests [wilcox.test()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/wilcox.test.html). Package [coin](http://coin.r-forge.r-project.org/) implements many tests, including permutation tests, such as Two- and K-sample Fisher-Pitman permutation test via `oneway_test()` that tests for the equality of the distributions in _independent_ groups, see [vignette](https://cran.r-project.org/web/packages/coin/vignettes/coin.pdf) for details.
+
+## ANOVA
+**AN**alysis **O**f **VA**riance is probably the most widely used analysis in social sciences. However, I would strongly suggest considering [generalized linear mixed models](#GLMM) instead. Unlike ANOVA they can work when residuals are not normally distributed (binomial, count, Likert-scale ordered categorical, proportions data, etc.), they can tolerate missing values, and they tend to overfit less (their results are likely to better generalize to future data) by assuming that individual participants are more average than they appear in the raw data (so-called shrinkage).
+
+First, let us simulate data for ten participants and their responses, assuming that condition `B` increases their responses by 2 (arbitrary) units and `C` by 3^[[set.seed()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html) function initializes random numbers generator to a specific state to get a reproducible but random (as in, sequentially uncorrelated) sequence of values.].
+```{r}
+set.seed(519264)
+df_anova <-
+  # generate ten participants with five trials per condition
+  expand_grid(Participant  = factor(1:10),
+              Condition = factor(c(rep("A", 3), rep("B", 3), rep("C", 3)))) %>%
+  
+  # decide on a SINGLE baseline (intercept) for each participant
+  group_by(Participant) %>%
+  mutate(Intercept = rnorm(1, 5, 2.5)) %>%
+  
+  # simulate normally distributed responses, assuming that are 3 units higher for condition "B"
+  ungroup() %>%
+  mutate(Response = rnorm(n(), Intercept + 2 * as.integer(Condition == "B") + 3 * as.integer(Condition == "C"), 1.5)) %>%
+  select(-Intercept)
+```
+```{r echo=FALSE}
+ggplot(df_anova, aes(x=Condition, y=Response, color=Condition)) + 
+  geom_point() + 
+  facet_grid(.~Participant) + 
+  theme(legend.position = "none")
+```
+The base R ANOVA function is called [aov()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/aov.html), however, it does not support repeated measures. Instead, you can use function `anova_test` from package [rstatix](https://github.com/kassambara/rstatix)
+
+For the _repeated-measures_ ANOVA, we need to specify column with identity of participants via parameter `wid`
+```{r message=FALSE, warning=FALSE}
+library(rstatix)
+anova_test(data=df_anova, Response ~ Condition, wid=Participant)
+```
+
+
+You can perform various pairwise post-hoc tests, e.g. Tukey
+```r
+tukey_hsd(df_anova, Response ~ Condition)
+```
+```{r}
+tukey_hsd(df_anova, Response ~ Condition) %>%
+  knitr::kable()
+```
+
+A Bayesian ANOVA with posterior distributions for individual coefficients and significance via Bayes Factor can be performed 
+via `anovaBF` function from [BayesFactor](https://richarddmorey.github.io/BayesFactor) package.
+
+```{r}
+anovaBF(Response ~ Condition + Participant, whichRandom="Participant", data=data.frame(df_anova))
+```
+
+If you decide for repeated-measure ANOVA, I would suggest using and reporting results for both frequentist and Bayesian ANOVA, as it will demonstrate that they do not depend on the choice of the statistical approach.
+
+## (Generalized) Linear Models {#GLMM}
+Base R provides function to perform linear regression [lm()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/lm.html) and generalized linear models [glm()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/glm.html) for binomial, count, and other types of data.
+
+Let us generate a simple linear dependence between two parameters and see how `lm()` will infer the dependence. Our formula will be 
+$$ y = 20 + 4 * x + \epsilon$$
+where $\epsilon$ is normally distributed noise.
+
+```{r}
+df_lm <-
+  tibble(x = 1:100) %>%
+  mutate(y = rnorm(n(), 20 + 4 * x, 50))
+```
+```{r echo=FALSE}
+ggplot(data=df_lm, aes(x=x, y=y)) + 
+  geom_point() + 
+  geom_abline(intercept = 20, slope = 4)
+```
+
+Now let us fit the linear model using formula `y ~ x` and use [summary()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/summary.lm.html) function to see the details.
+```{r}
+lm_fit <- lm(y ~ x, data=df_lm)
+summary(lm_fit)
+```
+
+As you can see, values for both intercept and the slope are very close to our original design. If you need to extract information about individual coefficients, I recommend `tidy()` function from [broom](https://github.com/tidymodels/broom) package that returns information about the model in a "tidy" format:
+```r
+library(broom)
+tidy(lm_fit)
+```
+```{r echo=FALSE}
+library(broom)
+tidy(lm_fit) %>%
+  knitr::kable()
+```
+
+## (Generalized) Linear Mixed Models
+Generalized linear mixed models allow you to incorporate information about random factors into the model. One of the most popular packages in R is [lme4](https://github.com/lme4/lme4). Let us use LMM on data we generated for ANOVA. Here, we specify that we would like to have individual slopes for each participants via `(1|Participant)` notation^[Here, each participant must have their own intercept but they all share same single slope for `Condition`. You can also specify that they individual slopes that are either correlated or uncorrelated with their intercept.].
+
+```{r message=FALSE, warning=FALSE}
+library(lme4)
+lmer_fit <- lmer(Response ~ Condition + (1|Participant), data=df_anova)
+summary(lmer_fit)
+```
+
+To get tidy summary you need to use function `tidy` but from [broom.mixed](https://github.com/bbolker/broom.mixed)
+```r
+library(broom.mixed)
+tidy(lmer_fit)
+```
+```{r echo=FALSE}
+library(broom.mixed)
+tidy(lmer_fit) %>%
+  knitr::kable()
+```
+
+
+To also get information about formal statistical significance, you can use an extension package [lmerTest](https://github.com/runehaubo/lmerTestR)^[I use `lmerTest::` to tell R that I need function `lmer()` from package `lmerTest` and not from `lme4` as before].
+```{r message=FALSE, warning=FALSE}
+library(lmerTest)
+lmert_fit <- lmerTest::lmer(Response ~ Condition + (1|Participant), data=df_anova)
+summary(lmert_fit)
+```
+
+Again, we can use `tidy` to get coefficients information in a single table.
+```r
+tidy(lmert_fit)
+```
+```{r echo=FALSE}
+tidy(lmert_fit) %>%
+  knitr::kable()
+```
+
+Note that `lmer()` functions provide information about difference of each condition to the baseline (condition `A`) not no ANOVA-style significance for the "overall" effect of condition. For this, you can use function [drop1](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/add1.html), which test for a variable significance by dropping it from a model and checking whether it performed significantly worse _without_ it.
+```{r}
+drop1(lmert_fit)
+```
+
+You can also use Bayesian generalized linear modeling via [rstanarm](https://mc-stan.org/rstanarm/) and [BRMS](https://github.com/paul-buerkner/brms) packages. The former is somewhat faster, as it does not require model compilation (makes big difference when data is small but you test a lot of models), but is less flexible.
+
+
+
