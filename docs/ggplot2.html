@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2021-01-19" />
+<meta name="date" content="2021-01-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -274,7 +274,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.4" data-path="seminar10.html"><a href="seminar10.html#anova"><i class="fa fa-check"></i><b>11.4</b> ANOVA</a></li>
 <li class="chapter" data-level="11.5" data-path="seminar10.html"><a href="seminar10.html#GLMM"><i class="fa fa-check"></i><b>11.5</b> (Generalized) Linear Models</a></li>
 <li class="chapter" data-level="11.6" data-path="seminar10.html"><a href="seminar10.html#generalized-linear-mixed-models"><i class="fa fa-check"></i><b>11.6</b> (Generalized) Linear Mixed Models</a></li>
-<li class="chapter" data-level="11.7" data-path="seminar10.html"><a href="seminar10.html#practice"><i class="fa fa-check"></i><b>11.7</b> Practice</a></li>
+<li class="chapter" data-level="11.7" data-path="seminar10.html"><a href="seminar10.html#practice"><i class="fa fa-check"></i><b>11.7</b> Practice</a>
+<ul>
+<li class="chapter" data-level="" data-path="seminar10.html"><a href="seminar10.html#read-files-and-preprocess-data"><i class="fa fa-check"></i>Read files and preprocess data</a></li>
+<li class="chapter" data-level="" data-path="seminar10.html"><a href="seminar10.html#accuracy"><i class="fa fa-check"></i>Accuracy</a></li>
+<li class="chapter" data-level="" data-path="seminar10.html"><a href="seminar10.html#response-times"><i class="fa fa-check"></i>Response times</a></li>
+<li class="chapter" data-level="" data-path="seminar10.html"><a href="seminar10.html#computing-the-score"><i class="fa fa-check"></i>Computing the score</a></li>
+</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown and FontAwesome</a><li>
@@ -488,122 +494,122 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">1</td>
-<td align="right">0.2147672</td>
+<td align="right">-0.6583796</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">1</td>
-<td align="right">-1.7532121</td>
+<td align="right">-1.6715553</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">1</td>
-<td align="right">-4.1136551</td>
+<td align="right">-3.8550481</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">2</td>
-<td align="right">1.9260062</td>
+<td align="right">1.7451248</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">2</td>
-<td align="right">-0.8941432</td>
+<td align="right">-0.6098456</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">2</td>
-<td align="right">-3.6358920</td>
+<td align="right">-2.5630962</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">3</td>
-<td align="right">2.0894682</td>
+<td align="right">1.6541748</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">3</td>
-<td align="right">-0.2710696</td>
+<td align="right">-1.1003635</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">3</td>
-<td align="right">-2.0559337</td>
+<td align="right">-2.7111778</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">4</td>
-<td align="right">3.2044265</td>
+<td align="right">2.0448561</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">4</td>
-<td align="right">0.9833836</td>
+<td align="right">0.6533481</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">4</td>
-<td align="right">-1.9056113</td>
+<td align="right">-1.6034346</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">5</td>
-<td align="right">4.3526563</td>
+<td align="right">3.9409112</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">5</td>
-<td align="right">1.8395396</td>
+<td align="right">2.5690921</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">5</td>
-<td align="right">1.3807430</td>
+<td align="right">0.0953206</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">6</td>
-<td align="right">4.4996961</td>
+<td align="right">6.0258652</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">6</td>
-<td align="right">3.5032106</td>
+<td align="right">2.7635783</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">6</td>
-<td align="right">1.7087311</td>
+<td align="right">0.8441828</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">7</td>
-<td align="right">7.0017564</td>
+<td align="right">6.7796351</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">7</td>
-<td align="right">4.0144904</td>
+<td align="right">3.9897718</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">7</td>
-<td align="right">1.3625336</td>
+<td align="right">2.2183437</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">8</td>
-<td align="right">7.2174559</td>
+<td align="right">7.1466393</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">8</td>
-<td align="right">4.9179154</td>
+<td align="right">5.4073330</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">8</td>
-<td align="right">4.2822041</td>
+<td align="right">3.2463826</td>
 </tr>
 </tbody>
 </table>

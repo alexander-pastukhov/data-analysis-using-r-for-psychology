@@ -241,84 +241,312 @@ drop1(lmert_fit)
 You can also use Bayesian generalized linear modeling via [rstanarm](https://mc-stan.org/rstanarm/) and [BRMS](https://github.com/paul-buerkner/brms) packages. The former is somewhat faster, as it does not require model compilation (makes big difference when data is small but you test a lot of models), but is less flexible.
 
 ## Practice
-Download the [exercise notebook](notebooks/Seminar 11 - statistics.Rmd) and [switching rates](data/switching-rates.zip) data for the practice. Unzip the latter, you should get `switching-rates` subfolder in your project.
 
-In this project, which was part of EMPRA and was eventually [published](http://jov.arvojournals.org/article.aspx?doi=10.1167/19.6.1) in Journal of Vision, we were interested whether speed of subjective perceptual changes when viewing different bistable displays was correlated. In other words, if you are switching faster than average on one stimulus (kinetic-depth effect, KDE), are you also going to be faster than average on Necker Cube (NC)? These results tell how much neural processing networks are shared for perception of different visual properties.
+For practice, we will use data from a gamification experiment. Participant performed the same challenging task setup as a typical (read, boring) experiment or styled as a game with trial score, combos, high score table, achievements, etc. The idea was to investigate whether this shallow gamification (there was no story and all elements were present only before or after each trial and provided no information on the task itself) would alter (hopefully, improve) their performance. We quantified it via proportion of correct responses, response time, and score achieved for each trial (that one, you will need to compute yourself). Below, we would like to understand effects of 
 
-In the experiment participant viewed each display (`KDE -45`, `KDE 45` and `NC`) and reported on its state via `left`, `right`, or `unclear` button. Each row in the table corresponds to a press of the button and perception lasts until the _next_ button press. 
+1. Experimental group coded in variable `Condition`, either `"experiment"` or `"game"`.
+2. Task difficulty controller via cue-onset asynchrony. Participants could response while the stimulus was still on the scree (COA = -100 ms), shortly after it disappeared (COA=100 ms), or after a delay (COA = 1000 ms). We would expect that task is harder to longer COAs.
+3. Perceptual learning. As participants do the task, the become better at it and are likely to become both faster and more accurate for later blocks. So we need to incorporate that improvement over different blocks into our model. The overall block index is coded in `Block` variable but we will need to create a new variable `COABlock` that will encode index of the block within each difficulty.
 
-We would like to know whether switching rates (duration of individual percepts) are correlated. For this you need to (single pipeline!):
-1. Load and merge all csv-files from `switching-rates` folder.
-2. Compute new variable `Duration` for each percept using `Time` column. For this, you need to use function [lead()](https://dplyr.tidyverse.org/reference/lead-lag.html) that gives you value of a specified column in the _next_ row (or `NA`, if this is the last row, see examples in documentation). Note that you need to do this separately for each `Participant` and `Block`, as using `Time` from different block, even if rows are one after another, does not make sense.
-3. Exclude `unclear` and `end of the block` percepts (we are interested only in clear definitive perception, so only `left` and `right` reports).
+You will need to load data, preprocess data, plot accuracy, response times, and score relative for each condition, difficulty, and difficulty block, perform formal statistical analysis to see whether any of the factor have an effect. So, first, download [gamification.zip](data/gamification.zip) and unzip into your R-seminar project folder. You should get _gamification_ subfolder with all the files. There will be no template notebook, create it from scratch yourself and keep it organized, e.g., headings, comments, chunked code, etc.
 
-You should have a table with information about each clear perceptual state that every participant reported. 
+### Read files and preprocess data {-}
+
+The two steps should be a single pipe.
+1. Read and merge all CSV files in _gamification_ folder into a single table. It is "German Excel" formatted with `:` as a delimiter and `,` as a decimal point. To perform it most cleanly, use [read_delim](https://readr.tidyverse.org/reference/read_delim.html)
+function that allows you to specify the delimiter via `delim` parameter and the decimal point via `locale` parameter. You will need to read on how to specify the [locale](https://readr.tidyverse.org/reference/locale.html) first. My advice, debug reading on a single file and then add reading-and-merging either via for loop or purrr mapping.
+2. Compute whether response on each trial was correct (`Response` is equal to `Match` variable) and store it in `Correct` column. It is already present in the table but due to software glitch, some values are not correct. In general, it is not a bad idea to recompute such variables and compare them with table in the table, just to be on the safe side.
+3. Drop columns `SessionID`, `Color0`, `Color1`,  `Color2`, `Color3`, `Which` and `FlipComplimentary`. They are not relevant for the analysis and it is easier to look at uncluttered data.
+
+```{r echo=FALSE}
+raw_results <-
+  fs::dir_ls(path="gamification/", glob="*.csv") %>%
+  purrr::map_dfr(~read_delim(., delim = ";",  locale=locale(decimal_mark = ","), col_types = cols(
+    Observer = col_character(),
+    Condition = col_character(),
+    SessionID = col_character(),
+    Block = col_double(),
+    Trial = col_double(),
+    COA = col_double(),
+    Color0 = col_double(),
+    Color1 = col_double(),
+    Color2 = col_double(),
+    Color3 = col_double(),
+    Target = col_character(),
+    Which = col_double(),
+    Match = col_logical(),
+    FlipComplimentary = col_logical(),
+    Response = col_logical(),
+    RT = col_double(),
+    Correct = col_logical(),
+    OnsetDelay = col_double()))) %>%
+  
+  mutate(Correct = Response == Match) %>%
+  select(-c(SessionID, Color0:Color3, Which, FlipComplimentary))
+
+raw_results %>%
+  head(4) %>%
+  knitr::kable()
+```
+
+Now we need to compute block index per difficulty (and per participant and condition). We will spin it off as a separate table and then join it with the main one.
+1. Generate a summary table with a single row per `Observer`, `Condition`, `COA`, `Block`. Hint, you can use `summarise(.groups="drop")` with no additional arguments to get one row per group.
+```{r echo=FALSE}
+grouped_results <- 
+  raw_results %>%
+  group_by(Observer, Condition, COA, Block) %>%
+  summarise(.groups="drop")
+
+grouped_results %>%
+  head(4) %>%
+  knitr::kable()
+```
+
+2. Regroup the table by `Observer`, `Condition`, and `COA`  and compute `COABLock` block index. It is simply a sequence from 1 till number of rows in the group, you can get the latter via [n()](https://dplyr.tidyverse.org/reference/n.html) function.
+```{r echo=FALSE}
+grouped_results <-
+  grouped_results %>%
+  group_by(Observer, Condition, COA) %>%
+  mutate(COABlock = 1:n())
+
+grouped_results %>%
+  head(6) %>%
+  knitr::kable()
+```
+
+3. Now we can add `COABlock` to the main table by joining the two. I would strongly recommend to name the new full table differently, e.g., the original could be `results_raw` and the new one `results`. This is because if you join to table, overwriting one of them, and try to do joining again (you fixed it and now should work properly), you will get different column names as dplyr will enforce unique column names. It can get very confusing.
+4. Filter out any rows where `COABlock` is more than 4. Some participants volunteered to do more but for the analysis we need to have full data for everyone.
 ```{r echo=FALSE}
 results <- 
-  purrr::map_dfr(fs::dir_ls(path="switching-rates", glob = "*.csv"), 
-                 ~read_delim(., delim = ";", locale = locale(decimal_mark = ","), 
-                               col_types = cols(Session = col_character(),
-                                                Participant = col_character(),
-                                                Block = col_double(),
-                                                Condition = col_character(),
-                                                Display = col_character(),
-                                                OnsetDelay = col_double(),
-                                                Percept = col_character(),
-                                                Time = col_double())))  %>%
-  
-  # mutate(Display = factor(Display),
-  #        Display = forcats::fct_recode(Display, "KDE_CCW" = "KDE -45", "KDE_CW" = "KDE 45")) %>%
-  group_by(Participant, Condition, Block) %>%
-  mutate(Duration = lead(Time) - Time) %>%
-  filter(!Percept %in% c("unclear", "end of the block"))
+  left_join(raw_results, grouped_results, by=c("Observer", "Condition", "COA", "Block")) %>%
+  dplyr::filter(COABlock <= 4)
 
 results %>%
-  head(5) %>%
+  head(4) %>%
   knitr::kable()
 ```
 
-Now, let us concentrate on `Passive` condition and compute  _average_ duration for every participant and display. All steps should be in a single pipeline and should create a new table.
+### Accuracy {-}
+Let us analyze accuracy, the results should be stored in a new separate table. 
 
-1. Filter table, so that you only have `Passive` condition.
-2. For each participant, condition, and stimulus compute _median_ duration of percepts, ignoring whether it is `left` or `right`, we assume they are reasonbly similar.
-3. Pivot table so that each `Display` will be a separate column.
-
-Here is the summary `passive_df` table
+1. Compute number of correct trials each `Observer`, `Condition`, `COA` and `COABlock` combination. Also, store total number of trials for each combination in a separate variable (again, take a look at [n()](https://dplyr.tidyverse.org/reference/n.html) function). We need these two variables for the statistical analysis.
+2. Compute proportion of correct responses. You can compute it directly from `Correct` or from the two variables you computed on the previous step. We need this variable for visualization.
 ```{r echo=FALSE}
-passive_df <- 
+accuracy <-
   results %>%
-  filter(Condition == "Passive") %>%
-  group_by(Participant, Display) %>%
-  summarize(Dmedian = median(Duration), .groups="drop") %>%
-  pivot_wider(id_cols = "Participant", names_from="Display", values_from = "Dmedian")
+  group_by(`Observer`, `Condition`, `COA`, `COABlock`) %>%
+  summarise(Ncorrect = sum(Correct),
+            Ntotal = n(),
+            Pcorrect = Ncorrect / Ntotal,
+            .groups = "drop")
 
-passive_df %>%
-  head(5) %>%
+accuracy %>%
+  head(4) %>%
   knitr::kable()
 ```
 
-Now we can look at correlation (or the lack of it) for each pair of stimuli, starting with two KDEs. Our column names have spaces in them, so you need to enclose them via backticks `` `KDE -45` `` rather than writing them as is. You need to
-
-1. Compute Pearson's correlation and store results in a separate variable (e.g. `cor_results` or something like that).
-2. Make a scatter plot of data with nice labeling. Use [coord_fixed()](https://ggplot2.tidyverse.org/reference/coord_fixed.html) to make sure that scale is the same for x- and y-axis.
-3. Add nice subtitle via [labs()](https://ggplot2.tidyverse.org/reference/labs.html) primitive in ggplot2. It should have correlation statistics summary. Remember, you can [glue](#glue) or [sprintf](#sprintf) it together.
-
-Here is my plot
+Let us visualize the performance. Generate a similar looking plot
 ```{r echo=FALSE}
-cor_results <- cor.test(passive_df$`KDE -45`, passive_df$`KDE 45`)
-ggplot(passive_df, aes(x=`KDE -45`, y=`KDE 45`)) +
-  geom_point() +
-  coord_fixed(clip="off") +
-  labs(subtitle = sprintf("t(%d)=%.1f, p=%f", cor_results$parameter, cor_results$statistic, cor_results$p.value))
+ggplot(accuracy, aes(x = as.factor(COABlock), y=Pcorrect, color=Condition)) + 
+  geom_boxplot() + 
+  facet_grid(Condition~COA) +
+  xlab("Block index") +
+  theme(legend.position = "none")
+```
+
+And an alternative visualization.
+```{r echo=FALSE}
+ggplot(accuracy, aes(x = Condition, y=Pcorrect, color=Condition)) + 
+  geom_boxplot() + 
+  facet_grid(COA~ COABlock) +
+  xlab("Block index") +
+  theme(legend.position = "none")
+```
+
+The first one, shows an effect of experience (note how performance gets higher for the later blocks), for second one makes it easier to compare between conditions. Here, `experiment` tends to produce higher accuracy. However, this is just eye-balling the data, we need some actual numbers. For this, we will use Generalized Linear Mixed Model. It is _generalized_ because out data is binomial (participants were successful in `Ncorrect` trials out of `Ntotal`). It is  _linear_ because we assume a simple linear sum of individual effects. It is _mixed_, because we will add `Observer` as a random factor^[The magic machinery underneath will mix ordinary least squares (OLS) estimates for fixed effects with Best Linear Unbiased Predictions (BLUP) for random effects.]. We will also use `COA` as a factor variable to have a more direct comparison between individual `COA` levels. Read [documentation](https://www.rdocumentation.org/packages/lme4/versions/1.1-26/topics/glmer) to figure out how you specify the formula and binomial family. You will need to use library [lmer4](https://github.com/lme4/lme4) and I strongly suggest using `lmer4::glmer()` notation as we will later use [lmerTest]() package, which redefines some functions and it can be hard to figure out function from which package was actually called.
+
+The summary output of the model should look like this.
+```{r echo=FALSE}
+acc_model <- lme4::glmer(cbind(Ncorrect, Ntotal) ~ Condition + as.factor(COA) + COABlock + (1|Observer),
+                         family="binomial",
+                         data = accuracy)
+summary(acc_model)
+```
+
+As you can see, experience definitely improves the accuracy (effect for `COABlock` is positive and significant), there seems to be some effect of difficulty at least between extreme cases of COA = -100 ms (baseline) and COA = 1000 ms. But, does not seem to be much of an effect of the condition. We can also confirm this ANOVA-style with a single significance value for each fixed factor via [drop1()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/add1.html) function, you will need to specify `test = "Chisq"` as a parameter to get significance values.
+
+```{r echo=FALSE}
+drop1(acc_model, test = "Chisq")
+```
+
+### Response times {-}
+What about response times? Repeat the analysis but with a few changes. First, we only need to compute [median](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/median.html) response time instead of proportion of correct trials. Second, for the analysis, we use linear (not generalized) mixed models via [lmer()](https://www.rdocumentation.org/packages/lmerTest/versions/2.0-36/topics/lmer) function from [lmerTest](https://github.com/runehaubo/lmerTestR) package. Its advantage over the function with the same name from `lme4` package is in providing significance values. Again, use `lmerTest::lmer()` notation to use function from `lmerTest` and not the function of the same name in `lme4` package.
+
+```{r echo=FALSE}
+rt <-
+  results %>%
+  group_by(`Observer`, `Condition`, `COA`, `COABlock`) %>%
+  summarise(MedianRT = median(RT),
+            .groups = "drop")
+
+rt %>%
+  head(4) %>%
+  knitr::kable()
 ```
 
 ```{r echo=FALSE}
-stim1 <- "KDE -45"
-stim2 <- "KDE 45"
-cor_results <- cor.test(passive_df[[stim1]], passive_df[[stim2]])
+ggplot(rt, aes(x = as.factor(COABlock), y=MedianRT, color=Condition)) + 
+  geom_boxplot() + 
+  facet_grid(Condition~COA) +
+  xlab("Block index") +
+  ylab("Median response time [s]") + 
+  theme(legend.position = "none")
+```
+  
+```{r echo=FALSE}
+ggplot(rt, aes(x = Condition, y=MedianRT, color=Condition)) + 
+  geom_boxplot() + 
+  facet_grid(COA~ COABlock) +
+  xlab("Block index") +
+  ylab("Median response time [s]") + 
+  theme(legend.position = "none")
+```
 
-ggplot(passive_df, aes_(x=as.name(stim1), y=as.name(stim2))) + 
-  geom_point() + 
-  coord_fixed(clip="off") + 
-  labs(subtitle = sprintf("t(%d)=%.1f, p=%f", cor_results$parameter, cor_results$statistic, cor_results$p.value))
+```{r echo=FALSE}
+rt_model <- lmerTest::lmer(MedianRT ~ Condition + as.factor(COA) + COABlock + (1|Observer),
+                            data = rt)
+summary(rt_model)
+```
+
+```{r echo=FALSE}
+drop1(rt_model, test="Chisq")
+```
+
+### Computing the score {-} 
+
+First, we need to compute score for each trial. The catch is, the score depends on both participants response on a _current_ trial (correct or not and how fast was the response) and on _previous_ trials (the score is multiplied by a combo: number of correct responses on a row + 1). 
+
+We begin by computing a raw score for each trial using the following rules:
+
+* If the response is incorrect, the raw score is `0`, otherwise
+* $raw~score = ceiling(10 \cdot \frac{4-RT}{3})$ but it cannot be larger than 10 or smaller than 0. 
+
+Function [ceiling(x)](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Round.html) returns the smallest integers not less than the corresponding elements of x. There is no function that could "clip" a value between 0 and 10 in R, so you need to write it yourself. If should take three parameters 
+
+1. Vector of values to be clipped.
+2. Lower value limit.
+3. Higher value limit.
+
+```{r echo=FALSE}
+clip <- function(x, lower_limit, upper_limit){
+  x[x<lower_limit] <- lower_limit
+  x[x>upper_limit] <- upper_limit
+  x
+}
+```
+```{r}
+example_vector <- c(-1, 15, 2, 10, 0, -4)
+clip(example_vector, 0, 10)
+```
+
+Here is the head of the table with the computed raw score
+```{r echo=FALSE}
+results <-
+  results %>%
+  mutate(RawScore = clip(as.integer(Correct) * ceiling(10*(4-RT)/3), 0, 10))
+```
+```{r}
+results %>%
+  filter(RawScore==2) %>%
+  select(-c(Target, Match, Response, RT, COABlock, OnsetDelay)) %>%
+  head(10) %>%
+  knitr::kable()
+```
+
+To compute combo multiplier (number of correct responses on the row), we will write another function that loops over a vector of `Correct` responses. Every correct response (`TRUE`) add `1` to the multiplier for the _next_ trial. Every incorrect response resets it to `1`, again, for the _next_ trial.
+```{r echo=FALSE}
+compute_combo <- function(correct_responses){
+  current_combo <- 1
+  combo <- c()
+  
+  for(is_correct in correct_responses){
+    combo <- c(combo, current_combo)
+    current_combo <- ifelse(is_correct, current_combo + 1, 1)
+  }
+  combo
+}
+```
+```{r}
+correct <- c(TRUE, TRUE, TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, TRUE)
+compute_combo(correct)
+```
+
+Once you have the function and it work correctly, you can use to compute combo multiplier for the table. However, note that you need to do it per block, so you need to group data by `Observer`, `Condition`, `COA`, and `COABlock` first. Otherwise, your combo score won't be 1 at the beginning of each block.
+```{r echo=FALSE}
+results <-
+  results %>%
+  group_by(Observer, Condition, COA, COABlock) %>%
+  mutate(Combo = compute_combo(Correct)) %>%
+  ungroup()
+```
+```{r}
+results %>%
+  head(10) %>%
+  select(-c(Target, Match, Response, RT, COABlock, OnsetDelay)) %>%
+  knitr::kable()
+```
+
+To get the actual score you just multiply raw score and multiplier
+```{r echo=FALSE}
+results <-
+  results %>%
+  mutate(Score = RawScore * Combo)
+```
+```{r}
+results %>%
+  head(10) %>%
+  select(-c(Target, Match, Response, RT, COABlock, OnsetDelay)) %>%
+  knitr::kable()
+```
+
+Now that you have score per trial, perform analysis similar to response times but for each observer, condition, COA, and COA block compute a _total_ score for each block. Otherwise, plot and analyze it similar to response times.
+
+```{r echo=FALSE}
+score <- 
+  results %>%
+  group_by(`Observer`, `Condition`, `COA`, `COABlock`) %>%
+  summarise(TotalScore = sum(Score),
+            .groups = "drop")
+
+score %>%
+  head(6) %>%
+  knitr::kable()
+```
+
+```{r echo=FALSE}
+ggplot(score, aes(x = as.factor(COABlock), y=TotalScore, color=Condition)) + 
+  geom_boxplot() + 
+  facet_grid(Condition~COA) +
+  xlab("Block index") +
+  ylab("Block score") + 
+  theme(legend.position = "none")
+```
+  
+```{r echo=FALSE}
+ggplot(score, aes(x = Condition, y=TotalScore, color=Condition)) + 
+  geom_boxplot() + 
+  facet_grid(COA~ COABlock) +
+  xlab("Block index") +
+  ylab("Block score") + 
+  theme(legend.position = "none")
+```
+
+```{r echo=FALSE}
+score_model <- lmerTest::lmer(TotalScore ~ Condition + as.factor(COA) + COABlock + (1|Observer),
+                              data = score)
+summary(score_model)
+```
+
+```{r echo=FALSE}
+drop1(score_model, test="Chisq")
 ```

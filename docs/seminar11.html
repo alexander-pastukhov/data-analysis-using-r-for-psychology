@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2021-01-19" />
+<meta name="date" content="2021-01-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -274,7 +274,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.4" data-path="seminar10.html"><a href="seminar10.html#anova"><i class="fa fa-check"></i><b>11.4</b> ANOVA</a></li>
 <li class="chapter" data-level="11.5" data-path="seminar10.html"><a href="seminar10.html#GLMM"><i class="fa fa-check"></i><b>11.5</b> (Generalized) Linear Models</a></li>
 <li class="chapter" data-level="11.6" data-path="seminar10.html"><a href="seminar10.html#generalized-linear-mixed-models"><i class="fa fa-check"></i><b>11.6</b> (Generalized) Linear Mixed Models</a></li>
-<li class="chapter" data-level="11.7" data-path="seminar10.html"><a href="seminar10.html#practice"><i class="fa fa-check"></i><b>11.7</b> Practice</a></li>
+<li class="chapter" data-level="11.7" data-path="seminar10.html"><a href="seminar10.html#practice"><i class="fa fa-check"></i><b>11.7</b> Practice</a>
+<ul>
+<li class="chapter" data-level="" data-path="seminar10.html"><a href="seminar10.html#read-files-and-preprocess-data"><i class="fa fa-check"></i>Read files and preprocess data</a></li>
+<li class="chapter" data-level="" data-path="seminar10.html"><a href="seminar10.html#accuracy"><i class="fa fa-check"></i>Accuracy</a></li>
+<li class="chapter" data-level="" data-path="seminar10.html"><a href="seminar10.html#response-times"><i class="fa fa-check"></i>Response times</a></li>
+<li class="chapter" data-level="" data-path="seminar10.html"><a href="seminar10.html#computing-the-score"><i class="fa fa-check"></i>Computing the score</a></li>
+</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown and FontAwesome</a><li>
@@ -481,8 +487,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Do exercise 4.</p>
 </div>
 <p>As I have noted above, loops are particularly useful when you current value depends on a previous one (or many previous values). In the next exercise, use <code>for</code> loop to create a random walk (length 10) starting at value zero with each next step drawn randomly from a normal distribution with mean of 0.5 and standard deviation of 2 (the function you are looking for is <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html">rnorm()</a>). You end-produce might look like this</p>
-<pre><code>##  [1]  0.0000000 -1.7903274  0.1656946  1.0471342  1.4717105  1.0770902
-##  [7]  3.6680659  5.4391363  5.8388727  8.7434178</code></pre>
+<pre><code>##  [1] 0.000000 2.784865 3.790498 3.819042 7.228890 7.710209 7.223344 6.474604
+##  [9] 5.466433 3.567256</code></pre>
 <div class="infobox practice">
 <p>Do exercise 5.</p>
 </div>
@@ -628,16 +634,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="seminar11.html#cb334-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A </span></span>
 <span id="cb334-2"><a href="seminar11.html#cb334-2" aria-hidden="true" tabindex="-1"></a>a_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">12</span>), <span class="at">nrow =</span> <span class="dv">3</span>)</span>
 <span id="cb334-3"><a href="seminar11.html#cb334-3" aria-hidden="true" tabindex="-1"></a>a_matrix</span></code></pre></div>
-<pre><code>##            [,1]      [,2]        [,3]       [,4]
-## [1,]  0.2958983 1.1020987 -0.59256392 -1.9780103
-## [2,] -0.4580584 0.9458710  0.06599829  0.3470032
-## [3,] -0.3467492 0.2453806  0.91791524  1.1661256</code></pre>
+<pre><code>##           [,1]       [,2]       [,3]       [,4]
+## [1,] 0.9369595 -1.1399224  0.3290516  0.7970346
+## [2,] 1.3306457 -0.2358228 -2.5709136  0.3558792
+## [3,] 0.0248201 -0.2363198  0.2640664 -0.5677662</code></pre>
 <p>We would expect median value of any row or column to be 0 but because we have so few data points, they will be close but not exactly zero. Computing median for each row (we should get <em>three</em> numbers)</p>
 <div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="seminar11.html#cb336-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a_matrix, <span class="dv">1</span>, median)</span></code></pre></div>
-<pre><code>## [1] -0.1483328  0.2065007  0.5816479</code></pre>
+<pre><code>## [1]  0.5630431  0.0600282 -0.1057498</code></pre>
 <p>Similarly for a column (here, it should be <em>four</em> numbers)</p>
 <div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="seminar11.html#cb338-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a_matrix, <span class="dv">2</span>, median)</span></code></pre></div>
-<pre><code>## [1] -0.34674919  0.94587097  0.06599829  0.34700318</code></pre>
+<pre><code>## [1]  0.9369595 -0.2363198  0.2640664  0.3558792</code></pre>
 <p>I will not go into any further details on these functions, concentrating on similar functionality by <a href="seminar11.html#purrr">purrr</a> package. However, if you find yourself working with matrices or needing to apply a function to rows of a data frame, <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/apply.html">apply</a> might be a simpler solution. Keep this option in mind, if you feel that either looping or purrring looks inadequate.</p>
 </div>
 <div id="purrr" class="section level2" number="10.7">

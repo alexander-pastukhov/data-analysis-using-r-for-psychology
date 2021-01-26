@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2021-01-19" />
+<meta name="date" content="2021-01-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -274,7 +274,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.4" data-path="seminar10.html"><a href="seminar10.html#anova"><i class="fa fa-check"></i><b>11.4</b> ANOVA</a></li>
 <li class="chapter" data-level="11.5" data-path="seminar10.html"><a href="seminar10.html#GLMM"><i class="fa fa-check"></i><b>11.5</b> (Generalized) Linear Models</a></li>
 <li class="chapter" data-level="11.6" data-path="seminar10.html"><a href="seminar10.html#generalized-linear-mixed-models"><i class="fa fa-check"></i><b>11.6</b> (Generalized) Linear Mixed Models</a></li>
-<li class="chapter" data-level="11.7" data-path="seminar10.html"><a href="seminar10.html#practice"><i class="fa fa-check"></i><b>11.7</b> Practice</a></li>
+<li class="chapter" data-level="11.7" data-path="seminar10.html"><a href="seminar10.html#practice"><i class="fa fa-check"></i><b>11.7</b> Practice</a>
+<ul>
+<li class="chapter" data-level="" data-path="seminar10.html"><a href="seminar10.html#read-files-and-preprocess-data"><i class="fa fa-check"></i>Read files and preprocess data</a></li>
+<li class="chapter" data-level="" data-path="seminar10.html"><a href="seminar10.html#accuracy"><i class="fa fa-check"></i>Accuracy</a></li>
+<li class="chapter" data-level="" data-path="seminar10.html"><a href="seminar10.html#response-times"><i class="fa fa-check"></i>Response times</a></li>
+<li class="chapter" data-level="" data-path="seminar10.html"><a href="seminar10.html#computing-the-score"><i class="fa fa-check"></i>Computing the score</a></li>
+</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown and FontAwesome</a><li>
@@ -546,28 +552,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">M-1</td>
 <td align="left">Symmetry</td>
 <td align="right">6</td>
-<td align="right">3.53</td>
+<td align="right">1.81</td>
 </tr>
 <tr class="even">
 <td align="right">1</td>
 <td align="left">M-1</td>
 <td align="left">Attractiveness</td>
 <td align="right">4</td>
-<td align="right">1.56</td>
+<td align="right">1.39</td>
 </tr>
 <tr class="odd">
 <td align="right">1</td>
 <td align="left">M-1</td>
 <td align="left">Trustworthiness</td>
 <td align="right">3</td>
-<td align="right">0.76</td>
+<td align="right">0.91</td>
 </tr>
 <tr class="even">
 <td align="right">1</td>
 <td align="left">M-2</td>
 <td align="left">Symmetry</td>
 <td align="right">4</td>
-<td align="right">1.09</td>
+<td align="right">1.38</td>
 </tr>
 </tbody>
 </table>
@@ -593,7 +599,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="right">1</td>
 <td align="left">M-1</td>
-<td align="right">3.53</td>
+<td align="right">1.81</td>
 <td align="right">6</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
@@ -601,7 +607,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="even">
 <td align="right">1</td>
 <td align="left">M-1</td>
-<td align="right">1.56</td>
+<td align="right">1.39</td>
 <td align="right">NA</td>
 <td align="right">4</td>
 <td align="right">NA</td>
@@ -609,7 +615,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="right">1</td>
 <td align="left">M-1</td>
-<td align="right">0.76</td>
+<td align="right">0.91</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">3</td>
@@ -617,7 +623,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="even">
 <td align="right">1</td>
 <td align="left">M-2</td>
-<td align="right">1.09</td>
+<td align="right">1.38</td>
 <td align="right">4</td>
 <td align="right">NA</td>
 <td align="right">NA</td>

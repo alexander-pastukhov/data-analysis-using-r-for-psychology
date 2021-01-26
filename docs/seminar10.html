@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2021-01-19" />
+<meta name="date" content="2021-01-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -274,7 +274,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.4" data-path="seminar10.html"><a href="seminar10.html#anova"><i class="fa fa-check"></i><b>11.4</b> ANOVA</a></li>
 <li class="chapter" data-level="11.5" data-path="seminar10.html"><a href="seminar10.html#GLMM"><i class="fa fa-check"></i><b>11.5</b> (Generalized) Linear Models</a></li>
 <li class="chapter" data-level="11.6" data-path="seminar10.html"><a href="seminar10.html#generalized-linear-mixed-models"><i class="fa fa-check"></i><b>11.6</b> (Generalized) Linear Mixed Models</a></li>
-<li class="chapter" data-level="11.7" data-path="seminar10.html"><a href="seminar10.html#practice"><i class="fa fa-check"></i><b>11.7</b> Practice</a></li>
+<li class="chapter" data-level="11.7" data-path="seminar10.html"><a href="seminar10.html#practice"><i class="fa fa-check"></i><b>11.7</b> Practice</a>
+<ul>
+<li class="chapter" data-level="" data-path="seminar10.html"><a href="seminar10.html#read-files-and-preprocess-data"><i class="fa fa-check"></i>Read files and preprocess data</a></li>
+<li class="chapter" data-level="" data-path="seminar10.html"><a href="seminar10.html#accuracy"><i class="fa fa-check"></i>Accuracy</a></li>
+<li class="chapter" data-level="" data-path="seminar10.html"><a href="seminar10.html#response-times"><i class="fa fa-check"></i>Response times</a></li>
+<li class="chapter" data-level="" data-path="seminar10.html"><a href="seminar10.html#computing-the-score"><i class="fa fa-check"></i>Computing the score</a></li>
+</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown and FontAwesome</a><li>
@@ -319,7 +325,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb349-2"><a href="seminar10.html#cb349-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb349-3"><a href="seminar10.html#cb349-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">y =</span> <span class="fu">rnorm</span>(<span class="fu">n</span>(), x, <span class="fl">0.5</span>))</span>
 <span id="cb349-4"><a href="seminar10.html#cb349-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y, <span class="at">method=</span><span class="st">&quot;pearson&quot;</span>)</span></code></pre></div>
-<pre><code>## [1] 0.911947</code></pre>
+<pre><code>## [1] 0.9194093</code></pre>
 <p>Alternatively, you can use <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.test.html">cor.test()</a> that also computes test statistics and significance.</p>
 <div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="seminar10.html#cb351-1" aria-hidden="true" tabindex="-1"></a>cor_result <span class="ot">&lt;-</span> <span class="fu">cor.test</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y, <span class="at">method=</span><span class="st">&quot;pearson&quot;</span>)</span>
 <span id="cb351-2"><a href="seminar10.html#cb351-2" aria-hidden="true" tabindex="-1"></a>cor_result</span></code></pre></div>
@@ -327,22 +333,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  Pearson&#39;s product-moment correlation
 ## 
 ## data:  df$x and df$y
-## t = 22.003, df = 98, p-value &lt; 2.2e-16
+## t = 23.142, df = 98, p-value &lt; 2.2e-16
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
-##  0.8716638 0.9399912
+##  0.882330 0.945145
 ## sample estimates:
-##      cor 
-## 0.911947</code></pre>
+##       cor 
+## 0.9194093</code></pre>
 <p><code>cor.test</code> returns a list, so you can access its individual elements<a href="#fn31" class="footnote-ref" id="fnref31"><sup>31</sup></a> via a double-bracket or <code>$</code> notation.</p>
 <div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="seminar10.html#cb353-1" aria-hidden="true" tabindex="-1"></a>cor_result<span class="sc">$</span>p.value</span></code></pre></div>
-<pre><code>## [1] 1.069445e-39</code></pre>
+<pre><code>## [1] 1.675297e-41</code></pre>
 <p>Bayesian correlation with a posterior distribution for the correlation coefficient and Bayes Factor as a measure of significance, can be computed via <code>correlationBF()</code> function, which is part of <a href="https://richarddmorey.github.io/BayesFactor">BayesFactor</a> package.</p>
 <div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="seminar10.html#cb355-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(BayesFactor)</span>
 <span id="cb355-2"><a href="seminar10.html#cb355-2" aria-hidden="true" tabindex="-1"></a><span class="fu">correlationBF</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y)</span></code></pre></div>
 <pre><code>## Bayes factor analysis
 ## --------------
-## [1] Alt., r=0.333 : 1.107751e+35 ±0%
+## [1] Alt., r=0.333 : 5.461589e+36 ±0%
 ## 
 ## Against denominator:
 ##   Null, rho = 0 
@@ -806,158 +812,976 @@ where <span class="math inline">\(\epsilon\)</span> is normally distributed nois
 </div>
 <div id="practice" class="section level2" number="11.7">
 <h2><span class="header-section-number">11.7</span> Practice</h2>
-<p>Download the <a href="notebooks/Seminar%2011%20-%20statistics.Rmd">exercise notebook</a> and <a href="data/switching-rates.zip">switching rates</a> data for the practice. Unzip the latter, you should get <code>switching-rates</code> subfolder in your project.</p>
-<p>In this project, which was part of EMPRA and was eventually <a href="http://jov.arvojournals.org/article.aspx?doi=10.1167/19.6.1">published</a> in Journal of Vision, we were interested whether speed of subjective perceptual changes when viewing different bistable displays was correlated. In other words, if you are switching faster than average on one stimulus (kinetic-depth effect, KDE), are you also going to be faster than average on Necker Cube (NC)? These results tell how much neural processing networks are shared for perception of different visual properties.</p>
-<p>In the experiment participant viewed each display (<code>KDE -45</code>, <code>KDE 45</code> and <code>NC</code>) and reported on its state via <code>left</code>, <code>right</code>, or <code>unclear</code> button. Each row in the table corresponds to a press of the button and perception lasts until the <em>next</em> button press.</p>
-<p>We would like to know whether switching rates (duration of individual percepts) are correlated. For this you need to (single pipeline!):
-1. Load and merge all csv-files from <code>switching-rates</code> folder.
-2. Compute new variable <code>Duration</code> for each percept using <code>Time</code> column. For this, you need to use function <a href="https://dplyr.tidyverse.org/reference/lead-lag.html">lead()</a> that gives you value of a specified column in the <em>next</em> row (or <code>NA</code>, if this is the last row, see examples in documentation). Note that you need to do this separately for each <code>Participant</code> and <code>Block</code>, as using <code>Time</code> from different block, even if rows are one after another, does not make sense.
-3. Exclude <code>unclear</code> and <code>end of the block</code> percepts (we are interested only in clear definitive perception, so only <code>left</code> and <code>right</code> reports).</p>
-<p>You should have a table with information about each clear perceptual state that every participant reported.</p>
+<p>For practice, we will use data from a gamification experiment. Participant performed the same challenging task setup as a typical (read, boring) experiment or styled as a game with trial score, combos, high score table, achievements, etc. The idea was to investigate whether this shallow gamification (there was no story and all elements were present only before or after each trial and provided no information on the task itself) would alter (hopefully, improve) their performance. We quantified it via proportion of correct responses, response time, and score achieved for each trial (that one, you will need to compute yourself). Below, we would like to understand effects of</p>
+<ol style="list-style-type: decimal">
+<li>Experimental group coded in variable <code>Condition</code>, either <code>"experiment"</code> or <code>"game"</code>.</li>
+<li>Task difficulty controller via cue-onset asynchrony. Participants could response while the stimulus was still on the scree (COA = -100 ms), shortly after it disappeared (COA=100 ms), or after a delay (COA = 1000 ms). We would expect that task is harder to longer COAs.</li>
+<li>Perceptual learning. As participants do the task, the become better at it and are likely to become both faster and more accurate for later blocks. So we need to incorporate that improvement over different blocks into our model. The overall block index is coded in <code>Block</code> variable but we will need to create a new variable <code>COABlock</code> that will encode index of the block within each difficulty.</li>
+</ol>
+<p>You will need to load data, preprocess data, plot accuracy, response times, and score relative for each condition, difficulty, and difficulty block, perform formal statistical analysis to see whether any of the factor have an effect. So, first, download <a href="data/gamification.zip">gamification.zip</a> and unzip into your R-seminar project folder. You should get <em>gamification</em> subfolder with all the files. There will be no template notebook, create it from scratch yourself and keep it organized, e.g., headings, comments, chunked code, etc.</p>
+<div id="read-files-and-preprocess-data" class="section level3 unnumbered">
+<h3>Read files and preprocess data</h3>
+<p>The two steps should be a single pipe.
+1. Read and merge all CSV files in <em>gamification</em> folder into a single table. It is “German Excel” formatted with <code>:</code> as a delimiter and <code>,</code> as a decimal point. To perform it most cleanly, use <a href="https://readr.tidyverse.org/reference/read_delim.html">read_delim</a>
+function that allows you to specify the delimiter via <code>delim</code> parameter and the decimal point via <code>locale</code> parameter. You will need to read on how to specify the <a href="https://readr.tidyverse.org/reference/locale.html">locale</a> first. My advice, debug reading on a single file and then add reading-and-merging either via for loop or purrr mapping.
+2. Compute whether response on each trial was correct (<code>Response</code> is equal to <code>Match</code> variable) and store it in <code>Correct</code> column. It is already present in the table but due to software glitch, some values are not correct. In general, it is not a bad idea to recompute such variables and compare them with table in the table, just to be on the safe side.
+3. Drop columns <code>SessionID</code>, <code>Color0</code>, <code>Color1</code>, <code>Color2</code>, <code>Color3</code>, <code>Which</code> and <code>FlipComplimentary</code>. They are not relevant for the analysis and it is easier to look at uncluttered data.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Observer</th>
+<th align="left">Condition</th>
+<th align="right">Block</th>
+<th align="right">Trial</th>
+<th align="right">COA</th>
+<th align="left">Target</th>
+<th align="left">Match</th>
+<th align="left">Response</th>
+<th align="right">RT</th>
+<th align="left">Correct</th>
+<th align="right">OnsetDelay</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">-100</td>
+<td align="left">column</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="right">0.9619999</td>
+<td align="left">FALSE</td>
+<td align="right">0.7110000</td>
+</tr>
+<tr class="even">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">-100</td>
+<td align="left">column</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="right">0.8230000</td>
+<td align="left">TRUE</td>
+<td align="right">0.7710001</td>
+</tr>
+<tr class="odd">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">-100</td>
+<td align="left">row</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="right">0.9500000</td>
+<td align="left">TRUE</td>
+<td align="right">1.3230000</td>
+</tr>
+<tr class="even">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">-100</td>
+<td align="left">column</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="right">0.8500001</td>
+<td align="left">TRUE</td>
+<td align="right">0.8880000</td>
+</tr>
+</tbody>
+</table>
+<p>Now we need to compute block index per difficulty (and per participant and condition). We will spin it off as a separate table and then join it with the main one.
+1. Generate a summary table with a single row per <code>Observer</code>, <code>Condition</code>, <code>COA</code>, <code>Block</code>. Hint, you can use <code>summarise(.groups="drop")</code> with no additional arguments to get one row per group.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Observer</th>
+<th align="left">Condition</th>
+<th align="right">COA</th>
+<th align="right">Block</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">-100</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">-100</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">-100</td>
+<td align="right">7</td>
+</tr>
+<tr class="even">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">-100</td>
+<td align="right">10</td>
+</tr>
+</tbody>
+</table>
+<ol start="2" style="list-style-type: decimal">
+<li>Regroup the table by <code>Observer</code>, <code>Condition</code>, and <code>COA</code> and compute <code>COABLock</code> block index. It is simply a sequence from 1 till number of rows in the group, you can get the latter via <a href="https://dplyr.tidyverse.org/reference/n.html">n()</a> function.</li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Observer</th>
+<th align="left">Condition</th>
+<th align="right">COA</th>
+<th align="right">Block</th>
+<th align="right">COABlock</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">-100</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">-100</td>
+<td align="right">6</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">-100</td>
+<td align="right">7</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">-100</td>
+<td align="right">10</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">100</td>
+<td align="right">2</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">100</td>
+<td align="right">4</td>
+<td align="right">2</td>
+</tr>
+</tbody>
+</table>
+<ol start="3" style="list-style-type: decimal">
+<li>Now we can add <code>COABlock</code> to the main table by joining the two. I would strongly recommend to name the new full table differently, e.g., the original could be <code>results_raw</code> and the new one <code>results</code>. This is because if you join to table, overwriting one of them, and try to do joining again (you fixed it and now should work properly), you will get different column names as dplyr will enforce unique column names. It can get very confusing.</li>
+<li>Filter out any rows where <code>COABlock</code> is more than 4. Some participants volunteered to do more but for the analysis we need to have full data for everyone.</li>
+</ol>
 <table>
 <colgroup>
-<col width="21%" />
-<col width="12%" />
+<col width="9%" />
+<col width="11%" />
 <col width="6%" />
+<col width="6%" />
+<col width="5%" />
+<col width="7%" />
+<col width="6%" />
+<col width="9%" />
 <col width="10%" />
 <col width="8%" />
 <col width="11%" />
-<col width="8%" />
-<col width="10%" />
-<col width="10%" />
+<col width="9%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left">Session</th>
-<th align="left">Participant</th>
-<th align="right">Block</th>
+<th align="left">Observer</th>
 <th align="left">Condition</th>
-<th align="left">Display</th>
+<th align="right">Block</th>
+<th align="right">Trial</th>
+<th align="right">COA</th>
+<th align="left">Target</th>
+<th align="left">Match</th>
+<th align="left">Response</th>
+<th align="right">RT</th>
+<th align="left">Correct</th>
 <th align="right">OnsetDelay</th>
-<th align="left">Percept</th>
-<th align="right">Time</th>
-<th align="right">Duration</th>
+<th align="right">COABlock</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">2018-12-13-08-44-26</td>
-<td align="left">ABH1998w</td>
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
 <td align="right">1</td>
-<td align="left">Passive</td>
-<td align="left">KDE -45</td>
-<td align="right">1.271371</td>
-<td align="left">left</td>
-<td align="right">8.956933</td>
-<td align="right">5.887905</td>
+<td align="right">1</td>
+<td align="right">-100</td>
+<td align="left">column</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="right">0.9619999</td>
+<td align="left">FALSE</td>
+<td align="right">0.7110000</td>
+<td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="left">2018-12-13-08-44-26</td>
-<td align="left">ABH1998w</td>
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
 <td align="right">1</td>
-<td align="left">Passive</td>
-<td align="left">KDE -45</td>
-<td align="right">1.271371</td>
-<td align="left">right</td>
-<td align="right">14.844837</td>
-<td align="right">14.344321</td>
+<td align="right">2</td>
+<td align="right">-100</td>
+<td align="left">column</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="right">0.8230000</td>
+<td align="left">TRUE</td>
+<td align="right">0.7710001</td>
+<td align="right">1</td>
 </tr>
 <tr class="odd">
-<td align="left">2018-12-13-08-44-26</td>
-<td align="left">ABH1998w</td>
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
 <td align="right">1</td>
-<td align="left">Passive</td>
-<td align="left">KDE -45</td>
-<td align="right">1.271371</td>
-<td align="left">left</td>
-<td align="right">29.205826</td>
-<td align="right">17.563533</td>
+<td align="right">3</td>
+<td align="right">-100</td>
+<td align="left">row</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="right">0.9500000</td>
+<td align="left">TRUE</td>
+<td align="right">1.3230000</td>
+<td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="left">2018-12-13-08-44-26</td>
-<td align="left">ABH1998w</td>
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
 <td align="right">1</td>
-<td align="left">Passive</td>
-<td align="left">KDE -45</td>
-<td align="right">1.271371</td>
-<td align="left">right</td>
-<td align="right">46.769359</td>
-<td align="right">7.422265</td>
-</tr>
-<tr class="odd">
-<td align="left">2018-12-13-08-44-26</td>
-<td align="left">ABH1998w</td>
+<td align="right">4</td>
+<td align="right">-100</td>
+<td align="left">column</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="right">0.8500001</td>
+<td align="left">TRUE</td>
+<td align="right">0.8880000</td>
 <td align="right">1</td>
-<td align="left">Passive</td>
-<td align="left">KDE -45</td>
-<td align="right">1.271371</td>
-<td align="left">left</td>
-<td align="right">54.191625</td>
-<td align="right">3.068957</td>
 </tr>
 </tbody>
 </table>
-<p>Now, let us concentrate on <code>Passive</code> condition and compute <em>average</em> duration for every participant and display. All steps should be in a single pipeline and should create a new table.</p>
+</div>
+<div id="accuracy" class="section level3 unnumbered">
+<h3>Accuracy</h3>
+<p>Let us analyze accuracy, the results should be stored in a new separate table.</p>
 <ol style="list-style-type: decimal">
-<li>Filter table, so that you only have <code>Passive</code> condition.</li>
-<li>For each participant, condition, and stimulus compute <em>median</em> duration of percepts, ignoring whether it is <code>left</code> or <code>right</code>, we assume they are reasonbly similar.</li>
-<li>Pivot table so that each <code>Display</code> will be a separate column.</li>
+<li>Compute number of correct trials each <code>Observer</code>, <code>Condition</code>, <code>COA</code> and <code>COABlock</code> combination. Also, store total number of trials for each combination in a separate variable (again, take a look at <a href="https://dplyr.tidyverse.org/reference/n.html">n()</a> function). We need these two variables for the statistical analysis.</li>
+<li>Compute proportion of correct responses. You can compute it directly from <code>Correct</code> or from the two variables you computed on the previous step. We need this variable for visualization.</li>
 </ol>
-<p>Here is the summary <code>passive_df</code> table</p>
 <table>
 <thead>
 <tr class="header">
-<th align="left">Participant</th>
-<th align="right">KDE -45</th>
-<th align="right">KDE 45</th>
-<th align="right">NC</th>
+<th align="left">Observer</th>
+<th align="left">Condition</th>
+<th align="right">COA</th>
+<th align="right">COABlock</th>
+<th align="right">Ncorrect</th>
+<th align="right">Ntotal</th>
+<th align="right">Pcorrect</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">ABH1998w</td>
-<td align="right">4.511794</td>
-<td align="right">5.454159</td>
-<td align="right">4.453446</td>
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">-100</td>
+<td align="right">1</td>
+<td align="right">38</td>
+<td align="right">48</td>
+<td align="right">0.7916667</td>
 </tr>
 <tr class="even">
-<td align="left">ABP1991w</td>
-<td align="right">8.248021</td>
-<td align="right">9.290510</td>
-<td align="right">2.935617</td>
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">-100</td>
+<td align="right">2</td>
+<td align="right">47</td>
+<td align="right">48</td>
+<td align="right">0.9791667</td>
 </tr>
 <tr class="odd">
-<td align="left">AEV1992W</td>
-<td align="right">9.115549</td>
-<td align="right">11.175487</td>
-<td align="right">3.702834</td>
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">-100</td>
+<td align="right">3</td>
+<td align="right">47</td>
+<td align="right">48</td>
+<td align="right">0.9791667</td>
 </tr>
 <tr class="even">
-<td align="left">AGS1997w</td>
-<td align="right">2.768838</td>
-<td align="right">3.486130</td>
-<td align="right">4.795399</td>
-</tr>
-<tr class="odd">
-<td align="left">AHB1998m</td>
-<td align="right">8.807111</td>
-<td align="right">19.532314</td>
-<td align="right">2.919045</td>
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">-100</td>
+<td align="right">4</td>
+<td align="right">45</td>
+<td align="right">48</td>
+<td align="right">0.9375000</td>
 </tr>
 </tbody>
 </table>
-<p>Now we can look at correlation (or the lack of it) for each pair of stimuli, starting with two KDEs. Our column names have spaces in them, so you need to enclose them via backticks <code>`KDE -45`</code> rather than writing them as is. You need to</p>
+<p>Let us visualize the performance. Generate a similar looking plot
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-250-1.png" width="672" /></p>
+<p>And an alternative visualization.
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-251-1.png" width="672" /></p>
+<p>The first one, shows an effect of experience (note how performance gets higher for the later blocks), for second one makes it easier to compare between conditions. Here, <code>experiment</code> tends to produce higher accuracy. However, this is just eye-balling the data, we need some actual numbers. For this, we will use Generalized Linear Mixed Model. It is <em>generalized</em> because out data is binomial (participants were successful in <code>Ncorrect</code> trials out of <code>Ntotal</code>). It is <em>linear</em> because we assume a simple linear sum of individual effects. It is <em>mixed</em>, because we will add <code>Observer</code> as a random factor<a href="#fn35" class="footnote-ref" id="fnref35"><sup>35</sup></a>. We will also use <code>COA</code> as a factor variable to have a more direct comparison between individual <code>COA</code> levels. Read <a href="https://www.rdocumentation.org/packages/lme4/versions/1.1-26/topics/glmer">documentation</a> to figure out how you specify the formula and binomial family. You will need to use library <a href="https://github.com/lme4/lme4">lmer4</a> and I strongly suggest using <code>lmer4::glmer()</code> notation as we will later use <a href="">lmerTest</a> package, which redefines some functions and it can be hard to figure out function from which package was actually called.</p>
+<p>The summary output of the model should look like this.</p>
+<pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [glmerMod]
+##  Family: binomial  ( logit )
+## Formula: cbind(Ncorrect, Ntotal) ~ Condition + as.factor(COA) + COABlock +  
+##     (1 | Observer)
+##    Data: accuracy
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##   1788.8   1811.7   -888.4   1776.8      330 
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -1.72915 -0.29164  0.02438  0.34443  1.09710 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  Observer (Intercept) 0.01044  0.1022  
+## Number of obs: 336, groups:  Observer, 28
+## 
+## Fixed effects:
+##                    Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)        -0.26288    0.04509  -5.830 5.55e-09 ***
+## Conditiongame      -0.05776    0.04539  -1.272  0.20323    
+## as.factor(COA)100  -0.05424    0.02905  -1.867  0.06191 .  
+## as.factor(COA)1000 -0.06163    0.02915  -2.115  0.03447 *  
+## COABlock            0.03216    0.01070   3.005  0.00265 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) Cndtng as.(COA)100 a.(COA)1000
+## Conditiongm -0.501                               
+## as.(COA)100 -0.320  0.002                        
+## a.(COA)1000 -0.323  0.002  0.491                 
+## COABlock    -0.600  0.000  0.003       0.010</code></pre>
+<p>As you can see, experience definitely improves the accuracy (effect for <code>COABlock</code> is positive and significant), there seems to be some effect of difficulty at least between extreme cases of COA = -100 ms (baseline) and COA = 1000 ms. But, does not seem to be much of an effect of the condition. We can also confirm this ANOVA-style with a single significance value for each fixed factor via <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/add1.html">drop1()</a> function, you will need to specify <code>test = "Chisq"</code> as a parameter to get significance values.</p>
+<pre><code>## Single term deletions
+## 
+## Model:
+## cbind(Ncorrect, Ntotal) ~ Condition + as.factor(COA) + COABlock + 
+##     (1 | Observer)
+##                npar    AIC    LRT  Pr(Chi)   
+## &lt;none&gt;              1788.8                   
+## Condition         1 1788.3 1.5749 0.209504   
+## as.factor(COA)    2 1790.1 5.3724 0.068141 . 
+## COABlock          1 1795.8 9.0345 0.002649 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="response-times" class="section level3 unnumbered">
+<h3>Response times</h3>
+<p>What about response times? Repeat the analysis but with a few changes. First, we only need to compute <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/median.html">median</a> response time instead of proportion of correct trials. Second, for the analysis, we use linear (not generalized) mixed models via <a href="https://www.rdocumentation.org/packages/lmerTest/versions/2.0-36/topics/lmer">lmer()</a> function from <a href="https://github.com/runehaubo/lmerTestR">lmerTest</a> package. Its advantage over the function with the same name from <code>lme4</code> package is in providing significance values. Again, use <code>lmerTest::lmer()</code> notation to use function from <code>lmerTest</code> and not the function of the same name in <code>lme4</code> package.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Observer</th>
+<th align="left">Condition</th>
+<th align="right">COA</th>
+<th align="right">COABlock</th>
+<th align="right">MedianRT</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">-100</td>
+<td align="right">1</td>
+<td align="right">0.8500000</td>
+</tr>
+<tr class="even">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">-100</td>
+<td align="right">2</td>
+<td align="right">0.8494999</td>
+</tr>
+<tr class="odd">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">-100</td>
+<td align="right">3</td>
+<td align="right">0.7660000</td>
+</tr>
+<tr class="even">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">-100</td>
+<td align="right">4</td>
+<td align="right">0.7180001</td>
+</tr>
+</tbody>
+</table>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-255-1.png" width="672" /></p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-256-1.png" width="672" /></p>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: MedianRT ~ Condition + as.factor(COA) + COABlock + (1 | Observer)
+##    Data: rt
+## 
+## REML criterion at convergence: 376.6
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -4.6729 -0.4167 -0.0270  0.3736  6.0652 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  Observer (Intercept) 0.3913   0.6255  
+##  Residual             0.1275   0.3570  
+## Number of obs: 336, groups:  Observer, 28
+## 
+## Fixed effects:
+##                      Estimate Std. Error         df t value Pr(&gt;|t|)    
+## (Intercept)          2.152089   0.177100  31.010542  12.152 2.50e-13 ***
+## Conditiongame       -0.201307   0.239619  25.999998  -0.840    0.409    
+## as.factor(COA)100   -0.009205   0.047713 305.000001  -0.193    0.847    
+## as.factor(COA)1000  -0.008772   0.047713 305.000001  -0.184    0.854    
+## COABlock            -0.142757   0.017422 305.000001  -8.194 7.05e-15 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) Cndtng as.(COA)100 a.(COA)1000
+## Conditiongm -0.677                               
+## as.(COA)100 -0.135  0.000                        
+## a.(COA)1000 -0.135  0.000  0.500                 
+## COABlock    -0.246  0.000  0.000       0.000</code></pre>
+<pre><code>## Single term deletions using Satterthwaite&#39;s method:
+## 
+## Model:
+## MedianRT ~ Condition + as.factor(COA) + COABlock + (1 | Observer)
+##                Sum Sq Mean Sq NumDF DenDF F value    Pr(&gt;F)    
+## Condition      0.0900  0.0900     1    26  0.7058    0.4085    
+## as.factor(COA) 0.0060  0.0030     2   305  0.0237    0.9766    
+## COABlock       8.5594  8.5594     1   305 67.1409 7.046e-15 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="computing-the-score" class="section level3 unnumbered">
+<h3>Computing the score</h3>
+<p>First, we need to compute score for each trial. The catch is, the score depends on both participants response on a <em>current</em> trial (correct or not and how fast was the response) and on <em>previous</em> trials (the score is multiplied by a combo: number of correct responses on a row + 1).</p>
+<p>We begin by computing a raw score for each trial using the following rules:</p>
+<ul>
+<li>If the response is incorrect, the raw score is <code>0</code>, otherwise</li>
+<li><span class="math inline">\(raw~score = ceiling(10 \cdot \frac{4-RT}{3})\)</span> but it cannot be larger than 10 or smaller than 0.</li>
+</ul>
+<p>Function <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Round.html">ceiling(x)</a> returns the smallest integers not less than the corresponding elements of x. There is no function that could “clip” a value between 0 and 10 in R, so you need to write it yourself. If should take three parameters</p>
 <ol style="list-style-type: decimal">
-<li>Compute Pearson’s correlation and store results in a separate variable (e.g. <code>cor_results</code> or something like that).</li>
-<li>Make a scatter plot of data with nice labeling. Use <a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed()</a> to make sure that scale is the same for x- and y-axis.</li>
-<li>Add nice subtitle via <a href="https://ggplot2.tidyverse.org/reference/labs.html">labs()</a> primitive in ggplot2. It should have correlation statistics summary. Remember, you can <a href="seminar08.html#glue">glue</a> or <a href="seminar08.html#sprintf">sprintf</a> it together.</li>
+<li>Vector of values to be clipped.</li>
+<li>Lower value limit.</li>
+<li>Higher value limit.</li>
 </ol>
-<p>Here is my plot
-<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-247-1.png" width="672" /></p>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-248-1.png" width="672" /></p>
+<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="seminar10.html#cb392-1" aria-hidden="true" tabindex="-1"></a>example_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">15</span>, <span class="dv">2</span>, <span class="dv">10</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">4</span>)</span>
+<span id="cb392-2"><a href="seminar10.html#cb392-2" aria-hidden="true" tabindex="-1"></a><span class="fu">clip</span>(example_vector, <span class="dv">0</span>, <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## [1]  0 10  2 10  0  0</code></pre>
+<p>Here is the head of the table with the computed raw score</p>
+<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="seminar10.html#cb394-1" aria-hidden="true" tabindex="-1"></a>results <span class="sc">%&gt;%</span></span>
+<span id="cb394-2"><a href="seminar10.html#cb394-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(RawScore<span class="sc">==</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb394-3"><a href="seminar10.html#cb394-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Target, Match, Response, RT, COABlock, OnsetDelay)) <span class="sc">%&gt;%</span></span>
+<span id="cb394-4"><a href="seminar10.html#cb394-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb394-5"><a href="seminar10.html#cb394-5" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Observer</th>
+<th align="left">Condition</th>
+<th align="right">Block</th>
+<th align="right">Trial</th>
+<th align="right">COA</th>
+<th align="left">Correct</th>
+<th align="right">RawScore</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">AKB1996w</td>
+<td align="left">experiment</td>
+<td align="right">3</td>
+<td align="right">26</td>
+<td align="right">1000</td>
+<td align="left">TRUE</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">AKB1996w</td>
+<td align="left">experiment</td>
+<td align="right">8</td>
+<td align="right">47</td>
+<td align="right">1000</td>
+<td align="left">TRUE</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">AKB1996w</td>
+<td align="left">experiment</td>
+<td align="right">12</td>
+<td align="right">40</td>
+<td align="right">1000</td>
+<td align="left">TRUE</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">ARF1995w</td>
+<td align="left">game</td>
+<td align="right">1</td>
+<td align="right">42</td>
+<td align="right">-100</td>
+<td align="left">TRUE</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">ARF1995w</td>
+<td align="left">game</td>
+<td align="right">1</td>
+<td align="right">44</td>
+<td align="right">-100</td>
+<td align="left">TRUE</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">ARF1995w</td>
+<td align="left">game</td>
+<td align="right">2</td>
+<td align="right">35</td>
+<td align="right">100</td>
+<td align="left">TRUE</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">ARF1995w</td>
+<td align="left">game</td>
+<td align="right">3</td>
+<td align="right">4</td>
+<td align="right">1000</td>
+<td align="left">TRUE</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">ARF1995w</td>
+<td align="left">game</td>
+<td align="right">3</td>
+<td align="right">8</td>
+<td align="right">1000</td>
+<td align="left">TRUE</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">ARF1995w</td>
+<td align="left">game</td>
+<td align="right">3</td>
+<td align="right">14</td>
+<td align="right">1000</td>
+<td align="left">TRUE</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">ARF1995w</td>
+<td align="left">game</td>
+<td align="right">3</td>
+<td align="right">19</td>
+<td align="right">1000</td>
+<td align="left">TRUE</td>
+<td align="right">2</td>
+</tr>
+</tbody>
+</table>
+<p>To compute combo multiplier (number of correct responses on the row), we will write another function that loops over a vector of <code>Correct</code> responses. Every correct response (<code>TRUE</code>) add <code>1</code> to the multiplier for the <em>next</em> trial. Every incorrect response resets it to <code>1</code>, again, for the <em>next</em> trial.</p>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="seminar10.html#cb395-1" aria-hidden="true" tabindex="-1"></a>correct <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>)</span>
+<span id="cb395-2"><a href="seminar10.html#cb395-2" aria-hidden="true" tabindex="-1"></a><span class="fu">compute_combo</span>(correct)</span></code></pre></div>
+<pre><code>## [1] 1 2 3 4 1 1 2 3 1</code></pre>
+<p>Once you have the function and it work correctly, you can use to compute combo multiplier for the table. However, note that you need to do it per block, so you need to group data by <code>Observer</code>, <code>Condition</code>, <code>COA</code>, and <code>COABlock</code> first. Otherwise, your combo score won’t be 1 at the beginning of each block.</p>
+<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="seminar10.html#cb397-1" aria-hidden="true" tabindex="-1"></a>results <span class="sc">%&gt;%</span></span>
+<span id="cb397-2"><a href="seminar10.html#cb397-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb397-3"><a href="seminar10.html#cb397-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Target, Match, Response, RT, COABlock, OnsetDelay)) <span class="sc">%&gt;%</span></span>
+<span id="cb397-4"><a href="seminar10.html#cb397-4" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Observer</th>
+<th align="left">Condition</th>
+<th align="right">Block</th>
+<th align="right">Trial</th>
+<th align="right">COA</th>
+<th align="left">Correct</th>
+<th align="right">RawScore</th>
+<th align="right">Combo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">-100</td>
+<td align="left">FALSE</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">-100</td>
+<td align="left">TRUE</td>
+<td align="right">10</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">-100</td>
+<td align="left">TRUE</td>
+<td align="right">10</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">-100</td>
+<td align="left">TRUE</td>
+<td align="right">10</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">-100</td>
+<td align="left">TRUE</td>
+<td align="right">10</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">1</td>
+<td align="right">6</td>
+<td align="right">-100</td>
+<td align="left">TRUE</td>
+<td align="right">10</td>
+<td align="right">5</td>
+</tr>
+<tr class="odd">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">-100</td>
+<td align="left">TRUE</td>
+<td align="right">10</td>
+<td align="right">6</td>
+</tr>
+<tr class="even">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">-100</td>
+<td align="left">TRUE</td>
+<td align="right">10</td>
+<td align="right">7</td>
+</tr>
+<tr class="odd">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">1</td>
+<td align="right">9</td>
+<td align="right">-100</td>
+<td align="left">FALSE</td>
+<td align="right">0</td>
+<td align="right">8</td>
+</tr>
+<tr class="even">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">1</td>
+<td align="right">10</td>
+<td align="right">-100</td>
+<td align="left">TRUE</td>
+<td align="right">10</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+<p>To get the actual score you just multiply raw score and multiplier</p>
+<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="seminar10.html#cb398-1" aria-hidden="true" tabindex="-1"></a>results <span class="sc">%&gt;%</span></span>
+<span id="cb398-2"><a href="seminar10.html#cb398-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb398-3"><a href="seminar10.html#cb398-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Target, Match, Response, RT, COABlock, OnsetDelay)) <span class="sc">%&gt;%</span></span>
+<span id="cb398-4"><a href="seminar10.html#cb398-4" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Observer</th>
+<th align="left">Condition</th>
+<th align="right">Block</th>
+<th align="right">Trial</th>
+<th align="right">COA</th>
+<th align="left">Correct</th>
+<th align="right">RawScore</th>
+<th align="right">Combo</th>
+<th align="right">Score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">-100</td>
+<td align="left">FALSE</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">-100</td>
+<td align="left">TRUE</td>
+<td align="right">10</td>
+<td align="right">1</td>
+<td align="right">10</td>
+</tr>
+<tr class="odd">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">-100</td>
+<td align="left">TRUE</td>
+<td align="right">10</td>
+<td align="right">2</td>
+<td align="right">20</td>
+</tr>
+<tr class="even">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">-100</td>
+<td align="left">TRUE</td>
+<td align="right">10</td>
+<td align="right">3</td>
+<td align="right">30</td>
+</tr>
+<tr class="odd">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">-100</td>
+<td align="left">TRUE</td>
+<td align="right">10</td>
+<td align="right">4</td>
+<td align="right">40</td>
+</tr>
+<tr class="even">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">1</td>
+<td align="right">6</td>
+<td align="right">-100</td>
+<td align="left">TRUE</td>
+<td align="right">10</td>
+<td align="right">5</td>
+<td align="right">50</td>
+</tr>
+<tr class="odd">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">-100</td>
+<td align="left">TRUE</td>
+<td align="right">10</td>
+<td align="right">6</td>
+<td align="right">60</td>
+</tr>
+<tr class="even">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">-100</td>
+<td align="left">TRUE</td>
+<td align="right">10</td>
+<td align="right">7</td>
+<td align="right">70</td>
+</tr>
+<tr class="odd">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">1</td>
+<td align="right">9</td>
+<td align="right">-100</td>
+<td align="left">FALSE</td>
+<td align="right">0</td>
+<td align="right">8</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">1</td>
+<td align="right">10</td>
+<td align="right">-100</td>
+<td align="left">TRUE</td>
+<td align="right">10</td>
+<td align="right">1</td>
+<td align="right">10</td>
+</tr>
+</tbody>
+</table>
+<p>Now that you have score per trial, perform analysis similar to response times but for each observer, condition, COA, and COA block compute a <em>total</em> score for each block. Otherwise, plot and analyze it similar to response times.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Observer</th>
+<th align="left">Condition</th>
+<th align="right">COA</th>
+<th align="right">COABlock</th>
+<th align="right">TotalScore</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">-100</td>
+<td align="right">1</td>
+<td align="right">1429</td>
+</tr>
+<tr class="even">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">-100</td>
+<td align="right">2</td>
+<td align="right">10820</td>
+</tr>
+<tr class="odd">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">-100</td>
+<td align="right">3</td>
+<td align="right">9960</td>
+</tr>
+<tr class="even">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">-100</td>
+<td align="right">4</td>
+<td align="right">5290</td>
+</tr>
+<tr class="odd">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">100</td>
+<td align="right">1</td>
+<td align="right">2796</td>
+</tr>
+<tr class="even">
+<td align="left">AAF1997w</td>
+<td align="left">experiment</td>
+<td align="right">100</td>
+<td align="right">2</td>
+<td align="right">3281</td>
+</tr>
+</tbody>
+</table>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-270-1.png" width="672" /></p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-271-1.png" width="672" /></p>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: TotalScore ~ Condition + as.factor(COA) + COABlock + (1 | Observer)
+##    Data: score
+## 
+## REML criterion at convergence: 5871.3
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -1.9447 -0.4973 -0.1420  0.2494  4.6969 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  Observer (Intercept) 1234010  1111    
+##  Residual             2349159  1533    
+## Number of obs: 336, groups:  Observer, 28
+## 
+## Fixed effects:
+##                    Estimate Std. Error       df t value Pr(&gt;|t|)    
+## (Intercept)         1667.32     388.67    55.80   4.290 7.17e-05 ***
+## Conditiongame       -261.00     451.94    26.00  -0.578 0.568566    
+## as.factor(COA)100   -704.64     204.82   305.00  -3.440 0.000662 ***
+## as.factor(COA)1000 -1009.47     204.82   305.00  -4.929 1.36e-06 ***
+## COABlock             366.22      74.79   305.00   4.897 1.58e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) Cndtng as.(COA)100 a.(COA)1000
+## Conditiongm -0.581                               
+## as.(COA)100 -0.263  0.000                        
+## a.(COA)1000 -0.263  0.000  0.500                 
+## COABlock    -0.481  0.000  0.000       0.000</code></pre>
+<pre><code>## Single term deletions using Satterthwaite&#39;s method:
+## 
+## Model:
+## TotalScore ~ Condition + as.factor(COA) + COABlock + (1 | Observer)
+##                  Sum Sq  Mean Sq NumDF DenDF F value    Pr(&gt;F)    
+## Condition        783474   783474     1    26  0.3335    0.5686    
+## as.factor(COA) 60049893 30024946     2   305 12.7811 4.673e-06 ***
+## COABlock       56330349 56330349     1   305 23.9789 1.582e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 
 </div>
 </div>
+</div>
+
 
 
 
@@ -1005,6 +1829,7 @@ where <span class="math inline">\(\epsilon\)</span> is normally distributed nois
 <li id="fn32"><p><a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html">set.seed()</a> function initializes random numbers generator to a specific state to get a reproducible but random (as in, sequentially uncorrelated) sequence of values.<a href="seminar10.html#fnref32" class="footnote-back">↩︎</a></p></li>
 <li id="fn33"><p>Here, each participant must have their own intercept but they all share same single slope for <code>Condition</code>. You can also specify that they individual slopes that are either correlated or uncorrelated with their intercept.<a href="seminar10.html#fnref33" class="footnote-back">↩︎</a></p></li>
 <li id="fn34"><p>I use <code>lmerTest::</code> to tell R that I need function <code>lmer()</code> from package <code>lmerTest</code> and not from <code>lme4</code> as before<a href="seminar10.html#fnref34" class="footnote-back">↩︎</a></p></li>
+<li id="fn35"><p>The magic machinery underneath will mix ordinary least squares (OLS) estimates for fixed effects with Best Linear Unbiased Predictions (BLUP) for random effects.<a href="seminar10.html#fnref35" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

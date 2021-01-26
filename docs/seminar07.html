@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2021-01-19" />
+<meta name="date" content="2021-01-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -274,7 +274,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.4" data-path="seminar10.html"><a href="seminar10.html#anova"><i class="fa fa-check"></i><b>11.4</b> ANOVA</a></li>
 <li class="chapter" data-level="11.5" data-path="seminar10.html"><a href="seminar10.html#GLMM"><i class="fa fa-check"></i><b>11.5</b> (Generalized) Linear Models</a></li>
 <li class="chapter" data-level="11.6" data-path="seminar10.html"><a href="seminar10.html#generalized-linear-mixed-models"><i class="fa fa-check"></i><b>11.6</b> (Generalized) Linear Mixed Models</a></li>
-<li class="chapter" data-level="11.7" data-path="seminar10.html"><a href="seminar10.html#practice"><i class="fa fa-check"></i><b>11.7</b> Practice</a></li>
+<li class="chapter" data-level="11.7" data-path="seminar10.html"><a href="seminar10.html#practice"><i class="fa fa-check"></i><b>11.7</b> Practice</a>
+<ul>
+<li class="chapter" data-level="" data-path="seminar10.html"><a href="seminar10.html#read-files-and-preprocess-data"><i class="fa fa-check"></i>Read files and preprocess data</a></li>
+<li class="chapter" data-level="" data-path="seminar10.html"><a href="seminar10.html#accuracy"><i class="fa fa-check"></i>Accuracy</a></li>
+<li class="chapter" data-level="" data-path="seminar10.html"><a href="seminar10.html#response-times"><i class="fa fa-check"></i>Response times</a></li>
+<li class="chapter" data-level="" data-path="seminar10.html"><a href="seminar10.html#computing-the-score"><i class="fa fa-check"></i>Computing the score</a></li>
+</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown and FontAwesome</a><li>
@@ -598,35 +604,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
 <tr class="odd">
 <td align="left">A</td>
-<td align="right">3.178589</td>
+<td align="right">5.394134</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
-<td align="right">5.433681</td>
+<td align="right">2.023858</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
-<td align="right">6.192868</td>
+<td align="right">6.035974</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
-<td align="right">6.732232</td>
+<td align="right">6.538849</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
-<td align="right">6.614581</td>
+<td align="right">1.607332</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
-<td align="right">5.467073</td>
+<td align="right">3.191787</td>
 </tr>
 <tr class="odd">
 <td align="left">E</td>
-<td align="right">4.614188</td>
+<td align="right">2.341941</td>
 </tr>
 <tr class="even">
 <td align="left">E</td>
-<td align="right">1.437951</td>
+<td align="right">2.385704</td>
 </tr>
 </tbody>
 </table>
@@ -645,32 +651,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">20</td>
-<td align="right">3.178589</td>
+<td align="right">5.394134</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">20</td>
-<td align="right">5.433681</td>
+<td align="right">2.023858</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">19</td>
-<td align="right">6.192868</td>
+<td align="right">6.035974</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">19</td>
-<td align="right">6.732232</td>
+<td align="right">6.538849</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">30</td>
-<td align="right">6.614581</td>
+<td align="right">1.607332</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">30</td>
-<td align="right">5.467073</td>
+<td align="right">3.191787</td>
 </tr>
 </tbody>
 </table>
@@ -689,32 +695,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">20</td>
-<td align="right">3.178589</td>
+<td align="right">5.394134</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">20</td>
-<td align="right">5.433681</td>
+<td align="right">2.023858</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">19</td>
-<td align="right">6.192868</td>
+<td align="right">6.035974</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">19</td>
-<td align="right">6.732232</td>
+<td align="right">6.538849</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">30</td>
-<td align="right">6.614581</td>
+<td align="right">1.607332</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">30</td>
-<td align="right">5.467073</td>
+<td align="right">3.191787</td>
 </tr>
 <tr class="odd">
 <td align="left">D</td>
@@ -724,12 +730,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="even">
 <td align="left">E</td>
 <td align="right">NA</td>
-<td align="right">4.614188</td>
+<td align="right">2.341941</td>
 </tr>
 <tr class="odd">
 <td align="left">E</td>
 <td align="right">NA</td>
-<td align="right">1.437951</td>
+<td align="right">2.385704</td>
 </tr>
 </tbody>
 </table>
@@ -748,32 +754,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">20</td>
-<td align="right">3.178589</td>
+<td align="right">5.394134</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">20</td>
-<td align="right">5.433681</td>
+<td align="right">2.023858</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">19</td>
-<td align="right">6.192868</td>
+<td align="right">6.035974</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">19</td>
-<td align="right">6.732232</td>
+<td align="right">6.538849</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">30</td>
-<td align="right">6.614581</td>
+<td align="right">1.607332</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">30</td>
-<td align="right">5.467073</td>
+<td align="right">3.191787</td>
 </tr>
 <tr class="odd">
 <td align="left">D</td>
@@ -796,42 +802,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">20</td>
-<td align="right">3.178589</td>
+<td align="right">5.394134</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">20</td>
-<td align="right">5.433681</td>
+<td align="right">2.023858</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">19</td>
-<td align="right">6.192868</td>
+<td align="right">6.035974</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">19</td>
-<td align="right">6.732232</td>
+<td align="right">6.538849</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">30</td>
-<td align="right">6.614581</td>
+<td align="right">1.607332</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">30</td>
-<td align="right">5.467073</td>
+<td align="right">3.191787</td>
 </tr>
 <tr class="odd">
 <td align="left">E</td>
 <td align="right">NA</td>
-<td align="right">4.614188</td>
+<td align="right">2.341941</td>
 </tr>
 <tr class="even">
 <td align="left">E</td>
 <td align="right">NA</td>
-<td align="right">1.437951</td>
+<td align="right">2.385704</td>
 </tr>
 </tbody>
 </table>
@@ -888,22 +894,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="left">M</td>
-<td align="right">6.173918</td>
+<td align="right">2.169607</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="left">F</td>
-<td align="right">1.479289</td>
+<td align="right">1.406254</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="left">F</td>
-<td align="right">2.804874</td>
+<td align="right">1.475994</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="left">M</td>
-<td align="right">2.590991</td>
+<td align="right">5.882590</td>
 </tr>
 </tbody>
 </table>
@@ -923,25 +929,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">A</td>
 <td align="left">M</td>
 <td align="right">20</td>
-<td align="right">6.173918</td>
+<td align="right">2.169607</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="left">F</td>
 <td align="right">19</td>
-<td align="right">1.479289</td>
+<td align="right">1.406254</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="left">F</td>
 <td align="right">30</td>
-<td align="right">2.804874</td>
+<td align="right">1.475994</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="left">M</td>
 <td align="right">22</td>
-<td align="right">2.590991</td>
+<td align="right">5.882590</td>
 </tr>
 </tbody>
 </table>
@@ -998,22 +1004,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="left">M</td>
-<td align="right">3.136710</td>
+<td align="right">1.838346</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="left">F</td>
-<td align="right">4.654913</td>
+<td align="right">2.233171</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="left">F</td>
-<td align="right">6.874612</td>
+<td align="right">1.903437</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="left">M</td>
-<td align="right">1.882030</td>
+<td align="right">3.734343</td>
 </tr>
 </tbody>
 </table>
@@ -1033,25 +1039,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">A</td>
 <td align="left">M</td>
 <td align="right">20</td>
-<td align="right">3.136710</td>
+<td align="right">1.838346</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="left">F</td>
 <td align="right">19</td>
-<td align="right">4.654913</td>
+<td align="right">2.233171</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="left">F</td>
 <td align="right">30</td>
-<td align="right">6.874612</td>
+<td align="right">1.903437</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="left">M</td>
 <td align="right">22</td>
-<td align="right">1.882030</td>
+<td align="right">3.734343</td>
 </tr>
 </tbody>
 </table>
