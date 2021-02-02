@@ -1,0 +1,97 @@
+# Practice {#seminar12}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+Today we will practice tidying up and plotting a real life data. As all real data, it is messy and with lots of variables that mean same thing for different groups of participants, factor levels spread across columns, etc.
+
+Download [stroopsim.csv](data/stroopsim.csv) the table, read it, and read on to understand what individual columns mean and how we need to transform the table before it becomes usable. Note, that this is a _simulated_ data although it is based on real study.
+```{r echo=FALSE}
+results <- 
+  read_csv("data/stroopsim.csv",
+           col_types = cols(.default = col_double()))
+
+head(results) %>%
+  knitr::kable()
+```
+
+## Bad names to good names
+We have couple of columns that are not easy to use: 
+* `@#errorsCong` should be `errorsCongruent`
+* `@#errorsInco` should be `errorsIncongruent`
+
+```{r echo=FALSE}
+results <- 
+  results %>%
+  rename(errorsCongruent = "@#errorsCong",
+         errorsIncongruent = "@#errorsInco")
+
+head(results) %>%
+  select(sex, Condition, errorsCongruent, errorsIncongruent) %>% 
+  knitr::kable()
+```
+
+## Participant ID
+Currently, we have a _wide_ table with one row per participant. However, we will need to tidy it up, meaning that we need to keep track of which rows belong to which participants. For this, create a new column `HabitNr` which will simply have row index. To make things easier, use [relocate()](https://dplyr.tidyverse.org/reference/relocate.html) verb to make it the _first_ column in the table.
+
+```{r echo=FALSE}
+results <- 
+  results %>%
+  mutate(HabitNr = 1:n()) %>%
+  relocate(HabitNr)
+
+head(results) %>%
+  knitr::kable()
+```
+
+## Factors
+First, let us do easy bits, converting several columns to factors and setting up labels.
+
+* `sex` 
+  * 1 : `female` 
+  * 2 :  `male`
+* `Condition`: 
+  * 0 : `control`
+  * 1 : `speed` 
+  * 2 : `size`
+  * 3 : `random`
+* `IncongruentFirst` : convert to a logical (`TRUE` / `FALSE`)
+
+```{r echo=FALSE}
+results <-
+  results %>%
+  mutate(sex = factor(sex, levels = c(1, 2), labels = c("female", "male")),
+         Condition = factor(Condition, levels = c(0, 1, 2, 3), labels = c("control", "speed", "size", "random")),
+         IncongruentFirst = as.logical(IncongruentFirst))
+
+head(results) %>%
+  knitr::kable()
+```
+
+##  Response times
+Next, we need to "spin-off" a separate table that will contain information about response times per congruency manipulation. Thus we want a table where column `Congruency` indicates whether presentation was congruent, whereas two columns (`ReactiontimemeanCong` and `ReactiontimemeanInco`) for response times become two rows (we pivot table longer). Note that I have used better labels for congruent and incongruent conditions. You can first rename them pivot or pivot and relabel (choice is yours). At the moment, we do not need all other columns, see table below to see what I decided to keep.
+```{r echo=FALSE}
+rt <- 
+  results %>%
+  select(HabitNr, Condition, IncongruentFirst, ReactiontimemeanCong, ReactiontimemeanInco) %>%
+  pivot_longer(cols = c(ReactiontimemeanCong, ReactiontimemeanInco), 
+               names_to = "Congruency",
+               values_to = "RT") %>%
+  mutate(Congruency = factor(Congruency, 
+                             levels = c("ReactiontimemeanCong", "ReactiontimemeanInco"),
+                             labels = c("Congruent", "Incongruent")))
+
+head(rt) %>%
+  knitr::kable()
+```
+
+Let us see how condition and incongruency-order presentation affects our response times.
+
+```{r echo=FALSE}
+ggplot(rt, aes(x = Congruency, y=RT, color=Congruency)) + 
+  geom_boxplot() +
+  facet_grid(IncongruentFirst ~ Condition) + 
+  theme(axis.text.x = element_text(angle = 45, hjust=1))
+```
+
+Participants responses were clearly faster on trials when 
