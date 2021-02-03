@@ -497,8 +497,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Do exercise 4.</p>
 </div>
 <p>As I have noted above, loops are particularly useful when you current value depends on a previous one (or many previous values). In the next exercise, use <code>for</code> loop to create a random walk (length 10) starting at value zero with each next step drawn randomly from a normal distribution with mean of 0.5 and standard deviation of 2 (the function you are looking for is <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html">rnorm()</a>). You end-produce might look like this</p>
-<pre><code>##  [1]  0.0000000  0.9591745  0.2231100  2.8736162  3.7323021  5.5086827
-##  [7]  6.0160772  9.2363835 11.4058602 12.5193606</code></pre>
+<pre><code>##  [1] 0.0000000 0.6641987 2.6569044 3.0809779 4.1288921 3.1000192 2.0199597
+##  [8] 2.6936370 3.7812370 0.3306985</code></pre>
 <div class="infobox practice">
 <p>Do exercise 5.</p>
 </div>
@@ -644,16 +644,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="seminar10.html#cb334-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A </span></span>
 <span id="cb334-2"><a href="seminar10.html#cb334-2" aria-hidden="true" tabindex="-1"></a>a_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">12</span>), <span class="at">nrow =</span> <span class="dv">3</span>)</span>
 <span id="cb334-3"><a href="seminar10.html#cb334-3" aria-hidden="true" tabindex="-1"></a>a_matrix</span></code></pre></div>
-<pre><code>##            [,1]       [,2]      [,3]       [,4]
-## [1,] -1.7543537 -0.5867605 -1.028142 0.09362418
-## [2,]  0.5571106 -1.6674081 -1.671131 0.70952933
-## [3,] -0.9815601 -1.1358107 -1.353631 2.65456170</code></pre>
+<pre><code>##            [,1]       [,2]       [,3]      [,4]
+## [1,]  0.3955198  0.7046605  1.1863850 0.3279446
+## [2,]  0.7278696 -1.2425335 -0.1410127 0.1966855
+## [3,] -0.8604980  0.1792273  1.4941843 2.1365374</code></pre>
 <p>We would expect median value of any row or column to be 0 but because we have so few data points, they will be close but not exactly zero. Computing median for each row (we should get <em>three</em> numbers)</p>
 <div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="seminar10.html#cb336-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a_matrix, <span class="dv">1</span>, median)</span></code></pre></div>
-<pre><code>## [1] -0.8074515 -0.5551488 -1.0586854</code></pre>
+<pre><code>## [1] 0.5500901 0.0278364 0.8367058</code></pre>
 <p>Similarly for a column (here, it should be <em>four</em> numbers)</p>
 <div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="seminar10.html#cb338-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a_matrix, <span class="dv">2</span>, median)</span></code></pre></div>
-<pre><code>## [1] -0.9815601 -1.1358107 -1.3536305  0.7095293</code></pre>
+<pre><code>## [1] 0.3955198 0.1792273 1.1863850 0.3279446</code></pre>
 <p>I will not go into any further details on these functions, concentrating on similar functionality by <a href="seminar10.html#purrr">purrr</a> package. However, if you find yourself working with matrices or needing to apply a function to rows of a data frame, <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/apply.html">apply</a> might be a simpler solution. Keep this option in mind, if you feel that either looping or purrring looks inadequate.</p>
 </div>
 <div id="purrr" class="section level2" number="10.7">
