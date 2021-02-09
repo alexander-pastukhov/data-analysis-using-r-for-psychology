@@ -15,9 +15,12 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Experiment
+In the single task (condition _single_), one letter was presented in one of the four quadrants of the screen and observer responded about its identity (T or L). In the dual task (condition _dual_), two letters were presented in two different quadrants of the screen, but only the **first**  of them (column `Location1`) was cued and observer responded about its identity. Columns `Correct` (1 if correct, 0 otherwise) and `Response_Time` (in seconds) describe observers’ report on a given trial.
 
-In the single task (condition _single_), a single letter was presented in one of the four quadrants of the screen and observer responded about its identity (T or L). In the dual task (condition _dual_), two letters were presented in two different quadrants of the screen, but only the **first**  of them (column `Location1`) was cued and observer responded about its identity. Columns `Correct` (1 if correct, 0 otherwise) and `Response_Time` (in seconds) describe observers’ report on a given trial.
+The research question was whether two hemispheres have independent control over attention. specifically, in the _dual_ condition, two letters could be presented within left or right hemifields, so both had to be processed by a single hemisphere (respectively, right or left, _unilateral_ layout). Alternatively, when two letters were presented in upper or lower hemifields, each letter would be represented and processed in one hemisphere (again, letter from the left hemifield in the right hemisphere and vice versa, _bilateral_ layout). If attention is a single brain-wide resource then same amount of attention will be allocated to the two target, irrespective of whether they are both represented in a single hemisphere or one in each (same performance and response times for _unilateral_ and _bilateral_ layouts). However, if two hemispheres have independent attention resource then presentation of two targets to two hemispheres (_bilateral_ layout) would mean that each hemisphere can spend all its attention on a single target. Conversely, presenting both targets to one hemisphere (_unilateral_ layout) would force it to split its attention resource on two targets, limiting it. In this case, we would expect performance to be better and response times shorter for _bilateral_ than for _unilateral_. Theoretically, if attention is truly a per-hemisphere resource, we would expect that performance and response time in the _bilateral_ layout to be as good as for a _single_ target condition, as in both cases a single hemisphere needs to process just a single target. 
 
+
+## Location encoding
 Location is coded in `Location1` (_single_ task and the first quadrant of the _dual_ task) and in `Location2` (second quadrant for the _dual_ task) column starting from upper right quadrant and going counterclockwise as follows:
 
 1. upper right,
@@ -40,14 +43,14 @@ Location is coded in `Location1` (_single_ task and the first quadrant of the _d
 
 1. Combine individual data files into a single table. You must use `map_dfr` for this.
 
-```{r loading and joining data}
+```{r}
 ```
 
 ### Single task
 #### For 1.7
 
-1. Compute average observer’s performance, logit(performance) (you can use function `logit` from the _car_ package) and median response time (RT) for each quadrant, **irrespective** of condition and store results in a separate table.
-```{r grouping data and basic calculations}
+1. Compute average observer’s performance, number of correct trials, total number of trials, and median response time (RT) for each quadrant, **irrespective** of condition. Store results in a new table (please use a sensible name). Single pipe.
+```{r}
 
 ```
 
@@ -58,21 +61,19 @@ Location is coded in `Location1` (_single_ task and the first quadrant of the _d
 ```{r single RT boxplot}
 ```
 
+3. Test whether quadrant had a significant effect on performance (`glmer`, binomial family) / RT (`lmer`, linear mixed models) with quadrant as a fixed factor and observer as a random. Check importance of the quadrant for both models via drop-one approach.
 
-3. Test whether quadrant had a significant effect on logit(performance) / RT using linear mixed models (package _lmerTest_) with quadrant as a fixed factor and observer as a random. Check importance of the quadrant for both models via drop-one approach.
-
-**Here and below** use logit(performance) when performing statistical comparisons!
-```{r statistical analysis for logit(performance)}
+```{r single statistical analysis for logit(performance)}
 
 ```
 
-```{r statistical analysis for RT}
+```{r single statistical analysis for RT}
 
 ```
 
 #### For 1.3
 
-4. Compute additional column of whether the target was on the left or on the right. Use linear-mixed models to assess the difference between targets presented in left and right hemifield (again, use logit(performance) when performing statistical tests and use drop-one approach). Plot averages using box plots, with hemifield labels on x-axis. Overlay individual observers as dots us _ggbeeswarm_ library.
+4. Repeat the analysis for 1.7 but for the left vs. right hemifield (create the new variable that will encode this).
 
 ```{r left/ right hemisfield accuracy table}
 ```
@@ -93,7 +94,7 @@ Location is coded in `Location1` (_single_ task and the first quadrant of the _d
 ```{r left/ right hemisfield RT plot}
 ```
 
-
+#### For 1.0
 5. Same as #4 but for upper and lower hemifields.
 ```{r upper/ lower hemisfield accuracy table}
 ```
@@ -113,19 +114,12 @@ Location is coded in `Location1` (_single_ task and the first quadrant of the _d
 ```{r upper/ lower hemisfield RT plot}
 ```
 
-#### For 1.0
-
-6. Instead of computing mean performance, compute number of correct and number of total trials per observer and quadrant. Use generalized linear models with binomial family and drop-one.
-
-```{r single binomial statistics accuracy}
-```
-
 
 ### Dual task
 
 #### For 1.7
 
-1. Compute average observer’s performance and RT for the presentation layout (**unilateral** versus **bilateral**).
+1. Compute average observer’s performance, number of correct trial, total number of trials and median response times for the presentation layout (**unilateral** versus **bilateral**). Create new variable `Layout` for this first.
 
 ```{r averages by dual}
 ```
@@ -137,8 +131,7 @@ Location is coded in `Location1` (_single_ task and the first quadrant of the _d
 ```{r dual RT plot}
 ```
 
-
-3. Compare performance and RT in unilateral versus bilateral tasks using linear-mixed models and drop-one testing.
+3. Compare performance (`glmer`, binomial family) and RT (`lmer`, linear mixed models) in unilateral versus bilateral tasks using generalized linear-mixed models and drop-one testing.
 ```{r statistics accuracy}
 ```
 
@@ -147,27 +140,20 @@ Location is coded in `Location1` (_single_ task and the first quadrant of the _d
 
 #### For 1.3
 
-4. Compare performance in **unilateral** layout to that in the **single task** using linear-mixed models.
+4. Compare performance in **unilateral** layout to that in the **single task** using generalized linear-mixed models. For this, compute a separate table for a single task performance (irrespective of the target location) with `Layout` column value `"single task"`. Next, bind by rows with the table you created during previous analysis. You will need to filter out `"bilateral"` layout, you can do it either before or after binding tables.
 ```{r Accuracy comparison unilateral}
 ```
 
-
-5. Compare performance in **bilateral** layout to that in the **single task** using linear-mixed models.
+5. Same but **bilateral** vs **single task**.
 ```{r performance comparison bilateral}
 ```
 
-6. Plot single task, unilateral, and bilateral performance (x-axis) and performance on y axis using boxplots. Use _forcats_ library to ensure that the order is `single`, `bilateral`, `unilateral`.
-```{r compare performance all}
-```
-
-
 #### For 1.0:
-
-7.  Instead of computing mean performance, compute number of correct and number of total trials per observer and quadrant. Use generalized linear models with binomial family and drop-one.
-
-```{r dual binomial}
+6. Plot single task, unilateral, and bilateral performance (x-axis) and performance on y axis using boxplots. Use _forcats_ library to ensure that the order is `single`, `bilateral`, `unilateral`.
+```{r plot performance all}
 ```
 
 
-
-
+Compare performance for all three layouts in a single statistical model (glmer).
+```{r}
+```
