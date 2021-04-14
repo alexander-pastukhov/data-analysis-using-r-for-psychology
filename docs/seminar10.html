@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2021-02-03" />
+<meta name="date" content="2021-04-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="seminar09.html"/>
 <link rel="next" href="seminar11.html"/>
-<script src="libs/header-attrs-2.5/header-attrs.js"></script>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,9 +51,6 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -293,7 +290,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12.7" data-path="seminar12.html"><a href="seminar12.html#wrap-up-3"><i class="fa fa-check"></i><b>12.7</b> Wrap up</a></li>
 </ul></li>
 <li class="divider"></li>
-<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown and FontAwesome</a><li>
+<li><a href="https://alexander-pastukhov.github.io/">Alexander (Sasha) Pastukhov</li>
 
 </ul>
 
@@ -497,8 +494,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Do exercise 4.</p>
 </div>
 <p>As I have noted above, loops are particularly useful when you current value depends on a previous one (or many previous values). In the next exercise, use <code>for</code> loop to create a random walk (length 10) starting at value zero with each next step drawn randomly from a normal distribution with mean of 0.5 and standard deviation of 2 (the function you are looking for is <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html">rnorm()</a>). You end-produce might look like this</p>
-<pre><code>##  [1] 0.0000000 0.6641987 2.6569044 3.0809779 4.1288921 3.1000192 2.0199597
-##  [8] 2.6936370 3.7812370 0.3306985</code></pre>
+<pre><code>##  [1]  0.0000000 -1.4638021  3.5172981  0.6649157  0.7855245  3.4759442
+##  [7]  1.6155932  2.9393004  3.1098634  5.7401899</code></pre>
 <div class="infobox practice">
 <p>Do exercise 5.</p>
 </div>
@@ -644,16 +641,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="seminar10.html#cb334-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A </span></span>
 <span id="cb334-2"><a href="seminar10.html#cb334-2" aria-hidden="true" tabindex="-1"></a>a_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">12</span>), <span class="at">nrow =</span> <span class="dv">3</span>)</span>
 <span id="cb334-3"><a href="seminar10.html#cb334-3" aria-hidden="true" tabindex="-1"></a>a_matrix</span></code></pre></div>
-<pre><code>##            [,1]       [,2]       [,3]      [,4]
-## [1,]  0.3955198  0.7046605  1.1863850 0.3279446
-## [2,]  0.7278696 -1.2425335 -0.1410127 0.1966855
-## [3,] -0.8604980  0.1792273  1.4941843 2.1365374</code></pre>
+<pre><code>##            [,1]       [,2]       [,3]       [,4]
+## [1,] -0.3199398 0.08038153  0.3101147 -0.7154985
+## [2,]  0.1122622 0.17327796  0.1235051  0.7316571
+## [3,]  0.7561327 1.21285230 -0.5908724 -1.4587123</code></pre>
 <p>We would expect median value of any row or column to be 0 but because we have so few data points, they will be close but not exactly zero. Computing median for each row (we should get <em>three</em> numbers)</p>
 <div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="seminar10.html#cb336-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a_matrix, <span class="dv">1</span>, median)</span></code></pre></div>
-<pre><code>## [1] 0.5500901 0.0278364 0.8367058</code></pre>
+<pre><code>## [1] -0.11977914  0.14839154  0.08263015</code></pre>
 <p>Similarly for a column (here, it should be <em>four</em> numbers)</p>
 <div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="seminar10.html#cb338-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a_matrix, <span class="dv">2</span>, median)</span></code></pre></div>
-<pre><code>## [1] 0.3955198 0.1792273 1.1863850 0.3279446</code></pre>
+<pre><code>## [1]  0.1122622  0.1732780  0.1235051 -0.7154985</code></pre>
 <p>I will not go into any further details on these functions, concentrating on similar functionality by <a href="seminar10.html#purrr">purrr</a> package. However, if you find yourself working with matrices or needing to apply a function to rows of a data frame, <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/apply.html">apply</a> might be a simpler solution. Keep this option in mind, if you feel that either looping or purrring looks inadequate.</p>
 </div>
 <div id="purrr" class="section level2" number="10.7">
@@ -735,7 +732,7 @@ gitbook.start({
 },
 "download": ["data-analysis-using-r-for-psychology.pdf", "data-analysis-using-r-for-psychology.epub"],
 "toc": {
-"collapse": "subsection"
+"collapse": "section"
 }
 });
 });

@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2021-02-03" />
+<meta name="date" content="2021-04-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="seminar10.html"/>
 <link rel="next" href="seminar12.html"/>
-<script src="libs/header-attrs-2.5/header-attrs.js"></script>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,9 +51,6 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -293,7 +290,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12.7" data-path="seminar12.html"><a href="seminar12.html#wrap-up-3"><i class="fa fa-check"></i><b>12.7</b> Wrap up</a></li>
 </ul></li>
 <li class="divider"></li>
-<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown and FontAwesome</a><li>
+<li><a href="https://alexander-pastukhov.github.io/">Alexander (Sasha) Pastukhov</li>
 
 </ul>
 
@@ -335,7 +332,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb349-2"><a href="seminar11.html#cb349-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb349-3"><a href="seminar11.html#cb349-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">y =</span> <span class="fu">rnorm</span>(<span class="fu">n</span>(), x, <span class="fl">0.5</span>))</span>
 <span id="cb349-4"><a href="seminar11.html#cb349-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y, <span class="at">method=</span><span class="st">&quot;pearson&quot;</span>)</span></code></pre></div>
-<pre><code>## [1] 0.8701327</code></pre>
+<pre><code>## [1] 0.9234498</code></pre>
 <p>Alternatively, you can use <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.test.html">cor.test()</a> that also computes test statistics and significance.</p>
 <div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="seminar11.html#cb351-1" aria-hidden="true" tabindex="-1"></a>cor_result <span class="ot">&lt;-</span> <span class="fu">cor.test</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y, <span class="at">method=</span><span class="st">&quot;pearson&quot;</span>)</span>
 <span id="cb351-2"><a href="seminar11.html#cb351-2" aria-hidden="true" tabindex="-1"></a>cor_result</span></code></pre></div>
@@ -343,22 +340,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  Pearson&#39;s product-moment correlation
 ## 
 ## data:  df$x and df$y
-## t = 17.479, df = 98, p-value &lt; 2.2e-16
+## t = 23.824, df = 98, p-value &lt; 2.2e-16
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
-##  0.8125951 0.9108736
+##  0.8881211 0.9479302
 ## sample estimates:
 ##       cor 
-## 0.8701327</code></pre>
+## 0.9234498</code></pre>
 <p><code>cor.test</code> returns a list, so you can access its individual elements<a href="#fn31" class="footnote-ref" id="fnref31"><sup>31</sup></a> via a double-bracket or <code>$</code> notation.</p>
 <div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="seminar11.html#cb353-1" aria-hidden="true" tabindex="-1"></a>cor_result<span class="sc">$</span>p.value</span></code></pre></div>
-<pre><code>## [1] 7.038569e-32</code></pre>
+<pre><code>## [1] 1.487298e-42</code></pre>
 <p>Bayesian correlation with a posterior distribution for the correlation coefficient and Bayes Factor as a measure of significance, can be computed via <code>correlationBF()</code> function, which is part of <a href="https://richarddmorey.github.io/BayesFactor">BayesFactor</a> package.</p>
 <div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="seminar11.html#cb355-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(BayesFactor)</span>
 <span id="cb355-2"><a href="seminar11.html#cb355-2" aria-hidden="true" tabindex="-1"></a><span class="fu">correlationBF</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y)</span></code></pre></div>
 <pre><code>## Bayes factor analysis
 ## --------------
-## [1] Alt., r=0.333 : 5.187557e+27 ±0%
+## [1] Alt., r=0.333 : 5.293389e+37 ±0%
 ## 
 ## Against denominator:
 ##   Null, rho = 0 
@@ -650,9 +647,6 @@ where <span class="math inline">\(\epsilon\)</span> is normally distributed nois
 <p>To get tidy summary you need to use function <code>tidy</code> but from <a href="https://github.com/bbolker/broom.mixed">broom.mixed</a></p>
 <div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="seminar11.html#cb381-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom.mixed)</span>
 <span id="cb381-2"><a href="seminar11.html#cb381-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lmer_fit)</span></code></pre></div>
-<pre><code>## Registered S3 method overwritten by &#39;broom.mixed&#39;:
-##   method      from 
-##   tidy.gamlss broom</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -708,9 +702,9 @@ where <span class="math inline">\(\epsilon\)</span> is normally distributed nois
 </tbody>
 </table>
 <p>To also get information about formal statistical significance, you can use an extension package <a href="https://github.com/runehaubo/lmerTestR">lmerTest</a><a href="#fn34" class="footnote-ref" id="fnref34"><sup>34</sup></a>.</p>
-<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="seminar11.html#cb383-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmerTest)</span>
-<span id="cb383-2"><a href="seminar11.html#cb383-2" aria-hidden="true" tabindex="-1"></a>lmert_fit <span class="ot">&lt;-</span> lmerTest<span class="sc">::</span><span class="fu">lmer</span>(Response <span class="sc">~</span> Condition <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Participant), <span class="at">data=</span>df_anova)</span>
-<span id="cb383-3"><a href="seminar11.html#cb383-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lmert_fit)</span></code></pre></div>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="seminar11.html#cb382-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmerTest)</span>
+<span id="cb382-2"><a href="seminar11.html#cb382-2" aria-hidden="true" tabindex="-1"></a>lmert_fit <span class="ot">&lt;-</span> lmerTest<span class="sc">::</span><span class="fu">lmer</span>(Response <span class="sc">~</span> Condition <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Participant), <span class="at">data=</span>df_anova)</span>
+<span id="cb382-3"><a href="seminar11.html#cb382-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lmert_fit)</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: Response ~ Condition + (1 | Participant)
@@ -741,7 +735,7 @@ where <span class="math inline">\(\epsilon\)</span> is normally distributed nois
 ## ConditionB -0.292       
 ## ConditionC -0.292  0.500</code></pre>
 <p>Again, we can use <code>tidy</code> to get coefficients information in a single table.</p>
-<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="seminar11.html#cb385-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lmert_fit)</span></code></pre></div>
+<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="seminar11.html#cb384-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lmert_fit)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -809,7 +803,7 @@ where <span class="math inline">\(\epsilon\)</span> is normally distributed nois
 </tbody>
 </table>
 <p>Note that <code>lmer()</code> functions provide information about difference of each condition to the baseline (condition <code>A</code>) not no ANOVA-style significance for the “overall” effect of condition. For this, you can use function <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/add1.html">drop1</a>, which test for a variable significance by dropping it from a model and checking whether it performed significantly worse <em>without</em> it.</p>
-<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="seminar11.html#cb386-1" aria-hidden="true" tabindex="-1"></a><span class="fu">drop1</span>(lmert_fit)</span></code></pre></div>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="seminar11.html#cb385-1" aria-hidden="true" tabindex="-1"></a><span class="fu">drop1</span>(lmert_fit)</span></code></pre></div>
 <pre><code>## Single term deletions using Satterthwaite&#39;s method:
 ## 
 ## Model:
@@ -1315,15 +1309,15 @@ function that allows you to specify the delimiter via <code>delim</code> paramet
 <li>Lower value limit.</li>
 <li>Higher value limit.</li>
 </ol>
-<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="seminar11.html#cb392-1" aria-hidden="true" tabindex="-1"></a>example_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">15</span>, <span class="dv">2</span>, <span class="dv">10</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">4</span>)</span>
-<span id="cb392-2"><a href="seminar11.html#cb392-2" aria-hidden="true" tabindex="-1"></a><span class="fu">clip</span>(example_vector, <span class="dv">0</span>, <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="seminar11.html#cb391-1" aria-hidden="true" tabindex="-1"></a>example_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">15</span>, <span class="dv">2</span>, <span class="dv">10</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">4</span>)</span>
+<span id="cb391-2"><a href="seminar11.html#cb391-2" aria-hidden="true" tabindex="-1"></a><span class="fu">clip</span>(example_vector, <span class="dv">0</span>, <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## [1]  0 10  2 10  0  0</code></pre>
 <p>Here is the head of the table with the computed raw score</p>
-<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="seminar11.html#cb394-1" aria-hidden="true" tabindex="-1"></a>results <span class="sc">%&gt;%</span></span>
-<span id="cb394-2"><a href="seminar11.html#cb394-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(RawScore<span class="sc">==</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb394-3"><a href="seminar11.html#cb394-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Target, Match, Response, RT, COABlock, OnsetDelay)) <span class="sc">%&gt;%</span></span>
-<span id="cb394-4"><a href="seminar11.html#cb394-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb394-5"><a href="seminar11.html#cb394-5" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="seminar11.html#cb393-1" aria-hidden="true" tabindex="-1"></a>results <span class="sc">%&gt;%</span></span>
+<span id="cb393-2"><a href="seminar11.html#cb393-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(RawScore<span class="sc">==</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb393-3"><a href="seminar11.html#cb393-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Target, Match, Response, RT, COABlock, OnsetDelay)) <span class="sc">%&gt;%</span></span>
+<span id="cb393-4"><a href="seminar11.html#cb393-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb393-5"><a href="seminar11.html#cb393-5" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1430,14 +1424,14 @@ function that allows you to specify the delimiter via <code>delim</code> paramet
 </tbody>
 </table>
 <p>To compute combo multiplier (number of correct responses on the row), we will write another function that loops over a vector of <code>Correct</code> responses. Every correct response (<code>TRUE</code>) add <code>1</code> to the multiplier for the <em>next</em> trial. Every incorrect response resets it to <code>1</code>, again, for the <em>next</em> trial.</p>
-<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="seminar11.html#cb395-1" aria-hidden="true" tabindex="-1"></a>correct <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>)</span>
-<span id="cb395-2"><a href="seminar11.html#cb395-2" aria-hidden="true" tabindex="-1"></a><span class="fu">compute_combo</span>(correct)</span></code></pre></div>
+<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="seminar11.html#cb394-1" aria-hidden="true" tabindex="-1"></a>correct <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>)</span>
+<span id="cb394-2"><a href="seminar11.html#cb394-2" aria-hidden="true" tabindex="-1"></a><span class="fu">compute_combo</span>(correct)</span></code></pre></div>
 <pre><code>## [1] 1 2 3 4 1 1 2 3 1</code></pre>
 <p>Once you have the function and it work correctly, you can use to compute combo multiplier for the table. However, note that you need to do it per block, so you need to group data by <code>Observer</code>, <code>Condition</code>, <code>COA</code>, and <code>COABlock</code> first. Otherwise, your combo score won’t be 1 at the beginning of each block.</p>
-<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="seminar11.html#cb397-1" aria-hidden="true" tabindex="-1"></a>results <span class="sc">%&gt;%</span></span>
-<span id="cb397-2"><a href="seminar11.html#cb397-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb397-3"><a href="seminar11.html#cb397-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Target, Match, Response, RT, COABlock, OnsetDelay)) <span class="sc">%&gt;%</span></span>
-<span id="cb397-4"><a href="seminar11.html#cb397-4" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="seminar11.html#cb396-1" aria-hidden="true" tabindex="-1"></a>results <span class="sc">%&gt;%</span></span>
+<span id="cb396-2"><a href="seminar11.html#cb396-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb396-3"><a href="seminar11.html#cb396-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Target, Match, Response, RT, COABlock, OnsetDelay)) <span class="sc">%&gt;%</span></span>
+<span id="cb396-4"><a href="seminar11.html#cb396-4" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1555,10 +1549,10 @@ function that allows you to specify the delimiter via <code>delim</code> paramet
 </tbody>
 </table>
 <p>To get the actual score you just multiply raw score and multiplier</p>
-<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="seminar11.html#cb398-1" aria-hidden="true" tabindex="-1"></a>results <span class="sc">%&gt;%</span></span>
-<span id="cb398-2"><a href="seminar11.html#cb398-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb398-3"><a href="seminar11.html#cb398-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Target, Match, Response, RT, COABlock, OnsetDelay)) <span class="sc">%&gt;%</span></span>
-<span id="cb398-4"><a href="seminar11.html#cb398-4" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="seminar11.html#cb397-1" aria-hidden="true" tabindex="-1"></a>results <span class="sc">%&gt;%</span></span>
+<span id="cb397-2"><a href="seminar11.html#cb397-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb397-3"><a href="seminar11.html#cb397-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Target, Match, Response, RT, COABlock, OnsetDelay)) <span class="sc">%&gt;%</span></span>
+<span id="cb397-4"><a href="seminar11.html#cb397-4" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1852,7 +1846,7 @@ gitbook.start({
 },
 "download": ["data-analysis-using-r-for-psychology.pdf", "data-analysis-using-r-for-psychology.epub"],
 "toc": {
-"collapse": "subsection"
+"collapse": "section"
 }
 });
 });
