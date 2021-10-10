@@ -46,7 +46,7 @@ But, as noted above, a single value (vector with length of one) is a special cas
 ```{r eval=FALSE}
 response <- c(1, 7, 3)
 ```
-Here, you create a variable (box) named `response` that has three slots in it because you want to store three values. You put values `1`, `7`, `3` into the slots #1, #2, and #3. The `c(1, 7, 3)` notation is how you create a vector in R by [**c**oncatenating](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/c) (or **c**ombining) values^[I find this to be a poor choice of name but we are stuck with, so get used to it.]. The figure below illustrates the idea:
+Here, you create a variable (box) named `response` that has three slots in it because you want to store three values. You put values `1`, `7`, `3` into the slots #1, #2, and #3. The `c(1, 7, 3)` notation is how you create a vector in R by [**c**oncatenating](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/c) (or **c**ombining) values^[I find this to be a poor choice of name but we are stuck with it, so get used to it.]. The figure below illustrates the idea:
 
 ```{r echo=FALSE, out.width = "30%", fig.align = 'center'}
 knitr::include_graphics("images/box-3-slots.png")
@@ -76,7 +76,6 @@ knitr::include_graphics("images/copy-vector.png")
 ::: {.infobox .practice}
 Do exercise 2.
 :::
-
 
 Remember, everything is a vector! This means that `c(3, 6, 9)` does not **c**oncatenate numbers, it **c**oncatenates three length one vectors (scalars) `3`, `6`, `9`. Thus, **c**oncatenation works on longer vectors in exactly the same way:
 ```{r}
@@ -108,14 +107,13 @@ print(x[3])
 Do exercise 4.
 :::
 
-
-Unfortunately, vector indexing in R behaves in a way that may catch you by surprise. If your vectors contains five values, you would expect that index of `0` (negative indexes are discussed below) or above `5` generates an error. Not in R! Index of `0` is a special case and produces an _empty vector_ (vector of zero length).
+Unfortunately, vector indexing in R behaves in a way that may^[Who am I kidding? Will!] catch you by surprise. If your vector contains five values, you would expect that index of `0` (negative indexes are special and will be discussed below) or above `5` generates an error. Not in R! Index of `0` is a special case and produces an _empty vector_ (vector of zero length).
 ```{r}
 x <- c(1, 2, 3)
 x[0]
 ```
 
-If you try to get vector element using index that is larger than vector length (so `6` and above, if your vector length is 5), R will return `NA` ("Not Available" / Missing Value). 
+If you try to get vector element using index that is larger than vector length (so `6` and above for a 5 element vector), R will return `NA` ("Not Available" / Missing Value). 
 
 ```{r}
 x <- c(1, 2, 3)
@@ -123,7 +121,7 @@ x[5]
 ```
 In both cases, it won't generate an error or even warn you!
 
-When **setting** the value by index, using `0` will produce no effect, because you are trying to put a value in a vector with no slots. Oddly enough, this will generate neither an error nor a warning, so beware!
+When **setting** the value by index, using `0` will produce no effect, because you are trying to put a value into a vector with no "slots". Oddly enough, this will also generate neither an error nor a warning, so beware!
 ```{r}
 x <- c(1, 2, 3)
 x[0] <- 5
@@ -137,7 +135,7 @@ x[10] <- 5
 print(x)
 ```
 
-This may sound too technical but I want you to learn about this because R conventions are so different from other programming languages and, also, from you would intuitively expect. If you are not aware of these highly peculiar rules, you may never realize that your code is not working properly because you will never see an error or even a warning! It should also make you more cautious and careful when programming in R. It is a very powerful language that allows you to be very flexible and expressive. Unfortunately, that flexibility means that base R won't stop you from shooting yourself in a foot. Even worse, sometimes you won't even notice that your foot is shot because R won't generate either errors or warnings, as in examples above. Good news is that things are far more restricted and consistent in Tidyverse.
+This may sound too technical but I want you to learn about this because R conventions are so different from other programming languages and, also, from what you would intuitively expect. If you are not aware of these highly peculiar rules, you may never realize that your code is not working properly because, remember, you will never see an error or even a warning! It should also make you more cautious and careful when programming in R. It is a very powerful language that allows you to be very flexible and expressive. Unfortunately, that flexibility means that base R won't stop you from shooting yourself in a foot. Even worse, sometimes you won't even notice that your foot is shot because R won't generate either errors or warnings, as in examples above. Good news is that things are far more restricted and consistent in Tidyverse.
 
 ::: {.infobox .practice}
 Do exercise 5.
@@ -190,6 +188,7 @@ box_size <- c("width"=2, "height"=4, "depth"=1)
 print(box_size[1])
 print(box_size["depth"])
 ```
+
 Alternatively, you can use [names()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/names) function to both get and set the names. The latter works via a _very counterintuitive_ syntax `names(<vector>) <- <vector-with-names>`
 ```{r}
 # without names
@@ -203,6 +202,7 @@ print(box_size)
 # getting all the names
 print(names(box_size))
 ```
+
 Because everything is a vector, `names(<vector>)` is also a vector, meaning that you can get or set just one element of it.
 ```{r}
 box_size <- c("width"=2, "height"=4, "depth"=1) 
@@ -211,7 +211,8 @@ box_size <- c("width"=2, "height"=4, "depth"=1)
 names(box_size)[2] <- "HEIGHT"
 print(box_size)
 ```
-Finally, if you use a name that is not in the index, this is like using numeric index larger than the vector length. Is in out-of-range numeric index, there will be neither error not warning and you will get an `NA` back.
+
+Finally, if you use a name that is not in the index, this is like using numeric index larger than the vector length. Just as for out-of-range numeric index, there will be neither error not warning and you will get an `NA` back.
 ```{r}
 box_size <- c("width"=2, "height"=4, "depth"=1) 
 print(box_size["radius"])
@@ -295,13 +296,11 @@ seq(1, 5, length.out=3)
 ```
 You have probably spotted the `=` symbol. Here, it is not an assignment but is used to specify values of parameters when you call a function. Thus, we are still sticking with `<-` **outside** of the function calls but are using `=` **inside** the function calls.
 
-
 ::: {.infobox .practice}
 Do exercise 8.
 :::
 
 ## Working with two vectors of _equal_ length
-
 You can also use mathematical operations on several vectors. Here, the vectors are matched element-wise. Thus, if you add two vectors of _equal_ length, the _first_ element of the first vector is added to the _first_ element of the second vector, _second_ element to _second_, etc.
 ```{r}
 x <- c(1, 4, 5)
@@ -346,7 +345,7 @@ x <- c(2, 3)
 y <- c(1, 1, 1, 1, 1)
 print(x + y[0])
 ```
-One thing to keep in mind: R does this length-matching-via-vector-repetition automatically and shows a warning only if two lengths are not multiples of each other. This means that vectors will be matched by length even if that was not your plan. E.g, imagine that your vector that contains experimental condition (e.g. contrast of the stimulus) is about all ten blocks that participants performed but your vector with responses is, accidentally, only on block #1. R will **silently(!)** replicate the responses 10 times to match their length without ever telling you to watch out. Thus, do make sure that your vectors are matched in their length, so that you are not caught surprised by this behavior (you can use function [length()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/length) for this). Good news, it is much more strict in Tidyverse, which is designed to make shooting yourself in the foot much harder.
+One thing to keep in mind: R does this length-matching-via-vector-repetition automatically and shows a warning only if two lengths are not multiples of each other. This means that vectors will be matched by length even if that was not your plan. E.g, imagine that your vector, which contains experimental condition (e.g. contrast of the stimulus), is about all ten blocks that participants performed but your vector with responses is, accidentally, only for block #1. R will **silently(!)** replicate the responses 10 times to match their length without ever telling you about this. Thus, do make sure that your vectors are matched in their length, so that you are not caught surprised by this behavior (you can use function [length()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/length) for this). Good news, it is much more strict in Tidyverse, which is designed to make shooting yourself in the foot much harder.
 
 ::: {.infobox .practice}
 Do exercise 10.
@@ -358,7 +357,7 @@ Did I mention that everything is a vector? This means that when you are using a 
 ```{r}
 cos(c(0, pi/4, pi/2, pi, -pi))
 ```
-In contrast, in Python or C, you would need to loop over the values and compute the cosine for one value at a time (matrix-based NumPy library is a different story). Or think about Excel, where you need to extend formula over the rows but each row is computed independently (so you can deliberately or accidentally miss some rows). In R, because everything is the vector, the function is applied to every value automatically. Similarly, if you are using aggregating functions, such as `mean()` and `max()`, you can pass a vector and it will return a length-one vector with the value.
+In contrast, in Python or C you would need to loop over the values and compute the cosine for one value at a time (matrix-based NumPy library is a different story). Or think about Excel, where you need to extend formula over the rows but each row is computed independently (so you can deliberately or accidentally miss some rows). In R, because everything is the vector, the function is applied to every value automatically. Similarly, if you are using aggregating functions, such as `mean()` and `max()`, you can pass a vector and it will return a length-one vector with the value.
 
 ```{r}
 mean(c(1, 2, 6, 9))
