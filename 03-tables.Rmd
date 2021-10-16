@@ -1,32 +1,32 @@
 # Tables and Tibbles (and Tribbles){#tables}
 
-Please download the [exercise notebook](notebooks/Seminar 03 - Tables.Rmd) (`Alt + Click` to download it or right-click as `Save link as...`), put it into your seminar project folder and open the project. You need both the text and the notebook with exercises to be open, as you will be switching between them.
+Please download the [exercise notebook](notebooks/Seminar 03 - Tables.Rmd) (**Alt+Click** to download it or right-click as _Save link as..._), put it into your seminar project folder and open the project. You need both the text and the notebook with exercises to be open, as you will be switching between them.
 
-## Primary data types {#primarytypes}
-Last time we talked about the fact that everything is a vector in R. All the examples used numeric vectors which are two of the four primary types in R. 
+## Primary data types {#primary-types}
+Last time we talked about the fact that everything^[Terms and conditions apply.] is a vector in R. All examples used numeric vectors which are two of the four primary types in R.
 
-* Real numbers (double precision floating point numbers) that can be written in decimal notation with or without a decimal point (`123.4` or `42`) or in a scientific notation (`3.14e10`). There are two special values specific to the real numbers: `Inf` (infinity) and `NaN` (not a number). The latter looks similar  `NA` (Not Available / Missing Value) but is a different special case.
+* Real numbers (double precision floating point numbers) that can be written in decimal notation with or without a decimal point (`123.4` or `42`) or in a scientific notation (`3.14e10`). There are two special values specific to the real numbers: `Inf` ([infinity](https://stat.ethz.ch/R-manual/R-devel/library/base/html/is.finite.html)) and `NaN` ([not a number](https://stat.ethz.ch/R-manual/R-devel/library/base/html/is.finite.html)). The latter looks similar  `NA` ([Not Available / Missing Value](https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html)) but is a different special case (see [R documentation](https://stat.ethz.ch/R-manual/R-devel/library/base/html/is.finite.html) for details.
 * Integer numbers that can be specified by adding `L` to the end of an integer number `5L`. Without that `L` a _real_ value will be created (`5` would be stored as `5.0`).
-* Logical or Boolean values of `TRUE` (also written as `T`) and `FALSE` (also written as `F`).
-* Character values (strings) that hold text between a pair of matching `"` or `'` characters. The two options mean that you can surround your text by `'` if you need to put a quote inside: `'"I have never let my schooling interfere with my education." Mark Twain'` or by `"` if you need an apostrophe `"participant's response"`.
+* Logical or Boolean values of `TRUE` and `FALSE`. They can also be written as `T` and `F`  but this practice is discouraged by the [Tidyverse style guide](https://style.tidyverse.org/syntax.html?q=TRUE#logical-vectors).
+* Character values (strings) that hold text between a pair of matching `"` or `'` characters. The two options mean that you can surround your text by `'` if you need to put a quote inside: `'"I have never let my schooling interfere with my education." Mark Twain'` or by `"` if you need an apostrophe `"participant's response"`. Note that a string **is not** a vector of characters. This would make a lot of sense but it is not. This is why [indexing](#vector-index) or [slicing](#vector-index-slicing) will not work and you need to use special functions.
 
 You can convert from one type to another and check whether a particular vector is of specific type. Note that if a vector cannot be converted to a specified type, it is "converted" to `NA` instead.
 
-* to integer via `as.integer()`  and `is.integer`. When converting
-    * from a real number the fractional part is discarded, so `as.integer(1.8)` → `1` and `as.integer(-2.1)` → `2`
+* to integer via [as.integer()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/integer.html), use [is.integer()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/integer.html) to check a value. When converting
+    * from a real number the fractional part is _discarded_, so `as.integer(1.8)` → `1` and `as.integer(-2.1)` → `2`
     * from logical value `as.integer(TRUE)` → 1 and `as.integer(FALSE)` → 0
-    * from string only it is a properly formed number, e.g. `as.integer("12")` → `12` but `as.integer("_12_")` is `NA`. Note that a real number string is converted first to a real number and then to an integer so `as.integer("12.8")` → `12`.
+    * from string only if it is a properly formed number, e.g., `as.integer("12")` → `12` but `as.integer("_12_")` is `NA`. Note that a real number string is converted first to a real number and then to an integer so `as.integer("12.8")` → `12`.
     * from `NA` → `NA`
-* to real number via `as.numeric()` / `as.double()` and `is.double()` (avoid `is.numeric()` as Hadley Wickham [writes](https://adv-r.hadley.nz/vectors-chap.html) that it is not doing what you would think it should).
+* to real number via [as.numeric()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/numeric.html) / [as.double()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/double.html), check a  value  via [is.double()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/double.html) (avoid [is.numeric()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/numeric.html) as Hadley Wickham [writes](https://adv-r.hadley.nz/vectors-chap.html) that it is not doing what you would think it should).
     * from logical value `as.double(TRUE)` → 1.0 and `as.double(FALSE)` → 0.0
     * from string only it is a properly formed number, e.g. `as.double("12.2")` → `12.2` but `as.double("12punkt5")` is `NA`
     * from `NA` → `NA`
-* to logical `TRUE`/`FALSE` via `as.logical` and `is.logical()`.
+* to logical `TRUE`/`FALSE` via [as.logical](https://stat.ethz.ch/R-manual/R-devel/library/base/html/logical.html) and check a value via [is.logical()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/logical.html).
     * from integer or real, zero (`0` or `0.0`) is `FALSE`, any other non-zero value is `TRUE`
     * from a string, it is `TRUE` for `"TRUE"`, "`True"`, `"true"`, or `"T"` but `NA` if `"t"` `"TRue"`, `"truE`, etc. Same goes for `FALSE`.
     * from `NA` → `NA`
 
-* to a character string via `as.character()` and `is.character()`
+* to a character string via [as.character()]((https://stat.ethz.ch/R-manual/R-devel/library/base/html/character.html)) and check via [is.character()]((https://stat.ethz.ch/R-manual/R-devel/library/base/html/character.html))^[Be aware that [str()](https://stat.ethz.ch/R-manual/R-devel/library/utils/html/str.html) function has nothing to do with strings but displays a structure of an object. A very unfortunate choice of name but we are stuck with it.]
     * numeric values are converted to a string representation with scientific notation being used for large numbers.
     * logical `TRUE`/`T` and `FALSE`/`T` are converted to `"TRUE"` and `"FALSE"`.
     * `NA` → `NA`
@@ -35,7 +35,7 @@ You can convert from one type to another and check whether a particular vector i
 Do exercise 1.
 :::
 
-## In vector all values must be of the same type
+## All vector values must be of the same type
 **All** values in a vector must be of the same type - all integer, all double, all logical, or all strings. This ensures that you can apply the same function or operation to the entire vector without worrying about type compatibility. This means, however, that you cannot mix different value types in a vector. If you do try to concatenate vectors of different types, all values will be converted to a more general / flexible type. Thus, if you mix numbers and logical values, you will end up with a vector of numbers. Mixing anything with strings will convert the entire vector to string. Mixing in `NA` does not change the vector type.
 
 ::: {.infobox .practice}
