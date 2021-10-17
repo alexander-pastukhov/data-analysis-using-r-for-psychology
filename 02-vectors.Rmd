@@ -89,7 +89,7 @@ print(c(x, y))
 Do exercise 3.
 :::
 
-## Vector indexes {#vector-index}
+## Vector indexes (subsetting) {#vector-index}
 A vector is an ordered list of values (box with some slots) and, sometimes, you need only one of the values. Each value (slot in the box) has its own index from 1 till N, where N is the [length](https://stat.ethz.ch/R-manual/R-devel/library/base/html/length.html) of the vector. To access that slot you use square brackets `some_vector[index]`. You can both get and set the value for the individual slots the same way you do it for the whole vector.
 
 ```{r}
@@ -171,7 +171,7 @@ x <- c(10, 20, 30, 40, 50)
 x[]
 ```
 
-## Names as an Index
+## Names as an Index {#names}
 As you've just learned, every slot in vector has its numeric (integer) index. However, this number only indicates an index (position) of a slot but tells you nothing on how it is conceptually different from a slot with a different index. For example, if we are storing width and height in a vector, remembering their order may be tricky: was it `box_size <- c(<width>, <depth>, <height>)` or `box_size <- c(<height>, <width>, <depth>)`? Similarly, looking at `box_size[1]` tells that you are definitely using the _first_ dimension but is it `height` or `width` (or `depth`)? 
 
 In R, you can use [names](https://stat.ethz.ch/R-manual/R-devel/library/base/html/names.html) to supplement numeric indexes. It allows you to add meaning to a particular vector index, something that becomes extremely important when we use it for tables. There are two ways to assign names to indexes, either when you are creating the index via [c()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/c.html) function or, afterwards, via [names()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/names.html) function.

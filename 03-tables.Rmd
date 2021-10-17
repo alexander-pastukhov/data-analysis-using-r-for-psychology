@@ -35,12 +35,72 @@ You can convert from one type to another and check whether a particular vector i
 Do exercise 1.
 :::
 
-## All vector values must be of the same type
-**All** values in a vector must be of the same type - all integer, all double, all logical, or all strings. This ensures that you can apply the same function or operation to the entire vector without worrying about type compatibility. This means, however, that you cannot mix different value types in a vector. If you do try to concatenate vectors of different types, all values will be converted to a more general / flexible type. Thus, if you mix numbers and logical values, you will end up with a vector of numbers. Mixing anything with strings will convert the entire vector to string. Mixing in `NA` does not change the vector type.
+## All vector values must be of the same type {#vectors-are-homogeneous}
+_All_ values in a vector must be of the same type - all integer, all double, all logical, or all strings, which is why they are also called _atomic_ vectors. This ensures that you can apply the same function or operation to the entire vector without worrying about type compatibility. However, this means that you cannot mix different value types in a vector. If you do try to concatenate vectors of different types, all values will be converted to a more general / flexible type. Thus, if you mix numbers and logical values, you will end up with a vector of numbers. Mixing anything with strings will convert the entire vector to string. Mixing in `NA` does not change the vector type.
 
 ::: {.infobox .practice}
 Do exercise 2.
 :::
+
+## Lists {#lists}
+(Atomic) vectors are (homogeneous)[#vectors-are-homogeneous] lists of [primary types](#primary-types) items, whereas [lists](https://stat.ethz.ch/R-manual/R-devel/library/base/html/list.html) are lists that can contain _any_ item including vectors of different primary type data, other lists, or other objects^[If you are familiar with Python, you can think of R lists as Python lists and dictionaries mixed together.].  Otherwise, (well, almost, see below) you work with them the same way is with vectors. You create a [list](https://stat.ethz.ch/R-manual/R-devel/library/base/html/list.html) via `list()` function and then you can concatenate lists via the same [c()]((https://stat.ethz.ch/R-manual/R-devel/library/base/html/c.html)) function, access individual elements via [numeric index](#vector-index) or [names](#names), use [slicing](#vector-index-slicing), etc.  
+
+## Subsetting, a fuller version {#subsetting}
+Unfortunately, this is the point where we need to talk about subsetting (accessing individual elements of a vector or of a list via indexes or names) yet again. This is because R has several different ways of doing this that look similar and, to make things worse, _sometimes_ produce identical results.
+
+You [already know](#vector-index) subsetting via _single_ square brackets: `x[1]`. These are called _preserving_ subsetting in that they return a part of an object (vector or list) that your requested _as is_. I.e., if you used them to access part of a a vector, you get a vector. If you used them to access a list or a (table)[#data.frame], you get a list or a table.
+
+In addition, you can _double_ square brackets: `x[[1]]`. These are called _simplifying_ subsetting because they extract _content_ at that location. If you have a list of vectors `l` then  `l[2]` (preserving) would return a single item list but `l[[2]]` would return a vector stored at that location. A metaphor based on @RLangTip: "“If list `x` is a train carrying objects, then `x[[5]]` is the object in car 5; `x[5]` is a train consisting only of car 5.”
+
+Confusing? Let us go through some examples, so you can a difference these two kinds of brackets make for vectors and lists. 
+
+### Subsetting for (atomics) vectors
+First, we create a named vector
+```{r} 
+x <- c("a"=1, "b"=2, "c"=3)
+```
+
+Preserving subsetting via `[]` returns a part of original vector, notice that the _name_ associated with an index is retained.
+```{r}
+x[2]
+```
+
+Simplifying subsetting via `[[]]` extract value at the location. Because the _name_ is associated with an _index_, not with the content, it gets stripped off.
+```{r}
+x[[2]]
+```
+However, apart from the name-stripping bit, whether you use `[]` (preserving) or `[[]]` (simplifying) makes no difference as you cannot be simpler than atomic vector (that is why they area atomic). 
+
+**General rule:** when using vectors, always use `[]` unless you want to strip-off the name. In the latter case, you should write a comment explaining that, otherwise everyone, including future-you will be confused and think that this is a typo.
+
+### Subsetting for lists
+First, we create a named list
+```{r} 
+l <- list("a"=1, "b"=2, "c"=list(3, 4, 5))
+```
+
+Preserving subsetting via `[]` returns a list that is a part of original vector, again the _name_ associated with an index so it is retained in the returned list.
+```{r}
+l[2]
+```
+
+Simplifying subsetting via `[[]]` extract value at the location. This is why you get a _vector_ (of length 1).
+```{r}
+l[[2]]
+```
+
+What about our list inside of the list at position 3? Using preserving subsetting give us a list inside of the list (car of the train).
+```{r}
+l["c"]
+```
+
+Using simplifying subsetting return a list that inside the list at that location (object inside that car). Note that, as with the vector before, the name gets stripped off, as it belongs to the index (car of the train) and not the content (object inside the car).
+```{r}
+l[["c"]]
+```
+
+## Yet another subsetting via ${#dollar-subsetting}
+Let me deepen your confusion and despair but telling you that R has yet another way of subsetting via a `$` sign. In fact, this is the most common way of subsetting for lists and [tables](#data.frame) that you will encounter. It is a shortcut version simplifying subsetting: `l$c` is the same as writing 
 
 ## Tables, a.k.a. data frames {#data.frame}
 We have spent so much time on vectors because a data table is merely a vector (well, technically, a [list](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/list)) of vectors, with each vector as a column. The default way to construct a table, which are called _data frames_ in R, is via [data.frame()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/data.frame) function.
