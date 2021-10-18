@@ -1,5 +1,9 @@
 # Tables and Tibbles (and Tribbles){#tables}
 
+```{r include=FALSE}
+Sys.setenv(lang = "en_US")
+```
+
 Please download the [exercise notebook](notebooks/Seminar 03 - Tables.Rmd) (**Alt+Click** to download it or right-click as _Save link as..._), put it into your seminar project folder and open the project. You need both the text and the notebook with exercises to be open, as you will be switching between them.
 
 ## Primary data types {#primary-types}
@@ -50,9 +54,11 @@ Unfortunately, this is the point where we need to talk about subsetting (accessi
 
 You [already know](#vector-index) subsetting via _single_ square brackets: `x[1]`. This is called _preserving_ subsetting because it returns a _part of an object_ (vector or list) that your requested _as is_. I.e., if you used them to access part of a a vector, you get a vector. If you used them to access a list or a [table](#data.frame), you get a list or a table.
 
-In addition, you can use _double_ square brackets: `x[[1]]`. These are called _simplifying_ subsetting because they extract _content_ at that location. If you have a list of vectors `l` then  `l[2]` (preserving) would return a single item list but `l[[2]]` would return a vector stored at that location. A metaphor based on [\@RLangTip](https://twitter.com/rlangtip): "If list `x` is a train carrying objects, then `x[[5]]` is the object in car 5; `x[5]` is a train consisting only of car 5." Note that the simplifying notation allows you to extract content of only _one_ item. Therefore, you cannot use it with [slicing](#vector-index-slicing) (extracting content of many items), negative indexes (even if you will end up with just one index), or zero index. The good news is that R will actually generate an error message instead of failing silently, although error messages will be both mysterious and _different_ depending on exact circumstances. To deepen your feeling of arbitrariness of R design: using a non-existent _name_ index will generate an error for vectors but not for lists (you get `NULL`)^[Insert a hair-pulling picture of your preference here.].
+In addition, you can use _double_ square brackets: `x[[1]]`. These are called _simplifying_ subsetting because they extract _content_ at that location. If you have a list of vectors `l` then  `l[2]` (preserving) would return a single item list but `l[[2]]` would return a vector stored at that location. A metaphor based on [\@RLangTip](https://twitter.com/rlangtip): "If list `x` is a train carrying objects, then `x[[5]]` is the object in car 5; `x[5]` is a train consisting only of car 5." 
 
-Confusing? Let us go through some examples, so you can see a difference these two kinds of brackets make for vectors and lists. 
+Note that the simplifying notation allows you to extract content of only _one_ item. Therefore, you cannot use it with [slicing](#vector-index-slicing) (extracting content of many items), negative indexes (even if you will end up with just one index), or zero index. The good news is that R will actually generate an error message instead of failing silently, although error messages will be both mysterious and _different_ depending on exact circumstances. To deepen your feeling of arbitrariness of R design: using a non-existent _name_ index will generate an error for vectors but not for lists (you get `NULL`)^[Insert a hair-pulling picture of your preference here.].
+
+Confusing? Let us go through some examples, so you can see a difference these two kinds of brackets make for vectors and lists.
 
 ### Subsetting for (atomics) vectors
 First, we create a named vector
@@ -70,33 +76,39 @@ Simplifying subsetting via `[[]]` extracts value at the location. Because the _n
 x[[2]]
 ```
 
-Trying to extract multiple items, use of negative or zero indexes fill all fail for _simplifying_ subsetting.
-```{r, eval=FALSE}
-# "attempt to select more than one element in vectorIndex" error
+Trying to extract multiple items will fail for _simplifying_ subsetting.
+```{r, error=TRUE, width=60}
 x[[1:2]]
+```
 
-# technically, we are excluding two out of three indexes, so end up with just one value
-# still, "attempt to select more than one element in vectorIndex"
+Same is true for negative indexes, even though we are excluding two out of three indexes, so end up with content from just one item.
+```{r error=TRUE, width=60}
 x[[-(1:2)]]
+```
 
-# A different error message: "attempt to select less than one element in get1index <real>"
+And the zero index generates an error as well but the error message is different.
+ex <real>"
+```{r error=TRUE, width=60}
 x[[0]]
 ```
 
 Using of a non-existent name will generate an error for _simplifying_ but not for _preserving_ subsetting.
 ```{r}
-# this works
 x["a"]
+```
 
-# this also works but strips the name off
+This also works but strips the name off.
+```{r}
 x[["a"]]
+```
 
-# this fails silently by returning NA
+This fails silently by returning `NA`.
+```{r}
 x["d"]
 ```
 
-```{r, eval=FALSE}
-# this will generate a "subscript out of bounds" error
+But this will generate an error.
+```{r, error=TRUE}
 x[["d"]]
 ```
 
@@ -128,18 +140,21 @@ Using simplifying subsetting return a list that was inside the list at that loca
 l[["c"]]
 ```
 
-Using multiple, negative or zero indexes will fail just like it does for vectors but _some_ error messages will be different.
-```{r, eval=FALSE}
-# "subscript out of bounds" error
+Again, using multiple indexes will fail.
+```{r, error=TRUE}
 l[[1:2]]
+```
 
-# technically, we are excluding two out of three indexes, so end up with just one value
-# still, "attempt to select more than one element in integerOneIndex"
+Same for negative indexe.
+```{r error=TRUE}
 l[[-(1:2)]]
+```
 
-# A different error message: "attempt to select less than one element in get1index <real>"
+And for the zero index (but notice a _different_ error message).
+```{r error=TRUE}
 l[[0]]
 ```
+
 Using a non-existent name index for lists with preserving subsetting (`[]`) will return a single item list with `NULL` as a content^[And `NA` as a name. Don't ask.] but just `NULL` for simplifying one (`[[]]`). And none of them will generate an error.
 ```{r}
 l["d"]
@@ -147,7 +162,7 @@ l["d"]
 l[["d"]]
 ```
 
-**General rule:** use `[[]]` if you are interested in list or table content, e.g., you need a column from the table. Use `[]` if you interested in using a smaller list or table.
+**General rule:** use `[[]]` if you are interested in list or table content, e.g., you need a column from the table. Use `[]` if you interested in using a smaller (part of the original) list or table.
 
 If this is the point when you want to start running around screaming or bang your head against the screen, please tell me, cause I would definitely join you. Let us do some exercises that might help to build some intuition. However, as you probably noticed already, subsetting in R is fairly haphazard, so you probably will still end up being confused or have a code the does not work for seemingly mysterious reasons.
 
@@ -157,7 +172,7 @@ Do exercise 3.
 
 
 ## Yet another subsetting via \$ {#dollar-subsetting}
-I am terribly sorry but I need deepen your confusion and despair but telling you that R has yet another way of subsetting via a `$` sign. In fact, this is the most common way of subsetting for lists and [tables](#data.frame) that you will encounter everywhere. It is a shortcut version for _partial matching_ of simplifying subsetting: `l$c` is the same as writing  `l[["c", exact = FALSE]]`. The last new part `exact = FALSE` means that you can use an _incomplete_ name after the `$` and R will guess what you mean. So, if you made a typo while meaning some completely different column name, R will second-guess your intentions and give you a variable that has the same beginning (no error, don't even hope).
+I am terribly sorry but I need to deepen your confusion and despair but telling you that R has yet another way of subsetting via a `$` sign. In fact, this is the most common way of subsetting for lists and [tables](#data.frame) that you will encounter almost everywhere. It is a shortcut version for _partial matching_ of simplifying subsetting: `l$c` is the same as writing  `l[["c", exact = FALSE]]`. The last new part `exact = FALSE` means that you can use an _incomplete_ name after the `$` and R will guess what you mean. So, if you made a typo while meaning some completely different column name, R will second-guess your intentions and give you a variable that has the same beginning (no error, don't even hope).
 ```{r}
 l <- list("aa" = 1, "bb" = 2, "bc" = 3)
 l$a
@@ -178,9 +193,8 @@ column_of_interest <- "bb"
 l[[column_of_interest]]
 ```
 
-
 ## Tables, a.k.a. data frames {#data.frame}
-R tables are mix between [lists](https://stat.ethz.ch/R-manual/R-devel/library/base/html/list.html) and [matrices](https://stat.ethz.ch/R-manual/R-devel/library/base/html/matrix.html). You can think about it as a list of vectors (columns) of _identical_ length. The default way to construct a table, which are called _data frames_ in R, is via [data.frame()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/data.frame) function.
+R tables are a mix between [lists](https://stat.ethz.ch/R-manual/R-devel/library/base/html/list.html) and [matrices](https://stat.ethz.ch/R-manual/R-devel/library/base/html/matrix.html). You can think about it as a list of vectors (columns) of _identical_ length. The default way to construct a table, which are called _data frames_ in R, is via [data.frame()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/data.frame) function.
 ```{r}
 our_first_table <- data.frame(numeric_column = c(1, 2, 3, 4), 
                               character_column = c("A", "B", "C", "D"),
@@ -208,18 +222,18 @@ the_table
 ```
 
 If the simple _multple-of-length_ rule does not work, R generates an error (finally!).
-```{r eval=FALSE}
+```{r error=TRUE, width=60}
 # this will generate an error: arguments imply differing number of rows
 the_table <- data.frame(numeric_column = 1:7,                 # length 7
                         character_column = c("A", "B", "C"))  # length 3, cannot be multiplied by an integer to get 7
 ```
 
 ::: {.infobox .practice}
-Do exercise 4.
+Do exercise 5.
 :::
 
 
-## Subsetting table {#table-subsetting}
+## Subsetting tables {#table-subsetting}
 One way to think about a table as a list of columns (vectors). Hence, both preserving (`[]`) and simplifying (`[[]]`) subsetting will work as you would expect returning either a `data.frame` (`[]`) or a _vector_ that was a column your were interested in (`[[]]`). 
 
 The preserving returns a _table_ with _one_ column.
@@ -315,7 +329,7 @@ tibble::tribble(~a, 1)
 When using a notebook (so, in our case, always) put the libraries into _setup_ chunk of the notebook. This ensures that your libraries are always initialized, even if you first run some other chunk. Word of advice, keep you library list in alphabetical order. Libraries are very specialized, so you will need quite a few of them for a typical analysis. Keeping them alphabetically organized makes it easier to see whether you imported the required library and whether you need to install a new one.
 
 ## Tibble, a better data.frame {#tibble}
-Although the `data.frame()` function is the default way of creating a table, it is a legacy implementation with numerous shortcomings. Tidyverse implemented its own version of the table called [tibble()](https://tibble.tidyverse.org/) that provides a more rigorous control and more consistent behavior. For example, it allows you to use any symbols for the columns names (including spaces), prints out only beginning of the table rather than entire table, etc. It also gives more warnings. If you try to access a non-existing column both `data.frame()` and `tibble()` will return `NULL` but the former will do it silently, whereas the latter will give you a warning but only if you use the `$` notation^[Arbitrariness strikes again! But this also means that `$` is safe to use with tibbles but not data.frames.].
+Although the `data.frame()` function is the default way of creating a table, it is a legacy implementation with numerous shortcomings. Tidyverse implemented its own version of the table called [tibble()](https://tibble.tidyverse.org/) that provides a more rigorous control and more consistent behavior. For example, it allows you to use any symbol in columns names (including spaces), prints out only the beginning of the table rather than entire table, etc. It also gives more warnings. If you try to access a non-existing column both `data.frame()` and `tibble()` will return `NULL` but the former will do it silently, whereas the latter will give you a warning but only if you use the `$` notation^[Arbitrariness strikes again! But this also means that `$` is safer to use with tibbles but not with data.frames.].
 
 ```{r}
 library(tibble)
@@ -333,7 +347,7 @@ tbl$A
 In short, `tibble()` provides a more robust version of a `data.frame` but otherwise behaves (mostly) identically to it. Thus, it should be your default choice for a table.
 
 ## Tribble, table from text {#tribble}
-The tibble package also provides an easier to read way of constructing tables via the [tribble()](https://tibble.tidyverse.org/reference/tribble.html) function. Here, you use tilde to specify column names, and then write the content row-by-row.
+The tibble package also provides an easier way of constructing tables via the [tribble()](https://tibble.tidyverse.org/reference/tribble.html) function. Here, you use tilde to specify column names, and then write its content row-by-row.
 ```{r }
 tribble(
     ~x, ~y,
@@ -347,14 +361,15 @@ Do exercise 6.
 :::
 
 ## Reading example tables {#data}
-One of the great things about R is that most packages come with an example data set that illustrates their function. You can see the list of some of them [here](https://www.rdocumentation.org/packages/datasets). In case of example data set, you need to import the library it is part of and then load them by writing `data(tablename)`. For example, to use use `mpg` data on fuel economy from `ggplot2` package, you need to import the library first, and then call `data(mpg)`.
+One of the great things about R is that most packages come with an example data set that illustrates their function. You can see the list of some of them [here](https://www.rdocumentation.org/packages/datasets). In case of an example data set, you need to import the library that it is part of and then load them by writing `data(tablename)`. For example, to use use `mpg` data on fuel economy from `ggplot2` package, you need to import the library first, and then call `data(mpg)`.
 
 ```{r}
 library(ggplot2)
 data(mpg) # this create a "promise" of the data
 print(mpg) # any action on the promise leads to data appearing in the environment
 ```
-## Reading csv files {#readr}
+
+# Reading csv files {#readr}
 So far we covered creating a table by hand via `data.frame()`, `tibble()`, or `tribble()` functions and loading an example table from a package via `data()` function. More commonly, you will need to read a table from an external file. These files can come in many formats because they are generated by different experimental software. Below, you will see how to handle those but my recommendation is to always store your data in a csv ([Comma-separated values](https://en.wikipedia.org/wiki/Comma-separated_values)) files. These are simple plain text files, which means you can open them in any text editor, with each line representing a single row (typically, top row contains column names) with individual columns separated by some symbol or symbols. Typical separators are a comma (hence, the name), a semicolon (this is frequently used in Germany, with comma serving as a decimal point), a tabulator, or even a space symbol. Here is an example of such file
 ```
 Participant,Block,Trial,Contrast,Correct
@@ -368,21 +383,21 @@ that is turned into a table when loaded
 knitr::include_graphics("images/results-csv-table.png")
 ```
 
-There are several ways of reading CSV files in R. The default way by using [read.csv()](https://stat.ethz.ch/R-manual/R-devel/library/utils/html/read.table.html) function that comes has different versions optimized for different combinations of the decimal point and separator symbols, e.g. `read.csv2()` assumes a comma for the decimal point and semicolon as a separator. However, a better way is to use [readr](https://readr.tidyverse.org/) library that implements same functions. Names of the functions are slightly different with underscore replacing the dot, so `readr::read_csv()` is a replacement for `read.csv()`. These are faster (although it will be noticeable only on large data sets), do not convert text to factor variables (we will talk about factors later but this default conversion by `read.csv()` can be very confusing), etc. 
+There are several ways of reading CSV files in R. The default way by using [read.csv()](https://stat.ethz.ch/R-manual/R-devel/library/utils/html/read.table.html) function that has different versions optimized for different combinations of the decimal point and separator symbols, e.g. `read.csv2()` assumes a comma for the decimal point and semicolon as a separator. However, a better way is to use [readr](https://readr.tidyverse.org/) library that re-implements same functions. Names of the functions are slightly different with underscore replacing the dot, so `readr::read_csv()` is a replacement for `read.csv()`. These are faster (although it will be noticeable only on large data sets), do not convert text to factor variables (we will talk about factors later but this default conversion by `read.csv()` can be very confusing), etc. 
 
 However, most important difference between `read.csv()` and `read_csv()` is they constraint the content of a CSV file. `read.csv()` has not assumptions about which columns are in the file and what their value types are. It simply reads them as is, _silently_ guessing their type.
 ```{r}
 results <- read.csv("data/example.csv")
 results
 ```
-You can use `read_csv()` the same way and it will work the same way but warn you about the table structure it deduced.
+
+You can use `read_csv()` the same way and it will work the same way but will inform (warn) you about the table structure it deduced.
 ```{r}
 results <- readr::read_csv("data/example.csv")
 results
 ```
 
-This annoying _Column specification_ print out, which gets even more annoying if you need to read many CSV files, is there for a reason: it wants to annoy you! Because the only way to turn it off and stop being annoyed is to specify the column structure yourself via `col_types` parameter. As a matter of fact, the print out you get is where, so you can take a look at it, adjust it, if necessary, and copy-paste to the `read_csv` call. By default, it suggested `double` values for `Block` and `Trial` but we know they are integers, so we can copy-paste the suggested structure, replace `col_double()` with `col_integer()` and read the table without a warning.
-
+This annoying _Column specification_ print out, which gets even more annoying if you need to read many CSV files, is there for a reason: it wants to annoy you! Because the only way to turn it off and stop being annoyed is to specify the column structure yourself via `col_types` parameter. As a matter of fact, the print out you get is a specification that the reader prepared for you. So you can take a look at it, adjust it, if necessary, and copy-paste to the `read_csv` call. By default, it suggested `double` values for `Block` and `Trial` but we know they are integers, so we can copy-paste the suggested structure, replace `col_double()` with `col_integer()` and read the table without a warning.
 ```{r}
 library(readr)
 results <- read_csv("data/example.csv", 
@@ -393,7 +408,8 @@ results <- read_csv("data/example.csv",
                                      Correct = col_logical()))
 results
 ```
-You may feel that this a lot of extra work just to suppress an annoying but, ultimately, harmless warning. Your code will work with or without it, right? Well, _hopefully_ it will but you probably want to _know_ that it will work not _hope_ for it. Imagine that you accidentally overwrote your experimental data file with data from a different experiment (that happens more often than one would want). You still have `results.csv` file in your project folder and so the `read.csv()` will read it as is (it does not know what should be in that file) and your analysis code will fail in some mysterious ways at a much later point (because, remember, if you try to access a column/variable that does not exist in the table, you just get `NULL` rather than an error). You will eventually trace it back to the wrong data file but that will cost time and nerves. However, if you specify the column structure in `read_csv()` it will show warning, if the file does not match the description. It would warn about wrong column names (`TheBlock` in the example below) and about wrong type (it does not like `TRUE`/`FALSE` in a column it expected to find integers in).
+
+You may feel that this a lot of extra work just to suppress an annoying but, ultimately, harmless warning. Your code will work with or without it, right? Well, _hopefully_ it will but you probably want to _know_ that it will work not just _hope_ for it. Imagine that you accidentally overwrote your experimental data file with data from a different experiment (that happens more often than one would want). You still have `results.csv` file in your project folder and so the `read.csv()` will read it as is (it does not know what should be in that file) and your analysis code will fail in some mysterious ways at a much later point (because, remember, if you try to access a column/variable that does not exist in the table, you just get `NULL` rather than an error). You will eventually trace it back to the wrong data file but that will cost time and nerves. However, if you specify the column structure in `read_csv()` it will show a warning, if the file does not match the description. It would warn about wrong column names (`TheBlock` in the example below) and about wrong type (it does not like `TRUE`/`FALSE` in a column it expected to find integers in).
 
 ```{r}
 library(readr)
@@ -405,7 +421,7 @@ results <- read_csv("data/example.csv",
                                      Correct = col_integer()))
 ```
 
-Personally, I would prefer for `read_csv()` to fail in cases like these but having a nice red warning is already very helpful to quickly detect the problem with your data (and if your data is wrong, your whole analysis is meaningless). Thus, _always_ use `read_` rather than `read.` functions and _always_ specify the table structure. The lazy, and my preferred, way to do it, is to first read the file without specifying the structure and copy-paste-edit the warning column-specification message into the code.
+Personally, I would prefer for `read_csv()` to loudly fail with an error in cases like these but having a nice red warning is already very helpful to quickly detect the problem with your data (and if your data is wrong, your whole analysis is meaningless). Thus, _always_ use `read_` rather than `read.` functions and _always_ specify the table structure. The lazy, and my preferred, way to do it, is to first read the file without specifying the structure and copy-paste-edit the warning column-specification message into the code adjusting as necessary.
 
 ::: {.infobox .practice}
 Do exercise 7, you need [face_rank.csv](data/face_rank.csv) file for it. Download it and place it in the project folder. _Warning_, if you use Chrome or any Chromium-based browsers like MS Edge, Opera,  etc. they might, for some odd reason, automatically *rename it* into _face_rank.xls_ during the download. Just rename it back to _face_rank.csv_, because the file is not converted to an Excel, it is only the extension that gets changed (why? No idea, ask Google!).
@@ -418,13 +434,12 @@ There are several libraries that allow you to read Excel files directly. My pers
 Do exercise 8, you need [face_rank.xlsx](data/face_rank.xlsx) file for it.
 :::
 
-You can read about further options at the package's website but I would generally discourage you from using Excel for your work and, definitely, for your data analysis. Because, you see, Excel is very smart and it can figure out the _true_ meaning and type of columns by itself. The fact that you might disagree is your problem. Excel knows what is best for you. The easiest way to screw a CSV file up is to open it in Excel and immediately save it. The file name will remain the same but Excel will "adjust" the content as it feels is better for you (you don't need to be consulted with). If you think I am exaggerating, read this [article](https://www.theverge.com/2020/8/6/21355674/human-genes-rename-microsoft-excel-misreading-dates) at The Verge on how Excel messed up thousands of human genome data tables by turning some values into dates (because why not?). So now the entire community is _renaming_ some genes because it is easier to waste literally thousands of man-hours on that than to fix Excel. In short, friends don't let friends use Excel.
-
+You can read about further options at the package's website but I would generally discourage you from using Excel for your work and, definitely, for your data analysis. Because, you see, Excel is very smart and it can figure out the _true_ meaning and type of columns by itself. The fact that you might disagree is your problem. Excel knows what is best for you. The easiest way to screw a CSV file up (at least in Germany) is to open it in Excel and immediately save it. The file name will remain the same but Excel will "adjust" the content as it feels is better for you (you don't need to be consulted with). If you think I am exaggerating, read this [article](https://www.theverge.com/2020/8/6/21355674/human-genes-rename-microsoft-excel-misreading-dates) at The Verge on how Excel messed up thousands of human genome data tables by turning some values into dates (because why not?). So now the entire community is _renaming_ some genes because it is easier to waste literally thousands of man-hours on that than to fix Excel. In short, friends don't let friends use Excel.
 
 ## Reading files from other programs
-World is a very diverse place, so you are likely to encounter a wide range of data files generated by Matlab, SPSS, SAS, etc. There are two ways to import the data. First, that I would recommend, use the original program (Matlab, SPSS, SAS, etc.) to export data as a CSV file. Every program can read and write CSV, so it a good common ground. Moreover, this is simple format with no embedded formulas (as in Excel), service structures, etc. Finally, if you store your data in CSV, you do not need a special program to work with it. In short, unless you have a good reason, store your data in CSV files. 
+World is a very diverse place, so you are likely to encounter a wide range of data files generated by Matlab, SPSS, SAS, etc. There are two ways to import the data. First, that I would recommend, use the original program (Matlab, SPSS, SAS, etc.) to export data as a CSV file. Every program can read and write CSV, so it a good common ground. Moreover, this is a simple format with no embedded formulas (as in Excel), service structures, etc. Finally, if you store your data in CSV, you do not need a special program to work with it. In short, unless you have a good reason, store your data in CSV files. 
 
-However, sometimes you have a file but you do not have the program (Matlab, SPSS, SAS, etc.). This is the second way, when you can use various R libaries, starting with [foreign](https://www.rdocumentation.org/packages/foreign), which can handle most typical cases, e.g., SPSS, SAS, State, or Minitab. The problem here, is that all the programs differ in the internal file formats and what exactly is included. For example, when importing from an SPSS sav-file via [read.spss](https://www.rdocumentation.org/packages/foreign/versions/0.8-80/topics/read.spss) you will get a list with various components rather than a data.frame. You can force the function to convert everything to a single table via `to.data.frame=TRUE` option but you may lose some information. Bottom line, you need to be extra careful when importing from other formats and the safest way is to ensure complete and full export of the data to a CSV from the original program.
+However, sometimes you have a file but you do not have the program (Matlab, SPSS, SAS, etc.). The second way is to use various R libaries, starting with [foreign](https://www.rdocumentation.org/packages/foreign), which can handle most typical cases, e.g., SPSS, SAS, State, or Minitab. The problem here is that all programs differ in the internal file formats and what exactly is included. For example, when importing from an SPSS sav-file via [read.spss](https://www.rdocumentation.org/packages/foreign/versions/0.8-80/topics/read.spss) you will get a list with various components rather than a table (`data.frame`). You can force the function to convert everything to a single table via `to.data.frame=TRUE` option but you may lose some information. Bottom line, you need to be extra careful when importing from other formats and the safest way is to ensure complete and full export of the data to a CSV from the original program.
 
 ## Wrap up
 We have started with vectors and now extended them to tables. Next time, we will look at how to visualize the data using The Grammar of Graphics approach.
