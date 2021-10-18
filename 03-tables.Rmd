@@ -46,13 +46,13 @@ Do exercise 2.
 (Atomic) vectors are (homogeneous)[#vectors-are-homogeneous] lists of [primary types](#primary-types) items, whereas [lists](https://stat.ethz.ch/R-manual/R-devel/library/base/html/list.html) are lists that can contain _any_ item including vectors of different primary type data, other lists, or other objects^[If you are familiar with Python, you can think of R lists as Python lists and dictionaries mixed together.].  Otherwise, (well, almost, see below) you work with them the same way is with vectors. You create a [list](https://stat.ethz.ch/R-manual/R-devel/library/base/html/list.html) via `list()` function and then you can concatenate lists via the same [c()]((https://stat.ethz.ch/R-manual/R-devel/library/base/html/c.html)) function, access individual elements via [numeric index](#vector-index) or [names](#names), use [slicing](#vector-index-slicing), etc.  
 
 ## Subsetting, a fuller version {#subsetting}
-Unfortunately, this is the point where we need to talk about subsetting (accessing individual elements of a vector or of a list via indexes or names) yet again. This is because R has several different ways of doing this that look similar and, to make things worse, _sometimes_ produce identical results.
+Unfortunately, this is the point where we need to talk about subsetting (accessing individual elements of a vector or of a list via indexes or names) yet again. This is because R has several different ways of doing this that look similar and, to make things worse, _sometimes_ produce identical results. I do not expect you to memorize or even fully appreciate all the intricate details (I am not even sure I know them all). But I do need you to understand the fundamental difference between the two ways of doing subsetting and to be aware of potential issues that can easily cause confusion. If the latter is the case, return to this section, read the [official manual](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Extract.html), or read the [subsetting](http://adv-r.had.co.nz/Subsetting.html) section in "Advanced R" book by Hadley Wickham.
 
-You [already know](#vector-index) subsetting via _single_ square brackets: `x[1]`. These are called _preserving_ subsetting in that they return a part of an object (vector or list) that your requested _as is_. I.e., if you used them to access part of a a vector, you get a vector. If you used them to access a list or a (table)[#data.frame], you get a list or a table.
+You [already know](#vector-index) subsetting via _single_ square brackets: `x[1]`. This is called _preserving_ subsetting because it returns a _part of an object_ (vector or list) that your requested _as is_. I.e., if you used them to access part of a a vector, you get a vector. If you used them to access a list or a [table](#data.frame), you get a list or a table.
 
-In addition, you can _double_ square brackets: `x[[1]]`. These are called _simplifying_ subsetting because they extract _content_ at that location. If you have a list of vectors `l` then  `l[2]` (preserving) would return a single item list but `l[[2]]` would return a vector stored at that location. A metaphor based on @RLangTip: "“If list `x` is a train carrying objects, then `x[[5]]` is the object in car 5; `x[5]` is a train consisting only of car 5.”
+In addition, you can use _double_ square brackets: `x[[1]]`. These are called _simplifying_ subsetting because they extract _content_ at that location. If you have a list of vectors `l` then  `l[2]` (preserving) would return a single item list but `l[[2]]` would return a vector stored at that location. A metaphor based on [\@RLangTip](https://twitter.com/rlangtip): "If list `x` is a train carrying objects, then `x[[5]]` is the object in car 5; `x[5]` is a train consisting only of car 5." Note that the simplifying notation allows you to extract content of only _one_ item. Therefore, you cannot use it with [slicing](#vector-index-slicing) (extracting content of many items), negative indexes (even if you will end up with just one index), or zero index. The good news is that R will actually generate an error message instead of failing silently, although error messages will be both mysterious and _different_ depending on exact circumstances. To deepen your feeling of arbitrariness of R design: using a non-existent _name_ index will generate an error for vectors but not for lists (you get `NULL`)^[Insert a hair-pulling picture of your preference here.].
 
-Confusing? Let us go through some examples, so you can a difference these two kinds of brackets make for vectors and lists. 
+Confusing? Let us go through some examples, so you can see a difference these two kinds of brackets make for vectors and lists. 
 
 ### Subsetting for (atomics) vectors
 First, we create a named vector
@@ -65,13 +65,42 @@ Preserving subsetting via `[]` returns a part of original vector, notice that th
 x[2]
 ```
 
-Simplifying subsetting via `[[]]` extract value at the location. Because the _name_ is associated with an _index_, not with the content, it gets stripped off.
+Simplifying subsetting via `[[]]` extracts value at the location. Because the _name_ is associated with an _index_, not with the content, it gets stripped off.
 ```{r}
 x[[2]]
 ```
-However, apart from the name-stripping bit, whether you use `[]` (preserving) or `[[]]` (simplifying) makes no difference as you cannot be simpler than atomic vector (that is why they area atomic). 
 
-**General rule:** when using vectors, always use `[]` unless you want to strip-off the name. In the latter case, you should write a comment explaining that, otherwise everyone, including future-you will be confused and think that this is a typo.
+Trying to extract multiple items, use of negative or zero indexes fill all fail for _simplifying_ subsetting.
+```{r, eval=FALSE}
+# "attempt to select more than one element in vectorIndex" error
+x[[1:2]]
+
+# technically, we are excluding two out of three indexes, so end up with just one value
+# still, "attempt to select more than one element in vectorIndex"
+x[[-(1:2)]]
+
+# A different error message: "attempt to select less than one element in get1index <real>"
+x[[0]]
+```
+
+Using of a non-existent name will generate an error for _simplifying_ but not for _preserving_ subsetting.
+```{r}
+# this works
+x["a"]
+
+# this also works but strips the name off
+x[["a"]]
+
+# this fails silently by returning NA
+x["d"]
+```
+
+```{r, eval=FALSE}
+# this will generate a "subscript out of bounds" error
+x[["d"]]
+```
+
+**General rule:** when using vectors, always use `[]`. The only potential usage-case I can see is wanting to strip a name off a single item (not sure I ever needed to do this). If, for some reason, this is what you need, you should write a comment explaining that. Otherwise, everyone including future-you will be confused and think that this is a typo.
 
 ### Subsetting for lists
 First, we create a named list
@@ -79,12 +108,12 @@ First, we create a named list
 l <- list("a"=1, "b"=2, "c"=list(3, 4, 5))
 ```
 
-Preserving subsetting via `[]` returns a list that is a part of original vector, again the _name_ associated with an index so it is retained in the returned list.
+Preserving subsetting via `[]` returns a list that is a part of original list, again the _name_ associated with an index so it is retained in the returned list.
 ```{r}
 l[2]
 ```
 
-Simplifying subsetting via `[[]]` extract value at the location. This is why you get a _vector_ (of length 1).
+Simplifying subsetting via `[[]]` extracts value at the location. This is why you get a _vector_ (of length 1).
 ```{r}
 l[[2]]
 ```
@@ -94,16 +123,64 @@ What about our list inside of the list at position 3? Using preserving subsettin
 l["c"]
 ```
 
-Using simplifying subsetting return a list that inside the list at that location (object inside that car). Note that, as with the vector before, the name gets stripped off, as it belongs to the index (car of the train) and not the content (object inside the car).
+Using simplifying subsetting return a list that was inside the list at that location (object inside that car). Note that, as with the vector before, the name gets stripped off, as it belongs to the index (car of the train) and not the content (object inside the car).
 ```{r}
 l[["c"]]
 ```
 
-## Yet another subsetting via ${#dollar-subsetting}
-Let me deepen your confusion and despair but telling you that R has yet another way of subsetting via a `$` sign. In fact, this is the most common way of subsetting for lists and [tables](#data.frame) that you will encounter. It is a shortcut version simplifying subsetting: `l$c` is the same as writing 
+Using multiple, negative or zero indexes will fail just like it does for vectors but _some_ error messages will be different.
+```{r, eval=FALSE}
+# "subscript out of bounds" error
+l[[1:2]]
+
+# technically, we are excluding two out of three indexes, so end up with just one value
+# still, "attempt to select more than one element in integerOneIndex"
+l[[-(1:2)]]
+
+# A different error message: "attempt to select less than one element in get1index <real>"
+l[[0]]
+```
+Using a non-existent name index for lists with preserving subsetting (`[]`) will return a single item list with `NULL` as a content^[And `NA` as a name. Don't ask.] but just `NULL` for simplifying one (`[[]]`). And none of them will generate an error.
+```{r}
+l["d"]
+
+l[["d"]]
+```
+
+**General rule:** use `[[]]` if you are interested in list or table content, e.g., you need a column from the table. Use `[]` if you interested in using a smaller list or table.
+
+If this is the point when you want to start running around screaming or bang your head against the screen, please tell me, cause I would definitely join you. Let us do some exercises that might help to build some intuition. However, as you probably noticed already, subsetting in R is fairly haphazard, so you probably will still end up being confused or have a code the does not work for seemingly mysterious reasons.
+
+::: {.infobox .practice}
+Do exercise 3.
+:::
+
+
+## Yet another subsetting via \$ {#dollar-subsetting}
+I am terribly sorry but I need deepen your confusion and despair but telling you that R has yet another way of subsetting via a `$` sign. In fact, this is the most common way of subsetting for lists and [tables](#data.frame) that you will encounter everywhere. It is a shortcut version for _partial matching_ of simplifying subsetting: `l$c` is the same as writing  `l[["c", exact = FALSE]]`. The last new part `exact = FALSE` means that you can use an _incomplete_ name after the `$` and R will guess what you mean. So, if you made a typo while meaning some completely different column name, R will second-guess your intentions and give you a variable that has the same beginning (no error, don't even hope).
+```{r}
+l <- list("aa" = 1, "bb" = 2, "bc" = 3)
+l$a
+```
+
+The good news is that it won't autocomplete ambiguous cases. The bad news that it won't generate an error and will return a `NULL` (just like `[[]]` would).
+```{r}
+l$b
+l[['b']]
+```
+
+My advice would be to stick to `[[]]` notation despite the ubiquitous use of `$` out where. It is slightly more strict and more universal: You can hard code a column/item name or put it into a variable for indexing. Only hard-coding works for `$`.
+
+```{r}
+l[["bb"]]
+
+column_of_interest <- "bb"
+l[[column_of_interest]]
+```
+
 
 ## Tables, a.k.a. data frames {#data.frame}
-We have spent so much time on vectors because a data table is merely a vector (well, technically, a [list](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/list)) of vectors, with each vector as a column. The default way to construct a table, which are called _data frames_ in R, is via [data.frame()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/data.frame) function.
+R tables are mix between [lists](https://stat.ethz.ch/R-manual/R-devel/library/base/html/list.html) and [matrices](https://stat.ethz.ch/R-manual/R-devel/library/base/html/matrix.html). You can think about it as a list of vectors (columns) of _identical_ length. The default way to construct a table, which are called _data frames_ in R, is via [data.frame()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/data.frame) function.
 ```{r}
 our_first_table <- data.frame(numeric_column = c(1, 2, 3, 4), 
                               character_column = c("A", "B", "C", "D"),
@@ -112,18 +189,17 @@ our_first_table <- data.frame(numeric_column = c(1, 2, 3, 4),
 our_first_table
 ```
 
-Once you create a table, it will appear in your environment, so you can see it in the _Environment_ tab and view it by clicking on it or typing `View(table_name)` in the console (not the capital V in the `View()`).
-
+Once you create a table, it will appear in your environment, so you can see it in the _Environment_ tab and view it by clicking on it or typing `View(table_name)` in the console (note the capital V in the `View()`).
 ```{r echo=FALSE, out.width = "100%", fig.align = 'center'}
 knitr::include_graphics("images/viewing-table.png")
 ```
 
 ::: {.infobox .practice}
-Do exercise 3.
+Do exercise 4.
 :::
 
 
-Because all columns in a table **must** have the same number of rows. This is similar to the process of [matching vectors' length](#different-length-vectors) that you have learned the last time. However, it works automatically only if length of _all_ vectors is a multiple of the longest length. Thus, the example below will work, as the longest vector (`numeric_column`) is 6, `character_column` length is 3, so it will be repeated twice, and `logical_column` length is 2 so it will be repeated thrice. 
+All columns in a table **must** have the same number of items (rows). This is similar to the process of [matching vectors' length](#different-length-vectors) that you have learned the last time. However, it works automatically only if length of _all_ vectors is a multiple of the longest length. Thus, the example below will work, as the longest vector (`numeric_column`) is 6, `character_column` length is 3, so it will be repeated twice, and `logical_column` length is 2 so it will be repeated thrice. 
 ```{r}
 the_table <- data.frame(numeric_column = 1:6,                  # length 6 
                         character_column = c("A", "B", "C"),   # length 3
@@ -131,7 +207,7 @@ the_table <- data.frame(numeric_column = 1:6,                  # length 6
 the_table
 ```
 
-If the simple _multple-of-length_ rule does not work, R (finally!) generates an error.
+If the simple _multple-of-length_ rule does not work, R generates an error (finally!).
 ```{r eval=FALSE}
 # this will generate an error: arguments imply differing number of rows
 the_table <- data.frame(numeric_column = 1:7,                 # length 7
@@ -143,34 +219,10 @@ Do exercise 4.
 :::
 
 
-Just as with the vectors, you can extract or modify only some elements (rows, columns, subsets) of a table. There are several ways to do it, as you can extract individual elements, individual columns, individual rows, or some rows and some columns. Subsetting tables is not the most exciting and fairly confusing topic but you need to understand it as in the R code that you will encounter different notations could be used interchangeably.
+## Subsetting table {#table-subsetting}
+One way to think about a table as a list of columns (vectors). Hence, both preserving (`[]`) and simplifying (`[[]]`) subsetting will work as you would expect returning either a `data.frame` (`[]`) or a _vector_ that was a column your were interested in (`[[]]`). 
 
-## Extracting a single vector / column [#get-single-column]
-
-To access individual _vectors_ (a.k.a. columns  or variables) use dollar notation `table$column_name` (this should be your default way) or **double** square brackets, `table[[column_name]]` or `table[[column_index]]`. Note that you cannot use multiple indexes (`c(1, 2)`) or slicing (e.g., `1:2`) with double square brackets. The important if subtle detail is that this notation returns a _vector_, just a like one that you create via `c()` function.
-```{r}
-our_first_table <- data.frame(numeric_column = c(1, 2, 3), 
-                              character_column = c("A", "B", "C"),
-                              logical_column = c(TRUE, F, T))
-
-# via $ notation
-our_first_table$numeric_column
-
-# via name and double square brackets
-our_first_table[['numeric_column']]
-
-# via index and double square brackets
-our_first_table[[1]]
-```
-
-
-```{r echo=FALSE, out.width = "100%", fig.align = 'center'}
-knitr::include_graphics("images/table-column.png")
-```
-
-## Extracting part of a table {#table-indexing}
-Alternatively, you can extract or access a rectangular part of the table via **single** square brackets. To get one or more columns you can use their names or indexes just as you did with vectors.
-
+The preserving returns a _table_ with _one_ column.
 ```{r}
 our_first_table <- data.frame(numeric_column = c(1, 2, 3), 
                               character_column = c("A", "B", "C"),
@@ -191,24 +243,26 @@ knitr::include_graphics("images/table-subtable.png")
 ```
 
 
-
-Again, note that first two call get you a single-column table not a vector. You still need to use  the column name to access its values.
-
+The simplifying returns a _vector_.
 ```{r}
-our_first_table <- data.frame(numeric_column = c(1, 2, 3), 
-                              character_column = c("A", "B", "C"),
-                              logical_column = c(TRUE, F, T))
+# via $ notation
+our_first_table$numeric_column
 
-table_copy <- our_first_table[1]
-table_copy$numeric_column
+# via name and double square brackets
+our_first_table[['numeric_column']]
+
+# via index and double square brackets
+our_first_table[[1]]
 ```
 
-To select a subset rows and columns you write `table[rows, column]`. If you omit either rows or columns this implies that you want _all_ rows or columns.
-```{r}
-our_first_table <- data.frame(numeric_column = c(1, 2, 3), 
-                              character_column = c("A", "B", "C"),
-                              logical_column = c(TRUE, F, T))
 
+```{r echo=FALSE, out.width = "100%", fig.align = 'center'}
+knitr::include_graphics("images/table-column.png")
+```
+
+The only new thing is that, because tables are two-dimensionsional, you can use preserving subsetting to extract or access a rectangular region within a table. To select a subset rows and columns you write `table[rows, columns]`. If you omit either rows or columns this implies that you want _all_ rows or columns.
+
+```{r}
 # getting ALL rows for the FIRST column -> this gives you a VECTOR
 our_first_table[, 1]
 
@@ -234,18 +288,20 @@ Do exercise 5.
 :::
 
 ## Using libraries {#library}
-There is a better way to construct a table but to use it, we need to first import a library that implements it. As with most modern programming languages, the real power of R is not what comes bundled with it (very little, as a matter of fact) but community developed libraries that extend it. We already discussed how you [install libraries](#install.packages). For that you use [library()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/library) function (it has a sister function `require()` but it should be used inside functions and packages not in scripts or notebooks). So, to use _tidyverse_ library that you already installed, you simply write
+There is a better way to construct a table but to use it, we need to first import a library that implements it. As with most modern programming languages, the real power of R is not in what comes bundled with it (very little, as a matter of fact) but in community developed libraries that extend it. We already discussed how you [install libraries](#install.packages). For that you use [library()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/library) function (it has a sister function `require()` but it should be used inside functions and packages not in scripts or notebooks). So, to use _tidyverse_ library that you already installed, you simply write
 ```{r eval=FALSE}
 library(tidyverse)
 # or
 library("tidyverse")
 ```
 
-One thing to keep in mind is that if you import two libraries that have a function with same name, the function from the _latter_ package will overwrite (mask) the function from the former. You will get a warning but if you miss it, it may be very confusing. My favorite stumbling block are functions `filter()` from `dplyr` package (we will use it extensively, as it filters a table by row) and `filter()` function from `signal` package (applies a filter to a time-series). This overwriting of one function by another can lead to very odd looking mistakes. In my case I though I was using `dplyr::filter()` and could not understand the error message I was getting, it it took me an hour to figure it out the first time. Here are the warnings I should have paid attention to.
+One thing to keep in mind is that if you import two libraries that have a function with same name, the function from the _latter_ package will overwrite (mask) the function from the former. You will get a warning but if you miss it, it may be very confusing. My favorite stumbling block are functions `filter()` from `dplyr` package (we will use it extensively, as it filters a table by row) and `filter()` function from `signal` package (applies a filter to a time-series)^[There is also a filter function is stats library.]. This overwriting of one function by another can lead to very odd looking mistakes. In my case I think that I am using `dplyr::filter()` and get confused by error messages that I get (they are not really informative). The first time I did this, it took me an hour to figure it out. Here are the warnings I should have paid attention to.
 ```{r}
+library(signal)
 library(dplyr)
 ```
-Thus, keep that in mind or, better still, explicitly mention which package the function is coming from via `library::function()` notation. In this case, you will use the function that you are interested in and need not to worry about other functions with the same name that may conflict with it. In general, it is a good idea to _always_ disambiguate function via library but in practice it may make your code hard to read by littering it with `library::` prefixes. Thus, you will need to find a balance between disambiguation and readability.
+
+Thus, keep that in mind or, better still, explicitly mention which package the function is coming from via `library::function()` notation. In this case, you will use the function that you are interested in and need not to worry about other functions with the same name that may conflict with it. In general, it is a good idea to _always_ disambiguate function via library but in practice it may make your code hard to read by cluttering it with `library::` prefixes. Thus, you will need to find a balance between disambiguation and readability.
 ```{r}
 library(tibble)
 
@@ -256,22 +312,23 @@ print(tribble(~a, 1))
 tibble::tribble(~a, 1)
 ```
 
-When using a notebook (so, in our case, always) put the libraries into _setup_ chunk of the notebook. This ensures that your libraries are always initialized, even if you first run some other chunk. Word of advice, keep you library list in alphabetical order. Because libraries are very specialized, you will need quite a few of them for a typical analysis. Keeping them alphabetically organized makes it easier to see whether you imported the required library and whether you need to install a new one.
+When using a notebook (so, in our case, always) put the libraries into _setup_ chunk of the notebook. This ensures that your libraries are always initialized, even if you first run some other chunk. Word of advice, keep you library list in alphabetical order. Libraries are very specialized, so you will need quite a few of them for a typical analysis. Keeping them alphabetically organized makes it easier to see whether you imported the required library and whether you need to install a new one.
 
 ## Tibble, a better data.frame {#tibble}
-Although the `data.frame()` function is the default way of creating a table, it is a legacy implementation with numerous shortcomings. Tidyverse implemented its own version of the table called [tibble()](https://tibble.tidyverse.org/) that provides a more rigorous control and more consistent behavior. For example, it allows you to use any symbols for the columns names (including spaces), prints out only beginning of the table rather than entire table, etc. It also gives more warnings. If you try to access a non-existing column both `data.frame()` and `tibble()` will return `NULL` but the former will do it silently, whereas the latter will complain.
+Although the `data.frame()` function is the default way of creating a table, it is a legacy implementation with numerous shortcomings. Tidyverse implemented its own version of the table called [tibble()](https://tibble.tidyverse.org/) that provides a more rigorous control and more consistent behavior. For example, it allows you to use any symbols for the columns names (including spaces), prints out only beginning of the table rather than entire table, etc. It also gives more warnings. If you try to access a non-existing column both `data.frame()` and `tibble()` will return `NULL` but the former will do it silently, whereas the latter will give you a warning but only if you use the `$` notation^[Arbitrariness strikes again! But this also means that `$` is safe to use with tibbles but not data.frames.].
 
 ```{r}
 library(tibble)
 
 # data.frame will return NULL silently
 df <- data.frame(b = 1)
-print(df$A)
+print(df[["A"]])
 
 # data.frame will return NULL for a variable that does not exist
 
 tbl <- tibble(b = 1)
-print(tbl$A)
+print(tbl[["A"]])
+tbl$A
 ```
 In short, `tibble()` provides a more robust version of a `data.frame` but otherwise behaves (mostly) identically to it. Thus, it should be your default choice for a table.
 

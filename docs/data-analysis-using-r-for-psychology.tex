@@ -117,7 +117,7 @@
 
 \title{Data analysis using R for Psychology}
 \author{Alexander (Sasha) Pastukhov}
-\date{2021-04-14}
+\date{2021-10-18}
 
 \begin{document}
 \maketitle
@@ -170,45 +170,47 @@ There are many software tools that allow you preprocess, plot, and analyze your 
 
 I will be teaching what one might call a ``dialect'' of R, based on \href{https://www.tidyverse.org/}{Tidyverse} family of packages. R is extremely flexible, making it possible to redefine its own syntax. Because of that Tidyverse-based code is very different from the base R code to the point that it might look like written in a completely different language (which, in a sense, it is). Although Tidyverse, at least in my opinion, is a better way, we will start with \emph{base R}, so that you will be able to read and understand code written outside of Tidyverse, as it is also very common.
 
-\hypertarget{getting-started}{%
-\chapter*{Getting Started}\label{getting-started}}
-\addcontentsline{toc}{chapter}{Getting Started}
+\hypertarget{software}{%
+\chapter*{Software}\label{software}}
+\addcontentsline{toc}{chapter}{Software}
 
-\hypertarget{installing-r}{%
-\section*{Installing R}\label{installing-r}}
-\addcontentsline{toc}{section}{Installing R}
+\hypertarget{install-r}{%
+\section{Installing R}\label{install-r}}
 
-Go to \href{https://cloud.r-project.org/}{r-project.org} and download the current stable version of R for your platform. Run the installer, accepting all defaults. The installer will ask you whether you also want the 32-bit version to be installed alongside 64-bit. You probably won't need 32-bit, so if space is at premium you can skip it. Otherwise, it will make very little difference.
+Go to \href{https://cloud.r-project.org/}{r-project.org} and download a current stable version of R for your platform. Run the installer, accepting all defaults. The installer will ask you whether you also want a 32-bit version to be installed alongside 64-bit. You probably won't need 32-bit, so if space is at premium you can skip it. Otherwise, it will make very little difference.
 
-\hypertarget{installing-r-studio}{%
-\section*{Installing R-Studio}\label{installing-r-studio}}
-\addcontentsline{toc}{section}{Installing R-Studio}
+\hypertarget{install-rstudio}{%
+\section{Installing R-Studio}\label{install-rstudio}}
 
-Go to \href{https://rstudio.com/products/rstudio/download/}{rstudio.com} and download \emph{RStudio Desktop Free} edition for your platform. Install it using defaults. The \emph{R-Studio} is an integrated development environment for R but you need to install R separately first! The R-Studio will automatically detect latest R that you have and, in case you have several versions of R installed, you will be able to alter that choice.
+Go to \href{https://rstudio.com/products/rstudio/download/}{rstudio.com} and download \emph{RStudio Desktop Free} edition for your platform. Install it using defaults. The \emph{R-Studio} is an integrated development environment for R but you need to install R separately first! The R-Studio will automatically detect latest R that you have and, in case you have several versions of R installed, you will be able to alter that choice via \emph{Tools / Global Options\ldots{}} menu.
 
 I will explain the necessary details on using R-Studio throughout the seminar but the \href{https://github.com/rstudio/cheatsheets/raw/master/rstudio-ide.pdf}{official cheatsheet} is an excellent, compact, and up-to-date source of information. In fact, R Studio has numerous \href{https://rstudio.com/resources/cheatsheets/}{cheatsheets} that describe individual packages in a compact form.
 
-\hypertarget{rtools}{%
-\section*{Installing RTools}\label{rtools}}
-\addcontentsline{toc}{section}{Installing RTools}
+\hypertarget{install-rtools}{%
+\section{Installing RTools}\label{install-rtools}}
 
-If you are using Windows, we might need \href{https://cran.r-project.org/bin/windows/Rtools/}{Rtools} for building and running some packages. You do not need to install it at the beginning, but when we will need it later, just following the link above, download the latest \emph{Rtools} version, run the installer using the defaults and \textbf{follow the instructions on that page to put Rtools on the PATH}! (I do not repeat them here, because they might change).
+If you are using Windows, you might need \href{https://cran.r-project.org/bin/windows/Rtools/}{Rtools} for building and running some packages. You do not need to install it at the beginning, but when we will need it later, just following the link above, download the latest \emph{Rtools} version, run the installer using the defaults and follow the instructions on that page to put Rtools on the PATH!
 
 \hypertarget{install.packages}{%
 \section*{Installing packages}\label{install.packages}}
 \addcontentsline{toc}{section}{Installing packages}
 
-The real power of R lies in a vast community-driven family of packages suitable for any occasion. The default repository used by R and R-Studio is \href{https://cran.r-project.org/}{The Comprehensive R Archive Network} (a.k.a. \emph{CRAN}). It has very strict requirements for submitted packages, which makes it very annoying for the authors but ensures high quality. Most packages are well-documented and come with example data and code. We will use CRAN as a sole source for packages, but there are alternatives, such as \href{http://www.bioconductor.org/}{Bioconductor} that might have a package that is missing at CRAN. The Bioconductor relies on its own package manager, so you will need to consult the latest manual on their website.
+The real power of R lies in a vast community-driven family of packages suitable for any occasion. The default repository used by R and R-Studio is \href{https://cran.r-project.org/}{The Comprehensive R Archive Network} (a.k.a. \emph{CRAN}). It has very strict requirements for submitted packages, which makes it very annoying for the authors but ensures high quality for you. We will use CRAN as a sole source of packages, but there are alternatives, such as \href{http://www.bioconductor.org/}{Bioconductor} that might have a package that is missing at CRAN. The Bioconductor relies on its own package manager, so you will need to consult the latest manual on their website.
 
-To install CRAN package you have two alternatives: via command line function or via R-Studio package manager interface (which will call the function for you). In the former case, go to \texttt{Console} tab and type \texttt{install.packages("package-name")}, for example \texttt{install.packages("tidyverse")}, and press \texttt{Enter}.
+To install a CRAN package you have two alternatives: via command line function or via R-Studio package manager interface (which will call the function for you). In the former case, go to \emph{Console} tab and type \texttt{install.packages("package-name")}, for example \texttt{install.packages("tidyverse")}, and press \textbf{Enter}.
 
 \begin{center}\includegraphics[width=1\linewidth]{images/install-packages-cmd} \end{center}
 
-Alternatively, go to \texttt{Packages} tab, click on \texttt{Install} button, enter the package name in the window, which has autocomplete to help you, and press \texttt{Install}.
+Alternatively, go to \emph{Packages} tab, click on \emph{Install} button, enter a package name in the window (it has autocomplete to help you), and press \emph{Install}.
 
 \begin{center}\includegraphics[width=1\linewidth]{images/install-packages-gui} \end{center}
 
-In some cases, R will ask whether you want to install packages from source. In this case, it will grab the source code and compile the package, which takes time and requires \protect\hyperlink{rtools}{RTools}. In most cases, you can say ``No'' to install a pre-build binary version. The binary version will be slightly outdated but the emphasis is on \emph{slightly}.
+Sometimes, R will ask whether you want to install packages from source. In this case, it will grab the source code and compile the package, which takes time and requires \protect\hyperlink{install-rtools}{RTools}. In most cases, you can say ``No'' to install a pre-build binary version. The binary version will be slightly outdated but the emphasis is on \emph{slightly}.
+
+On other occasions, R-Studio will suggest restarting R Session as packages that need to be updated in use. You can do that but, in my experience, this could a repetetive experience if one of the packages is used R Studio itself (so it starts it in a new session, realizes that it is in use, suggests to restart the session, etc.) My solution is to close \emph{all} R Studio windows and use R directly. For Windows, you can find it the Start Menu, just make sure that you are using the correct version (also make sure it is \emph{x64}). Then, I use \texttt{install.packages()} to install and update everything I need.
+
+\hypertarget{minimal-set-of-packages}{%
+\section{Minimal set of packages}\label{minimal-set-of-packages}}
 
 Please install the following packages:
 
@@ -222,38 +224,39 @@ Please install the following packages:
   \texttt{fs} : file system utilities.
 \end{itemize}
 
-\hypertarget{keeping-r-and-packages-up-to-date}{%
-\section*{Keeping R and packages up-to-date}\label{keeping-r-and-packages-up-to-date}}
-\addcontentsline{toc}{section}{Keeping R and packages up-to-date}
+\hypertarget{installr}{%
+\section{Keeping R and packages up-to-date}\label{installr}}
 
-R and packages are getting constantly improved, so it is a good idea to regularly update them. For packages, you can use \texttt{Tools\ /\ Check\ for\ Packages\ Updates...} menu in R-Studio. To update R and, optionally, packages, you can use \href{https://www.r-project.org/nosvn/pandoc/installr.html}{installr} package that can install newest R (but it keeps old version!) optionally copying your entire library of packages, updating packages, etc. For R-Studio itself, use \texttt{Help\ /\ Check\ for\ Updates} menu and install a newer version, if it is available (it is generally a good idea to keep your R-Studio in the newest state).
+R and packages are getting constantly improved, so it is a good idea to regularly update them. For packages, you can use \emph{Tools / Check for Packages Updates\ldots{}} menu in R-Studio. To update R and, optionally, packages, you can use \href{https://www.r-project.org/nosvn/pandoc/installr.html}{installr} package that can install newest R (but it keeps old version!) optionally copying your entire library of packages, updating packages, etc. It is easy to use even in R itself, as it creates an extra menu to make your life easier. For R-Studio itself, use \emph{Help / Check for Updates} menu and install a newer version, if it is available (it is generally a good idea to keep your R-Studio in the newest state).
 
 \hypertarget{reproducable-research}{%
 \chapter{Reproducable Research: Projects and RMarkdown Notebooks}\label{reproducable-research}}
 
-Our aim is to create reproducible research and analysis. It is a crucial component of the open science movement but is even more important for your own research or study projects. Doing analysis is easy. The trick is to create a self-contained well-documented easy-to-understand reproducible analysis. An analysis that others and, most importantly, future-you can easily understand saves you time and gives you a deeper insight into the results (less mystery is better in these cases). It also makes it easier to communicate your results to other researchers or fellow students.
+Our aim is to create reproducible research and analysis. It is a crucial component of the open science movement but is even more important for your own research or study projects. You want to create a self-contained well-documented easy-to-understand reproducible analysis. A complete self-sufficient code that others and, most importantly, future-you can easily understand saves you time and gives you a deeper insight into the results (less mystery is better in cases like these). It also makes it easier to communicate your results to other researchers or fellow students.
+
+You should also \emph{always} consider posting your results and analysis online at public repositories such as \href{https://osf.io/}{OSF}, \href{https://www.scidb.cn/en}{Science Data Bank}, or \href{https://github.com/}{GitHub}. This not only help others but forces you into making such data + analysis archive more thoroughly. That, in turns, makes it easier for future-you to return to the data and the analysis.
 
 \hypertarget{projects}{%
 \section{Projects}\label{projects}}
 
-One of the most annoying features of R is that sees files and folders only relative to its ``working directory'', which is set via \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/getwd}{setwd(dir)} function. What makes it particularly confusing, is that your currently open file may be in some other folder. If you simply use \texttt{File\ /\ Open}, navigate to that file and open it, it does not change your working directory. Similarly, in R-Studio you can navigate through file system using \texttt{Files} tab and open some folder you are interested in but that \textbf{does not make it a working directory}. You need to click on \texttt{More} and \texttt{Set\ As\ Working\ Directory} to make this work (and that trick won't work for an opened file).
+One of the most annoying features of R is that looks for files and folders only relative to its ``working directory'', which is set via \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/getwd}{setwd(dir)} function. What makes it particularly confusing is that your currently open file may be in some \emph{other} folder. If you simply use \emph{File / Open}, navigate to that file and open it, it does not change your working directory. Similarly, in R-Studio you can navigate through file system using \emph{Files} tab and open some folder you are interested in but that \textbf{does not make it a working directory}. You need to click on \emph{More} and \emph{Set As Working Directory} to make this work (that trick won't work for an opened file).
 
 \begin{center}\includegraphics[width=1\linewidth]{images/setwd-gui} \end{center}
 
-In short, you may think that you are working in a particular folder but R will have its own opinion about this. Whenever this happens, it is really confusing and involves a lot of cursing as R cannot find files that you clearly see with your own eyes. To avoid this you should organize any project or seminar as an \emph{R Project}. It assumes that all the necessary files are in the project folder, which is also the working directory. R Studio has some nice project-based touches as well, like keeping tracking of which files you have open, providing version control, etc. Bottom line, \textbf{always} create a new R-project to organize yourself, even if it involves just a single file to try something out. Remember, ``Nothing is more permanent than a temporary solution!'' Which is why you should \textbf{always} write your code, as if it is for a long term project (good style, comprehensible variable names, comments, etc.), otherwise your temporary solution grows into permanent incomprehensible spaghetti code.
+In short, it may \emph{look} that you are working in a particular folder but R will have its own opinion about this. Whenever this happens, it is really confusing and involves a lot of cursing as R cannot find files that you can clearly see with your own eyes. To avoid this you should organize any program, project or seminar as an \emph{R Project}, which assumes that all necessary files are in the project folder, which is also the working directory. R Studio has some nice project-based touches as well, like keeping tracking of which files you have open, providing version control, etc. Bottom line, \textbf{always} create a new R-project to organize yourself, even if it involves just a single file to try something out. Remember, ``Nothing is more permanent than a temporary solution!'' Which is why you should \textbf{always} write your code, as if it is for a long term project (good style, comprehensible variable names, comments, etc.), otherwise your temporary solution grows into permanent incomprehensible spaghetti code.
 
-Let us create a new project for this seminar. Use \texttt{File\ /\ New\ Project...}, which will give you options of creating it in a new directory (you get to come up with a name), using an existing directory (project will be named after that directory), or check it out from remote repository (something we won't talk about just yet). You can do it either way. This will be the project folder for this seminar and you will need to put all notebooks and external data files into that folder. Next time you need to open it, you can use \texttt{File\ /\ Recent\ Projects} menu, \texttt{File\ /\ Open\ Project...} menu, or simply open the \texttt{\textless{}name-of-your-project\textgreater{}.Rproj} file in that folder.
+Let us create a new project for this seminar. Use \emph{File / New Project\ldots{}}, which will give you options of creating it in a new directory (you get to come up with a name), using an existing directory (project will be named after that directory), or check it out from remote repository (something we won't talk about just yet). You can do it either way. This will be a project folder for this seminar and you will need to put all notebooks and external data files into that folder. Next time you need to open it, you can use \emph{File / Recent Projects} menu, \emph{File / Open Project\ldots{}}\texttt{\_\ menu,\ or\ simply\ open\ the}.Rproj` file in that folder.
 
 \hypertarget{rmarkdown}{%
 \section{RMarkdown}\label{rmarkdown}}
 
-\href{https://rmarkdown.rstudio.com/}{RMarkdown notebooks} combine formatted text and illustrations with code. When a notebook is ``knitted'', all the code is ran and its output, such as tables and figures, is inserted into the final document. This allows you to combine the narrative (the background, the methodology, discussion, conclusions, etc.) with the actual code that implements what you described.
+\href{https://rmarkdown.rstudio.com/}{RMarkdown notebooks} combine formatted text, figures, references (via \href{http://www.bibtex.org/}{bibtex}) and cross-references with code\footnote{This material was prepared using RMarkdown, \href{(https://yihui.org/knitr/)}{knitr}, and \href{https://bookdown.org/}{bookdown}}. When a notebook is \href{https://yihui.org/knitr/}{knitted}, all the code is ran and its output, such as tables and figures, is inserted into the final document. This allows you to combine the narrative (the background, the methodology, comments, discussion, conclusions, etc.) with the actual code that implements what you described.
 
-Importantly, notebooks can be knitted into a variety of formats including HTML, PDF, Word document, EPUB book, etc. Thus, instead of creating plots and tables and saving them into separate files so you can copy-paste them into your Word file (and then redoing it, if something changed, and trying to find the correct code that you used the last time, and wondering why it does not run anymore\ldots), you simply ``knit'' the notebook and get the current and complete research report, semester work, presentation, etc. Even more importantly, same goes for others, as they also can knit your notebook and generate its latest version in format they need. All your exercises will be based on RMarkdown notebooks, so you need to familiarize yourself with them.
+Notebooks can be knitted into a variety of formats including HTML, PDF, Word document, EPUB book, etc. Thus, instead of creating plots and tables to save them into separate files so you can copy-paste them into your Word file (and then redoing this, if something changed, and trying to find the correct code that you used the last time, and wondering why it does not run anymore\ldots), you simply ``knit'' the notebook and get the current and complete research report, semester work, presentation, etc. Even more importantly, same goes for others, as they also can knit your notebook and generate its latest version in format they need. All exercises will involve using RMarkdown notebooks, so you need to familiarize yourself with them.
 
-We will start by learning the markdown, which is a family of human-oriented markup languages. Markup is a plain text that includes formatting syntax and can be translated into visually formatted text. For example, HTML and LaTeX are markup languages. The advantage of markup is that you do not need a special program to edit it, any plain text editor will suffice. However, you do need a special program to turn this plain text into the document. For example, you need Latex to compile a PDF or a browser to view HTML properly. However, anyone can read your original file even if they do not have Latex, PDF reader, or a browser installed (you do need Word to read a Word file!). \textbf{Markdown} markup language was design to make formatting simple and unobtrusive, so the plain document is easy to read (you can read HTML but it is hardly fun!). It is not as feature-rich as HTML or LaTeX but covers most of your usual needs and is very easy to learn!
+We will start by learning the markdown, which is a family of human-oriented markup languages. Markup is a plain text that includes formatting syntax and can be translated into visually formatted text. For example, HTML and LaTeX are markup languages. The advantage of markup is that you do not need a special program to edit it, any plain text editor will suffice. However, you do need a special program to turn this plain text into the document. For example, you need Latex to compile a PDF or a browser to view HTML properly. However, anyone can read your original file even if they do not have Latex, PDF reader, or a browser installed (you do need Word to read a Word file!). \textbf{Markdown} markup language was design to make formatting simple and unobtrusive, so the plain document is easier to read (you can read HTML but it is hardly fun!). It is not as feature-rich as HTML or LaTeX but covers most of your usual needs and is very easy to learn!
 
-Create a new markdown file via \texttt{File\ /\ New\ File\ /\ R\ Markdown...} menu. Use \texttt{Seminar\ 1} for its title and HTML as default output format. Then you need to save the file (pressing \texttt{Ctrl\ +\ S} will suffice) and call the file \texttt{seminar-01} (R Studio will add \texttt{.Rmd} extension automatically). The file you created is not empty, as R Studio is kind enough to provide a template and example for you. Knit the notebook by clicking on \texttt{Knit} button or pressing \texttt{Ctrl\ +\ Shift\ +\ K} to see how the properly typeset text will look (it will appear in \texttt{Viewer} tab).
+Create a new markdown file via \emph{File / New File / R Markdown\ldots{}} menu. Use \texttt{Seminar\ 1} for its title and HTML as default output format. Then you need to save the file (press \textbf{Ctrl + S} or use \emph{File/Save} menu) and call the file \texttt{seminar-01} (R Studio will add \texttt{.Rmd} extension automatically). The file you created is not empty, as R Studio is kind enough to provide an example for you. Knit the notebook by clicking on \emph{Knit} button or pressing \textbf{Ctrl+Shift+K} to see how the properly typeset text will look (it will appear in a \emph{Viewer} tab).
 
 \begin{center}\includegraphics[width=1\linewidth]{images/default-notebook} \end{center}
 
@@ -261,28 +264,28 @@ Let us go through the default notebook that R Studio created for us.
 
 \begin{center}\includegraphics[width=1\linewidth]{images/notebook-header} \end{center}
 
-The top part between two sets of \texttt{-\/-\/-} is a notebook header with various configuration options written in \href{https://yaml.org/}{YAML} (yes, we have two different languages in one file). \texttt{title}, \texttt{author}, and \texttt{date} should be self-explanatory. \texttt{output} defines what kind of output document knitr will generate. You can specify it by hand (e.g., \texttt{word\_document}) or just click on drop down next to \texttt{Knit} button and pick the option you like (we will use the default HTML most of the time). These are sufficient for us but there are numerous other options that you can specify, for example, to enable indexing of headers. You can read about at \href{https://yihui.org/knitr/}{yihui.org/knitr}.
+The top part between two sets of \texttt{-\/-\/-} is a notebook header with various configuration options written in \href{https://yaml.org/}{YAML} (yes, we have two different languages in one file). \texttt{title}, \texttt{author}, and \texttt{date} should be self-explanatory. \texttt{output} defines what kind of output document knitr will generate. You can specify it by hand (e.g., \texttt{word\_document}) or just click on drop down next to \texttt{Knit} button and pick the option you like (we will use the default HTML most of the time). These are sufficient for us but there are numerous other options that you can specify, for example, to enable indexing of headers. You can read about this at \href{https://yihui.org/knitr/}{yihui.org/knitr}.
 
 \begin{center}\includegraphics[width=1\linewidth]{images/notebook-setup} \end{center}
 
-The next section is the ``setup code chunk'' that specifies default options on how the code chunks are treated by default (executed or not, their output is shown or not, etc.). By default code in chunks is run and its output is shown (\texttt{echo\ =\ TRUE}) but you can change this behavior on per-chunk basis by pressing the gear button at the top-right. The setup chunk is also a good place to import your libraries (we will talk about it later) as it is always run before any other chunks (so, even if you forgot to run it to load libraries, R Studio will do this for you).
+The next section is the ``setup code chunk'' that specifies default options for how the code chunks are treated by default (whether they are executed, whether the output, warnings, or messages are shown, etc.). By default code in chunks is run and its output is shown (\texttt{echo\ =\ TRUE}) but you can change this behavior on per-chunk basis by pressing the gear button at the top-right. The setup chunk is also a good place to import your libraries (we will talk about this later) as it is always run before any other chunks (so, even if you forgot to run it to load libraries, R Studio will do this for you).
 
 \begin{center}\includegraphics[width=1\linewidth]{images/notebook-text} \end{center}
 
-Next, we have plain text with rmarkdown, which gets translated into formatted text when you click on \texttt{Knit} button. You can write like this anywhere outside of code chunks to explain the logic of your analysis. You should write why and how the analysis is performed but leave technical details on programming to the chunk itself, where you can comment the code.
+Next, we have plain text with rmarkdown, which gets translated into formatted text when you click on \emph{Knit} button. You can write like this anywhere outside of code chunks to explain the logic of your analysis. You should write why and how the analysis is performed but leave technical details on programming to the chunk itself, where you can comment the code.
 
 \begin{center}\includegraphics[width=1\linewidth]{images/notebook-chunk} \end{center}
 
 Finally, we have our first ``proper'' chunk of code (the ``setup'' chunk above is a special case). A code chunk is simply the code embedded between
-\texttt{\textasciigrave{}\textasciigrave{}\textasciigrave{}\{r\ \textless{}name\ of\ the\ chunk\}} and the seconds set of ticks \texttt{\textasciigrave{}\textasciigrave{}\textasciigrave{}}. Here \texttt{r} specifies that the code inside is written in R language but you can use other languages such as Python, Stan, or SQL. The \texttt{name\ of\ the\ chunk} is optional but I would recommend to have it, as it reminds you what this code is about and it makes it easier to navigate in large notebooks. In the bottom-left corner, you can see which chunk or section you are currently at and, if you click on it, you can quickly navigate to a different chunk. If chunks are not explicitly named, they will get labels \texttt{Chunk\ 1}, \texttt{Chunk\ 2}, etc. making it hard to distinguish them.
+\texttt{\textasciigrave{}\textasciigrave{}\textasciigrave{}\{r\ \textless{}name\ of\ the\ chunk\}} and the seconds set of ticks \texttt{\textasciigrave{}\textasciigrave{}\textasciigrave{}}. Here \texttt{r} specifies that the code inside is written in R language but you can use other languages such as Python (via \href{https://rstudio.github.io/reticulate/}{reticulate} package), \href{https://mc-stan.org/}{Stan}, or SQL. The \texttt{name\ of\ the\ chunk} is optional but I would recommend to specify it, as it reminds you what this code is about and it makes it easier to navigate in large notebooks. In the bottom-left corner, you can see which chunk or section you are currently at and, if you click on it, you can quickly navigate to a different chunk. If chunks are not explicitly named, they will get labels \texttt{Chunk\ 1}, \texttt{Chunk\ 2}, etc. making it hard to distinguish them.
 
 \begin{center}\includegraphics[width=1\linewidth]{images/notebook-navigation} \end{center}
 
-There are also additional options that you can specify per chunk (whether to run the code, to show the output, what size the figures should be, etc.). Generally we won't need these options but you can get an idea about them by looking at the \href{https://yihui.org/knitr/options/}{official manual}. You can create a chunk by hand or click on ``Create chunk'' drop-down list (in this case, it will create the chunk at the position of the cursor)
+There are additional options that you can specify per chunk (whether to run the code, to show the output, what size the figures should be, etc.). Generally we won't need these options but you can get an idea about them by looking at the \href{https://yihui.org/knitr/options/}{official manual}. You can create a chunk by hand or click on ``Create chunk'' drop-down list (in this case, it will create the chunk at the position of the cursor)
 
 \begin{center}\includegraphics[width=1\linewidth]{images/notebook-insert-chunk} \end{center}
 
-Finally, you run \textbf{all} the code in the chunk by clicking on \texttt{Run\ current\ chunk\ button} at the top-right corner of the chunk or by pressing \texttt{Ctrl\ +\ Shift\ +\ Enter} when the you are inside the chunk. However, you can also run just a \emph{single line} or only \emph{selected lines} by pressing \texttt{Ctrl\ +\ Enter}. The cool thing about RMarkdown in RStudio is that you will see the output of that chunk right below it. This means that you can write you code chunk-by-chunk, ensure that each works as intended and only when knit the entire document. Run the chunks in your notebook to see what I mean.
+Finally, you run \textbf{all} the code in the chunk by clicking on \emph{Run current chunk button} at the top-right corner of the chunk or by pressing \textbf{Ctrl+Shift+Enter} when the you are inside the chunk. However, you can also run just a \emph{single line} or only \emph{selected lines} by pressing \textbf{Ctrl+Enter}. The cool thing about RMarkdown in RStudio is that you will see the output of that chunk right below it. This means that you can write you code chunk-by-chunk, ensure that each works as intended and only when knit the entire document. Run the chunks in your notebook to see what I mean.
 
 \begin{center}\includegraphics[width=1\linewidth]{images/notebook-run-chunk} \end{center}
 
@@ -294,14 +297,14 @@ For the today's exercise, I want you to familiarize yourself with markdown. Go t
 \hypertarget{vectors}{%
 \chapter{Vectors! Vectors everywhere!}\label{vectors}}
 
-Before reading the chapter, please download the \href{notebooks/Seminar\%2002\%20-\%20Vectors.Rmd}{exercise notebook} (\texttt{Alt\ +\ Click} to download it or right-click as \texttt{Save\ link\ as...}), put it into your seminar project folder and open the project. You need both the text and the notebook with exercises to be open, as you will be switching between them.
+Before reading the chapter, please download the \href{notebooks/Seminar\%2002\%20-\%20Vectors.Rmd}{exercise notebook} (\textbf{Alt+Click} to download it or right-click as \emph{Save link as\ldots{}}), put it into your seminar \protect\hyperlink{projects}{project folder}, and open the project. You need both the text and the notebook with exercises to be open, as you will be switching between them.
 
-Before we can start programming in R, you need to learn about vectors. This is a key concept in R, so your understanding of it will determine how easy it will be for you to use R. Do all of the exercises and do not hesitate to ask me whenever something is unclear. Remember, you need to master vectors before you can master R!
+Before we can start using R for analysis, you need to learn about vectors. This is a key concept in R, so your understanding of it will determine how easy it will be for you to use R in general. Do all of the exercises and do not hesitate to ask me whenever something is unclear. Remember, you need to master vectors before you can master R!
 
 \hypertarget{variables}{%
 \section{Variables as boxes}\label{variables}}
 
-In programming, the concept of a variable is often described as a box you can put something in. A box has a name tag on it, which is the \emph{name} of the variable. Whatever you put in is the \emph{value} that you store.
+In programming, a concept of a variable is often described as a box you can put something in. A box has a name tag on it, which is the \emph{name} of the variable. Whatever you put in is the \emph{value} that you store.
 
 \begin{center}\includegraphics[width=0.3\linewidth]{images/variable-as-box} \end{center}
 
@@ -313,12 +316,12 @@ This ``putting in'' concepts is reflected in R syntax
 \end{Highlighting}
 \end{Shaded}
 
-Here, \texttt{number\_of\_participants} is the name of the variable (name tag for the box we will be using), \texttt{10} is the value you store, and \texttt{\textless{}-} means \textbf{``put \texttt{10} into variable \texttt{number\_of\_participants}''}. If you know other programming languages, you probably expected the usual assignment operator \texttt{=}. Confusingly, you can use it as well, but there are some subtle, yet important, differences in how they operate behind the scenes. We will meet \texttt{=} again when we will be talking about functions and, in particular, Tidyverse way of doing things but for now \textbf{only use \texttt{\textless{}-} operator}!
+Here, \texttt{number\_of\_participants} is the name of the variable (name tag for the box that we will be using), \texttt{10} is the value you store, and \texttt{\textless{}-} means \emph{``put \texttt{10} into variable \texttt{number\_of\_participants}''}. If you know other programming languages, you probably expected the usual assignment operator \texttt{=}. Confusingly, you can use it in R as well, but there are some subtle, yet important, \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/assignOps.html}{differences} in how they operate behind the scenes. We will meet \texttt{=} again when we will be talking about functions and, in particular, Tidyverse way of doing things but for now \textbf{only use \texttt{\textless{}-} operator}!
 
-\hypertarget{assignment-statement-in-detail}{%
-\section{Assignment statement in detail}\label{assignment-statement-in-detail}}
+\hypertarget{assignment-statement}{%
+\section{Assignment statement in detail}\label{assignment-statement}}
 
-One \textbf{very important} thing to remember about the assignment statement \texttt{\textless{}variable\textgreater{}\ \textless{}-\ \textless{}value\textgreater{}}: the \emph{right side} is evaluated first until the final value is established and then, and only then, it is stored in a \texttt{\textless{}variable\textgreater{}} specified on the left side. This means that you can use the same variable on \emph{both} sides. Take a look at the example
+One \emph{very important} thing to remember about the assignment statement \texttt{\textless{}variable\textgreater{}\ \textless{}-\ \textless{}value\textgreater{}}: The \emph{right side} is evaluated first until the final value is established and then, and only then, it is stored in a \texttt{\textless{}variable\textgreater{}} specified on the left side. This means that you can use the same variable on \emph{both} sides. Take a look at the example
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -349,9 +352,9 @@ R's use of \texttt{\textless{}-} makes it easier to memorize this \emph{right si
 Do exercise 1.
 
 \hypertarget{vectors-scalars}{%
-\section{Vectors and scalars (which are also vectors)}\label{vectors-scalars}}
+\section{Vectors and singluar values (scalars, which are also vectors)}\label{vectors-scalars}}
 
-The box metaphor you've just learned, doesn't quite work for R. Historically, R was developed as a language for statistical computing, so it was based on concepts of linear algebra instead of being a ``normal'' programming language. This means that there is no conceptual divide between single values and containers (arrays, lists, dictionaries, etc.) that hold many single values. Instead, the primary data unit in R is a \textbf{vector}, which you may remember from geometry or, hopefully, from linear algebra, as an arrow that goes from 0 to a specific point in space. From computer science point of view, a vector is just a list of numbers (or some other values, as you will learn later). This means that there are no ``single values'' in R, there are only vectors of variable length. Special cases are vectors of length one, which are called \emph{scalars} \footnote{Multiplication of a vector by another vector \emph{transforms} it but for a single element vector the only transformation you can get is ``scaling'', hence, the name.} (but they are still vectors) and zero length vectors that are, sort of, a Platonic idea of a vector without actual values. With respect to the ``box metaphor'', this means that we always have a box with indexed (numbered) slots in it. A simple assignment makes sure that ``the box'' has as many slots as the values you want to put in and stores these values one after another starting with slot \#1. So, the example above \texttt{number\_of\_participants\ \textless{}-\ 10} creates a variable with one (1) slot and stores the value in it.
+The box metaphor you've just learned, doesn't quite work for R. Historically, R was developed as a language for statistical computing, so it was based on concepts of linear algebra instead of being a ``normal'' programming language like Python or C. This means that there is no conceptual divide between single values and containers (arrays, lists, dictionaries, etc.) that hold many single values. Instead, the primary data unit in R is a \emph{vector}, which you may remember from geometry or, hopefully, from linear algebra, as an arrow that goes from 0 to a specific point in space. From computer science point of view, a vector is just a list of numbers (or some other values, as you will learn later). This means that there are no ``single values'' in R, there are only vectors of variable length. Special cases are vectors of length one, which are called \emph{scalars} \footnote{Multiplication of a vector by another vector \emph{transforms} it but for a single element vector the only transformation you can get is ``scaling'', hence, the name.} (but they are still vectors) and zero length vectors that are, sort of, a Platonic idea of a vector without actual values. With respect to the ``box metaphor'', this means that we always have a box with indexed (numbered) slots in it. A simple assignment makes sure that ``the box'' has as many slots as values you want to put in and stores these values one after another starting with slot \#1\footnote{If you have experience with programming languages like Python, C, or Java: indexes in R start with 1, not with 0.}. Therefore, the example above \texttt{number\_of\_participants\ \textless{}-\ 10} creates a \emph{vector} variable with one (1) slot and stores the value in it.
 
 \begin{center}\includegraphics[width=0.3\linewidth]{images/box-with-a-slot} \end{center}
 
@@ -363,11 +366,11 @@ But, as noted above, a single value (vector with length of one) is a special cas
 \end{Highlighting}
 \end{Shaded}
 
-Here, you create a variable (box) named \texttt{response} that has three slots in it because you want to store three values. You put values \texttt{1}, \texttt{7}, \texttt{3} into the slots \#1, \#2, and \#3. The \texttt{c(1,\ 7,\ 3)} notation is how you create a vector in R by \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/c}{\textbf{c}oncatenating} (or \textbf{c}ombining) values\footnote{I find this to be a poor choice of name but we are stuck with, so get used to it.}. The figure below illustrates the idea:
+Here, you create a variable (box) named \texttt{response} that has three slots in it because you want to store three values. You put values \texttt{1}, \texttt{7}, \texttt{3} into the slots \#1, \#2, and \#3. The \texttt{c(1,\ 7,\ 3)} notation is how you create a vector in R by \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/c}{\textbf{c}oncatenating} (or \textbf{c}ombining) values\footnote{I find this to be a very poor choice of name but we are stuck with it, so your only option is to get used to it.}. The figure below illustrates the idea:
 
 \begin{center}\includegraphics[width=0.3\linewidth]{images/box-3-slots} \end{center}
 
-Building on the box metaphor: If you can store something in a box, you can take it out! In the world of computers it works even better, because rather than taking something out, you just make a copy of that and store this copy somewhere else or to use it to compute things. Minimally, we would like to see what is inside of the box. For this, you can use \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print}{print} function:
+Building on the box metaphor: If you can store something in a box, you can take it out! In the world of computers it works even better, because rather than taking something out, you just make a copy of that and store this copy somewhere else or to use it to compute things. Minimally, we would like to see what is inside of the box. For this, you can use \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/print.html}{print} function:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -411,7 +414,7 @@ Here, we create a 3-slot variable \texttt{x} so that we can put in a vector of l
 
 Do exercise 2.
 
-Remember, everything is a vector! This means that \texttt{c(3,\ 6,\ 9)} does not \textbf{c}oncatenate numbers, it \textbf{c}oncatenates three length one vectors (scalars) \texttt{3}, \texttt{6}, \texttt{9}. Thus, \textbf{c}oncatenation works on longer vectors in exactly the same way:
+Remember, everything is a vector! This means that \texttt{c(3,\ 6,\ 9)} does not concatenate numbers, it concatenates three length one vectors (scalars) \texttt{3}, \texttt{6}, \texttt{9}. Thus, concatenation works on longer vectors in exactly the same way:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -428,9 +431,9 @@ Remember, everything is a vector! This means that \texttt{c(3,\ 6,\ 9)} does not
 Do exercise 3.
 
 \hypertarget{vector-index}{%
-\section{Vector indexes}\label{vector-index}}
+\section{Vector indexes (subsetting)}\label{vector-index}}
 
-A vector is an ordered list of one or more values (box with one or more slots) and, sometimes, you need only one of the values. Each value (slot in the box) has its own index from 1 till N, where N is the \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/length}{length} of the vector. To access that slot you use square brackets \texttt{some\_vector{[}index{]}}. You can both get and set the value for the individual slots the same way you do it for the whole vector.
+A vector is an ordered list of values (box with some slots) and, sometimes, you need only one of the values. Each value (slot in the box) has its own index from 1 till N, where N is the \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/length.html}{length} of the vector. To access that slot you use square brackets \texttt{some\_vector{[}index{]}}. You can both get and set the value for the individual slots the same way you do it for the whole vector.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -460,7 +463,7 @@ A vector is an ordered list of one or more values (box with one or more slots) a
 
 Do exercise 4.
 
-Unfortunately, vector indexing in R behaves in a way that may catch you by surprise. If your vectors contains five values, you would expect that index of \texttt{0} (negative indexes are discussed below) or above \texttt{5} generates an error. Not in R! Index of \texttt{0} is a special case and produces an \emph{empty vector} (vector of zero length).
+Unfortunately, vector indexing in R behaves in a way that may\footnote{Who am I kidding? Will!} catch you by surprise. Or, even worse, you will not even notice that your indexing does not work and screwes up your analysis. If your vector contains five values, you would expect that an index of \texttt{0} (negative indexes are special and will be discussed below) or above \texttt{5} generates an error. Not in R! Index of \texttt{0} is a special case and produces an \emph{empty vector} (vector of zero length).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -473,7 +476,7 @@ Unfortunately, vector indexing in R behaves in a way that may catch you by surpr
 ## numeric(0)
 \end{verbatim}
 
-If you try to get vector element using index that is larger than vector length (so \texttt{6} and above, if your vector length is 5), R will return \texttt{NA} (``Not Available'' / Missing Value).
+If you try to get vector element using index that is larger than vector length (so \texttt{6} and above for a 5 element vector), R will return \texttt{NA} (\href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html}{``Not Available'' / Missing Value}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -488,7 +491,7 @@ If you try to get vector element using index that is larger than vector length (
 
 In both cases, it won't generate an error or even warn you!
 
-When \textbf{setting} the value by index, using \texttt{0} will produce no effect, because you are trying to put a value in a vector with no slots. Oddly enough, this will generate neither an error nor a warning, so beware!
+When \emph{setting} a value by index, using \texttt{0} will produce no effect, because you are trying to put a value into a vector with no ``slots''. Oddly enough, this will also generate neither an error nor a warning, so beware!
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -502,7 +505,7 @@ When \textbf{setting} the value by index, using \texttt{0} will produce no effec
 ## [1] 1 2 3
 \end{verbatim}
 
-If you set an element those index is \textbf{larger} than vector length, the vector will be automatically expanded to that length and all the elements between the old values and the new one will be \texttt{NA} (Missing Value / Not Available).
+If you set an element with index \textbf{larger} than vector length, the vector will be automatically expanded to that length and all the elements between the old values and the new one will be \texttt{NA} (\href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html}{``Not Available'' / Missing Value}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -516,11 +519,11 @@ If you set an element those index is \textbf{larger} than vector length, the vec
 ##  [1]  1  2  3 NA NA NA NA NA NA  5
 \end{verbatim}
 
-This may sound too technical but I want you to learn about this because R conventions are so different from other programming languages and, also, from you would intuitively expect. If you are not aware of these highly peculiar rules, you may never realize that your code is not working properly because you will never see an error or even a warning! It should also make you more cautious and careful when programming in R. It is a very powerful language that allows you to be very flexible and expressive. Unfortunately, that flexibility means that base R won't stop you from shooting yourself in a foot. Even worse, sometimes you won't even notice that your foot is shot because R won't generate either errors or warnings, as in examples above. Good news is that things are far more restricted and consistent in Tidyverse.
+This may sound too technical but I want you to learn about this because R conventions are so different from other programming languages and, also, from what you would intuitively expect. If you are not aware of these highly peculiar rules, you may never realize that your code is not working properly because, remember, you will never see an error or even a warning! It should also make you more cautious and careful when programming in R. It is a very powerful language that allows you to be very flexible and expressive. Unfortunately, that flexibility means that base R won't stop you from shooting yourself in a foot. Even worse, sometimes you won't even notice that your foot is shot and bleeding because R won't generate either errors or warnings, as in examples above. Good news is that things are far more restricted and consistent in Tidyverse.
 
 Do exercise 5.
 
-Also, you can use \emph{negative} indexes. In that case, you \textbf{exclude} the value with that index and return or modify the rest.
+You can also use \emph{negative} indexes. In that case, you \emph{exclude} the value with that index and return or modify the rest\footnote{People who use Python, please be aware that negatives indexes in R and in Python behave completely differently!}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -558,7 +561,7 @@ Given that negative indexing returns everything \textbf{but} the indexed value, 
 
 Do exercise 6.
 
-Finally, somewhat illogically, the entire vector is returned if you do not specify the index in the square brackets. Here, lack of index means ``everything''.
+Finally, somewhat counterintuitively, the entire vector is returned if you do not specify an index in the square brackets. Here, lack of index means ``everything''.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -571,14 +574,14 @@ Finally, somewhat illogically, the entire vector is returned if you do not speci
 ## [1] 10 20 30 40 50
 \end{verbatim}
 
-\hypertarget{names-as-index}{%
-\section{Names as Index}\label{names-as-index}}
+\hypertarget{names}{%
+\section{Names as an Index}\label{names}}
 
-As you've just learned, every slot in vector has its numeric (integer) index. However, this number only indicates an index of a slot but tells you nothing on how it is conceptually different from a slot with a different index. For example, if we are storing width and height in a vector, remembering their order may be tricky: was it \texttt{box\_size\ \textless{}-\ c(\textless{}width\textgreater{},\ \textless{}depth\textgreater{},\ \textless{}height\textgreater{})} or \texttt{box\_size\ \textless{}-\ c(\textless{}height\textgreater{},\ \textless{}width\textgreater{},\ \textless{}depth\textgreater{})}? Similarly, looking at \texttt{box\_size{[}1{]}} tells that you are definitely using the \emph{first} dimension but is it \texttt{height} or \texttt{width} (or \texttt{depth})?
+As you've just learned, every slot in vector has its numeric (integer) index. However, this number only indicates an index (position) of a slot but tells you nothing on how it is conceptually different from a slot with a different index. For example, if we are storing width and height in a vector, remembering their order may be tricky: was it \texttt{box\_size\ \textless{}-\ c(\textless{}width\textgreater{},\ \textless{}depth\textgreater{},\ \textless{}height\textgreater{})} or \texttt{box\_size\ \textless{}-\ c(\textless{}height\textgreater{},\ \textless{}width\textgreater{},\ \textless{}depth\textgreater{})}? Similarly, looking at \texttt{box\_size{[}1{]}} tells that you are definitely using the \emph{first} dimension but is it \texttt{height} or \texttt{width} (or \texttt{depth})?
 
-In R, you can use \emph{names} to supplement numeric indexes. It allows you add meaning to a particular vector index, something that becomes extremely important when we use it for tables. There are two ways to assign names to indexes, either when you are creating the index via \texttt{c()} function or, afterwards, via \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/names}{names()} function.
+In R, you can use \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/names.html}{names} to supplement numeric indexes. It allows you to add meaning to a particular vector index, something that becomes extremely important when we use it for tables. There are two ways to assign names to indexes, either when you are creating the index via \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/c.html}{c()} function or, afterwards, via \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/names.html}{names()} function.
 
-To create named vector via \texttt{c()} you specify a name before each value as \texttt{c(\textless{}name1\textgreater{}\ =\ \textless{}value1\textgreater{},\ \textless{}name2\textgreater{}\ =\ \textless{}value2\textgreater{},\ ...)}:
+To create named vector via \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/c.html}{c()} you specify a name before each value as \texttt{c(\textless{}name1\textgreater{}\ =\ \textless{}value1\textgreater{},\ \textless{}name2\textgreater{}\ =\ \textless{}value2\textgreater{},\ ...)}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -617,7 +620,7 @@ Note the names appearing above each value. You can now use either numeric index 
 ##     1
 \end{verbatim}
 
-Alternatively, you can use \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/names}{names()} function to both get and set the names. The latter works via a \emph{very counterintuitive} syntax \texttt{names(\textless{}vector\textgreater{})\ \textless{}-\ \textless{}vector-with-names\textgreater{}}
+Alternatively, you can use \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/names.html}{names()} function to both get and set the names. The latter works via a \emph{very counterintuitive} syntax \texttt{names(\textless{}vector\textgreater{})\ \textless{}-\ \textless{}vector-with-names\textgreater{}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -672,7 +675,7 @@ Because everything is a vector, \texttt{names(\textless{}vector\textgreater{})} 
 ##      2      4      1
 \end{verbatim}
 
-Finally, if you use a name that is not in the index, this is like using numeric index larger than the vector length. Is in out-of-range numeric index, there will be neither error not warning and you will get an \texttt{NA} back.
+Finally, if you use a name that is not in the index, this is like using numeric index larger than the vector length. Just as for out-of-range numeric index, there will be neither error not warning and you will get an \texttt{NA} back.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -704,7 +707,7 @@ So far we were reading or modifying either the whole vector or just one of its e
 ## [1] 20 30 50
 \end{verbatim}
 
-When constructing a vector index, you can put the index values in the order you require (starting from the end of it, random order, etc.) or use the same index more than once.
+When constructing a vector index, you can put index values in the order you require (normal ascending order, starting from the end of it, random order, etc.) or use the same index more than once.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -717,7 +720,7 @@ When constructing a vector index, you can put the index values in the order you 
 ## [1] 30 50 10 10 40
 \end{verbatim}
 
-You can also use several negative indexes to exclude multiple values and return the rest. Here, neither order nor the duplicate indexes matter. Regardless of which value you exclude first or how many times you exclude it, you still get \emph{the rest} of the vector in its default order.
+You can also use several negative indexes to exclude multiple values and return the rest. Here, neither order nor duplicate indexes matter. Regardless of which value you exclude first or how many times you exclude it, you still get \emph{the rest} of the vector in its default order.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -769,12 +772,12 @@ You can also use names instead of numeric indexes.
 ##      4      2
 \end{verbatim}
 
-However, you cannot mix numeric indexes and names. The reason is that a vector can hold only values of one type (more on that during the next seminar), so all numeric values will be converted to text (\texttt{1} will become \texttt{"1"}) and treated as names rather than indexes.
+However, you cannot mix numeric indexes and names. The reason is that a vector can hold only values of one type (more on that next time), so all numeric values will be converted to text (\texttt{1} will become \texttt{"1"}) and treated as names rather than indexes.
 
 \hypertarget{colon-sequence}{%
 \section{Colon Operator and Sequence Generation}\label{colon-sequence}}
 
-To simplify vector indexing, R provides you with a shortcut to create a range of values. An expression \texttt{A:B} (a.k.a.\href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/Colon.html}{Colon Operator}) builds a sequence of integers starting with \texttt{A} and ending with \textbf{and including(!)} \texttt{B} (the latter is not so obvious, if you come from Python).
+To simplify vector indexing, R provides you with a shortcut to create a range of values. An expression \texttt{A:B} (a.k.a.\href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/Colon.html}{Colon Operator}) builds a sequence of integers starting with \texttt{A} and ending with \textbf{and including(!)} \texttt{B}\footnote{The latter is not so obvious, if you come from Python}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -837,14 +840,14 @@ Same sequence but using \texttt{length.out} version:
 ## [1] 1 3 5
 \end{verbatim}
 
-You have probably spotted the \texttt{=} symbol. Here, it is not an assignment but is used to specify values of parameters when you call a function. Thus, we are still sticking with \texttt{\textless{}-} \textbf{outside} of the function calls but are using \texttt{=} \textbf{inside} the function calls.
+You have probably spotted the \texttt{=} symbol. Here, it is not an assignment but is used to specify values of parameters when you call a function. Thus, we are still sticking with \texttt{\textless{}-} \textbf{outside} of the function \emph{calls} but are using \texttt{=} \textbf{inside} the function calls.
 
 Do exercise 8.
 
 \hypertarget{working-with-two-vectors-of-equal-length}{%
 \section{\texorpdfstring{Working with two vectors of \emph{equal} length}{Working with two vectors of equal length}}\label{working-with-two-vectors-of-equal-length}}
 
-You can also use mathematical operations on several vectors. Here, the vectors are matched element-wise. Thus, if you add two vectors of \emph{equal} length, the \emph{first} element of the first vector is added to the \emph{first} element of the second vector, \emph{second} element to \emph{second}, etc.
+You can also use mathematical operations on several vectors. Here, vectors are matched element-wise. Thus, if you add two vectors of \emph{equal} length, the \emph{first} element of the first vector is added to the \emph{first} element of the second vector, \emph{second} element to \emph{second}, etc.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -894,7 +897,7 @@ Here, the values of \texttt{y} were repeated three times to match the length of 
 
 Again, the actual computation is \texttt{c(1,\ 2,\ 3,\ 4,\ 5,\ 6)\ +\ c(2,\ 2,\ 2,\ 2,\ 2,\ 2)}.
 
-If the length of the longer vector \textbf{is not} a multiple of the shorter vector length, R will repeat the shorter vector N times, so that \(N = ceiling(length(longer~vector) / length(shorter~vector))\) (where \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/Round}{ceiling()} rounds a number up) and truncates (throws away) extra elements it does not need. Although R will do it, it will also issue a warning about mismatching objects' (vectors') lengths.
+If the length of the longer vector \textbf{is not} a multiple of the shorter vector length, R will repeat the shorter vector N times, so that \(N = ceiling(length(longer~vector) / length(shorter~vector))\) (where \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/Round.html}{ceiling()} rounds a number up) and truncates (throws away) extra elements it does not need. Although R will do it, it will also issue a warning (yay!) about mismatching objects' (vectors') lengths.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -913,7 +916,7 @@ If the length of the longer vector \textbf{is not} a multiple of the shorter vec
 ## [1] 3 4 3 4 3
 \end{verbatim}
 
-Finally, combining any vector with null length vector produces a null length vector.
+Finally, combining any vector with null length vector produces a null length vector\footnote{No idea!}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -927,14 +930,14 @@ Finally, combining any vector with null length vector produces a null length vec
 ## numeric(0)
 \end{verbatim}
 
-One thing to keep in mind: R does this length-matching-via-vector-repetition automatically and shows a warning only if two lengths are not multiples of each other. This means that vectors will be matched by length even if that was not your plan. E.g, imagine that your vector that contains experimental condition (e.g.~contrast of the stimulus) is about all ten blocks that participants performed but your vector with responses is, accidentally, only on block \#1. R will \textbf{silently(!)} replicate the responses 10 times to match their length without ever telling you to watch out. Thus, do make sure that your vectors are matched in their length, so that you are not caught surprised by this behavior (you can use function \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/length}{length()} for this). Good news, it is much more strict in Tidyverse, which is designed to make shooting yourself in the foot much harder.
+One thing to keep in mind: R does this length-matching-via-vector-repetition automatically and shows a warning only if two lengths are not multiples of each other. This means that vectors will be matched by length even if that was not your plan. Imagine that your vector, which contains experimental condition (e.g.~contrast of the stimulus), is about all ten blocks that participants performed but your vector with responses is, accidentally, only for block \#1. R will \textbf{silently(!)} replicate the responses 10 times to match their length without ever telling you about this. Thus, do make sure that your vectors are matched in their length, so that you are not caught surprised by this behavior (you can use function \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/length.html}{length()} for this). Good news, it is much more strict in Tidyverse, which is designed to make shooting yourself in a foot much harder.
 
 Do exercise 10.
 
 \hypertarget{applying-functions-to-a-vector}{%
 \section{Applying functions to a vector}\label{applying-functions-to-a-vector}}
 
-Did I mention that everything is a vector? This means that when you are using a function, you are always applying it to (mapping it on) a vector. This, in turn, means that you apply the function to \textbf{all values} in one go. For example, you can compute a cosine of all values in the vector.
+Did I mention that everything is a vector? This means that when you are using a function, you are always applying it to a vector. This, in turn, means that you apply the function to \textbf{all values} in one go. For example, you can compute a cosine of all values in the vector.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -946,7 +949,7 @@ Did I mention that everything is a vector? This means that when you are using a 
 ## [1]  1.000000e+00  7.071068e-01  6.123032e-17 -1.000000e+00 -1.000000e+00
 \end{verbatim}
 
-In contrast, in Python or C, you would need to loop over the values and compute the cosine for one value at a time (matrix-based NumPy library is a different story). Or think about Excel, where you need to extend formula over the rows but each row is computed independently (so you can deliberately or accidentally miss some rows). In R, because everything is the vector, the function is applied to every value automatically. Similarly, if you are using aggregating functions, such as \texttt{mean()} and \texttt{max()}, you can pass a vector and it will return a length-one vector with the value.
+In contrast, in Python or C you would need to loop over values and compute cosine for one value at a time (matrix-based NumPy library is a different story). Or think about Excel, where you need to extend formula over the rows but each row is computed independently (so you can deliberately or accidentally miss some rows). In R, because everything is the vector, the function is applied to every value automatically. Similarly, if you are using aggregating functions, such as \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html}{mean()} or \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/Extremes.html}{max()}, you can pass a vector and it will return a length-one vector with the value.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -961,28 +964,28 @@ In contrast, in Python or C, you would need to loop over the values and compute 
 \hypertarget{wrap-up}{%
 \section{Wrap up}\label{wrap-up}}
 
-By now you have learned more about vectors, vector indexing, and vector operations in R than you probably bargained for. Admittedly, not the most exciting topic. On top of that, there was not a single word on psychology, data analysis, or statistics! However, R is obsessed with vectors (everything is a vector!) and understanding them will make it easier to understand lists (a polyamorous cousin of a vector), tables (special kind of lists made of vectors) and functional programming. Finish this seminar by doing remaining exercises. Let's see whether R can still surprise you!
+By now you have learned more about vectors, vector indexing, and vector operations in R than you probably bargained for. Admittedly, not the most exciting topic. On top of that, there was not a single word on psychology or data analysis! However, R is obsessed with vectors (everything is a vector!) and understanding them will make it easier to understand lists (a polyamorous cousin of a vector), tables (special kind of lists made of vectors), and functional programming (on which R is built on). Finish this seminar by doing remaining exercises. Let's see whether R can still surprise you!
 
 \hypertarget{tables}{%
 \chapter{Tables and Tibbles (and Tribbles)}\label{tables}}
 
-Please download the \href{notebooks/Seminar\%2003\%20-\%20Tables.Rmd}{exercise notebook} (\texttt{Alt\ +\ Click} to download it or right-click as \texttt{Save\ link\ as...}), put it into your seminar project folder and open the project. You need both the text and the notebook with exercises to be open, as you will be switching between them.
+Please download the \href{notebooks/Seminar\%2003\%20-\%20Tables.Rmd}{exercise notebook} (\textbf{Alt+Click} to download it or right-click as \emph{Save link as\ldots{}}), put it into your seminar project folder and open the project. You need both the text and the notebook with exercises to be open, as you will be switching between them.
 
-\hypertarget{primarytypes}{%
-\section{Primary data types}\label{primarytypes}}
+\hypertarget{primary-types}{%
+\section{Primary data types}\label{primary-types}}
 
-Last time we talked about the fact that everything is a vector in R. All the examples used numeric vectors which are two of the four primary types in R.
+Last time we talked about the fact that everything\footnote{Terms and conditions apply.} is a vector in R. All examples used numeric vectors which are two of the four primary types in R.
 
 \begin{itemize}
 \tightlist
 \item
-  Real numbers (double precision floating point numbers) that can be written in decimal notation with or without a decimal point (\texttt{123.4} or \texttt{42}) or in a scientific notation (\texttt{3.14e10}). There are two special values specific to the real numbers: \texttt{Inf} (infinity) and \texttt{NaN} (not a number). The latter looks similar \texttt{NA} (Not Available / Missing Value) but is a different special case.
+  Real numbers (double precision floating point numbers) that can be written in decimal notation with or without a decimal point (\texttt{123.4} or \texttt{42}) or in a scientific notation (\texttt{3.14e10}). There are two special values specific to the real numbers: \texttt{Inf} (\href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/is.finite.html}{infinity}) and \texttt{NaN} (\href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/is.finite.html}{not a number}). The latter looks similar \texttt{NA} (\href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html}{Not Available / Missing Value}) but is a different special case (see \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/is.finite.html}{R documentation} for details.
 \item
   Integer numbers that can be specified by adding \texttt{L} to the end of an integer number \texttt{5L}. Without that \texttt{L} a \emph{real} value will be created (\texttt{5} would be stored as \texttt{5.0}).
 \item
-  Logical or Boolean values of \texttt{TRUE} (also written as \texttt{T}) and \texttt{FALSE} (also written as \texttt{F}).
+  Logical or Boolean values of \texttt{TRUE} and \texttt{FALSE}. They can also be written as \texttt{T} and \texttt{F} but this practice is discouraged by the \href{https://style.tidyverse.org/syntax.html?q=TRUE\#logical-vectors}{Tidyverse style guide}.
 \item
-  Character values (strings) that hold text between a pair of matching \texttt{"} or \texttt{\textquotesingle{}} characters. The two options mean that you can surround your text by \texttt{\textquotesingle{}} if you need to put a quote inside: \texttt{\textquotesingle{}"I\ have\ never\ let\ my\ schooling\ interfere\ with\ my\ education."\ Mark\ Twain\textquotesingle{}} or by \texttt{"} if you need an apostrophe \texttt{"participant\textquotesingle{}s\ response"}.
+  Character values (strings) that hold text between a pair of matching \texttt{"} or \texttt{\textquotesingle{}} characters. The two options mean that you can surround your text by \texttt{\textquotesingle{}} if you need to put a quote inside: \texttt{\textquotesingle{}"I\ have\ never\ let\ my\ schooling\ interfere\ with\ my\ education."\ Mark\ Twain\textquotesingle{}} or by \texttt{"} if you need an apostrophe \texttt{"participant\textquotesingle{}s\ response"}. Note that a string \textbf{is not} a vector of characters. This would make a lot of sense but it is not. This is why \protect\hyperlink{vector-index}{indexing} or \protect\hyperlink{vector-index-slicing}{slicing} will not work and you need to use special functions.
 \end{itemize}
 
 You can convert from one type to another and check whether a particular vector is of specific type. Note that if a vector cannot be converted to a specified type, it is ``converted'' to \texttt{NA} instead.
@@ -990,21 +993,21 @@ You can convert from one type to another and check whether a particular vector i
 \begin{itemize}
 \tightlist
 \item
-  to integer via \texttt{as.integer()} and \texttt{is.integer}. When converting
+  to integer via \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/integer.html}{as.integer()}, use \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/integer.html}{is.integer()} to check a value. When converting
 
   \begin{itemize}
   \tightlist
   \item
-    from a real number the fractional part is discarded, so \texttt{as.integer(1.8)} → \texttt{1} and \texttt{as.integer(-2.1)} → \texttt{2}
+    from a real number the fractional part is \emph{discarded}, so \texttt{as.integer(1.8)} → \texttt{1} and \texttt{as.integer(-2.1)} → \texttt{2}
   \item
     from logical value \texttt{as.integer(TRUE)} → 1 and \texttt{as.integer(FALSE)} → 0
   \item
-    from string only it is a properly formed number, e.g.~\texttt{as.integer("12")} → \texttt{12} but \texttt{as.integer("\_12\_")} is \texttt{NA}. Note that a real number string is converted first to a real number and then to an integer so \texttt{as.integer("12.8")} → \texttt{12}.
+    from string only if it is a properly formed number, e.g., \texttt{as.integer("12")} → \texttt{12} but \texttt{as.integer("\_12\_")} is \texttt{NA}. Note that a real number string is converted first to a real number and then to an integer so \texttt{as.integer("12.8")} → \texttt{12}.
   \item
     from \texttt{NA} → \texttt{NA}
   \end{itemize}
 \item
-  to real number via \texttt{as.numeric()} / \texttt{as.double()} and \texttt{is.double()} (avoid \texttt{is.numeric()} as Hadley Wickham \href{https://adv-r.hadley.nz/vectors-chap.html}{writes} that it is not doing what you would think it should).
+  to real number via \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/numeric.html}{as.numeric()} / \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/double.html}{as.double()}, check a value via \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/double.html}{is.double()} (avoid \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/numeric.html}{is.numeric()} as Hadley Wickham \href{https://adv-r.hadley.nz/vectors-chap.html}{writes} that it is not doing what you would think it should).
 
   \begin{itemize}
   \tightlist
@@ -1016,7 +1019,7 @@ You can convert from one type to another and check whether a particular vector i
     from \texttt{NA} → \texttt{NA}
   \end{itemize}
 \item
-  to logical \texttt{TRUE}/\texttt{FALSE} via \texttt{as.logical} and \texttt{is.logical()}.
+  to logical \texttt{TRUE}/\texttt{FALSE} via \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/logical.html}{as.logical} and check a value via \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/logical.html}{is.logical()}.
 
   \begin{itemize}
   \tightlist
@@ -1028,7 +1031,7 @@ You can convert from one type to another and check whether a particular vector i
     from \texttt{NA} → \texttt{NA}
   \end{itemize}
 \item
-  to a character string via \texttt{as.character()} and \texttt{is.character()}
+  to a character string via \href{(https://stat.ethz.ch/R-manual/R-devel/library/base/html/character.html)}{as.character()} and check via \href{(https://stat.ethz.ch/R-manual/R-devel/library/base/html/character.html)}{is.character()}\footnote{Be aware that \href{https://stat.ethz.ch/R-manual/R-devel/library/utils/html/str.html}{str()} function has nothing to do with strings but displays a structure of an object. A very unfortunate choice of name but we are stuck with it.}
 
   \begin{itemize}
   \tightlist
@@ -1043,17 +1046,312 @@ You can convert from one type to another and check whether a particular vector i
 
 Do exercise 1.
 
-\hypertarget{in-vector-all-values-must-be-of-the-same-type}{%
-\section{In vector all values must be of the same type}\label{in-vector-all-values-must-be-of-the-same-type}}
+\hypertarget{vectors-are-homogeneous}{%
+\section{All vector values must be of the same type}\label{vectors-are-homogeneous}}
 
-\textbf{All} values in a vector must be of the same type - all integer, all double, all logical, or all strings. This ensures that you can apply the same function or operation to the entire vector without worrying about type compatibility. This means, however, that you cannot mix different value types in a vector. If you do try to concatenate vectors of different types, all values will be converted to a more general / flexible type. Thus, if you mix numbers and logical values, you will end up with a vector of numbers. Mixing anything with strings will convert the entire vector to string. Mixing in \texttt{NA} does not change the vector type.
+\emph{All} values in a vector must be of the same type - all integer, all double, all logical, or all strings, which is why they are also called \emph{atomic} vectors. This ensures that you can apply the same function or operation to the entire vector without worrying about type compatibility. However, this means that you cannot mix different value types in a vector. If you do try to concatenate vectors of different types, all values will be converted to a more general / flexible type. Thus, if you mix numbers and logical values, you will end up with a vector of numbers. Mixing anything with strings will convert the entire vector to string. Mixing in \texttt{NA} does not change the vector type.
 
 Do exercise 2.
+
+\hypertarget{lists}{%
+\section{Lists}\label{lists}}
+
+(Atomic) vectors are (homogeneous){[}\#vectors-are-homogeneous{]} lists of \protect\hyperlink{primary-types}{primary types} items, whereas \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/list.html}{lists} are lists that can contain \emph{any} item including vectors of different primary type data, other lists, or other objects\footnote{If you are familiar with Python, you can think of R lists as Python lists and dictionaries mixed together.}. Otherwise, (well, almost, see below) you work with them the same way is with vectors. You create a \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/list.html}{list} via \texttt{list()} function and then you can concatenate lists via the same \href{(https://stat.ethz.ch/R-manual/R-devel/library/base/html/c.html)}{c()} function, access individual elements via \protect\hyperlink{vector-index}{numeric index} or \protect\hyperlink{names}{names}, use \protect\hyperlink{vector-index-slicing}{slicing}, etc.
+
+\hypertarget{subsetting}{%
+\section{Subsetting, a fuller version}\label{subsetting}}
+
+Unfortunately, this is the point where we need to talk about subsetting (accessing individual elements of a vector or of a list via indexes or names) yet again. This is because R has several different ways of doing this that look similar and, to make things worse, \emph{sometimes} produce identical results. I do not expect you to memorize or even fully appreciate all the intricate details (I am not even sure I know them all). But I do need you to understand the fundamental difference between the two ways of doing subsetting and to be aware of potential issues that can easily cause confusion. If the latter is the case, return to this section, read the \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/Extract.html}{official manual}, or read the \href{http://adv-r.had.co.nz/Subsetting.html}{subsetting} section in ``Advanced R'' book by Hadley Wickham.
+
+You \protect\hyperlink{vector-index}{already know} subsetting via \emph{single} square brackets: \texttt{x{[}1{]}}. This is called \emph{preserving} subsetting because it returns a \emph{part of an object} (vector or list) that your requested \emph{as is}. I.e., if you used them to access part of a a vector, you get a vector. If you used them to access a list or a \protect\hyperlink{data.frame}{table}, you get a list or a table.
+
+In addition, you can use \emph{double} square brackets: \texttt{x{[}{[}1{]}{]}}. These are called \emph{simplifying} subsetting because they extract \emph{content} at that location. If you have a list of vectors \texttt{l} then \texttt{l{[}2{]}} (preserving) would return a single item list but \texttt{l{[}{[}2{]}{]}} would return a vector stored at that location. A metaphor based on \href{https://twitter.com/rlangtip}{@RLangTip}: ``If list \texttt{x} is a train carrying objects, then \texttt{x{[}{[}5{]}{]}} is the object in car 5; \texttt{x{[}5{]}} is a train consisting only of car 5.'' Note that the simplifying notation allows you to extract content of only \emph{one} item. Therefore, you cannot use it with \protect\hyperlink{vector-index-slicing}{slicing} (extracting content of many items), negative indexes (even if you will end up with just one index), or zero index. The good news is that R will actually generate an error message instead of failing silently, although error messages will be both mysterious and \emph{different} depending on exact circumstances. To deepen your feeling of arbitrariness of R design: using a non-existent \emph{name} index will generate an error for vectors but not for lists (you get \texttt{NULL})\footnote{Insert a hair-pulling picture of your preference here.}.
+
+Confusing? Let us go through some examples, so you can see a difference these two kinds of brackets make for vectors and lists.
+
+\hypertarget{subsetting-for-atomics-vectors}{%
+\subsection{Subsetting for (atomics) vectors}\label{subsetting-for-atomics-vectors}}
+
+First, we create a named vector
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"a"}\OtherTok{=}\DecValTok{1}\NormalTok{, }\StringTok{"b"}\OtherTok{=}\DecValTok{2}\NormalTok{, }\StringTok{"c"}\OtherTok{=}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Preserving subsetting via \texttt{{[}{]}} returns a part of original vector, notice that the \emph{name} associated with an index is retained.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x[}\DecValTok{2}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## b 
+## 2
+\end{verbatim}
+
+Simplifying subsetting via \texttt{{[}{[}{]}{]}} extracts value at the location. Because the \emph{name} is associated with an \emph{index}, not with the content, it gets stripped off.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x[[}\DecValTok{2}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2
+\end{verbatim}
+
+Trying to extract multiple items, use of negative or zero indexes fill all fail for \emph{simplifying} subsetting.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# "attempt to select more than one element in vectorIndex" error}
+\NormalTok{x[[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{]]}
+
+\CommentTok{\# technically, we are excluding two out of three indexes, so end up with just one value}
+\CommentTok{\# still, "attempt to select more than one element in vectorIndex"}
+\NormalTok{x[[}\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{)]]}
+
+\CommentTok{\# A different error message: "attempt to select less than one element in get1index \textless{}real\textgreater{}"}
+\NormalTok{x[[}\DecValTok{0}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+Using of a non-existent name will generate an error for \emph{simplifying} but not for \emph{preserving} subsetting.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# this works}
+\NormalTok{x[}\StringTok{"a"}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## a 
+## 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# this also works but strips the name off}
+\NormalTok{x[[}\StringTok{"a"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# this fails silently by returning NA}
+\NormalTok{x[}\StringTok{"d"}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## <NA> 
+##   NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# this will generate a "subscript out of bounds" error}
+\NormalTok{x[[}\StringTok{"d"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{General rule:} when using vectors, always use \texttt{{[}{]}}. The only potential usage-case I can see is wanting to strip a name off a single item (not sure I ever needed to do this). If, for some reason, this is what you need, you should write a comment explaining that. Otherwise, everyone including future-you will be confused and think that this is a typo.
+
+\hypertarget{subsetting-for-lists}{%
+\subsection{Subsetting for lists}\label{subsetting-for-lists}}
+
+First, we create a named list
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{l }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\StringTok{"a"}\OtherTok{=}\DecValTok{1}\NormalTok{, }\StringTok{"b"}\OtherTok{=}\DecValTok{2}\NormalTok{, }\StringTok{"c"}\OtherTok{=}\FunctionTok{list}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{5}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+Preserving subsetting via \texttt{{[}{]}} returns a list that is a part of original list, again the \emph{name} associated with an index so it is retained in the returned list.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{l[}\DecValTok{2}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $b
+## [1] 2
+\end{verbatim}
+
+Simplifying subsetting via \texttt{{[}{[}{]}{]}} extracts value at the location. This is why you get a \emph{vector} (of length 1).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{l[[}\DecValTok{2}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2
+\end{verbatim}
+
+What about our list inside of the list at position 3? Using preserving subsetting give us a list inside of the list (car of the train).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{l[}\StringTok{"c"}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $c
+## $c[[1]]
+## [1] 3
+## 
+## $c[[2]]
+## [1] 4
+## 
+## $c[[3]]
+## [1] 5
+\end{verbatim}
+
+Using simplifying subsetting return a list that was inside the list at that location (object inside that car). Note that, as with the vector before, the name gets stripped off, as it belongs to the index (car of the train) and not the content (object inside the car).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{l[[}\StringTok{"c"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [[1]]
+## [1] 3
+## 
+## [[2]]
+## [1] 4
+## 
+## [[3]]
+## [1] 5
+\end{verbatim}
+
+Using multiple, negative or zero indexes will fail just like it does for vectors but \emph{some} error messages will be different.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# "subscript out of bounds" error}
+\NormalTok{l[[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{]]}
+
+\CommentTok{\# technically, we are excluding two out of three indexes, so end up with just one value}
+\CommentTok{\# still, "attempt to select more than one element in integerOneIndex"}
+\NormalTok{l[[}\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{)]]}
+
+\CommentTok{\# A different error message: "attempt to select less than one element in get1index \textless{}real\textgreater{}"}
+\NormalTok{l[[}\DecValTok{0}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+Using a non-existent name index for lists with preserving subsetting (\texttt{{[}{]}}) will return a single item list with \texttt{NULL} as a content\footnote{And \texttt{NA} as a name. Don't ask.} but just \texttt{NULL} for simplifying one (\texttt{{[}{[}{]}{]}}). And none of them will generate an error.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{l[}\StringTok{"d"}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $<NA>
+## NULL
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{l[[}\StringTok{"d"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NULL
+\end{verbatim}
+
+\textbf{General rule:} use \texttt{{[}{[}{]}{]}} if you are interested in list or table content, e.g., you need a column from the table. Use \texttt{{[}{]}} if you interested in using a smaller list or table.
+
+If this is the point when you want to start running around screaming or bang your head against the screen, please tell me, cause I would definitely join you. Let us do some exercises that might help to build some intuition. However, as you probably noticed already, subsetting in R is fairly haphazard, so you probably will still end up being confused or have a code the does not work for seemingly mysterious reasons.
+
+Do exercise 3.
+
+\hypertarget{dollar-subsetting}{%
+\section{Yet another subsetting via \$}\label{dollar-subsetting}}
+
+I am terribly sorry but I need deepen your confusion and despair but telling you that R has yet another way of subsetting via a \texttt{\$} sign. In fact, this is the most common way of subsetting for lists and \protect\hyperlink{data.frame}{tables} that you will encounter everywhere. It is a shortcut version for \emph{partial matching} of simplifying subsetting: \texttt{l\$c} is the same as writing \texttt{l{[}{[}"c",\ exact\ =\ FALSE{]}{]}}. The last new part \texttt{exact\ =\ FALSE} means that you can use an \emph{incomplete} name after the \texttt{\$} and R will guess what you mean. So, if you made a typo while meaning some completely different column name, R will second-guess your intentions and give you a variable that has the same beginning (no error, don't even hope).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{l }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\StringTok{"aa"} \OtherTok{=} \DecValTok{1}\NormalTok{, }\StringTok{"bb"} \OtherTok{=} \DecValTok{2}\NormalTok{, }\StringTok{"bc"} \OtherTok{=} \DecValTok{3}\NormalTok{)}
+\NormalTok{l}\SpecialCharTok{$}\NormalTok{a}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1
+\end{verbatim}
+
+The good news is that it won't autocomplete ambiguous cases. The bad news that it won't generate an error and will return a \texttt{NULL} (just like \texttt{{[}{[}{]}{]}} would).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{l}\SpecialCharTok{$}\NormalTok{b}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NULL
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{l[[}\StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NULL
+\end{verbatim}
+
+My advice would be to stick to \texttt{{[}{[}{]}{]}} notation despite the ubiquitous use of \texttt{\$} out where. It is slightly more strict and more universal: You can hard code a column/item name or put it into a variable for indexing. Only hard-coding works for \texttt{\$}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{l[[}\StringTok{"bb"}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{column\_of\_interest }\OtherTok{\textless{}{-}} \StringTok{"bb"}
+\NormalTok{l[[column\_of\_interest]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2
+\end{verbatim}
 
 \hypertarget{data.frame}{%
 \section{Tables, a.k.a. data frames}\label{data.frame}}
 
-We have spent so much time on vectors because a data table is merely a vector (well, technically, a \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/list}{list}) of vectors, with each vector as a column. The default way to construct a table, which are called \emph{data frames} in R, is via \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/data.frame}{data.frame()} function.
+R tables are mix between \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/list.html}{lists} and \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/matrix.html}{matrices}. You can think about it as a list of vectors (columns) of \emph{identical} length. The default way to construct a table, which are called \emph{data frames} in R, is via \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/data.frame}{data.frame()} function.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1073,13 +1371,13 @@ We have spent so much time on vectors because a data table is merely a vector (w
 ## 4              4                D          FALSE
 \end{verbatim}
 
-Once you create a table, it will appear in your environment, so you can see it in the \emph{Environment} tab and view it by clicking on it or typing \texttt{View(table\_name)} in the console (not the capital V in the \texttt{View()}).
+Once you create a table, it will appear in your environment, so you can see it in the \emph{Environment} tab and view it by clicking on it or typing \texttt{View(table\_name)} in the console (note the capital V in the \texttt{View()}).
 
 \begin{center}\includegraphics[width=1\linewidth]{images/viewing-table} \end{center}
 
-Do exercise 3.
+Do exercise 4.
 
-Because all columns in a table \textbf{must} have the same number of rows. This is similar to the process of \protect\hyperlink{different-length-vectors}{matching vectors' length} that you have learned the last time. However, it works automatically only if length of \emph{all} vectors is a multiple of the longest length. Thus, the example below will work, as the longest vector (\texttt{numeric\_column}) is 6, \texttt{character\_column} length is 3, so it will be repeated twice, and \texttt{logical\_column} length is 2 so it will be repeated thrice.
+All columns in a table \textbf{must} have the same number of items (rows). This is similar to the process of \protect\hyperlink{different-length-vectors}{matching vectors' length} that you have learned the last time. However, it works automatically only if length of \emph{all} vectors is a multiple of the longest length. Thus, the example below will work, as the longest vector (\texttt{numeric\_column}) is 6, \texttt{character\_column} length is 3, so it will be repeated twice, and \texttt{logical\_column} length is 2 so it will be repeated thrice.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1100,7 +1398,7 @@ Because all columns in a table \textbf{must} have the same number of rows. This 
 ## 6              6                C          FALSE
 \end{verbatim}
 
-If the simple \emph{multple-of-length} rule does not work, R (finally!) generates an error.
+If the simple \emph{multple-of-length} rule does not work, R generates an error (finally!).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1112,56 +1410,12 @@ If the simple \emph{multple-of-length} rule does not work, R (finally!) generate
 
 Do exercise 4.
 
-Just as with the vectors, you can extract or modify only some elements (rows, columns, subsets) of a table. There are several ways to do it, as you can extract individual elements, individual columns, individual rows, or some rows and some columns. Subsetting tables is not the most exciting and fairly confusing topic but you need to understand it as in the R code that you will encounter different notations could be used interchangeably.
+\hypertarget{table-subsetting}{%
+\section{Subsetting table}\label{table-subsetting}}
 
-\hypertarget{extracting-a-single-vector-column-get-single-column}{%
-\section{Extracting a single vector / column {[}\#get-single-column{]}}\label{extracting-a-single-vector-column-get-single-column}}
+One way to think about a table as a list of columns (vectors). Hence, both preserving (\texttt{{[}{]}}) and simplifying (\texttt{{[}{[}{]}{]}}) subsetting will work as you would expect returning either a \texttt{data.frame} (\texttt{{[}{]}}) or a \emph{vector} that was a column your were interested in (\texttt{{[}{[}{]}{]}}).
 
-To access individual \emph{vectors} (a.k.a. columns or variables) use dollar notation \texttt{table\$column\_name} (this should be your default way) or \textbf{double} square brackets, \texttt{table{[}{[}column\_name{]}{]}} or \texttt{table{[}{[}column\_index{]}{]}}. Note that you cannot use multiple indexes (\texttt{c(1,\ 2)}) or slicing (e.g., \texttt{1:2}) with double square brackets. The important if subtle detail is that this notation returns a \emph{vector}, just a like one that you create via \texttt{c()} function.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{our\_first\_table }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{numeric\_column =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{), }
-                              \AttributeTok{character\_column =} \FunctionTok{c}\NormalTok{(}\StringTok{"A"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"C"}\NormalTok{),}
-                              \AttributeTok{logical\_column =} \FunctionTok{c}\NormalTok{(}\ConstantTok{TRUE}\NormalTok{, F, T))}
-
-\CommentTok{\# via $ notation}
-\NormalTok{our\_first\_table}\SpecialCharTok{$}\NormalTok{numeric\_column}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] 1 2 3
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# via name and double square brackets}
-\NormalTok{our\_first\_table[[}\StringTok{\textquotesingle{}numeric\_column\textquotesingle{}}\NormalTok{]]}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] 1 2 3
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# via index and double square brackets}
-\NormalTok{our\_first\_table[[}\DecValTok{1}\NormalTok{]]}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] 1 2 3
-\end{verbatim}
-
-\begin{center}\includegraphics[width=1\linewidth]{images/table-column} \end{center}
-
-\hypertarget{table-indexing}{%
-\section{Extracting part of a table}\label{table-indexing}}
-
-Alternatively, you can extract or access a rectangular part of the table via \textbf{single} square brackets. To get one or more columns you can use their names or indexes just as you did with vectors.
+The preserving returns a \emph{table} with \emph{one} column.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1211,16 +1465,12 @@ Alternatively, you can extract or access a rectangular part of the table via \te
 
 \begin{center}\includegraphics[width=1\linewidth]{images/table-subtable} \end{center}
 
-Again, note that first two call get you a single-column table not a vector. You still need to use the column name to access its values.
+The simplifying returns a \emph{vector}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{our\_first\_table }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{numeric\_column =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{), }
-                              \AttributeTok{character\_column =} \FunctionTok{c}\NormalTok{(}\StringTok{"A"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"C"}\NormalTok{),}
-                              \AttributeTok{logical\_column =} \FunctionTok{c}\NormalTok{(}\ConstantTok{TRUE}\NormalTok{, F, T))}
-
-\NormalTok{table\_copy }\OtherTok{\textless{}{-}}\NormalTok{ our\_first\_table[}\DecValTok{1}\NormalTok{]}
-\NormalTok{table\_copy}\SpecialCharTok{$}\NormalTok{numeric\_column}
+\CommentTok{\# via $ notation}
+\NormalTok{our\_first\_table}\SpecialCharTok{$}\NormalTok{numeric\_column}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1228,14 +1478,34 @@ Again, note that first two call get you a single-column table not a vector. You 
 ## [1] 1 2 3
 \end{verbatim}
 
-To select a subset rows and columns you write \texttt{table{[}rows,\ column{]}}. If you omit either rows or columns this implies that you want \emph{all} rows or columns.
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# via name and double square brackets}
+\NormalTok{our\_first\_table[[}\StringTok{\textquotesingle{}numeric\_column\textquotesingle{}}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1 2 3
+\end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{our\_first\_table }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{numeric\_column =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{), }
-                              \AttributeTok{character\_column =} \FunctionTok{c}\NormalTok{(}\StringTok{"A"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"C"}\NormalTok{),}
-                              \AttributeTok{logical\_column =} \FunctionTok{c}\NormalTok{(}\ConstantTok{TRUE}\NormalTok{, F, T))}
+\CommentTok{\# via index and double square brackets}
+\NormalTok{our\_first\_table[[}\DecValTok{1}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
 
+\begin{verbatim}
+## [1] 1 2 3
+\end{verbatim}
+
+\begin{center}\includegraphics[width=1\linewidth]{images/table-column} \end{center}
+
+The only new thing is that, because tables are two-dimensionsional, you can use preserving subsetting to extract or access a rectangular region within a table. To select a subset rows and columns you write \texttt{table{[}rows,\ columns{]}}. If you omit either rows or columns this implies that you want \emph{all} rows or columns.
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \CommentTok{\# getting ALL rows for the FIRST column {-}\textgreater{} this gives you a VECTOR}
 \NormalTok{our\_first\_table[, }\DecValTok{1}\NormalTok{]}
 \end{Highlighting}
@@ -1300,7 +1570,7 @@ Do exercise 5.
 \hypertarget{library}{%
 \section{Using libraries}\label{library}}
 
-There is a better way to construct a table but to use it, we need to first import a library that implements it. As with most modern programming languages, the real power of R is not what comes bundled with it (very little, as a matter of fact) but community developed libraries that extend it. We already discussed how you \protect\hyperlink{install.packages}{install libraries}. For that you use \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/library}{library()} function (it has a sister function \texttt{require()} but it should be used inside functions and packages not in scripts or notebooks). So, to use \emph{tidyverse} library that you already installed, you simply write
+There is a better way to construct a table but to use it, we need to first import a library that implements it. As with most modern programming languages, the real power of R is not in what comes bundled with it (very little, as a matter of fact) but in community developed libraries that extend it. We already discussed how you \protect\hyperlink{install.packages}{install libraries}. For that you use \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/library}{library()} function (it has a sister function \texttt{require()} but it should be used inside functions and packages not in scripts or notebooks). So, to use \emph{tidyverse} library that you already installed, you simply write
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1310,7 +1580,24 @@ There is a better way to construct a table but to use it, we need to first impor
 \end{Highlighting}
 \end{Shaded}
 
-One thing to keep in mind is that if you import two libraries that have a function with same name, the function from the \emph{latter} package will overwrite (mask) the function from the former. You will get a warning but if you miss it, it may be very confusing. My favorite stumbling block are functions \texttt{filter()} from \texttt{dplyr} package (we will use it extensively, as it filters a table by row) and \texttt{filter()} function from \texttt{signal} package (applies a filter to a time-series). This overwriting of one function by another can lead to very odd looking mistakes. In my case I though I was using \texttt{dplyr::filter()} and could not understand the error message I was getting, it it took me an hour to figure it out the first time. Here are the warnings I should have paid attention to.
+One thing to keep in mind is that if you import two libraries that have a function with same name, the function from the \emph{latter} package will overwrite (mask) the function from the former. You will get a warning but if you miss it, it may be very confusing. My favorite stumbling block are functions \texttt{filter()} from \texttt{dplyr} package (we will use it extensively, as it filters a table by row) and \texttt{filter()} function from \texttt{signal} package (applies a filter to a time-series)\footnote{There is also a filter function is stats library.}. This overwriting of one function by another can lead to very odd looking mistakes. In my case I think that I am using \texttt{dplyr::filter()} and get confused by error messages that I get (they are not really informative). The first time I did this, it took me an hour to figure it out. Here are the warnings I should have paid attention to.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(signal)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attache Paket: 'signal'
+\end{verbatim}
+
+\begin{verbatim}
+## Die folgenden Objekte sind maskiert von 'package:stats':
+## 
+##     filter, poly
+\end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1324,18 +1611,24 @@ One thing to keep in mind is that if you import two libraries that have a functi
 \end{verbatim}
 
 \begin{verbatim}
-## The following objects are masked from 'package:stats':
+## Das folgende Objekt ist maskiert 'package:signal':
+## 
+##     filter
+\end{verbatim}
+
+\begin{verbatim}
+## Die folgenden Objekte sind maskiert von 'package:stats':
 ## 
 ##     filter, lag
 \end{verbatim}
 
 \begin{verbatim}
-## The following objects are masked from 'package:base':
+## Die folgenden Objekte sind maskiert von 'package:base':
 ## 
 ##     intersect, setdiff, setequal, union
 \end{verbatim}
 
-Thus, keep that in mind or, better still, explicitly mention which package the function is coming from via \texttt{library::function()} notation. In this case, you will use the function that you are interested in and need not to worry about other functions with the same name that may conflict with it. In general, it is a good idea to \emph{always} disambiguate function via library but in practice it may make your code hard to read by littering it with \texttt{library::} prefixes. Thus, you will need to find a balance between disambiguation and readability.
+Thus, keep that in mind or, better still, explicitly mention which package the function is coming from via \texttt{library::function()} notation. In this case, you will use the function that you are interested in and need not to worry about other functions with the same name that may conflict with it. In general, it is a good idea to \emph{always} disambiguate function via library but in practice it may make your code hard to read by cluttering it with \texttt{library::} prefixes. Thus, you will need to find a balance between disambiguation and readability.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1367,12 +1660,12 @@ Thus, keep that in mind or, better still, explicitly mention which package the f
 ## 1     1
 \end{verbatim}
 
-When using a notebook (so, in our case, always) put the libraries into \emph{setup} chunk of the notebook. This ensures that your libraries are always initialized, even if you first run some other chunk. Word of advice, keep you library list in alphabetical order. Because libraries are very specialized, you will need quite a few of them for a typical analysis. Keeping them alphabetically organized makes it easier to see whether you imported the required library and whether you need to install a new one.
+When using a notebook (so, in our case, always) put the libraries into \emph{setup} chunk of the notebook. This ensures that your libraries are always initialized, even if you first run some other chunk. Word of advice, keep you library list in alphabetical order. Libraries are very specialized, so you will need quite a few of them for a typical analysis. Keeping them alphabetically organized makes it easier to see whether you imported the required library and whether you need to install a new one.
 
 \hypertarget{tibble}{%
 \section{Tibble, a better data.frame}\label{tibble}}
 
-Although the \texttt{data.frame()} function is the default way of creating a table, it is a legacy implementation with numerous shortcomings. Tidyverse implemented its own version of the table called \href{https://tibble.tidyverse.org/}{tibble()} that provides a more rigorous control and more consistent behavior. For example, it allows you to use any symbols for the columns names (including spaces), prints out only beginning of the table rather than entire table, etc. It also gives more warnings. If you try to access a non-existing column both \texttt{data.frame()} and \texttt{tibble()} will return \texttt{NULL} but the former will do it silently, whereas the latter will complain.
+Although the \texttt{data.frame()} function is the default way of creating a table, it is a legacy implementation with numerous shortcomings. Tidyverse implemented its own version of the table called \href{https://tibble.tidyverse.org/}{tibble()} that provides a more rigorous control and more consistent behavior. For example, it allows you to use any symbols for the columns names (including spaces), prints out only beginning of the table rather than entire table, etc. It also gives more warnings. If you try to access a non-existing column both \texttt{data.frame()} and \texttt{tibble()} will return \texttt{NULL} but the former will do it silently, whereas the latter will give you a warning but only if you use the \texttt{\$} notation\footnote{Arbitrariness strikes again! But this also means that \texttt{\$} is safe to use with tibbles but not data.frames.}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1380,7 +1673,7 @@ Although the \texttt{data.frame()} function is the default way of creating a tab
 
 \CommentTok{\# data.frame will return NULL silently}
 \NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{b =} \DecValTok{1}\NormalTok{)}
-\FunctionTok{print}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{A)}
+\FunctionTok{print}\NormalTok{(df[[}\StringTok{"A"}\NormalTok{]])}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1393,7 +1686,17 @@ Although the \texttt{data.frame()} function is the default way of creating a tab
 \CommentTok{\# data.frame will return NULL for a variable that does not exist}
 
 \NormalTok{tbl }\OtherTok{\textless{}{-}} \FunctionTok{tibble}\NormalTok{(}\AttributeTok{b =} \DecValTok{1}\NormalTok{)}
-\FunctionTok{print}\NormalTok{(tbl}\SpecialCharTok{$}\NormalTok{A)}
+\FunctionTok{print}\NormalTok{(tbl[[}\StringTok{"A"}\NormalTok{]])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NULL
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tbl}\SpecialCharTok{$}\NormalTok{A}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1447,18 +1750,18 @@ One of the great things about R is that most packages come with an example data 
 
 \begin{verbatim}
 ## # A tibble: 234 x 11
-##    manufacturer model    displ  year   cyl trans   drv     cty   hwy fl    class
-##    <chr>        <chr>    <dbl> <int> <int> <chr>   <chr> <int> <int> <chr> <chr>
-##  1 audi         a4         1.8  1999     4 auto(l~ f        18    29 p     comp~
-##  2 audi         a4         1.8  1999     4 manual~ f        21    29 p     comp~
-##  3 audi         a4         2    2008     4 manual~ f        20    31 p     comp~
-##  4 audi         a4         2    2008     4 auto(a~ f        21    30 p     comp~
-##  5 audi         a4         2.8  1999     6 auto(l~ f        16    26 p     comp~
-##  6 audi         a4         2.8  1999     6 manual~ f        18    26 p     comp~
-##  7 audi         a4         3.1  2008     6 auto(a~ f        18    27 p     comp~
-##  8 audi         a4 quat~   1.8  1999     4 manual~ 4        18    26 p     comp~
-##  9 audi         a4 quat~   1.8  1999     4 auto(l~ 4        16    25 p     comp~
-## 10 audi         a4 quat~   2    2008     4 manual~ 4        20    28 p     comp~
+##    manufacturer model      displ  year   cyl trans drv     cty   hwy fl    class
+##    <chr>        <chr>      <dbl> <int> <int> <chr> <chr> <int> <int> <chr> <chr>
+##  1 audi         a4           1.8  1999     4 auto~ f        18    29 p     comp~
+##  2 audi         a4           1.8  1999     4 manu~ f        21    29 p     comp~
+##  3 audi         a4           2    2008     4 manu~ f        20    31 p     comp~
+##  4 audi         a4           2    2008     4 auto~ f        21    30 p     comp~
+##  5 audi         a4           2.8  1999     6 auto~ f        16    26 p     comp~
+##  6 audi         a4           2.8  1999     6 manu~ f        18    26 p     comp~
+##  7 audi         a4           3.1  2008     6 auto~ f        18    27 p     comp~
+##  8 audi         a4 quattro   1.8  1999     4 manu~ 4        18    26 p     comp~
+##  9 audi         a4 quattro   1.8  1999     4 auto~ 4        16    25 p     comp~
+## 10 audi         a4 quattro   2    2008     4 manu~ 4        20    28 p     comp~
 ## # ... with 224 more rows
 \end{verbatim}
 
@@ -1506,15 +1809,21 @@ You can use \texttt{read\_csv()} the same way and it will work the same way but 
 \end{Shaded}
 
 \begin{verbatim}
-## 
+## Rows: 3 Columns: 5
+\end{verbatim}
+
+\begin{verbatim}
 ## -- Column specification --------------------------------------------------------
-## cols(
-##   Participant = col_character(),
-##   Block = col_double(),
-##   Trial = col_double(),
-##   Contrast = col_double(),
-##   Correct = col_logical()
-## )
+## Delimiter: ","
+## chr (1): Participant
+## dbl (3): Block, Trial, Contrast
+## lgl (1): Correct
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
 \end{verbatim}
 
 \begin{Shaded}
@@ -1572,14 +1881,6 @@ You may feel that this a lot of extra work just to suppress an annoying but, ult
 
 \begin{verbatim}
 ## Warning: The following named parsers don't match the column names: TheBlock
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: 3 parsing failures.
-## row     col   expected actual               file
-##   1 Correct an integer  TRUE  'data/example.csv'
-##   2 Correct an integer  TRUE  'data/example.csv'
-##   3 Correct an integer  FALSE 'data/example.csv'
 \end{verbatim}
 
 Personally, I would prefer for \texttt{read\_csv()} to fail in cases like these but having a nice red warning is already very helpful to quickly detect the problem with your data (and if your data is wrong, your whole analysis is meaningless). Thus, \emph{always} use \texttt{read\_} rather than \texttt{read.} functions and \emph{always} specify the table structure. The lazy, and my preferred, way to do it, is to first read the file without specifying the structure and copy-paste-edit the warning column-specification message into the code.
@@ -1709,53 +2010,53 @@ You always need the first one. But you do not need to specify the other two, eve
 \hline
 Condition & Intensity & Response\\
 \hline
-A & 1 & -0.8498066\\
+A & 1 & 0.1014737\\
 \hline
-B & 1 & -1.7174935\\
+B & 1 & -3.5164705\\
 \hline
-C & 1 & -3.6007500\\
+C & 1 & -3.1007727\\
 \hline
-A & 2 & 0.8720574\\
+A & 2 & -0.1114388\\
 \hline
-B & 2 & -0.9718197\\
+B & 2 & -1.5199249\\
 \hline
-C & 2 & -4.2084783\\
+C & 2 & -2.2511742\\
 \hline
-A & 3 & 1.8982110\\
+A & 3 & 1.1275303\\
 \hline
-B & 3 & 0.9447241\\
+B & 3 & 0.2472298\\
 \hline
-C & 3 & -1.7505368\\
+C & 3 & -2.5904986\\
 \hline
-A & 4 & 2.5958086\\
+A & 4 & 3.9329446\\
 \hline
-B & 4 & 0.8112026\\
+B & 4 & 0.9990940\\
 \hline
-C & 4 & -1.5669580\\
+C & 4 & -0.5730350\\
 \hline
-A & 5 & 4.0620537\\
+A & 5 & 3.9188835\\
 \hline
-B & 5 & 1.6555112\\
+B & 5 & 2.1143330\\
 \hline
-C & 5 & -0.0269505\\
+C & 5 & 0.2390645\\
 \hline
-A & 6 & 4.6421590\\
+A & 6 & 5.3821136\\
 \hline
-B & 6 & 2.2877743\\
+B & 6 & 3.5702347\\
 \hline
-C & 6 & 0.5217078\\
+C & 6 & 0.8065702\\
 \hline
-A & 7 & 6.2437338\\
+A & 7 & 6.7759950\\
 \hline
-B & 7 & 4.5196229\\
+B & 7 & 3.8572644\\
 \hline
-C & 7 & 1.1984432\\
+C & 7 & 1.9411958\\
 \hline
-A & 8 & 6.7943976\\
+A & 8 & 6.5995689\\
 \hline
-B & 8 & 5.6852304\\
+B & 8 & 5.5570457\\
 \hline
-C & 8 & 3.7545784\\
+C & 8 & 2.2362334\\
 \hline
 \end{tabular}
 
@@ -1768,7 +2069,7 @@ We plot this data by 1) \emph{defining aesthetics} (mapping \texttt{Intensity} o
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-80-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-95-1.pdf}
 
 As I already wrote, technically, we only thing you need to define is aesthetics, so let us not add anything to the plot (drop the \texttt{+geom\_line()}).
 
@@ -1778,7 +2079,7 @@ As I already wrote, technically, we only thing you need to define is aesthetics,
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-81-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-96-1} \end{center}
 
 Told you it will look empty and yet you can see \emph{ggplot2} in action. Notice that axes are labeled and their limits are set. You cannot see the legend (they are not plotted without corresponding geometry) but it is also ready. This is because our initial call specified the most important part: how the individual variables map on various properties even before we told \emph{ggplot2} which visuals we will use to plot the data. When we specified that x-axis will represent the \texttt{Intensity}, ggplot2 figured out the range of values, so it knows \emph{where} it is going to plot whatever we decide to plot. Points, lines, bar, error bars and what not will span only that range. Same goes for other properties such as color. We wanted \emph{color} to represent the condition. Again, we may not know what exactly we will be plotting (points, lines?) or even how many different visuals we will be adding to the plot (just lines? points + lines? points + lines + linear fit?) but we do know that whatever visual we add, if it can have color, its color \emph{must} represent condition for that data point. The beauty of \emph{ggplot2} is that it analyses your data and figures out how many colors you need and is ready to apply them \emph{consistently} to all visuals you will later add. It will ensure that all points, bars, lines, etc. will have consistent coordinates scaling, color-, size-, fill-mapping that are the same across the entire plot. This may sound trivial but typically (e.g., Matlab, Matplotlib), it is \emph{your} job to make sure that all these properties match and that they represent the same value across all visual elements. And this is a pretty tedious job, particularly when you decide to change your mappings and have to redo all individual components by hand. In \emph{ggplot2}, this dissociation between mapping and visuals means you can tinker with one of them at a time. E.g. keep the visuals but change grouping or see if effect of condition is easier to see via line type, size or shape of the point? Or you can keep the mapping and see whether adding another visual will make the plot easier to understand. Note that some mapping also \emph{groups} your data, so when you use group-based visual information (e.g.~a linear regression line) it will know what data belongs together and so will perform this computation per group.
 
@@ -1792,7 +2093,7 @@ Let us see how you can keep the relationship mapping but add more visuals. Let u
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-82-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-97-1} \end{center}
 
 In the plot above, we \emph{kept} the relationship between variables and properties but said ``Oh, and throw in some points please''. And ggplot2 knows how to add the points so that they appear at proper location and in proper color. But we want more!
 
@@ -1806,7 +2107,7 @@ In the plot above, we \emph{kept} the relationship between variables and propert
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-83-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-98-1} \end{center}
 
 Now we added a linear regression line that helps us to better see the relationship between \texttt{Intensity} and \texttt{Response}. Again, we simply wished for another visual to be added (\texttt{method="lm"} means that we wanted to average data via linear regression with \texttt{formula\ =\ y\ \textasciitilde{}\ x} meaning that we regress y-axis on x-axis with no further covariates, \texttt{se=FALSE} means no standard error stripe, \texttt{linetype="dashed"} just makes it easier to distinguish from the solid data line).
 
@@ -1821,7 +2122,7 @@ Or, we can keep the \emph{visuals} but see whether changing \emph{mapping} would
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-84-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-99-1} \end{center}
 
 Or, we can check whether splitting into several plots helps.
 
@@ -1835,7 +2136,7 @@ Or, we can check whether splitting into several plots helps.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-85-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-100-1} \end{center}
 
 Again, note that all three plots live on the same scale for x- and y-axis, making them easy to compare (you fully appreciate this magic if you ever struggled with ensuring optimal and consistent scaling by hand in Matlab). I went through so many examples to stress how ggplot allows you to think about the aesthetics of variable mapping \emph{independently} of the actual visual representation (and vice versa). So now lets us explore \emph{ggplot2} by doing exercises.
 
@@ -1986,7 +2287,7 @@ In this seminar, you will learn about \emph{functions} in R, as they are the sec
 
 In the previous seminars, you have learned that you can store information in variables --- ``boxes with slots'' --- as \protect\hyperlink{vectors}{vectors} or as \protect\hyperlink{ux5cux23tables}{tables} (bundles of vectors of equal length). To use these stored values for computation you need functions. In programming, function is an \emph{isolated} code with a name that receives some input, performs some action on them, and, optionally, returns a value\footnote{Function that does not return a value, probably, generates its output to a console, external file, etc. There is little point in running a function that does not affect the world.}. The concepts of functions comes from mathematics, so it might be easier to understand them using R implementation of mathematical functions. For example, you may remember sinus function from trigonometry. It is typically abbreviated as \texttt{sin}, it takes a numeric value of angle (in radians) as its \emph{input} and returns a corresponding value between -1 and 1: \(sin(0) = 0\), \(sin(\pi/2) = 1\), etc. (this is its \emph{output}).
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-87-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-102-1} \end{center}
 
 In R, you write a function using the following template\footnote{Did you spot the assignment \texttt{\textless{}-} operator? Yes, you are storing a function code in a variable. So when you call this function by name, you are asking to run the code stored inside that variable.}
 
@@ -3238,7 +3539,7 @@ In the first exercise, I want you to implement the actual analysis performed in 
 
 Your final plot should look something like this
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-125-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-140-1} \end{center}
 
 Do exercise 1.
 
@@ -3369,7 +3670,7 @@ However, be careful when level labels are numbers. In the example below, you mig
 
 For the next exercise, copy-paste the code from exercise \#1 and alter it so the labels are \texttt{"sphere"} (for \texttt{"heavy\ poles\ sphere"}), \texttt{"quad\ band"} (for \texttt{"stripes-8"}), \texttt{"dual\ band"} (\texttt{"stripes-4"}), \texttt{"single\ band"} (for \texttt{"stripes-2"}) and levels are in that order. Your plot should look something like this.
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-132-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-147-1} \end{center}
 
 Do exercise 2.
 
@@ -3518,13 +3819,13 @@ Do exercise 4.
 
 Then, plot the results. Use \href{https://ggplot2.tidyverse.org/reference/geom_point.html}{geom\_point()} plus \href{https://ggplot2.tidyverse.org/reference/geom_path.html}{geom\_line()} to plot the mean response The plot should like like this (hint, drop color mapping and map \texttt{Prime} to \texttt{group} property).
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-140-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-155-1} \end{center}
 
 Do exercise 5.
 
 Tweak code from exercise 4 to plot all lines on the same plot and use color property to distinguish between different primes.
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-141-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-156-1} \end{center}
 
 Do exercise 6.
 
@@ -3535,7 +3836,7 @@ From the plots above, you get a sense that identities of the probe and prime (ob
 
 To compute confidence interval, you need to compute its lower and upper limits separately via \href{https://en.wikipedia.org/wiki/Quantile}{quantiles}. A quantile for 0.1 (10\%) tells you a value, so that 10\% of all values in the vector are below it, the quantile of 0.9 (90\%) means that only 10\% of values are above it (or 90\% are below). So, an 80\% confidence intervals includes values that are between 10\% and 90\% or, alternatively, between 0.1 and 0.9 quantiles.
 
-\begin{center}\includegraphics[width=1\linewidth]{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-142-1} \end{center}
+\begin{center}\includegraphics[width=1\linewidth]{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-157-1} \end{center}
 
 To compute this, R has function \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html}{quantile()}.
 
@@ -3553,7 +3854,7 @@ To compute this, R has function \href{https://stat.ethz.ch/R-manual/R-devel/libr
 
 Modify code from from exercise \#5 to compute two additional variables/columns for lower and upper limits of the 89\% confidence interval (think about what these limits are for 89\% CI). Then, use \href{https://ggplot2.tidyverse.org/reference/geom_linerange.html}{geom\_errorbar()} to plot 89\% CI (you will need to map the two variable you computed to \texttt{ymin} and \texttt{ymax} properties). The plot should like like this (hint, drop color mapping and map \texttt{Prime} to \texttt{group} property).
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-144-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-159-1} \end{center}
 
 Do exercise 7.
 
@@ -3562,7 +3863,7 @@ Do exercise 7.
 
 A different study, which used same four objects, showed that a similar looking history effect but for longer interruptions (1000 ms rather than 50 ms) was modulated by objects similarity. Let us check that hypothesis by computing a rough difference measure. It will assume that their difference is proportional to the absolute ``distance'' between them on x-axis in the above plot\footnote{This measure assumes metric distance, which is a very strong assumption.}. E.g., distance between a sphere and a sphere is 0, but between sphere and quad-band or single-band and dual-band is 1. Difference between sphere and dual-band is 2, etc. You can compute it by converting \emph{factor} variables \texttt{Prime} and \texttt{Probe} to integers (this assumes that levels are in the correct order). Then, you can compute the \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/MathFun.html}{absolute difference} between those indexes and store it as a new column (e.g.~\texttt{Difference}). Next, group by \texttt{Difference} and \texttt{Participant} to compute average probability of the same response. Your plot should look like this (you will need to map \texttt{Difference} on \texttt{group} to get four box plots rather than one).
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-145-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-160-1} \end{center}
 
 Do exercise 8.
 
@@ -3609,21 +3910,21 @@ D & 22\\
 \hline
 ID & Report\\
 \hline
-A & 3.348032\\
+A & 6.079791\\
 \hline
-A & 3.902215\\
+A & 5.093678\\
 \hline
-B & 2.728704\\
+B & 5.852780\\
 \hline
-B & 2.029092\\
+B & 3.400855\\
 \hline
-C & 3.181112\\
+C & 3.259891\\
 \hline
-C & 1.223856\\
+C & 4.422033\\
 \hline
-E & 3.723918\\
+E & 3.134663\\
 \hline
-E & 1.077917\\
+E & 6.040232\\
 \hline
 \end{tabular}
 
@@ -3640,17 +3941,17 @@ Here, \texttt{ID} column will serve as a key to indicate which rows from two col
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 3.348032\\
+A & 20 & 6.079791\\
 \hline
-A & 20 & 3.902215\\
+A & 20 & 5.093678\\
 \hline
-B & 19 & 2.728704\\
+B & 19 & 5.852780\\
 \hline
-B & 19 & 2.029092\\
+B & 19 & 3.400855\\
 \hline
-C & 30 & 3.181112\\
+C & 30 & 3.259891\\
 \hline
-C & 30 & 1.223856\\
+C & 30 & 4.422033\\
 \hline
 \end{tabular}
 
@@ -3667,23 +3968,23 @@ Conversely, \texttt{full\_join()} will include all rows from both tables but wil
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 3.348032\\
+A & 20 & 6.079791\\
 \hline
-A & 20 & 3.902215\\
+A & 20 & 5.093678\\
 \hline
-B & 19 & 2.728704\\
+B & 19 & 5.852780\\
 \hline
-B & 19 & 2.029092\\
+B & 19 & 3.400855\\
 \hline
-C & 30 & 3.181112\\
+C & 30 & 3.259891\\
 \hline
-C & 30 & 1.223856\\
+C & 30 & 4.422033\\
 \hline
 D & 22 & NA\\
 \hline
-E & NA & 3.723918\\
+E & NA & 3.134663\\
 \hline
-E & NA & 1.077917\\
+E & NA & 6.040232\\
 \hline
 \end{tabular}
 
@@ -3700,17 +4001,17 @@ The \texttt{left\_join()} and \texttt{right\_join()} include all the row from, r
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 3.348032\\
+A & 20 & 6.079791\\
 \hline
-A & 20 & 3.902215\\
+A & 20 & 5.093678\\
 \hline
-B & 19 & 2.728704\\
+B & 19 & 5.852780\\
 \hline
-B & 19 & 2.029092\\
+B & 19 & 3.400855\\
 \hline
-C & 30 & 3.181112\\
+C & 30 & 3.259891\\
 \hline
-C & 30 & 1.223856\\
+C & 30 & 4.422033\\
 \hline
 D & 22 & NA\\
 \hline
@@ -3727,21 +4028,21 @@ D & 22 & NA\\
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 3.348032\\
+A & 20 & 6.079791\\
 \hline
-A & 20 & 3.902215\\
+A & 20 & 5.093678\\
 \hline
-B & 19 & 2.728704\\
+B & 19 & 5.852780\\
 \hline
-B & 19 & 2.029092\\
+B & 19 & 3.400855\\
 \hline
-C & 30 & 3.181112\\
+C & 30 & 3.259891\\
 \hline
-C & 30 & 1.223856\\
+C & 30 & 4.422033\\
 \hline
-E & NA & 3.723918\\
+E & NA & 3.134663\\
 \hline
-E & NA & 1.077917\\
+E & NA & 6.040232\\
 \hline
 \end{tabular}
 
@@ -3784,13 +4085,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 4.522971\\
+A & M & 6.296194\\
 \hline
-B & F & 4.972391\\
+B & F & 3.102758\\
 \hline
-A & F & 6.848302\\
+A & F & 4.155462\\
 \hline
-B & M & 6.200823\\
+B & M & 1.645469\\
 \hline
 \end{tabular}
 
@@ -3805,13 +4106,13 @@ B & M & 6.200823\\
 \hline
 ID & Gender & Age & Report\\
 \hline
-A & M & 20 & 4.522971\\
+A & M & 20 & 6.296194\\
 \hline
-B & F & 19 & 4.972391\\
+B & F & 19 & 3.102758\\
 \hline
-A & F & 30 & 6.848302\\
+A & F & 30 & 4.155462\\
 \hline
-B & M & 22 & 6.200823\\
+B & M & 22 & 1.645469\\
 \hline
 \end{tabular}
 
@@ -3854,13 +4155,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 2.464531\\
+A & M & 3.540869\\
 \hline
-B & F & 4.615021\\
+B & F & 2.718440\\
 \hline
-A & F & 4.370680\\
+A & F & 5.340060\\
 \hline
-B & M & 5.288089\\
+B & M & 3.912686\\
 \hline
 \end{tabular}
 
@@ -3875,13 +4176,13 @@ B & M & 5.288089\\
 \hline
 VPCode & Sex & Age & Report\\
 \hline
-A & M & 20 & 2.464531\\
+A & M & 20 & 3.540869\\
 \hline
-B & F & 19 & 4.615021\\
+B & F & 19 & 2.718440\\
 \hline
-A & F & 30 & 4.370680\\
+A & F & 30 & 5.340060\\
 \hline
-B & M & 22 & 5.288089\\
+B & M & 22 & 3.912686\\
 \hline
 \end{tabular}
 
@@ -3939,7 +4240,7 @@ Here is the outline of the analysis:
   Plot average proportion of same responses for adaptation versus persistence. Use points for individual values and add linear regression line via \texttt{geom\_smooth()}. The final plot should look approximately like this:
 \end{itemize}
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-153-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-168-1} \end{center}
 
 Do exercise 1.
 
@@ -3976,7 +4277,7 @@ But, you can put \emph{any} code inside, although, the more code you put, the ha
 \end{verbatim}
 
 So, compute the correlation, glue it into the text and put it as a title of the plot.
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-156-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-171-1.pdf}
 
 Do exercise 2.
 
@@ -4190,13 +4491,13 @@ Now let us take a look at the importance of \texttt{id\_cols}. Imagine that we h
 \hline
 Participant & Face & Property & Response & RT\\
 \hline
-1 & M-1 & Symmetry & 6 & 1.95\\
+1 & M-1 & Symmetry & 6 & 1.31\\
 \hline
-1 & M-1 & Attractiveness & 4 & 0.67\\
+1 & M-1 & Attractiveness & 4 & 1.00\\
 \hline
-1 & M-1 & Trustworthiness & 3 & 2.90\\
+1 & M-1 & Trustworthiness & 3 & 2.13\\
 \hline
-1 & M-2 & Symmetry & 4 & 1.28\\
+1 & M-2 & Symmetry & 4 & 1.19\\
 \hline
 \end{tabular}
 
@@ -4222,13 +4523,13 @@ Now, if we do not specify which columns identify rows that belong together, \tex
 \hline
 Participant & Face & RT & Symmetry & Attractiveness & Trustworthiness\\
 \hline
-1 & M-1 & 1.95 & 6 & NA & NA\\
+1 & M-1 & 1.31 & 6 & NA & NA\\
 \hline
-1 & M-1 & 0.67 & NA & 4 & NA\\
+1 & M-1 & 1.00 & NA & 4 & NA\\
 \hline
-1 & M-1 & 2.90 & NA & NA & 3\\
+1 & M-1 & 2.13 & NA & NA & 3\\
 \hline
-1 & M-2 & 1.28 & 4 & NA & NA\\
+1 & M-2 & 1.19 & 4 & NA & NA\\
 \hline
 \end{tabular}
 
@@ -4318,13 +4619,13 @@ Game & GP02\_03 & 3.5 & 3.7065\\
 
 Now you have a table that has median and MAD values for each combination and item. Plot them to compare them visually. Use median responses for y-value of points and median±MAD for error bars. Use facets and color to make it easier to identify the items and conditions. My take on the plot is below, do you think we should expect to find difference between the conditions?
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-170-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-185-1} \end{center}
 
 Do exercise 1.
 
 Perform similar analysis but do not group data and summarize the data. Instead, use box plots to show the variability. Which visualization do you prefer?
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-171-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-186-1} \end{center}
 
 Do exercise 2.
 
@@ -5127,8 +5428,8 @@ Do exercise 4.
 As I have noted above, loops are particularly useful when you current value depends on a previous one (or many previous values). In the next exercise, use \texttt{for} loop to create a random walk (length 10) starting at value zero with each next step drawn randomly from a normal distribution with mean of 0.5 and standard deviation of 2 (the function you are looking for is \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html}{rnorm()}). You end-produce might look like this
 
 \begin{verbatim}
-##  [1]  0.0000000  0.9430821 -2.2171509 -3.1087753 -3.9971236 -4.7866008
-##  [7] -5.7326663 -5.2385422 -2.4451853 -4.5752037
+##  [1]  0.0000000 -0.2489183  1.2598888  3.0580159 -0.5200782  0.4978765
+##  [7]  2.3733759  4.7874624  6.2336181  4.9094231
 \end{verbatim}
 
 Do exercise 5.
@@ -5204,10 +5505,10 @@ Let us create a simple 3 by 4 matrix of normally distributed random numbers.
 \end{Shaded}
 
 \begin{verbatim}
-##             [,1]      [,2]       [,3]       [,4]
-## [1,]  1.02577862 0.4810514 -0.8917253  1.3913475
-## [2,]  0.04074506 0.1503108 -0.8278516 -1.4713412
-## [3,] -0.44286089 0.2015502 -0.3463947  0.4911384
+##           [,1]       [,2]       [,3]       [,4]
+## [1,] 0.1928778  0.8531005 -0.4561584 -0.3985552
+## [2,] 0.3572293  0.4078962 -1.9254403  0.2442437
+## [3,] 1.0628041 -0.4929764 -0.2296072  1.5260806
 \end{verbatim}
 
 We would expect median value of any row or column to be 0 but because we have so few data points, they will be close but not exactly zero. Computing median for each row (we should get \emph{three} numbers)
@@ -5219,7 +5520,7 @@ We would expect median value of any row or column to be 0 but because we have so
 \end{Shaded}
 
 \begin{verbatim}
-## [1]  0.75341499 -0.39355325 -0.07242223
+## [1] -0.1028387  0.3007365  0.4165985
 \end{verbatim}
 
 Similarly for a column (here, it should be \emph{four} numbers)
@@ -5231,7 +5532,7 @@ Similarly for a column (here, it should be \emph{four} numbers)
 \end{Shaded}
 
 \begin{verbatim}
-## [1]  0.04074506  0.20155024 -0.82785156  0.49113837
+## [1]  0.3572293  0.4078962 -0.4561584  0.2442437
 \end{verbatim}
 
 I will not go into any further details on these functions, concentrating on similar functionality by \protect\hyperlink{purrr}{purrr} package. However, if you find yourself working with matrices or needing to apply a function to rows of a data frame, \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/apply.html}{apply} might be a simpler solution. Keep this option in mind, if you feel that either looping or purrring looks inadequate.
@@ -5337,7 +5638,7 @@ To compute correlation, use function \href{https://stat.ethz.ch/R-manual/R-devel
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.9094736
+## [1] 0.9158839
 \end{verbatim}
 
 Alternatively, you can use \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.test.html}{cor.test()} that also computes test statistics and significance.
@@ -5354,13 +5655,13 @@ Alternatively, you can use \href{https://stat.ethz.ch/R-manual/R-devel/library/s
 ##  Pearson's product-moment correlation
 ## 
 ## data:  df$x and df$y
-## t = 21.655, df = 98, p-value < 2.2e-16
+## t = 22.585, df = 98, p-value < 2.2e-16
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
-##  0.8681370 0.9382801
+##  0.8772863 0.9427118
 ## sample estimates:
 ##       cor 
-## 0.9094736
+## 0.9158839
 \end{verbatim}
 
 \texttt{cor.test} returns a list, so you can access its individual elements\footnote{Use (names()){[}\url{https://stat.ethz.ch/R-manual/R-devel/library/base/html/names.html}{]} function to get names of all elements.} via a double-bracket or \texttt{\$} notation.
@@ -5372,7 +5673,7 @@ Alternatively, you can use \href{https://stat.ethz.ch/R-manual/R-devel/library/s
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 3.910908e-39
+## [1] 1.252308e-40
 \end{verbatim}
 
 Bayesian correlation with a posterior distribution for the correlation coefficient and Bayes Factor as a measure of significance, can be computed via \texttt{correlationBF()} function, which is part of \href{https://richarddmorey.github.io/BayesFactor}{BayesFactor} package.
@@ -5387,7 +5688,7 @@ Bayesian correlation with a posterior distribution for the correlation coefficie
 \begin{verbatim}
 ## Bayes factor analysis
 ## --------------
-## [1] Alt., r=0.333 : 3.283707e+34 ±0%
+## [1] Alt., r=0.333 : 8.278907e+35 ±0%
 ## 
 ## Against denominator:
 ##   Null, rho = 0 
@@ -5404,7 +5705,7 @@ Bayesian correlation with a posterior distribution for the correlation coefficie
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-222-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-237-1.pdf}
 
 \hypertarget{pairwise-comparisons}{%
 \section{Pairwise comparisons}\label{pairwise-comparisons}}
@@ -5420,7 +5721,7 @@ For pairwise comparisons for normally distributed data, you can use Student's t-
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-224-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-239-1.pdf}
 
 You can perform \emph{t-test} assuming that samples in two variables are independent
 
@@ -5558,7 +5859,7 @@ First, let us simulate data for ten participants and their responses, assuming t
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-232-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-247-1.pdf}
 The base R ANOVA function is called \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/aov.html}{aov()}, however, it does not support repeated measures. Instead, you can use function \texttt{anova\_test} from package \href{https://github.com/kassambara/rstatix}{rstatix}
 
 For the \emph{repeated-measures} ANOVA, we need to specify column with identity of participants via parameter \texttt{wid}
@@ -5643,7 +5944,7 @@ where \(\epsilon\) is normally distributed noise.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-237-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-252-1.pdf}
 
 Now let us fit the linear model using formula \texttt{y\ \textasciitilde{}\ x} and use \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/summary.lm.html}{summary()} function to see the details.
 
@@ -5987,10 +6288,10 @@ AAF1997w & experiment & -100 & 4 & 45 & 48 & 0.9375000\\
 \end{tabular}
 
 Let us visualize the performance. Generate a similar looking plot
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-250-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-265-1.pdf}
 
 And an alternative visualization.
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-251-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-266-1.pdf}
 
 The first one, shows an effect of experience (note how performance gets higher for the later blocks), for second one makes it easier to compare between conditions. Here, \texttt{experiment} tends to produce higher accuracy. However, this is just eye-balling the data, we need some actual numbers. For this, we will use Generalized Linear Mixed Model. It is \emph{generalized} because out data is binomial (participants were successful in \texttt{Ncorrect} trials out of \texttt{Ntotal}). It is \emph{linear} because we assume a simple linear sum of individual effects. It is \emph{mixed}, because we will add \texttt{Observer} as a random factor\footnote{The magic machinery underneath will mix ordinary least squares (OLS) estimates for fixed effects with Best Linear Unbiased Predictions (BLUP) for random effects.}. We will also use \texttt{COA} as a factor variable to have a more direct comparison between individual \texttt{COA} levels. Read \href{https://www.rdocumentation.org/packages/lme4/versions/1.1-26/topics/glmer}{documentation} to figure out how you specify the formula and binomial family. You will need to use library \href{https://github.com/lme4/lme4}{lmer4} and I strongly suggest using \texttt{lmer4::glmer()} notation as we will later use \href{}{lmerTest} package, which redefines some functions and it can be hard to figure out function from which package was actually called.
 
@@ -6071,9 +6372,9 @@ AAF1997w & experiment & -100 & 4 & 0.7180001\\
 \hline
 \end{tabular}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-255-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-270-1.pdf}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-256-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-271-1.pdf}
 
 \begin{verbatim}
 ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
@@ -6309,9 +6610,9 @@ AAF1997w & experiment & 100 & 2 & 3281\\
 \hline
 \end{tabular}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-270-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-285-1.pdf}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-271-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-286-1.pdf}
 
 \begin{verbatim}
 ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
@@ -6539,11 +6840,11 @@ HabitNr & Condition & IncongruentFirst & Congruency & RT\\
 
 Let us see how condition and incongruency-order presentation affects our response times.
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-280-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-295-1.pdf}
 
 Participants responses were clearly faster on trials when color and word were incongruent. But to better see the effect of condition, let us replot the data.
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-281-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-296-1.pdf}
 
 Now, we can that some conditions do appear to be different as well. Let us confirm this via statistics. We will use linear mixed models (thus, package \emph{lmerTest}) with \texttt{Condition}, \texttt{IncongruentFirst}, and \texttt{Congruency} as fixed effect and \texttt{HabitNr} (participant ID) as a random factor. We will not look at any interactions although they are most likely of interest for the follow up analysis.
 
@@ -6638,9 +6939,9 @@ HabitNr & Condition & IncongruentFirst & Congruency & Errors\\
 
 Again, let us plot data both ways
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-285-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-300-1.pdf}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-286-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-301-1.pdf}
 
 Plots are very similar to those for response times. So let us perform the statistical analysis. This is a binomial data, so many errors per 120 trials, so use \texttt{glmer()} function (generalized linear mixed model) from \texttt{lme4} package with binomial family.
 
@@ -6792,11 +7093,11 @@ Once you merged two tables by rows (see \href{https://dplyr.tidyverse.org/refere
 
 , let us take a look at the results.
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-293-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-308-1.pdf}
 
 There seems to be clear outliers, so let us drop all values above 1000 (filter inside the ggplot call) and plot again
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-294-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-309-1.pdf}
 
 Well, certainly hard to tell, so no clear and consistent effect. Still, let us do stats via linear mixed models.
 

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Seminar 3 Tables and Tibbles (and Tribbles) | Data analysis using R for Psychology</title>
   <meta name="description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Seminar 3 Tables and Tibbles (and Tribbles) | Data analysis using R for Psychology" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2021-04-14" />
+<meta name="date" content="2021-10-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +33,8 @@
   
 <link rel="prev" href="vectors.html"/>
 <link rel="next" href="ggplot2.html"/>
-<script src="libs/header-attrs-2.7/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -51,6 +51,8 @@
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -117,6 +119,7 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+
 <link rel="stylesheet" href="style.css" type="text/css" />
 <link rel="stylesheet" href="font-awesome.css" type="text/css" />
 </head>
@@ -142,13 +145,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-r"><i class="fa fa-check"></i>Why R?</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#tidyverse-versus-base-r"><i class="fa fa-check"></i>Tidyverse versus base R</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html"><i class="fa fa-check"></i>Getting Started</a>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html"><i class="fa fa-check"></i>Software</a>
 <ul>
-<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#installing-r"><i class="fa fa-check"></i>Installing R</a></li>
-<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#installing-r-studio"><i class="fa fa-check"></i>Installing R-Studio</a></li>
-<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#rtools"><i class="fa fa-check"></i>Installing RTools</a></li>
-<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#install.packages"><i class="fa fa-check"></i>Installing packages</a></li>
-<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#keeping-r-and-packages-up-to-date"><i class="fa fa-check"></i>Keeping R and packages up-to-date</a></li>
+<li class="chapter" data-level="0.1" data-path="software.html"><a href="software.html#install-r"><i class="fa fa-check"></i><b>0.1</b> Installing R</a></li>
+<li class="chapter" data-level="0.2" data-path="software.html"><a href="software.html#install-rstudio"><i class="fa fa-check"></i><b>0.2</b> Installing R-Studio</a></li>
+<li class="chapter" data-level="0.3" data-path="software.html"><a href="software.html#install-rtools"><i class="fa fa-check"></i><b>0.3</b> Installing RTools</a></li>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install.packages"><i class="fa fa-check"></i>Installing packages</a></li>
+<li class="chapter" data-level="0.4" data-path="software.html"><a href="software.html#minimal-set-of-packages"><i class="fa fa-check"></i><b>0.4</b> Minimal set of packages</a></li>
+<li class="chapter" data-level="0.5" data-path="software.html"><a href="software.html#installr"><i class="fa fa-check"></i><b>0.5</b> Keeping R and packages up-to-date</a></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="reproducable-research.html"><a href="reproducable-research.html"><i class="fa fa-check"></i><b>1</b> Reproducable Research: Projects and RMarkdown Notebooks</a>
 <ul>
@@ -159,10 +163,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2" data-path="vectors.html"><a href="vectors.html"><i class="fa fa-check"></i><b>2</b> Vectors! Vectors everywhere!</a>
 <ul>
 <li class="chapter" data-level="2.1" data-path="vectors.html"><a href="vectors.html#variables"><i class="fa fa-check"></i><b>2.1</b> Variables as boxes</a></li>
-<li class="chapter" data-level="2.2" data-path="vectors.html"><a href="vectors.html#assignment-statement-in-detail"><i class="fa fa-check"></i><b>2.2</b> Assignment statement in detail</a></li>
-<li class="chapter" data-level="2.3" data-path="vectors.html"><a href="vectors.html#vectors-scalars"><i class="fa fa-check"></i><b>2.3</b> Vectors and scalars (which are also vectors)</a></li>
-<li class="chapter" data-level="2.4" data-path="vectors.html"><a href="vectors.html#vector-index"><i class="fa fa-check"></i><b>2.4</b> Vector indexes</a></li>
-<li class="chapter" data-level="2.5" data-path="vectors.html"><a href="vectors.html#names-as-index"><i class="fa fa-check"></i><b>2.5</b> Names as Index</a></li>
+<li class="chapter" data-level="2.2" data-path="vectors.html"><a href="vectors.html#assignment-statement"><i class="fa fa-check"></i><b>2.2</b> Assignment statement in detail</a></li>
+<li class="chapter" data-level="2.3" data-path="vectors.html"><a href="vectors.html#vectors-scalars"><i class="fa fa-check"></i><b>2.3</b> Vectors and singluar values (scalars, which are also vectors)</a></li>
+<li class="chapter" data-level="2.4" data-path="vectors.html"><a href="vectors.html#vector-index"><i class="fa fa-check"></i><b>2.4</b> Vector indexes (subsetting)</a></li>
+<li class="chapter" data-level="2.5" data-path="vectors.html"><a href="vectors.html#names"><i class="fa fa-check"></i><b>2.5</b> Names as an Index</a></li>
 <li class="chapter" data-level="2.6" data-path="vectors.html"><a href="vectors.html#vector-index-slicing"><i class="fa fa-check"></i><b>2.6</b> Slicing</a></li>
 <li class="chapter" data-level="2.7" data-path="vectors.html"><a href="vectors.html#colon-sequence"><i class="fa fa-check"></i><b>2.7</b> Colon Operator and Sequence Generation</a></li>
 <li class="chapter" data-level="2.8" data-path="vectors.html"><a href="vectors.html#working-with-two-vectors-of-equal-length"><i class="fa fa-check"></i><b>2.8</b> Working with two vectors of <em>equal</em> length</a></li>
@@ -172,19 +176,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="tables.html"><a href="tables.html"><i class="fa fa-check"></i><b>3</b> Tables and Tibbles (and Tribbles)</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="tables.html"><a href="tables.html#primarytypes"><i class="fa fa-check"></i><b>3.1</b> Primary data types</a></li>
-<li class="chapter" data-level="3.2" data-path="tables.html"><a href="tables.html#in-vector-all-values-must-be-of-the-same-type"><i class="fa fa-check"></i><b>3.2</b> In vector all values must be of the same type</a></li>
-<li class="chapter" data-level="3.3" data-path="tables.html"><a href="tables.html#data.frame"><i class="fa fa-check"></i><b>3.3</b> Tables, a.k.a. data frames</a></li>
-<li class="chapter" data-level="3.4" data-path="tables.html"><a href="tables.html#extracting-a-single-vector-column-get-single-column"><i class="fa fa-check"></i><b>3.4</b> Extracting a single vector / column [#get-single-column]</a></li>
-<li class="chapter" data-level="3.5" data-path="tables.html"><a href="tables.html#table-indexing"><i class="fa fa-check"></i><b>3.5</b> Extracting part of a table</a></li>
-<li class="chapter" data-level="3.6" data-path="tables.html"><a href="tables.html#library"><i class="fa fa-check"></i><b>3.6</b> Using libraries</a></li>
-<li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#tibble"><i class="fa fa-check"></i><b>3.7</b> Tibble, a better data.frame</a></li>
-<li class="chapter" data-level="3.8" data-path="tables.html"><a href="tables.html#tribble"><i class="fa fa-check"></i><b>3.8</b> Tribble, table from text</a></li>
-<li class="chapter" data-level="3.9" data-path="tables.html"><a href="tables.html#data"><i class="fa fa-check"></i><b>3.9</b> Reading example tables</a></li>
-<li class="chapter" data-level="3.10" data-path="tables.html"><a href="tables.html#readr"><i class="fa fa-check"></i><b>3.10</b> Reading csv files</a></li>
-<li class="chapter" data-level="3.11" data-path="tables.html"><a href="tables.html#readxl"><i class="fa fa-check"></i><b>3.11</b> Reading Excel files</a></li>
-<li class="chapter" data-level="3.12" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.12</b> Reading files from other programs</a></li>
-<li class="chapter" data-level="3.13" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.13</b> Wrap up</a></li>
+<li class="chapter" data-level="3.1" data-path="tables.html"><a href="tables.html#primary-types"><i class="fa fa-check"></i><b>3.1</b> Primary data types</a></li>
+<li class="chapter" data-level="3.2" data-path="tables.html"><a href="tables.html#vectors-are-homogeneous"><i class="fa fa-check"></i><b>3.2</b> All vector values must be of the same type</a></li>
+<li class="chapter" data-level="3.3" data-path="tables.html"><a href="tables.html#lists"><i class="fa fa-check"></i><b>3.3</b> Lists</a></li>
+<li class="chapter" data-level="3.4" data-path="tables.html"><a href="tables.html#subsetting"><i class="fa fa-check"></i><b>3.4</b> Subsetting, a fuller version</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="tables.html"><a href="tables.html#subsetting-for-atomics-vectors"><i class="fa fa-check"></i><b>3.4.1</b> Subsetting for (atomics) vectors</a></li>
+<li class="chapter" data-level="3.4.2" data-path="tables.html"><a href="tables.html#subsetting-for-lists"><i class="fa fa-check"></i><b>3.4.2</b> Subsetting for lists</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="tables.html"><a href="tables.html#dollar-subsetting"><i class="fa fa-check"></i><b>3.5</b> Yet another subsetting via $</a></li>
+<li class="chapter" data-level="3.6" data-path="tables.html"><a href="tables.html#data.frame"><i class="fa fa-check"></i><b>3.6</b> Tables, a.k.a. data frames</a></li>
+<li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#table-subsetting"><i class="fa fa-check"></i><b>3.7</b> Subsetting table</a></li>
+<li class="chapter" data-level="3.8" data-path="tables.html"><a href="tables.html#library"><i class="fa fa-check"></i><b>3.8</b> Using libraries</a></li>
+<li class="chapter" data-level="3.9" data-path="tables.html"><a href="tables.html#tibble"><i class="fa fa-check"></i><b>3.9</b> Tibble, a better data.frame</a></li>
+<li class="chapter" data-level="3.10" data-path="tables.html"><a href="tables.html#tribble"><i class="fa fa-check"></i><b>3.10</b> Tribble, table from text</a></li>
+<li class="chapter" data-level="3.11" data-path="tables.html"><a href="tables.html#data"><i class="fa fa-check"></i><b>3.11</b> Reading example tables</a></li>
+<li class="chapter" data-level="3.12" data-path="tables.html"><a href="tables.html#readr"><i class="fa fa-check"></i><b>3.12</b> Reading csv files</a></li>
+<li class="chapter" data-level="3.13" data-path="tables.html"><a href="tables.html#readxl"><i class="fa fa-check"></i><b>3.13</b> Reading Excel files</a></li>
+<li class="chapter" data-level="3.14" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.14</b> Reading files from other programs</a></li>
+<li class="chapter" data-level="3.15" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.15</b> Wrap up</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>4</b> Grammar of Graphics</a>
 <ul>
@@ -311,38 +321,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="tables" class="section level1" number="3">
 <h1><span class="header-section-number">Seminar 3</span> Tables and Tibbles (and Tribbles)</h1>
-<p>Please download the <a href="notebooks/Seminar%2003%20-%20Tables.Rmd">exercise notebook</a> (<code>Alt + Click</code> to download it or right-click as <code>Save link as...</code>), put it into your seminar project folder and open the project. You need both the text and the notebook with exercises to be open, as you will be switching between them.</p>
-<div id="primarytypes" class="section level2" number="3.1">
+<p>Please download the <a href="notebooks/Seminar%2003%20-%20Tables.Rmd">exercise notebook</a> (<strong>Alt+Click</strong> to download it or right-click as <em>Save link as…</em>), put it into your seminar project folder and open the project. You need both the text and the notebook with exercises to be open, as you will be switching between them.</p>
+<div id="primary-types" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> Primary data types</h2>
-<p>Last time we talked about the fact that everything is a vector in R. All the examples used numeric vectors which are two of the four primary types in R.</p>
+<p>Last time we talked about the fact that everything<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a> is a vector in R. All examples used numeric vectors which are two of the four primary types in R.</p>
 <ul>
-<li>Real numbers (double precision floating point numbers) that can be written in decimal notation with or without a decimal point (<code>123.4</code> or <code>42</code>) or in a scientific notation (<code>3.14e10</code>). There are two special values specific to the real numbers: <code>Inf</code> (infinity) and <code>NaN</code> (not a number). The latter looks similar <code>NA</code> (Not Available / Missing Value) but is a different special case.</li>
+<li>Real numbers (double precision floating point numbers) that can be written in decimal notation with or without a decimal point (<code>123.4</code> or <code>42</code>) or in a scientific notation (<code>3.14e10</code>). There are two special values specific to the real numbers: <code>Inf</code> (<a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/is.finite.html">infinity</a>) and <code>NaN</code> (<a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/is.finite.html">not a number</a>). The latter looks similar <code>NA</code> (<a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html">Not Available / Missing Value</a>) but is a different special case (see <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/is.finite.html">R documentation</a> for details.</li>
 <li>Integer numbers that can be specified by adding <code>L</code> to the end of an integer number <code>5L</code>. Without that <code>L</code> a <em>real</em> value will be created (<code>5</code> would be stored as <code>5.0</code>).</li>
-<li>Logical or Boolean values of <code>TRUE</code> (also written as <code>T</code>) and <code>FALSE</code> (also written as <code>F</code>).</li>
-<li>Character values (strings) that hold text between a pair of matching <code>"</code> or <code>'</code> characters. The two options mean that you can surround your text by <code>'</code> if you need to put a quote inside: <code>'"I have never let my schooling interfere with my education." Mark Twain'</code> or by <code>"</code> if you need an apostrophe <code>"participant's response"</code>.</li>
+<li>Logical or Boolean values of <code>TRUE</code> and <code>FALSE</code>. They can also be written as <code>T</code> and <code>F</code> but this practice is discouraged by the <a href="https://style.tidyverse.org/syntax.html?q=TRUE#logical-vectors">Tidyverse style guide</a>.</li>
+<li>Character values (strings) that hold text between a pair of matching <code>"</code> or <code>'</code> characters. The two options mean that you can surround your text by <code>'</code> if you need to put a quote inside: <code>'"I have never let my schooling interfere with my education." Mark Twain'</code> or by <code>"</code> if you need an apostrophe <code>"participant's response"</code>. Note that a string <strong>is not</strong> a vector of characters. This would make a lot of sense but it is not. This is why <a href="vectors.html#vector-index">indexing</a> or <a href="vectors.html#vector-index-slicing">slicing</a> will not work and you need to use special functions.</li>
 </ul>
 <p>You can convert from one type to another and check whether a particular vector is of specific type. Note that if a vector cannot be converted to a specified type, it is “converted” to <code>NA</code> instead.</p>
 <ul>
-<li>to integer via <code>as.integer()</code> and <code>is.integer</code>. When converting
+<li>to integer via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/integer.html">as.integer()</a>, use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/integer.html">is.integer()</a> to check a value. When converting
 <ul>
-<li>from a real number the fractional part is discarded, so <code>as.integer(1.8)</code> → <code>1</code> and <code>as.integer(-2.1)</code> → <code>2</code></li>
+<li>from a real number the fractional part is <em>discarded</em>, so <code>as.integer(1.8)</code> → <code>1</code> and <code>as.integer(-2.1)</code> → <code>2</code></li>
 <li>from logical value <code>as.integer(TRUE)</code> → 1 and <code>as.integer(FALSE)</code> → 0</li>
-<li>from string only it is a properly formed number, e.g. <code>as.integer("12")</code> → <code>12</code> but <code>as.integer("_12_")</code> is <code>NA</code>. Note that a real number string is converted first to a real number and then to an integer so <code>as.integer("12.8")</code> → <code>12</code>.</li>
+<li>from string only if it is a properly formed number, e.g., <code>as.integer("12")</code> → <code>12</code> but <code>as.integer("_12_")</code> is <code>NA</code>. Note that a real number string is converted first to a real number and then to an integer so <code>as.integer("12.8")</code> → <code>12</code>.</li>
 <li>from <code>NA</code> → <code>NA</code></li>
 </ul></li>
-<li>to real number via <code>as.numeric()</code> / <code>as.double()</code> and <code>is.double()</code> (avoid <code>is.numeric()</code> as Hadley Wickham <a href="https://adv-r.hadley.nz/vectors-chap.html">writes</a> that it is not doing what you would think it should).
+<li>to real number via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/numeric.html">as.numeric()</a> / <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/double.html">as.double()</a>, check a value via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/double.html">is.double()</a> (avoid <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/numeric.html">is.numeric()</a> as Hadley Wickham <a href="https://adv-r.hadley.nz/vectors-chap.html">writes</a> that it is not doing what you would think it should).
 <ul>
 <li>from logical value <code>as.double(TRUE)</code> → 1.0 and <code>as.double(FALSE)</code> → 0.0</li>
 <li>from string only it is a properly formed number, e.g. <code>as.double("12.2")</code> → <code>12.2</code> but <code>as.double("12punkt5")</code> is <code>NA</code></li>
 <li>from <code>NA</code> → <code>NA</code></li>
 </ul></li>
-<li>to logical <code>TRUE</code>/<code>FALSE</code> via <code>as.logical</code> and <code>is.logical()</code>.
+<li>to logical <code>TRUE</code>/<code>FALSE</code> via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/logical.html">as.logical</a> and check a value via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/logical.html">is.logical()</a>.
 <ul>
 <li>from integer or real, zero (<code>0</code> or <code>0.0</code>) is <code>FALSE</code>, any other non-zero value is <code>TRUE</code></li>
 <li>from a string, it is <code>TRUE</code> for <code>"TRUE"</code>, "<code>True"</code>, <code>"true"</code>, or <code>"T"</code> but <code>NA</code> if <code>"t"</code> <code>"TRue"</code>, <code>"truE</code>, etc. Same goes for <code>FALSE</code>.</li>
 <li>from <code>NA</code> → <code>NA</code></li>
 </ul></li>
-<li>to a character string via <code>as.character()</code> and <code>is.character()</code>
+<li>to a character string via <a href="(https://stat.ethz.ch/R-manual/R-devel/library/base/html/character.html)">as.character()</a> and check via <a href="(https://stat.ethz.ch/R-manual/R-devel/library/base/html/character.html)">is.character()</a><a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a>
 <ul>
 <li>numeric values are converted to a string representation with scientific notation being used for large numbers.</li>
 <li>logical <code>TRUE</code>/<code>T</code> and <code>FALSE</code>/<code>T</code> are converted to <code>"TRUE"</code> and <code>"FALSE"</code>.</li>
@@ -353,36 +363,156 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Do exercise 1.</p>
 </div>
 </div>
-<div id="in-vector-all-values-must-be-of-the-same-type" class="section level2" number="3.2">
-<h2><span class="header-section-number">3.2</span> In vector all values must be of the same type</h2>
-<p><strong>All</strong> values in a vector must be of the same type - all integer, all double, all logical, or all strings. This ensures that you can apply the same function or operation to the entire vector without worrying about type compatibility. This means, however, that you cannot mix different value types in a vector. If you do try to concatenate vectors of different types, all values will be converted to a more general / flexible type. Thus, if you mix numbers and logical values, you will end up with a vector of numbers. Mixing anything with strings will convert the entire vector to string. Mixing in <code>NA</code> does not change the vector type.</p>
+<div id="vectors-are-homogeneous" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> All vector values must be of the same type</h2>
+<p><em>All</em> values in a vector must be of the same type - all integer, all double, all logical, or all strings, which is why they are also called <em>atomic</em> vectors. This ensures that you can apply the same function or operation to the entire vector without worrying about type compatibility. However, this means that you cannot mix different value types in a vector. If you do try to concatenate vectors of different types, all values will be converted to a more general / flexible type. Thus, if you mix numbers and logical values, you will end up with a vector of numbers. Mixing anything with strings will convert the entire vector to string. Mixing in <code>NA</code> does not change the vector type.</p>
 <div class="infobox practice">
 <p>Do exercise 2.</p>
 </div>
 </div>
-<div id="data.frame" class="section level2" number="3.3">
-<h2><span class="header-section-number">3.3</span> Tables, a.k.a. data frames</h2>
-<p>We have spent so much time on vectors because a data table is merely a vector (well, technically, a <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/list">list</a>) of vectors, with each vector as a column. The default way to construct a table, which are called <em>data frames</em> in R, is via <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/data.frame">data.frame()</a> function.</p>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="tables.html#cb86-1" aria-hidden="true" tabindex="-1"></a>our_first_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">numeric_column =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>), </span>
-<span id="cb86-2"><a href="tables.html#cb86-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">character_column =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>),</span>
-<span id="cb86-3"><a href="tables.html#cb86-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">logical_column =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, F, T, <span class="cn">FALSE</span>))</span>
-<span id="cb86-4"><a href="tables.html#cb86-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb86-5"><a href="tables.html#cb86-5" aria-hidden="true" tabindex="-1"></a>our_first_table</span></code></pre></div>
+<div id="lists" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Lists</h2>
+<p>(Atomic) vectors are (homogeneous)[#vectors-are-homogeneous] lists of <a href="tables.html#primary-types">primary types</a> items, whereas <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/list.html">lists</a> are lists that can contain <em>any</em> item including vectors of different primary type data, other lists, or other objects<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a>. Otherwise, (well, almost, see below) you work with them the same way is with vectors. You create a <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/list.html">list</a> via <code>list()</code> function and then you can concatenate lists via the same <a href="(https://stat.ethz.ch/R-manual/R-devel/library/base/html/c.html)">c()</a> function, access individual elements via <a href="vectors.html#vector-index">numeric index</a> or <a href="vectors.html#names">names</a>, use <a href="vectors.html#vector-index-slicing">slicing</a>, etc.</p>
+</div>
+<div id="subsetting" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Subsetting, a fuller version</h2>
+<p>Unfortunately, this is the point where we need to talk about subsetting (accessing individual elements of a vector or of a list via indexes or names) yet again. This is because R has several different ways of doing this that look similar and, to make things worse, <em>sometimes</em> produce identical results. I do not expect you to memorize or even fully appreciate all the intricate details (I am not even sure I know them all). But I do need you to understand the fundamental difference between the two ways of doing subsetting and to be aware of potential issues that can easily cause confusion. If the latter is the case, return to this section, read the <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Extract.html">official manual</a>, or read the <a href="http://adv-r.had.co.nz/Subsetting.html">subsetting</a> section in “Advanced R” book by Hadley Wickham.</p>
+<p>You <a href="vectors.html#vector-index">already know</a> subsetting via <em>single</em> square brackets: <code>x[1]</code>. This is called <em>preserving</em> subsetting because it returns a <em>part of an object</em> (vector or list) that your requested <em>as is</em>. I.e., if you used them to access part of a a vector, you get a vector. If you used them to access a list or a <a href="tables.html#data.frame">table</a>, you get a list or a table.</p>
+<p>In addition, you can use <em>double</em> square brackets: <code>x[[1]]</code>. These are called <em>simplifying</em> subsetting because they extract <em>content</em> at that location. If you have a list of vectors <code>l</code> then <code>l[2]</code> (preserving) would return a single item list but <code>l[[2]]</code> would return a vector stored at that location. A metaphor based on <a href="https://twitter.com/rlangtip">@RLangTip</a>: “If list <code>x</code> is a train carrying objects, then <code>x[[5]]</code> is the object in car 5; <code>x[5]</code> is a train consisting only of car 5.” Note that the simplifying notation allows you to extract content of only <em>one</em> item. Therefore, you cannot use it with <a href="vectors.html#vector-index-slicing">slicing</a> (extracting content of many items), negative indexes (even if you will end up with just one index), or zero index. The good news is that R will actually generate an error message instead of failing silently, although error messages will be both mysterious and <em>different</em> depending on exact circumstances. To deepen your feeling of arbitrariness of R design: using a non-existent <em>name</em> index will generate an error for vectors but not for lists (you get <code>NULL</code>)<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a>.</p>
+<p>Confusing? Let us go through some examples, so you can see a difference these two kinds of brackets make for vectors and lists.</p>
+<div id="subsetting-for-atomics-vectors" class="section level3" number="3.4.1">
+<h3><span class="header-section-number">3.4.1</span> Subsetting for (atomics) vectors</h3>
+<p>First, we create a named vector</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="tables.html#cb86-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span><span class="ot">=</span><span class="dv">1</span>, <span class="st">&quot;b&quot;</span><span class="ot">=</span><span class="dv">2</span>, <span class="st">&quot;c&quot;</span><span class="ot">=</span><span class="dv">3</span>)</span></code></pre></div>
+<p>Preserving subsetting via <code>[]</code> returns a part of original vector, notice that the <em>name</em> associated with an index is retained.</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="tables.html#cb87-1" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">2</span>]</span></code></pre></div>
+<pre><code>## b 
+## 2</code></pre>
+<p>Simplifying subsetting via <code>[[]]</code> extracts value at the location. Because the <em>name</em> is associated with an <em>index</em>, not with the content, it gets stripped off.</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="tables.html#cb89-1" aria-hidden="true" tabindex="-1"></a>x[[<span class="dv">2</span>]]</span></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<p>Trying to extract multiple items, use of negative or zero indexes fill all fail for <em>simplifying</em> subsetting.</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="tables.html#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="co"># &quot;attempt to select more than one element in vectorIndex&quot; error</span></span>
+<span id="cb91-2"><a href="tables.html#cb91-2" aria-hidden="true" tabindex="-1"></a>x[[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]]</span>
+<span id="cb91-3"><a href="tables.html#cb91-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-4"><a href="tables.html#cb91-4" aria-hidden="true" tabindex="-1"></a><span class="co"># technically, we are excluding two out of three indexes, so end up with just one value</span></span>
+<span id="cb91-5"><a href="tables.html#cb91-5" aria-hidden="true" tabindex="-1"></a><span class="co"># still, &quot;attempt to select more than one element in vectorIndex&quot;</span></span>
+<span id="cb91-6"><a href="tables.html#cb91-6" aria-hidden="true" tabindex="-1"></a>x[[<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)]]</span>
+<span id="cb91-7"><a href="tables.html#cb91-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-8"><a href="tables.html#cb91-8" aria-hidden="true" tabindex="-1"></a><span class="co"># A different error message: &quot;attempt to select less than one element in get1index &lt;real&gt;&quot;</span></span>
+<span id="cb91-9"><a href="tables.html#cb91-9" aria-hidden="true" tabindex="-1"></a>x[[<span class="dv">0</span>]]</span></code></pre></div>
+<p>Using of a non-existent name will generate an error for <em>simplifying</em> but not for <em>preserving</em> subsetting.</p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="tables.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this works</span></span>
+<span id="cb92-2"><a href="tables.html#cb92-2" aria-hidden="true" tabindex="-1"></a>x[<span class="st">&quot;a&quot;</span>]</span></code></pre></div>
+<pre><code>## a 
+## 1</code></pre>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="tables.html#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this also works but strips the name off</span></span>
+<span id="cb94-2"><a href="tables.html#cb94-2" aria-hidden="true" tabindex="-1"></a>x[[<span class="st">&quot;a&quot;</span>]]</span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="tables.html#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this fails silently by returning NA</span></span>
+<span id="cb96-2"><a href="tables.html#cb96-2" aria-hidden="true" tabindex="-1"></a>x[<span class="st">&quot;d&quot;</span>]</span></code></pre></div>
+<pre><code>## &lt;NA&gt; 
+##   NA</code></pre>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="tables.html#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this will generate a &quot;subscript out of bounds&quot; error</span></span>
+<span id="cb98-2"><a href="tables.html#cb98-2" aria-hidden="true" tabindex="-1"></a>x[[<span class="st">&quot;d&quot;</span>]]</span></code></pre></div>
+<p><strong>General rule:</strong> when using vectors, always use <code>[]</code>. The only potential usage-case I can see is wanting to strip a name off a single item (not sure I ever needed to do this). If, for some reason, this is what you need, you should write a comment explaining that. Otherwise, everyone including future-you will be confused and think that this is a typo.</p>
+</div>
+<div id="subsetting-for-lists" class="section level3" number="3.4.2">
+<h3><span class="header-section-number">3.4.2</span> Subsetting for lists</h3>
+<p>First, we create a named list</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="tables.html#cb99-1" aria-hidden="true" tabindex="-1"></a>l <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">&quot;a&quot;</span><span class="ot">=</span><span class="dv">1</span>, <span class="st">&quot;b&quot;</span><span class="ot">=</span><span class="dv">2</span>, <span class="st">&quot;c&quot;</span><span class="ot">=</span><span class="fu">list</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>))</span></code></pre></div>
+<p>Preserving subsetting via <code>[]</code> returns a list that is a part of original list, again the <em>name</em> associated with an index so it is retained in the returned list.</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="tables.html#cb100-1" aria-hidden="true" tabindex="-1"></a>l[<span class="dv">2</span>]</span></code></pre></div>
+<pre><code>## $b
+## [1] 2</code></pre>
+<p>Simplifying subsetting via <code>[[]]</code> extracts value at the location. This is why you get a <em>vector</em> (of length 1).</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="tables.html#cb102-1" aria-hidden="true" tabindex="-1"></a>l[[<span class="dv">2</span>]]</span></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<p>What about our list inside of the list at position 3? Using preserving subsetting give us a list inside of the list (car of the train).</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="tables.html#cb104-1" aria-hidden="true" tabindex="-1"></a>l[<span class="st">&quot;c&quot;</span>]</span></code></pre></div>
+<pre><code>## $c
+## $c[[1]]
+## [1] 3
+## 
+## $c[[2]]
+## [1] 4
+## 
+## $c[[3]]
+## [1] 5</code></pre>
+<p>Using simplifying subsetting return a list that was inside the list at that location (object inside that car). Note that, as with the vector before, the name gets stripped off, as it belongs to the index (car of the train) and not the content (object inside the car).</p>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="tables.html#cb106-1" aria-hidden="true" tabindex="-1"></a>l[[<span class="st">&quot;c&quot;</span>]]</span></code></pre></div>
+<pre><code>## [[1]]
+## [1] 3
+## 
+## [[2]]
+## [1] 4
+## 
+## [[3]]
+## [1] 5</code></pre>
+<p>Using multiple, negative or zero indexes will fail just like it does for vectors but <em>some</em> error messages will be different.</p>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="tables.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="co"># &quot;subscript out of bounds&quot; error</span></span>
+<span id="cb108-2"><a href="tables.html#cb108-2" aria-hidden="true" tabindex="-1"></a>l[[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]]</span>
+<span id="cb108-3"><a href="tables.html#cb108-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb108-4"><a href="tables.html#cb108-4" aria-hidden="true" tabindex="-1"></a><span class="co"># technically, we are excluding two out of three indexes, so end up with just one value</span></span>
+<span id="cb108-5"><a href="tables.html#cb108-5" aria-hidden="true" tabindex="-1"></a><span class="co"># still, &quot;attempt to select more than one element in integerOneIndex&quot;</span></span>
+<span id="cb108-6"><a href="tables.html#cb108-6" aria-hidden="true" tabindex="-1"></a>l[[<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)]]</span>
+<span id="cb108-7"><a href="tables.html#cb108-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb108-8"><a href="tables.html#cb108-8" aria-hidden="true" tabindex="-1"></a><span class="co"># A different error message: &quot;attempt to select less than one element in get1index &lt;real&gt;&quot;</span></span>
+<span id="cb108-9"><a href="tables.html#cb108-9" aria-hidden="true" tabindex="-1"></a>l[[<span class="dv">0</span>]]</span></code></pre></div>
+<p>Using a non-existent name index for lists with preserving subsetting (<code>[]</code>) will return a single item list with <code>NULL</code> as a content<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a> but just <code>NULL</code> for simplifying one (<code>[[]]</code>). And none of them will generate an error.</p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="tables.html#cb109-1" aria-hidden="true" tabindex="-1"></a>l[<span class="st">&quot;d&quot;</span>]</span></code></pre></div>
+<pre><code>## $&lt;NA&gt;
+## NULL</code></pre>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="tables.html#cb111-1" aria-hidden="true" tabindex="-1"></a>l[[<span class="st">&quot;d&quot;</span>]]</span></code></pre></div>
+<pre><code>## NULL</code></pre>
+<p><strong>General rule:</strong> use <code>[[]]</code> if you are interested in list or table content, e.g., you need a column from the table. Use <code>[]</code> if you interested in using a smaller list or table.</p>
+<p>If this is the point when you want to start running around screaming or bang your head against the screen, please tell me, cause I would definitely join you. Let us do some exercises that might help to build some intuition. However, as you probably noticed already, subsetting in R is fairly haphazard, so you probably will still end up being confused or have a code the does not work for seemingly mysterious reasons.</p>
+<div class="infobox practice">
+<p>Do exercise 3.</p>
+</div>
+</div>
+</div>
+<div id="dollar-subsetting" class="section level2" number="3.5">
+<h2><span class="header-section-number">3.5</span> Yet another subsetting via $</h2>
+<p>I am terribly sorry but I need deepen your confusion and despair but telling you that R has yet another way of subsetting via a <code>$</code> sign. In fact, this is the most common way of subsetting for lists and <a href="tables.html#data.frame">tables</a> that you will encounter everywhere. It is a shortcut version for <em>partial matching</em> of simplifying subsetting: <code>l$c</code> is the same as writing <code>l[["c", exact = FALSE]]</code>. The last new part <code>exact = FALSE</code> means that you can use an <em>incomplete</em> name after the <code>$</code> and R will guess what you mean. So, if you made a typo while meaning some completely different column name, R will second-guess your intentions and give you a variable that has the same beginning (no error, don’t even hope).</p>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="tables.html#cb113-1" aria-hidden="true" tabindex="-1"></a>l <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">&quot;aa&quot;</span> <span class="ot">=</span> <span class="dv">1</span>, <span class="st">&quot;bb&quot;</span> <span class="ot">=</span> <span class="dv">2</span>, <span class="st">&quot;bc&quot;</span> <span class="ot">=</span> <span class="dv">3</span>)</span>
+<span id="cb113-2"><a href="tables.html#cb113-2" aria-hidden="true" tabindex="-1"></a>l<span class="sc">$</span>a</span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<p>The good news is that it won’t autocomplete ambiguous cases. The bad news that it won’t generate an error and will return a <code>NULL</code> (just like <code>[[]]</code> would).</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="tables.html#cb115-1" aria-hidden="true" tabindex="-1"></a>l<span class="sc">$</span>b</span></code></pre></div>
+<pre><code>## NULL</code></pre>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="tables.html#cb117-1" aria-hidden="true" tabindex="-1"></a>l[[<span class="st">&#39;b&#39;</span>]]</span></code></pre></div>
+<pre><code>## NULL</code></pre>
+<p>My advice would be to stick to <code>[[]]</code> notation despite the ubiquitous use of <code>$</code> out where. It is slightly more strict and more universal: You can hard code a column/item name or put it into a variable for indexing. Only hard-coding works for <code>$</code>.</p>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="tables.html#cb119-1" aria-hidden="true" tabindex="-1"></a>l[[<span class="st">&quot;bb&quot;</span>]]</span></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="tables.html#cb121-1" aria-hidden="true" tabindex="-1"></a>column_of_interest <span class="ot">&lt;-</span> <span class="st">&quot;bb&quot;</span></span>
+<span id="cb121-2"><a href="tables.html#cb121-2" aria-hidden="true" tabindex="-1"></a>l[[column_of_interest]]</span></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+</div>
+<div id="data.frame" class="section level2" number="3.6">
+<h2><span class="header-section-number">3.6</span> Tables, a.k.a. data frames</h2>
+<p>R tables are mix between <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/list.html">lists</a> and <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/matrix.html">matrices</a>. You can think about it as a list of vectors (columns) of <em>identical</em> length. The default way to construct a table, which are called <em>data frames</em> in R, is via <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/data.frame">data.frame()</a> function.</p>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="tables.html#cb123-1" aria-hidden="true" tabindex="-1"></a>our_first_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">numeric_column =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>), </span>
+<span id="cb123-2"><a href="tables.html#cb123-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">character_column =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>),</span>
+<span id="cb123-3"><a href="tables.html#cb123-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">logical_column =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, F, T, <span class="cn">FALSE</span>))</span>
+<span id="cb123-4"><a href="tables.html#cb123-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb123-5"><a href="tables.html#cb123-5" aria-hidden="true" tabindex="-1"></a>our_first_table</span></code></pre></div>
 <pre><code>##   numeric_column character_column logical_column
 ## 1              1                A           TRUE
 ## 2              2                B          FALSE
 ## 3              3                C           TRUE
 ## 4              4                D          FALSE</code></pre>
-<p>Once you create a table, it will appear in your environment, so you can see it in the <em>Environment</em> tab and view it by clicking on it or typing <code>View(table_name)</code> in the console (not the capital V in the <code>View()</code>).</p>
-<p><img src="images/viewing-table.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>Once you create a table, it will appear in your environment, so you can see it in the <em>Environment</em> tab and view it by clicking on it or typing <code>View(table_name)</code> in the console (note the capital V in the <code>View()</code>).
+<img src="images/viewing-table.png" width="100%" style="display: block; margin: auto;" /></p>
 <div class="infobox practice">
-<p>Do exercise 3.</p>
+<p>Do exercise 4.</p>
 </div>
-<p>Because all columns in a table <strong>must</strong> have the same number of rows. This is similar to the process of <a href="vectors.html#different-length-vectors">matching vectors’ length</a> that you have learned the last time. However, it works automatically only if length of <em>all</em> vectors is a multiple of the longest length. Thus, the example below will work, as the longest vector (<code>numeric_column</code>) is 6, <code>character_column</code> length is 3, so it will be repeated twice, and <code>logical_column</code> length is 2 so it will be repeated thrice.</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="tables.html#cb88-1" aria-hidden="true" tabindex="-1"></a>the_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">numeric_column =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,                  <span class="co"># length 6 </span></span>
-<span id="cb88-2"><a href="tables.html#cb88-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">character_column =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>),   <span class="co"># length 3</span></span>
-<span id="cb88-3"><a href="tables.html#cb88-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">logical_column =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>))       <span class="co"># length 2</span></span>
-<span id="cb88-4"><a href="tables.html#cb88-4" aria-hidden="true" tabindex="-1"></a>the_table</span></code></pre></div>
+<p>All columns in a table <strong>must</strong> have the same number of items (rows). This is similar to the process of <a href="vectors.html#different-length-vectors">matching vectors’ length</a> that you have learned the last time. However, it works automatically only if length of <em>all</em> vectors is a multiple of the longest length. Thus, the example below will work, as the longest vector (<code>numeric_column</code>) is 6, <code>character_column</code> length is 3, so it will be repeated twice, and <code>logical_column</code> length is 2 so it will be repeated thrice.</p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="tables.html#cb125-1" aria-hidden="true" tabindex="-1"></a>the_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">numeric_column =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,                  <span class="co"># length 6 </span></span>
+<span id="cb125-2"><a href="tables.html#cb125-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">character_column =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>),   <span class="co"># length 3</span></span>
+<span id="cb125-3"><a href="tables.html#cb125-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">logical_column =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>))       <span class="co"># length 2</span></span>
+<span id="cb125-4"><a href="tables.html#cb125-4" aria-hidden="true" tabindex="-1"></a>the_table</span></code></pre></div>
 <pre><code>##   numeric_column character_column logical_column
 ## 1              1                A           TRUE
 ## 2              2                B          FALSE
@@ -390,154 +520,146 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 4              4                A          FALSE
 ## 5              5                B           TRUE
 ## 6              6                C          FALSE</code></pre>
-<p>If the simple <em>multple-of-length</em> rule does not work, R (finally!) generates an error.</p>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="tables.html#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this will generate an error: arguments imply differing number of rows</span></span>
-<span id="cb90-2"><a href="tables.html#cb90-2" aria-hidden="true" tabindex="-1"></a>the_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">numeric_column =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>,                 <span class="co"># length 7</span></span>
-<span id="cb90-3"><a href="tables.html#cb90-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">character_column =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>))  <span class="co"># length 3, cannot be multiplied by an integer to get 7</span></span></code></pre></div>
+<p>If the simple <em>multple-of-length</em> rule does not work, R generates an error (finally!).</p>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="tables.html#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this will generate an error: arguments imply differing number of rows</span></span>
+<span id="cb127-2"><a href="tables.html#cb127-2" aria-hidden="true" tabindex="-1"></a>the_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">numeric_column =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>,                 <span class="co"># length 7</span></span>
+<span id="cb127-3"><a href="tables.html#cb127-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">character_column =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>))  <span class="co"># length 3, cannot be multiplied by an integer to get 7</span></span></code></pre></div>
 <div class="infobox practice">
 <p>Do exercise 4.</p>
 </div>
-<p>Just as with the vectors, you can extract or modify only some elements (rows, columns, subsets) of a table. There are several ways to do it, as you can extract individual elements, individual columns, individual rows, or some rows and some columns. Subsetting tables is not the most exciting and fairly confusing topic but you need to understand it as in the R code that you will encounter different notations could be used interchangeably.</p>
 </div>
-<div id="extracting-a-single-vector-column-get-single-column" class="section level2" number="3.4">
-<h2><span class="header-section-number">3.4</span> Extracting a single vector / column [#get-single-column]</h2>
-<p>To access individual <em>vectors</em> (a.k.a. columns or variables) use dollar notation <code>table$column_name</code> (this should be your default way) or <strong>double</strong> square brackets, <code>table[[column_name]]</code> or <code>table[[column_index]]</code>. Note that you cannot use multiple indexes (<code>c(1, 2)</code>) or slicing (e.g., <code>1:2</code>) with double square brackets. The important if subtle detail is that this notation returns a <em>vector</em>, just a like one that you create via <code>c()</code> function.</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="tables.html#cb91-1" aria-hidden="true" tabindex="-1"></a>our_first_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">numeric_column =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), </span>
-<span id="cb91-2"><a href="tables.html#cb91-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">character_column =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>),</span>
-<span id="cb91-3"><a href="tables.html#cb91-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">logical_column =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, F, T))</span>
-<span id="cb91-4"><a href="tables.html#cb91-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb91-5"><a href="tables.html#cb91-5" aria-hidden="true" tabindex="-1"></a><span class="co"># via $ notation</span></span>
-<span id="cb91-6"><a href="tables.html#cb91-6" aria-hidden="true" tabindex="-1"></a>our_first_table<span class="sc">$</span>numeric_column</span></code></pre></div>
-<pre><code>## [1] 1 2 3</code></pre>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="tables.html#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="co"># via name and double square brackets</span></span>
-<span id="cb93-2"><a href="tables.html#cb93-2" aria-hidden="true" tabindex="-1"></a>our_first_table[[<span class="st">&#39;numeric_column&#39;</span>]]</span></code></pre></div>
-<pre><code>## [1] 1 2 3</code></pre>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="tables.html#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="co"># via index and double square brackets</span></span>
-<span id="cb95-2"><a href="tables.html#cb95-2" aria-hidden="true" tabindex="-1"></a>our_first_table[[<span class="dv">1</span>]]</span></code></pre></div>
-<pre><code>## [1] 1 2 3</code></pre>
-<p><img src="images/table-column.png" width="100%" style="display: block; margin: auto;" /></p>
-</div>
-<div id="table-indexing" class="section level2" number="3.5">
-<h2><span class="header-section-number">3.5</span> Extracting part of a table</h2>
-<p>Alternatively, you can extract or access a rectangular part of the table via <strong>single</strong> square brackets. To get one or more columns you can use their names or indexes just as you did with vectors.</p>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="tables.html#cb97-1" aria-hidden="true" tabindex="-1"></a>our_first_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">numeric_column =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), </span>
-<span id="cb97-2"><a href="tables.html#cb97-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">character_column =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>),</span>
-<span id="cb97-3"><a href="tables.html#cb97-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">logical_column =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, F, T))</span>
-<span id="cb97-4"><a href="tables.html#cb97-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb97-5"><a href="tables.html#cb97-5" aria-hidden="true" tabindex="-1"></a><span class="co"># via index</span></span>
-<span id="cb97-6"><a href="tables.html#cb97-6" aria-hidden="true" tabindex="-1"></a>our_first_table[<span class="dv">1</span>]</span></code></pre></div>
+<div id="table-subsetting" class="section level2" number="3.7">
+<h2><span class="header-section-number">3.7</span> Subsetting table</h2>
+<p>One way to think about a table as a list of columns (vectors). Hence, both preserving (<code>[]</code>) and simplifying (<code>[[]]</code>) subsetting will work as you would expect returning either a <code>data.frame</code> (<code>[]</code>) or a <em>vector</em> that was a column your were interested in (<code>[[]]</code>).</p>
+<p>The preserving returns a <em>table</em> with <em>one</em> column.</p>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="tables.html#cb128-1" aria-hidden="true" tabindex="-1"></a>our_first_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">numeric_column =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), </span>
+<span id="cb128-2"><a href="tables.html#cb128-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">character_column =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>),</span>
+<span id="cb128-3"><a href="tables.html#cb128-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">logical_column =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, F, T))</span>
+<span id="cb128-4"><a href="tables.html#cb128-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb128-5"><a href="tables.html#cb128-5" aria-hidden="true" tabindex="-1"></a><span class="co"># via index</span></span>
+<span id="cb128-6"><a href="tables.html#cb128-6" aria-hidden="true" tabindex="-1"></a>our_first_table[<span class="dv">1</span>]</span></code></pre></div>
 <pre><code>##   numeric_column
 ## 1              1
 ## 2              2
 ## 3              3</code></pre>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="tables.html#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="co"># via name </span></span>
-<span id="cb99-2"><a href="tables.html#cb99-2" aria-hidden="true" tabindex="-1"></a>our_first_table[<span class="st">&#39;numeric_column&#39;</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="tables.html#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="co"># via name </span></span>
+<span id="cb130-2"><a href="tables.html#cb130-2" aria-hidden="true" tabindex="-1"></a>our_first_table[<span class="st">&#39;numeric_column&#39;</span>]</span></code></pre></div>
 <pre><code>##   numeric_column
 ## 1              1
 ## 2              2
 ## 3              3</code></pre>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="tables.html#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="co"># via slicing</span></span>
-<span id="cb101-2"><a href="tables.html#cb101-2" aria-hidden="true" tabindex="-1"></a>our_first_table[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="tables.html#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="co"># via slicing</span></span>
+<span id="cb132-2"><a href="tables.html#cb132-2" aria-hidden="true" tabindex="-1"></a>our_first_table[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span></code></pre></div>
 <pre><code>##   numeric_column character_column
 ## 1              1                A
 ## 2              2                B
 ## 3              3                C</code></pre>
 <p><img src="images/table-subtable.png" width="100%" style="display: block; margin: auto;" /></p>
-<p>Again, note that first two call get you a single-column table not a vector. You still need to use the column name to access its values.</p>
-<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="tables.html#cb103-1" aria-hidden="true" tabindex="-1"></a>our_first_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">numeric_column =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), </span>
-<span id="cb103-2"><a href="tables.html#cb103-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">character_column =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>),</span>
-<span id="cb103-3"><a href="tables.html#cb103-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">logical_column =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, F, T))</span>
-<span id="cb103-4"><a href="tables.html#cb103-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb103-5"><a href="tables.html#cb103-5" aria-hidden="true" tabindex="-1"></a>table_copy <span class="ot">&lt;-</span> our_first_table[<span class="dv">1</span>]</span>
-<span id="cb103-6"><a href="tables.html#cb103-6" aria-hidden="true" tabindex="-1"></a>table_copy<span class="sc">$</span>numeric_column</span></code></pre></div>
+<p>The simplifying returns a <em>vector</em>.</p>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="tables.html#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="co"># via $ notation</span></span>
+<span id="cb134-2"><a href="tables.html#cb134-2" aria-hidden="true" tabindex="-1"></a>our_first_table<span class="sc">$</span>numeric_column</span></code></pre></div>
 <pre><code>## [1] 1 2 3</code></pre>
-<p>To select a subset rows and columns you write <code>table[rows, column]</code>. If you omit either rows or columns this implies that you want <em>all</em> rows or columns.</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="tables.html#cb105-1" aria-hidden="true" tabindex="-1"></a>our_first_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">numeric_column =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), </span>
-<span id="cb105-2"><a href="tables.html#cb105-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">character_column =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>),</span>
-<span id="cb105-3"><a href="tables.html#cb105-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">logical_column =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, F, T))</span>
-<span id="cb105-4"><a href="tables.html#cb105-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb105-5"><a href="tables.html#cb105-5" aria-hidden="true" tabindex="-1"></a><span class="co"># getting ALL rows for the FIRST column -&gt; this gives you a VECTOR</span></span>
-<span id="cb105-6"><a href="tables.html#cb105-6" aria-hidden="true" tabindex="-1"></a>our_first_table[, <span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="tables.html#cb136-1" aria-hidden="true" tabindex="-1"></a><span class="co"># via name and double square brackets</span></span>
+<span id="cb136-2"><a href="tables.html#cb136-2" aria-hidden="true" tabindex="-1"></a>our_first_table[[<span class="st">&#39;numeric_column&#39;</span>]]</span></code></pre></div>
 <pre><code>## [1] 1 2 3</code></pre>
-<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="tables.html#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="co"># getting FIRST row for ALL columns -&gt; this gives you DATA.FRAME</span></span>
-<span id="cb107-2"><a href="tables.html#cb107-2" aria-hidden="true" tabindex="-1"></a>our_first_table[<span class="dv">1</span>, ]</span></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="tables.html#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="co"># via index and double square brackets</span></span>
+<span id="cb138-2"><a href="tables.html#cb138-2" aria-hidden="true" tabindex="-1"></a>our_first_table[[<span class="dv">1</span>]]</span></code></pre></div>
+<pre><code>## [1] 1 2 3</code></pre>
+<p><img src="images/table-column.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>The only new thing is that, because tables are two-dimensionsional, you can use preserving subsetting to extract or access a rectangular region within a table. To select a subset rows and columns you write <code>table[rows, columns]</code>. If you omit either rows or columns this implies that you want <em>all</em> rows or columns.</p>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="tables.html#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="co"># getting ALL rows for the FIRST column -&gt; this gives you a VECTOR</span></span>
+<span id="cb140-2"><a href="tables.html#cb140-2" aria-hidden="true" tabindex="-1"></a>our_first_table[, <span class="dv">1</span>]</span></code></pre></div>
+<pre><code>## [1] 1 2 3</code></pre>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="tables.html#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="co"># getting FIRST row for ALL columns -&gt; this gives you DATA.FRAME</span></span>
+<span id="cb142-2"><a href="tables.html#cb142-2" aria-hidden="true" tabindex="-1"></a>our_first_table[<span class="dv">1</span>, ]</span></code></pre></div>
 <pre><code>##   numeric_column character_column logical_column
 ## 1              1                A           TRUE</code></pre>
-<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="tables.html#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ALL rows and ALL columns, equivalent to just writing `our_first_table` or `our_first_table[]`</span></span>
-<span id="cb109-2"><a href="tables.html#cb109-2" aria-hidden="true" tabindex="-1"></a>our_first_table[,]</span></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="tables.html#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ALL rows and ALL columns, equivalent to just writing `our_first_table` or `our_first_table[]`</span></span>
+<span id="cb144-2"><a href="tables.html#cb144-2" aria-hidden="true" tabindex="-1"></a>our_first_table[,]</span></code></pre></div>
 <pre><code>##   numeric_column character_column logical_column
 ## 1              1                A           TRUE
 ## 2              2                B          FALSE
 ## 3              3                C           TRUE</code></pre>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="tables.html#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="co"># getting SECOND element of the THIRD column</span></span>
-<span id="cb111-2"><a href="tables.html#cb111-2" aria-hidden="true" tabindex="-1"></a>our_first_table[<span class="dv">2</span>, <span class="dv">3</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="tables.html#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="co"># getting SECOND element of the THIRD column</span></span>
+<span id="cb146-2"><a href="tables.html#cb146-2" aria-hidden="true" tabindex="-1"></a>our_first_table[<span class="dv">2</span>, <span class="dv">3</span>]</span></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
-<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="tables.html#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="co"># getting first two elements of the logical_column</span></span>
-<span id="cb113-2"><a href="tables.html#cb113-2" aria-hidden="true" tabindex="-1"></a>our_first_table[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="st">&quot;logical_column&quot;</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="tables.html#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="co"># getting first two elements of the logical_column</span></span>
+<span id="cb148-2"><a href="tables.html#cb148-2" aria-hidden="true" tabindex="-1"></a>our_first_table[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="st">&quot;logical_column&quot;</span>]</span></code></pre></div>
 <pre><code>## [1]  TRUE FALSE</code></pre>
 <p><img src="images/table-rows-columns.png" width="100%" style="display: block; margin: auto;" /></p>
 <div class="infobox practice">
 <p>Do exercise 5.</p>
 </div>
 </div>
-<div id="library" class="section level2" number="3.6">
-<h2><span class="header-section-number">3.6</span> Using libraries</h2>
-<p>There is a better way to construct a table but to use it, we need to first import a library that implements it. As with most modern programming languages, the real power of R is not what comes bundled with it (very little, as a matter of fact) but community developed libraries that extend it. We already discussed how you <a href="getting-started.html#install.packages">install libraries</a>. For that you use <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/library">library()</a> function (it has a sister function <code>require()</code> but it should be used inside functions and packages not in scripts or notebooks). So, to use <em>tidyverse</em> library that you already installed, you simply write</p>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="tables.html#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb115-2"><a href="tables.html#cb115-2" aria-hidden="true" tabindex="-1"></a><span class="co"># or</span></span>
-<span id="cb115-3"><a href="tables.html#cb115-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span></code></pre></div>
-<p>One thing to keep in mind is that if you import two libraries that have a function with same name, the function from the <em>latter</em> package will overwrite (mask) the function from the former. You will get a warning but if you miss it, it may be very confusing. My favorite stumbling block are functions <code>filter()</code> from <code>dplyr</code> package (we will use it extensively, as it filters a table by row) and <code>filter()</code> function from <code>signal</code> package (applies a filter to a time-series). This overwriting of one function by another can lead to very odd looking mistakes. In my case I though I was using <code>dplyr::filter()</code> and could not understand the error message I was getting, it it took me an hour to figure it out the first time. Here are the warnings I should have paid attention to.</p>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="tables.html#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
+<div id="library" class="section level2" number="3.8">
+<h2><span class="header-section-number">3.8</span> Using libraries</h2>
+<p>There is a better way to construct a table but to use it, we need to first import a library that implements it. As with most modern programming languages, the real power of R is not in what comes bundled with it (very little, as a matter of fact) but in community developed libraries that extend it. We already discussed how you <a href="software.html#install.packages">install libraries</a>. For that you use <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/library">library()</a> function (it has a sister function <code>require()</code> but it should be used inside functions and packages not in scripts or notebooks). So, to use <em>tidyverse</em> library that you already installed, you simply write</p>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="tables.html#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb150-2"><a href="tables.html#cb150-2" aria-hidden="true" tabindex="-1"></a><span class="co"># or</span></span>
+<span id="cb150-3"><a href="tables.html#cb150-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span></code></pre></div>
+<p>One thing to keep in mind is that if you import two libraries that have a function with same name, the function from the <em>latter</em> package will overwrite (mask) the function from the former. You will get a warning but if you miss it, it may be very confusing. My favorite stumbling block are functions <code>filter()</code> from <code>dplyr</code> package (we will use it extensively, as it filters a table by row) and <code>filter()</code> function from <code>signal</code> package (applies a filter to a time-series)<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a>. This overwriting of one function by another can lead to very odd looking mistakes. In my case I think that I am using <code>dplyr::filter()</code> and get confused by error messages that I get (they are not really informative). The first time I did this, it took me an hour to figure it out. Here are the warnings I should have paid attention to.</p>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="tables.html#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(signal)</span></code></pre></div>
+<pre><code>## 
+## Attache Paket: &#39;signal&#39;</code></pre>
+<pre><code>## Die folgenden Objekte sind maskiert von &#39;package:stats&#39;:
+## 
+##     filter, poly</code></pre>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="tables.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
 <pre><code>## 
 ## Attache Paket: &#39;dplyr&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+<pre><code>## Das folgende Objekt ist maskiert &#39;package:signal&#39;:
+## 
+##     filter</code></pre>
+<pre><code>## Die folgenden Objekte sind maskiert von &#39;package:stats&#39;:
 ## 
 ##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
+<pre><code>## Die folgenden Objekte sind maskiert von &#39;package:base&#39;:
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
-<p>Thus, keep that in mind or, better still, explicitly mention which package the function is coming from via <code>library::function()</code> notation. In this case, you will use the function that you are interested in and need not to worry about other functions with the same name that may conflict with it. In general, it is a good idea to <em>always</em> disambiguate function via library but in practice it may make your code hard to read by littering it with <code>library::</code> prefixes. Thus, you will need to find a balance between disambiguation and readability.</p>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="tables.html#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
-<span id="cb120-2"><a href="tables.html#cb120-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb120-3"><a href="tables.html#cb120-3" aria-hidden="true" tabindex="-1"></a><span class="co"># imported from the library into the global environment</span></span>
-<span id="cb120-4"><a href="tables.html#cb120-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">tribble</span>(<span class="sc">~</span>a, <span class="dv">1</span>))</span></code></pre></div>
+<p>Thus, keep that in mind or, better still, explicitly mention which package the function is coming from via <code>library::function()</code> notation. In this case, you will use the function that you are interested in and need not to worry about other functions with the same name that may conflict with it. In general, it is a good idea to <em>always</em> disambiguate function via library but in practice it may make your code hard to read by cluttering it with <code>library::</code> prefixes. Thus, you will need to find a balance between disambiguation and readability.</p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="tables.html#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb159-2"><a href="tables.html#cb159-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb159-3"><a href="tables.html#cb159-3" aria-hidden="true" tabindex="-1"></a><span class="co"># imported from the library into the global environment</span></span>
+<span id="cb159-4"><a href="tables.html#cb159-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">tribble</span>(<span class="sc">~</span>a, <span class="dv">1</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##       a
 ##   &lt;dbl&gt;
 ## 1     1</code></pre>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="tables.html#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="co"># used directly from the package</span></span>
-<span id="cb122-2"><a href="tables.html#cb122-2" aria-hidden="true" tabindex="-1"></a>tibble<span class="sc">::</span><span class="fu">tribble</span>(<span class="sc">~</span>a, <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="tables.html#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="co"># used directly from the package</span></span>
+<span id="cb161-2"><a href="tables.html#cb161-2" aria-hidden="true" tabindex="-1"></a>tibble<span class="sc">::</span><span class="fu">tribble</span>(<span class="sc">~</span>a, <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##       a
 ##   &lt;dbl&gt;
 ## 1     1</code></pre>
-<p>When using a notebook (so, in our case, always) put the libraries into <em>setup</em> chunk of the notebook. This ensures that your libraries are always initialized, even if you first run some other chunk. Word of advice, keep you library list in alphabetical order. Because libraries are very specialized, you will need quite a few of them for a typical analysis. Keeping them alphabetically organized makes it easier to see whether you imported the required library and whether you need to install a new one.</p>
+<p>When using a notebook (so, in our case, always) put the libraries into <em>setup</em> chunk of the notebook. This ensures that your libraries are always initialized, even if you first run some other chunk. Word of advice, keep you library list in alphabetical order. Libraries are very specialized, so you will need quite a few of them for a typical analysis. Keeping them alphabetically organized makes it easier to see whether you imported the required library and whether you need to install a new one.</p>
 </div>
-<div id="tibble" class="section level2" number="3.7">
-<h2><span class="header-section-number">3.7</span> Tibble, a better data.frame</h2>
-<p>Although the <code>data.frame()</code> function is the default way of creating a table, it is a legacy implementation with numerous shortcomings. Tidyverse implemented its own version of the table called <a href="https://tibble.tidyverse.org/">tibble()</a> that provides a more rigorous control and more consistent behavior. For example, it allows you to use any symbols for the columns names (including spaces), prints out only beginning of the table rather than entire table, etc. It also gives more warnings. If you try to access a non-existing column both <code>data.frame()</code> and <code>tibble()</code> will return <code>NULL</code> but the former will do it silently, whereas the latter will complain.</p>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="tables.html#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
-<span id="cb124-2"><a href="tables.html#cb124-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-3"><a href="tables.html#cb124-3" aria-hidden="true" tabindex="-1"></a><span class="co"># data.frame will return NULL silently</span></span>
-<span id="cb124-4"><a href="tables.html#cb124-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">b =</span> <span class="dv">1</span>)</span>
-<span id="cb124-5"><a href="tables.html#cb124-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df<span class="sc">$</span>A)</span></code></pre></div>
+<div id="tibble" class="section level2" number="3.9">
+<h2><span class="header-section-number">3.9</span> Tibble, a better data.frame</h2>
+<p>Although the <code>data.frame()</code> function is the default way of creating a table, it is a legacy implementation with numerous shortcomings. Tidyverse implemented its own version of the table called <a href="https://tibble.tidyverse.org/">tibble()</a> that provides a more rigorous control and more consistent behavior. For example, it allows you to use any symbols for the columns names (including spaces), prints out only beginning of the table rather than entire table, etc. It also gives more warnings. If you try to access a non-existing column both <code>data.frame()</code> and <code>tibble()</code> will return <code>NULL</code> but the former will do it silently, whereas the latter will give you a warning but only if you use the <code>$</code> notation<a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a>.</p>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="tables.html#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb163-2"><a href="tables.html#cb163-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb163-3"><a href="tables.html#cb163-3" aria-hidden="true" tabindex="-1"></a><span class="co"># data.frame will return NULL silently</span></span>
+<span id="cb163-4"><a href="tables.html#cb163-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">b =</span> <span class="dv">1</span>)</span>
+<span id="cb163-5"><a href="tables.html#cb163-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df[[<span class="st">&quot;A&quot;</span>]])</span></code></pre></div>
 <pre><code>## NULL</code></pre>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="tables.html#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="co"># data.frame will return NULL for a variable that does not exist</span></span>
-<span id="cb126-2"><a href="tables.html#cb126-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb126-3"><a href="tables.html#cb126-3" aria-hidden="true" tabindex="-1"></a>tbl <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">b =</span> <span class="dv">1</span>)</span>
-<span id="cb126-4"><a href="tables.html#cb126-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(tbl<span class="sc">$</span>A)</span></code></pre></div>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="tables.html#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="co"># data.frame will return NULL for a variable that does not exist</span></span>
+<span id="cb165-2"><a href="tables.html#cb165-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb165-3"><a href="tables.html#cb165-3" aria-hidden="true" tabindex="-1"></a>tbl <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">b =</span> <span class="dv">1</span>)</span>
+<span id="cb165-4"><a href="tables.html#cb165-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(tbl[[<span class="st">&quot;A&quot;</span>]])</span></code></pre></div>
+<pre><code>## NULL</code></pre>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="tables.html#cb167-1" aria-hidden="true" tabindex="-1"></a>tbl<span class="sc">$</span>A</span></code></pre></div>
 <pre><code>## Warning: Unknown or uninitialised column: `A`.</code></pre>
 <pre><code>## NULL</code></pre>
 <p>In short, <code>tibble()</code> provides a more robust version of a <code>data.frame</code> but otherwise behaves (mostly) identically to it. Thus, it should be your default choice for a table.</p>
 </div>
-<div id="tribble" class="section level2" number="3.8">
-<h2><span class="header-section-number">3.8</span> Tribble, table from text</h2>
+<div id="tribble" class="section level2" number="3.10">
+<h2><span class="header-section-number">3.10</span> Tribble, table from text</h2>
 <p>The tibble package also provides an easier to read way of constructing tables via the <a href="https://tibble.tidyverse.org/reference/tribble.html">tribble()</a> function. Here, you use tilde to specify column names, and then write the content row-by-row.</p>
-<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="tables.html#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tribble</span>(</span>
-<span id="cb129-2"><a href="tables.html#cb129-2" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span>x, <span class="sc">~</span>y,</span>
-<span id="cb129-3"><a href="tables.html#cb129-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>,  <span class="st">&quot;a&quot;</span>,</span>
-<span id="cb129-4"><a href="tables.html#cb129-4" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span>,  <span class="st">&quot;b&quot;</span></span>
-<span id="cb129-5"><a href="tables.html#cb129-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="tables.html#cb170-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tribble</span>(</span>
+<span id="cb170-2"><a href="tables.html#cb170-2" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span>x, <span class="sc">~</span>y,</span>
+<span id="cb170-3"><a href="tables.html#cb170-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>,  <span class="st">&quot;a&quot;</span>,</span>
+<span id="cb170-4"><a href="tables.html#cb170-4" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span>,  <span class="st">&quot;b&quot;</span></span>
+<span id="cb170-5"><a href="tables.html#cb170-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##       x y    
 ##   &lt;dbl&gt; &lt;chr&gt;
@@ -547,29 +669,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Do exercise 6.</p>
 </div>
 </div>
-<div id="data" class="section level2" number="3.9">
-<h2><span class="header-section-number">3.9</span> Reading example tables</h2>
+<div id="data" class="section level2" number="3.11">
+<h2><span class="header-section-number">3.11</span> Reading example tables</h2>
 <p>One of the great things about R is that most packages come with an example data set that illustrates their function. You can see the list of some of them <a href="https://www.rdocumentation.org/packages/datasets">here</a>. In case of example data set, you need to import the library it is part of and then load them by writing <code>data(tablename)</code>. For example, to use use <code>mpg</code> data on fuel economy from <code>ggplot2</code> package, you need to import the library first, and then call <code>data(mpg)</code>.</p>
-<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="tables.html#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb131-2"><a href="tables.html#cb131-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(mpg) <span class="co"># this create a &quot;promise&quot; of the data</span></span>
-<span id="cb131-3"><a href="tables.html#cb131-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(mpg) <span class="co"># any action on the promise leads to data appearing in the environment</span></span></code></pre></div>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="tables.html#cb172-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb172-2"><a href="tables.html#cb172-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(mpg) <span class="co"># this create a &quot;promise&quot; of the data</span></span>
+<span id="cb172-3"><a href="tables.html#cb172-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(mpg) <span class="co"># any action on the promise leads to data appearing in the environment</span></span></code></pre></div>
 <pre><code>## # A tibble: 234 x 11
-##    manufacturer model    displ  year   cyl trans   drv     cty   hwy fl    class
-##    &lt;chr&gt;        &lt;chr&gt;    &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
-##  1 audi         a4         1.8  1999     4 auto(l~ f        18    29 p     comp~
-##  2 audi         a4         1.8  1999     4 manual~ f        21    29 p     comp~
-##  3 audi         a4         2    2008     4 manual~ f        20    31 p     comp~
-##  4 audi         a4         2    2008     4 auto(a~ f        21    30 p     comp~
-##  5 audi         a4         2.8  1999     6 auto(l~ f        16    26 p     comp~
-##  6 audi         a4         2.8  1999     6 manual~ f        18    26 p     comp~
-##  7 audi         a4         3.1  2008     6 auto(a~ f        18    27 p     comp~
-##  8 audi         a4 quat~   1.8  1999     4 manual~ 4        18    26 p     comp~
-##  9 audi         a4 quat~   1.8  1999     4 auto(l~ 4        16    25 p     comp~
-## 10 audi         a4 quat~   2    2008     4 manual~ 4        20    28 p     comp~
+##    manufacturer model      displ  year   cyl trans drv     cty   hwy fl    class
+##    &lt;chr&gt;        &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
+##  1 audi         a4           1.8  1999     4 auto~ f        18    29 p     comp~
+##  2 audi         a4           1.8  1999     4 manu~ f        21    29 p     comp~
+##  3 audi         a4           2    2008     4 manu~ f        20    31 p     comp~
+##  4 audi         a4           2    2008     4 auto~ f        21    30 p     comp~
+##  5 audi         a4           2.8  1999     6 auto~ f        16    26 p     comp~
+##  6 audi         a4           2.8  1999     6 manu~ f        18    26 p     comp~
+##  7 audi         a4           3.1  2008     6 auto~ f        18    27 p     comp~
+##  8 audi         a4 quattro   1.8  1999     4 manu~ 4        18    26 p     comp~
+##  9 audi         a4 quattro   1.8  1999     4 auto~ 4        16    25 p     comp~
+## 10 audi         a4 quattro   2    2008     4 manu~ 4        20    28 p     comp~
 ## # ... with 224 more rows</code></pre>
 </div>
-<div id="readr" class="section level2" number="3.10">
-<h2><span class="header-section-number">3.10</span> Reading csv files</h2>
+<div id="readr" class="section level2" number="3.12">
+<h2><span class="header-section-number">3.12</span> Reading csv files</h2>
 <p>So far we covered creating a table by hand via <code>data.frame()</code>, <code>tibble()</code>, or <code>tribble()</code> functions and loading an example table from a package via <code>data()</code> function. More commonly, you will need to read a table from an external file. These files can come in many formats because they are generated by different experimental software. Below, you will see how to handle those but my recommendation is to always store your data in a csv (<a href="https://en.wikipedia.org/wiki/Comma-separated_values">Comma-separated values</a>) files. These are simple plain text files, which means you can open them in any text editor, with each line representing a single row (typically, top row contains column names) with individual columns separated by some symbol or symbols. Typical separators are a comma (hence, the name), a semicolon (this is frequently used in Germany, with comma serving as a decimal point), a tabulator, or even a space symbol. Here is an example of such file</p>
 <pre><code>Participant,Block,Trial,Contrast,Correct
 A1,1,1,0.5,TRUE
@@ -580,24 +702,24 @@ A1,1,2,0.05,FALSE
 <img src="images/results-csv-table.png" width="70%" style="display: block; margin: auto;" /></p>
 <p>There are several ways of reading CSV files in R. The default way by using <a href="https://stat.ethz.ch/R-manual/R-devel/library/utils/html/read.table.html">read.csv()</a> function that comes has different versions optimized for different combinations of the decimal point and separator symbols, e.g. <code>read.csv2()</code> assumes a comma for the decimal point and semicolon as a separator. However, a better way is to use <a href="https://readr.tidyverse.org/">readr</a> library that implements same functions. Names of the functions are slightly different with underscore replacing the dot, so <code>readr::read_csv()</code> is a replacement for <code>read.csv()</code>. These are faster (although it will be noticeable only on large data sets), do not convert text to factor variables (we will talk about factors later but this default conversion by <code>read.csv()</code> can be very confusing), etc.</p>
 <p>However, most important difference between <code>read.csv()</code> and <code>read_csv()</code> is they constraint the content of a CSV file. <code>read.csv()</code> has not assumptions about which columns are in the file and what their value types are. It simply reads them as is, <em>silently</em> guessing their type.</p>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="tables.html#cb134-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/example.csv&quot;</span>)</span>
-<span id="cb134-2"><a href="tables.html#cb134-2" aria-hidden="true" tabindex="-1"></a>results</span></code></pre></div>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="tables.html#cb175-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/example.csv&quot;</span>)</span>
+<span id="cb175-2"><a href="tables.html#cb175-2" aria-hidden="true" tabindex="-1"></a>results</span></code></pre></div>
 <pre><code>##   Participant Block Trial Contrast Correct
 ## 1          A1     1     1     0.50    TRUE
 ## 2          A1     1     2     1.00    TRUE
 ## 3          A1     1     2     0.05   FALSE</code></pre>
 <p>You can use <code>read_csv()</code> the same way and it will work the same way but warn you about the table structure it deduced.</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="tables.html#cb136-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">&quot;data/example.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="tables.html#cb177-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">&quot;data/example.csv&quot;</span>)</span></code></pre></div>
+<pre><code>## Rows: 3 Columns: 5</code></pre>
+<pre><code>## -- Column specification --------------------------------------------------------
+## Delimiter: &quot;,&quot;
+## chr (1): Participant
+## dbl (3): Block, Trial, Contrast
+## lgl (1): Correct</code></pre>
 <pre><code>## 
-## -- Column specification --------------------------------------------------------
-## cols(
-##   Participant = col_character(),
-##   Block = col_double(),
-##   Trial = col_double(),
-##   Contrast = col_double(),
-##   Correct = col_logical()
-## )</code></pre>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="tables.html#cb138-1" aria-hidden="true" tabindex="-1"></a>results</span></code></pre></div>
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="tables.html#cb181-1" aria-hidden="true" tabindex="-1"></a>results</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 5
 ##   Participant Block Trial Contrast Correct
 ##   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;  
@@ -605,14 +727,14 @@ A1,1,2,0.05,FALSE
 ## 2 A1              1     2     1    TRUE   
 ## 3 A1              1     2     0.05 FALSE</code></pre>
 <p>This annoying <em>Column specification</em> print out, which gets even more annoying if you need to read many CSV files, is there for a reason: it wants to annoy you! Because the only way to turn it off and stop being annoyed is to specify the column structure yourself via <code>col_types</code> parameter. As a matter of fact, the print out you get is where, so you can take a look at it, adjust it, if necessary, and copy-paste to the <code>read_csv</code> call. By default, it suggested <code>double</code> values for <code>Block</code> and <code>Trial</code> but we know they are integers, so we can copy-paste the suggested structure, replace <code>col_double()</code> with <code>col_integer()</code> and read the table without a warning.</p>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="tables.html#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb140-2"><a href="tables.html#cb140-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/example.csv&quot;</span>, </span>
-<span id="cb140-3"><a href="tables.html#cb140-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Participant =</span> <span class="fu">col_character</span>(),</span>
-<span id="cb140-4"><a href="tables.html#cb140-4" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Block =</span> <span class="fu">col_integer</span>(), <span class="co"># read_csv suggested col_double() but we know better</span></span>
-<span id="cb140-5"><a href="tables.html#cb140-5" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Trial =</span> <span class="fu">col_integer</span>(), <span class="co"># read_csv suggested col_double() but we know better</span></span>
-<span id="cb140-6"><a href="tables.html#cb140-6" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Contrast =</span> <span class="fu">col_double</span>(),</span>
-<span id="cb140-7"><a href="tables.html#cb140-7" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Correct =</span> <span class="fu">col_logical</span>()))</span>
-<span id="cb140-8"><a href="tables.html#cb140-8" aria-hidden="true" tabindex="-1"></a>results</span></code></pre></div>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="tables.html#cb183-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb183-2"><a href="tables.html#cb183-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/example.csv&quot;</span>, </span>
+<span id="cb183-3"><a href="tables.html#cb183-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Participant =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb183-4"><a href="tables.html#cb183-4" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Block =</span> <span class="fu">col_integer</span>(), <span class="co"># read_csv suggested col_double() but we know better</span></span>
+<span id="cb183-5"><a href="tables.html#cb183-5" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Trial =</span> <span class="fu">col_integer</span>(), <span class="co"># read_csv suggested col_double() but we know better</span></span>
+<span id="cb183-6"><a href="tables.html#cb183-6" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Contrast =</span> <span class="fu">col_double</span>(),</span>
+<span id="cb183-7"><a href="tables.html#cb183-7" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Correct =</span> <span class="fu">col_logical</span>()))</span>
+<span id="cb183-8"><a href="tables.html#cb183-8" aria-hidden="true" tabindex="-1"></a>results</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 5
 ##   Participant Block Trial Contrast Correct
 ##   &lt;chr&gt;       &lt;int&gt; &lt;int&gt;    &lt;dbl&gt; &lt;lgl&gt;  
@@ -620,42 +742,49 @@ A1,1,2,0.05,FALSE
 ## 2 A1              1     2     1    TRUE   
 ## 3 A1              1     2     0.05 FALSE</code></pre>
 <p>You may feel that this a lot of extra work just to suppress an annoying but, ultimately, harmless warning. Your code will work with or without it, right? Well, <em>hopefully</em> it will but you probably want to <em>know</em> that it will work not <em>hope</em> for it. Imagine that you accidentally overwrote your experimental data file with data from a different experiment (that happens more often than one would want). You still have <code>results.csv</code> file in your project folder and so the <code>read.csv()</code> will read it as is (it does not know what should be in that file) and your analysis code will fail in some mysterious ways at a much later point (because, remember, if you try to access a column/variable that does not exist in the table, you just get <code>NULL</code> rather than an error). You will eventually trace it back to the wrong data file but that will cost time and nerves. However, if you specify the column structure in <code>read_csv()</code> it will show warning, if the file does not match the description. It would warn about wrong column names (<code>TheBlock</code> in the example below) and about wrong type (it does not like <code>TRUE</code>/<code>FALSE</code> in a column it expected to find integers in).</p>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="tables.html#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb142-2"><a href="tables.html#cb142-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/example.csv&quot;</span>, </span>
-<span id="cb142-3"><a href="tables.html#cb142-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Participant =</span> <span class="fu">col_character</span>(),</span>
-<span id="cb142-4"><a href="tables.html#cb142-4" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">TheBlock =</span> <span class="fu">col_integer</span>(), <span class="co"># read_csv suggested col_double() but we know better</span></span>
-<span id="cb142-5"><a href="tables.html#cb142-5" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Trial =</span> <span class="fu">col_integer</span>(), <span class="co"># read_csv suggested col_double() but we know better</span></span>
-<span id="cb142-6"><a href="tables.html#cb142-6" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Contrast =</span> <span class="fu">col_double</span>(),</span>
-<span id="cb142-7"><a href="tables.html#cb142-7" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Correct =</span> <span class="fu">col_integer</span>()))</span></code></pre></div>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="tables.html#cb185-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb185-2"><a href="tables.html#cb185-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/example.csv&quot;</span>, </span>
+<span id="cb185-3"><a href="tables.html#cb185-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Participant =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb185-4"><a href="tables.html#cb185-4" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">TheBlock =</span> <span class="fu">col_integer</span>(), <span class="co"># read_csv suggested col_double() but we know better</span></span>
+<span id="cb185-5"><a href="tables.html#cb185-5" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Trial =</span> <span class="fu">col_integer</span>(), <span class="co"># read_csv suggested col_double() but we know better</span></span>
+<span id="cb185-6"><a href="tables.html#cb185-6" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Contrast =</span> <span class="fu">col_double</span>(),</span>
+<span id="cb185-7"><a href="tables.html#cb185-7" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Correct =</span> <span class="fu">col_integer</span>()))</span></code></pre></div>
 <pre><code>## Warning: The following named parsers don&#39;t match the column names: TheBlock</code></pre>
-<pre><code>## Warning: 3 parsing failures.
-## row     col   expected actual               file
-##   1 Correct an integer  TRUE  &#39;data/example.csv&#39;
-##   2 Correct an integer  TRUE  &#39;data/example.csv&#39;
-##   3 Correct an integer  FALSE &#39;data/example.csv&#39;</code></pre>
 <p>Personally, I would prefer for <code>read_csv()</code> to fail in cases like these but having a nice red warning is already very helpful to quickly detect the problem with your data (and if your data is wrong, your whole analysis is meaningless). Thus, <em>always</em> use <code>read_</code> rather than <code>read.</code> functions and <em>always</em> specify the table structure. The lazy, and my preferred, way to do it, is to first read the file without specifying the structure and copy-paste-edit the warning column-specification message into the code.</p>
 <div class="infobox practice">
 <p>Do exercise 7, you need <a href="data/face_rank.csv">face_rank.csv</a> file for it. Download it and place it in the project folder. <em>Warning</em>, if you use Chrome or any Chromium-based browsers like MS Edge, Opera, etc. they might, for some odd reason, automatically <em>rename it</em> into <em>face_rank.xls</em> during the download. Just rename it back to <em>face_rank.csv</em>, because the file is not converted to an Excel, it is only the extension that gets changed (why? No idea, ask Google!).</p>
 </div>
 </div>
-<div id="readxl" class="section level2" number="3.11">
-<h2><span class="header-section-number">3.11</span> Reading Excel files</h2>
+<div id="readxl" class="section level2" number="3.13">
+<h2><span class="header-section-number">3.13</span> Reading Excel files</h2>
 <p>There are several libraries that allow you to read Excel files directly. My personal preference is <a href="https://readxl.tidyverse.org/">readxl</a> package, which is part of the Tidyverse. Warning, it will be installed as part of the Tidyverse (i.e., when you typed <code>install.packages(tidyverse)</code>) but you still need to import it explicitly via <code>library(readxl)</code>. Because an Excel file has many sheets, by default the <code>read_excel()</code> function reads the <em>first</em> sheet but you can specify it via a <code>sheet</code> parameter using its index <code>read_excel("my_excel_file.xls", sheet=2)</code> or name <code>read_excel("my_excel_file.xls", sheet="addendum")</code>.</p>
 <div class="infobox practice">
 <p>Do exercise 8, you need <a href="data/face_rank.xlsx">face_rank.xlsx</a> file for it.</p>
 </div>
 <p>You can read about further options at the package’s website but I would generally discourage you from using Excel for your work and, definitely, for your data analysis. Because, you see, Excel is very smart and it can figure out the <em>true</em> meaning and type of columns by itself. The fact that you might disagree is your problem. Excel knows what is best for you. The easiest way to screw a CSV file up is to open it in Excel and immediately save it. The file name will remain the same but Excel will “adjust” the content as it feels is better for you (you don’t need to be consulted with). If you think I am exaggerating, read this <a href="https://www.theverge.com/2020/8/6/21355674/human-genes-rename-microsoft-excel-misreading-dates">article</a> at The Verge on how Excel messed up thousands of human genome data tables by turning some values into dates (because why not?). So now the entire community is <em>renaming</em> some genes because it is easier to waste literally thousands of man-hours on that than to fix Excel. In short, friends don’t let friends use Excel.</p>
 </div>
-<div id="reading-files-from-other-programs" class="section level2" number="3.12">
-<h2><span class="header-section-number">3.12</span> Reading files from other programs</h2>
+<div id="reading-files-from-other-programs" class="section level2" number="3.14">
+<h2><span class="header-section-number">3.14</span> Reading files from other programs</h2>
 <p>World is a very diverse place, so you are likely to encounter a wide range of data files generated by Matlab, SPSS, SAS, etc. There are two ways to import the data. First, that I would recommend, use the original program (Matlab, SPSS, SAS, etc.) to export data as a CSV file. Every program can read and write CSV, so it a good common ground. Moreover, this is simple format with no embedded formulas (as in Excel), service structures, etc. Finally, if you store your data in CSV, you do not need a special program to work with it. In short, unless you have a good reason, store your data in CSV files.</p>
 <p>However, sometimes you have a file but you do not have the program (Matlab, SPSS, SAS, etc.). This is the second way, when you can use various R libaries, starting with <a href="https://www.rdocumentation.org/packages/foreign">foreign</a>, which can handle most typical cases, e.g., SPSS, SAS, State, or Minitab. The problem here, is that all the programs differ in the internal file formats and what exactly is included. For example, when importing from an SPSS sav-file via <a href="https://www.rdocumentation.org/packages/foreign/versions/0.8-80/topics/read.spss">read.spss</a> you will get a list with various components rather than a data.frame. You can force the function to convert everything to a single table via <code>to.data.frame=TRUE</code> option but you may lose some information. Bottom line, you need to be extra careful when importing from other formats and the safest way is to ensure complete and full export of the data to a CSV from the original program.</p>
 </div>
-<div id="wrap-up-1" class="section level2" number="3.13">
-<h2><span class="header-section-number">3.13</span> Wrap up</h2>
+<div id="wrap-up-1" class="section level2" number="3.15">
+<h2><span class="header-section-number">3.15</span> Wrap up</h2>
 <p>We have started with vectors and now extended them to tables. Next time, we will look at how to visualize the data using The Grammar of Graphics approach.</p>
 
 </div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="9">
+<li id="fn9"><p>Terms and conditions apply.<a href="tables.html#fnref9" class="footnote-back">↩︎</a></p></li>
+<li id="fn10"><p>Be aware that <a href="https://stat.ethz.ch/R-manual/R-devel/library/utils/html/str.html">str()</a> function has nothing to do with strings but displays a structure of an object. A very unfortunate choice of name but we are stuck with it.<a href="tables.html#fnref10" class="footnote-back">↩︎</a></p></li>
+<li id="fn11"><p>If you are familiar with Python, you can think of R lists as Python lists and dictionaries mixed together.<a href="tables.html#fnref11" class="footnote-back">↩︎</a></p></li>
+<li id="fn12"><p>Insert a hair-pulling picture of your preference here.<a href="tables.html#fnref12" class="footnote-back">↩︎</a></p></li>
+<li id="fn13"><p>And <code>NA</code> as a name. Don’t ask.<a href="tables.html#fnref13" class="footnote-back">↩︎</a></p></li>
+<li id="fn14"><p>There is also a filter function is stats library.<a href="tables.html#fnref14" class="footnote-back">↩︎</a></p></li>
+<li id="fn15"><p>Arbitrariness strikes again! But this also means that <code>$</code> is safe to use with tibbles but not data.frames.<a href="tables.html#fnref15" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
             </section>
 
@@ -686,6 +815,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
@@ -706,6 +836,10 @@ gitbook.start({
 "text": null
 },
 "download": ["data-analysis-using-r-for-psychology.pdf", "data-analysis-using-r-for-psychology.epub"],
+"search": {
+"engine": "lunr",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Seminar 8 Glueing and sprintfing | Data analysis using R for Psychology</title>
   <meta name="description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Seminar 8 Glueing and sprintfing | Data analysis using R for Psychology" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2021-04-14" />
+<meta name="date" content="2021-10-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +33,8 @@
   
 <link rel="prev" href="seminar07.html"/>
 <link rel="next" href="seminar09.html"/>
-<script src="libs/header-attrs-2.7/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -51,6 +51,8 @@
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -117,6 +119,7 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+
 <link rel="stylesheet" href="style.css" type="text/css" />
 <link rel="stylesheet" href="font-awesome.css" type="text/css" />
 </head>
@@ -142,13 +145,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-r"><i class="fa fa-check"></i>Why R?</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#tidyverse-versus-base-r"><i class="fa fa-check"></i>Tidyverse versus base R</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html"><i class="fa fa-check"></i>Getting Started</a>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html"><i class="fa fa-check"></i>Software</a>
 <ul>
-<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#installing-r"><i class="fa fa-check"></i>Installing R</a></li>
-<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#installing-r-studio"><i class="fa fa-check"></i>Installing R-Studio</a></li>
-<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#rtools"><i class="fa fa-check"></i>Installing RTools</a></li>
-<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#install.packages"><i class="fa fa-check"></i>Installing packages</a></li>
-<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#keeping-r-and-packages-up-to-date"><i class="fa fa-check"></i>Keeping R and packages up-to-date</a></li>
+<li class="chapter" data-level="0.1" data-path="software.html"><a href="software.html#install-r"><i class="fa fa-check"></i><b>0.1</b> Installing R</a></li>
+<li class="chapter" data-level="0.2" data-path="software.html"><a href="software.html#install-rstudio"><i class="fa fa-check"></i><b>0.2</b> Installing R-Studio</a></li>
+<li class="chapter" data-level="0.3" data-path="software.html"><a href="software.html#install-rtools"><i class="fa fa-check"></i><b>0.3</b> Installing RTools</a></li>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install.packages"><i class="fa fa-check"></i>Installing packages</a></li>
+<li class="chapter" data-level="0.4" data-path="software.html"><a href="software.html#minimal-set-of-packages"><i class="fa fa-check"></i><b>0.4</b> Minimal set of packages</a></li>
+<li class="chapter" data-level="0.5" data-path="software.html"><a href="software.html#installr"><i class="fa fa-check"></i><b>0.5</b> Keeping R and packages up-to-date</a></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="reproducable-research.html"><a href="reproducable-research.html"><i class="fa fa-check"></i><b>1</b> Reproducable Research: Projects and RMarkdown Notebooks</a>
 <ul>
@@ -159,10 +163,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2" data-path="vectors.html"><a href="vectors.html"><i class="fa fa-check"></i><b>2</b> Vectors! Vectors everywhere!</a>
 <ul>
 <li class="chapter" data-level="2.1" data-path="vectors.html"><a href="vectors.html#variables"><i class="fa fa-check"></i><b>2.1</b> Variables as boxes</a></li>
-<li class="chapter" data-level="2.2" data-path="vectors.html"><a href="vectors.html#assignment-statement-in-detail"><i class="fa fa-check"></i><b>2.2</b> Assignment statement in detail</a></li>
-<li class="chapter" data-level="2.3" data-path="vectors.html"><a href="vectors.html#vectors-scalars"><i class="fa fa-check"></i><b>2.3</b> Vectors and scalars (which are also vectors)</a></li>
-<li class="chapter" data-level="2.4" data-path="vectors.html"><a href="vectors.html#vector-index"><i class="fa fa-check"></i><b>2.4</b> Vector indexes</a></li>
-<li class="chapter" data-level="2.5" data-path="vectors.html"><a href="vectors.html#names-as-index"><i class="fa fa-check"></i><b>2.5</b> Names as Index</a></li>
+<li class="chapter" data-level="2.2" data-path="vectors.html"><a href="vectors.html#assignment-statement"><i class="fa fa-check"></i><b>2.2</b> Assignment statement in detail</a></li>
+<li class="chapter" data-level="2.3" data-path="vectors.html"><a href="vectors.html#vectors-scalars"><i class="fa fa-check"></i><b>2.3</b> Vectors and singluar values (scalars, which are also vectors)</a></li>
+<li class="chapter" data-level="2.4" data-path="vectors.html"><a href="vectors.html#vector-index"><i class="fa fa-check"></i><b>2.4</b> Vector indexes (subsetting)</a></li>
+<li class="chapter" data-level="2.5" data-path="vectors.html"><a href="vectors.html#names"><i class="fa fa-check"></i><b>2.5</b> Names as an Index</a></li>
 <li class="chapter" data-level="2.6" data-path="vectors.html"><a href="vectors.html#vector-index-slicing"><i class="fa fa-check"></i><b>2.6</b> Slicing</a></li>
 <li class="chapter" data-level="2.7" data-path="vectors.html"><a href="vectors.html#colon-sequence"><i class="fa fa-check"></i><b>2.7</b> Colon Operator and Sequence Generation</a></li>
 <li class="chapter" data-level="2.8" data-path="vectors.html"><a href="vectors.html#working-with-two-vectors-of-equal-length"><i class="fa fa-check"></i><b>2.8</b> Working with two vectors of <em>equal</em> length</a></li>
@@ -172,19 +176,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="tables.html"><a href="tables.html"><i class="fa fa-check"></i><b>3</b> Tables and Tibbles (and Tribbles)</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="tables.html"><a href="tables.html#primarytypes"><i class="fa fa-check"></i><b>3.1</b> Primary data types</a></li>
-<li class="chapter" data-level="3.2" data-path="tables.html"><a href="tables.html#in-vector-all-values-must-be-of-the-same-type"><i class="fa fa-check"></i><b>3.2</b> In vector all values must be of the same type</a></li>
-<li class="chapter" data-level="3.3" data-path="tables.html"><a href="tables.html#data.frame"><i class="fa fa-check"></i><b>3.3</b> Tables, a.k.a. data frames</a></li>
-<li class="chapter" data-level="3.4" data-path="tables.html"><a href="tables.html#extracting-a-single-vector-column-get-single-column"><i class="fa fa-check"></i><b>3.4</b> Extracting a single vector / column [#get-single-column]</a></li>
-<li class="chapter" data-level="3.5" data-path="tables.html"><a href="tables.html#table-indexing"><i class="fa fa-check"></i><b>3.5</b> Extracting part of a table</a></li>
-<li class="chapter" data-level="3.6" data-path="tables.html"><a href="tables.html#library"><i class="fa fa-check"></i><b>3.6</b> Using libraries</a></li>
-<li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#tibble"><i class="fa fa-check"></i><b>3.7</b> Tibble, a better data.frame</a></li>
-<li class="chapter" data-level="3.8" data-path="tables.html"><a href="tables.html#tribble"><i class="fa fa-check"></i><b>3.8</b> Tribble, table from text</a></li>
-<li class="chapter" data-level="3.9" data-path="tables.html"><a href="tables.html#data"><i class="fa fa-check"></i><b>3.9</b> Reading example tables</a></li>
-<li class="chapter" data-level="3.10" data-path="tables.html"><a href="tables.html#readr"><i class="fa fa-check"></i><b>3.10</b> Reading csv files</a></li>
-<li class="chapter" data-level="3.11" data-path="tables.html"><a href="tables.html#readxl"><i class="fa fa-check"></i><b>3.11</b> Reading Excel files</a></li>
-<li class="chapter" data-level="3.12" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.12</b> Reading files from other programs</a></li>
-<li class="chapter" data-level="3.13" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.13</b> Wrap up</a></li>
+<li class="chapter" data-level="3.1" data-path="tables.html"><a href="tables.html#primary-types"><i class="fa fa-check"></i><b>3.1</b> Primary data types</a></li>
+<li class="chapter" data-level="3.2" data-path="tables.html"><a href="tables.html#vectors-are-homogeneous"><i class="fa fa-check"></i><b>3.2</b> All vector values must be of the same type</a></li>
+<li class="chapter" data-level="3.3" data-path="tables.html"><a href="tables.html#lists"><i class="fa fa-check"></i><b>3.3</b> Lists</a></li>
+<li class="chapter" data-level="3.4" data-path="tables.html"><a href="tables.html#subsetting"><i class="fa fa-check"></i><b>3.4</b> Subsetting, a fuller version</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="tables.html"><a href="tables.html#subsetting-for-atomics-vectors"><i class="fa fa-check"></i><b>3.4.1</b> Subsetting for (atomics) vectors</a></li>
+<li class="chapter" data-level="3.4.2" data-path="tables.html"><a href="tables.html#subsetting-for-lists"><i class="fa fa-check"></i><b>3.4.2</b> Subsetting for lists</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="tables.html"><a href="tables.html#dollar-subsetting"><i class="fa fa-check"></i><b>3.5</b> Yet another subsetting via $</a></li>
+<li class="chapter" data-level="3.6" data-path="tables.html"><a href="tables.html#data.frame"><i class="fa fa-check"></i><b>3.6</b> Tables, a.k.a. data frames</a></li>
+<li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#table-subsetting"><i class="fa fa-check"></i><b>3.7</b> Subsetting table</a></li>
+<li class="chapter" data-level="3.8" data-path="tables.html"><a href="tables.html#library"><i class="fa fa-check"></i><b>3.8</b> Using libraries</a></li>
+<li class="chapter" data-level="3.9" data-path="tables.html"><a href="tables.html#tibble"><i class="fa fa-check"></i><b>3.9</b> Tibble, a better data.frame</a></li>
+<li class="chapter" data-level="3.10" data-path="tables.html"><a href="tables.html#tribble"><i class="fa fa-check"></i><b>3.10</b> Tribble, table from text</a></li>
+<li class="chapter" data-level="3.11" data-path="tables.html"><a href="tables.html#data"><i class="fa fa-check"></i><b>3.11</b> Reading example tables</a></li>
+<li class="chapter" data-level="3.12" data-path="tables.html"><a href="tables.html#readr"><i class="fa fa-check"></i><b>3.12</b> Reading csv files</a></li>
+<li class="chapter" data-level="3.13" data-path="tables.html"><a href="tables.html#readxl"><i class="fa fa-check"></i><b>3.13</b> Reading Excel files</a></li>
+<li class="chapter" data-level="3.14" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.14</b> Reading files from other programs</a></li>
+<li class="chapter" data-level="3.15" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.15</b> Wrap up</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>4</b> Grammar of Graphics</a>
 <ul>
@@ -334,7 +344,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Merge two tables by <code>Prime</code> and <code>Probe</code>, store results in a new variable (the name is up to you). Note that each table has column with average proportion of same responses. You probably used the same name for this variable for both columns (if not, do use the same name, like <code>Pavg</code>). Joining functions are average of this possibility and use <em>suffixes</em> to differentiate which table the original column came from. By defaults <code>suffix = c(".x", ".y")</code>, so that that column <code>Pavg</code> from the first (left) table will become <code>Pavg.x</code> and the other one <code>Pavg.y</code>. We can do better than <code>c(".x", ".y")</code>! Use suffix parameter but use meaningful suffixes. The table should have four columns and sixteen rows.</li>
 <li>Plot average proportion of same responses for adaptation versus persistence. Use points for individual values and add linear regression line via <code>geom_smooth()</code>. The final plot should look approximately like this:</li>
 </ul>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-153-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-168-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div class="infobox practice">
 <p>Do exercise 1.</p>
 </div>
@@ -343,16 +353,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">8.2</span> Gluing in correlation strength information.</h2>
 <p>Let us be more precise about the strength of the correlation between the two variables. First, compute it via <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/cor.html">cor</a> function. Use function <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/Round.html">round</a> to round it to just two decimal places. Then, use <a href="https://glue.tidyverse.org/">glue()</a> (see below) to make the title look nice and put it as a title or subtitle of the plot via <a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a>.</p>
 <p>Function <code>glue()</code> lives in the package of the same name that you will need to import separately (it is part of the tidyverse but is not imported automatically). It makes it simple to “glue” values directly into a string. You simply surround the R code by wiggle brackets and the result of the code execution is glued in. If you use just a variable, its value will be glued-in.</p>
-<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="seminar08.html#cb275-1" aria-hidden="true" tabindex="-1"></a>answer <span class="ot">&lt;-</span> <span class="dv">42</span></span>
-<span id="cb275-2"><a href="seminar08.html#cb275-2" aria-hidden="true" tabindex="-1"></a>bad_answer <span class="ot">&lt;-</span> <span class="dv">41</span></span>
-<span id="cb275-3"><a href="seminar08.html#cb275-3" aria-hidden="true" tabindex="-1"></a><span class="fu">glue</span>(<span class="st">&quot;The answer is {answer}, not {bad_answer}&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="seminar08.html#cb317-1" aria-hidden="true" tabindex="-1"></a>answer <span class="ot">&lt;-</span> <span class="dv">42</span></span>
+<span id="cb317-2"><a href="seminar08.html#cb317-2" aria-hidden="true" tabindex="-1"></a>bad_answer <span class="ot">&lt;-</span> <span class="dv">41</span></span>
+<span id="cb317-3"><a href="seminar08.html#cb317-3" aria-hidden="true" tabindex="-1"></a><span class="fu">glue</span>(<span class="st">&quot;The answer is {answer}, not {bad_answer}&quot;</span>)</span></code></pre></div>
 <pre><code>## The answer is 42, not 41</code></pre>
 <p>But, you can put <em>any</em> code inside, although, the more code you put, the harder it will be to read and understand it.</p>
-<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="seminar08.html#cb277-1" aria-hidden="true" tabindex="-1"></a>single_package_weight <span class="ot">&lt;-</span> <span class="fl">1.2</span></span>
-<span id="cb277-2"><a href="seminar08.html#cb277-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glue</span>(<span class="st">&quot;Ten packages weight {single_package_weight * 10} kg&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="seminar08.html#cb319-1" aria-hidden="true" tabindex="-1"></a>single_package_weight <span class="ot">&lt;-</span> <span class="fl">1.2</span></span>
+<span id="cb319-2"><a href="seminar08.html#cb319-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glue</span>(<span class="st">&quot;Ten packages weight {single_package_weight * 10} kg&quot;</span>)</span></code></pre></div>
 <pre><code>## Ten packages weight 12 kg</code></pre>
 <p>So, compute the correlation, glue it into the text and put it as a title of the plot.
-<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-156-1.png" width="672" /></p>
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-171-1.png" width="672" /></p>
 <div class="infobox practice">
 <p>Do exercise 2.</p>
 </div>
@@ -369,18 +379,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>g</code> for an “optimally” printed float value, so that exponential notation is used for large values (<em>e.g.</em>, <code>10e5</code> instead of <code>100000</code>).</li>
 </ul>
 <p>Here is an example of formatting a string using an integer:</p>
-<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="seminar08.html#cb279-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes for breakfast&quot;</span>, <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="seminar08.html#cb321-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes for breakfast&quot;</span>, <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;I had 10 pancakes for breakfast&quot;</code></pre>
 <p>You are not limited to a single value that you can put into a string. You can specify more locations via <code>%</code> but you must make sure that you pass the right number of values. Before running it, can you figure out which call will actually work (and what will be the output ) and which will produce an error?</p>
-<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="seminar08.html#cb281-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes and either %d  or %d stakes for dinner&quot;</span>, <span class="dv">2</span>)</span>
-<span id="cb281-2"><a href="seminar08.html#cb281-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes and %d stakes for dinner&quot;</span>, <span class="dv">7</span>, <span class="dv">10</span>)</span>
-<span id="cb281-3"><a href="seminar08.html#cb281-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes and %d stakes for dinner&quot;</span>, <span class="dv">1</span>, <span class="dv">7</span>, <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="seminar08.html#cb323-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes and either %d  or %d stakes for dinner&quot;</span>, <span class="dv">2</span>)</span>
+<span id="cb323-2"><a href="seminar08.html#cb323-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes and %d stakes for dinner&quot;</span>, <span class="dv">7</span>, <span class="dv">10</span>)</span>
+<span id="cb323-3"><a href="seminar08.html#cb323-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes and %d stakes for dinner&quot;</span>, <span class="dv">1</span>, <span class="dv">7</span>, <span class="dv">10</span>)</span></code></pre></div>
 <div class="infobox practice">
 <p>Do exercise 3.</p>
 </div>
 <p>In case of real values you have two options: <code>%f</code> and <code>%g</code>. The latter uses scientific notation (e.g. <code>1e10</code> for <code>10000000000</code>) to make a representation more compact. When formatting floating numbers, you can specify the number of decimal points to be displayed.</p>
-<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="seminar08.html#cb282-1" aria-hidden="true" tabindex="-1"></a>e <span class="ot">&lt;-</span> <span class="fl">2.71828182845904523536028747135266249775724709369995</span></span>
-<span id="cb282-2"><a href="seminar08.html#cb282-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;Euler&#39;s number is roughly %.4f&quot;</span>, e)</span></code></pre></div>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="seminar08.html#cb324-1" aria-hidden="true" tabindex="-1"></a>e <span class="ot">&lt;-</span> <span class="fl">2.71828182845904523536028747135266249775724709369995</span></span>
+<span id="cb324-2"><a href="seminar08.html#cb324-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;Euler&#39;s number is roughly %.4f&quot;</span>, e)</span></code></pre></div>
 <pre><code>## [1] &quot;Euler&#39;s number is roughly 2.7183&quot;</code></pre>
 <p>Repeat exercise #2 but use <code>sprintf()</code> in place of <code>glue()</code>.
 ::: {.infobox .practice}
@@ -422,6 +432,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
@@ -442,6 +453,10 @@ gitbook.start({
 "text": null
 },
 "download": ["data-analysis-using-r-for-psychology.pdf", "data-analysis-using-r-for-psychology.epub"],
+"search": {
+"engine": "lunr",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Seminar 12 Practice | Data analysis using R for Psychology</title>
   <meta name="description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Seminar 12 Practice | Data analysis using R for Psychology" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2021-04-14" />
+<meta name="date" content="2021-10-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +33,8 @@
   
 <link rel="prev" href="seminar11.html"/>
 
-<script src="libs/header-attrs-2.7/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -51,6 +51,8 @@
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -117,6 +119,7 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+
 <link rel="stylesheet" href="style.css" type="text/css" />
 <link rel="stylesheet" href="font-awesome.css" type="text/css" />
 </head>
@@ -142,13 +145,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-r"><i class="fa fa-check"></i>Why R?</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#tidyverse-versus-base-r"><i class="fa fa-check"></i>Tidyverse versus base R</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html"><i class="fa fa-check"></i>Getting Started</a>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html"><i class="fa fa-check"></i>Software</a>
 <ul>
-<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#installing-r"><i class="fa fa-check"></i>Installing R</a></li>
-<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#installing-r-studio"><i class="fa fa-check"></i>Installing R-Studio</a></li>
-<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#rtools"><i class="fa fa-check"></i>Installing RTools</a></li>
-<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#install.packages"><i class="fa fa-check"></i>Installing packages</a></li>
-<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#keeping-r-and-packages-up-to-date"><i class="fa fa-check"></i>Keeping R and packages up-to-date</a></li>
+<li class="chapter" data-level="0.1" data-path="software.html"><a href="software.html#install-r"><i class="fa fa-check"></i><b>0.1</b> Installing R</a></li>
+<li class="chapter" data-level="0.2" data-path="software.html"><a href="software.html#install-rstudio"><i class="fa fa-check"></i><b>0.2</b> Installing R-Studio</a></li>
+<li class="chapter" data-level="0.3" data-path="software.html"><a href="software.html#install-rtools"><i class="fa fa-check"></i><b>0.3</b> Installing RTools</a></li>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install.packages"><i class="fa fa-check"></i>Installing packages</a></li>
+<li class="chapter" data-level="0.4" data-path="software.html"><a href="software.html#minimal-set-of-packages"><i class="fa fa-check"></i><b>0.4</b> Minimal set of packages</a></li>
+<li class="chapter" data-level="0.5" data-path="software.html"><a href="software.html#installr"><i class="fa fa-check"></i><b>0.5</b> Keeping R and packages up-to-date</a></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="reproducable-research.html"><a href="reproducable-research.html"><i class="fa fa-check"></i><b>1</b> Reproducable Research: Projects and RMarkdown Notebooks</a>
 <ul>
@@ -159,10 +163,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2" data-path="vectors.html"><a href="vectors.html"><i class="fa fa-check"></i><b>2</b> Vectors! Vectors everywhere!</a>
 <ul>
 <li class="chapter" data-level="2.1" data-path="vectors.html"><a href="vectors.html#variables"><i class="fa fa-check"></i><b>2.1</b> Variables as boxes</a></li>
-<li class="chapter" data-level="2.2" data-path="vectors.html"><a href="vectors.html#assignment-statement-in-detail"><i class="fa fa-check"></i><b>2.2</b> Assignment statement in detail</a></li>
-<li class="chapter" data-level="2.3" data-path="vectors.html"><a href="vectors.html#vectors-scalars"><i class="fa fa-check"></i><b>2.3</b> Vectors and scalars (which are also vectors)</a></li>
-<li class="chapter" data-level="2.4" data-path="vectors.html"><a href="vectors.html#vector-index"><i class="fa fa-check"></i><b>2.4</b> Vector indexes</a></li>
-<li class="chapter" data-level="2.5" data-path="vectors.html"><a href="vectors.html#names-as-index"><i class="fa fa-check"></i><b>2.5</b> Names as Index</a></li>
+<li class="chapter" data-level="2.2" data-path="vectors.html"><a href="vectors.html#assignment-statement"><i class="fa fa-check"></i><b>2.2</b> Assignment statement in detail</a></li>
+<li class="chapter" data-level="2.3" data-path="vectors.html"><a href="vectors.html#vectors-scalars"><i class="fa fa-check"></i><b>2.3</b> Vectors and singluar values (scalars, which are also vectors)</a></li>
+<li class="chapter" data-level="2.4" data-path="vectors.html"><a href="vectors.html#vector-index"><i class="fa fa-check"></i><b>2.4</b> Vector indexes (subsetting)</a></li>
+<li class="chapter" data-level="2.5" data-path="vectors.html"><a href="vectors.html#names"><i class="fa fa-check"></i><b>2.5</b> Names as an Index</a></li>
 <li class="chapter" data-level="2.6" data-path="vectors.html"><a href="vectors.html#vector-index-slicing"><i class="fa fa-check"></i><b>2.6</b> Slicing</a></li>
 <li class="chapter" data-level="2.7" data-path="vectors.html"><a href="vectors.html#colon-sequence"><i class="fa fa-check"></i><b>2.7</b> Colon Operator and Sequence Generation</a></li>
 <li class="chapter" data-level="2.8" data-path="vectors.html"><a href="vectors.html#working-with-two-vectors-of-equal-length"><i class="fa fa-check"></i><b>2.8</b> Working with two vectors of <em>equal</em> length</a></li>
@@ -172,19 +176,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="tables.html"><a href="tables.html"><i class="fa fa-check"></i><b>3</b> Tables and Tibbles (and Tribbles)</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="tables.html"><a href="tables.html#primarytypes"><i class="fa fa-check"></i><b>3.1</b> Primary data types</a></li>
-<li class="chapter" data-level="3.2" data-path="tables.html"><a href="tables.html#in-vector-all-values-must-be-of-the-same-type"><i class="fa fa-check"></i><b>3.2</b> In vector all values must be of the same type</a></li>
-<li class="chapter" data-level="3.3" data-path="tables.html"><a href="tables.html#data.frame"><i class="fa fa-check"></i><b>3.3</b> Tables, a.k.a. data frames</a></li>
-<li class="chapter" data-level="3.4" data-path="tables.html"><a href="tables.html#extracting-a-single-vector-column-get-single-column"><i class="fa fa-check"></i><b>3.4</b> Extracting a single vector / column [#get-single-column]</a></li>
-<li class="chapter" data-level="3.5" data-path="tables.html"><a href="tables.html#table-indexing"><i class="fa fa-check"></i><b>3.5</b> Extracting part of a table</a></li>
-<li class="chapter" data-level="3.6" data-path="tables.html"><a href="tables.html#library"><i class="fa fa-check"></i><b>3.6</b> Using libraries</a></li>
-<li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#tibble"><i class="fa fa-check"></i><b>3.7</b> Tibble, a better data.frame</a></li>
-<li class="chapter" data-level="3.8" data-path="tables.html"><a href="tables.html#tribble"><i class="fa fa-check"></i><b>3.8</b> Tribble, table from text</a></li>
-<li class="chapter" data-level="3.9" data-path="tables.html"><a href="tables.html#data"><i class="fa fa-check"></i><b>3.9</b> Reading example tables</a></li>
-<li class="chapter" data-level="3.10" data-path="tables.html"><a href="tables.html#readr"><i class="fa fa-check"></i><b>3.10</b> Reading csv files</a></li>
-<li class="chapter" data-level="3.11" data-path="tables.html"><a href="tables.html#readxl"><i class="fa fa-check"></i><b>3.11</b> Reading Excel files</a></li>
-<li class="chapter" data-level="3.12" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.12</b> Reading files from other programs</a></li>
-<li class="chapter" data-level="3.13" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.13</b> Wrap up</a></li>
+<li class="chapter" data-level="3.1" data-path="tables.html"><a href="tables.html#primary-types"><i class="fa fa-check"></i><b>3.1</b> Primary data types</a></li>
+<li class="chapter" data-level="3.2" data-path="tables.html"><a href="tables.html#vectors-are-homogeneous"><i class="fa fa-check"></i><b>3.2</b> All vector values must be of the same type</a></li>
+<li class="chapter" data-level="3.3" data-path="tables.html"><a href="tables.html#lists"><i class="fa fa-check"></i><b>3.3</b> Lists</a></li>
+<li class="chapter" data-level="3.4" data-path="tables.html"><a href="tables.html#subsetting"><i class="fa fa-check"></i><b>3.4</b> Subsetting, a fuller version</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="tables.html"><a href="tables.html#subsetting-for-atomics-vectors"><i class="fa fa-check"></i><b>3.4.1</b> Subsetting for (atomics) vectors</a></li>
+<li class="chapter" data-level="3.4.2" data-path="tables.html"><a href="tables.html#subsetting-for-lists"><i class="fa fa-check"></i><b>3.4.2</b> Subsetting for lists</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="tables.html"><a href="tables.html#dollar-subsetting"><i class="fa fa-check"></i><b>3.5</b> Yet another subsetting via $</a></li>
+<li class="chapter" data-level="3.6" data-path="tables.html"><a href="tables.html#data.frame"><i class="fa fa-check"></i><b>3.6</b> Tables, a.k.a. data frames</a></li>
+<li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#table-subsetting"><i class="fa fa-check"></i><b>3.7</b> Subsetting table</a></li>
+<li class="chapter" data-level="3.8" data-path="tables.html"><a href="tables.html#library"><i class="fa fa-check"></i><b>3.8</b> Using libraries</a></li>
+<li class="chapter" data-level="3.9" data-path="tables.html"><a href="tables.html#tibble"><i class="fa fa-check"></i><b>3.9</b> Tibble, a better data.frame</a></li>
+<li class="chapter" data-level="3.10" data-path="tables.html"><a href="tables.html#tribble"><i class="fa fa-check"></i><b>3.10</b> Tribble, table from text</a></li>
+<li class="chapter" data-level="3.11" data-path="tables.html"><a href="tables.html#data"><i class="fa fa-check"></i><b>3.11</b> Reading example tables</a></li>
+<li class="chapter" data-level="3.12" data-path="tables.html"><a href="tables.html#readr"><i class="fa fa-check"></i><b>3.12</b> Reading csv files</a></li>
+<li class="chapter" data-level="3.13" data-path="tables.html"><a href="tables.html#readxl"><i class="fa fa-check"></i><b>3.13</b> Reading Excel files</a></li>
+<li class="chapter" data-level="3.14" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.14</b> Reading files from other programs</a></li>
+<li class="chapter" data-level="3.15" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.15</b> Wrap up</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>4</b> Grammar of Graphics</a>
 <ul>
@@ -951,9 +961,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>Let us see how condition and incongruency-order presentation affects our response times.</p>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-280-1.png" width="672" /></p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-295-1.png" width="672" /></p>
 <p>Participants responses were clearly faster on trials when color and word were incongruent. But to better see the effect of condition, let us replot the data.</p>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-281-1.png" width="672" /></p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-296-1.png" width="672" /></p>
 <p>Now, we can that some conditions do appear to be different as well. Let us confirm this via statistics. We will use linear mixed models (thus, package <em>lmerTest</em>) with <code>Condition</code>, <code>IncongruentFirst</code>, and <code>Congruency</code> as fixed effect and <code>HabitNr</code> (participant ID) as a random factor. We will not look at any interactions although they are most likely of interest for the follow up analysis.</p>
 <pre><code>## boundary (singular) fit: see ?isSingular</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
@@ -1071,8 +1081,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>Again, let us plot data both ways</p>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-285-1.png" width="672" /></p>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-286-1.png" width="672" /></p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-300-1.png" width="672" /></p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-301-1.png" width="672" /></p>
 <p>Plots are very similar to those for response times. So let us perform the statistical analysis. This is a binomial data, so many errors per 120 trials, so use <code>glmer()</code> function (generalized linear mixed model) from <code>lme4</code> package with binomial family.</p>
 <pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
 ##   Approximation) [glmerMod]
@@ -1521,9 +1531,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 <p>Once you merged two tables by rows (see <a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows()</a>).</p>
 <p>, let us take a look at the results.</p>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-293-1.png" width="672" /></p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-308-1.png" width="672" /></p>
 <p>There seems to be clear outliers, so let us drop all values above 1000 (filter inside the ggplot call) and plot again</p>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-294-1.png" width="672" /></p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-309-1.png" width="672" /></p>
 <p>Well, certainly hard to tell, so no clear and consistent effect. Still, let us do stats via linear mixed models.</p>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
@@ -1633,6 +1643,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
             </section>
 
           </div>
@@ -1662,6 +1685,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
@@ -1682,6 +1706,10 @@ gitbook.start({
 "text": null
 },
 "download": ["data-analysis-using-r-for-psychology.pdf", "data-analysis-using-r-for-psychology.epub"],
+"search": {
+"engine": "lunr",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

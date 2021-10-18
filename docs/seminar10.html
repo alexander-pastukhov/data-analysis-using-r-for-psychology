@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Seminar 10 Repeating a computation | Data analysis using R for Psychology</title>
   <meta name="description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Seminar 10 Repeating a computation | Data analysis using R for Psychology" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2021-04-14" />
+<meta name="date" content="2021-10-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +33,8 @@
   
 <link rel="prev" href="seminar09.html"/>
 <link rel="next" href="seminar11.html"/>
-<script src="libs/header-attrs-2.7/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -51,6 +51,8 @@
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -117,6 +119,7 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+
 <link rel="stylesheet" href="style.css" type="text/css" />
 <link rel="stylesheet" href="font-awesome.css" type="text/css" />
 </head>
@@ -142,13 +145,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-r"><i class="fa fa-check"></i>Why R?</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#tidyverse-versus-base-r"><i class="fa fa-check"></i>Tidyverse versus base R</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html"><i class="fa fa-check"></i>Getting Started</a>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html"><i class="fa fa-check"></i>Software</a>
 <ul>
-<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#installing-r"><i class="fa fa-check"></i>Installing R</a></li>
-<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#installing-r-studio"><i class="fa fa-check"></i>Installing R-Studio</a></li>
-<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#rtools"><i class="fa fa-check"></i>Installing RTools</a></li>
-<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#install.packages"><i class="fa fa-check"></i>Installing packages</a></li>
-<li class="chapter" data-level="" data-path="getting-started.html"><a href="getting-started.html#keeping-r-and-packages-up-to-date"><i class="fa fa-check"></i>Keeping R and packages up-to-date</a></li>
+<li class="chapter" data-level="0.1" data-path="software.html"><a href="software.html#install-r"><i class="fa fa-check"></i><b>0.1</b> Installing R</a></li>
+<li class="chapter" data-level="0.2" data-path="software.html"><a href="software.html#install-rstudio"><i class="fa fa-check"></i><b>0.2</b> Installing R-Studio</a></li>
+<li class="chapter" data-level="0.3" data-path="software.html"><a href="software.html#install-rtools"><i class="fa fa-check"></i><b>0.3</b> Installing RTools</a></li>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install.packages"><i class="fa fa-check"></i>Installing packages</a></li>
+<li class="chapter" data-level="0.4" data-path="software.html"><a href="software.html#minimal-set-of-packages"><i class="fa fa-check"></i><b>0.4</b> Minimal set of packages</a></li>
+<li class="chapter" data-level="0.5" data-path="software.html"><a href="software.html#installr"><i class="fa fa-check"></i><b>0.5</b> Keeping R and packages up-to-date</a></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="reproducable-research.html"><a href="reproducable-research.html"><i class="fa fa-check"></i><b>1</b> Reproducable Research: Projects and RMarkdown Notebooks</a>
 <ul>
@@ -159,10 +163,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2" data-path="vectors.html"><a href="vectors.html"><i class="fa fa-check"></i><b>2</b> Vectors! Vectors everywhere!</a>
 <ul>
 <li class="chapter" data-level="2.1" data-path="vectors.html"><a href="vectors.html#variables"><i class="fa fa-check"></i><b>2.1</b> Variables as boxes</a></li>
-<li class="chapter" data-level="2.2" data-path="vectors.html"><a href="vectors.html#assignment-statement-in-detail"><i class="fa fa-check"></i><b>2.2</b> Assignment statement in detail</a></li>
-<li class="chapter" data-level="2.3" data-path="vectors.html"><a href="vectors.html#vectors-scalars"><i class="fa fa-check"></i><b>2.3</b> Vectors and scalars (which are also vectors)</a></li>
-<li class="chapter" data-level="2.4" data-path="vectors.html"><a href="vectors.html#vector-index"><i class="fa fa-check"></i><b>2.4</b> Vector indexes</a></li>
-<li class="chapter" data-level="2.5" data-path="vectors.html"><a href="vectors.html#names-as-index"><i class="fa fa-check"></i><b>2.5</b> Names as Index</a></li>
+<li class="chapter" data-level="2.2" data-path="vectors.html"><a href="vectors.html#assignment-statement"><i class="fa fa-check"></i><b>2.2</b> Assignment statement in detail</a></li>
+<li class="chapter" data-level="2.3" data-path="vectors.html"><a href="vectors.html#vectors-scalars"><i class="fa fa-check"></i><b>2.3</b> Vectors and singluar values (scalars, which are also vectors)</a></li>
+<li class="chapter" data-level="2.4" data-path="vectors.html"><a href="vectors.html#vector-index"><i class="fa fa-check"></i><b>2.4</b> Vector indexes (subsetting)</a></li>
+<li class="chapter" data-level="2.5" data-path="vectors.html"><a href="vectors.html#names"><i class="fa fa-check"></i><b>2.5</b> Names as an Index</a></li>
 <li class="chapter" data-level="2.6" data-path="vectors.html"><a href="vectors.html#vector-index-slicing"><i class="fa fa-check"></i><b>2.6</b> Slicing</a></li>
 <li class="chapter" data-level="2.7" data-path="vectors.html"><a href="vectors.html#colon-sequence"><i class="fa fa-check"></i><b>2.7</b> Colon Operator and Sequence Generation</a></li>
 <li class="chapter" data-level="2.8" data-path="vectors.html"><a href="vectors.html#working-with-two-vectors-of-equal-length"><i class="fa fa-check"></i><b>2.8</b> Working with two vectors of <em>equal</em> length</a></li>
@@ -172,19 +176,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="tables.html"><a href="tables.html"><i class="fa fa-check"></i><b>3</b> Tables and Tibbles (and Tribbles)</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="tables.html"><a href="tables.html#primarytypes"><i class="fa fa-check"></i><b>3.1</b> Primary data types</a></li>
-<li class="chapter" data-level="3.2" data-path="tables.html"><a href="tables.html#in-vector-all-values-must-be-of-the-same-type"><i class="fa fa-check"></i><b>3.2</b> In vector all values must be of the same type</a></li>
-<li class="chapter" data-level="3.3" data-path="tables.html"><a href="tables.html#data.frame"><i class="fa fa-check"></i><b>3.3</b> Tables, a.k.a. data frames</a></li>
-<li class="chapter" data-level="3.4" data-path="tables.html"><a href="tables.html#extracting-a-single-vector-column-get-single-column"><i class="fa fa-check"></i><b>3.4</b> Extracting a single vector / column [#get-single-column]</a></li>
-<li class="chapter" data-level="3.5" data-path="tables.html"><a href="tables.html#table-indexing"><i class="fa fa-check"></i><b>3.5</b> Extracting part of a table</a></li>
-<li class="chapter" data-level="3.6" data-path="tables.html"><a href="tables.html#library"><i class="fa fa-check"></i><b>3.6</b> Using libraries</a></li>
-<li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#tibble"><i class="fa fa-check"></i><b>3.7</b> Tibble, a better data.frame</a></li>
-<li class="chapter" data-level="3.8" data-path="tables.html"><a href="tables.html#tribble"><i class="fa fa-check"></i><b>3.8</b> Tribble, table from text</a></li>
-<li class="chapter" data-level="3.9" data-path="tables.html"><a href="tables.html#data"><i class="fa fa-check"></i><b>3.9</b> Reading example tables</a></li>
-<li class="chapter" data-level="3.10" data-path="tables.html"><a href="tables.html#readr"><i class="fa fa-check"></i><b>3.10</b> Reading csv files</a></li>
-<li class="chapter" data-level="3.11" data-path="tables.html"><a href="tables.html#readxl"><i class="fa fa-check"></i><b>3.11</b> Reading Excel files</a></li>
-<li class="chapter" data-level="3.12" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.12</b> Reading files from other programs</a></li>
-<li class="chapter" data-level="3.13" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.13</b> Wrap up</a></li>
+<li class="chapter" data-level="3.1" data-path="tables.html"><a href="tables.html#primary-types"><i class="fa fa-check"></i><b>3.1</b> Primary data types</a></li>
+<li class="chapter" data-level="3.2" data-path="tables.html"><a href="tables.html#vectors-are-homogeneous"><i class="fa fa-check"></i><b>3.2</b> All vector values must be of the same type</a></li>
+<li class="chapter" data-level="3.3" data-path="tables.html"><a href="tables.html#lists"><i class="fa fa-check"></i><b>3.3</b> Lists</a></li>
+<li class="chapter" data-level="3.4" data-path="tables.html"><a href="tables.html#subsetting"><i class="fa fa-check"></i><b>3.4</b> Subsetting, a fuller version</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="tables.html"><a href="tables.html#subsetting-for-atomics-vectors"><i class="fa fa-check"></i><b>3.4.1</b> Subsetting for (atomics) vectors</a></li>
+<li class="chapter" data-level="3.4.2" data-path="tables.html"><a href="tables.html#subsetting-for-lists"><i class="fa fa-check"></i><b>3.4.2</b> Subsetting for lists</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="tables.html"><a href="tables.html#dollar-subsetting"><i class="fa fa-check"></i><b>3.5</b> Yet another subsetting via $</a></li>
+<li class="chapter" data-level="3.6" data-path="tables.html"><a href="tables.html#data.frame"><i class="fa fa-check"></i><b>3.6</b> Tables, a.k.a. data frames</a></li>
+<li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#table-subsetting"><i class="fa fa-check"></i><b>3.7</b> Subsetting table</a></li>
+<li class="chapter" data-level="3.8" data-path="tables.html"><a href="tables.html#library"><i class="fa fa-check"></i><b>3.8</b> Using libraries</a></li>
+<li class="chapter" data-level="3.9" data-path="tables.html"><a href="tables.html#tibble"><i class="fa fa-check"></i><b>3.9</b> Tibble, a better data.frame</a></li>
+<li class="chapter" data-level="3.10" data-path="tables.html"><a href="tables.html#tribble"><i class="fa fa-check"></i><b>3.10</b> Tribble, table from text</a></li>
+<li class="chapter" data-level="3.11" data-path="tables.html"><a href="tables.html#data"><i class="fa fa-check"></i><b>3.11</b> Reading example tables</a></li>
+<li class="chapter" data-level="3.12" data-path="tables.html"><a href="tables.html#readr"><i class="fa fa-check"></i><b>3.12</b> Reading csv files</a></li>
+<li class="chapter" data-level="3.13" data-path="tables.html"><a href="tables.html#readxl"><i class="fa fa-check"></i><b>3.13</b> Reading Excel files</a></li>
+<li class="chapter" data-level="3.14" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.14</b> Reading files from other programs</a></li>
+<li class="chapter" data-level="3.15" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.15</b> Wrap up</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>4</b> Grammar of Graphics</a>
 <ul>
@@ -316,16 +326,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="rep" class="section level2" number="10.1">
 <h2><span class="header-section-number">10.1</span> <code>rep()</code></h2>
 <p>The most basic repetition mechanism in R is <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/rep.html">rep()</a> function. It takes a vector and repeats it or each individual value specified number of times. The former, repeating the entire vector, is done via <code>times</code> parameter.</p>
-<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="seminar10.html#cb312-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">times=</span><span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="seminar10.html#cb354-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">times=</span><span class="dv">4</span>)</span></code></pre></div>
 <pre><code>##  [1] 1 2 3 1 2 3 1 2 3 1 2 3</code></pre>
 <p>The latter, repeating each element specified number of times before repeating the next one, is done via <code>each</code> parameter.</p>
-<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="seminar10.html#cb314-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">each=</span><span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="seminar10.html#cb356-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">each=</span><span class="dv">4</span>)</span></code></pre></div>
 <pre><code>##  [1] 1 1 1 1 2 2 2 2 3 3 3 3</code></pre>
 <p>You can specify length of the output vector via <code>length.out</code>. When combined with <code>times</code> it can be useful for producing truncated vectors. E.g., when we repeat a three element vector but we want to get ten values. Using <code>times</code> only, we can get either nine (<code>times=3</code>) or twelve (<code>times=4</code>), not ten. <code>length.out=10</code> makes it happen.</p>
-<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="seminar10.html#cb316-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">times=</span><span class="dv">4</span>, <span class="at">length.out =</span> <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="seminar10.html#cb358-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">times=</span><span class="dv">4</span>, <span class="at">length.out =</span> <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##  [1] 1 2 3 1 2 3 1 2 3 1</code></pre>
 <p>You should be more careful when combining <code>length.out</code> with <code>each</code>, as each value is repeated <code>each</code> times and, if <code>length.out</code> is longer, the same sequence is repeated again. Could be confusing and you might get a very unbalanced repeated sequence.</p>
-<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="seminar10.html#cb318-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">each=</span><span class="dv">8</span>, <span class="at">length.out =</span> <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="seminar10.html#cb360-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">each=</span><span class="dv">8</span>, <span class="at">length.out =</span> <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##  [1] 1 1 1 1 1 1 1 1 2 2</code></pre>
 <div class="infobox practice">
 <p>Do exercise 1.</p>
@@ -335,9 +345,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">10.2</span> Repeating combinations</h2>
 <p>To create a table with all combinations of values, you can use either base R <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/expand.grid.html">expand.grid()</a> or tidyr’s implementation <a href="https://tidyr.tidyverse.org/reference/expand_grid.html">expand_grid()</a>. The latter is a bit more robust and can expand even table and matrice, see the documentation for the differences.</p>
 <p>The usage is very straightforward, you provide column names and values and you get all combinations of their values.</p>
-<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="seminar10.html#cb320-1" aria-hidden="true" tabindex="-1"></a><span class="fu">expand.grid</span>(<span class="at">gender=</span><span class="fu">c</span>(<span class="st">&quot;female&quot;</span>, <span class="st">&quot;male&quot;</span>), </span>
-<span id="cb320-2"><a href="seminar10.html#cb320-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">handidness=</span><span class="fu">c</span>(<span class="st">&quot;right&quot;</span>, <span class="st">&quot;left&quot;</span>),</span>
-<span id="cb320-3"><a href="seminar10.html#cb320-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">colorblindness=</span><span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="seminar10.html#cb362-1" aria-hidden="true" tabindex="-1"></a><span class="fu">expand.grid</span>(<span class="at">gender=</span><span class="fu">c</span>(<span class="st">&quot;female&quot;</span>, <span class="st">&quot;male&quot;</span>), </span>
+<span id="cb362-2"><a href="seminar10.html#cb362-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">handidness=</span><span class="fu">c</span>(<span class="st">&quot;right&quot;</span>, <span class="st">&quot;left&quot;</span>),</span>
+<span id="cb362-3"><a href="seminar10.html#cb362-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">colorblindness=</span><span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>))</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -390,9 +400,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>Note that <code>expand.grid()</code> and <code>expand_grid()</code> vary in the order in which they vary values within columns</p>
-<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="seminar10.html#cb321-1" aria-hidden="true" tabindex="-1"></a><span class="fu">expand_grid</span>(<span class="at">gender=</span><span class="fu">c</span>(<span class="st">&quot;female&quot;</span>, <span class="st">&quot;male&quot;</span>), </span>
-<span id="cb321-2"><a href="seminar10.html#cb321-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">handidness=</span><span class="fu">c</span>(<span class="st">&quot;right&quot;</span>, <span class="st">&quot;left&quot;</span>),</span>
-<span id="cb321-3"><a href="seminar10.html#cb321-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">colorblindness=</span><span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="seminar10.html#cb363-1" aria-hidden="true" tabindex="-1"></a><span class="fu">expand_grid</span>(<span class="at">gender=</span><span class="fu">c</span>(<span class="st">&quot;female&quot;</span>, <span class="st">&quot;male&quot;</span>), </span>
+<span id="cb363-2"><a href="seminar10.html#cb363-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">handidness=</span><span class="fu">c</span>(<span class="st">&quot;right&quot;</span>, <span class="st">&quot;left&quot;</span>),</span>
+<span id="cb363-3"><a href="seminar10.html#cb363-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">colorblindness=</span><span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>))</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -456,22 +466,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">10.4</span> For loop</h2>
 <p>You can loop (iterate) over elements of a vector or list via a <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html">for</a> loop, which is very similar to for-loops in other programming languages. However, use of the <code>for</code> loop in R is fairly rare, because vectors are a fundamental build block and R is inherently vectorized (you can do the same thing to all values, not to one value at a time). Thus, almost always, you can do the same thing but using simpler or more expressive tools. In a sense, <code>for</code> loop is very un-R, so if you find yourself using it, consider whether there is a simpler or more expressive way. At the same time, if <code>for</code> loop <em>is</em> the simplest or clearest way to write you code, by all means, use it!</p>
 <p>The general format is</p>
-<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="seminar10.html#cb322-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(loop_variable <span class="cf">in</span> vector_or_list){</span>
-<span id="cb322-2"><a href="seminar10.html#cb322-2" aria-hidden="true" tabindex="-1"></a>  ...some operations using loop_variable that</span>
-<span id="cb322-3"><a href="seminar10.html#cb322-3" aria-hidden="true" tabindex="-1"></a>  changes its value on each iteration... </span>
-<span id="cb322-4"><a href="seminar10.html#cb322-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<p>Note the curly brackets. We used them before to put the code inside a function. Here, we use them to put the code inside the loop. The loop is repeated as many times as the number of elements in a vector or a list with a loop variable<a href="#fn28" class="footnote-ref" id="fnref28"><sup>28</sup></a> getting assigned each vector/list value on each iteration. Thus, to print each value of a vector we can do</p>
-<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="seminar10.html#cb323-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(a_number <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">200</span>)){</span>
-<span id="cb323-2"><a href="seminar10.html#cb323-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(a_number)</span>
-<span id="cb323-3"><a href="seminar10.html#cb323-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="seminar10.html#cb364-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(loop_variable <span class="cf">in</span> vector_or_list){</span>
+<span id="cb364-2"><a href="seminar10.html#cb364-2" aria-hidden="true" tabindex="-1"></a>  ...some operations using loop_variable that</span>
+<span id="cb364-3"><a href="seminar10.html#cb364-3" aria-hidden="true" tabindex="-1"></a>  changes its value on each iteration... </span>
+<span id="cb364-4"><a href="seminar10.html#cb364-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Note the curly brackets. We used them before to put the code inside a function. Here, we use them to put the code inside the loop. The loop is repeated as many times as the number of elements in a vector or a list with a loop variable<a href="#fn41" class="footnote-ref" id="fnref41"><sup>41</sup></a> getting assigned each vector/list value on each iteration. Thus, to print each value of a vector we can do</p>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="seminar10.html#cb365-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(a_number <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">200</span>)){</span>
+<span id="cb365-2"><a href="seminar10.html#cb365-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(a_number)</span>
+<span id="cb365-3"><a href="seminar10.html#cb365-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## [1] 1
 ## [1] 5
 ## [1] 200</code></pre>
 <p>A typical scenario is for the loop variable to be an <em>index</em> that can be used to access element of a vector or a list. You can build a vector of indexes via <code>start:stop</code> sequence tool we used for <a href="vectors.html#vector-index-slicing">slicing</a>. You can compute a length of an object via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/length.html">length()</a> function. For a <code>data.frame</code> or a <code>tibble</code>, you can figure out number of rows and columns via, respectively, <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/nrow.html">nrow()</a> and <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/nrow.html">ncol()</a> functions.</p>
-<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="seminar10.html#cb325-1" aria-hidden="true" tabindex="-1"></a>vector_of_some_numbers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">200</span>)</span>
-<span id="cb325-2"><a href="seminar10.html#cb325-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(index <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(vector_of_some_numbers)){</span>
-<span id="cb325-3"><a href="seminar10.html#cb325-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(vector_of_some_numbers[index])</span>
-<span id="cb325-4"><a href="seminar10.html#cb325-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="seminar10.html#cb367-1" aria-hidden="true" tabindex="-1"></a>vector_of_some_numbers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">200</span>)</span>
+<span id="cb367-2"><a href="seminar10.html#cb367-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(index <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(vector_of_some_numbers)){</span>
+<span id="cb367-3"><a href="seminar10.html#cb367-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(vector_of_some_numbers[index])</span>
+<span id="cb367-4"><a href="seminar10.html#cb367-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## [1] 1
 ## [1] 5
 ## [1] 200</code></pre>
@@ -479,11 +489,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Do exercise 3.</p>
 </div>
 <p>You can also <em>nest</em> loops.</p>
-<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="seminar10.html#cb327-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(letter <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>)){</span>
-<span id="cb327-2"><a href="seminar10.html#cb327-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(number <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>){</span>
-<span id="cb327-3"><a href="seminar10.html#cb327-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(letter)</span>
-<span id="cb327-4"><a href="seminar10.html#cb327-4" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb327-5"><a href="seminar10.html#cb327-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="seminar10.html#cb369-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(letter <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>)){</span>
+<span id="cb369-2"><a href="seminar10.html#cb369-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(number <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>){</span>
+<span id="cb369-3"><a href="seminar10.html#cb369-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(letter)</span>
+<span id="cb369-4"><a href="seminar10.html#cb369-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb369-5"><a href="seminar10.html#cb369-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## [1] &quot;A&quot;
 ## [1] &quot;A&quot;
 ## [1] &quot;B&quot;
@@ -494,8 +504,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Do exercise 4.</p>
 </div>
 <p>As I have noted above, loops are particularly useful when you current value depends on a previous one (or many previous values). In the next exercise, use <code>for</code> loop to create a random walk (length 10) starting at value zero with each next step drawn randomly from a normal distribution with mean of 0.5 and standard deviation of 2 (the function you are looking for is <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html">rnorm()</a>). You end-produce might look like this</p>
-<pre><code>##  [1]  0.0000000 -1.4638021  3.5172981  0.6649157  0.7855245  3.4759442
-##  [7]  1.6155932  2.9393004  3.1098634  5.7401899</code></pre>
+<pre><code>##  [1] 0.0000000 0.5410438 0.8548203 1.8072231 4.9402548 4.3593314 5.3932113
+##  [8] 5.7207483 5.3520184 7.2357847</code></pre>
 <div class="infobox practice">
 <p>Do exercise 5.</p>
 </div>
@@ -631,37 +641,37 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">10.6</span> Apply</h2>
 <p>As noted above, for loops do the job by might not be the most elegant way of doing things. In R, you can <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/apply.html">apply</a> a function to each row or column of a matrix. In addition, there are more case-specific version of it, such <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/lapply.html">lapply</a>.</p>
 <p>The function is called <code>apply</code> because you <em>apply</em> it to values of a vector. In a sense, you have been applying functions the whole time by calling them. For example, we might compute a sinus of a sequence of numbers as</p>
-<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="seminar10.html#cb330-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sin</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="seminar10.html#cb372-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sin</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>))</span></code></pre></div>
 <pre><code>## [1] 0.000000e+00 7.071068e-01 1.000000e+00 7.071068e-01 1.224606e-16</code></pre>
 <p>Or, we can <em>apply</em> sinus function to a number sequence</p>
-<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="seminar10.html#cb332-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>), sin)</span></code></pre></div>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="seminar10.html#cb374-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>), sin)</span></code></pre></div>
 <pre><code>## [1] 0.000000e+00 7.071068e-01 1.000000e+00 7.071068e-01 1.224606e-16</code></pre>
 <p>You might ask, what is then the point to use <code>apply</code>? Not much for simple vector cases like this, but is very useful when you have two dimensional data, as you can apply a function along horizontal (rows) or vertical (columns) margin. For example, imagine you need to compute an average (or median, or any other quantile) of each row or column in a matrix (something you might do fairly often for posterior samples in Bayesian statistics).</p>
 <p>Let us create a simple 3 by 4 matrix of normally distributed random numbers.</p>
-<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="seminar10.html#cb334-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A </span></span>
-<span id="cb334-2"><a href="seminar10.html#cb334-2" aria-hidden="true" tabindex="-1"></a>a_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">12</span>), <span class="at">nrow =</span> <span class="dv">3</span>)</span>
-<span id="cb334-3"><a href="seminar10.html#cb334-3" aria-hidden="true" tabindex="-1"></a>a_matrix</span></code></pre></div>
-<pre><code>##            [,1]       [,2]       [,3]       [,4]
-## [1,] -0.3199398 0.08038153  0.3101147 -0.7154985
-## [2,]  0.1122622 0.17327796  0.1235051  0.7316571
-## [3,]  0.7561327 1.21285230 -0.5908724 -1.4587123</code></pre>
+<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="seminar10.html#cb376-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A </span></span>
+<span id="cb376-2"><a href="seminar10.html#cb376-2" aria-hidden="true" tabindex="-1"></a>a_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">12</span>), <span class="at">nrow =</span> <span class="dv">3</span>)</span>
+<span id="cb376-3"><a href="seminar10.html#cb376-3" aria-hidden="true" tabindex="-1"></a>a_matrix</span></code></pre></div>
+<pre><code>##             [,1]       [,2]      [,3]       [,4]
+## [1,] -1.66299985 -0.4154038 0.6069136  1.4363351
+## [2,]  2.06546041 -1.5006772 1.9098525 -0.3222623
+## [3,]  0.07785848 -0.6588620 1.6825977  0.2908641</code></pre>
 <p>We would expect median value of any row or column to be 0 but because we have so few data points, they will be close but not exactly zero. Computing median for each row (we should get <em>three</em> numbers)</p>
-<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="seminar10.html#cb336-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a_matrix, <span class="dv">1</span>, median)</span></code></pre></div>
-<pre><code>## [1] -0.11977914  0.14839154  0.08263015</code></pre>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="seminar10.html#cb378-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a_matrix, <span class="dv">1</span>, median)</span></code></pre></div>
+<pre><code>## [1] 0.09575489 0.79379510 0.18436130</code></pre>
 <p>Similarly for a column (here, it should be <em>four</em> numbers)</p>
-<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="seminar10.html#cb338-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a_matrix, <span class="dv">2</span>, median)</span></code></pre></div>
-<pre><code>## [1]  0.1122622  0.1732780  0.1235051 -0.7154985</code></pre>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="seminar10.html#cb380-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a_matrix, <span class="dv">2</span>, median)</span></code></pre></div>
+<pre><code>## [1]  0.07785848 -0.65886203  1.68259774  0.29086412</code></pre>
 <p>I will not go into any further details on these functions, concentrating on similar functionality by <a href="seminar10.html#purrr">purrr</a> package. However, if you find yourself working with matrices or needing to apply a function to rows of a data frame, <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/apply.html">apply</a> might be a simpler solution. Keep this option in mind, if you feel that either looping or purrring looks inadequate.</p>
 </div>
 <div id="purrr" class="section level2" number="10.7">
 <h2><span class="header-section-number">10.7</span> Purrr</h2>
-<p>Package <a href="https://purrr.tidyverse.org/">purrr</a> is part of the tidyverse. It provides functional programming approach similar to (apply)[#apply] but it easier to use (IMHO) and it has a more explicit and consistent way to describe and combine the output. Language-wise, you do not <em>apply</em> a function, you use it to <a href="https://purrr.tidyverse.org/reference/map.html">map</a> inputs on outputs<a href="#fn29" class="footnote-ref" id="fnref29"><sup>29</sup></a></p>
+<p>Package <a href="https://purrr.tidyverse.org/">purrr</a> is part of the tidyverse. It provides functional programming approach similar to (apply)[#apply] but it easier to use (IMHO) and it has a more explicit and consistent way to describe and combine the output. Language-wise, you do not <em>apply</em> a function, you use it to <a href="https://purrr.tidyverse.org/reference/map.html">map</a> inputs on outputs<a href="#fn42" class="footnote-ref" id="fnref42"><sup>42</sup></a></p>
 <p>The basic <a href="https://purrr.tidyverse.org/reference/map.html">map()</a> function always returns a list but you can explicitly state that you expect a number (<code>map_dbl()</code>) and all outputs will be combined into a numeric vector. And, unlike <code>apply</code>, <code>map_dbl()</code> will generate an error if outputs cannot be converted to numeric. Or, you can specify that you expect each output to be a <code>data.frame</code>. In this case, you can automatically bind them by rows via <code>map_dfr()</code> or by columns via <code>map_dfc()</code>. Again, if all outputs cannot be converted to a <code>data.frame</code>, either function will loudly complain (which is good!).</p>
 <p>The basic call is similar to <a href="seminar10.html#apply">apply</a> but is easier to use as you can explicitly address current value via <code>.</code> variable and you can write a “normal” function call, prefixing it with a <code>~</code>. Here is the example of computing the sinus again. First, same a <code>apply</code></p>
-<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="seminar10.html#cb340-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>), sin)</span></code></pre></div>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="seminar10.html#cb382-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>), sin)</span></code></pre></div>
 <pre><code>## [1] 0.000000e+00 7.071068e-01 1.000000e+00 7.071068e-01 1.224606e-16</code></pre>
 <p>Now, we a magic tilde <code>~</code>. Note an explicit call to <code>sin()</code> function with <code>.</code> as an argument.</p>
-<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="seminar10.html#cb342-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>), <span class="sc">~</span><span class="fu">sin</span>(.))</span></code></pre></div>
+<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="seminar10.html#cb384-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>), <span class="sc">~</span><span class="fu">sin</span>(.))</span></code></pre></div>
 <pre><code>## [1] 0.000000e+00 7.071068e-01 1.000000e+00 7.071068e-01 1.224606e-16</code></pre>
 <p>Again, using <code>map_dbl()</code> in this case looks as a complete overkill. So let us do something more relevant. Let us implement loading and merging of persistence study files. Use <code>map_dfr()</code> function and <code>~</code> call notation, remember <code>.</code> would then correspond to a single value from the vector of file names. Again, you should get a single table with twelve columns and 5232 rows.</p>
 <div class="infobox practice">
@@ -677,9 +687,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div class="footnotes">
 <hr />
-<ol start="28">
-<li id="fn28"><p>Just a reminder, the loop variable can have <em>any</em> name. Often, you see people using <code>i</code> (I guess, for <strong>i</strong>ndex or <strong>i</strong>teration) but I would strongly recommend going for a more meaningful name.<a href="seminar10.html#fnref28" class="footnote-back">↩︎</a></p></li>
-<li id="fn29"><p>Means the same thing but this is a linear algebra way of expressing of what a function does.<a href="seminar10.html#fnref29" class="footnote-back">↩︎</a></p></li>
+<ol start="41">
+<li id="fn41"><p>Just a reminder, the loop variable can have <em>any</em> name. Often, you see people using <code>i</code> (I guess, for <strong>i</strong>ndex or <strong>i</strong>teration) but I would strongly recommend going for a more meaningful name.<a href="seminar10.html#fnref41" class="footnote-back">↩︎</a></p></li>
+<li id="fn42"><p>Means the same thing but this is a linear algebra way of expressing of what a function does.<a href="seminar10.html#fnref42" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
@@ -711,6 +721,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
@@ -731,6 +742,10 @@ gitbook.start({
 "text": null
 },
 "download": ["data-analysis-using-r-for-psychology.pdf", "data-analysis-using-r-for-psychology.epub"],
+"search": {
+"engine": "lunr",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }
