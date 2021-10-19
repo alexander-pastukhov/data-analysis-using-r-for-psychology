@@ -397,7 +397,11 @@ results <- readr::read_csv("data/example.csv")
 results
 ```
 
-This annoying _Column specification_ print out, which gets even more annoying if you need to read many CSV files, is there for a reason: it wants to annoy you! Because the only way to turn it off and stop being annoyed is to specify the column structure yourself via `col_types` parameter. As a matter of fact, the print out you get is a specification that the reader prepared for you. So you can take a look at it, adjust it, if necessary, and copy-paste to the `read_csv` call. By default, it suggested `double` values for `Block` and `Trial` but we know they are integers, so we can copy-paste the suggested structure, replace `col_double()` with `col_integer()` and read the table without a warning.
+This annoying _Column specification_ print out, which gets even more annoying if you need to read many CSV files, is there for a reason: it wants to annoy you! You can turn it off via `show_col_types = FALSE` but I strongly recommend against this. Instead, you should specify the column structure yourself via `col_types` parameter. The simplest way to do this is via  `spec()` function, as suggested by the printout.
+```{r}
+readr::spec(results)
+```
+This is a specification that the reader prepared for you. So you can take a look at it, adjust it, if necessary, and copy-paste to the `read_csv` call. By default, it suggested `double` values for `Block` and `Trial` but we know they are integers, so we can copy-paste the suggested structure, replace `col_double()` with `col_integer()` and read the table without a warning.
 ```{r}
 library(readr)
 results <- read_csv("data/example.csv", 
