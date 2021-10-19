@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Seminar 4 Reading csv files | Data analysis using R for Psychology and Social Science</title>
+  <meta name="description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Seminar 4 Reading csv files | Data analysis using R for Psychology and Social Science" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Seminar 4 Reading csv files | Data analysis using R for Psychology and Social Science" />
+  
+  <meta name="twitter:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
+  
+
+<meta name="author" content="Alexander (Sasha) Pastukhov" />
+
+
+<meta name="date" content="2021-10-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="tables.html"/>
+<link rel="next" href="ggplot2.html"/>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="font-awesome.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Data analysis using R for Psychology</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-r"><i class="fa fa-check"></i>Why R?</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-tidyverse"><i class="fa fa-check"></i>Why Tidyverse</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-seminar"><i class="fa fa-check"></i>About the seminar</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#thinking-like-a-computer"><i class="fa fa-check"></i>Thinking like a computer</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-material"><i class="fa fa-check"></i>About the material</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html"><i class="fa fa-check"></i>Software</a>
+<ul>
+<li class="chapter" data-level="0.1" data-path="software.html"><a href="software.html#install-r"><i class="fa fa-check"></i><b>0.1</b> Installing R</a></li>
+<li class="chapter" data-level="0.2" data-path="software.html"><a href="software.html#install-rstudio"><i class="fa fa-check"></i><b>0.2</b> Installing R-Studio</a></li>
+<li class="chapter" data-level="0.3" data-path="software.html"><a href="software.html#install-rtools"><i class="fa fa-check"></i><b>0.3</b> Installing RTools</a></li>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install.packages"><i class="fa fa-check"></i>Installing packages</a></li>
+<li class="chapter" data-level="0.4" data-path="software.html"><a href="software.html#minimal-set-of-packages"><i class="fa fa-check"></i><b>0.4</b> Minimal set of packages</a></li>
+<li class="chapter" data-level="0.5" data-path="software.html"><a href="software.html#installr"><i class="fa fa-check"></i><b>0.5</b> Keeping R and packages up-to-date</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="reproducable-research.html"><a href="reproducable-research.html"><i class="fa fa-check"></i><b>1</b> Reproducable Research: Projects and RMarkdown Notebooks</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="reproducable-research.html"><a href="reproducable-research.html#projects"><i class="fa fa-check"></i><b>1.1</b> Projects</a></li>
+<li class="chapter" data-level="1.2" data-path="reproducable-research.html"><a href="reproducable-research.html#rmarkdown"><i class="fa fa-check"></i><b>1.2</b> RMarkdown</a></li>
+<li class="chapter" data-level="1.3" data-path="reproducable-research.html"><a href="reproducable-research.html#exercise"><i class="fa fa-check"></i><b>1.3</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="vectors.html"><a href="vectors.html"><i class="fa fa-check"></i><b>2</b> Vectors! Vectors everywhere!</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="vectors.html"><a href="vectors.html#variables"><i class="fa fa-check"></i><b>2.1</b> Variables as boxes</a></li>
+<li class="chapter" data-level="2.2" data-path="vectors.html"><a href="vectors.html#assignment-statement"><i class="fa fa-check"></i><b>2.2</b> Assignment statement in detail</a></li>
+<li class="chapter" data-level="2.3" data-path="vectors.html"><a href="vectors.html#vectors-scalars"><i class="fa fa-check"></i><b>2.3</b> Vectors and singluar values (scalars, which are also vectors)</a></li>
+<li class="chapter" data-level="2.4" data-path="vectors.html"><a href="vectors.html#vector-index"><i class="fa fa-check"></i><b>2.4</b> Vector indexes (subsetting)</a></li>
+<li class="chapter" data-level="2.5" data-path="vectors.html"><a href="vectors.html#names"><i class="fa fa-check"></i><b>2.5</b> Names as an Index</a></li>
+<li class="chapter" data-level="2.6" data-path="vectors.html"><a href="vectors.html#vector-index-slicing"><i class="fa fa-check"></i><b>2.6</b> Slicing</a></li>
+<li class="chapter" data-level="2.7" data-path="vectors.html"><a href="vectors.html#colon-sequence"><i class="fa fa-check"></i><b>2.7</b> Colon Operator and Sequence Generation</a></li>
+<li class="chapter" data-level="2.8" data-path="vectors.html"><a href="vectors.html#working-with-two-vectors-of-equal-length"><i class="fa fa-check"></i><b>2.8</b> Working with two vectors of <em>equal</em> length</a></li>
+<li class="chapter" data-level="2.9" data-path="vectors.html"><a href="vectors.html#different-length-vectors"><i class="fa fa-check"></i><b>2.9</b> Working with two vectors of <em>different</em> length</a></li>
+<li class="chapter" data-level="2.10" data-path="vectors.html"><a href="vectors.html#applying-functions-to-a-vector"><i class="fa fa-check"></i><b>2.10</b> Applying functions to a vector</a></li>
+<li class="chapter" data-level="2.11" data-path="vectors.html"><a href="vectors.html#wrap-up"><i class="fa fa-check"></i><b>2.11</b> Wrap up</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="tables.html"><a href="tables.html"><i class="fa fa-check"></i><b>3</b> Tables and Tibbles (and Tribbles)</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tables.html"><a href="tables.html#primary-types"><i class="fa fa-check"></i><b>3.1</b> Primary data types</a></li>
+<li class="chapter" data-level="3.2" data-path="tables.html"><a href="tables.html#vectors-are-homogeneous"><i class="fa fa-check"></i><b>3.2</b> All vector values must be of the same type</a></li>
+<li class="chapter" data-level="3.3" data-path="tables.html"><a href="tables.html#lists"><i class="fa fa-check"></i><b>3.3</b> Lists</a></li>
+<li class="chapter" data-level="3.4" data-path="tables.html"><a href="tables.html#subsetting"><i class="fa fa-check"></i><b>3.4</b> Subsetting, a fuller version</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="tables.html"><a href="tables.html#subsetting-for-atomics-vectors"><i class="fa fa-check"></i><b>3.4.1</b> Subsetting for (atomics) vectors</a></li>
+<li class="chapter" data-level="3.4.2" data-path="tables.html"><a href="tables.html#subsetting-for-lists"><i class="fa fa-check"></i><b>3.4.2</b> Subsetting for lists</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="tables.html"><a href="tables.html#dollar-subsetting"><i class="fa fa-check"></i><b>3.5</b> Yet another subsetting via $</a></li>
+<li class="chapter" data-level="3.6" data-path="tables.html"><a href="tables.html#data.frame"><i class="fa fa-check"></i><b>3.6</b> Tables, a.k.a. data frames</a></li>
+<li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#table-subsetting"><i class="fa fa-check"></i><b>3.7</b> Subsetting tables</a></li>
+<li class="chapter" data-level="3.8" data-path="tables.html"><a href="tables.html#library"><i class="fa fa-check"></i><b>3.8</b> Using libraries</a></li>
+<li class="chapter" data-level="3.9" data-path="tables.html"><a href="tables.html#tibble"><i class="fa fa-check"></i><b>3.9</b> Tibble, a better data.frame</a></li>
+<li class="chapter" data-level="3.10" data-path="tables.html"><a href="tables.html#tribble"><i class="fa fa-check"></i><b>3.10</b> Tribble, table from text</a></li>
+<li class="chapter" data-level="3.11" data-path="tables.html"><a href="tables.html#data"><i class="fa fa-check"></i><b>3.11</b> Reading example tables</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="readr.html"><a href="readr.html"><i class="fa fa-check"></i><b>4</b> Reading csv files</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="readr.html"><a href="readr.html#readxl"><i class="fa fa-check"></i><b>4.1</b> Reading Excel files</a></li>
+<li class="chapter" data-level="4.2" data-path="readr.html"><a href="readr.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>4.2</b> Reading files from other programs</a></li>
+<li class="chapter" data-level="4.3" data-path="readr.html"><a href="readr.html#wrap-up-1"><i class="fa fa-check"></i><b>4.3</b> Wrap up</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>5</b> Grammar of Graphics</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="ggplot2.html"><a href="ggplot2.html#tidydata"><i class="fa fa-check"></i><b>5.1</b> Tidy data</a></li>
+<li class="chapter" data-level="5.2" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-1"><i class="fa fa-check"></i><b>5.2</b> ggplot2</a></li>
+<li class="chapter" data-level="5.3" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-continuous-x-axis"><i class="fa fa-check"></i><b>5.3</b> Auto efficiency: continuous x-axis</a></li>
+<li class="chapter" data-level="5.4" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-discrete-x-axis"><i class="fa fa-check"></i><b>5.4</b> Auto efficiency: discrete x-axis</a></li>
+<li class="chapter" data-level="5.5" data-path="ggplot2.html"><a href="ggplot2.html#mammals-sleep-single-variable"><i class="fa fa-check"></i><b>5.5</b> Mammals sleep: single variable</a></li>
+<li class="chapter" data-level="5.6" data-path="ggplot2.html"><a href="ggplot2.html#mapping-for-all-visuals-versus-just-one-visual"><i class="fa fa-check"></i><b>5.6</b> Mapping for all visuals versus just one visual</a></li>
+<li class="chapter" data-level="5.7" data-path="ggplot2.html"><a href="ggplot2.html#mapping-on-variables-versus-constants"><i class="fa fa-check"></i><b>5.7</b> Mapping on variables versus constants</a></li>
+<li class="chapter" data-level="5.8" data-path="ggplot2.html"><a href="ggplot2.html#themes"><i class="fa fa-check"></i><b>5.8</b> Themes</a></li>
+<li class="chapter" data-level="5.9" data-path="ggplot2.html"><a href="ggplot2.html#you-aint-seen-nothing-yet"><i class="fa fa-check"></i><b>5.9</b> You ain’t seen nothing yet</a></li>
+<li class="chapter" data-level="5.10" data-path="ggplot2.html"><a href="ggplot2.html#further-reading"><i class="fa fa-check"></i><b>5.10</b> Further reading</a></li>
+<li class="chapter" data-level="5.11" data-path="ggplot2.html"><a href="ggplot2.html#extending-ggplot2"><i class="fa fa-check"></i><b>5.11</b> Extending ggplot2</a></li>
+<li class="chapter" data-level="5.12" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-cannot-do-everything"><i class="fa fa-check"></i><b>5.12</b> ggplot2 cannot do everything</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>6</b> Functions and pipes</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="functions.html"><a href="functions.html#functions-1"><i class="fa fa-check"></i><b>6.1</b> Functions</a></li>
+<li class="chapter" data-level="6.2" data-path="functions.html"><a href="functions.html#writing-a-function"><i class="fa fa-check"></i><b>6.2</b> Writing a function</a></li>
+<li class="chapter" data-level="6.3" data-path="functions.html"><a href="functions.html#scopes-global-versus-local-variables"><i class="fa fa-check"></i><b>6.3</b> Scopes: Global versus Local variables</a></li>
+<li class="chapter" data-level="6.4" data-path="functions.html"><a href="functions.html#function-with-two-parameters"><i class="fa fa-check"></i><b>6.4</b> Function with two parameters</a></li>
+<li class="chapter" data-level="6.5" data-path="functions.html"><a href="functions.html#table-as-a-parameter"><i class="fa fa-check"></i><b>6.5</b> Table as a parameter</a></li>
+<li class="chapter" data-level="6.6" data-path="functions.html"><a href="functions.html#nested-calls"><i class="fa fa-check"></i><b>6.6</b> Nested calls</a></li>
+<li class="chapter" data-level="6.7" data-path="functions.html"><a href="functions.html#piping"><i class="fa fa-check"></i><b>6.7</b> Piping</a></li>
+<li class="chapter" data-level="6.8" data-path="functions.html"><a href="functions.html#everything-is-a-function"><i class="fa fa-check"></i><b>6.8</b> Everything is a function</a></li>
+<li class="chapter" data-level="6.9" data-path="functions.html"><a href="functions.html#using-or-not-using-explicit-return-statement"><i class="fa fa-check"></i><b>6.9</b> Using (or not using) explicit return statement</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>7</b> Tidyverse: dplyr</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="dplyr.html"><a href="dplyr.html#tidyverse-philosophy"><i class="fa fa-check"></i><b>7.1</b> Tidyverse philosophy</a></li>
+<li class="chapter" data-level="7.2" data-path="dplyr.html"><a href="dplyr.html#select"><i class="fa fa-check"></i><b>7.2</b> <code>select()</code> columns by name</a></li>
+<li class="chapter" data-level="7.3" data-path="dplyr.html"><a href="dplyr.html#conditions"><i class="fa fa-check"></i><b>7.3</b> Conditions</a></li>
+<li class="chapter" data-level="7.4" data-path="dplyr.html"><a href="dplyr.html#logical-indexing"><i class="fa fa-check"></i><b>7.4</b> Logical indexing</a></li>
+<li class="chapter" data-level="7.5" data-path="dplyr.html"><a href="dplyr.html#filter-rows-by-values"><i class="fa fa-check"></i><b>7.5</b> <code>filter()</code> rows by values</a></li>
+<li class="chapter" data-level="7.6" data-path="dplyr.html"><a href="dplyr.html#arrange-rows-in-a-particular-order"><i class="fa fa-check"></i><b>7.6</b> <code>arrange()</code> rows in a particular order</a></li>
+<li class="chapter" data-level="7.7" data-path="dplyr.html"><a href="dplyr.html#mutate"><i class="fa fa-check"></i><b>7.7</b> <code>mutate()</code> columns</a></li>
+<li class="chapter" data-level="7.8" data-path="dplyr.html"><a href="dplyr.html#summarize"><i class="fa fa-check"></i><b>7.8</b> <code>summarize()</code> table by <code>groups</code></a></li>
+<li class="chapter" data-level="7.9" data-path="dplyr.html"><a href="dplyr.html#putting-it-all-together"><i class="fa fa-check"></i><b>7.9</b> Putting it all together</a></li>
+<li class="chapter" data-level="7.10" data-path="dplyr.html"><a href="dplyr.html#should-i-use-tidyverse"><i class="fa fa-check"></i><b>7.10</b> Should I use Tidyverse?</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="seminar07.html"><a href="seminar07.html"><i class="fa fa-check"></i><b>8</b> Factors and Joins</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="seminar07.html"><a href="seminar07.html#how-to-write-code"><i class="fa fa-check"></i><b>8.1</b> How to write code</a></li>
+<li class="chapter" data-level="8.2" data-path="seminar07.html"><a href="seminar07.html#implementing-a-typical-analysis"><i class="fa fa-check"></i><b>8.2</b> Implementing a typical analysis</a></li>
+<li class="chapter" data-level="8.3" data-path="seminar07.html"><a href="seminar07.html#factors"><i class="fa fa-check"></i><b>8.3</b> Factors</a></li>
+<li class="chapter" data-level="8.4" data-path="seminar07.html"><a href="seminar07.html#forcats"><i class="fa fa-check"></i><b>8.4</b> Forcats</a></li>
+<li class="chapter" data-level="8.5" data-path="seminar07.html"><a href="seminar07.html#plotting-group-averages"><i class="fa fa-check"></i><b>8.5</b> Plotting group averages</a></li>
+<li class="chapter" data-level="8.6" data-path="seminar07.html"><a href="seminar07.html#plotting-our-confidence-in-group-averages"><i class="fa fa-check"></i><b>8.6</b> Plotting our confidence in group averages</a></li>
+<li class="chapter" data-level="8.7" data-path="seminar07.html"><a href="seminar07.html#looking-at-similarity"><i class="fa fa-check"></i><b>8.7</b> Looking at similarity</a></li>
+<li class="chapter" data-level="8.8" data-path="seminar07.html"><a href="seminar07.html#joining-tables"><i class="fa fa-check"></i><b>8.8</b> Joining tables</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="seminar08.html"><a href="seminar08.html"><i class="fa fa-check"></i><b>9</b> Glueing and sprintfing</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="seminar08.html"><a href="seminar08.html#comparing-effect-between-two-studies"><i class="fa fa-check"></i><b>9.1</b> Comparing effect between two studies</a></li>
+<li class="chapter" data-level="9.2" data-path="seminar08.html"><a href="seminar08.html#glue"><i class="fa fa-check"></i><b>9.2</b> Gluing in correlation strength information.</a></li>
+<li class="chapter" data-level="9.3" data-path="seminar08.html"><a href="seminar08.html#sprintf"><i class="fa fa-check"></i><b>9.3</b> sprintf</a></li>
+<li class="chapter" data-level="9.4" data-path="seminar08.html"><a href="seminar08.html#wrap-up-2"><i class="fa fa-check"></i><b>9.4</b> Wrap up</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="seminar09.html"><a href="seminar09.html"><i class="fa fa-check"></i><b>10</b> Tidyng your data</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="seminar09.html"><a href="seminar09.html#pivoting-between-long-and-wide-format"><i class="fa fa-check"></i><b>10.1</b> Pivoting between long and wide format</a></li>
+<li class="chapter" data-level="10.2" data-path="seminar09.html"><a href="seminar09.html#practice-pivoting-longer"><i class="fa fa-check"></i><b>10.2</b> Practice pivoting longer</a></li>
+<li class="chapter" data-level="10.3" data-path="seminar09.html"><a href="seminar09.html#practice-pivoting-wider"><i class="fa fa-check"></i><b>10.3</b> Practice pivoting wider</a></li>
+<li class="chapter" data-level="10.4" data-path="seminar09.html"><a href="seminar09.html#extracting-information-from-a-string"><i class="fa fa-check"></i><b>10.4</b> Extracting information from a string</a></li>
+<li class="chapter" data-level="10.5" data-path="seminar09.html"><a href="seminar09.html#separate"><i class="fa fa-check"></i><b>10.5</b> Separate</a></li>
+<li class="chapter" data-level="10.6" data-path="seminar09.html"><a href="seminar09.html#missing-data"><i class="fa fa-check"></i><b>10.6</b> Missing data</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="seminar10.html"><a href="seminar10.html"><i class="fa fa-check"></i><b>11</b> Repeating a computation</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="seminar10.html"><a href="seminar10.html#rep"><i class="fa fa-check"></i><b>11.1</b> <code>rep()</code></a></li>
+<li class="chapter" data-level="11.2" data-path="seminar10.html"><a href="seminar10.html#repeating-combinations"><i class="fa fa-check"></i><b>11.2</b> Repeating combinations</a></li>
+<li class="chapter" data-level="11.3" data-path="seminar10.html"><a href="seminar10.html#list"><i class="fa fa-check"></i><b>11.3</b> Lists</a></li>
+<li class="chapter" data-level="11.4" data-path="seminar10.html"><a href="seminar10.html#forloop"><i class="fa fa-check"></i><b>11.4</b> For loop</a></li>
+<li class="chapter" data-level="11.5" data-path="seminar10.html"><a href="seminar10.html#using-for-loop-to-load-and-join-multiple-data-files"><i class="fa fa-check"></i><b>11.5</b> Using for loop to load and join multiple data files</a></li>
+<li class="chapter" data-level="11.6" data-path="seminar10.html"><a href="seminar10.html#apply"><i class="fa fa-check"></i><b>11.6</b> Apply</a></li>
+<li class="chapter" data-level="11.7" data-path="seminar10.html"><a href="seminar10.html#purrr"><i class="fa fa-check"></i><b>11.7</b> Purrr</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="seminar11.html"><a href="seminar11.html"><i class="fa fa-check"></i><b>12</b> Statistical modeling</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="seminar11.html"><a href="seminar11.html#formula-notation"><i class="fa fa-check"></i><b>12.1</b> Formula notation</a></li>
+<li class="chapter" data-level="12.2" data-path="seminar11.html"><a href="seminar11.html#correlation"><i class="fa fa-check"></i><b>12.2</b> Correlation</a></li>
+<li class="chapter" data-level="12.3" data-path="seminar11.html"><a href="seminar11.html#pairwise-comparisons"><i class="fa fa-check"></i><b>12.3</b> Pairwise comparisons</a></li>
+<li class="chapter" data-level="12.4" data-path="seminar11.html"><a href="seminar11.html#anova"><i class="fa fa-check"></i><b>12.4</b> ANOVA</a></li>
+<li class="chapter" data-level="12.5" data-path="seminar11.html"><a href="seminar11.html#GLMM"><i class="fa fa-check"></i><b>12.5</b> (Generalized) Linear Models</a></li>
+<li class="chapter" data-level="12.6" data-path="seminar11.html"><a href="seminar11.html#generalized-linear-mixed-models"><i class="fa fa-check"></i><b>12.6</b> (Generalized) Linear Mixed Models</a></li>
+<li class="chapter" data-level="12.7" data-path="seminar11.html"><a href="seminar11.html#practice"><i class="fa fa-check"></i><b>12.7</b> Practice</a>
+<ul>
+<li class="chapter" data-level="" data-path="seminar11.html"><a href="seminar11.html#read-files-and-preprocess-data"><i class="fa fa-check"></i>Read files and preprocess data</a></li>
+<li class="chapter" data-level="" data-path="seminar11.html"><a href="seminar11.html#accuracy"><i class="fa fa-check"></i>Accuracy</a></li>
+<li class="chapter" data-level="" data-path="seminar11.html"><a href="seminar11.html#response-times"><i class="fa fa-check"></i>Response times</a></li>
+<li class="chapter" data-level="" data-path="seminar11.html"><a href="seminar11.html#computing-the-score"><i class="fa fa-check"></i>Computing the score</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="seminar12.html"><a href="seminar12.html"><i class="fa fa-check"></i><b>13</b> Practice</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="seminar12.html"><a href="seminar12.html#bad-names-to-good-names"><i class="fa fa-check"></i><b>13.1</b> Bad names to good names</a></li>
+<li class="chapter" data-level="13.2" data-path="seminar12.html"><a href="seminar12.html#participant-id"><i class="fa fa-check"></i><b>13.2</b> Participant ID</a></li>
+<li class="chapter" data-level="13.3" data-path="seminar12.html"><a href="seminar12.html#factors-1"><i class="fa fa-check"></i><b>13.3</b> Factors</a></li>
+<li class="chapter" data-level="13.4" data-path="seminar12.html"><a href="seminar12.html#response-times-1"><i class="fa fa-check"></i><b>13.4</b> Response times</a></li>
+<li class="chapter" data-level="13.5" data-path="seminar12.html"><a href="seminar12.html#accuracy-1"><i class="fa fa-check"></i><b>13.5</b> Accuracy</a></li>
+<li class="chapter" data-level="13.6" data-path="seminar12.html"><a href="seminar12.html#physiological-signal"><i class="fa fa-check"></i><b>13.6</b> Physiological signal</a></li>
+<li class="chapter" data-level="13.7" data-path="seminar12.html"><a href="seminar12.html#wrap-up-3"><i class="fa fa-check"></i><b>13.7</b> Wrap up</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://alexander-pastukhov.github.io/">Alexander (Sasha) Pastukhov</li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data analysis using R for Psychology and Social Science</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="readr" class="section level1" number="4">
+<h1><span class="header-section-number">Seminar 4</span> Reading csv files</h1>
+<p>So far we covered creating a table by hand via <code>data.frame()</code>, <code>tibble()</code>, or <code>tribble()</code> functions and loading an example table from a package via <code>data()</code> function. More commonly, you will need to read a table from an external file. These files can come in many formats because they are generated by different experimental software. Below, you will see how to handle those but my recommendation is to always store your data in a csv (<a href="https://en.wikipedia.org/wiki/Comma-separated_values">Comma-separated values</a>) files. These are simple plain text files, which means you can open them in any text editor, with each line representing a single row (typically, top row contains column names) with individual columns separated by some symbol or symbols. Typical separators are a comma (hence, the name), a semicolon (this is frequently used in Germany, with comma serving as a decimal point), a tabulator, or even a space symbol. Here is an example of such file</p>
+<pre><code>Participant,Block,Trial,Contrast,Correct
+A1,1,1,0.5,TRUE
+A1,1,2,1.0,TRUE
+A1,1,2,0.05,FALSE
+...</code></pre>
+<p>that is turned into a table when loaded
+<img src="images/results-csv-table.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>There are several ways of reading CSV files in R. The default way by using <a href="https://stat.ethz.ch/R-manual/R-devel/library/utils/html/read.table.html">read.csv()</a> function that has different versions optimized for different combinations of the decimal point and separator symbols, e.g. <code>read.csv2()</code> assumes a comma for the decimal point and semicolon as a separator. However, a better way is to use <a href="https://readr.tidyverse.org/">readr</a> library that re-implements same functions. Names of the functions are slightly different with underscore replacing the dot, so <code>readr::read_csv()</code> is a replacement for <code>read.csv()</code>. These are faster (although it will be noticeable only on large data sets), do not convert text to factor variables (we will talk about factors later but this default conversion by <code>read.csv()</code> can be very confusing), etc.</p>
+<p>However, most important difference between <code>read.csv()</code> and <code>read_csv()</code> is they constraint the content of a CSV file. <code>read.csv()</code> has not assumptions about which columns are in the file and what their value types are. It simply reads them as is, <em>silently</em> guessing their type.</p>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="readr.html#cb187-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/example.csv&quot;</span>)</span>
+<span id="cb187-2"><a href="readr.html#cb187-2" aria-hidden="true" tabindex="-1"></a>results</span></code></pre></div>
+<pre><code>##   Participant Block Trial Contrast Correct
+## 1          A1     1     1     0.50    TRUE
+## 2          A1     1     2     1.00    TRUE
+## 3          A1     1     2     0.05   FALSE</code></pre>
+<p>You can use <code>read_csv()</code> the same way and it will work the same way but will inform (warn) you about the table structure it deduced.</p>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="readr.html#cb189-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">&quot;data/example.csv&quot;</span>)</span></code></pre></div>
+<pre><code>## Rows: 3 Columns: 5</code></pre>
+<pre><code>## -- Column specification --------------------------------------------------------
+## Delimiter: &quot;,&quot;
+## chr (1): Participant
+## dbl (3): Block, Trial, Contrast
+## lgl (1): Correct</code></pre>
+<pre><code>## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="readr.html#cb193-1" aria-hidden="true" tabindex="-1"></a>results</span></code></pre></div>
+<pre><code>## # A tibble: 3 x 5
+##   Participant Block Trial Contrast Correct
+##   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;  
+## 1 A1              1     1     0.5  TRUE   
+## 2 A1              1     2     1    TRUE   
+## 3 A1              1     2     0.05 FALSE</code></pre>
+<p>This annoying <em>Column specification</em> print out, which gets even more annoying if you need to read many CSV files, is there for a reason: it wants to annoy you! Because the only way to turn it off and stop being annoyed is to specify the column structure yourself via <code>col_types</code> parameter. As a matter of fact, the print out you get is a specification that the reader prepared for you. So you can take a look at it, adjust it, if necessary, and copy-paste to the <code>read_csv</code> call. By default, it suggested <code>double</code> values for <code>Block</code> and <code>Trial</code> but we know they are integers, so we can copy-paste the suggested structure, replace <code>col_double()</code> with <code>col_integer()</code> and read the table without a warning.</p>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="readr.html#cb195-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb195-2"><a href="readr.html#cb195-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/example.csv&quot;</span>, </span>
+<span id="cb195-3"><a href="readr.html#cb195-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Participant =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb195-4"><a href="readr.html#cb195-4" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Block =</span> <span class="fu">col_integer</span>(), <span class="co"># read_csv suggested col_double() but we know better</span></span>
+<span id="cb195-5"><a href="readr.html#cb195-5" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Trial =</span> <span class="fu">col_integer</span>(), <span class="co"># read_csv suggested col_double() but we know better</span></span>
+<span id="cb195-6"><a href="readr.html#cb195-6" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Contrast =</span> <span class="fu">col_double</span>(),</span>
+<span id="cb195-7"><a href="readr.html#cb195-7" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Correct =</span> <span class="fu">col_logical</span>()))</span>
+<span id="cb195-8"><a href="readr.html#cb195-8" aria-hidden="true" tabindex="-1"></a>results</span></code></pre></div>
+<pre><code>## # A tibble: 3 x 5
+##   Participant Block Trial Contrast Correct
+##   &lt;chr&gt;       &lt;int&gt; &lt;int&gt;    &lt;dbl&gt; &lt;lgl&gt;  
+## 1 A1              1     1     0.5  TRUE   
+## 2 A1              1     2     1    TRUE   
+## 3 A1              1     2     0.05 FALSE</code></pre>
+<p>You may feel that this a lot of extra work just to suppress an annoying but, ultimately, harmless warning. Your code will work with or without it, right? Well, <em>hopefully</em> it will but you probably want to <em>know</em> that it will work not just <em>hope</em> for it. Imagine that you accidentally overwrote your experimental data file with data from a different experiment (that happens more often than one would want). You still have <code>results.csv</code> file in your project folder and so the <code>read.csv()</code> will read it as is (it does not know what should be in that file) and your analysis code will fail in some mysterious ways at a much later point (because, remember, if you try to access a column/variable that does not exist in the table, you just get <code>NULL</code> rather than an error). You will eventually trace it back to the wrong data file but that will cost time and nerves. However, if you specify the column structure in <code>read_csv()</code> it will show a warning, if the file does not match the description. It would warn about wrong column names (<code>TheBlock</code> in the example below) and about wrong type (it does not like <code>TRUE</code>/<code>FALSE</code> in a column it expected to find integers in).</p>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="readr.html#cb197-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb197-2"><a href="readr.html#cb197-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/example.csv&quot;</span>, </span>
+<span id="cb197-3"><a href="readr.html#cb197-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Participant =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb197-4"><a href="readr.html#cb197-4" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">TheBlock =</span> <span class="fu">col_integer</span>(), <span class="co"># read_csv suggested col_double() but we know better</span></span>
+<span id="cb197-5"><a href="readr.html#cb197-5" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Trial =</span> <span class="fu">col_integer</span>(), <span class="co"># read_csv suggested col_double() but we know better</span></span>
+<span id="cb197-6"><a href="readr.html#cb197-6" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Contrast =</span> <span class="fu">col_double</span>(),</span>
+<span id="cb197-7"><a href="readr.html#cb197-7" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Correct =</span> <span class="fu">col_integer</span>()))</span></code></pre></div>
+<pre><code>## Warning: The following named parsers don&#39;t match the column names: TheBlock</code></pre>
+<p>Personally, I would prefer for <code>read_csv()</code> to loudly fail with an error in cases like these but having a nice red warning is already very helpful to quickly detect the problem with your data (and if your data is wrong, your whole analysis is meaningless). Thus, <em>always</em> use <code>read_</code> rather than <code>read.</code> functions and <em>always</em> specify the table structure. The lazy, and my preferred, way to do it, is to first read the file without specifying the structure and copy-paste-edit the warning column-specification message into the code adjusting as necessary.</p>
+<div class="infobox practice">
+<p>Do exercise 7, you need <a href="data/face_rank.csv">face_rank.csv</a> file for it. Download it and place it in the project folder. <em>Warning</em>, if you use Chrome or any Chromium-based browsers like MS Edge, Opera, etc. they might, for some odd reason, automatically <em>rename it</em> into <em>face_rank.xls</em> during the download. Just rename it back to <em>face_rank.csv</em>, because the file is not converted to an Excel, it is only the extension that gets changed (why? No idea, ask Google!).</p>
+</div>
+<div id="readxl" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Reading Excel files</h2>
+<p>There are several libraries that allow you to read Excel files directly. My personal preference is <a href="https://readxl.tidyverse.org/">readxl</a> package, which is part of the Tidyverse. Warning, it will be installed as part of the Tidyverse (i.e., when you typed <code>install.packages(tidyverse)</code>) but you still need to import it explicitly via <code>library(readxl)</code>. Because an Excel file has many sheets, by default the <code>read_excel()</code> function reads the <em>first</em> sheet but you can specify it via a <code>sheet</code> parameter using its index <code>read_excel("my_excel_file.xls", sheet=2)</code> or name <code>read_excel("my_excel_file.xls", sheet="addendum")</code>.</p>
+<div class="infobox practice">
+<p>Do exercise 8, you need <a href="data/face_rank.xlsx">face_rank.xlsx</a> file for it.</p>
+</div>
+<p>You can read about further options at the package’s website but I would generally discourage you from using Excel for your work and, definitely, for your data analysis. Because, you see, Excel is very smart and it can figure out the <em>true</em> meaning and type of columns by itself. The fact that you might disagree is your problem. Excel knows what is best for you. The easiest way to screw a CSV file up (at least in Germany) is to open it in Excel and immediately save it. The file name will remain the same but Excel will “adjust” the content as it feels is better for you (you don’t need to be consulted with). If you think I am exaggerating, read this <a href="https://www.theverge.com/2020/8/6/21355674/human-genes-rename-microsoft-excel-misreading-dates">article</a> at The Verge on how Excel messed up thousands of human genome data tables by turning some values into dates (because why not?). So now the entire community is <em>renaming</em> some genes because it is easier to waste literally thousands of man-hours on that than to fix Excel. In short, friends don’t let friends use Excel.</p>
+</div>
+<div id="reading-files-from-other-programs" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Reading files from other programs</h2>
+<p>World is a very diverse place, so you are likely to encounter a wide range of data files generated by Matlab, SPSS, SAS, etc. There are two ways to import the data. First, that I would recommend, use the original program (Matlab, SPSS, SAS, etc.) to export data as a CSV file. Every program can read and write CSV, so it a good common ground. Moreover, this is a simple format with no embedded formulas (as in Excel), service structures, etc. Finally, if you store your data in CSV, you do not need a special program to work with it. In short, unless you have a good reason, store your data in CSV files.</p>
+<p>However, sometimes you have a file but you do not have the program (Matlab, SPSS, SAS, etc.). The second way is to use various R libaries, starting with <a href="https://www.rdocumentation.org/packages/foreign">foreign</a>, which can handle most typical cases, e.g., SPSS, SAS, State, or Minitab. The problem here is that all programs differ in the internal file formats and what exactly is included. For example, when importing from an SPSS sav-file via <a href="https://www.rdocumentation.org/packages/foreign/versions/0.8-80/topics/read.spss">read.spss</a> you will get a list with various components rather than a table (<code>data.frame</code>). You can force the function to convert everything to a single table via <code>to.data.frame=TRUE</code> option but you may lose some information. Bottom line, you need to be extra careful when importing from other formats and the safest way is to ensure complete and full export of the data to a CSV from the original program.</p>
+</div>
+<div id="wrap-up-1" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Wrap up</h2>
+<p>We have started with vectors and now extended them to tables. Next time, we will look at how to visualize the data using The Grammar of Graphics approach.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="tables.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ggplot2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["data-analysis-using-r-for-psychology.pdf", "data-analysis-using-r-for-psychology.epub"],
+"search": {
+"engine": "lunr",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

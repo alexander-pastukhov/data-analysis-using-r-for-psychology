@@ -37,7 +37,7 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
-  pdftitle={Data analysis using R for Psychology},
+  pdftitle={Data analysis using R for Psychology and Social Science},
   pdfauthor={Alexander (Sasha) Pastukhov},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
@@ -115,9 +115,9 @@
 \usepackage[]{natbib}
 \bibliographystyle{apalike}
 
-\title{Data analysis using R for Psychology}
+\title{Data analysis using R for Psychology and Social Science}
 \author{Alexander (Sasha) Pastukhov}
-\date{2021-10-18}
+\date{2021-10-19}
 
 \begin{document}
 \maketitle
@@ -130,45 +130,47 @@
 \chapter*{Introduction}\label{introduction}}
 \addcontentsline{toc}{chapter}{Introduction}
 
-This is a material for \emph{Applied data analysis for psychology using the open-source software R} seminar as taught at \href{https://www.uni-bamberg.de/psychologie/}{Institute of Psychology} at University of Bamberg. It is \textbf{free to use} and is licensed under the \href{https://creativecommons.org/licenses/by-nc-nd/4.0/}{Creative Commons Attribution-NonCommercial-NoDerivatives V4.0 International License}.
+This book will (try to) teach you how to perform typical data analysis tasks: reading data, transforming and cleaning it up so you can visualize it and perform a statistical analysis of your choice. It covers most topics that you need to get you started but it cannot cover them all. One advantage of R is a sheer size of its ecosystem with new incredible libraries appearing very much on a daily basis. Covering them all is beyond the scope of any book, so instead I will concentrate on (trying to) building a solid understanding of things that you need to extend your R knowledge. Because of that some early chapters (e.g., on \protect\hyperlink{vectors}{vectors}, \protect\hyperlink{tables}{tables}, or \protect\hyperlink{ux5cux23functions}{functions}) might feel boring and too technical making you wonder why didn't we start with some exciting and useful analysis, working our way down to finer details. I have tried that\footnote{As a matter of fact, this was my approach when learning R.} but, unfortunately, philosophy of R is about have many almost identical ways of achieving the same end. If you do not learn these finer details, you waste time wondering why seemingly the same code works in one case but fails in mysterious ways in the other one\footnote{Talking from a personal experience here.}. Therefore, please bear with me and struggle through vectors (which are everywhere), oddities and inconsistencies of subsetting, and learning how to write a function before you even started to use them properly. I can only promise that, from my personal experience, this is definitely worth the effort.
 
-\hypertarget{about-the-seminar}{%
-\section*{About the seminar}\label{about-the-seminar}}
-\addcontentsline{toc}{section}{About the seminar}
-
-Each chapter covers a single seminar, introducing necessary ideas and is accompanied by a notebook with exercises, which you need to complete and submit. The material assumes no foreknowledge of R or programming in general from the reader. Its purpose is to gradually build up your knowledge and introduce to a typical analysis pipeline. It is based on a data that is typical for the field (repeated measures, appearance, accuracy and response time measurements, Likert scale reports, etc.), you are welcome to suggest your own data set for analysis. Even if you already performed the analysis using some other program, it would still be insightful to compare the different ways and, perhaps, you might gain a new insight. Plus, it is more engaging to work on your data.
-
-Remember that throughout the seminar you can and should(!) always ask me whenever something is unclear, you do not understand a concept or logic behind certain code. Do not hesitate to write me in the team or (better) directly to me in the chat (in the latter case, the notifications are harder miss and we don't spam others with our conversation).
-
-You will need to submit your assignment one day before the next seminar (Tuesday before noon at the latest), so I would have time evaluate it and provide feedback.
-
-As a final assignment, you will need to program a full analysis pipeline for a given data set (or, if you want, for your data set). All the necessary steps will be covered by the seminar material. Please inform me, If you require a grade, as then I will create a more specific description for you to have a clear understanding of how the program will be graded.
-
-\hypertarget{content-of-the-seminar}{%
-\section*{Content of the seminar}\label{content-of-the-seminar}}
-\addcontentsline{toc}{section}{Content of the seminar}
-
-The ultimate goal of the seminar is to give you tools to perform a complete analysis of a typical psychology research data, including data import and merging, pre-processing, aggregating, plotting, and performing statistical analysis. We will start with very basic R programming concepts (vectors, tables) before proceeding to learn about data import and visualization via \href{https://ggplot2.tidyverse.org/}{the grammar of graphics}. Next, we will learn about piping that makes sequential analysis easy to write and read. Then, we will see how combine piping with Tidyverse \emph{verbs}. Next, we will see how to use, visualize, and report statistical models. Finally, you will learn the power of functional programming that provides ultimate flexibility in R.
-
-\hypertarget{note-on-exercises}{%
-\section*{Note on exercises}\label{note-on-exercises}}
-\addcontentsline{toc}{section}{Note on exercises}
-
-In many exercises your will be not writing the code but reading and understanding it. Your job in this case is ``to think like a computer''. Your advantage is that computers are very dumb, so instructions for them must be written in very simple, clear, and unambiguous way. This means that, with practice, reading code is easy for a human (well, reading a well-written code is easy, you will eventually encounter ``spaghetti-code'' which is easier to rewrite from scratch than to understand). In each case, you simply go through the code line-by-line, doing all computations by hand and writing down values stored in the variables (if there are too many to keep track of). Once you go through the code in this manner, it should be completely transparent for you. No mysteries should remain, you should have no doubts or uncertainty about any(!) line. Moreover, you then can run the code and check that the values you are getting from computer match yours. Any difference means you made a mistake and code is working differently from how you think it does. In any case, \textbf{if you not 100\% sure about any line of code, ask me, so we can go through it together!}
-
-In a sense, this is the most important programming skill. It is impossible to learn how to write, if you cannot read first! Moreover, when programming you will probably spend more time reading the code and making sure that it works correctly than writing the new code. Thus, use this opportunity to practice and never use the code that you do not understand completely. Thus, there is nothing wrong in using \href{https://stackoverflow.com/}{stackoverflow} but do make sure you understand the code you copied!
+An important note: this book will \emph{not} teach you statistics or machine learning. I will mention some widely used packages and functions for performing statistical analysis but I will not go into the details of how they work or how to interpret their output. If you know (enough of) statistics, you will have little trouble understanding how to work with these packages and functions. If you do not, no amount of reading of manuals will make it clearer.
 
 \hypertarget{why-r}{%
 \section*{Why R?}\label{why-r}}
 \addcontentsline{toc}{section}{Why R?}
 
-There are many software tools that allow you preprocess, plot, and analyze your data. Some cost money (SPSS, Matlab), some are free just like R (Python, Julia). Moreover, you can replicate all the analysis that we will perform using Python in combination with \href{https://jupyter.org/}{Jupyter notebooks} (for reproducable analysis), \href{https://pandas.pydata.org/}{Pandas} (for Excel-style table) and \href{https://www.statsmodels.org/stable/index.html}{statmodels} (for statistical analysis). However, R in combination with piping and \href{https://www.tidyverse.org/}{Tidyverse} family of packages is optimized for data analysis, making it easy to write simple, powerful and expressive code that is very easy to understand (a huge plus, as you will discover). I will run circles around myself trying to replicate the same analysis in Python or Matlab. In addition, R is loved by mathematicians and statisticians, so it tends to have implementations for all cutting edge methods (my impression is that even Python is lagging behind it in that respect).
+There are many software tools that allow you preprocess, plot, and analyze your data. Some cost money (SPSS, Matlab), some are free just like R (Python, Julia). Moreover, you can replicate all analysis that we will perform using Python in combination with \href{https://jupyter.org/}{Jupyter notebooks} (for reproducible analysis), \href{https://pandas.pydata.org/}{Pandas} (for Excel-style table), and \href{https://www.statsmodels.org/stable/index.html}{statmodels} (for statistical analysis). R is hardly perfect. For example, its subsetting system is confusing and appears to follow ``convenience over safety'' approach that does not sit particularly well with me. However, R in combination with piping and \href{https://www.tidyverse.org/}{Tidyverse} family of packages makes it incredibly easy to write simple, powerful and expressive code, which is very easy to understand (a huge plus, as you will discover). I will run circles around myself trying to replicate the same analysis in Python or Matlab. In addition, R is loved by mathematicians and statisticians, so it tends to have implementations for all cutting edge methods (my impression is that even Python is lagging behind it in that respect).
 
-\hypertarget{tidyverse-versus-base-r}{%
-\section*{Tidyverse versus base R}\label{tidyverse-versus-base-r}}
-\addcontentsline{toc}{section}{Tidyverse versus base R}
+\hypertarget{why-tidyverse}{%
+\section*{Why Tidyverse}\label{why-tidyverse}}
+\addcontentsline{toc}{section}{Why Tidyverse}
 
-I will be teaching what one might call a ``dialect'' of R, based on \href{https://www.tidyverse.org/}{Tidyverse} family of packages. R is extremely flexible, making it possible to redefine its own syntax. Because of that Tidyverse-based code is very different from the base R code to the point that it might look like written in a completely different language (which, in a sense, it is). Although Tidyverse, at least in my opinion, is a better way, we will start with \emph{base R}, so that you will be able to read and understand code written outside of Tidyverse, as it is also very common.
+The material is heavily skewed towards using \href{https://www.tidyverse.org/}{Tidyverse} family of packages. It looks different enough from base R to the point that one might call it a ``dialect'' of R\footnote{R is extremely flexible, making it possible to redefine its own syntax.}. Learning Tidyverse means that you have twice as many things to learn: I will always introduce both base R and Tidyverse version. \href{https://www.tidyverse.org/}{Tidyverse} is the main reason I use R (rather than Python or Julia) as it makes data analysis a breeze and makes your life so much easier. This is why I want you to learn its ways. At the same time, there is plenty of useful code that uses base R, so you need to know and understand it as well.
+
+As a matter of fact, R is so rich and flexible that there many dialects and, therefore, plenty of opinion differences \footnote{Just ask about ``base R vs.~Tidyverse'' on Twitter and see the thread set itself on fire}. For example, \href{https://github.com/Rdatatable/data.table}{data.table} package re-implements the same functionality as base R and Tidyverse in very compact way. I does not fit my style but it might be something that feels natural to you. There are also other packages to handle things like layout out your figures or working with summary tables that might suit you better. Point is, these material barely scratches the surfaces in terms of tools and approaches that you can use. View it as a starting point for your exploration not the complete map.
+
+\hypertarget{about-the-seminar}{%
+\section*{About the seminar}\label{about-the-seminar}}
+\addcontentsline{toc}{section}{About the seminar}
+
+This is a material for \emph{Applied data analysis for psychology using the open-source software R} seminar as taught at \href{https://www.uni-bamberg.de/psychologie/}{Institute of Psychology} at University of Bamberg. Each chapter covers a single seminar, introducing necessary ideas and is accompanied by a notebook with exercises, which you need to complete and submit. To pass the seminar, you will need to complete all assignments. You do not need to complete or provide correct solutions for \emph{all} the exercises to pass the course and information on how the points for exercises will be converted to an actual grade (if you need one) or ``pass'' will be available during the seminar.
+
+The material assumes no foreknowledge of R or programming in general from a reader. Its purpose is to gradually build up your knowledge and introduce to a typical analysis pipeline. It is based on a data that is typical for the field (repeated measures, appearance, accuracy and response time measurements, Likert scale reports, etc.) and you are welcome to suggest your own data set for analysis. Even if you already performed the analysis using some other program, it would still be insightful to compare the different ways and, perhaps, you might gain a new insight. Plus, it is more engaging to work on your data.
+
+Remember that throughout the seminar you can and should(!) always ask me whenever something is unclear, you do not understand a concept or logic behind certain code, or you simply got stuck. Do not hesitate to write me in the team or (better) directly to me in the chat (in the latter case, the notifications are harder miss and we don't spam others with our conversation).
+
+\hypertarget{thinking-like-a-computer}{%
+\section*{Thinking like a computer}\label{thinking-like-a-computer}}
+\addcontentsline{toc}{section}{Thinking like a computer}
+
+In some exercises your will not be writing code but reading and understanding it. Your job in this case is ``to think like a computer''. Your advantage is that computers are very dumb, so instructions for them must be written in a very simple, clear, and unambiguous way. This means that, with practice, reading code is easy for a human (well, reading a well-written code is easy, you will eventually encounter ``spaghetti-code'' which is easier to rewrite from scratch than to understand). In each case, you simply go through the code line-by-line, doing all computations by hand and writing down values stored in the variables (if there are too many to keep track of). Once you go through the code in this manner, it should be completely transparent for you. No mysteries should remain, you should have no doubts or uncertainty about any(!) line. Moreover, you then can run the code and check that the values you are getting from computer match yours. Any difference means you made a mistake and code is working differently from how you think it does. In any case, \textbf{if you not 100\% sure about any line of code, ask me, so we can go through it together!}
+
+In a sense, this is the most important programming skill. It is impossible to learn how to write, if you cannot read the code first! Moreover, when programming you will probably spend more time reading the code and making sure that it works correctly than writing the new code. Thus, use this opportunity to practice and never use the code that you do not understand completely. Thus, there is nothing wrong in using \href{https://stackoverflow.com/}{stackoverflow} but \textbf{never} use the code you do not understand (do not blindly copy-paste)!
+
+\hypertarget{about-the-material}{%
+\section*{About the material}\label{about-the-material}}
+\addcontentsline{toc}{section}{About the material}
+
+The material is \textbf{free to use} and is licensed under the \href{https://creativecommons.org/licenses/by-nc-nd/4.0/}{Creative Commons Attribution-NonCommercial-NoDerivatives V4.0 International License}.
 
 \hypertarget{software}{%
 \chapter*{Software}\label{software}}
@@ -908,8 +910,8 @@ If the length of the longer vector \textbf{is not} a multiple of the shorter vec
 \end{Shaded}
 
 \begin{verbatim}
-## Warning in x + y: Länge des längeren Objektes
-##       ist kein Vielfaches der Länge des kürzeren Objektes
+## Warning in x + y: longer object length is not a multiple of shorter object
+## length
 \end{verbatim}
 
 \begin{verbatim}
@@ -1065,7 +1067,9 @@ Unfortunately, this is the point where we need to talk about subsetting (accessi
 
 You \protect\hyperlink{vector-index}{already know} subsetting via \emph{single} square brackets: \texttt{x{[}1{]}}. This is called \emph{preserving} subsetting because it returns a \emph{part of an object} (vector or list) that your requested \emph{as is}. I.e., if you used them to access part of a a vector, you get a vector. If you used them to access a list or a \protect\hyperlink{data.frame}{table}, you get a list or a table.
 
-In addition, you can use \emph{double} square brackets: \texttt{x{[}{[}1{]}{]}}. These are called \emph{simplifying} subsetting because they extract \emph{content} at that location. If you have a list of vectors \texttt{l} then \texttt{l{[}2{]}} (preserving) would return a single item list but \texttt{l{[}{[}2{]}{]}} would return a vector stored at that location. A metaphor based on \href{https://twitter.com/rlangtip}{@RLangTip}: ``If list \texttt{x} is a train carrying objects, then \texttt{x{[}{[}5{]}{]}} is the object in car 5; \texttt{x{[}5{]}} is a train consisting only of car 5.'' Note that the simplifying notation allows you to extract content of only \emph{one} item. Therefore, you cannot use it with \protect\hyperlink{vector-index-slicing}{slicing} (extracting content of many items), negative indexes (even if you will end up with just one index), or zero index. The good news is that R will actually generate an error message instead of failing silently, although error messages will be both mysterious and \emph{different} depending on exact circumstances. To deepen your feeling of arbitrariness of R design: using a non-existent \emph{name} index will generate an error for vectors but not for lists (you get \texttt{NULL})\footnote{Insert a hair-pulling picture of your preference here.}.
+In addition, you can use \emph{double} square brackets: \texttt{x{[}{[}1{]}{]}}. These are called \emph{simplifying} subsetting because they extract \emph{content} at that location. If you have a list of vectors \texttt{l} then \texttt{l{[}2{]}} (preserving) would return a single item list but \texttt{l{[}{[}2{]}{]}} would return a vector stored at that location. A metaphor based on \href{https://twitter.com/rlangtip}{@RLangTip}: ``If list \texttt{x} is a train carrying objects, then \texttt{x{[}{[}5{]}{]}} is the object in car 5; \texttt{x{[}5{]}} is a train consisting only of car 5.''
+
+Note that the simplifying notation allows you to extract content of only \emph{one} item. Therefore, you cannot use it with \protect\hyperlink{vector-index-slicing}{slicing} (extracting content of many items), negative indexes (even if you will end up with just one index), or zero index. The good news is that R will actually generate an error message instead of failing silently, although error messages will be both mysterious and \emph{different} depending on exact circumstances. To deepen your feeling of arbitrariness of R design: using a non-existent \emph{name} index will generate an error for vectors but not for lists (you get \texttt{NULL})\footnote{Insert a hair-pulling picture of your preference here.}.
 
 Confusing? Let us go through some examples, so you can see a difference these two kinds of brackets make for vectors and lists.
 
@@ -1105,27 +1109,47 @@ Simplifying subsetting via \texttt{{[}{[}{]}{]}} extracts value at the location.
 ## [1] 2
 \end{verbatim}
 
-Trying to extract multiple items, use of negative or zero indexes fill all fail for \emph{simplifying} subsetting.
+Trying to extract multiple items will fail for \emph{simplifying} subsetting.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# "attempt to select more than one element in vectorIndex" error}
 \NormalTok{x[[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
 
-\CommentTok{\# technically, we are excluding two out of three indexes, so end up with just one value}
-\CommentTok{\# still, "attempt to select more than one element in vectorIndex"}
+\begin{verbatim}
+## Error in x[[1:2]]: attempt to select more than one element in vectorIndex
+\end{verbatim}
+
+Same is true for negative indexes, even though we are excluding two out of three indexes, so end up with content from just one item.
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \NormalTok{x[[}\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{)]]}
+\end{Highlighting}
+\end{Shaded}
 
-\CommentTok{\# A different error message: "attempt to select less than one element in get1index \textless{}real\textgreater{}"}
+\begin{verbatim}
+## Error in x[[-(1:2)]]: attempt to select more than one element in vectorIndex
+\end{verbatim}
+
+And the zero index generates an error as well but the error message is different.
+ex "
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \NormalTok{x[[}\DecValTok{0}\NormalTok{]]}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+## Error in x[[0]]: attempt to select less than one element in get1index <real>
+\end{verbatim}
 
 Using of a non-existent name will generate an error for \emph{simplifying} but not for \emph{preserving} subsetting.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# this works}
 \NormalTok{x[}\StringTok{"a"}\NormalTok{]}
 \end{Highlighting}
 \end{Shaded}
@@ -1135,9 +1159,10 @@ Using of a non-existent name will generate an error for \emph{simplifying} but n
 ## 1
 \end{verbatim}
 
+This also works but strips the name off.
+
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# this also works but strips the name off}
 \NormalTok{x[[}\StringTok{"a"}\NormalTok{]]}
 \end{Highlighting}
 \end{Shaded}
@@ -1146,9 +1171,10 @@ Using of a non-existent name will generate an error for \emph{simplifying} but n
 ## [1] 1
 \end{verbatim}
 
+This fails silently by returning \texttt{NA}.
+
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# this fails silently by returning NA}
 \NormalTok{x[}\StringTok{"d"}\NormalTok{]}
 \end{Highlighting}
 \end{Shaded}
@@ -1158,12 +1184,17 @@ Using of a non-existent name will generate an error for \emph{simplifying} but n
 ##   NA
 \end{verbatim}
 
+But this will generate an error.
+
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# this will generate a "subscript out of bounds" error}
 \NormalTok{x[[}\StringTok{"d"}\NormalTok{]]}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+## Error in x[["d"]]: subscript out of bounds
+\end{verbatim}
 
 \textbf{General rule:} when using vectors, always use \texttt{{[}{]}}. The only potential usage-case I can see is wanting to strip a name off a single item (not sure I ever needed to do this). If, for some reason, this is what you need, you should write a comment explaining that. Otherwise, everyone including future-you will be confused and think that this is a typo.
 
@@ -1242,21 +1273,41 @@ Using simplifying subsetting return a list that was inside the list at that loca
 ## [1] 5
 \end{verbatim}
 
-Using multiple, negative or zero indexes will fail just like it does for vectors but \emph{some} error messages will be different.
+Again, using multiple indexes will fail.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# "subscript out of bounds" error}
 \NormalTok{l[[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
 
-\CommentTok{\# technically, we are excluding two out of three indexes, so end up with just one value}
-\CommentTok{\# still, "attempt to select more than one element in integerOneIndex"}
+\begin{verbatim}
+## Error in l[[1:2]]: subscript out of bounds
+\end{verbatim}
+
+Same for negative indexe.
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \NormalTok{l[[}\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{)]]}
+\end{Highlighting}
+\end{Shaded}
 
-\CommentTok{\# A different error message: "attempt to select less than one element in get1index \textless{}real\textgreater{}"}
+\begin{verbatim}
+## Error in l[[-(1:2)]]: attempt to select more than one element in integerOneIndex
+\end{verbatim}
+
+And for the zero index (but notice a \emph{different} error message).
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \NormalTok{l[[}\DecValTok{0}\NormalTok{]]}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+## Error in l[[0]]: attempt to select less than one element in get1index <real>
+\end{verbatim}
 
 Using a non-existent name index for lists with preserving subsetting (\texttt{{[}{]}}) will return a single item list with \texttt{NULL} as a content\footnote{And \texttt{NA} as a name. Don't ask.} but just \texttt{NULL} for simplifying one (\texttt{{[}{[}{]}{]}}). And none of them will generate an error.
 
@@ -1281,7 +1332,7 @@ Using a non-existent name index for lists with preserving subsetting (\texttt{{[
 ## NULL
 \end{verbatim}
 
-\textbf{General rule:} use \texttt{{[}{[}{]}{]}} if you are interested in list or table content, e.g., you need a column from the table. Use \texttt{{[}{]}} if you interested in using a smaller list or table.
+\textbf{General rule:} use \texttt{{[}{[}{]}{]}} if you are interested in list or table content, e.g., you need a column from the table. Use \texttt{{[}{]}} if you interested in using a smaller (part of the original) list or table.
 
 If this is the point when you want to start running around screaming or bang your head against the screen, please tell me, cause I would definitely join you. Let us do some exercises that might help to build some intuition. However, as you probably noticed already, subsetting in R is fairly haphazard, so you probably will still end up being confused or have a code the does not work for seemingly mysterious reasons.
 
@@ -1290,7 +1341,7 @@ Do exercise 3.
 \hypertarget{dollar-subsetting}{%
 \section{Yet another subsetting via \$}\label{dollar-subsetting}}
 
-I am terribly sorry but I need deepen your confusion and despair but telling you that R has yet another way of subsetting via a \texttt{\$} sign. In fact, this is the most common way of subsetting for lists and \protect\hyperlink{data.frame}{tables} that you will encounter everywhere. It is a shortcut version for \emph{partial matching} of simplifying subsetting: \texttt{l\$c} is the same as writing \texttt{l{[}{[}"c",\ exact\ =\ FALSE{]}{]}}. The last new part \texttt{exact\ =\ FALSE} means that you can use an \emph{incomplete} name after the \texttt{\$} and R will guess what you mean. So, if you made a typo while meaning some completely different column name, R will second-guess your intentions and give you a variable that has the same beginning (no error, don't even hope).
+I am terribly sorry but I need to deepen your confusion and despair but telling you that R has yet another way of subsetting via a \texttt{\$} sign. In fact, this is the most common way of subsetting for lists and \protect\hyperlink{data.frame}{tables} that you will encounter almost everywhere. It is a shortcut version for \emph{partial matching} of simplifying subsetting: \texttt{l\$c} is the same as writing \texttt{l{[}{[}"c",\ exact\ =\ FALSE{]}{]}}. The last new part \texttt{exact\ =\ FALSE} means that you can use an \emph{incomplete} name after the \texttt{\$} and R will guess what you mean. So, if you made a typo while meaning some completely different column name, R will second-guess your intentions and give you a variable that has the same beginning (no error, don't even hope).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1351,7 +1402,7 @@ My advice would be to stick to \texttt{{[}{[}{]}{]}} notation despite the ubiqui
 \hypertarget{data.frame}{%
 \section{Tables, a.k.a. data frames}\label{data.frame}}
 
-R tables are mix between \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/list.html}{lists} and \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/matrix.html}{matrices}. You can think about it as a list of vectors (columns) of \emph{identical} length. The default way to construct a table, which are called \emph{data frames} in R, is via \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/data.frame}{data.frame()} function.
+R tables are a mix between \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/list.html}{lists} and \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/matrix.html}{matrices}. You can think about it as a list of vectors (columns) of \emph{identical} length. The default way to construct a table, which are called \emph{data frames} in R, is via \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/data.frame}{data.frame()} function.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1408,10 +1459,14 @@ If the simple \emph{multple-of-length} rule does not work, R generates an error 
 \end{Highlighting}
 \end{Shaded}
 
-Do exercise 4.
+\begin{verbatim}
+## Error in data.frame(numeric_column = 1:7, character_column = c("A", "B", : arguments imply differing number of rows: 7, 3
+\end{verbatim}
+
+Do exercise 5.
 
 \hypertarget{table-subsetting}{%
-\section{Subsetting table}\label{table-subsetting}}
+\section{Subsetting tables}\label{table-subsetting}}
 
 One way to think about a table as a list of columns (vectors). Hence, both preserving (\texttt{{[}{]}}) and simplifying (\texttt{{[}{[}{]}{]}}) subsetting will work as you would expect returning either a \texttt{data.frame} (\texttt{{[}{]}}) or a \emph{vector} that was a column your were interested in (\texttt{{[}{[}{]}{]}}).
 
@@ -1590,11 +1645,11 @@ One thing to keep in mind is that if you import two libraries that have a functi
 
 \begin{verbatim}
 ## 
-## Attache Paket: 'signal'
+## Attaching package: 'signal'
 \end{verbatim}
 
 \begin{verbatim}
-## Die folgenden Objekte sind maskiert von 'package:stats':
+## The following objects are masked from 'package:stats':
 ## 
 ##     filter, poly
 \end{verbatim}
@@ -1607,23 +1662,23 @@ One thing to keep in mind is that if you import two libraries that have a functi
 
 \begin{verbatim}
 ## 
-## Attache Paket: 'dplyr'
+## Attaching package: 'dplyr'
 \end{verbatim}
 
 \begin{verbatim}
-## Das folgende Objekt ist maskiert 'package:signal':
+## The following object is masked from 'package:signal':
 ## 
 ##     filter
 \end{verbatim}
 
 \begin{verbatim}
-## Die folgenden Objekte sind maskiert von 'package:stats':
+## The following objects are masked from 'package:stats':
 ## 
 ##     filter, lag
 \end{verbatim}
 
 \begin{verbatim}
-## Die folgenden Objekte sind maskiert von 'package:base':
+## The following objects are masked from 'package:base':
 ## 
 ##     intersect, setdiff, setequal, union
 \end{verbatim}
@@ -1665,7 +1720,7 @@ When using a notebook (so, in our case, always) put the libraries into \emph{set
 \hypertarget{tibble}{%
 \section{Tibble, a better data.frame}\label{tibble}}
 
-Although the \texttt{data.frame()} function is the default way of creating a table, it is a legacy implementation with numerous shortcomings. Tidyverse implemented its own version of the table called \href{https://tibble.tidyverse.org/}{tibble()} that provides a more rigorous control and more consistent behavior. For example, it allows you to use any symbols for the columns names (including spaces), prints out only beginning of the table rather than entire table, etc. It also gives more warnings. If you try to access a non-existing column both \texttt{data.frame()} and \texttt{tibble()} will return \texttt{NULL} but the former will do it silently, whereas the latter will give you a warning but only if you use the \texttt{\$} notation\footnote{Arbitrariness strikes again! But this also means that \texttt{\$} is safe to use with tibbles but not data.frames.}.
+Although the \texttt{data.frame()} function is the default way of creating a table, it is a legacy implementation with numerous shortcomings. Tidyverse implemented its own version of the table called \href{https://tibble.tidyverse.org/}{tibble()} that provides a more rigorous control and more consistent behavior. For example, it allows you to use any symbol in columns names (including spaces), prints out only the beginning of the table rather than entire table, etc. It also gives more warnings. If you try to access a non-existing column both \texttt{data.frame()} and \texttt{tibble()} will return \texttt{NULL} but the former will do it silently, whereas the latter will give you a warning but only if you use the \texttt{\$} notation\footnote{Arbitrariness strikes again! But this also means that \texttt{\$} is safer to use with tibbles but not with data.frames.}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1713,7 +1768,7 @@ In short, \texttt{tibble()} provides a more robust version of a \texttt{data.fra
 \hypertarget{tribble}{%
 \section{Tribble, table from text}\label{tribble}}
 
-The tibble package also provides an easier to read way of constructing tables via the \href{https://tibble.tidyverse.org/reference/tribble.html}{tribble()} function. Here, you use tilde to specify column names, and then write the content row-by-row.
+The tibble package also provides an easier way of constructing tables via the \href{https://tibble.tidyverse.org/reference/tribble.html}{tribble()} function. Here, you use tilde to specify column names, and then write its content row-by-row.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1738,7 +1793,7 @@ Do exercise 6.
 \hypertarget{data}{%
 \section{Reading example tables}\label{data}}
 
-One of the great things about R is that most packages come with an example data set that illustrates their function. You can see the list of some of them \href{https://www.rdocumentation.org/packages/datasets}{here}. In case of example data set, you need to import the library it is part of and then load them by writing \texttt{data(tablename)}. For example, to use use \texttt{mpg} data on fuel economy from \texttt{ggplot2} package, you need to import the library first, and then call \texttt{data(mpg)}.
+One of the great things about R is that most packages come with an example data set that illustrates their function. You can see the list of some of them \href{https://www.rdocumentation.org/packages/datasets}{here}. In case of an example data set, you need to import the library that it is part of and then load them by writing \texttt{data(tablename)}. For example, to use use \texttt{mpg} data on fuel economy from \texttt{ggplot2} package, you need to import the library first, and then call \texttt{data(mpg)}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1766,7 +1821,7 @@ One of the great things about R is that most packages come with an example data 
 \end{verbatim}
 
 \hypertarget{readr}{%
-\section{Reading csv files}\label{readr}}
+\chapter{Reading csv files}\label{readr}}
 
 So far we covered creating a table by hand via \texttt{data.frame()}, \texttt{tibble()}, or \texttt{tribble()} functions and loading an example table from a package via \texttt{data()} function. More commonly, you will need to read a table from an external file. These files can come in many formats because they are generated by different experimental software. Below, you will see how to handle those but my recommendation is to always store your data in a csv (\href{https://en.wikipedia.org/wiki/Comma-separated_values}{Comma-separated values}) files. These are simple plain text files, which means you can open them in any text editor, with each line representing a single row (typically, top row contains column names) with individual columns separated by some symbol or symbols. Typical separators are a comma (hence, the name), a semicolon (this is frequently used in Germany, with comma serving as a decimal point), a tabulator, or even a space symbol. Here is an example of such file
 
@@ -1782,7 +1837,7 @@ that is turned into a table when loaded
 
 \begin{center}\includegraphics[width=0.7\linewidth]{images/results-csv-table} \end{center}
 
-There are several ways of reading CSV files in R. The default way by using \href{https://stat.ethz.ch/R-manual/R-devel/library/utils/html/read.table.html}{read.csv()} function that comes has different versions optimized for different combinations of the decimal point and separator symbols, e.g.~\texttt{read.csv2()} assumes a comma for the decimal point and semicolon as a separator. However, a better way is to use \href{https://readr.tidyverse.org/}{readr} library that implements same functions. Names of the functions are slightly different with underscore replacing the dot, so \texttt{readr::read\_csv()} is a replacement for \texttt{read.csv()}. These are faster (although it will be noticeable only on large data sets), do not convert text to factor variables (we will talk about factors later but this default conversion by \texttt{read.csv()} can be very confusing), etc.
+There are several ways of reading CSV files in R. The default way by using \href{https://stat.ethz.ch/R-manual/R-devel/library/utils/html/read.table.html}{read.csv()} function that has different versions optimized for different combinations of the decimal point and separator symbols, e.g.~\texttt{read.csv2()} assumes a comma for the decimal point and semicolon as a separator. However, a better way is to use \href{https://readr.tidyverse.org/}{readr} library that re-implements same functions. Names of the functions are slightly different with underscore replacing the dot, so \texttt{readr::read\_csv()} is a replacement for \texttt{read.csv()}. These are faster (although it will be noticeable only on large data sets), do not convert text to factor variables (we will talk about factors later but this default conversion by \texttt{read.csv()} can be very confusing), etc.
 
 However, most important difference between \texttt{read.csv()} and \texttt{read\_csv()} is they constraint the content of a CSV file. \texttt{read.csv()} has not assumptions about which columns are in the file and what their value types are. It simply reads them as is, \emph{silently} guessing their type.
 
@@ -1800,7 +1855,7 @@ However, most important difference between \texttt{read.csv()} and \texttt{read\
 ## 3          A1     1     2     0.05   FALSE
 \end{verbatim}
 
-You can use \texttt{read\_csv()} the same way and it will work the same way but warn you about the table structure it deduced.
+You can use \texttt{read\_csv()} the same way and it will work the same way but will inform (warn) you about the table structure it deduced.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1841,7 +1896,7 @@ You can use \texttt{read\_csv()} the same way and it will work the same way but 
 ## 3 A1              1     2     0.05 FALSE
 \end{verbatim}
 
-This annoying \emph{Column specification} print out, which gets even more annoying if you need to read many CSV files, is there for a reason: it wants to annoy you! Because the only way to turn it off and stop being annoyed is to specify the column structure yourself via \texttt{col\_types} parameter. As a matter of fact, the print out you get is where, so you can take a look at it, adjust it, if necessary, and copy-paste to the \texttt{read\_csv} call. By default, it suggested \texttt{double} values for \texttt{Block} and \texttt{Trial} but we know they are integers, so we can copy-paste the suggested structure, replace \texttt{col\_double()} with \texttt{col\_integer()} and read the table without a warning.
+This annoying \emph{Column specification} print out, which gets even more annoying if you need to read many CSV files, is there for a reason: it wants to annoy you! Because the only way to turn it off and stop being annoyed is to specify the column structure yourself via \texttt{col\_types} parameter. As a matter of fact, the print out you get is a specification that the reader prepared for you. So you can take a look at it, adjust it, if necessary, and copy-paste to the \texttt{read\_csv} call. By default, it suggested \texttt{double} values for \texttt{Block} and \texttt{Trial} but we know they are integers, so we can copy-paste the suggested structure, replace \texttt{col\_double()} with \texttt{col\_integer()} and read the table without a warning.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1865,7 +1920,7 @@ This annoying \emph{Column specification} print out, which gets even more annoyi
 ## 3 A1              1     2     0.05 FALSE
 \end{verbatim}
 
-You may feel that this a lot of extra work just to suppress an annoying but, ultimately, harmless warning. Your code will work with or without it, right? Well, \emph{hopefully} it will but you probably want to \emph{know} that it will work not \emph{hope} for it. Imagine that you accidentally overwrote your experimental data file with data from a different experiment (that happens more often than one would want). You still have \texttt{results.csv} file in your project folder and so the \texttt{read.csv()} will read it as is (it does not know what should be in that file) and your analysis code will fail in some mysterious ways at a much later point (because, remember, if you try to access a column/variable that does not exist in the table, you just get \texttt{NULL} rather than an error). You will eventually trace it back to the wrong data file but that will cost time and nerves. However, if you specify the column structure in \texttt{read\_csv()} it will show warning, if the file does not match the description. It would warn about wrong column names (\texttt{TheBlock} in the example below) and about wrong type (it does not like \texttt{TRUE}/\texttt{FALSE} in a column it expected to find integers in).
+You may feel that this a lot of extra work just to suppress an annoying but, ultimately, harmless warning. Your code will work with or without it, right? Well, \emph{hopefully} it will but you probably want to \emph{know} that it will work not just \emph{hope} for it. Imagine that you accidentally overwrote your experimental data file with data from a different experiment (that happens more often than one would want). You still have \texttt{results.csv} file in your project folder and so the \texttt{read.csv()} will read it as is (it does not know what should be in that file) and your analysis code will fail in some mysterious ways at a much later point (because, remember, if you try to access a column/variable that does not exist in the table, you just get \texttt{NULL} rather than an error). You will eventually trace it back to the wrong data file but that will cost time and nerves. However, if you specify the column structure in \texttt{read\_csv()} it will show a warning, if the file does not match the description. It would warn about wrong column names (\texttt{TheBlock} in the example below) and about wrong type (it does not like \texttt{TRUE}/\texttt{FALSE} in a column it expected to find integers in).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1883,7 +1938,7 @@ You may feel that this a lot of extra work just to suppress an annoying but, ult
 ## Warning: The following named parsers don't match the column names: TheBlock
 \end{verbatim}
 
-Personally, I would prefer for \texttt{read\_csv()} to fail in cases like these but having a nice red warning is already very helpful to quickly detect the problem with your data (and if your data is wrong, your whole analysis is meaningless). Thus, \emph{always} use \texttt{read\_} rather than \texttt{read.} functions and \emph{always} specify the table structure. The lazy, and my preferred, way to do it, is to first read the file without specifying the structure and copy-paste-edit the warning column-specification message into the code.
+Personally, I would prefer for \texttt{read\_csv()} to loudly fail with an error in cases like these but having a nice red warning is already very helpful to quickly detect the problem with your data (and if your data is wrong, your whole analysis is meaningless). Thus, \emph{always} use \texttt{read\_} rather than \texttt{read.} functions and \emph{always} specify the table structure. The lazy, and my preferred, way to do it, is to first read the file without specifying the structure and copy-paste-edit the warning column-specification message into the code adjusting as necessary.
 
 Do exercise 7, you need \href{data/face_rank.csv}{face\_rank.csv} file for it. Download it and place it in the project folder. \emph{Warning}, if you use Chrome or any Chromium-based browsers like MS Edge, Opera, etc. they might, for some odd reason, automatically \emph{rename it} into \emph{face\_rank.xls} during the download. Just rename it back to \emph{face\_rank.csv}, because the file is not converted to an Excel, it is only the extension that gets changed (why? No idea, ask Google!).
 
@@ -1894,14 +1949,14 @@ There are several libraries that allow you to read Excel files directly. My pers
 
 Do exercise 8, you need \href{data/face_rank.xlsx}{face\_rank.xlsx} file for it.
 
-You can read about further options at the package's website but I would generally discourage you from using Excel for your work and, definitely, for your data analysis. Because, you see, Excel is very smart and it can figure out the \emph{true} meaning and type of columns by itself. The fact that you might disagree is your problem. Excel knows what is best for you. The easiest way to screw a CSV file up is to open it in Excel and immediately save it. The file name will remain the same but Excel will ``adjust'' the content as it feels is better for you (you don't need to be consulted with). If you think I am exaggerating, read this \href{https://www.theverge.com/2020/8/6/21355674/human-genes-rename-microsoft-excel-misreading-dates}{article} at The Verge on how Excel messed up thousands of human genome data tables by turning some values into dates (because why not?). So now the entire community is \emph{renaming} some genes because it is easier to waste literally thousands of man-hours on that than to fix Excel. In short, friends don't let friends use Excel.
+You can read about further options at the package's website but I would generally discourage you from using Excel for your work and, definitely, for your data analysis. Because, you see, Excel is very smart and it can figure out the \emph{true} meaning and type of columns by itself. The fact that you might disagree is your problem. Excel knows what is best for you. The easiest way to screw a CSV file up (at least in Germany) is to open it in Excel and immediately save it. The file name will remain the same but Excel will ``adjust'' the content as it feels is better for you (you don't need to be consulted with). If you think I am exaggerating, read this \href{https://www.theverge.com/2020/8/6/21355674/human-genes-rename-microsoft-excel-misreading-dates}{article} at The Verge on how Excel messed up thousands of human genome data tables by turning some values into dates (because why not?). So now the entire community is \emph{renaming} some genes because it is easier to waste literally thousands of man-hours on that than to fix Excel. In short, friends don't let friends use Excel.
 
 \hypertarget{reading-files-from-other-programs}{%
 \section{Reading files from other programs}\label{reading-files-from-other-programs}}
 
-World is a very diverse place, so you are likely to encounter a wide range of data files generated by Matlab, SPSS, SAS, etc. There are two ways to import the data. First, that I would recommend, use the original program (Matlab, SPSS, SAS, etc.) to export data as a CSV file. Every program can read and write CSV, so it a good common ground. Moreover, this is simple format with no embedded formulas (as in Excel), service structures, etc. Finally, if you store your data in CSV, you do not need a special program to work with it. In short, unless you have a good reason, store your data in CSV files.
+World is a very diverse place, so you are likely to encounter a wide range of data files generated by Matlab, SPSS, SAS, etc. There are two ways to import the data. First, that I would recommend, use the original program (Matlab, SPSS, SAS, etc.) to export data as a CSV file. Every program can read and write CSV, so it a good common ground. Moreover, this is a simple format with no embedded formulas (as in Excel), service structures, etc. Finally, if you store your data in CSV, you do not need a special program to work with it. In short, unless you have a good reason, store your data in CSV files.
 
-However, sometimes you have a file but you do not have the program (Matlab, SPSS, SAS, etc.). This is the second way, when you can use various R libaries, starting with \href{https://www.rdocumentation.org/packages/foreign}{foreign}, which can handle most typical cases, e.g., SPSS, SAS, State, or Minitab. The problem here, is that all the programs differ in the internal file formats and what exactly is included. For example, when importing from an SPSS sav-file via \href{https://www.rdocumentation.org/packages/foreign/versions/0.8-80/topics/read.spss}{read.spss} you will get a list with various components rather than a data.frame. You can force the function to convert everything to a single table via \texttt{to.data.frame=TRUE} option but you may lose some information. Bottom line, you need to be extra careful when importing from other formats and the safest way is to ensure complete and full export of the data to a CSV from the original program.
+However, sometimes you have a file but you do not have the program (Matlab, SPSS, SAS, etc.). The second way is to use various R libaries, starting with \href{https://www.rdocumentation.org/packages/foreign}{foreign}, which can handle most typical cases, e.g., SPSS, SAS, State, or Minitab. The problem here is that all programs differ in the internal file formats and what exactly is included. For example, when importing from an SPSS sav-file via \href{https://www.rdocumentation.org/packages/foreign/versions/0.8-80/topics/read.spss}{read.spss} you will get a list with various components rather than a table (\texttt{data.frame}). You can force the function to convert everything to a single table via \texttt{to.data.frame=TRUE} option but you may lose some information. Bottom line, you need to be extra careful when importing from other formats and the safest way is to ensure complete and full export of the data to a CSV from the original program.
 
 \hypertarget{wrap-up-1}{%
 \section{Wrap up}\label{wrap-up-1}}
@@ -2010,53 +2065,53 @@ You always need the first one. But you do not need to specify the other two, eve
 \hline
 Condition & Intensity & Response\\
 \hline
-A & 1 & 0.1014737\\
+A & 1 & -0.1816408\\
 \hline
-B & 1 & -3.5164705\\
+B & 1 & -1.9940039\\
 \hline
-C & 1 & -3.1007727\\
+C & 1 & -3.8436395\\
 \hline
-A & 2 & -0.1114388\\
+A & 2 & 0.8958628\\
 \hline
-B & 2 & -1.5199249\\
+B & 2 & -1.0132297\\
 \hline
-C & 2 & -2.2511742\\
+C & 2 & -3.4915556\\
 \hline
-A & 3 & 1.1275303\\
+A & 3 & 3.1222251\\
 \hline
-B & 3 & 0.2472298\\
+B & 3 & 0.7206920\\
 \hline
-C & 3 & -2.5904986\\
+C & 3 & -2.5989461\\
 \hline
-A & 4 & 3.9329446\\
+A & 4 & 3.0874377\\
 \hline
-B & 4 & 0.9990940\\
+B & 4 & 2.4138245\\
 \hline
-C & 4 & -0.5730350\\
+C & 4 & -0.5859337\\
 \hline
-A & 5 & 3.9188835\\
+A & 5 & 3.3152241\\
 \hline
-B & 5 & 2.1143330\\
+B & 5 & 1.3036167\\
 \hline
-C & 5 & 0.2390645\\
+C & 5 & -1.1937339\\
 \hline
-A & 6 & 5.3821136\\
+A & 6 & 4.0285326\\
 \hline
-B & 6 & 3.5702347\\
+B & 6 & 1.9583046\\
 \hline
-C & 6 & 0.8065702\\
+C & 6 & 1.6138262\\
 \hline
-A & 7 & 6.7759950\\
+A & 7 & 5.6873031\\
 \hline
-B & 7 & 3.8572644\\
+B & 7 & 3.9180161\\
 \hline
-C & 7 & 1.9411958\\
+C & 7 & 1.7179328\\
 \hline
-A & 8 & 6.5995689\\
+A & 8 & 7.8034018\\
 \hline
-B & 8 & 5.5570457\\
+B & 8 & 5.2333667\\
 \hline
-C & 8 & 2.2362334\\
+C & 8 & 3.3304365\\
 \hline
 \end{tabular}
 
@@ -2069,7 +2124,7 @@ We plot this data by 1) \emph{defining aesthetics} (mapping \texttt{Intensity} o
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-95-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-102-1.pdf}
 
 As I already wrote, technically, we only thing you need to define is aesthetics, so let us not add anything to the plot (drop the \texttt{+geom\_line()}).
 
@@ -2079,7 +2134,7 @@ As I already wrote, technically, we only thing you need to define is aesthetics,
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-96-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-103-1} \end{center}
 
 Told you it will look empty and yet you can see \emph{ggplot2} in action. Notice that axes are labeled and their limits are set. You cannot see the legend (they are not plotted without corresponding geometry) but it is also ready. This is because our initial call specified the most important part: how the individual variables map on various properties even before we told \emph{ggplot2} which visuals we will use to plot the data. When we specified that x-axis will represent the \texttt{Intensity}, ggplot2 figured out the range of values, so it knows \emph{where} it is going to plot whatever we decide to plot. Points, lines, bar, error bars and what not will span only that range. Same goes for other properties such as color. We wanted \emph{color} to represent the condition. Again, we may not know what exactly we will be plotting (points, lines?) or even how many different visuals we will be adding to the plot (just lines? points + lines? points + lines + linear fit?) but we do know that whatever visual we add, if it can have color, its color \emph{must} represent condition for that data point. The beauty of \emph{ggplot2} is that it analyses your data and figures out how many colors you need and is ready to apply them \emph{consistently} to all visuals you will later add. It will ensure that all points, bars, lines, etc. will have consistent coordinates scaling, color-, size-, fill-mapping that are the same across the entire plot. This may sound trivial but typically (e.g., Matlab, Matplotlib), it is \emph{your} job to make sure that all these properties match and that they represent the same value across all visual elements. And this is a pretty tedious job, particularly when you decide to change your mappings and have to redo all individual components by hand. In \emph{ggplot2}, this dissociation between mapping and visuals means you can tinker with one of them at a time. E.g. keep the visuals but change grouping or see if effect of condition is easier to see via line type, size or shape of the point? Or you can keep the mapping and see whether adding another visual will make the plot easier to understand. Note that some mapping also \emph{groups} your data, so when you use group-based visual information (e.g.~a linear regression line) it will know what data belongs together and so will perform this computation per group.
 
@@ -2093,7 +2148,7 @@ Let us see how you can keep the relationship mapping but add more visuals. Let u
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-97-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-104-1} \end{center}
 
 In the plot above, we \emph{kept} the relationship between variables and properties but said ``Oh, and throw in some points please''. And ggplot2 knows how to add the points so that they appear at proper location and in proper color. But we want more!
 
@@ -2107,7 +2162,7 @@ In the plot above, we \emph{kept} the relationship between variables and propert
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-98-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-105-1} \end{center}
 
 Now we added a linear regression line that helps us to better see the relationship between \texttt{Intensity} and \texttt{Response}. Again, we simply wished for another visual to be added (\texttt{method="lm"} means that we wanted to average data via linear regression with \texttt{formula\ =\ y\ \textasciitilde{}\ x} meaning that we regress y-axis on x-axis with no further covariates, \texttt{se=FALSE} means no standard error stripe, \texttt{linetype="dashed"} just makes it easier to distinguish from the solid data line).
 
@@ -2122,7 +2177,7 @@ Or, we can keep the \emph{visuals} but see whether changing \emph{mapping} would
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-99-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-106-1} \end{center}
 
 Or, we can check whether splitting into several plots helps.
 
@@ -2136,7 +2191,7 @@ Or, we can check whether splitting into several plots helps.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-100-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-107-1} \end{center}
 
 Again, note that all three plots live on the same scale for x- and y-axis, making them easy to compare (you fully appreciate this magic if you ever struggled with ensuring optimal and consistent scaling by hand in Matlab). I went through so many examples to stress how ggplot allows you to think about the aesthetics of variable mapping \emph{independently} of the actual visual representation (and vice versa). So now lets us explore \emph{ggplot2} by doing exercises.
 
@@ -2277,17 +2332,17 @@ One package that is \emph{not} in the gallery is \href{https://patchwork.data-im
 
 There are many different plotting routines and packages for R but I would recommend to use \emph{ggplot2} as your main tool. However, that does not mean that it must be your only tool, after all, CRAN is brimming with packages. In particular, \emph{ggplot2} is built for plotting data from a single tidy table, meaning it is less optimal for plotting data in other cases. E.g., you can use it to combine information from several tables in one plot but things become less automatic and consistent. Similarly, you can plot data which is stored in non-tidy tables or even in individual vectors but that makes it less intuitive and more convoluted. No package can do everything and \emph{ggplot2} is no exception.
 
-\hypertarget{seminar05}{%
-\chapter{Functions and pipes}\label{seminar05}}
+\hypertarget{functions}{%
+\chapter{Functions and pipes}\label{functions}}
 
 In this seminar, you will learn about \emph{functions} in R, as they are the second most important concept in R and are everywhere (just like vectors). You will also learn how to \emph{pipe} your computation through series of functions without creating a mess of temporary variables or nested calls. Don't forget to download the \href{notebooks/Seminar\%2005\%20-\%20functions.Rmd}{notebook}.
 
-\hypertarget{functions}{%
-\section{Functions}\label{functions}}
+\hypertarget{functions-1}{%
+\section{Functions}\label{functions-1}}
 
 In the previous seminars, you have learned that you can store information in variables --- ``boxes with slots'' --- as \protect\hyperlink{vectors}{vectors} or as \protect\hyperlink{ux5cux23tables}{tables} (bundles of vectors of equal length). To use these stored values for computation you need functions. In programming, function is an \emph{isolated} code with a name that receives some input, performs some action on them, and, optionally, returns a value\footnote{Function that does not return a value, probably, generates its output to a console, external file, etc. There is little point in running a function that does not affect the world.}. The concepts of functions comes from mathematics, so it might be easier to understand them using R implementation of mathematical functions. For example, you may remember sinus function from trigonometry. It is typically abbreviated as \texttt{sin}, it takes a numeric value of angle (in radians) as its \emph{input} and returns a corresponding value between -1 and 1: \(sin(0) = 0\), \(sin(\pi/2) = 1\), etc. (this is its \emph{output}).
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-102-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-109-1} \end{center}
 
 In R, you write a function using the following template\footnote{Did you spot the assignment \texttt{\textless{}-} operator? Yes, you are storing a function code in a variable. So when you call this function by name, you are asking to run the code stored inside that variable.}
 
@@ -3539,7 +3594,7 @@ In the first exercise, I want you to implement the actual analysis performed in 
 
 Your final plot should look something like this
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-140-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-147-1} \end{center}
 
 Do exercise 1.
 
@@ -3670,7 +3725,7 @@ However, be careful when level labels are numbers. In the example below, you mig
 
 For the next exercise, copy-paste the code from exercise \#1 and alter it so the labels are \texttt{"sphere"} (for \texttt{"heavy\ poles\ sphere"}), \texttt{"quad\ band"} (for \texttt{"stripes-8"}), \texttt{"dual\ band"} (\texttt{"stripes-4"}), \texttt{"single\ band"} (for \texttt{"stripes-2"}) and levels are in that order. Your plot should look something like this.
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-147-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-154-1} \end{center}
 
 Do exercise 2.
 
@@ -3819,13 +3874,13 @@ Do exercise 4.
 
 Then, plot the results. Use \href{https://ggplot2.tidyverse.org/reference/geom_point.html}{geom\_point()} plus \href{https://ggplot2.tidyverse.org/reference/geom_path.html}{geom\_line()} to plot the mean response The plot should like like this (hint, drop color mapping and map \texttt{Prime} to \texttt{group} property).
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-155-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-162-1} \end{center}
 
 Do exercise 5.
 
 Tweak code from exercise 4 to plot all lines on the same plot and use color property to distinguish between different primes.
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-156-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-163-1} \end{center}
 
 Do exercise 6.
 
@@ -3836,7 +3891,7 @@ From the plots above, you get a sense that identities of the probe and prime (ob
 
 To compute confidence interval, you need to compute its lower and upper limits separately via \href{https://en.wikipedia.org/wiki/Quantile}{quantiles}. A quantile for 0.1 (10\%) tells you a value, so that 10\% of all values in the vector are below it, the quantile of 0.9 (90\%) means that only 10\% of values are above it (or 90\% are below). So, an 80\% confidence intervals includes values that are between 10\% and 90\% or, alternatively, between 0.1 and 0.9 quantiles.
 
-\begin{center}\includegraphics[width=1\linewidth]{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-157-1} \end{center}
+\begin{center}\includegraphics[width=1\linewidth]{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-164-1} \end{center}
 
 To compute this, R has function \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html}{quantile()}.
 
@@ -3854,7 +3909,7 @@ To compute this, R has function \href{https://stat.ethz.ch/R-manual/R-devel/libr
 
 Modify code from from exercise \#5 to compute two additional variables/columns for lower and upper limits of the 89\% confidence interval (think about what these limits are for 89\% CI). Then, use \href{https://ggplot2.tidyverse.org/reference/geom_linerange.html}{geom\_errorbar()} to plot 89\% CI (you will need to map the two variable you computed to \texttt{ymin} and \texttt{ymax} properties). The plot should like like this (hint, drop color mapping and map \texttt{Prime} to \texttt{group} property).
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-159-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-166-1} \end{center}
 
 Do exercise 7.
 
@@ -3863,7 +3918,7 @@ Do exercise 7.
 
 A different study, which used same four objects, showed that a similar looking history effect but for longer interruptions (1000 ms rather than 50 ms) was modulated by objects similarity. Let us check that hypothesis by computing a rough difference measure. It will assume that their difference is proportional to the absolute ``distance'' between them on x-axis in the above plot\footnote{This measure assumes metric distance, which is a very strong assumption.}. E.g., distance between a sphere and a sphere is 0, but between sphere and quad-band or single-band and dual-band is 1. Difference between sphere and dual-band is 2, etc. You can compute it by converting \emph{factor} variables \texttt{Prime} and \texttt{Probe} to integers (this assumes that levels are in the correct order). Then, you can compute the \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/MathFun.html}{absolute difference} between those indexes and store it as a new column (e.g.~\texttt{Difference}). Next, group by \texttt{Difference} and \texttt{Participant} to compute average probability of the same response. Your plot should look like this (you will need to map \texttt{Difference} on \texttt{group} to get four box plots rather than one).
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-160-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-167-1} \end{center}
 
 Do exercise 8.
 
@@ -3910,21 +3965,21 @@ D & 22\\
 \hline
 ID & Report\\
 \hline
-A & 6.079791\\
+A & 2.266223\\
 \hline
-A & 5.093678\\
+A & 5.768541\\
 \hline
-B & 5.852780\\
+B & 4.047693\\
 \hline
-B & 3.400855\\
+B & 1.133938\\
 \hline
-C & 3.259891\\
+C & 5.319463\\
 \hline
-C & 4.422033\\
+C & 5.793315\\
 \hline
-E & 3.134663\\
+E & 1.486385\\
 \hline
-E & 6.040232\\
+E & 3.153688\\
 \hline
 \end{tabular}
 
@@ -3941,17 +3996,17 @@ Here, \texttt{ID} column will serve as a key to indicate which rows from two col
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 6.079791\\
+A & 20 & 2.266223\\
 \hline
-A & 20 & 5.093678\\
+A & 20 & 5.768541\\
 \hline
-B & 19 & 5.852780\\
+B & 19 & 4.047693\\
 \hline
-B & 19 & 3.400855\\
+B & 19 & 1.133938\\
 \hline
-C & 30 & 3.259891\\
+C & 30 & 5.319463\\
 \hline
-C & 30 & 4.422033\\
+C & 30 & 5.793315\\
 \hline
 \end{tabular}
 
@@ -3968,23 +4023,23 @@ Conversely, \texttt{full\_join()} will include all rows from both tables but wil
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 6.079791\\
+A & 20 & 2.266223\\
 \hline
-A & 20 & 5.093678\\
+A & 20 & 5.768541\\
 \hline
-B & 19 & 5.852780\\
+B & 19 & 4.047693\\
 \hline
-B & 19 & 3.400855\\
+B & 19 & 1.133938\\
 \hline
-C & 30 & 3.259891\\
+C & 30 & 5.319463\\
 \hline
-C & 30 & 4.422033\\
+C & 30 & 5.793315\\
 \hline
 D & 22 & NA\\
 \hline
-E & NA & 3.134663\\
+E & NA & 1.486385\\
 \hline
-E & NA & 6.040232\\
+E & NA & 3.153688\\
 \hline
 \end{tabular}
 
@@ -4001,17 +4056,17 @@ The \texttt{left\_join()} and \texttt{right\_join()} include all the row from, r
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 6.079791\\
+A & 20 & 2.266223\\
 \hline
-A & 20 & 5.093678\\
+A & 20 & 5.768541\\
 \hline
-B & 19 & 5.852780\\
+B & 19 & 4.047693\\
 \hline
-B & 19 & 3.400855\\
+B & 19 & 1.133938\\
 \hline
-C & 30 & 3.259891\\
+C & 30 & 5.319463\\
 \hline
-C & 30 & 4.422033\\
+C & 30 & 5.793315\\
 \hline
 D & 22 & NA\\
 \hline
@@ -4028,21 +4083,21 @@ D & 22 & NA\\
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 6.079791\\
+A & 20 & 2.266223\\
 \hline
-A & 20 & 5.093678\\
+A & 20 & 5.768541\\
 \hline
-B & 19 & 5.852780\\
+B & 19 & 4.047693\\
 \hline
-B & 19 & 3.400855\\
+B & 19 & 1.133938\\
 \hline
-C & 30 & 3.259891\\
+C & 30 & 5.319463\\
 \hline
-C & 30 & 4.422033\\
+C & 30 & 5.793315\\
 \hline
-E & NA & 3.134663\\
+E & NA & 1.486385\\
 \hline
-E & NA & 6.040232\\
+E & NA & 3.153688\\
 \hline
 \end{tabular}
 
@@ -4085,13 +4140,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 6.296194\\
+A & M & 1.567716\\
 \hline
-B & F & 3.102758\\
+B & F & 6.367180\\
 \hline
-A & F & 4.155462\\
+A & F & 2.340876\\
 \hline
-B & M & 1.645469\\
+B & M & 2.270160\\
 \hline
 \end{tabular}
 
@@ -4106,13 +4161,13 @@ B & M & 1.645469\\
 \hline
 ID & Gender & Age & Report\\
 \hline
-A & M & 20 & 6.296194\\
+A & M & 20 & 1.567716\\
 \hline
-B & F & 19 & 3.102758\\
+B & F & 19 & 6.367180\\
 \hline
-A & F & 30 & 4.155462\\
+A & F & 30 & 2.340876\\
 \hline
-B & M & 22 & 1.645469\\
+B & M & 22 & 2.270160\\
 \hline
 \end{tabular}
 
@@ -4155,13 +4210,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 3.540869\\
+A & M & 6.239841\\
 \hline
-B & F & 2.718440\\
+B & F & 3.725034\\
 \hline
-A & F & 5.340060\\
+A & F & 4.256216\\
 \hline
-B & M & 3.912686\\
+B & M & 2.064287\\
 \hline
 \end{tabular}
 
@@ -4176,13 +4231,13 @@ B & M & 3.912686\\
 \hline
 VPCode & Sex & Age & Report\\
 \hline
-A & M & 20 & 3.540869\\
+A & M & 20 & 6.239841\\
 \hline
-B & F & 19 & 2.718440\\
+B & F & 19 & 3.725034\\
 \hline
-A & F & 30 & 5.340060\\
+A & F & 30 & 4.256216\\
 \hline
-B & M & 22 & 3.912686\\
+B & M & 22 & 2.064287\\
 \hline
 \end{tabular}
 
@@ -4240,7 +4295,7 @@ Here is the outline of the analysis:
   Plot average proportion of same responses for adaptation versus persistence. Use points for individual values and add linear regression line via \texttt{geom\_smooth()}. The final plot should look approximately like this:
 \end{itemize}
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-168-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-175-1} \end{center}
 
 Do exercise 1.
 
@@ -4277,7 +4332,7 @@ But, you can put \emph{any} code inside, although, the more code you put, the ha
 \end{verbatim}
 
 So, compute the correlation, glue it into the text and put it as a title of the plot.
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-171-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-178-1.pdf}
 
 Do exercise 2.
 
@@ -4491,13 +4546,13 @@ Now let us take a look at the importance of \texttt{id\_cols}. Imagine that we h
 \hline
 Participant & Face & Property & Response & RT\\
 \hline
-1 & M-1 & Symmetry & 6 & 1.31\\
+1 & M-1 & Symmetry & 6 & 1.38\\
 \hline
-1 & M-1 & Attractiveness & 4 & 1.00\\
+1 & M-1 & Attractiveness & 4 & 2.79\\
 \hline
-1 & M-1 & Trustworthiness & 3 & 2.13\\
+1 & M-1 & Trustworthiness & 3 & 2.02\\
 \hline
-1 & M-2 & Symmetry & 4 & 1.19\\
+1 & M-2 & Symmetry & 4 & 1.78\\
 \hline
 \end{tabular}
 
@@ -4523,13 +4578,13 @@ Now, if we do not specify which columns identify rows that belong together, \tex
 \hline
 Participant & Face & RT & Symmetry & Attractiveness & Trustworthiness\\
 \hline
-1 & M-1 & 1.31 & 6 & NA & NA\\
+1 & M-1 & 1.38 & 6 & NA & NA\\
 \hline
-1 & M-1 & 1.00 & NA & 4 & NA\\
+1 & M-1 & 2.79 & NA & 4 & NA\\
 \hline
-1 & M-1 & 2.13 & NA & NA & 3\\
+1 & M-1 & 2.02 & NA & NA & 3\\
 \hline
-1 & M-2 & 1.19 & 4 & NA & NA\\
+1 & M-2 & 1.78 & 4 & NA & NA\\
 \hline
 \end{tabular}
 
@@ -4619,13 +4674,13 @@ Game & GP02\_03 & 3.5 & 3.7065\\
 
 Now you have a table that has median and MAD values for each combination and item. Plot them to compare them visually. Use median responses for y-value of points and median±MAD for error bars. Use facets and color to make it easier to identify the items and conditions. My take on the plot is below, do you think we should expect to find difference between the conditions?
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-185-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-192-1} \end{center}
 
 Do exercise 1.
 
 Perform similar analysis but do not group data and summarize the data. Instead, use box plots to show the variability. Which visualization do you prefer?
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-186-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-193-1} \end{center}
 
 Do exercise 2.
 
@@ -5428,8 +5483,8 @@ Do exercise 4.
 As I have noted above, loops are particularly useful when you current value depends on a previous one (or many previous values). In the next exercise, use \texttt{for} loop to create a random walk (length 10) starting at value zero with each next step drawn randomly from a normal distribution with mean of 0.5 and standard deviation of 2 (the function you are looking for is \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html}{rnorm()}). You end-produce might look like this
 
 \begin{verbatim}
-##  [1]  0.0000000 -0.2489183  1.2598888  3.0580159 -0.5200782  0.4978765
-##  [7]  2.3733759  4.7874624  6.2336181  4.9094231
+##  [1] 0.0000000 1.0103877 1.8019503 1.9242986 0.5100652 0.8259315 1.5070932
+##  [8] 3.4989002 3.6688310 7.6736775
 \end{verbatim}
 
 Do exercise 5.
@@ -5505,10 +5560,10 @@ Let us create a simple 3 by 4 matrix of normally distributed random numbers.
 \end{Shaded}
 
 \begin{verbatim}
-##           [,1]       [,2]       [,3]       [,4]
-## [1,] 0.1928778  0.8531005 -0.4561584 -0.3985552
-## [2,] 0.3572293  0.4078962 -1.9254403  0.2442437
-## [3,] 1.0628041 -0.4929764 -0.2296072  1.5260806
+##            [,1]      [,2]       [,3]       [,4]
+## [1,] -0.1616151 0.6472237 -1.9554472 -0.4475097
+## [2,] -1.0212554 0.2278669  0.3488261 -0.5941937
+## [3,]  1.5153382 0.9539354 -0.6714718  1.1762636
 \end{verbatim}
 
 We would expect median value of any row or column to be 0 but because we have so few data points, they will be close but not exactly zero. Computing median for each row (we should get \emph{three} numbers)
@@ -5520,7 +5575,7 @@ We would expect median value of any row or column to be 0 but because we have so
 \end{Shaded}
 
 \begin{verbatim}
-## [1] -0.1028387  0.3007365  0.4165985
+## [1] -0.3045624 -0.1831634  1.0650995
 \end{verbatim}
 
 Similarly for a column (here, it should be \emph{four} numbers)
@@ -5532,7 +5587,7 @@ Similarly for a column (here, it should be \emph{four} numbers)
 \end{Shaded}
 
 \begin{verbatim}
-## [1]  0.3572293  0.4078962 -0.4561584  0.2442437
+## [1] -0.1616151  0.6472237 -0.6714718 -0.4475097
 \end{verbatim}
 
 I will not go into any further details on these functions, concentrating on similar functionality by \protect\hyperlink{purrr}{purrr} package. However, if you find yourself working with matrices or needing to apply a function to rows of a data frame, \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/apply.html}{apply} might be a simpler solution. Keep this option in mind, if you feel that either looping or purrring looks inadequate.
@@ -5638,7 +5693,7 @@ To compute correlation, use function \href{https://stat.ethz.ch/R-manual/R-devel
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.9158839
+## [1] 0.8896953
 \end{verbatim}
 
 Alternatively, you can use \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.test.html}{cor.test()} that also computes test statistics and significance.
@@ -5655,13 +5710,13 @@ Alternatively, you can use \href{https://stat.ethz.ch/R-manual/R-devel/library/s
 ##  Pearson's product-moment correlation
 ## 
 ## data:  df$x and df$y
-## t = 22.585, df = 98, p-value < 2.2e-16
+## t = 19.291, df = 98, p-value < 2.2e-16
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
-##  0.8772863 0.9427118
+##  0.8400837 0.9245467
 ## sample estimates:
 ##       cor 
-## 0.9158839
+## 0.8896953
 \end{verbatim}
 
 \texttt{cor.test} returns a list, so you can access its individual elements\footnote{Use (names()){[}\url{https://stat.ethz.ch/R-manual/R-devel/library/base/html/names.html}{]} function to get names of all elements.} via a double-bracket or \texttt{\$} notation.
@@ -5673,7 +5728,7 @@ Alternatively, you can use \href{https://stat.ethz.ch/R-manual/R-devel/library/s
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 1.252308e-40
+## [1] 3.847274e-35
 \end{verbatim}
 
 Bayesian correlation with a posterior distribution for the correlation coefficient and Bayes Factor as a measure of significance, can be computed via \texttt{correlationBF()} function, which is part of \href{https://richarddmorey.github.io/BayesFactor}{BayesFactor} package.
@@ -5688,7 +5743,7 @@ Bayesian correlation with a posterior distribution for the correlation coefficie
 \begin{verbatim}
 ## Bayes factor analysis
 ## --------------
-## [1] Alt., r=0.333 : 8.278907e+35 ±0%
+## [1] Alt., r=0.333 : 5.92424e+30 ±0%
 ## 
 ## Against denominator:
 ##   Null, rho = 0 
@@ -5705,7 +5760,7 @@ Bayesian correlation with a posterior distribution for the correlation coefficie
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-237-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-244-1.pdf}
 
 \hypertarget{pairwise-comparisons}{%
 \section{Pairwise comparisons}\label{pairwise-comparisons}}
@@ -5721,7 +5776,7 @@ For pairwise comparisons for normally distributed data, you can use Student's t-
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-239-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-246-1.pdf}
 
 You can perform \emph{t-test} assuming that samples in two variables are independent
 
@@ -5859,7 +5914,7 @@ First, let us simulate data for ten participants and their responses, assuming t
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-247-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-254-1.pdf}
 The base R ANOVA function is called \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/aov.html}{aov()}, however, it does not support repeated measures. Instead, you can use function \texttt{anova\_test} from package \href{https://github.com/kassambara/rstatix}{rstatix}
 
 For the \emph{repeated-measures} ANOVA, we need to specify column with identity of participants via parameter \texttt{wid}
@@ -5944,7 +5999,7 @@ where \(\epsilon\) is normally distributed noise.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-252-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-259-1.pdf}
 
 Now let us fit the linear model using formula \texttt{y\ \textasciitilde{}\ x} and use \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/summary.lm.html}{summary()} function to see the details.
 
@@ -6288,10 +6343,10 @@ AAF1997w & experiment & -100 & 4 & 45 & 48 & 0.9375000\\
 \end{tabular}
 
 Let us visualize the performance. Generate a similar looking plot
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-265-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-272-1.pdf}
 
 And an alternative visualization.
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-266-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-273-1.pdf}
 
 The first one, shows an effect of experience (note how performance gets higher for the later blocks), for second one makes it easier to compare between conditions. Here, \texttt{experiment} tends to produce higher accuracy. However, this is just eye-balling the data, we need some actual numbers. For this, we will use Generalized Linear Mixed Model. It is \emph{generalized} because out data is binomial (participants were successful in \texttt{Ncorrect} trials out of \texttt{Ntotal}). It is \emph{linear} because we assume a simple linear sum of individual effects. It is \emph{mixed}, because we will add \texttt{Observer} as a random factor\footnote{The magic machinery underneath will mix ordinary least squares (OLS) estimates for fixed effects with Best Linear Unbiased Predictions (BLUP) for random effects.}. We will also use \texttt{COA} as a factor variable to have a more direct comparison between individual \texttt{COA} levels. Read \href{https://www.rdocumentation.org/packages/lme4/versions/1.1-26/topics/glmer}{documentation} to figure out how you specify the formula and binomial family. You will need to use library \href{https://github.com/lme4/lme4}{lmer4} and I strongly suggest using \texttt{lmer4::glmer()} notation as we will later use \href{}{lmerTest} package, which redefines some functions and it can be hard to figure out function from which package was actually called.
 
@@ -6372,9 +6427,9 @@ AAF1997w & experiment & -100 & 4 & 0.7180001\\
 \hline
 \end{tabular}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-270-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-277-1.pdf}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-271-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-278-1.pdf}
 
 \begin{verbatim}
 ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
@@ -6610,9 +6665,9 @@ AAF1997w & experiment & 100 & 2 & 3281\\
 \hline
 \end{tabular}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-285-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-292-1.pdf}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-286-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-293-1.pdf}
 
 \begin{verbatim}
 ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
@@ -6840,11 +6895,11 @@ HabitNr & Condition & IncongruentFirst & Congruency & RT\\
 
 Let us see how condition and incongruency-order presentation affects our response times.
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-295-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-302-1.pdf}
 
 Participants responses were clearly faster on trials when color and word were incongruent. But to better see the effect of condition, let us replot the data.
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-296-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-303-1.pdf}
 
 Now, we can that some conditions do appear to be different as well. Let us confirm this via statistics. We will use linear mixed models (thus, package \emph{lmerTest}) with \texttt{Condition}, \texttt{IncongruentFirst}, and \texttt{Congruency} as fixed effect and \texttt{HabitNr} (participant ID) as a random factor. We will not look at any interactions although they are most likely of interest for the follow up analysis.
 
@@ -6939,9 +6994,9 @@ HabitNr & Condition & IncongruentFirst & Congruency & Errors\\
 
 Again, let us plot data both ways
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-300-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-307-1.pdf}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-301-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-308-1.pdf}
 
 Plots are very similar to those for response times. So let us perform the statistical analysis. This is a binomial data, so many errors per 120 trials, so use \texttt{glmer()} function (generalized linear mixed model) from \texttt{lme4} package with binomial family.
 
@@ -7093,11 +7148,11 @@ Once you merged two tables by rows (see \href{https://dplyr.tidyverse.org/refere
 
 , let us take a look at the results.
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-308-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-315-1.pdf}
 
 There seems to be clear outliers, so let us drop all values above 1000 (filter inside the ggplot call) and plot again
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-309-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-316-1.pdf}
 
 Well, certainly hard to tell, so no clear and consistent effect. Still, let us do stats via linear mixed models.
 

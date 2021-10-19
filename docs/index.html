@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Data analysis using R for Psychology</title>
+  <title>Data analysis using R for Psychology and Social Science</title>
   <meta name="description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
   <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Data analysis using R for Psychology" />
+  <meta property="og:title" content="Data analysis using R for Psychology and Social Science" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Data analysis using R for Psychology" />
+  <meta name="twitter:title" content="Data analysis using R for Psychology and Social Science" />
   
   <meta name="twitter:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
   
@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2021-10-18" />
+<meta name="date" content="2021-10-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -139,11 +139,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a>
 <ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-seminar"><i class="fa fa-check"></i>About the seminar</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#content-of-the-seminar"><i class="fa fa-check"></i>Content of the seminar</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#note-on-exercises"><i class="fa fa-check"></i>Note on exercises</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-r"><i class="fa fa-check"></i>Why R?</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#tidyverse-versus-base-r"><i class="fa fa-check"></i>Tidyverse versus base R</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-tidyverse"><i class="fa fa-check"></i>Why Tidyverse</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-seminar"><i class="fa fa-check"></i>About the seminar</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#thinking-like-a-computer"><i class="fa fa-check"></i>Thinking like a computer</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-material"><i class="fa fa-check"></i>About the material</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="software.html"><a href="software.html"><i class="fa fa-check"></i>Software</a>
 <ul>
@@ -186,102 +186,104 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3.5" data-path="tables.html"><a href="tables.html#dollar-subsetting"><i class="fa fa-check"></i><b>3.5</b> Yet another subsetting via $</a></li>
 <li class="chapter" data-level="3.6" data-path="tables.html"><a href="tables.html#data.frame"><i class="fa fa-check"></i><b>3.6</b> Tables, a.k.a. data frames</a></li>
-<li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#table-subsetting"><i class="fa fa-check"></i><b>3.7</b> Subsetting table</a></li>
+<li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#table-subsetting"><i class="fa fa-check"></i><b>3.7</b> Subsetting tables</a></li>
 <li class="chapter" data-level="3.8" data-path="tables.html"><a href="tables.html#library"><i class="fa fa-check"></i><b>3.8</b> Using libraries</a></li>
 <li class="chapter" data-level="3.9" data-path="tables.html"><a href="tables.html#tibble"><i class="fa fa-check"></i><b>3.9</b> Tibble, a better data.frame</a></li>
 <li class="chapter" data-level="3.10" data-path="tables.html"><a href="tables.html#tribble"><i class="fa fa-check"></i><b>3.10</b> Tribble, table from text</a></li>
 <li class="chapter" data-level="3.11" data-path="tables.html"><a href="tables.html#data"><i class="fa fa-check"></i><b>3.11</b> Reading example tables</a></li>
-<li class="chapter" data-level="3.12" data-path="tables.html"><a href="tables.html#readr"><i class="fa fa-check"></i><b>3.12</b> Reading csv files</a></li>
-<li class="chapter" data-level="3.13" data-path="tables.html"><a href="tables.html#readxl"><i class="fa fa-check"></i><b>3.13</b> Reading Excel files</a></li>
-<li class="chapter" data-level="3.14" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.14</b> Reading files from other programs</a></li>
-<li class="chapter" data-level="3.15" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.15</b> Wrap up</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>4</b> Grammar of Graphics</a>
+<li class="chapter" data-level="4" data-path="readr.html"><a href="readr.html"><i class="fa fa-check"></i><b>4</b> Reading csv files</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="ggplot2.html"><a href="ggplot2.html#tidydata"><i class="fa fa-check"></i><b>4.1</b> Tidy data</a></li>
-<li class="chapter" data-level="4.2" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-1"><i class="fa fa-check"></i><b>4.2</b> ggplot2</a></li>
-<li class="chapter" data-level="4.3" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-continuous-x-axis"><i class="fa fa-check"></i><b>4.3</b> Auto efficiency: continuous x-axis</a></li>
-<li class="chapter" data-level="4.4" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-discrete-x-axis"><i class="fa fa-check"></i><b>4.4</b> Auto efficiency: discrete x-axis</a></li>
-<li class="chapter" data-level="4.5" data-path="ggplot2.html"><a href="ggplot2.html#mammals-sleep-single-variable"><i class="fa fa-check"></i><b>4.5</b> Mammals sleep: single variable</a></li>
-<li class="chapter" data-level="4.6" data-path="ggplot2.html"><a href="ggplot2.html#mapping-for-all-visuals-versus-just-one-visual"><i class="fa fa-check"></i><b>4.6</b> Mapping for all visuals versus just one visual</a></li>
-<li class="chapter" data-level="4.7" data-path="ggplot2.html"><a href="ggplot2.html#mapping-on-variables-versus-constants"><i class="fa fa-check"></i><b>4.7</b> Mapping on variables versus constants</a></li>
-<li class="chapter" data-level="4.8" data-path="ggplot2.html"><a href="ggplot2.html#themes"><i class="fa fa-check"></i><b>4.8</b> Themes</a></li>
-<li class="chapter" data-level="4.9" data-path="ggplot2.html"><a href="ggplot2.html#you-aint-seen-nothing-yet"><i class="fa fa-check"></i><b>4.9</b> You ain’t seen nothing yet</a></li>
-<li class="chapter" data-level="4.10" data-path="ggplot2.html"><a href="ggplot2.html#further-reading"><i class="fa fa-check"></i><b>4.10</b> Further reading</a></li>
-<li class="chapter" data-level="4.11" data-path="ggplot2.html"><a href="ggplot2.html#extending-ggplot2"><i class="fa fa-check"></i><b>4.11</b> Extending ggplot2</a></li>
-<li class="chapter" data-level="4.12" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-cannot-do-everything"><i class="fa fa-check"></i><b>4.12</b> ggplot2 cannot do everything</a></li>
+<li class="chapter" data-level="4.1" data-path="readr.html"><a href="readr.html#readxl"><i class="fa fa-check"></i><b>4.1</b> Reading Excel files</a></li>
+<li class="chapter" data-level="4.2" data-path="readr.html"><a href="readr.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>4.2</b> Reading files from other programs</a></li>
+<li class="chapter" data-level="4.3" data-path="readr.html"><a href="readr.html#wrap-up-1"><i class="fa fa-check"></i><b>4.3</b> Wrap up</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="seminar05.html"><a href="seminar05.html"><i class="fa fa-check"></i><b>5</b> Functions and pipes</a>
+<li class="chapter" data-level="5" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>5</b> Grammar of Graphics</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="seminar05.html"><a href="seminar05.html#functions"><i class="fa fa-check"></i><b>5.1</b> Functions</a></li>
-<li class="chapter" data-level="5.2" data-path="seminar05.html"><a href="seminar05.html#writing-a-function"><i class="fa fa-check"></i><b>5.2</b> Writing a function</a></li>
-<li class="chapter" data-level="5.3" data-path="seminar05.html"><a href="seminar05.html#scopes-global-versus-local-variables"><i class="fa fa-check"></i><b>5.3</b> Scopes: Global versus Local variables</a></li>
-<li class="chapter" data-level="5.4" data-path="seminar05.html"><a href="seminar05.html#function-with-two-parameters"><i class="fa fa-check"></i><b>5.4</b> Function with two parameters</a></li>
-<li class="chapter" data-level="5.5" data-path="seminar05.html"><a href="seminar05.html#table-as-a-parameter"><i class="fa fa-check"></i><b>5.5</b> Table as a parameter</a></li>
-<li class="chapter" data-level="5.6" data-path="seminar05.html"><a href="seminar05.html#nested-calls"><i class="fa fa-check"></i><b>5.6</b> Nested calls</a></li>
-<li class="chapter" data-level="5.7" data-path="seminar05.html"><a href="seminar05.html#piping"><i class="fa fa-check"></i><b>5.7</b> Piping</a></li>
-<li class="chapter" data-level="5.8" data-path="seminar05.html"><a href="seminar05.html#everything-is-a-function"><i class="fa fa-check"></i><b>5.8</b> Everything is a function</a></li>
-<li class="chapter" data-level="5.9" data-path="seminar05.html"><a href="seminar05.html#using-or-not-using-explicit-return-statement"><i class="fa fa-check"></i><b>5.9</b> Using (or not using) explicit return statement</a></li>
+<li class="chapter" data-level="5.1" data-path="ggplot2.html"><a href="ggplot2.html#tidydata"><i class="fa fa-check"></i><b>5.1</b> Tidy data</a></li>
+<li class="chapter" data-level="5.2" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-1"><i class="fa fa-check"></i><b>5.2</b> ggplot2</a></li>
+<li class="chapter" data-level="5.3" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-continuous-x-axis"><i class="fa fa-check"></i><b>5.3</b> Auto efficiency: continuous x-axis</a></li>
+<li class="chapter" data-level="5.4" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-discrete-x-axis"><i class="fa fa-check"></i><b>5.4</b> Auto efficiency: discrete x-axis</a></li>
+<li class="chapter" data-level="5.5" data-path="ggplot2.html"><a href="ggplot2.html#mammals-sleep-single-variable"><i class="fa fa-check"></i><b>5.5</b> Mammals sleep: single variable</a></li>
+<li class="chapter" data-level="5.6" data-path="ggplot2.html"><a href="ggplot2.html#mapping-for-all-visuals-versus-just-one-visual"><i class="fa fa-check"></i><b>5.6</b> Mapping for all visuals versus just one visual</a></li>
+<li class="chapter" data-level="5.7" data-path="ggplot2.html"><a href="ggplot2.html#mapping-on-variables-versus-constants"><i class="fa fa-check"></i><b>5.7</b> Mapping on variables versus constants</a></li>
+<li class="chapter" data-level="5.8" data-path="ggplot2.html"><a href="ggplot2.html#themes"><i class="fa fa-check"></i><b>5.8</b> Themes</a></li>
+<li class="chapter" data-level="5.9" data-path="ggplot2.html"><a href="ggplot2.html#you-aint-seen-nothing-yet"><i class="fa fa-check"></i><b>5.9</b> You ain’t seen nothing yet</a></li>
+<li class="chapter" data-level="5.10" data-path="ggplot2.html"><a href="ggplot2.html#further-reading"><i class="fa fa-check"></i><b>5.10</b> Further reading</a></li>
+<li class="chapter" data-level="5.11" data-path="ggplot2.html"><a href="ggplot2.html#extending-ggplot2"><i class="fa fa-check"></i><b>5.11</b> Extending ggplot2</a></li>
+<li class="chapter" data-level="5.12" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-cannot-do-everything"><i class="fa fa-check"></i><b>5.12</b> ggplot2 cannot do everything</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>6</b> Tidyverse: dplyr</a>
+<li class="chapter" data-level="6" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>6</b> Functions and pipes</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="dplyr.html"><a href="dplyr.html#tidyverse-philosophy"><i class="fa fa-check"></i><b>6.1</b> Tidyverse philosophy</a></li>
-<li class="chapter" data-level="6.2" data-path="dplyr.html"><a href="dplyr.html#select"><i class="fa fa-check"></i><b>6.2</b> <code>select()</code> columns by name</a></li>
-<li class="chapter" data-level="6.3" data-path="dplyr.html"><a href="dplyr.html#conditions"><i class="fa fa-check"></i><b>6.3</b> Conditions</a></li>
-<li class="chapter" data-level="6.4" data-path="dplyr.html"><a href="dplyr.html#logical-indexing"><i class="fa fa-check"></i><b>6.4</b> Logical indexing</a></li>
-<li class="chapter" data-level="6.5" data-path="dplyr.html"><a href="dplyr.html#filter-rows-by-values"><i class="fa fa-check"></i><b>6.5</b> <code>filter()</code> rows by values</a></li>
-<li class="chapter" data-level="6.6" data-path="dplyr.html"><a href="dplyr.html#arrange-rows-in-a-particular-order"><i class="fa fa-check"></i><b>6.6</b> <code>arrange()</code> rows in a particular order</a></li>
-<li class="chapter" data-level="6.7" data-path="dplyr.html"><a href="dplyr.html#mutate"><i class="fa fa-check"></i><b>6.7</b> <code>mutate()</code> columns</a></li>
-<li class="chapter" data-level="6.8" data-path="dplyr.html"><a href="dplyr.html#summarize"><i class="fa fa-check"></i><b>6.8</b> <code>summarize()</code> table by <code>groups</code></a></li>
-<li class="chapter" data-level="6.9" data-path="dplyr.html"><a href="dplyr.html#putting-it-all-together"><i class="fa fa-check"></i><b>6.9</b> Putting it all together</a></li>
-<li class="chapter" data-level="6.10" data-path="dplyr.html"><a href="dplyr.html#should-i-use-tidyverse"><i class="fa fa-check"></i><b>6.10</b> Should I use Tidyverse?</a></li>
+<li class="chapter" data-level="6.1" data-path="functions.html"><a href="functions.html#functions-1"><i class="fa fa-check"></i><b>6.1</b> Functions</a></li>
+<li class="chapter" data-level="6.2" data-path="functions.html"><a href="functions.html#writing-a-function"><i class="fa fa-check"></i><b>6.2</b> Writing a function</a></li>
+<li class="chapter" data-level="6.3" data-path="functions.html"><a href="functions.html#scopes-global-versus-local-variables"><i class="fa fa-check"></i><b>6.3</b> Scopes: Global versus Local variables</a></li>
+<li class="chapter" data-level="6.4" data-path="functions.html"><a href="functions.html#function-with-two-parameters"><i class="fa fa-check"></i><b>6.4</b> Function with two parameters</a></li>
+<li class="chapter" data-level="6.5" data-path="functions.html"><a href="functions.html#table-as-a-parameter"><i class="fa fa-check"></i><b>6.5</b> Table as a parameter</a></li>
+<li class="chapter" data-level="6.6" data-path="functions.html"><a href="functions.html#nested-calls"><i class="fa fa-check"></i><b>6.6</b> Nested calls</a></li>
+<li class="chapter" data-level="6.7" data-path="functions.html"><a href="functions.html#piping"><i class="fa fa-check"></i><b>6.7</b> Piping</a></li>
+<li class="chapter" data-level="6.8" data-path="functions.html"><a href="functions.html#everything-is-a-function"><i class="fa fa-check"></i><b>6.8</b> Everything is a function</a></li>
+<li class="chapter" data-level="6.9" data-path="functions.html"><a href="functions.html#using-or-not-using-explicit-return-statement"><i class="fa fa-check"></i><b>6.9</b> Using (or not using) explicit return statement</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="seminar07.html"><a href="seminar07.html"><i class="fa fa-check"></i><b>7</b> Factors and Joins</a>
+<li class="chapter" data-level="7" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>7</b> Tidyverse: dplyr</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="seminar07.html"><a href="seminar07.html#how-to-write-code"><i class="fa fa-check"></i><b>7.1</b> How to write code</a></li>
-<li class="chapter" data-level="7.2" data-path="seminar07.html"><a href="seminar07.html#implementing-a-typical-analysis"><i class="fa fa-check"></i><b>7.2</b> Implementing a typical analysis</a></li>
-<li class="chapter" data-level="7.3" data-path="seminar07.html"><a href="seminar07.html#factors"><i class="fa fa-check"></i><b>7.3</b> Factors</a></li>
-<li class="chapter" data-level="7.4" data-path="seminar07.html"><a href="seminar07.html#forcats"><i class="fa fa-check"></i><b>7.4</b> Forcats</a></li>
-<li class="chapter" data-level="7.5" data-path="seminar07.html"><a href="seminar07.html#plotting-group-averages"><i class="fa fa-check"></i><b>7.5</b> Plotting group averages</a></li>
-<li class="chapter" data-level="7.6" data-path="seminar07.html"><a href="seminar07.html#plotting-our-confidence-in-group-averages"><i class="fa fa-check"></i><b>7.6</b> Plotting our confidence in group averages</a></li>
-<li class="chapter" data-level="7.7" data-path="seminar07.html"><a href="seminar07.html#looking-at-similarity"><i class="fa fa-check"></i><b>7.7</b> Looking at similarity</a></li>
-<li class="chapter" data-level="7.8" data-path="seminar07.html"><a href="seminar07.html#joining-tables"><i class="fa fa-check"></i><b>7.8</b> Joining tables</a></li>
+<li class="chapter" data-level="7.1" data-path="dplyr.html"><a href="dplyr.html#tidyverse-philosophy"><i class="fa fa-check"></i><b>7.1</b> Tidyverse philosophy</a></li>
+<li class="chapter" data-level="7.2" data-path="dplyr.html"><a href="dplyr.html#select"><i class="fa fa-check"></i><b>7.2</b> <code>select()</code> columns by name</a></li>
+<li class="chapter" data-level="7.3" data-path="dplyr.html"><a href="dplyr.html#conditions"><i class="fa fa-check"></i><b>7.3</b> Conditions</a></li>
+<li class="chapter" data-level="7.4" data-path="dplyr.html"><a href="dplyr.html#logical-indexing"><i class="fa fa-check"></i><b>7.4</b> Logical indexing</a></li>
+<li class="chapter" data-level="7.5" data-path="dplyr.html"><a href="dplyr.html#filter-rows-by-values"><i class="fa fa-check"></i><b>7.5</b> <code>filter()</code> rows by values</a></li>
+<li class="chapter" data-level="7.6" data-path="dplyr.html"><a href="dplyr.html#arrange-rows-in-a-particular-order"><i class="fa fa-check"></i><b>7.6</b> <code>arrange()</code> rows in a particular order</a></li>
+<li class="chapter" data-level="7.7" data-path="dplyr.html"><a href="dplyr.html#mutate"><i class="fa fa-check"></i><b>7.7</b> <code>mutate()</code> columns</a></li>
+<li class="chapter" data-level="7.8" data-path="dplyr.html"><a href="dplyr.html#summarize"><i class="fa fa-check"></i><b>7.8</b> <code>summarize()</code> table by <code>groups</code></a></li>
+<li class="chapter" data-level="7.9" data-path="dplyr.html"><a href="dplyr.html#putting-it-all-together"><i class="fa fa-check"></i><b>7.9</b> Putting it all together</a></li>
+<li class="chapter" data-level="7.10" data-path="dplyr.html"><a href="dplyr.html#should-i-use-tidyverse"><i class="fa fa-check"></i><b>7.10</b> Should I use Tidyverse?</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="seminar08.html"><a href="seminar08.html"><i class="fa fa-check"></i><b>8</b> Glueing and sprintfing</a>
+<li class="chapter" data-level="8" data-path="seminar07.html"><a href="seminar07.html"><i class="fa fa-check"></i><b>8</b> Factors and Joins</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="seminar08.html"><a href="seminar08.html#comparing-effect-between-two-studies"><i class="fa fa-check"></i><b>8.1</b> Comparing effect between two studies</a></li>
-<li class="chapter" data-level="8.2" data-path="seminar08.html"><a href="seminar08.html#glue"><i class="fa fa-check"></i><b>8.2</b> Gluing in correlation strength information.</a></li>
-<li class="chapter" data-level="8.3" data-path="seminar08.html"><a href="seminar08.html#sprintf"><i class="fa fa-check"></i><b>8.3</b> sprintf</a></li>
-<li class="chapter" data-level="8.4" data-path="seminar08.html"><a href="seminar08.html#wrap-up-2"><i class="fa fa-check"></i><b>8.4</b> Wrap up</a></li>
+<li class="chapter" data-level="8.1" data-path="seminar07.html"><a href="seminar07.html#how-to-write-code"><i class="fa fa-check"></i><b>8.1</b> How to write code</a></li>
+<li class="chapter" data-level="8.2" data-path="seminar07.html"><a href="seminar07.html#implementing-a-typical-analysis"><i class="fa fa-check"></i><b>8.2</b> Implementing a typical analysis</a></li>
+<li class="chapter" data-level="8.3" data-path="seminar07.html"><a href="seminar07.html#factors"><i class="fa fa-check"></i><b>8.3</b> Factors</a></li>
+<li class="chapter" data-level="8.4" data-path="seminar07.html"><a href="seminar07.html#forcats"><i class="fa fa-check"></i><b>8.4</b> Forcats</a></li>
+<li class="chapter" data-level="8.5" data-path="seminar07.html"><a href="seminar07.html#plotting-group-averages"><i class="fa fa-check"></i><b>8.5</b> Plotting group averages</a></li>
+<li class="chapter" data-level="8.6" data-path="seminar07.html"><a href="seminar07.html#plotting-our-confidence-in-group-averages"><i class="fa fa-check"></i><b>8.6</b> Plotting our confidence in group averages</a></li>
+<li class="chapter" data-level="8.7" data-path="seminar07.html"><a href="seminar07.html#looking-at-similarity"><i class="fa fa-check"></i><b>8.7</b> Looking at similarity</a></li>
+<li class="chapter" data-level="8.8" data-path="seminar07.html"><a href="seminar07.html#joining-tables"><i class="fa fa-check"></i><b>8.8</b> Joining tables</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="seminar09.html"><a href="seminar09.html"><i class="fa fa-check"></i><b>9</b> Tidyng your data</a>
+<li class="chapter" data-level="9" data-path="seminar08.html"><a href="seminar08.html"><i class="fa fa-check"></i><b>9</b> Glueing and sprintfing</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="seminar09.html"><a href="seminar09.html#pivoting-between-long-and-wide-format"><i class="fa fa-check"></i><b>9.1</b> Pivoting between long and wide format</a></li>
-<li class="chapter" data-level="9.2" data-path="seminar09.html"><a href="seminar09.html#practice-pivoting-longer"><i class="fa fa-check"></i><b>9.2</b> Practice pivoting longer</a></li>
-<li class="chapter" data-level="9.3" data-path="seminar09.html"><a href="seminar09.html#practice-pivoting-wider"><i class="fa fa-check"></i><b>9.3</b> Practice pivoting wider</a></li>
-<li class="chapter" data-level="9.4" data-path="seminar09.html"><a href="seminar09.html#extracting-information-from-a-string"><i class="fa fa-check"></i><b>9.4</b> Extracting information from a string</a></li>
-<li class="chapter" data-level="9.5" data-path="seminar09.html"><a href="seminar09.html#separate"><i class="fa fa-check"></i><b>9.5</b> Separate</a></li>
-<li class="chapter" data-level="9.6" data-path="seminar09.html"><a href="seminar09.html#missing-data"><i class="fa fa-check"></i><b>9.6</b> Missing data</a></li>
+<li class="chapter" data-level="9.1" data-path="seminar08.html"><a href="seminar08.html#comparing-effect-between-two-studies"><i class="fa fa-check"></i><b>9.1</b> Comparing effect between two studies</a></li>
+<li class="chapter" data-level="9.2" data-path="seminar08.html"><a href="seminar08.html#glue"><i class="fa fa-check"></i><b>9.2</b> Gluing in correlation strength information.</a></li>
+<li class="chapter" data-level="9.3" data-path="seminar08.html"><a href="seminar08.html#sprintf"><i class="fa fa-check"></i><b>9.3</b> sprintf</a></li>
+<li class="chapter" data-level="9.4" data-path="seminar08.html"><a href="seminar08.html#wrap-up-2"><i class="fa fa-check"></i><b>9.4</b> Wrap up</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="seminar10.html"><a href="seminar10.html"><i class="fa fa-check"></i><b>10</b> Repeating a computation</a>
+<li class="chapter" data-level="10" data-path="seminar09.html"><a href="seminar09.html"><i class="fa fa-check"></i><b>10</b> Tidyng your data</a>
 <ul>
-<li class="chapter" data-level="10.1" data-path="seminar10.html"><a href="seminar10.html#rep"><i class="fa fa-check"></i><b>10.1</b> <code>rep()</code></a></li>
-<li class="chapter" data-level="10.2" data-path="seminar10.html"><a href="seminar10.html#repeating-combinations"><i class="fa fa-check"></i><b>10.2</b> Repeating combinations</a></li>
-<li class="chapter" data-level="10.3" data-path="seminar10.html"><a href="seminar10.html#list"><i class="fa fa-check"></i><b>10.3</b> Lists</a></li>
-<li class="chapter" data-level="10.4" data-path="seminar10.html"><a href="seminar10.html#forloop"><i class="fa fa-check"></i><b>10.4</b> For loop</a></li>
-<li class="chapter" data-level="10.5" data-path="seminar10.html"><a href="seminar10.html#using-for-loop-to-load-and-join-multiple-data-files"><i class="fa fa-check"></i><b>10.5</b> Using for loop to load and join multiple data files</a></li>
-<li class="chapter" data-level="10.6" data-path="seminar10.html"><a href="seminar10.html#apply"><i class="fa fa-check"></i><b>10.6</b> Apply</a></li>
-<li class="chapter" data-level="10.7" data-path="seminar10.html"><a href="seminar10.html#purrr"><i class="fa fa-check"></i><b>10.7</b> Purrr</a></li>
+<li class="chapter" data-level="10.1" data-path="seminar09.html"><a href="seminar09.html#pivoting-between-long-and-wide-format"><i class="fa fa-check"></i><b>10.1</b> Pivoting between long and wide format</a></li>
+<li class="chapter" data-level="10.2" data-path="seminar09.html"><a href="seminar09.html#practice-pivoting-longer"><i class="fa fa-check"></i><b>10.2</b> Practice pivoting longer</a></li>
+<li class="chapter" data-level="10.3" data-path="seminar09.html"><a href="seminar09.html#practice-pivoting-wider"><i class="fa fa-check"></i><b>10.3</b> Practice pivoting wider</a></li>
+<li class="chapter" data-level="10.4" data-path="seminar09.html"><a href="seminar09.html#extracting-information-from-a-string"><i class="fa fa-check"></i><b>10.4</b> Extracting information from a string</a></li>
+<li class="chapter" data-level="10.5" data-path="seminar09.html"><a href="seminar09.html#separate"><i class="fa fa-check"></i><b>10.5</b> Separate</a></li>
+<li class="chapter" data-level="10.6" data-path="seminar09.html"><a href="seminar09.html#missing-data"><i class="fa fa-check"></i><b>10.6</b> Missing data</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="seminar11.html"><a href="seminar11.html"><i class="fa fa-check"></i><b>11</b> Statistical modeling</a>
+<li class="chapter" data-level="11" data-path="seminar10.html"><a href="seminar10.html"><i class="fa fa-check"></i><b>11</b> Repeating a computation</a>
 <ul>
-<li class="chapter" data-level="11.1" data-path="seminar11.html"><a href="seminar11.html#formula-notation"><i class="fa fa-check"></i><b>11.1</b> Formula notation</a></li>
-<li class="chapter" data-level="11.2" data-path="seminar11.html"><a href="seminar11.html#correlation"><i class="fa fa-check"></i><b>11.2</b> Correlation</a></li>
-<li class="chapter" data-level="11.3" data-path="seminar11.html"><a href="seminar11.html#pairwise-comparisons"><i class="fa fa-check"></i><b>11.3</b> Pairwise comparisons</a></li>
-<li class="chapter" data-level="11.4" data-path="seminar11.html"><a href="seminar11.html#anova"><i class="fa fa-check"></i><b>11.4</b> ANOVA</a></li>
-<li class="chapter" data-level="11.5" data-path="seminar11.html"><a href="seminar11.html#GLMM"><i class="fa fa-check"></i><b>11.5</b> (Generalized) Linear Models</a></li>
-<li class="chapter" data-level="11.6" data-path="seminar11.html"><a href="seminar11.html#generalized-linear-mixed-models"><i class="fa fa-check"></i><b>11.6</b> (Generalized) Linear Mixed Models</a></li>
-<li class="chapter" data-level="11.7" data-path="seminar11.html"><a href="seminar11.html#practice"><i class="fa fa-check"></i><b>11.7</b> Practice</a>
+<li class="chapter" data-level="11.1" data-path="seminar10.html"><a href="seminar10.html#rep"><i class="fa fa-check"></i><b>11.1</b> <code>rep()</code></a></li>
+<li class="chapter" data-level="11.2" data-path="seminar10.html"><a href="seminar10.html#repeating-combinations"><i class="fa fa-check"></i><b>11.2</b> Repeating combinations</a></li>
+<li class="chapter" data-level="11.3" data-path="seminar10.html"><a href="seminar10.html#list"><i class="fa fa-check"></i><b>11.3</b> Lists</a></li>
+<li class="chapter" data-level="11.4" data-path="seminar10.html"><a href="seminar10.html#forloop"><i class="fa fa-check"></i><b>11.4</b> For loop</a></li>
+<li class="chapter" data-level="11.5" data-path="seminar10.html"><a href="seminar10.html#using-for-loop-to-load-and-join-multiple-data-files"><i class="fa fa-check"></i><b>11.5</b> Using for loop to load and join multiple data files</a></li>
+<li class="chapter" data-level="11.6" data-path="seminar10.html"><a href="seminar10.html#apply"><i class="fa fa-check"></i><b>11.6</b> Apply</a></li>
+<li class="chapter" data-level="11.7" data-path="seminar10.html"><a href="seminar10.html#purrr"><i class="fa fa-check"></i><b>11.7</b> Purrr</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="seminar11.html"><a href="seminar11.html"><i class="fa fa-check"></i><b>12</b> Statistical modeling</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="seminar11.html"><a href="seminar11.html#formula-notation"><i class="fa fa-check"></i><b>12.1</b> Formula notation</a></li>
+<li class="chapter" data-level="12.2" data-path="seminar11.html"><a href="seminar11.html#correlation"><i class="fa fa-check"></i><b>12.2</b> Correlation</a></li>
+<li class="chapter" data-level="12.3" data-path="seminar11.html"><a href="seminar11.html#pairwise-comparisons"><i class="fa fa-check"></i><b>12.3</b> Pairwise comparisons</a></li>
+<li class="chapter" data-level="12.4" data-path="seminar11.html"><a href="seminar11.html#anova"><i class="fa fa-check"></i><b>12.4</b> ANOVA</a></li>
+<li class="chapter" data-level="12.5" data-path="seminar11.html"><a href="seminar11.html#GLMM"><i class="fa fa-check"></i><b>12.5</b> (Generalized) Linear Models</a></li>
+<li class="chapter" data-level="12.6" data-path="seminar11.html"><a href="seminar11.html#generalized-linear-mixed-models"><i class="fa fa-check"></i><b>12.6</b> (Generalized) Linear Mixed Models</a></li>
+<li class="chapter" data-level="12.7" data-path="seminar11.html"><a href="seminar11.html#practice"><i class="fa fa-check"></i><b>12.7</b> Practice</a>
 <ul>
 <li class="chapter" data-level="" data-path="seminar11.html"><a href="seminar11.html#read-files-and-preprocess-data"><i class="fa fa-check"></i>Read files and preprocess data</a></li>
 <li class="chapter" data-level="" data-path="seminar11.html"><a href="seminar11.html#accuracy"><i class="fa fa-check"></i>Accuracy</a></li>
@@ -289,15 +291,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="seminar11.html"><a href="seminar11.html#computing-the-score"><i class="fa fa-check"></i>Computing the score</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="seminar12.html"><a href="seminar12.html"><i class="fa fa-check"></i><b>12</b> Practice</a>
+<li class="chapter" data-level="13" data-path="seminar12.html"><a href="seminar12.html"><i class="fa fa-check"></i><b>13</b> Practice</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="seminar12.html"><a href="seminar12.html#bad-names-to-good-names"><i class="fa fa-check"></i><b>12.1</b> Bad names to good names</a></li>
-<li class="chapter" data-level="12.2" data-path="seminar12.html"><a href="seminar12.html#participant-id"><i class="fa fa-check"></i><b>12.2</b> Participant ID</a></li>
-<li class="chapter" data-level="12.3" data-path="seminar12.html"><a href="seminar12.html#factors-1"><i class="fa fa-check"></i><b>12.3</b> Factors</a></li>
-<li class="chapter" data-level="12.4" data-path="seminar12.html"><a href="seminar12.html#response-times-1"><i class="fa fa-check"></i><b>12.4</b> Response times</a></li>
-<li class="chapter" data-level="12.5" data-path="seminar12.html"><a href="seminar12.html#accuracy-1"><i class="fa fa-check"></i><b>12.5</b> Accuracy</a></li>
-<li class="chapter" data-level="12.6" data-path="seminar12.html"><a href="seminar12.html#physiological-signal"><i class="fa fa-check"></i><b>12.6</b> Physiological signal</a></li>
-<li class="chapter" data-level="12.7" data-path="seminar12.html"><a href="seminar12.html#wrap-up-3"><i class="fa fa-check"></i><b>12.7</b> Wrap up</a></li>
+<li class="chapter" data-level="13.1" data-path="seminar12.html"><a href="seminar12.html#bad-names-to-good-names"><i class="fa fa-check"></i><b>13.1</b> Bad names to good names</a></li>
+<li class="chapter" data-level="13.2" data-path="seminar12.html"><a href="seminar12.html#participant-id"><i class="fa fa-check"></i><b>13.2</b> Participant ID</a></li>
+<li class="chapter" data-level="13.3" data-path="seminar12.html"><a href="seminar12.html#factors-1"><i class="fa fa-check"></i><b>13.3</b> Factors</a></li>
+<li class="chapter" data-level="13.4" data-path="seminar12.html"><a href="seminar12.html#response-times-1"><i class="fa fa-check"></i><b>13.4</b> Response times</a></li>
+<li class="chapter" data-level="13.5" data-path="seminar12.html"><a href="seminar12.html#accuracy-1"><i class="fa fa-check"></i><b>13.5</b> Accuracy</a></li>
+<li class="chapter" data-level="13.6" data-path="seminar12.html"><a href="seminar12.html#physiological-signal"><i class="fa fa-check"></i><b>13.6</b> Physiological signal</a></li>
+<li class="chapter" data-level="13.7" data-path="seminar12.html"><a href="seminar12.html#wrap-up-3"><i class="fa fa-check"></i><b>13.7</b> Wrap up</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://alexander-pastukhov.github.io/">Alexander (Sasha) Pastukhov</li>
@@ -311,7 +313,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data analysis using R for Psychology</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data analysis using R for Psychology and Social Science</a>
           </h1>
         </div>
 
@@ -320,38 +322,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="header">
-<h1 class="title">Data analysis using R for Psychology</h1>
+<h1 class="title">Data analysis using R for Psychology and Social Science</h1>
 <p class="author"><em>Alexander (Sasha) Pastukhov</em></p>
-<p class="date"><em>2021-10-18</em></p>
+<p class="date"><em>2021-10-19</em></p>
 </div>
 <div id="introduction" class="section level1 unnumbered">
 <h1>Introduction</h1>
-<p>This is a material for <em>Applied data analysis for psychology using the open-source software R</em> seminar as taught at <a href="https://www.uni-bamberg.de/psychologie/">Institute of Psychology</a> at University of Bamberg. It is <strong>free to use</strong> and is licensed under the <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives V4.0 International License</a>.</p>
-<div id="about-the-seminar" class="section level2 unnumbered">
-<h2>About the seminar</h2>
-<p>Each chapter covers a single seminar, introducing necessary ideas and is accompanied by a notebook with exercises, which you need to complete and submit. The material assumes no foreknowledge of R or programming in general from the reader. Its purpose is to gradually build up your knowledge and introduce to a typical analysis pipeline. It is based on a data that is typical for the field (repeated measures, appearance, accuracy and response time measurements, Likert scale reports, etc.), you are welcome to suggest your own data set for analysis. Even if you already performed the analysis using some other program, it would still be insightful to compare the different ways and, perhaps, you might gain a new insight. Plus, it is more engaging to work on your data.</p>
-<p>Remember that throughout the seminar you can and should(!) always ask me whenever something is unclear, you do not understand a concept or logic behind certain code. Do not hesitate to write me in the team or (better) directly to me in the chat (in the latter case, the notifications are harder miss and we don’t spam others with our conversation).</p>
-<p>You will need to submit your assignment one day before the next seminar (Tuesday before noon at the latest), so I would have time evaluate it and provide feedback.</p>
-<p>As a final assignment, you will need to program a full analysis pipeline for a given data set (or, if you want, for your data set). All the necessary steps will be covered by the seminar material. Please inform me, If you require a grade, as then I will create a more specific description for you to have a clear understanding of how the program will be graded.</p>
-</div>
-<div id="content-of-the-seminar" class="section level2 unnumbered">
-<h2>Content of the seminar</h2>
-<p>The ultimate goal of the seminar is to give you tools to perform a complete analysis of a typical psychology research data, including data import and merging, pre-processing, aggregating, plotting, and performing statistical analysis. We will start with very basic R programming concepts (vectors, tables) before proceeding to learn about data import and visualization via <a href="https://ggplot2.tidyverse.org/">the grammar of graphics</a>. Next, we will learn about piping that makes sequential analysis easy to write and read. Then, we will see how combine piping with Tidyverse <em>verbs</em>. Next, we will see how to use, visualize, and report statistical models. Finally, you will learn the power of functional programming that provides ultimate flexibility in R.</p>
-</div>
-<div id="note-on-exercises" class="section level2 unnumbered">
-<h2>Note on exercises</h2>
-<p>In many exercises your will be not writing the code but reading and understanding it. Your job in this case is “to think like a computer.” Your advantage is that computers are very dumb, so instructions for them must be written in very simple, clear, and unambiguous way. This means that, with practice, reading code is easy for a human (well, reading a well-written code is easy, you will eventually encounter “spaghetti-code” which is easier to rewrite from scratch than to understand). In each case, you simply go through the code line-by-line, doing all computations by hand and writing down values stored in the variables (if there are too many to keep track of). Once you go through the code in this manner, it should be completely transparent for you. No mysteries should remain, you should have no doubts or uncertainty about any(!) line. Moreover, you then can run the code and check that the values you are getting from computer match yours. Any difference means you made a mistake and code is working differently from how you think it does. In any case, <strong>if you not 100% sure about any line of code, ask me, so we can go through it together!</strong></p>
-<p>In a sense, this is the most important programming skill. It is impossible to learn how to write, if you cannot read first! Moreover, when programming you will probably spend more time reading the code and making sure that it works correctly than writing the new code. Thus, use this opportunity to practice and never use the code that you do not understand completely. Thus, there is nothing wrong in using <a href="https://stackoverflow.com/">stackoverflow</a> but do make sure you understand the code you copied!</p>
-</div>
+<p>This book will (try to) teach you how to perform typical data analysis tasks: reading data, transforming and cleaning it up so you can visualize it and perform a statistical analysis of your choice. It covers most topics that you need to get you started but it cannot cover them all. One advantage of R is a sheer size of its ecosystem with new incredible libraries appearing very much on a daily basis. Covering them all is beyond the scope of any book, so instead I will concentrate on (trying to) building a solid understanding of things that you need to extend your R knowledge. Because of that some early chapters (e.g., on <a href="vectors.html#vectors">vectors</a>, <a href="tables.html#tables">tables</a>, or <a href="##functions">functions</a>) might feel boring and too technical making you wonder why didn’t we start with some exciting and useful analysis, working our way down to finer details. I have tried that<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> but, unfortunately, philosophy of R is about have many almost identical ways of achieving the same end. If you do not learn these finer details, you waste time wondering why seemingly the same code works in one case but fails in mysterious ways in the other one<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>. Therefore, please bear with me and struggle through vectors (which are everywhere), oddities and inconsistencies of subsetting, and learning how to write a function before you even started to use them properly. I can only promise that, from my personal experience, this is definitely worth the effort.</p>
+<p>An important note: this book will <em>not</em> teach you statistics or machine learning. I will mention some widely used packages and functions for performing statistical analysis but I will not go into the details of how they work or how to interpret their output. If you know (enough of) statistics, you will have little trouble understanding how to work with these packages and functions. If you do not, no amount of reading of manuals will make it clearer.</p>
 <div id="why-r" class="section level2 unnumbered">
 <h2>Why R?</h2>
-<p>There are many software tools that allow you preprocess, plot, and analyze your data. Some cost money (SPSS, Matlab), some are free just like R (Python, Julia). Moreover, you can replicate all the analysis that we will perform using Python in combination with <a href="https://jupyter.org/">Jupyter notebooks</a> (for reproducable analysis), <a href="https://pandas.pydata.org/">Pandas</a> (for Excel-style table) and <a href="https://www.statsmodels.org/stable/index.html">statmodels</a> (for statistical analysis). However, R in combination with piping and <a href="https://www.tidyverse.org/">Tidyverse</a> family of packages is optimized for data analysis, making it easy to write simple, powerful and expressive code that is very easy to understand (a huge plus, as you will discover). I will run circles around myself trying to replicate the same analysis in Python or Matlab. In addition, R is loved by mathematicians and statisticians, so it tends to have implementations for all cutting edge methods (my impression is that even Python is lagging behind it in that respect).</p>
+<p>There are many software tools that allow you preprocess, plot, and analyze your data. Some cost money (SPSS, Matlab), some are free just like R (Python, Julia). Moreover, you can replicate all analysis that we will perform using Python in combination with <a href="https://jupyter.org/">Jupyter notebooks</a> (for reproducible analysis), <a href="https://pandas.pydata.org/">Pandas</a> (for Excel-style table), and <a href="https://www.statsmodels.org/stable/index.html">statmodels</a> (for statistical analysis). R is hardly perfect. For example, its subsetting system is confusing and appears to follow “convenience over safety” approach that does not sit particularly well with me. However, R in combination with piping and <a href="https://www.tidyverse.org/">Tidyverse</a> family of packages makes it incredibly easy to write simple, powerful and expressive code, which is very easy to understand (a huge plus, as you will discover). I will run circles around myself trying to replicate the same analysis in Python or Matlab. In addition, R is loved by mathematicians and statisticians, so it tends to have implementations for all cutting edge methods (my impression is that even Python is lagging behind it in that respect).</p>
 </div>
-<div id="tidyverse-versus-base-r" class="section level2 unnumbered">
-<h2>Tidyverse versus base R</h2>
-<p>I will be teaching what one might call a “dialect” of R, based on <a href="https://www.tidyverse.org/">Tidyverse</a> family of packages. R is extremely flexible, making it possible to redefine its own syntax. Because of that Tidyverse-based code is very different from the base R code to the point that it might look like written in a completely different language (which, in a sense, it is). Although Tidyverse, at least in my opinion, is a better way, we will start with <em>base R</em>, so that you will be able to read and understand code written outside of Tidyverse, as it is also very common.</p>
+<div id="why-tidyverse" class="section level2 unnumbered">
+<h2>Why Tidyverse</h2>
+<p>The material is heavily skewed towards using <a href="https://www.tidyverse.org/">Tidyverse</a> family of packages. It looks different enough from base R to the point that one might call it a “dialect” of R<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>. Learning Tidyverse means that you have twice as many things to learn: I will always introduce both base R and Tidyverse version. <a href="https://www.tidyverse.org/">Tidyverse</a> is the main reason I use R (rather than Python or Julia) as it makes data analysis a breeze and makes your life so much easier. This is why I want you to learn its ways. At the same time, there is plenty of useful code that uses base R, so you need to know and understand it as well.</p>
+<p>As a matter of fact, R is so rich and flexible that there many dialects and, therefore, plenty of opinion differences.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> For example, <a href="https://github.com/Rdatatable/data.table">data.table</a> package re-implements the same functionality as base R and Tidyverse in very compact way. I does not fit my style but it might be something that feels natural to you. There are also other packages to handle things like layout out your figures or working with summary tables that might suit you better. Point is, these material barely scratches the surfaces in terms of tools and approaches that you can use. View it as a starting point for your exploration not the complete map.</p>
+</div>
+<div id="about-the-seminar" class="section level2 unnumbered">
+<h2>About the seminar</h2>
+<p>This is a material for <em>Applied data analysis for psychology using the open-source software R</em> seminar as taught at <a href="https://www.uni-bamberg.de/psychologie/">Institute of Psychology</a> at University of Bamberg. Each chapter covers a single seminar, introducing necessary ideas and is accompanied by a notebook with exercises, which you need to complete and submit. To pass the seminar, you will need to complete all assignments. You do not need to complete or provide correct solutions for <em>all</em> the exercises to pass the course and information on how the points for exercises will be converted to an actual grade (if you need one) or “pass” will be available during the seminar.</p>
+<p>The material assumes no foreknowledge of R or programming in general from a reader. Its purpose is to gradually build up your knowledge and introduce to a typical analysis pipeline. It is based on a data that is typical for the field (repeated measures, appearance, accuracy and response time measurements, Likert scale reports, etc.) and you are welcome to suggest your own data set for analysis. Even if you already performed the analysis using some other program, it would still be insightful to compare the different ways and, perhaps, you might gain a new insight. Plus, it is more engaging to work on your data.</p>
+<p>Remember that throughout the seminar you can and should(!) always ask me whenever something is unclear, you do not understand a concept or logic behind certain code, or you simply got stuck. Do not hesitate to write me in the team or (better) directly to me in the chat (in the latter case, the notifications are harder miss and we don’t spam others with our conversation).</p>
+</div>
+<div id="thinking-like-a-computer" class="section level2 unnumbered">
+<h2>Thinking like a computer</h2>
+<p>In some exercises your will not be writing code but reading and understanding it. Your job in this case is “to think like a computer.” Your advantage is that computers are very dumb, so instructions for them must be written in a very simple, clear, and unambiguous way. This means that, with practice, reading code is easy for a human (well, reading a well-written code is easy, you will eventually encounter “spaghetti-code” which is easier to rewrite from scratch than to understand). In each case, you simply go through the code line-by-line, doing all computations by hand and writing down values stored in the variables (if there are too many to keep track of). Once you go through the code in this manner, it should be completely transparent for you. No mysteries should remain, you should have no doubts or uncertainty about any(!) line. Moreover, you then can run the code and check that the values you are getting from computer match yours. Any difference means you made a mistake and code is working differently from how you think it does. In any case, <strong>if you not 100% sure about any line of code, ask me, so we can go through it together!</strong></p>
+<p>In a sense, this is the most important programming skill. It is impossible to learn how to write, if you cannot read the code first! Moreover, when programming you will probably spend more time reading the code and making sure that it works correctly than writing the new code. Thus, use this opportunity to practice and never use the code that you do not understand completely. Thus, there is nothing wrong in using <a href="https://stackoverflow.com/">stackoverflow</a> but <strong>never</strong> use the code you do not understand (do not blindly copy-paste)!</p>
+</div>
+<div id="about-the-material" class="section level2 unnumbered">
+<h2>About the material</h2>
+<p>The material is <strong>free to use</strong> and is licensed under the <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives V4.0 International License</a>.</p>
 
 </div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>As a matter of fact, this was my approach when learning R.<a href="index.html#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>Talking from a personal experience here.<a href="index.html#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>R is extremely flexible, making it possible to redefine its own syntax.<a href="index.html#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p>Just ask about “base R vs. Tidyverse” on Twitter and see the thread set itself on fire<a href="index.html#fnref4" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
             </section>
 

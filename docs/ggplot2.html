@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Seminar 4 Grammar of Graphics | Data analysis using R for Psychology</title>
+  <title>Seminar 5 Grammar of Graphics | Data analysis using R for Psychology and Social Science</title>
   <meta name="description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
   <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Seminar 4 Grammar of Graphics | Data analysis using R for Psychology" />
+  <meta property="og:title" content="Seminar 5 Grammar of Graphics | Data analysis using R for Psychology and Social Science" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Seminar 4 Grammar of Graphics | Data analysis using R for Psychology" />
+  <meta name="twitter:title" content="Seminar 5 Grammar of Graphics | Data analysis using R for Psychology and Social Science" />
   
   <meta name="twitter:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
   
@@ -24,15 +24,15 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2021-10-18" />
+<meta name="date" content="2021-10-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="tables.html"/>
-<link rel="next" href="seminar05.html"/>
+<link rel="prev" href="readr.html"/>
+<link rel="next" href="functions.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -139,11 +139,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a>
 <ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-seminar"><i class="fa fa-check"></i>About the seminar</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#content-of-the-seminar"><i class="fa fa-check"></i>Content of the seminar</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#note-on-exercises"><i class="fa fa-check"></i>Note on exercises</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-r"><i class="fa fa-check"></i>Why R?</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#tidyverse-versus-base-r"><i class="fa fa-check"></i>Tidyverse versus base R</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-tidyverse"><i class="fa fa-check"></i>Why Tidyverse</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-seminar"><i class="fa fa-check"></i>About the seminar</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#thinking-like-a-computer"><i class="fa fa-check"></i>Thinking like a computer</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-material"><i class="fa fa-check"></i>About the material</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="software.html"><a href="software.html"><i class="fa fa-check"></i>Software</a>
 <ul>
@@ -186,102 +186,104 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3.5" data-path="tables.html"><a href="tables.html#dollar-subsetting"><i class="fa fa-check"></i><b>3.5</b> Yet another subsetting via $</a></li>
 <li class="chapter" data-level="3.6" data-path="tables.html"><a href="tables.html#data.frame"><i class="fa fa-check"></i><b>3.6</b> Tables, a.k.a. data frames</a></li>
-<li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#table-subsetting"><i class="fa fa-check"></i><b>3.7</b> Subsetting table</a></li>
+<li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#table-subsetting"><i class="fa fa-check"></i><b>3.7</b> Subsetting tables</a></li>
 <li class="chapter" data-level="3.8" data-path="tables.html"><a href="tables.html#library"><i class="fa fa-check"></i><b>3.8</b> Using libraries</a></li>
 <li class="chapter" data-level="3.9" data-path="tables.html"><a href="tables.html#tibble"><i class="fa fa-check"></i><b>3.9</b> Tibble, a better data.frame</a></li>
 <li class="chapter" data-level="3.10" data-path="tables.html"><a href="tables.html#tribble"><i class="fa fa-check"></i><b>3.10</b> Tribble, table from text</a></li>
 <li class="chapter" data-level="3.11" data-path="tables.html"><a href="tables.html#data"><i class="fa fa-check"></i><b>3.11</b> Reading example tables</a></li>
-<li class="chapter" data-level="3.12" data-path="tables.html"><a href="tables.html#readr"><i class="fa fa-check"></i><b>3.12</b> Reading csv files</a></li>
-<li class="chapter" data-level="3.13" data-path="tables.html"><a href="tables.html#readxl"><i class="fa fa-check"></i><b>3.13</b> Reading Excel files</a></li>
-<li class="chapter" data-level="3.14" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.14</b> Reading files from other programs</a></li>
-<li class="chapter" data-level="3.15" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.15</b> Wrap up</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>4</b> Grammar of Graphics</a>
+<li class="chapter" data-level="4" data-path="readr.html"><a href="readr.html"><i class="fa fa-check"></i><b>4</b> Reading csv files</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="ggplot2.html"><a href="ggplot2.html#tidydata"><i class="fa fa-check"></i><b>4.1</b> Tidy data</a></li>
-<li class="chapter" data-level="4.2" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-1"><i class="fa fa-check"></i><b>4.2</b> ggplot2</a></li>
-<li class="chapter" data-level="4.3" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-continuous-x-axis"><i class="fa fa-check"></i><b>4.3</b> Auto efficiency: continuous x-axis</a></li>
-<li class="chapter" data-level="4.4" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-discrete-x-axis"><i class="fa fa-check"></i><b>4.4</b> Auto efficiency: discrete x-axis</a></li>
-<li class="chapter" data-level="4.5" data-path="ggplot2.html"><a href="ggplot2.html#mammals-sleep-single-variable"><i class="fa fa-check"></i><b>4.5</b> Mammals sleep: single variable</a></li>
-<li class="chapter" data-level="4.6" data-path="ggplot2.html"><a href="ggplot2.html#mapping-for-all-visuals-versus-just-one-visual"><i class="fa fa-check"></i><b>4.6</b> Mapping for all visuals versus just one visual</a></li>
-<li class="chapter" data-level="4.7" data-path="ggplot2.html"><a href="ggplot2.html#mapping-on-variables-versus-constants"><i class="fa fa-check"></i><b>4.7</b> Mapping on variables versus constants</a></li>
-<li class="chapter" data-level="4.8" data-path="ggplot2.html"><a href="ggplot2.html#themes"><i class="fa fa-check"></i><b>4.8</b> Themes</a></li>
-<li class="chapter" data-level="4.9" data-path="ggplot2.html"><a href="ggplot2.html#you-aint-seen-nothing-yet"><i class="fa fa-check"></i><b>4.9</b> You ain’t seen nothing yet</a></li>
-<li class="chapter" data-level="4.10" data-path="ggplot2.html"><a href="ggplot2.html#further-reading"><i class="fa fa-check"></i><b>4.10</b> Further reading</a></li>
-<li class="chapter" data-level="4.11" data-path="ggplot2.html"><a href="ggplot2.html#extending-ggplot2"><i class="fa fa-check"></i><b>4.11</b> Extending ggplot2</a></li>
-<li class="chapter" data-level="4.12" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-cannot-do-everything"><i class="fa fa-check"></i><b>4.12</b> ggplot2 cannot do everything</a></li>
+<li class="chapter" data-level="4.1" data-path="readr.html"><a href="readr.html#readxl"><i class="fa fa-check"></i><b>4.1</b> Reading Excel files</a></li>
+<li class="chapter" data-level="4.2" data-path="readr.html"><a href="readr.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>4.2</b> Reading files from other programs</a></li>
+<li class="chapter" data-level="4.3" data-path="readr.html"><a href="readr.html#wrap-up-1"><i class="fa fa-check"></i><b>4.3</b> Wrap up</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="seminar05.html"><a href="seminar05.html"><i class="fa fa-check"></i><b>5</b> Functions and pipes</a>
+<li class="chapter" data-level="5" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>5</b> Grammar of Graphics</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="seminar05.html"><a href="seminar05.html#functions"><i class="fa fa-check"></i><b>5.1</b> Functions</a></li>
-<li class="chapter" data-level="5.2" data-path="seminar05.html"><a href="seminar05.html#writing-a-function"><i class="fa fa-check"></i><b>5.2</b> Writing a function</a></li>
-<li class="chapter" data-level="5.3" data-path="seminar05.html"><a href="seminar05.html#scopes-global-versus-local-variables"><i class="fa fa-check"></i><b>5.3</b> Scopes: Global versus Local variables</a></li>
-<li class="chapter" data-level="5.4" data-path="seminar05.html"><a href="seminar05.html#function-with-two-parameters"><i class="fa fa-check"></i><b>5.4</b> Function with two parameters</a></li>
-<li class="chapter" data-level="5.5" data-path="seminar05.html"><a href="seminar05.html#table-as-a-parameter"><i class="fa fa-check"></i><b>5.5</b> Table as a parameter</a></li>
-<li class="chapter" data-level="5.6" data-path="seminar05.html"><a href="seminar05.html#nested-calls"><i class="fa fa-check"></i><b>5.6</b> Nested calls</a></li>
-<li class="chapter" data-level="5.7" data-path="seminar05.html"><a href="seminar05.html#piping"><i class="fa fa-check"></i><b>5.7</b> Piping</a></li>
-<li class="chapter" data-level="5.8" data-path="seminar05.html"><a href="seminar05.html#everything-is-a-function"><i class="fa fa-check"></i><b>5.8</b> Everything is a function</a></li>
-<li class="chapter" data-level="5.9" data-path="seminar05.html"><a href="seminar05.html#using-or-not-using-explicit-return-statement"><i class="fa fa-check"></i><b>5.9</b> Using (or not using) explicit return statement</a></li>
+<li class="chapter" data-level="5.1" data-path="ggplot2.html"><a href="ggplot2.html#tidydata"><i class="fa fa-check"></i><b>5.1</b> Tidy data</a></li>
+<li class="chapter" data-level="5.2" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-1"><i class="fa fa-check"></i><b>5.2</b> ggplot2</a></li>
+<li class="chapter" data-level="5.3" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-continuous-x-axis"><i class="fa fa-check"></i><b>5.3</b> Auto efficiency: continuous x-axis</a></li>
+<li class="chapter" data-level="5.4" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-discrete-x-axis"><i class="fa fa-check"></i><b>5.4</b> Auto efficiency: discrete x-axis</a></li>
+<li class="chapter" data-level="5.5" data-path="ggplot2.html"><a href="ggplot2.html#mammals-sleep-single-variable"><i class="fa fa-check"></i><b>5.5</b> Mammals sleep: single variable</a></li>
+<li class="chapter" data-level="5.6" data-path="ggplot2.html"><a href="ggplot2.html#mapping-for-all-visuals-versus-just-one-visual"><i class="fa fa-check"></i><b>5.6</b> Mapping for all visuals versus just one visual</a></li>
+<li class="chapter" data-level="5.7" data-path="ggplot2.html"><a href="ggplot2.html#mapping-on-variables-versus-constants"><i class="fa fa-check"></i><b>5.7</b> Mapping on variables versus constants</a></li>
+<li class="chapter" data-level="5.8" data-path="ggplot2.html"><a href="ggplot2.html#themes"><i class="fa fa-check"></i><b>5.8</b> Themes</a></li>
+<li class="chapter" data-level="5.9" data-path="ggplot2.html"><a href="ggplot2.html#you-aint-seen-nothing-yet"><i class="fa fa-check"></i><b>5.9</b> You ain’t seen nothing yet</a></li>
+<li class="chapter" data-level="5.10" data-path="ggplot2.html"><a href="ggplot2.html#further-reading"><i class="fa fa-check"></i><b>5.10</b> Further reading</a></li>
+<li class="chapter" data-level="5.11" data-path="ggplot2.html"><a href="ggplot2.html#extending-ggplot2"><i class="fa fa-check"></i><b>5.11</b> Extending ggplot2</a></li>
+<li class="chapter" data-level="5.12" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-cannot-do-everything"><i class="fa fa-check"></i><b>5.12</b> ggplot2 cannot do everything</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>6</b> Tidyverse: dplyr</a>
+<li class="chapter" data-level="6" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>6</b> Functions and pipes</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="dplyr.html"><a href="dplyr.html#tidyverse-philosophy"><i class="fa fa-check"></i><b>6.1</b> Tidyverse philosophy</a></li>
-<li class="chapter" data-level="6.2" data-path="dplyr.html"><a href="dplyr.html#select"><i class="fa fa-check"></i><b>6.2</b> <code>select()</code> columns by name</a></li>
-<li class="chapter" data-level="6.3" data-path="dplyr.html"><a href="dplyr.html#conditions"><i class="fa fa-check"></i><b>6.3</b> Conditions</a></li>
-<li class="chapter" data-level="6.4" data-path="dplyr.html"><a href="dplyr.html#logical-indexing"><i class="fa fa-check"></i><b>6.4</b> Logical indexing</a></li>
-<li class="chapter" data-level="6.5" data-path="dplyr.html"><a href="dplyr.html#filter-rows-by-values"><i class="fa fa-check"></i><b>6.5</b> <code>filter()</code> rows by values</a></li>
-<li class="chapter" data-level="6.6" data-path="dplyr.html"><a href="dplyr.html#arrange-rows-in-a-particular-order"><i class="fa fa-check"></i><b>6.6</b> <code>arrange()</code> rows in a particular order</a></li>
-<li class="chapter" data-level="6.7" data-path="dplyr.html"><a href="dplyr.html#mutate"><i class="fa fa-check"></i><b>6.7</b> <code>mutate()</code> columns</a></li>
-<li class="chapter" data-level="6.8" data-path="dplyr.html"><a href="dplyr.html#summarize"><i class="fa fa-check"></i><b>6.8</b> <code>summarize()</code> table by <code>groups</code></a></li>
-<li class="chapter" data-level="6.9" data-path="dplyr.html"><a href="dplyr.html#putting-it-all-together"><i class="fa fa-check"></i><b>6.9</b> Putting it all together</a></li>
-<li class="chapter" data-level="6.10" data-path="dplyr.html"><a href="dplyr.html#should-i-use-tidyverse"><i class="fa fa-check"></i><b>6.10</b> Should I use Tidyverse?</a></li>
+<li class="chapter" data-level="6.1" data-path="functions.html"><a href="functions.html#functions-1"><i class="fa fa-check"></i><b>6.1</b> Functions</a></li>
+<li class="chapter" data-level="6.2" data-path="functions.html"><a href="functions.html#writing-a-function"><i class="fa fa-check"></i><b>6.2</b> Writing a function</a></li>
+<li class="chapter" data-level="6.3" data-path="functions.html"><a href="functions.html#scopes-global-versus-local-variables"><i class="fa fa-check"></i><b>6.3</b> Scopes: Global versus Local variables</a></li>
+<li class="chapter" data-level="6.4" data-path="functions.html"><a href="functions.html#function-with-two-parameters"><i class="fa fa-check"></i><b>6.4</b> Function with two parameters</a></li>
+<li class="chapter" data-level="6.5" data-path="functions.html"><a href="functions.html#table-as-a-parameter"><i class="fa fa-check"></i><b>6.5</b> Table as a parameter</a></li>
+<li class="chapter" data-level="6.6" data-path="functions.html"><a href="functions.html#nested-calls"><i class="fa fa-check"></i><b>6.6</b> Nested calls</a></li>
+<li class="chapter" data-level="6.7" data-path="functions.html"><a href="functions.html#piping"><i class="fa fa-check"></i><b>6.7</b> Piping</a></li>
+<li class="chapter" data-level="6.8" data-path="functions.html"><a href="functions.html#everything-is-a-function"><i class="fa fa-check"></i><b>6.8</b> Everything is a function</a></li>
+<li class="chapter" data-level="6.9" data-path="functions.html"><a href="functions.html#using-or-not-using-explicit-return-statement"><i class="fa fa-check"></i><b>6.9</b> Using (or not using) explicit return statement</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="seminar07.html"><a href="seminar07.html"><i class="fa fa-check"></i><b>7</b> Factors and Joins</a>
+<li class="chapter" data-level="7" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>7</b> Tidyverse: dplyr</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="seminar07.html"><a href="seminar07.html#how-to-write-code"><i class="fa fa-check"></i><b>7.1</b> How to write code</a></li>
-<li class="chapter" data-level="7.2" data-path="seminar07.html"><a href="seminar07.html#implementing-a-typical-analysis"><i class="fa fa-check"></i><b>7.2</b> Implementing a typical analysis</a></li>
-<li class="chapter" data-level="7.3" data-path="seminar07.html"><a href="seminar07.html#factors"><i class="fa fa-check"></i><b>7.3</b> Factors</a></li>
-<li class="chapter" data-level="7.4" data-path="seminar07.html"><a href="seminar07.html#forcats"><i class="fa fa-check"></i><b>7.4</b> Forcats</a></li>
-<li class="chapter" data-level="7.5" data-path="seminar07.html"><a href="seminar07.html#plotting-group-averages"><i class="fa fa-check"></i><b>7.5</b> Plotting group averages</a></li>
-<li class="chapter" data-level="7.6" data-path="seminar07.html"><a href="seminar07.html#plotting-our-confidence-in-group-averages"><i class="fa fa-check"></i><b>7.6</b> Plotting our confidence in group averages</a></li>
-<li class="chapter" data-level="7.7" data-path="seminar07.html"><a href="seminar07.html#looking-at-similarity"><i class="fa fa-check"></i><b>7.7</b> Looking at similarity</a></li>
-<li class="chapter" data-level="7.8" data-path="seminar07.html"><a href="seminar07.html#joining-tables"><i class="fa fa-check"></i><b>7.8</b> Joining tables</a></li>
+<li class="chapter" data-level="7.1" data-path="dplyr.html"><a href="dplyr.html#tidyverse-philosophy"><i class="fa fa-check"></i><b>7.1</b> Tidyverse philosophy</a></li>
+<li class="chapter" data-level="7.2" data-path="dplyr.html"><a href="dplyr.html#select"><i class="fa fa-check"></i><b>7.2</b> <code>select()</code> columns by name</a></li>
+<li class="chapter" data-level="7.3" data-path="dplyr.html"><a href="dplyr.html#conditions"><i class="fa fa-check"></i><b>7.3</b> Conditions</a></li>
+<li class="chapter" data-level="7.4" data-path="dplyr.html"><a href="dplyr.html#logical-indexing"><i class="fa fa-check"></i><b>7.4</b> Logical indexing</a></li>
+<li class="chapter" data-level="7.5" data-path="dplyr.html"><a href="dplyr.html#filter-rows-by-values"><i class="fa fa-check"></i><b>7.5</b> <code>filter()</code> rows by values</a></li>
+<li class="chapter" data-level="7.6" data-path="dplyr.html"><a href="dplyr.html#arrange-rows-in-a-particular-order"><i class="fa fa-check"></i><b>7.6</b> <code>arrange()</code> rows in a particular order</a></li>
+<li class="chapter" data-level="7.7" data-path="dplyr.html"><a href="dplyr.html#mutate"><i class="fa fa-check"></i><b>7.7</b> <code>mutate()</code> columns</a></li>
+<li class="chapter" data-level="7.8" data-path="dplyr.html"><a href="dplyr.html#summarize"><i class="fa fa-check"></i><b>7.8</b> <code>summarize()</code> table by <code>groups</code></a></li>
+<li class="chapter" data-level="7.9" data-path="dplyr.html"><a href="dplyr.html#putting-it-all-together"><i class="fa fa-check"></i><b>7.9</b> Putting it all together</a></li>
+<li class="chapter" data-level="7.10" data-path="dplyr.html"><a href="dplyr.html#should-i-use-tidyverse"><i class="fa fa-check"></i><b>7.10</b> Should I use Tidyverse?</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="seminar08.html"><a href="seminar08.html"><i class="fa fa-check"></i><b>8</b> Glueing and sprintfing</a>
+<li class="chapter" data-level="8" data-path="seminar07.html"><a href="seminar07.html"><i class="fa fa-check"></i><b>8</b> Factors and Joins</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="seminar08.html"><a href="seminar08.html#comparing-effect-between-two-studies"><i class="fa fa-check"></i><b>8.1</b> Comparing effect between two studies</a></li>
-<li class="chapter" data-level="8.2" data-path="seminar08.html"><a href="seminar08.html#glue"><i class="fa fa-check"></i><b>8.2</b> Gluing in correlation strength information.</a></li>
-<li class="chapter" data-level="8.3" data-path="seminar08.html"><a href="seminar08.html#sprintf"><i class="fa fa-check"></i><b>8.3</b> sprintf</a></li>
-<li class="chapter" data-level="8.4" data-path="seminar08.html"><a href="seminar08.html#wrap-up-2"><i class="fa fa-check"></i><b>8.4</b> Wrap up</a></li>
+<li class="chapter" data-level="8.1" data-path="seminar07.html"><a href="seminar07.html#how-to-write-code"><i class="fa fa-check"></i><b>8.1</b> How to write code</a></li>
+<li class="chapter" data-level="8.2" data-path="seminar07.html"><a href="seminar07.html#implementing-a-typical-analysis"><i class="fa fa-check"></i><b>8.2</b> Implementing a typical analysis</a></li>
+<li class="chapter" data-level="8.3" data-path="seminar07.html"><a href="seminar07.html#factors"><i class="fa fa-check"></i><b>8.3</b> Factors</a></li>
+<li class="chapter" data-level="8.4" data-path="seminar07.html"><a href="seminar07.html#forcats"><i class="fa fa-check"></i><b>8.4</b> Forcats</a></li>
+<li class="chapter" data-level="8.5" data-path="seminar07.html"><a href="seminar07.html#plotting-group-averages"><i class="fa fa-check"></i><b>8.5</b> Plotting group averages</a></li>
+<li class="chapter" data-level="8.6" data-path="seminar07.html"><a href="seminar07.html#plotting-our-confidence-in-group-averages"><i class="fa fa-check"></i><b>8.6</b> Plotting our confidence in group averages</a></li>
+<li class="chapter" data-level="8.7" data-path="seminar07.html"><a href="seminar07.html#looking-at-similarity"><i class="fa fa-check"></i><b>8.7</b> Looking at similarity</a></li>
+<li class="chapter" data-level="8.8" data-path="seminar07.html"><a href="seminar07.html#joining-tables"><i class="fa fa-check"></i><b>8.8</b> Joining tables</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="seminar09.html"><a href="seminar09.html"><i class="fa fa-check"></i><b>9</b> Tidyng your data</a>
+<li class="chapter" data-level="9" data-path="seminar08.html"><a href="seminar08.html"><i class="fa fa-check"></i><b>9</b> Glueing and sprintfing</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="seminar09.html"><a href="seminar09.html#pivoting-between-long-and-wide-format"><i class="fa fa-check"></i><b>9.1</b> Pivoting between long and wide format</a></li>
-<li class="chapter" data-level="9.2" data-path="seminar09.html"><a href="seminar09.html#practice-pivoting-longer"><i class="fa fa-check"></i><b>9.2</b> Practice pivoting longer</a></li>
-<li class="chapter" data-level="9.3" data-path="seminar09.html"><a href="seminar09.html#practice-pivoting-wider"><i class="fa fa-check"></i><b>9.3</b> Practice pivoting wider</a></li>
-<li class="chapter" data-level="9.4" data-path="seminar09.html"><a href="seminar09.html#extracting-information-from-a-string"><i class="fa fa-check"></i><b>9.4</b> Extracting information from a string</a></li>
-<li class="chapter" data-level="9.5" data-path="seminar09.html"><a href="seminar09.html#separate"><i class="fa fa-check"></i><b>9.5</b> Separate</a></li>
-<li class="chapter" data-level="9.6" data-path="seminar09.html"><a href="seminar09.html#missing-data"><i class="fa fa-check"></i><b>9.6</b> Missing data</a></li>
+<li class="chapter" data-level="9.1" data-path="seminar08.html"><a href="seminar08.html#comparing-effect-between-two-studies"><i class="fa fa-check"></i><b>9.1</b> Comparing effect between two studies</a></li>
+<li class="chapter" data-level="9.2" data-path="seminar08.html"><a href="seminar08.html#glue"><i class="fa fa-check"></i><b>9.2</b> Gluing in correlation strength information.</a></li>
+<li class="chapter" data-level="9.3" data-path="seminar08.html"><a href="seminar08.html#sprintf"><i class="fa fa-check"></i><b>9.3</b> sprintf</a></li>
+<li class="chapter" data-level="9.4" data-path="seminar08.html"><a href="seminar08.html#wrap-up-2"><i class="fa fa-check"></i><b>9.4</b> Wrap up</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="seminar10.html"><a href="seminar10.html"><i class="fa fa-check"></i><b>10</b> Repeating a computation</a>
+<li class="chapter" data-level="10" data-path="seminar09.html"><a href="seminar09.html"><i class="fa fa-check"></i><b>10</b> Tidyng your data</a>
 <ul>
-<li class="chapter" data-level="10.1" data-path="seminar10.html"><a href="seminar10.html#rep"><i class="fa fa-check"></i><b>10.1</b> <code>rep()</code></a></li>
-<li class="chapter" data-level="10.2" data-path="seminar10.html"><a href="seminar10.html#repeating-combinations"><i class="fa fa-check"></i><b>10.2</b> Repeating combinations</a></li>
-<li class="chapter" data-level="10.3" data-path="seminar10.html"><a href="seminar10.html#list"><i class="fa fa-check"></i><b>10.3</b> Lists</a></li>
-<li class="chapter" data-level="10.4" data-path="seminar10.html"><a href="seminar10.html#forloop"><i class="fa fa-check"></i><b>10.4</b> For loop</a></li>
-<li class="chapter" data-level="10.5" data-path="seminar10.html"><a href="seminar10.html#using-for-loop-to-load-and-join-multiple-data-files"><i class="fa fa-check"></i><b>10.5</b> Using for loop to load and join multiple data files</a></li>
-<li class="chapter" data-level="10.6" data-path="seminar10.html"><a href="seminar10.html#apply"><i class="fa fa-check"></i><b>10.6</b> Apply</a></li>
-<li class="chapter" data-level="10.7" data-path="seminar10.html"><a href="seminar10.html#purrr"><i class="fa fa-check"></i><b>10.7</b> Purrr</a></li>
+<li class="chapter" data-level="10.1" data-path="seminar09.html"><a href="seminar09.html#pivoting-between-long-and-wide-format"><i class="fa fa-check"></i><b>10.1</b> Pivoting between long and wide format</a></li>
+<li class="chapter" data-level="10.2" data-path="seminar09.html"><a href="seminar09.html#practice-pivoting-longer"><i class="fa fa-check"></i><b>10.2</b> Practice pivoting longer</a></li>
+<li class="chapter" data-level="10.3" data-path="seminar09.html"><a href="seminar09.html#practice-pivoting-wider"><i class="fa fa-check"></i><b>10.3</b> Practice pivoting wider</a></li>
+<li class="chapter" data-level="10.4" data-path="seminar09.html"><a href="seminar09.html#extracting-information-from-a-string"><i class="fa fa-check"></i><b>10.4</b> Extracting information from a string</a></li>
+<li class="chapter" data-level="10.5" data-path="seminar09.html"><a href="seminar09.html#separate"><i class="fa fa-check"></i><b>10.5</b> Separate</a></li>
+<li class="chapter" data-level="10.6" data-path="seminar09.html"><a href="seminar09.html#missing-data"><i class="fa fa-check"></i><b>10.6</b> Missing data</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="seminar11.html"><a href="seminar11.html"><i class="fa fa-check"></i><b>11</b> Statistical modeling</a>
+<li class="chapter" data-level="11" data-path="seminar10.html"><a href="seminar10.html"><i class="fa fa-check"></i><b>11</b> Repeating a computation</a>
 <ul>
-<li class="chapter" data-level="11.1" data-path="seminar11.html"><a href="seminar11.html#formula-notation"><i class="fa fa-check"></i><b>11.1</b> Formula notation</a></li>
-<li class="chapter" data-level="11.2" data-path="seminar11.html"><a href="seminar11.html#correlation"><i class="fa fa-check"></i><b>11.2</b> Correlation</a></li>
-<li class="chapter" data-level="11.3" data-path="seminar11.html"><a href="seminar11.html#pairwise-comparisons"><i class="fa fa-check"></i><b>11.3</b> Pairwise comparisons</a></li>
-<li class="chapter" data-level="11.4" data-path="seminar11.html"><a href="seminar11.html#anova"><i class="fa fa-check"></i><b>11.4</b> ANOVA</a></li>
-<li class="chapter" data-level="11.5" data-path="seminar11.html"><a href="seminar11.html#GLMM"><i class="fa fa-check"></i><b>11.5</b> (Generalized) Linear Models</a></li>
-<li class="chapter" data-level="11.6" data-path="seminar11.html"><a href="seminar11.html#generalized-linear-mixed-models"><i class="fa fa-check"></i><b>11.6</b> (Generalized) Linear Mixed Models</a></li>
-<li class="chapter" data-level="11.7" data-path="seminar11.html"><a href="seminar11.html#practice"><i class="fa fa-check"></i><b>11.7</b> Practice</a>
+<li class="chapter" data-level="11.1" data-path="seminar10.html"><a href="seminar10.html#rep"><i class="fa fa-check"></i><b>11.1</b> <code>rep()</code></a></li>
+<li class="chapter" data-level="11.2" data-path="seminar10.html"><a href="seminar10.html#repeating-combinations"><i class="fa fa-check"></i><b>11.2</b> Repeating combinations</a></li>
+<li class="chapter" data-level="11.3" data-path="seminar10.html"><a href="seminar10.html#list"><i class="fa fa-check"></i><b>11.3</b> Lists</a></li>
+<li class="chapter" data-level="11.4" data-path="seminar10.html"><a href="seminar10.html#forloop"><i class="fa fa-check"></i><b>11.4</b> For loop</a></li>
+<li class="chapter" data-level="11.5" data-path="seminar10.html"><a href="seminar10.html#using-for-loop-to-load-and-join-multiple-data-files"><i class="fa fa-check"></i><b>11.5</b> Using for loop to load and join multiple data files</a></li>
+<li class="chapter" data-level="11.6" data-path="seminar10.html"><a href="seminar10.html#apply"><i class="fa fa-check"></i><b>11.6</b> Apply</a></li>
+<li class="chapter" data-level="11.7" data-path="seminar10.html"><a href="seminar10.html#purrr"><i class="fa fa-check"></i><b>11.7</b> Purrr</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="seminar11.html"><a href="seminar11.html"><i class="fa fa-check"></i><b>12</b> Statistical modeling</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="seminar11.html"><a href="seminar11.html#formula-notation"><i class="fa fa-check"></i><b>12.1</b> Formula notation</a></li>
+<li class="chapter" data-level="12.2" data-path="seminar11.html"><a href="seminar11.html#correlation"><i class="fa fa-check"></i><b>12.2</b> Correlation</a></li>
+<li class="chapter" data-level="12.3" data-path="seminar11.html"><a href="seminar11.html#pairwise-comparisons"><i class="fa fa-check"></i><b>12.3</b> Pairwise comparisons</a></li>
+<li class="chapter" data-level="12.4" data-path="seminar11.html"><a href="seminar11.html#anova"><i class="fa fa-check"></i><b>12.4</b> ANOVA</a></li>
+<li class="chapter" data-level="12.5" data-path="seminar11.html"><a href="seminar11.html#GLMM"><i class="fa fa-check"></i><b>12.5</b> (Generalized) Linear Models</a></li>
+<li class="chapter" data-level="12.6" data-path="seminar11.html"><a href="seminar11.html#generalized-linear-mixed-models"><i class="fa fa-check"></i><b>12.6</b> (Generalized) Linear Mixed Models</a></li>
+<li class="chapter" data-level="12.7" data-path="seminar11.html"><a href="seminar11.html#practice"><i class="fa fa-check"></i><b>12.7</b> Practice</a>
 <ul>
 <li class="chapter" data-level="" data-path="seminar11.html"><a href="seminar11.html#read-files-and-preprocess-data"><i class="fa fa-check"></i>Read files and preprocess data</a></li>
 <li class="chapter" data-level="" data-path="seminar11.html"><a href="seminar11.html#accuracy"><i class="fa fa-check"></i>Accuracy</a></li>
@@ -289,15 +291,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="seminar11.html"><a href="seminar11.html#computing-the-score"><i class="fa fa-check"></i>Computing the score</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="seminar12.html"><a href="seminar12.html"><i class="fa fa-check"></i><b>12</b> Practice</a>
+<li class="chapter" data-level="13" data-path="seminar12.html"><a href="seminar12.html"><i class="fa fa-check"></i><b>13</b> Practice</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="seminar12.html"><a href="seminar12.html#bad-names-to-good-names"><i class="fa fa-check"></i><b>12.1</b> Bad names to good names</a></li>
-<li class="chapter" data-level="12.2" data-path="seminar12.html"><a href="seminar12.html#participant-id"><i class="fa fa-check"></i><b>12.2</b> Participant ID</a></li>
-<li class="chapter" data-level="12.3" data-path="seminar12.html"><a href="seminar12.html#factors-1"><i class="fa fa-check"></i><b>12.3</b> Factors</a></li>
-<li class="chapter" data-level="12.4" data-path="seminar12.html"><a href="seminar12.html#response-times-1"><i class="fa fa-check"></i><b>12.4</b> Response times</a></li>
-<li class="chapter" data-level="12.5" data-path="seminar12.html"><a href="seminar12.html#accuracy-1"><i class="fa fa-check"></i><b>12.5</b> Accuracy</a></li>
-<li class="chapter" data-level="12.6" data-path="seminar12.html"><a href="seminar12.html#physiological-signal"><i class="fa fa-check"></i><b>12.6</b> Physiological signal</a></li>
-<li class="chapter" data-level="12.7" data-path="seminar12.html"><a href="seminar12.html#wrap-up-3"><i class="fa fa-check"></i><b>12.7</b> Wrap up</a></li>
+<li class="chapter" data-level="13.1" data-path="seminar12.html"><a href="seminar12.html#bad-names-to-good-names"><i class="fa fa-check"></i><b>13.1</b> Bad names to good names</a></li>
+<li class="chapter" data-level="13.2" data-path="seminar12.html"><a href="seminar12.html#participant-id"><i class="fa fa-check"></i><b>13.2</b> Participant ID</a></li>
+<li class="chapter" data-level="13.3" data-path="seminar12.html"><a href="seminar12.html#factors-1"><i class="fa fa-check"></i><b>13.3</b> Factors</a></li>
+<li class="chapter" data-level="13.4" data-path="seminar12.html"><a href="seminar12.html#response-times-1"><i class="fa fa-check"></i><b>13.4</b> Response times</a></li>
+<li class="chapter" data-level="13.5" data-path="seminar12.html"><a href="seminar12.html#accuracy-1"><i class="fa fa-check"></i><b>13.5</b> Accuracy</a></li>
+<li class="chapter" data-level="13.6" data-path="seminar12.html"><a href="seminar12.html#physiological-signal"><i class="fa fa-check"></i><b>13.6</b> Physiological signal</a></li>
+<li class="chapter" data-level="13.7" data-path="seminar12.html"><a href="seminar12.html#wrap-up-3"><i class="fa fa-check"></i><b>13.7</b> Wrap up</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://alexander-pastukhov.github.io/">Alexander (Sasha) Pastukhov</li>
@@ -311,7 +313,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data analysis using R for Psychology</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data analysis using R for Psychology and Social Science</a>
           </h1>
         </div>
 
@@ -319,11 +321,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="ggplot2" class="section level1" number="4">
-<h1><span class="header-section-number">Seminar 4</span> Grammar of Graphics</h1>
+<div id="ggplot2" class="section level1" number="5">
+<h1><span class="header-section-number">Seminar 5</span> Grammar of Graphics</h1>
 <p>In previous seminar, you have learned about tables that are the main way of representing data in psychological research and in R. In the following seminars, you will learn how to manipulate the data in these tables: change it, aggregate or transform individual groups of data, use it for statistical analysis. But before that you need to understand how to store your data in the table in the optimal way. First, I will introduce the idea of <em>tidy data</em>, the concept that gave <a href="https://www.tidyverse.org/">Tidyverse</a> its name. Next, we will see how tidy data helps you visualize the relationships between variables. Don’t forget to download the <a href="notebooks/Seminar%2004%20-%20ggplot2.Rmd">notebook</a>.</p>
-<div id="tidydata" class="section level2" number="4.1">
-<h2><span class="header-section-number">4.1</span> Tidy data</h2>
+<div id="tidydata" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Tidy data</h2>
 <p>The tidy data follows <a href="https://r4ds.had.co.nz/tidy-data.html">three rules</a>:</p>
 <ul>
 <li>variables are in columns,</li>
@@ -489,8 +491,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>This table is (very) tidy and it makes it easy to group data by every different combination of variables (e.g. per face and judgment, per participant and judgment), perform statistical analysis, etc. However, it may not always be the best way to represent the data. For example, if you would like to model <code>Trustworthiness</code> using <code>Symmetry</code> and <code>Attractiveness</code> as predictors, when the first table is more suitable. At the end, the table structure must fit your needs, not the other way around. Still, what you probably want is a <em>tidy</em> table because it is best suited for most things you will want to do with the data and because it makes it easy to transform the data to match your specific needs (e.g., going from the third table to the first one via pivoting).</p>
 <p>Most data you will get from experiments will not be tidy. We will spent quite some time in learning how to tidy it up but first let us see how an already tidy data makes it easy to visualize relationships in it.</p>
 </div>
-<div id="ggplot2-1" class="section level2" number="4.2">
-<h2><span class="header-section-number">4.2</span> ggplot2</h2>
+<div id="ggplot2-1" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> ggplot2</h2>
 <p><a href="https://ggplot2.tidyverse.org/">ggplot2</a> package is my main tool for data visualization in R. ggplot2 tends to make really good looking production-ready plots (this is not a given, a default-looking Matlab plot is, or used to be when I used Matlab, pretty ugly). Hadley Wickham was influenced by works of <a href="https://www.edwardtufte.com/tufte/">Edward Tufte</a> when developing ggplot2. Although the aesthetic aspect goes beyond our seminar (although, if you are interested, I might make a Christmas-special on that), if you will need to visualize data in the future, I strongly recommend reading Tufte’s books. In fact, it is such an informative and aesthetically pleasing experience that I would recommend reading them in any case.</p>
 <p>More importantly, ggplot2 uses a grammar-based approach of describing a plot that makes it conceptually different from most other software such as Matlab, Matplotlib in Python, etc. A plot in <em>ggplot2</em> is described in three parts:</p>
 <ol style="list-style-type: decimal">
@@ -511,164 +513,164 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">1</td>
-<td align="right">0.0376180</td>
+<td align="right">-0.0196639</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">1</td>
-<td align="right">-1.3238502</td>
+<td align="right">-2.3326525</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">1</td>
-<td align="right">-3.9777774</td>
+<td align="right">-3.4522809</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">2</td>
-<td align="right">0.9051393</td>
+<td align="right">0.9229341</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">2</td>
-<td align="right">-0.8013996</td>
+<td align="right">-1.4989735</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">2</td>
-<td align="right">-2.9622110</td>
+<td align="right">-2.6276149</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">3</td>
-<td align="right">1.6792951</td>
+<td align="right">1.4663840</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">3</td>
-<td align="right">-1.0176120</td>
+<td align="right">0.0486927</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">3</td>
-<td align="right">-2.7851787</td>
+<td align="right">-2.5032235</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">4</td>
-<td align="right">2.7187994</td>
+<td align="right">3.3485619</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">4</td>
-<td align="right">1.4039980</td>
+<td align="right">1.6785505</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">4</td>
-<td align="right">-0.7109715</td>
+<td align="right">-1.4461716</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">5</td>
-<td align="right">2.9607435</td>
+<td align="right">3.5064455</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">5</td>
-<td align="right">2.7435240</td>
+<td align="right">2.0772555</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">5</td>
-<td align="right">-0.3922531</td>
+<td align="right">-0.1278687</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">6</td>
-<td align="right">4.9398176</td>
+<td align="right">5.6295852</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">6</td>
-<td align="right">3.1484367</td>
+<td align="right">1.9473160</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">6</td>
-<td align="right">2.3578022</td>
+<td align="right">1.1081652</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">7</td>
-<td align="right">5.7105894</td>
+<td align="right">6.1335331</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">7</td>
-<td align="right">4.1799179</td>
+<td align="right">3.9301612</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">7</td>
-<td align="right">1.9228145</td>
+<td align="right">2.0537464</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">8</td>
-<td align="right">6.3542236</td>
+<td align="right">7.3443536</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">8</td>
-<td align="right">4.7368950</td>
+<td align="right">5.1480138</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">8</td>
-<td align="right">2.4671758</td>
+<td align="right">3.3009158</td>
 </tr>
 </tbody>
 </table>
 <p>We plot this data by 1) <em>defining aesthetics</em> (mapping <code>Intensity</code> on to x-axis, <code>Response</code>on y-axis, and <code>Condition</code> on color) and 2) <em>adding</em> lines to the plot (note the plus in <code>+ geom_line()</code>).</p>
-<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="ggplot2.html#cb187-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Intensity, <span class="at">y =</span> Response, <span class="at">color=</span>Condition)) <span class="sc">+</span> </span>
-<span id="cb187-2"><a href="ggplot2.html#cb187-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code></pre></div>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-95-1.png" width="672" /></p>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="ggplot2.html#cb199-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Intensity, <span class="at">y =</span> Response, <span class="at">color=</span>Condition)) <span class="sc">+</span> </span>
+<span id="cb199-2"><a href="ggplot2.html#cb199-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code></pre></div>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-102-1.png" width="672" /></p>
 <p>As I already wrote, technically, we only thing you need to define is aesthetics, so let us not add anything to the plot (drop the <code>+geom_line()</code>).</p>
-<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="ggplot2.html#cb188-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Intensity, <span class="at">y =</span> Response, <span class="at">color=</span>Condition))</span></code></pre></div>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-96-1.png" width="672" style="display: block; margin: auto;" />
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="ggplot2.html#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Intensity, <span class="at">y =</span> Response, <span class="at">color=</span>Condition))</span></code></pre></div>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-103-1.png" width="672" style="display: block; margin: auto;" />
 Told you it will look empty and yet you can see <em>ggplot2</em> in action. Notice that axes are labeled and their limits are set. You cannot see the legend (they are not plotted without corresponding geometry) but it is also ready. This is because our initial call specified the most important part: how the individual variables map on various properties even before we told <em>ggplot2</em> which visuals we will use to plot the data. When we specified that x-axis will represent the <code>Intensity</code>, ggplot2 figured out the range of values, so it knows <em>where</em> it is going to plot whatever we decide to plot. Points, lines, bar, error bars and what not will span only that range. Same goes for other properties such as color. We wanted <em>color</em> to represent the condition. Again, we may not know what exactly we will be plotting (points, lines?) or even how many different visuals we will be adding to the plot (just lines? points + lines? points + lines + linear fit?) but we do know that whatever visual we add, if it can have color, its color <em>must</em> represent condition for that data point. The beauty of <em>ggplot2</em> is that it analyses your data and figures out how many colors you need and is ready to apply them <em>consistently</em> to all visuals you will later add. It will ensure that all points, bars, lines, etc. will have consistent coordinates scaling, color-, size-, fill-mapping that are the same across the entire plot. This may sound trivial but typically (e.g., Matlab, Matplotlib), it is <em>your</em> job to make sure that all these properties match and that they represent the same value across all visual elements. And this is a pretty tedious job, particularly when you decide to change your mappings and have to redo all individual components by hand. In <em>ggplot2</em>, this dissociation between mapping and visuals means you can tinker with one of them at a time. E.g. keep the visuals but change grouping or see if effect of condition is easier to see via line type, size or shape of the point? Or you can keep the mapping and see whether adding another visual will make the plot easier to understand. Note that some mapping also <em>groups</em> your data, so when you use group-based visual information (e.g. a linear regression line) it will know what data belongs together and so will perform this computation per group.</p>
 <p>Let us see how you can keep the relationship mapping but add more visuals. Let us add both lines and points.</p>
-<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="ggplot2.html#cb189-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Intensity, <span class="at">y =</span> Response, <span class="at">color=</span>Condition)) <span class="sc">+</span> </span>
-<span id="cb189-2"><a href="ggplot2.html#cb189-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb189-3"><a href="ggplot2.html#cb189-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="co"># this is new!</span></span></code></pre></div>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-97-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="ggplot2.html#cb201-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Intensity, <span class="at">y =</span> Response, <span class="at">color=</span>Condition)) <span class="sc">+</span> </span>
+<span id="cb201-2"><a href="ggplot2.html#cb201-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb201-3"><a href="ggplot2.html#cb201-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="co"># this is new!</span></span></code></pre></div>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-104-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>In the plot above, we <em>kept</em> the relationship between variables and properties but said “Oh, and throw in some points please.” And ggplot2 knows how to add the points so that they appear at proper location and in proper color. But we want more!</p>
-<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="ggplot2.html#cb190-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Intensity, <span class="at">y =</span> Response, <span class="at">color=</span>Condition)) <span class="sc">+</span> </span>
-<span id="cb190-2"><a href="ggplot2.html#cb190-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb190-3"><a href="ggplot2.html#cb190-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb190-4"><a href="ggplot2.html#cb190-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># a linear regression over all dots in the group</span></span>
-<span id="cb190-5"><a href="ggplot2.html#cb190-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">se=</span><span class="cn">FALSE</span>, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) </span></code></pre></div>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-98-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="ggplot2.html#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Intensity, <span class="at">y =</span> Response, <span class="at">color=</span>Condition)) <span class="sc">+</span> </span>
+<span id="cb202-2"><a href="ggplot2.html#cb202-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb202-3"><a href="ggplot2.html#cb202-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb202-4"><a href="ggplot2.html#cb202-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># a linear regression over all dots in the group</span></span>
+<span id="cb202-5"><a href="ggplot2.html#cb202-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">se=</span><span class="cn">FALSE</span>, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) </span></code></pre></div>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-105-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Now we added a linear regression line that helps us to better see the relationship between <code>Intensity</code> and <code>Response</code>. Again, we simply wished for another visual to be added (<code>method="lm"</code> means that we wanted to average data via linear regression with <code>formula = y ~ x</code> meaning that we regress y-axis on x-axis with no further covariates, <code>se=FALSE</code> means no standard error stripe, <code>linetype="dashed"</code> just makes it easier to distinguish from the solid data line).</p>
 <p>Or, we can keep the <em>visuals</em> but see whether changing <em>mapping</em> would make it more informative (we need to specify <code>group=Intensity</code> as continuous data is not grouped automatically).</p>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="ggplot2.html#cb191-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Condition, <span class="at">y =</span> Response, <span class="at">color=</span>Intensity, <span class="at">group=</span>Intensity)) <span class="sc">+</span> </span>
-<span id="cb191-2"><a href="ggplot2.html#cb191-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb191-3"><a href="ggplot2.html#cb191-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb191-4"><a href="ggplot2.html#cb191-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, <span class="at">se=</span><span class="cn">FALSE</span>,  <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>)</span></code></pre></div>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-99-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="ggplot2.html#cb203-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Condition, <span class="at">y =</span> Response, <span class="at">color=</span>Intensity, <span class="at">group=</span>Intensity)) <span class="sc">+</span> </span>
+<span id="cb203-2"><a href="ggplot2.html#cb203-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb203-3"><a href="ggplot2.html#cb203-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb203-4"><a href="ggplot2.html#cb203-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, <span class="at">se=</span><span class="cn">FALSE</span>,  <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>)</span></code></pre></div>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-106-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Or, we can check whether splitting into several plots helps.</p>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="ggplot2.html#cb192-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Intensity, <span class="at">y =</span> Response, <span class="at">color=</span>Condition)) <span class="sc">+</span> </span>
-<span id="cb192-2"><a href="ggplot2.html#cb192-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb192-3"><a href="ggplot2.html#cb192-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb192-4"><a href="ggplot2.html#cb192-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">se=</span><span class="cn">FALSE</span>, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
-<span id="cb192-5"><a href="ggplot2.html#cb192-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(. <span class="sc">~</span> Condition) <span class="co"># makes a separate subplot for each group</span></span></code></pre></div>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-100-1.png" width="672" style="display: block; margin: auto;" />
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="ggplot2.html#cb204-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Intensity, <span class="at">y =</span> Response, <span class="at">color=</span>Condition)) <span class="sc">+</span> </span>
+<span id="cb204-2"><a href="ggplot2.html#cb204-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb204-3"><a href="ggplot2.html#cb204-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb204-4"><a href="ggplot2.html#cb204-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">se=</span><span class="cn">FALSE</span>, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
+<span id="cb204-5"><a href="ggplot2.html#cb204-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(. <span class="sc">~</span> Condition) <span class="co"># makes a separate subplot for each group</span></span></code></pre></div>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-107-1.png" width="672" style="display: block; margin: auto;" />
 Again, note that all three plots live on the same scale for x- and y-axis, making them easy to compare (you fully appreciate this magic if you ever struggled with ensuring optimal and consistent scaling by hand in Matlab). I went through so many examples to stress how ggplot allows you to think about the aesthetics of variable mapping <em>independently</em> of the actual visual representation (and vice versa). So now lets us explore <em>ggplot2</em> by doing exercises.</p>
 <p>I recommend using <a href="https://ggplot2.tidyverse.org/">ggplot2 reference page</a> and <a href="https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf">cheatsheet</a> when you are doing the exercises.</p>
 </div>
-<div id="auto-efficiency-continuous-x-axis" class="section level2" number="4.3">
-<h2><span class="header-section-number">4.3</span> Auto efficiency: continuous x-axis</h2>
+<div id="auto-efficiency-continuous-x-axis" class="section level2" number="5.3">
+<h2><span class="header-section-number">5.3</span> Auto efficiency: continuous x-axis</h2>
 <p>We start by visualizing how car efficiency, measured as miles-per-gallon, is affected by various factors such as production year, size of the engine, type of transmission, etc. The data is in table <a href="https://ggplot2.tidyverse.org/reference/mpg.html">mpg</a>, which is part of the <em>ggplot2</em> package. Thus, you need to first <a href="tables.html#library">import</a> the library and then load the table via <a href="tables.html#data">data()</a> function. Take a look at the <a href="https://ggplot2.tidyverse.org/reference/mpg.html">table description</a> to familiarize yourself with the variables.</p>
 <p>First, let us look at the relationship between car efficiency in the city cycle (<code>cty</code>), engine displacement (<code>displ</code>), and drive train type (<code>drv</code>) using color points. Reminder, the call should look as</p>
 <pre><code>[ggplot2](https://ggplot2.tidyverse.org/reference/ggplot.html)(data_table_name, [aes](https://ggplot2.tidyverse.org/reference/aes.html)(x = var1, y = var2, color = var3, shape = var4, ...)) + 
@@ -700,8 +702,8 @@ Again, note that all three plots live on the same scale for x- and y-axis, makin
 <p>Do exercise 6.</p>
 </div>
 </div>
-<div id="auto-efficiency-discrete-x-axis" class="section level2" number="4.4">
-<h2><span class="header-section-number">4.4</span> Auto efficiency: discrete x-axis</h2>
+<div id="auto-efficiency-discrete-x-axis" class="section level2" number="5.4">
+<h2><span class="header-section-number">5.4</span> Auto efficiency: discrete x-axis</h2>
 <p>The previous section use a continuous engine displacement variable for x-axis (at least that is my assumption on how you mapped the variables). Frequently, you need to plot data for discrete groups: experimental groups, conditions, treatments, etc. Let us practice on the same <a href="https://ggplot2.tidyverse.org/reference/mpg.html">mpg</a> data set but visualize relationship between the drive train (<code>drv</code>) and highway cycle efficiency (<code>hwy</code>). Start by using point as visuals.</p>
 <div class="infobox practice">
 <p>Do exercise 7.</p>
@@ -719,8 +721,8 @@ Again, note that all three plots live on the same scale for x- and y-axis, makin
 <p>Do exercise 10.</p>
 </div>
 </div>
-<div id="mammals-sleep-single-variable" class="section level2" number="4.5">
-<h2><span class="header-section-number">4.5</span> Mammals sleep: single variable</h2>
+<div id="mammals-sleep-single-variable" class="section level2" number="5.5">
+<h2><span class="header-section-number">5.5</span> Mammals sleep: single variable</h2>
 <p>Now lets us work on plotting a distribution for a single variable using <a href="https://ggplot2.tidyverse.org/reference/msleep.html">mammals sleep dataset</a>. For this, you need to map <code>sleep_total</code> variable on x-axis and plot a <a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">histogram</a>. Explore the available options, in particular <code>bins</code> that determines the bins number and, therefore, their size. Note that there is no “correct” number of bins to use. <em>ggplot2</em> defaults to 30 but a small sample would be probably better served with fewer bins and, vice versa, with a large data set you can afford hundred of bins.</p>
 <div class="infobox practice">
 <p>Do exercise 11.</p>
@@ -743,15 +745,15 @@ Again, note that all three plots live on the same scale for x- and y-axis, makin
 </div>
 <p>Hmm, shouldn’t we have more carnivores, what is going on? Opacity is the answer. A bar “in front” occludes any bars that are “behind” it. Go back to the exercise and fix that by specifying <code>alpha</code> argument that controls transparency. It is <code>1</code> (completely opaque) by default and can go down to <code>0</code> (fully transparent as in “invisible”), so see which intermediate value works the best.</p>
 </div>
-<div id="mapping-for-all-visuals-versus-just-one-visual" class="section level2" number="4.6">
-<h2><span class="header-section-number">4.6</span> Mapping for all visuals versus just one visual</h2>
+<div id="mapping-for-all-visuals-versus-just-one-visual" class="section level2" number="5.6">
+<h2><span class="header-section-number">5.6</span> Mapping for all visuals versus just one visual</h2>
 <p>In the previous exercise, you assigned a constant value to <code>alpha</code> (transparency) argument. You could do this in <em>two</em> places, inside of either <code>ggplot()</code> or <code>geom_histogram()</code> call. In the former case, you would have set <code>alpha</code> level for <em>all</em> geometric primitives on the plot, whereas in the latter you do it only for the histogram. To better see the difference, reuse your code for plotting city cycle efficiency versus engine size (should be exercise #6) and set <code>alpha</code> either for all visuals (in <code>ggplot2</code>) or in some visuals (e.g. only for points) to see the difference.</p>
 <div class="infobox practice">
 <p>Do exercise 16.</p>
 </div>
 </div>
-<div id="mapping-on-variables-versus-constants" class="section level2" number="4.7">
-<h2><span class="header-section-number">4.7</span> Mapping on variables versus constants</h2>
+<div id="mapping-on-variables-versus-constants" class="section level2" number="5.7">
+<h2><span class="header-section-number">5.7</span> Mapping on variables versus constants</h2>
 <p>In the previous exercise, you assigned a constant value to <code>alpha</code> (transparency) argument. However, transparency is just a property just like <code>x</code>, <code>color</code>, or <code>size</code>. Thus, there are <em>two</em> ways you can use them:</p>
 <ul>
 <li><em>inside</em> <code>aes(x=column)</code>, where <code>column</code> is column in the table you supplied via <code>data=</code></li>
@@ -762,28 +764,28 @@ Again, note that all three plots live on the same scale for x- and y-axis, makin
 <p>Do exercise 17.</p>
 </div>
 </div>
-<div id="themes" class="section level2" number="4.8">
-<h2><span class="header-section-number">4.8</span> Themes</h2>
+<div id="themes" class="section level2" number="5.8">
+<h2><span class="header-section-number">5.8</span> Themes</h2>
 <p>Finally, if you are not a fan of the way the plots look, you can quickly modify this by using some other theme. You can define it yourself (there are lots of options you can specify for your <a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a>) or can use one of the <a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">ready-mades</a>. Explore the latter option, find the one you like the best.</p>
 <div class="infobox practice">
 <p>Do exercise 18.</p>
 </div>
 </div>
-<div id="you-aint-seen-nothing-yet" class="section level2" number="4.9">
-<h2><span class="header-section-number">4.9</span> You ain’t seen nothing yet</h2>
+<div id="you-aint-seen-nothing-yet" class="section level2" number="5.9">
+<h2><span class="header-section-number">5.9</span> You ain’t seen nothing yet</h2>
 <p>What you explored is just a tip of the iceberg. There are many more geometric primitive, annotations, scales, themes, etc. It will take an entire separate seminar to do <em>ggplot2</em> justice. However, the basics will get you started and you can always consult reference, books (see below), or me once you need more.</p>
 </div>
-<div id="further-reading" class="section level2" number="4.10">
-<h2><span class="header-section-number">4.10</span> Further reading</h2>
+<div id="further-reading" class="section level2" number="5.10">
+<h2><span class="header-section-number">5.10</span> Further reading</h2>
 <p>If plotting data is part of your daily routine, I recommend reading <a href="https://ggplot2-book.org/">ggplot2 book</a>. It gives you an in-depth view of the package and goes through many possibilities that it offers. You may need all of them but I find useful to know that they exists (who knows, I might need them one day). Another book worth reading is <a href="https://kieranhealy.org/publications/dataviz/">Data Visualization: A Practical Introduction.</a> by Kieran Healy.</p>
 </div>
-<div id="extending-ggplot2" class="section level2" number="4.11">
-<h2><span class="header-section-number">4.11</span> Extending ggplot2</h2>
+<div id="extending-ggplot2" class="section level2" number="5.11">
+<h2><span class="header-section-number">5.11</span> Extending ggplot2</h2>
 <p>There are 80 (as of 19.11.2020) extensions that you find at <a href="https://exts.ggplot2.tidyverse.org/gallery/">ggplot2 website</a>. They add more ways to plot your data, more themes, animated plots, etc. If you feel that <em>ggplot2</em> does not have the geometric primitives you need, take a look at the gallery and, most likely, you will find something that fits your bill.</p>
 <p>One package that is <em>not</em> in the gallery is <a href="https://patchwork.data-imaginist.com/">patchwork</a>. It was created “to make it ridiculously simple to combine separate ggplots into the same graphic.” It is a bold promise but authors do make good on it. It is probably the easiest way to combine multiple plots but you can also consider <a href="https://github.com/wilkelab/cowplot">cowplot</a> and <a href="https://cran.r-project.org/web/packages/gridExtra/index.html">gridExtra</a> packages.</p>
 </div>
-<div id="ggplot2-cannot-do-everything" class="section level2" number="4.12">
-<h2><span class="header-section-number">4.12</span> ggplot2 cannot do everything</h2>
+<div id="ggplot2-cannot-do-everything" class="section level2" number="5.12">
+<h2><span class="header-section-number">5.12</span> ggplot2 cannot do everything</h2>
 <p>There are many different plotting routines and packages for R but I would recommend to use <em>ggplot2</em> as your main tool. However, that does not mean that it must be your only tool, after all, CRAN is brimming with packages. In particular, <em>ggplot2</em> is built for plotting data from a single tidy table, meaning it is less optimal for plotting data in other cases. E.g., you can use it to combine information from several tables in one plot but things become less automatic and consistent. Similarly, you can plot data which is stored in non-tidy tables or even in individual vectors but that makes it less intuitive and more convoluted. No package can do everything and <em>ggplot2</em> is no exception.</p>
 
 </div>
@@ -793,8 +795,8 @@ Again, note that all three plots live on the same scale for x- and y-axis, makin
           </div>
         </div>
       </div>
-<a href="tables.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="seminar05.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="readr.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="functions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

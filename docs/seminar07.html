@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Seminar 7 Factors and Joins | Data analysis using R for Psychology</title>
+  <title>Seminar 8 Factors and Joins | Data analysis using R for Psychology and Social Science</title>
   <meta name="description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
   <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Seminar 7 Factors and Joins | Data analysis using R for Psychology" />
+  <meta property="og:title" content="Seminar 8 Factors and Joins | Data analysis using R for Psychology and Social Science" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Seminar 7 Factors and Joins | Data analysis using R for Psychology" />
+  <meta name="twitter:title" content="Seminar 8 Factors and Joins | Data analysis using R for Psychology and Social Science" />
   
   <meta name="twitter:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
   
@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2021-10-18" />
+<meta name="date" content="2021-10-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -139,11 +139,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a>
 <ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-seminar"><i class="fa fa-check"></i>About the seminar</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#content-of-the-seminar"><i class="fa fa-check"></i>Content of the seminar</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#note-on-exercises"><i class="fa fa-check"></i>Note on exercises</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-r"><i class="fa fa-check"></i>Why R?</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#tidyverse-versus-base-r"><i class="fa fa-check"></i>Tidyverse versus base R</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-tidyverse"><i class="fa fa-check"></i>Why Tidyverse</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-seminar"><i class="fa fa-check"></i>About the seminar</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#thinking-like-a-computer"><i class="fa fa-check"></i>Thinking like a computer</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-material"><i class="fa fa-check"></i>About the material</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="software.html"><a href="software.html"><i class="fa fa-check"></i>Software</a>
 <ul>
@@ -186,102 +186,104 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3.5" data-path="tables.html"><a href="tables.html#dollar-subsetting"><i class="fa fa-check"></i><b>3.5</b> Yet another subsetting via $</a></li>
 <li class="chapter" data-level="3.6" data-path="tables.html"><a href="tables.html#data.frame"><i class="fa fa-check"></i><b>3.6</b> Tables, a.k.a. data frames</a></li>
-<li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#table-subsetting"><i class="fa fa-check"></i><b>3.7</b> Subsetting table</a></li>
+<li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#table-subsetting"><i class="fa fa-check"></i><b>3.7</b> Subsetting tables</a></li>
 <li class="chapter" data-level="3.8" data-path="tables.html"><a href="tables.html#library"><i class="fa fa-check"></i><b>3.8</b> Using libraries</a></li>
 <li class="chapter" data-level="3.9" data-path="tables.html"><a href="tables.html#tibble"><i class="fa fa-check"></i><b>3.9</b> Tibble, a better data.frame</a></li>
 <li class="chapter" data-level="3.10" data-path="tables.html"><a href="tables.html#tribble"><i class="fa fa-check"></i><b>3.10</b> Tribble, table from text</a></li>
 <li class="chapter" data-level="3.11" data-path="tables.html"><a href="tables.html#data"><i class="fa fa-check"></i><b>3.11</b> Reading example tables</a></li>
-<li class="chapter" data-level="3.12" data-path="tables.html"><a href="tables.html#readr"><i class="fa fa-check"></i><b>3.12</b> Reading csv files</a></li>
-<li class="chapter" data-level="3.13" data-path="tables.html"><a href="tables.html#readxl"><i class="fa fa-check"></i><b>3.13</b> Reading Excel files</a></li>
-<li class="chapter" data-level="3.14" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.14</b> Reading files from other programs</a></li>
-<li class="chapter" data-level="3.15" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.15</b> Wrap up</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>4</b> Grammar of Graphics</a>
+<li class="chapter" data-level="4" data-path="readr.html"><a href="readr.html"><i class="fa fa-check"></i><b>4</b> Reading csv files</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="ggplot2.html"><a href="ggplot2.html#tidydata"><i class="fa fa-check"></i><b>4.1</b> Tidy data</a></li>
-<li class="chapter" data-level="4.2" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-1"><i class="fa fa-check"></i><b>4.2</b> ggplot2</a></li>
-<li class="chapter" data-level="4.3" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-continuous-x-axis"><i class="fa fa-check"></i><b>4.3</b> Auto efficiency: continuous x-axis</a></li>
-<li class="chapter" data-level="4.4" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-discrete-x-axis"><i class="fa fa-check"></i><b>4.4</b> Auto efficiency: discrete x-axis</a></li>
-<li class="chapter" data-level="4.5" data-path="ggplot2.html"><a href="ggplot2.html#mammals-sleep-single-variable"><i class="fa fa-check"></i><b>4.5</b> Mammals sleep: single variable</a></li>
-<li class="chapter" data-level="4.6" data-path="ggplot2.html"><a href="ggplot2.html#mapping-for-all-visuals-versus-just-one-visual"><i class="fa fa-check"></i><b>4.6</b> Mapping for all visuals versus just one visual</a></li>
-<li class="chapter" data-level="4.7" data-path="ggplot2.html"><a href="ggplot2.html#mapping-on-variables-versus-constants"><i class="fa fa-check"></i><b>4.7</b> Mapping on variables versus constants</a></li>
-<li class="chapter" data-level="4.8" data-path="ggplot2.html"><a href="ggplot2.html#themes"><i class="fa fa-check"></i><b>4.8</b> Themes</a></li>
-<li class="chapter" data-level="4.9" data-path="ggplot2.html"><a href="ggplot2.html#you-aint-seen-nothing-yet"><i class="fa fa-check"></i><b>4.9</b> You ain’t seen nothing yet</a></li>
-<li class="chapter" data-level="4.10" data-path="ggplot2.html"><a href="ggplot2.html#further-reading"><i class="fa fa-check"></i><b>4.10</b> Further reading</a></li>
-<li class="chapter" data-level="4.11" data-path="ggplot2.html"><a href="ggplot2.html#extending-ggplot2"><i class="fa fa-check"></i><b>4.11</b> Extending ggplot2</a></li>
-<li class="chapter" data-level="4.12" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-cannot-do-everything"><i class="fa fa-check"></i><b>4.12</b> ggplot2 cannot do everything</a></li>
+<li class="chapter" data-level="4.1" data-path="readr.html"><a href="readr.html#readxl"><i class="fa fa-check"></i><b>4.1</b> Reading Excel files</a></li>
+<li class="chapter" data-level="4.2" data-path="readr.html"><a href="readr.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>4.2</b> Reading files from other programs</a></li>
+<li class="chapter" data-level="4.3" data-path="readr.html"><a href="readr.html#wrap-up-1"><i class="fa fa-check"></i><b>4.3</b> Wrap up</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="seminar05.html"><a href="seminar05.html"><i class="fa fa-check"></i><b>5</b> Functions and pipes</a>
+<li class="chapter" data-level="5" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>5</b> Grammar of Graphics</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="seminar05.html"><a href="seminar05.html#functions"><i class="fa fa-check"></i><b>5.1</b> Functions</a></li>
-<li class="chapter" data-level="5.2" data-path="seminar05.html"><a href="seminar05.html#writing-a-function"><i class="fa fa-check"></i><b>5.2</b> Writing a function</a></li>
-<li class="chapter" data-level="5.3" data-path="seminar05.html"><a href="seminar05.html#scopes-global-versus-local-variables"><i class="fa fa-check"></i><b>5.3</b> Scopes: Global versus Local variables</a></li>
-<li class="chapter" data-level="5.4" data-path="seminar05.html"><a href="seminar05.html#function-with-two-parameters"><i class="fa fa-check"></i><b>5.4</b> Function with two parameters</a></li>
-<li class="chapter" data-level="5.5" data-path="seminar05.html"><a href="seminar05.html#table-as-a-parameter"><i class="fa fa-check"></i><b>5.5</b> Table as a parameter</a></li>
-<li class="chapter" data-level="5.6" data-path="seminar05.html"><a href="seminar05.html#nested-calls"><i class="fa fa-check"></i><b>5.6</b> Nested calls</a></li>
-<li class="chapter" data-level="5.7" data-path="seminar05.html"><a href="seminar05.html#piping"><i class="fa fa-check"></i><b>5.7</b> Piping</a></li>
-<li class="chapter" data-level="5.8" data-path="seminar05.html"><a href="seminar05.html#everything-is-a-function"><i class="fa fa-check"></i><b>5.8</b> Everything is a function</a></li>
-<li class="chapter" data-level="5.9" data-path="seminar05.html"><a href="seminar05.html#using-or-not-using-explicit-return-statement"><i class="fa fa-check"></i><b>5.9</b> Using (or not using) explicit return statement</a></li>
+<li class="chapter" data-level="5.1" data-path="ggplot2.html"><a href="ggplot2.html#tidydata"><i class="fa fa-check"></i><b>5.1</b> Tidy data</a></li>
+<li class="chapter" data-level="5.2" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-1"><i class="fa fa-check"></i><b>5.2</b> ggplot2</a></li>
+<li class="chapter" data-level="5.3" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-continuous-x-axis"><i class="fa fa-check"></i><b>5.3</b> Auto efficiency: continuous x-axis</a></li>
+<li class="chapter" data-level="5.4" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-discrete-x-axis"><i class="fa fa-check"></i><b>5.4</b> Auto efficiency: discrete x-axis</a></li>
+<li class="chapter" data-level="5.5" data-path="ggplot2.html"><a href="ggplot2.html#mammals-sleep-single-variable"><i class="fa fa-check"></i><b>5.5</b> Mammals sleep: single variable</a></li>
+<li class="chapter" data-level="5.6" data-path="ggplot2.html"><a href="ggplot2.html#mapping-for-all-visuals-versus-just-one-visual"><i class="fa fa-check"></i><b>5.6</b> Mapping for all visuals versus just one visual</a></li>
+<li class="chapter" data-level="5.7" data-path="ggplot2.html"><a href="ggplot2.html#mapping-on-variables-versus-constants"><i class="fa fa-check"></i><b>5.7</b> Mapping on variables versus constants</a></li>
+<li class="chapter" data-level="5.8" data-path="ggplot2.html"><a href="ggplot2.html#themes"><i class="fa fa-check"></i><b>5.8</b> Themes</a></li>
+<li class="chapter" data-level="5.9" data-path="ggplot2.html"><a href="ggplot2.html#you-aint-seen-nothing-yet"><i class="fa fa-check"></i><b>5.9</b> You ain’t seen nothing yet</a></li>
+<li class="chapter" data-level="5.10" data-path="ggplot2.html"><a href="ggplot2.html#further-reading"><i class="fa fa-check"></i><b>5.10</b> Further reading</a></li>
+<li class="chapter" data-level="5.11" data-path="ggplot2.html"><a href="ggplot2.html#extending-ggplot2"><i class="fa fa-check"></i><b>5.11</b> Extending ggplot2</a></li>
+<li class="chapter" data-level="5.12" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-cannot-do-everything"><i class="fa fa-check"></i><b>5.12</b> ggplot2 cannot do everything</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>6</b> Tidyverse: dplyr</a>
+<li class="chapter" data-level="6" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>6</b> Functions and pipes</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="dplyr.html"><a href="dplyr.html#tidyverse-philosophy"><i class="fa fa-check"></i><b>6.1</b> Tidyverse philosophy</a></li>
-<li class="chapter" data-level="6.2" data-path="dplyr.html"><a href="dplyr.html#select"><i class="fa fa-check"></i><b>6.2</b> <code>select()</code> columns by name</a></li>
-<li class="chapter" data-level="6.3" data-path="dplyr.html"><a href="dplyr.html#conditions"><i class="fa fa-check"></i><b>6.3</b> Conditions</a></li>
-<li class="chapter" data-level="6.4" data-path="dplyr.html"><a href="dplyr.html#logical-indexing"><i class="fa fa-check"></i><b>6.4</b> Logical indexing</a></li>
-<li class="chapter" data-level="6.5" data-path="dplyr.html"><a href="dplyr.html#filter-rows-by-values"><i class="fa fa-check"></i><b>6.5</b> <code>filter()</code> rows by values</a></li>
-<li class="chapter" data-level="6.6" data-path="dplyr.html"><a href="dplyr.html#arrange-rows-in-a-particular-order"><i class="fa fa-check"></i><b>6.6</b> <code>arrange()</code> rows in a particular order</a></li>
-<li class="chapter" data-level="6.7" data-path="dplyr.html"><a href="dplyr.html#mutate"><i class="fa fa-check"></i><b>6.7</b> <code>mutate()</code> columns</a></li>
-<li class="chapter" data-level="6.8" data-path="dplyr.html"><a href="dplyr.html#summarize"><i class="fa fa-check"></i><b>6.8</b> <code>summarize()</code> table by <code>groups</code></a></li>
-<li class="chapter" data-level="6.9" data-path="dplyr.html"><a href="dplyr.html#putting-it-all-together"><i class="fa fa-check"></i><b>6.9</b> Putting it all together</a></li>
-<li class="chapter" data-level="6.10" data-path="dplyr.html"><a href="dplyr.html#should-i-use-tidyverse"><i class="fa fa-check"></i><b>6.10</b> Should I use Tidyverse?</a></li>
+<li class="chapter" data-level="6.1" data-path="functions.html"><a href="functions.html#functions-1"><i class="fa fa-check"></i><b>6.1</b> Functions</a></li>
+<li class="chapter" data-level="6.2" data-path="functions.html"><a href="functions.html#writing-a-function"><i class="fa fa-check"></i><b>6.2</b> Writing a function</a></li>
+<li class="chapter" data-level="6.3" data-path="functions.html"><a href="functions.html#scopes-global-versus-local-variables"><i class="fa fa-check"></i><b>6.3</b> Scopes: Global versus Local variables</a></li>
+<li class="chapter" data-level="6.4" data-path="functions.html"><a href="functions.html#function-with-two-parameters"><i class="fa fa-check"></i><b>6.4</b> Function with two parameters</a></li>
+<li class="chapter" data-level="6.5" data-path="functions.html"><a href="functions.html#table-as-a-parameter"><i class="fa fa-check"></i><b>6.5</b> Table as a parameter</a></li>
+<li class="chapter" data-level="6.6" data-path="functions.html"><a href="functions.html#nested-calls"><i class="fa fa-check"></i><b>6.6</b> Nested calls</a></li>
+<li class="chapter" data-level="6.7" data-path="functions.html"><a href="functions.html#piping"><i class="fa fa-check"></i><b>6.7</b> Piping</a></li>
+<li class="chapter" data-level="6.8" data-path="functions.html"><a href="functions.html#everything-is-a-function"><i class="fa fa-check"></i><b>6.8</b> Everything is a function</a></li>
+<li class="chapter" data-level="6.9" data-path="functions.html"><a href="functions.html#using-or-not-using-explicit-return-statement"><i class="fa fa-check"></i><b>6.9</b> Using (or not using) explicit return statement</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="seminar07.html"><a href="seminar07.html"><i class="fa fa-check"></i><b>7</b> Factors and Joins</a>
+<li class="chapter" data-level="7" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>7</b> Tidyverse: dplyr</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="seminar07.html"><a href="seminar07.html#how-to-write-code"><i class="fa fa-check"></i><b>7.1</b> How to write code</a></li>
-<li class="chapter" data-level="7.2" data-path="seminar07.html"><a href="seminar07.html#implementing-a-typical-analysis"><i class="fa fa-check"></i><b>7.2</b> Implementing a typical analysis</a></li>
-<li class="chapter" data-level="7.3" data-path="seminar07.html"><a href="seminar07.html#factors"><i class="fa fa-check"></i><b>7.3</b> Factors</a></li>
-<li class="chapter" data-level="7.4" data-path="seminar07.html"><a href="seminar07.html#forcats"><i class="fa fa-check"></i><b>7.4</b> Forcats</a></li>
-<li class="chapter" data-level="7.5" data-path="seminar07.html"><a href="seminar07.html#plotting-group-averages"><i class="fa fa-check"></i><b>7.5</b> Plotting group averages</a></li>
-<li class="chapter" data-level="7.6" data-path="seminar07.html"><a href="seminar07.html#plotting-our-confidence-in-group-averages"><i class="fa fa-check"></i><b>7.6</b> Plotting our confidence in group averages</a></li>
-<li class="chapter" data-level="7.7" data-path="seminar07.html"><a href="seminar07.html#looking-at-similarity"><i class="fa fa-check"></i><b>7.7</b> Looking at similarity</a></li>
-<li class="chapter" data-level="7.8" data-path="seminar07.html"><a href="seminar07.html#joining-tables"><i class="fa fa-check"></i><b>7.8</b> Joining tables</a></li>
+<li class="chapter" data-level="7.1" data-path="dplyr.html"><a href="dplyr.html#tidyverse-philosophy"><i class="fa fa-check"></i><b>7.1</b> Tidyverse philosophy</a></li>
+<li class="chapter" data-level="7.2" data-path="dplyr.html"><a href="dplyr.html#select"><i class="fa fa-check"></i><b>7.2</b> <code>select()</code> columns by name</a></li>
+<li class="chapter" data-level="7.3" data-path="dplyr.html"><a href="dplyr.html#conditions"><i class="fa fa-check"></i><b>7.3</b> Conditions</a></li>
+<li class="chapter" data-level="7.4" data-path="dplyr.html"><a href="dplyr.html#logical-indexing"><i class="fa fa-check"></i><b>7.4</b> Logical indexing</a></li>
+<li class="chapter" data-level="7.5" data-path="dplyr.html"><a href="dplyr.html#filter-rows-by-values"><i class="fa fa-check"></i><b>7.5</b> <code>filter()</code> rows by values</a></li>
+<li class="chapter" data-level="7.6" data-path="dplyr.html"><a href="dplyr.html#arrange-rows-in-a-particular-order"><i class="fa fa-check"></i><b>7.6</b> <code>arrange()</code> rows in a particular order</a></li>
+<li class="chapter" data-level="7.7" data-path="dplyr.html"><a href="dplyr.html#mutate"><i class="fa fa-check"></i><b>7.7</b> <code>mutate()</code> columns</a></li>
+<li class="chapter" data-level="7.8" data-path="dplyr.html"><a href="dplyr.html#summarize"><i class="fa fa-check"></i><b>7.8</b> <code>summarize()</code> table by <code>groups</code></a></li>
+<li class="chapter" data-level="7.9" data-path="dplyr.html"><a href="dplyr.html#putting-it-all-together"><i class="fa fa-check"></i><b>7.9</b> Putting it all together</a></li>
+<li class="chapter" data-level="7.10" data-path="dplyr.html"><a href="dplyr.html#should-i-use-tidyverse"><i class="fa fa-check"></i><b>7.10</b> Should I use Tidyverse?</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="seminar08.html"><a href="seminar08.html"><i class="fa fa-check"></i><b>8</b> Glueing and sprintfing</a>
+<li class="chapter" data-level="8" data-path="seminar07.html"><a href="seminar07.html"><i class="fa fa-check"></i><b>8</b> Factors and Joins</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="seminar08.html"><a href="seminar08.html#comparing-effect-between-two-studies"><i class="fa fa-check"></i><b>8.1</b> Comparing effect between two studies</a></li>
-<li class="chapter" data-level="8.2" data-path="seminar08.html"><a href="seminar08.html#glue"><i class="fa fa-check"></i><b>8.2</b> Gluing in correlation strength information.</a></li>
-<li class="chapter" data-level="8.3" data-path="seminar08.html"><a href="seminar08.html#sprintf"><i class="fa fa-check"></i><b>8.3</b> sprintf</a></li>
-<li class="chapter" data-level="8.4" data-path="seminar08.html"><a href="seminar08.html#wrap-up-2"><i class="fa fa-check"></i><b>8.4</b> Wrap up</a></li>
+<li class="chapter" data-level="8.1" data-path="seminar07.html"><a href="seminar07.html#how-to-write-code"><i class="fa fa-check"></i><b>8.1</b> How to write code</a></li>
+<li class="chapter" data-level="8.2" data-path="seminar07.html"><a href="seminar07.html#implementing-a-typical-analysis"><i class="fa fa-check"></i><b>8.2</b> Implementing a typical analysis</a></li>
+<li class="chapter" data-level="8.3" data-path="seminar07.html"><a href="seminar07.html#factors"><i class="fa fa-check"></i><b>8.3</b> Factors</a></li>
+<li class="chapter" data-level="8.4" data-path="seminar07.html"><a href="seminar07.html#forcats"><i class="fa fa-check"></i><b>8.4</b> Forcats</a></li>
+<li class="chapter" data-level="8.5" data-path="seminar07.html"><a href="seminar07.html#plotting-group-averages"><i class="fa fa-check"></i><b>8.5</b> Plotting group averages</a></li>
+<li class="chapter" data-level="8.6" data-path="seminar07.html"><a href="seminar07.html#plotting-our-confidence-in-group-averages"><i class="fa fa-check"></i><b>8.6</b> Plotting our confidence in group averages</a></li>
+<li class="chapter" data-level="8.7" data-path="seminar07.html"><a href="seminar07.html#looking-at-similarity"><i class="fa fa-check"></i><b>8.7</b> Looking at similarity</a></li>
+<li class="chapter" data-level="8.8" data-path="seminar07.html"><a href="seminar07.html#joining-tables"><i class="fa fa-check"></i><b>8.8</b> Joining tables</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="seminar09.html"><a href="seminar09.html"><i class="fa fa-check"></i><b>9</b> Tidyng your data</a>
+<li class="chapter" data-level="9" data-path="seminar08.html"><a href="seminar08.html"><i class="fa fa-check"></i><b>9</b> Glueing and sprintfing</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="seminar09.html"><a href="seminar09.html#pivoting-between-long-and-wide-format"><i class="fa fa-check"></i><b>9.1</b> Pivoting between long and wide format</a></li>
-<li class="chapter" data-level="9.2" data-path="seminar09.html"><a href="seminar09.html#practice-pivoting-longer"><i class="fa fa-check"></i><b>9.2</b> Practice pivoting longer</a></li>
-<li class="chapter" data-level="9.3" data-path="seminar09.html"><a href="seminar09.html#practice-pivoting-wider"><i class="fa fa-check"></i><b>9.3</b> Practice pivoting wider</a></li>
-<li class="chapter" data-level="9.4" data-path="seminar09.html"><a href="seminar09.html#extracting-information-from-a-string"><i class="fa fa-check"></i><b>9.4</b> Extracting information from a string</a></li>
-<li class="chapter" data-level="9.5" data-path="seminar09.html"><a href="seminar09.html#separate"><i class="fa fa-check"></i><b>9.5</b> Separate</a></li>
-<li class="chapter" data-level="9.6" data-path="seminar09.html"><a href="seminar09.html#missing-data"><i class="fa fa-check"></i><b>9.6</b> Missing data</a></li>
+<li class="chapter" data-level="9.1" data-path="seminar08.html"><a href="seminar08.html#comparing-effect-between-two-studies"><i class="fa fa-check"></i><b>9.1</b> Comparing effect between two studies</a></li>
+<li class="chapter" data-level="9.2" data-path="seminar08.html"><a href="seminar08.html#glue"><i class="fa fa-check"></i><b>9.2</b> Gluing in correlation strength information.</a></li>
+<li class="chapter" data-level="9.3" data-path="seminar08.html"><a href="seminar08.html#sprintf"><i class="fa fa-check"></i><b>9.3</b> sprintf</a></li>
+<li class="chapter" data-level="9.4" data-path="seminar08.html"><a href="seminar08.html#wrap-up-2"><i class="fa fa-check"></i><b>9.4</b> Wrap up</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="seminar10.html"><a href="seminar10.html"><i class="fa fa-check"></i><b>10</b> Repeating a computation</a>
+<li class="chapter" data-level="10" data-path="seminar09.html"><a href="seminar09.html"><i class="fa fa-check"></i><b>10</b> Tidyng your data</a>
 <ul>
-<li class="chapter" data-level="10.1" data-path="seminar10.html"><a href="seminar10.html#rep"><i class="fa fa-check"></i><b>10.1</b> <code>rep()</code></a></li>
-<li class="chapter" data-level="10.2" data-path="seminar10.html"><a href="seminar10.html#repeating-combinations"><i class="fa fa-check"></i><b>10.2</b> Repeating combinations</a></li>
-<li class="chapter" data-level="10.3" data-path="seminar10.html"><a href="seminar10.html#list"><i class="fa fa-check"></i><b>10.3</b> Lists</a></li>
-<li class="chapter" data-level="10.4" data-path="seminar10.html"><a href="seminar10.html#forloop"><i class="fa fa-check"></i><b>10.4</b> For loop</a></li>
-<li class="chapter" data-level="10.5" data-path="seminar10.html"><a href="seminar10.html#using-for-loop-to-load-and-join-multiple-data-files"><i class="fa fa-check"></i><b>10.5</b> Using for loop to load and join multiple data files</a></li>
-<li class="chapter" data-level="10.6" data-path="seminar10.html"><a href="seminar10.html#apply"><i class="fa fa-check"></i><b>10.6</b> Apply</a></li>
-<li class="chapter" data-level="10.7" data-path="seminar10.html"><a href="seminar10.html#purrr"><i class="fa fa-check"></i><b>10.7</b> Purrr</a></li>
+<li class="chapter" data-level="10.1" data-path="seminar09.html"><a href="seminar09.html#pivoting-between-long-and-wide-format"><i class="fa fa-check"></i><b>10.1</b> Pivoting between long and wide format</a></li>
+<li class="chapter" data-level="10.2" data-path="seminar09.html"><a href="seminar09.html#practice-pivoting-longer"><i class="fa fa-check"></i><b>10.2</b> Practice pivoting longer</a></li>
+<li class="chapter" data-level="10.3" data-path="seminar09.html"><a href="seminar09.html#practice-pivoting-wider"><i class="fa fa-check"></i><b>10.3</b> Practice pivoting wider</a></li>
+<li class="chapter" data-level="10.4" data-path="seminar09.html"><a href="seminar09.html#extracting-information-from-a-string"><i class="fa fa-check"></i><b>10.4</b> Extracting information from a string</a></li>
+<li class="chapter" data-level="10.5" data-path="seminar09.html"><a href="seminar09.html#separate"><i class="fa fa-check"></i><b>10.5</b> Separate</a></li>
+<li class="chapter" data-level="10.6" data-path="seminar09.html"><a href="seminar09.html#missing-data"><i class="fa fa-check"></i><b>10.6</b> Missing data</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="seminar11.html"><a href="seminar11.html"><i class="fa fa-check"></i><b>11</b> Statistical modeling</a>
+<li class="chapter" data-level="11" data-path="seminar10.html"><a href="seminar10.html"><i class="fa fa-check"></i><b>11</b> Repeating a computation</a>
 <ul>
-<li class="chapter" data-level="11.1" data-path="seminar11.html"><a href="seminar11.html#formula-notation"><i class="fa fa-check"></i><b>11.1</b> Formula notation</a></li>
-<li class="chapter" data-level="11.2" data-path="seminar11.html"><a href="seminar11.html#correlation"><i class="fa fa-check"></i><b>11.2</b> Correlation</a></li>
-<li class="chapter" data-level="11.3" data-path="seminar11.html"><a href="seminar11.html#pairwise-comparisons"><i class="fa fa-check"></i><b>11.3</b> Pairwise comparisons</a></li>
-<li class="chapter" data-level="11.4" data-path="seminar11.html"><a href="seminar11.html#anova"><i class="fa fa-check"></i><b>11.4</b> ANOVA</a></li>
-<li class="chapter" data-level="11.5" data-path="seminar11.html"><a href="seminar11.html#GLMM"><i class="fa fa-check"></i><b>11.5</b> (Generalized) Linear Models</a></li>
-<li class="chapter" data-level="11.6" data-path="seminar11.html"><a href="seminar11.html#generalized-linear-mixed-models"><i class="fa fa-check"></i><b>11.6</b> (Generalized) Linear Mixed Models</a></li>
-<li class="chapter" data-level="11.7" data-path="seminar11.html"><a href="seminar11.html#practice"><i class="fa fa-check"></i><b>11.7</b> Practice</a>
+<li class="chapter" data-level="11.1" data-path="seminar10.html"><a href="seminar10.html#rep"><i class="fa fa-check"></i><b>11.1</b> <code>rep()</code></a></li>
+<li class="chapter" data-level="11.2" data-path="seminar10.html"><a href="seminar10.html#repeating-combinations"><i class="fa fa-check"></i><b>11.2</b> Repeating combinations</a></li>
+<li class="chapter" data-level="11.3" data-path="seminar10.html"><a href="seminar10.html#list"><i class="fa fa-check"></i><b>11.3</b> Lists</a></li>
+<li class="chapter" data-level="11.4" data-path="seminar10.html"><a href="seminar10.html#forloop"><i class="fa fa-check"></i><b>11.4</b> For loop</a></li>
+<li class="chapter" data-level="11.5" data-path="seminar10.html"><a href="seminar10.html#using-for-loop-to-load-and-join-multiple-data-files"><i class="fa fa-check"></i><b>11.5</b> Using for loop to load and join multiple data files</a></li>
+<li class="chapter" data-level="11.6" data-path="seminar10.html"><a href="seminar10.html#apply"><i class="fa fa-check"></i><b>11.6</b> Apply</a></li>
+<li class="chapter" data-level="11.7" data-path="seminar10.html"><a href="seminar10.html#purrr"><i class="fa fa-check"></i><b>11.7</b> Purrr</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="seminar11.html"><a href="seminar11.html"><i class="fa fa-check"></i><b>12</b> Statistical modeling</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="seminar11.html"><a href="seminar11.html#formula-notation"><i class="fa fa-check"></i><b>12.1</b> Formula notation</a></li>
+<li class="chapter" data-level="12.2" data-path="seminar11.html"><a href="seminar11.html#correlation"><i class="fa fa-check"></i><b>12.2</b> Correlation</a></li>
+<li class="chapter" data-level="12.3" data-path="seminar11.html"><a href="seminar11.html#pairwise-comparisons"><i class="fa fa-check"></i><b>12.3</b> Pairwise comparisons</a></li>
+<li class="chapter" data-level="12.4" data-path="seminar11.html"><a href="seminar11.html#anova"><i class="fa fa-check"></i><b>12.4</b> ANOVA</a></li>
+<li class="chapter" data-level="12.5" data-path="seminar11.html"><a href="seminar11.html#GLMM"><i class="fa fa-check"></i><b>12.5</b> (Generalized) Linear Models</a></li>
+<li class="chapter" data-level="12.6" data-path="seminar11.html"><a href="seminar11.html#generalized-linear-mixed-models"><i class="fa fa-check"></i><b>12.6</b> (Generalized) Linear Mixed Models</a></li>
+<li class="chapter" data-level="12.7" data-path="seminar11.html"><a href="seminar11.html#practice"><i class="fa fa-check"></i><b>12.7</b> Practice</a>
 <ul>
 <li class="chapter" data-level="" data-path="seminar11.html"><a href="seminar11.html#read-files-and-preprocess-data"><i class="fa fa-check"></i>Read files and preprocess data</a></li>
 <li class="chapter" data-level="" data-path="seminar11.html"><a href="seminar11.html#accuracy"><i class="fa fa-check"></i>Accuracy</a></li>
@@ -289,15 +291,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="seminar11.html"><a href="seminar11.html#computing-the-score"><i class="fa fa-check"></i>Computing the score</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="seminar12.html"><a href="seminar12.html"><i class="fa fa-check"></i><b>12</b> Practice</a>
+<li class="chapter" data-level="13" data-path="seminar12.html"><a href="seminar12.html"><i class="fa fa-check"></i><b>13</b> Practice</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="seminar12.html"><a href="seminar12.html#bad-names-to-good-names"><i class="fa fa-check"></i><b>12.1</b> Bad names to good names</a></li>
-<li class="chapter" data-level="12.2" data-path="seminar12.html"><a href="seminar12.html#participant-id"><i class="fa fa-check"></i><b>12.2</b> Participant ID</a></li>
-<li class="chapter" data-level="12.3" data-path="seminar12.html"><a href="seminar12.html#factors-1"><i class="fa fa-check"></i><b>12.3</b> Factors</a></li>
-<li class="chapter" data-level="12.4" data-path="seminar12.html"><a href="seminar12.html#response-times-1"><i class="fa fa-check"></i><b>12.4</b> Response times</a></li>
-<li class="chapter" data-level="12.5" data-path="seminar12.html"><a href="seminar12.html#accuracy-1"><i class="fa fa-check"></i><b>12.5</b> Accuracy</a></li>
-<li class="chapter" data-level="12.6" data-path="seminar12.html"><a href="seminar12.html#physiological-signal"><i class="fa fa-check"></i><b>12.6</b> Physiological signal</a></li>
-<li class="chapter" data-level="12.7" data-path="seminar12.html"><a href="seminar12.html#wrap-up-3"><i class="fa fa-check"></i><b>12.7</b> Wrap up</a></li>
+<li class="chapter" data-level="13.1" data-path="seminar12.html"><a href="seminar12.html#bad-names-to-good-names"><i class="fa fa-check"></i><b>13.1</b> Bad names to good names</a></li>
+<li class="chapter" data-level="13.2" data-path="seminar12.html"><a href="seminar12.html#participant-id"><i class="fa fa-check"></i><b>13.2</b> Participant ID</a></li>
+<li class="chapter" data-level="13.3" data-path="seminar12.html"><a href="seminar12.html#factors-1"><i class="fa fa-check"></i><b>13.3</b> Factors</a></li>
+<li class="chapter" data-level="13.4" data-path="seminar12.html"><a href="seminar12.html#response-times-1"><i class="fa fa-check"></i><b>13.4</b> Response times</a></li>
+<li class="chapter" data-level="13.5" data-path="seminar12.html"><a href="seminar12.html#accuracy-1"><i class="fa fa-check"></i><b>13.5</b> Accuracy</a></li>
+<li class="chapter" data-level="13.6" data-path="seminar12.html"><a href="seminar12.html#physiological-signal"><i class="fa fa-check"></i><b>13.6</b> Physiological signal</a></li>
+<li class="chapter" data-level="13.7" data-path="seminar12.html"><a href="seminar12.html#wrap-up-3"><i class="fa fa-check"></i><b>13.7</b> Wrap up</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://alexander-pastukhov.github.io/">Alexander (Sasha) Pastukhov</li>
@@ -311,7 +313,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data analysis using R for Psychology</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data analysis using R for Psychology and Social Science</a>
           </h1>
         </div>
 
@@ -319,35 +321,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="seminar07" class="section level1" number="7">
-<h1><span class="header-section-number">Seminar 7</span> Factors and Joins</h1>
+<div id="seminar07" class="section level1" number="8">
+<h1><span class="header-section-number">Seminar 8</span> Factors and Joins</h1>
 <p>Let us start with a “warm up” exercise that will require combining various things that you already learned. Download <a href="data/persistence.csv">persistence.csv</a> file (remember, Chrome/Edge browsers may change the extension to <em>.xls</em>, just rename it back to <em>.csv</em>) and put it into <em>data</em> subfolder in your seminar project folder. This is data from a Master thesis project by Kristina Burkel, published as an article in <a href="http://link.springer.com/10.3758/s13414-019-01954-7">Attention, Perception, &amp; Psychophysics</a>. The work investigated how change in object’s shape affected perceptual stability during brief interruptions (50 ms blank intervals). The research question was whether the results will match those for one other two history effects, which work at longer time scales. Such match would indicate that both history effects are likely to be produced by the same or shared neuronal representations of 3D rotation. Grab the <a href="notebooks/Seminar%2007.Rmd">exercise notebook</a> before we start.</p>
-<div id="how-to-write-code" class="section level2" number="7.1">
-<h2><span class="header-section-number">7.1</span> How to write code</h2>
+<div id="how-to-write-code" class="section level2" number="8.1">
+<h2><span class="header-section-number">8.1</span> How to write code</h2>
 <p>From now on, you will need to implement progressively longer analysis sequences. Unfortunately, the longer and the more complex the analysis is, the easier it is to make a mistake that will ruin everything after that stage. And you will make mistakes, simply because no one is perfect and everyone makes them. I make them all the time. Professional programmers make them. So the skill of programming is not about writing the perfect code on your first attempt, it is writing your code in iterative manner, so that any mistake you make (and, again, you will make them!) will be spotted and fixed immediately, before you continue adding more code. It should be like walking blind through uncertain terrain: One step a time, no running, no jumping, as you have no idea what awaits you.</p>
 <p>What does this mean in practical terms? In a typical analysis (such as in the exercise below), you will need to do many things: read data, select columns, filter it, compute new variables, group data and summarize it, plot it, etc. You might be tempted to program the whole thing in one go but it is a terrible idea. Again, if your step #2 does not do what you think it should, your later stages will work with the wrong data and tracing it back to that step #2 may not be trivial (it almost never is). Instead, implement one step at a time and check that the results look as they should. E.g., in the exercise below, read the table. Check, does it look good, does it even have the data? Once you are sure that your reading bit works, proceed to columns selection. Run this two-step code and then check that it works and the table looks the way it should. It does (it has only the relevant columns)? Good, proceed to the next step.</p>
 <p><strong>Never</strong> skip these checks! Always look at the results of each additional step, do not just <em>hope</em> that they will be as they should. They might, they might not. In the latter case, if you are lucky, you will see that and are in for a long debugging session. But you may not even notice that computation is subtly broken and use its results to draw <a href="https://www.powerusersoftwares.com/post/2016/08/11/the-excel-formula-error-that-initiated-austerity-policies-after-the-crisis">erroneous conclusions</a>. It may feel overly slow to keep checking yourself continuously but it is a <em>faster</em> way to program in a long term. Moreover, if you do it once step at a time, you actually <em>know</em>, not hope, that it works.</p>
 <p>I’ve spent three paragraphs on it (and now adding even the forth one!), because, in my opinion, this approach is the main difference between novice and experienced programmers (or, one could go even further and say between good and bad programmers). And I see this mistake of writing everything in one go repeated again and again irrespective of the tool people use (you can make a really fine mess using SPSS!). So, pace yourself and let’s start programming in earnest!</p>
 </div>
-<div id="implementing-a-typical-analysis" class="section level2" number="7.2">
-<h2><span class="header-section-number">7.2</span> Implementing a typical analysis</h2>
+<div id="implementing-a-typical-analysis" class="section level2" number="8.2">
+<h2><span class="header-section-number">8.2</span> Implementing a typical analysis</h2>
 <p>In the first exercise, I want you to implement the actual analysis performed in the paper. Good news is that by now you know enough to program it!</p>
 <ol style="list-style-type: decimal">
-<li><a href="tables.html#readr">Load</a> the data in a table. Name of the variable is up to you. Typically, I use names like <code>data</code>, <code>reports</code>, <code>results</code>, etc. Don’t forget to specify columns’ type.</li>
+<li><a href="readr.html#readr">Load</a> the data in a table. Name of the variable is up to you. Typically, I use names like <code>data</code>, <code>reports</code>, <code>results</code>, etc. Don’t forget to specify columns’ type.</li>
 <li>Exclude <code>filename</code> column (it duplicates <code>Participant</code> and <code>Session</code> columns).</li>
 <li>Compute a new variable <code>SameResponse</code> which is <code>TRUE</code> when <code>Response1</code> and <code>Response2</code> match each other (in the experiment, that means that an object was rotating in the same direction before and after the intervention).</li>
 <li>For every combination of <code>Participant</code>, <code>Prime</code> and <code>Probe</code> compute proportion of same responses. You can do this in to ways. Recall that <code>as.integer(TRUE)</code> is <code>1</code> and <code>as.integer(FALSE)</code> is <code>0</code>. Thus, you can either compute proportion as <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/mean.html">mean</a> or compute the <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/sum.html">sum</a> of same responses and divide it by total number of trials. Use function <a href="https://dplyr.tidyverse.org/reference/n.html">n()</a> for the latter, it return the total number of rows in the table or the group. Try doing it both ways.</li>
 <li>Plot the results with <code>Probe</code> variable on x-axis, proportion of same responses on y-axis, and use <code>Prime</code> to facet plots. Use box plots (or violin plots) to visualize the data. Try adding color, labels, etc. to make plots look nice.</li>
 </ol>
 <p>Your final plot should look something like this
-<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-140-1.png" width="672" style="display: block; margin: auto;" /></p>
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-147-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div class="infobox practice">
 <p>Do exercise 1.</p>
 </div>
 <p>When you examine the plot, you can see some sort of non-monotonic dependence with a dip for <code>"stripes-2"</code> and <code>"stripes-4"</code> objects. In reality, the dependence is monotonic, it is merely the order of values on the x-axis that is wrong. The correct order, based on the area of an object covered with dots, is <code>"heavy poles sphere"</code>, <code>"stripes-8"</code>, <code>"stripes-4"</code>, <code>"stripes-2"</code>. Both <code>Prime</code> and <code>Probe</code> are <em>ordinal</em> variables called <em>factors</em> in R. Thus, to fix the order and to make object names a bit better looking, we must figure out how to work with factors in R.</p>
 </div>
-<div id="factors" class="section level2" number="7.3">
-<h2><span class="header-section-number">7.3</span> Factors</h2>
+<div id="factors" class="section level2" number="8.3">
+<h2><span class="header-section-number">8.3</span> Factors</h2>
 <p>Factors are categorical variables, thus variables that have a finite fixed and known set of possible values. They can be either <em>nominal</em> (cannot be ordered) or <em>ordinal</em> (have a specific order to them). An example of the former is the drive train (<code>drv</code>) variable in <a href="https://ggplot2.tidyverse.org/reference/mpg.html">mpg</a> table. There is a finite set of possible values (<code>"f"</code> for front-wheel drive, <code>"r"</code> for rear wheel drive, and <code>"4"</code> for a four-wheel drive) but ordering them makes no sense. An example of an ordinal variable is a Likert scale that has a finite set of possible responses (for example, <code>"disagree"</code>, <code>"neither agree, nor disagree"</code>, <code>"agree"</code>) and they do a fix specific order to them (participant’s support for a statement is progressively stronger so that <code>"disagree"</code> &lt; <code>"neither agree, nor disagree"</code> &lt; <code>"agree"</code>).</p>
 <p>You can convert <em>any</em> variable to a factor using <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/factor.html">factor()</a> or <code>as.factor()</code> functions. The latter is a more limited version of the former, so, below, I will only use <code>factor()</code>. When you convert a variable (a vector) to factor, R:</p>
 <ol style="list-style-type: decimal">
@@ -357,75 +359,75 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>uses the actual value as a “label.”</li>
 </ol>
 <p>Here is an example of this sequence: there four levels sorted alphabetically.</p>
-<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="seminar07.html#cb276-1" aria-hidden="true" tabindex="-1"></a>letters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;C&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>)</span>
-<span id="cb276-2"><a href="seminar07.html#cb276-2" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">factor</span>(letters)</span>
-<span id="cb276-3"><a href="seminar07.html#cb276-3" aria-hidden="true" tabindex="-1"></a>letters_as_factor</span></code></pre></div>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="seminar07.html#cb288-1" aria-hidden="true" tabindex="-1"></a>letters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;C&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>)</span>
+<span id="cb288-2"><a href="seminar07.html#cb288-2" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">factor</span>(letters)</span>
+<span id="cb288-3"><a href="seminar07.html#cb288-3" aria-hidden="true" tabindex="-1"></a>letters_as_factor</span></code></pre></div>
 <pre><code>## [1] C A D B A B
 ## Levels: A B C D</code></pre>
 <p>You can extracts <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/levels.html">levels</a> of a factor variable by using the function with this name</p>
-<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="seminar07.html#cb278-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(letters_as_factor)</span></code></pre></div>
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="seminar07.html#cb290-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(letters_as_factor)</span></code></pre></div>
 <pre><code>## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot;</code></pre>
 <p>You can specify the order of levels either during the <code>factor()</code> conversion call or later using <a href="https://forcats.tidyverse.org/">forcats</a> (more on that later). For example, if we want to have levels in the reverse order we specify it via <code>levels</code> parameter. Note the opposite order of levels.</p>
-<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="seminar07.html#cb280-1" aria-hidden="true" tabindex="-1"></a>letters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;C&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>)</span>
-<span id="cb280-2"><a href="seminar07.html#cb280-2" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">factor</span>(letters, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;D&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>))</span>
-<span id="cb280-3"><a href="seminar07.html#cb280-3" aria-hidden="true" tabindex="-1"></a>letters_as_factor</span></code></pre></div>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="seminar07.html#cb292-1" aria-hidden="true" tabindex="-1"></a>letters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;C&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>)</span>
+<span id="cb292-2"><a href="seminar07.html#cb292-2" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">factor</span>(letters, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;D&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>))</span>
+<span id="cb292-3"><a href="seminar07.html#cb292-3" aria-hidden="true" tabindex="-1"></a>letters_as_factor</span></code></pre></div>
 <pre><code>## [1] C A D B A B
 ## Levels: D C B A</code></pre>
 <p>We can also specify <code>labels</code> of individual labels instead of using values themselves. Note that labels must</p>
-<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="seminar07.html#cb282-1" aria-hidden="true" tabindex="-1"></a>responses <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>)</span>
-<span id="cb282-2"><a href="seminar07.html#cb282-2" aria-hidden="true" tabindex="-1"></a>responses_as_factor <span class="ot">&lt;-</span> <span class="fu">factor</span>(responses, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;negative&quot;</span>, <span class="st">&quot;neutral&quot;</span>, <span class="st">&quot;positive&quot;</span>))</span>
-<span id="cb282-3"><a href="seminar07.html#cb282-3" aria-hidden="true" tabindex="-1"></a>responses_as_factor</span></code></pre></div>
+<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="seminar07.html#cb294-1" aria-hidden="true" tabindex="-1"></a>responses <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>)</span>
+<span id="cb294-2"><a href="seminar07.html#cb294-2" aria-hidden="true" tabindex="-1"></a>responses_as_factor <span class="ot">&lt;-</span> <span class="fu">factor</span>(responses, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;negative&quot;</span>, <span class="st">&quot;neutral&quot;</span>, <span class="st">&quot;positive&quot;</span>))</span>
+<span id="cb294-3"><a href="seminar07.html#cb294-3" aria-hidden="true" tabindex="-1"></a>responses_as_factor</span></code></pre></div>
 <pre><code>## [1] negative positive neutral  neutral  negative positive
 ## Levels: negative neutral positive</code></pre>
 <p>You can see <em>indexes</em> that were assigned to each level by converting <code>letter_as_factor</code> to a numeric vector. In this case, R throws away labels and returns indexes.</p>
-<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="seminar07.html#cb284-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(letters_as_factor)</span></code></pre></div>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="seminar07.html#cb296-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(letters_as_factor)</span></code></pre></div>
 <pre><code>## [1] 2 4 1 3 4 3</code></pre>
 <p>However, be careful when level labels are numbers. In the example below, you might be expecting that <code>as.numeric(tens)</code> should give you <code>[20, 40, 30]</code> but these are labels! If you need to convert labels to numbers, you have to do it in two steps <code>as.numeric(as.character(tens))</code>: <code>as.character()</code> turns factors to strings (using labels) and <code>as.numeric()</code> converts those labels to numbers (if that conversion can work).</p>
-<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="seminar07.html#cb286-1" aria-hidden="true" tabindex="-1"></a>tens <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">30</span>))</span>
-<span id="cb286-2"><a href="seminar07.html#cb286-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(tens)</span></code></pre></div>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="seminar07.html#cb298-1" aria-hidden="true" tabindex="-1"></a>tens <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">30</span>))</span>
+<span id="cb298-2"><a href="seminar07.html#cb298-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(tens)</span></code></pre></div>
 <pre><code>## [1] 20 40 30
 ## Levels: 20 30 40</code></pre>
-<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="seminar07.html#cb288-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">as.numeric</span>(tens))</span></code></pre></div>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="seminar07.html#cb300-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">as.numeric</span>(tens))</span></code></pre></div>
 <pre><code>## [1] 1 3 2</code></pre>
-<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="seminar07.html#cb290-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">as.numeric</span>(<span class="fu">as.character</span>(tens)))</span></code></pre></div>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="seminar07.html#cb302-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">as.numeric</span>(<span class="fu">as.character</span>(tens)))</span></code></pre></div>
 <pre><code>## [1] 20 40 30</code></pre>
 <p>For the next exercise, copy-paste the code from exercise #1 and alter it so the labels are <code>"sphere"</code> (for <code>"heavy poles sphere"</code>), <code>"quad band"</code> (for <code>"stripes-8"</code>), <code>"dual band"</code> (<code>"stripes-4"</code>), <code>"single band"</code> (for <code>"stripes-2"</code>) and levels are in that order. Your plot should look something like this.</p>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-147-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-154-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div class="infobox practice">
 <p>Do exercise 2.</p>
 </div>
 </div>
-<div id="forcats" class="section level2" number="7.4">
-<h2><span class="header-section-number">7.4</span> Forcats</h2>
-<p>Tidyverse has a package <a href="https://forcats.tidyverse.org/">forcats</a><a href="#fn33" class="footnote-ref" id="fnref33"><sup>33</sup></a> that makes working with factors easier. For example, it allows to reorder levels either <a href="https://forcats.tidyverse.org/reference/fct_relevel.html">by hand</a> or automatically based on the <a href="https://forcats.tidyverse.org/reference/fct_inorder.html">order of appearance</a>, <a href="https://forcats.tidyverse.org/reference/fct_inorder.html">frequency</a>, <a href="https://forcats.tidyverse.org/reference/fct_reorder.html">value of other variable</a>, etc. It also gives you flexible tool to changes labels either <a href="https://forcats.tidyverse.org/reference/fct_recode.html">by hand</a>, by <a href="https://forcats.tidyverse.org/reference/fct_lump.html">lumping</a> some levels together, by <a href="https://forcats.tidyverse.org/reference/fct_anon.html">anonymising them</a>, etc. In my work, I mostly use reordering (<a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel()</a>) and renaming (<a href="https://forcats.tidyverse.org/reference/fct_recode.html">fct_recode()</a>) of factors by hand. You will need to use yhese two functions in exercise #3. However, if you find yourself working with factors, it is a good idea to check other <a href="https://forcats.tidyverse.org/">forcats</a> functions to see whether they can make your life easier.</p>
+<div id="forcats" class="section level2" number="8.4">
+<h2><span class="header-section-number">8.4</span> Forcats</h2>
+<p>Tidyverse has a package <a href="https://forcats.tidyverse.org/">forcats</a><a href="#fn37" class="footnote-ref" id="fnref37"><sup>37</sup></a> that makes working with factors easier. For example, it allows to reorder levels either <a href="https://forcats.tidyverse.org/reference/fct_relevel.html">by hand</a> or automatically based on the <a href="https://forcats.tidyverse.org/reference/fct_inorder.html">order of appearance</a>, <a href="https://forcats.tidyverse.org/reference/fct_inorder.html">frequency</a>, <a href="https://forcats.tidyverse.org/reference/fct_reorder.html">value of other variable</a>, etc. It also gives you flexible tool to changes labels either <a href="https://forcats.tidyverse.org/reference/fct_recode.html">by hand</a>, by <a href="https://forcats.tidyverse.org/reference/fct_lump.html">lumping</a> some levels together, by <a href="https://forcats.tidyverse.org/reference/fct_anon.html">anonymising them</a>, etc. In my work, I mostly use reordering (<a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel()</a>) and renaming (<a href="https://forcats.tidyverse.org/reference/fct_recode.html">fct_recode()</a>) of factors by hand. You will need to use yhese two functions in exercise #3. However, if you find yourself working with factors, it is a good idea to check other <a href="https://forcats.tidyverse.org/">forcats</a> functions to see whether they can make your life easier.</p>
 <p>To reorder factor by hand, you simply state the desired order of factors, similar to they way you specify this via <code>levels=</code> parameters in <code>factor()</code> function. However, in <a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel()</a> you can move only <em>some</em> factors and others are “pushed to the back.”</p>
-<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="seminar07.html#cb292-1" aria-hidden="true" tabindex="-1"></a>letters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;C&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>)</span>
-<span id="cb292-2"><a href="seminar07.html#cb292-2" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">factor</span>(letters, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;A&quot;</span>))</span>
-<span id="cb292-3"><a href="seminar07.html#cb292-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(letters_as_factor)</span></code></pre></div>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="seminar07.html#cb304-1" aria-hidden="true" tabindex="-1"></a>letters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;C&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>)</span>
+<span id="cb304-2"><a href="seminar07.html#cb304-2" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">factor</span>(letters, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;A&quot;</span>))</span>
+<span id="cb304-3"><a href="seminar07.html#cb304-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(letters_as_factor)</span></code></pre></div>
 <pre><code>## [1] C A D B A B
 ## Levels: B C D A</code></pre>
-<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="seminar07.html#cb294-1" aria-hidden="true" tabindex="-1"></a><span class="co"># specifying order for ALL levels</span></span>
-<span id="cb294-2"><a href="seminar07.html#cb294-2" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">fct_relevel</span>(letters_as_factor, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>)</span>
-<span id="cb294-3"><a href="seminar07.html#cb294-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(letters_as_factor)</span></code></pre></div>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="seminar07.html#cb306-1" aria-hidden="true" tabindex="-1"></a><span class="co"># specifying order for ALL levels</span></span>
+<span id="cb306-2"><a href="seminar07.html#cb306-2" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">fct_relevel</span>(letters_as_factor, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>)</span>
+<span id="cb306-3"><a href="seminar07.html#cb306-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(letters_as_factor)</span></code></pre></div>
 <pre><code>## [1] C A D B A B
 ## Levels: D C B A</code></pre>
-<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="seminar07.html#cb296-1" aria-hidden="true" tabindex="-1"></a><span class="co"># specifying order for just ONE level, the rest are &quot;pushed back&quot;</span></span>
-<span id="cb296-2"><a href="seminar07.html#cb296-2" aria-hidden="true" tabindex="-1"></a><span class="co"># &quot;A&quot; should now be the first level and the rest are pushed back in their original order</span></span>
-<span id="cb296-3"><a href="seminar07.html#cb296-3" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">fct_relevel</span>(letters_as_factor, <span class="st">&quot;A&quot;</span>)</span>
-<span id="cb296-4"><a href="seminar07.html#cb296-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(letters_as_factor)</span></code></pre></div>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="seminar07.html#cb308-1" aria-hidden="true" tabindex="-1"></a><span class="co"># specifying order for just ONE level, the rest are &quot;pushed back&quot;</span></span>
+<span id="cb308-2"><a href="seminar07.html#cb308-2" aria-hidden="true" tabindex="-1"></a><span class="co"># &quot;A&quot; should now be the first level and the rest are pushed back in their original order</span></span>
+<span id="cb308-3"><a href="seminar07.html#cb308-3" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">fct_relevel</span>(letters_as_factor, <span class="st">&quot;A&quot;</span>)</span>
+<span id="cb308-4"><a href="seminar07.html#cb308-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(letters_as_factor)</span></code></pre></div>
 <pre><code>## [1] C A D B A B
 ## Levels: A D C B</code></pre>
 <p>You can also put a level at the very back, as second level, etc. <a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel()</a> is very flexible, so check reference whenever you use it.</p>
 <p>To rename individual levels you use <a href="https://forcats.tidyverse.org/reference/fct_recode.html">fct_recode()</a> by providing <code>new = old</code> pairs of values.</p>
-<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="seminar07.html#cb298-1" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;C&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</span>
-<span id="cb298-2"><a href="seminar07.html#cb298-2" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">fct_recode</span>(letters_as_factor, <span class="st">&quot;_A_&quot;</span> <span class="ot">=</span> <span class="st">&quot;A&quot;</span>, <span class="st">&quot;_C_&quot;</span> <span class="ot">=</span> <span class="st">&quot;C&quot;</span>)</span>
-<span id="cb298-3"><a href="seminar07.html#cb298-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(letters_as_factor)</span></code></pre></div>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="seminar07.html#cb310-1" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;C&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</span>
+<span id="cb310-2"><a href="seminar07.html#cb310-2" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">fct_recode</span>(letters_as_factor, <span class="st">&quot;_A_&quot;</span> <span class="ot">=</span> <span class="st">&quot;A&quot;</span>, <span class="st">&quot;_C_&quot;</span> <span class="ot">=</span> <span class="st">&quot;C&quot;</span>)</span>
+<span id="cb310-3"><a href="seminar07.html#cb310-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(letters_as_factor)</span></code></pre></div>
 <pre><code>## [1] _C_ _A_ D   B   _A_ B  
 ## Levels: _A_ B _C_ D</code></pre>
 <p>Note that this allows you to merge levels by hand.</p>
-<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="seminar07.html#cb300-1" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;C&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</span>
-<span id="cb300-2"><a href="seminar07.html#cb300-2" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">fct_recode</span>(letters_as_factor, <span class="st">&quot;_AC_&quot;</span> <span class="ot">=</span> <span class="st">&quot;A&quot;</span>, <span class="st">&quot;_AC_&quot;</span> <span class="ot">=</span> <span class="st">&quot;C&quot;</span>)</span>
-<span id="cb300-3"><a href="seminar07.html#cb300-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(letters_as_factor)</span></code></pre></div>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="seminar07.html#cb312-1" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;C&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</span>
+<span id="cb312-2"><a href="seminar07.html#cb312-2" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">fct_recode</span>(letters_as_factor, <span class="st">&quot;_AC_&quot;</span> <span class="ot">=</span> <span class="st">&quot;A&quot;</span>, <span class="st">&quot;_AC_&quot;</span> <span class="ot">=</span> <span class="st">&quot;C&quot;</span>)</span>
+<span id="cb312-3"><a href="seminar07.html#cb312-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(letters_as_factor)</span></code></pre></div>
 <pre><code>## [1] _AC_ _AC_ D    B    _AC_ B   
 ## Levels: _AC_ B D</code></pre>
 <p>For exercise #3, redo exercise #2 but using <a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel()</a> and <a href="https://forcats.tidyverse.org/reference/fct_recode.html">fct_recode()</a>. You still need to use <code>factor()</code> function to convert <code>Prime</code> and <code>Probe</code> to factor but do not specify levels and labels. Use <a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel()</a> and <a href="https://forcats.tidyverse.org/reference/fct_recode.html">fct_recode()</a> inside <code>mutate()</code> verbs to reorder and relabel factor values (or, first relabel and then reorder, whatever is more intuitive for you). The end product (the plot) should be the same.</p>
@@ -433,15 +435,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Do exercise 3.</p>
 </div>
 </div>
-<div id="plotting-group-averages" class="section level2" number="7.5">
-<h2><span class="header-section-number">7.5</span> Plotting group averages</h2>
+<div id="plotting-group-averages" class="section level2" number="8.5">
+<h2><span class="header-section-number">8.5</span> Plotting group averages</h2>
 <p>Let us keep practicing and extend our analysis to compute and plots averages for each condition (<code>Prime</code>×<code>Probe</code>) over all participants. Use preprocessing code from exercise #3 but, once you computed proportion per <code>Participant</code>×<code>Prime</code>×<code>Probe</code>, you need to group data over <code>Prime</code>×<code>Probe</code> to compute average performance across observers. Advice, <em>do not</em> reuse the name of the column, e.g. if you used <code>Psame</code> for proportion per <code>Participant</code>×<code>Prime</code>×<code>Probe</code>, use some <em>other</em> name for <code>Prime</code>×<code>Probe</code> (e.g. <code>Pavg</code>). Otherwise, it may turn out to be very confusing (at least, this is a mistake a make routinely). Take a look at the code below, what will the <code>Range</code> values?</p>
-<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="seminar07.html#cb302-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
-<span id="cb302-2"><a href="seminar07.html#cb302-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">Response =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb302-3"><a href="seminar07.html#cb302-3" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb302-4"><a href="seminar07.html#cb302-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ID) <span class="sc">%&gt;%</span></span>
-<span id="cb302-5"><a href="seminar07.html#cb302-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Response =</span> <span class="fu">mean</span>(Response),</span>
-<span id="cb302-6"><a href="seminar07.html#cb302-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">Range =</span> <span class="fu">max</span>(Response) <span class="sc">-</span> <span class="fu">min</span>(Response))</span></code></pre></div>
+<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="seminar07.html#cb314-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
+<span id="cb314-2"><a href="seminar07.html#cb314-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">Response =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb314-3"><a href="seminar07.html#cb314-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb314-4"><a href="seminar07.html#cb314-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ID) <span class="sc">%&gt;%</span></span>
+<span id="cb314-5"><a href="seminar07.html#cb314-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Response =</span> <span class="fu">mean</span>(Response),</span>
+<span id="cb314-6"><a href="seminar07.html#cb314-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">Range =</span> <span class="fu">max</span>(Response) <span class="sc">-</span> <span class="fu">min</span>(Response))</span></code></pre></div>
 <p>I routinely assume that they should be <code>1</code> for <code>"A"</code> (because <code>2-1</code>) and <code>2</code> for <code>"B"</code> (<code>6-4</code>). Nope, both are <code>0</code> because by the time <code>Range = max(Response) - min(Response)</code> is executed, original values of <code>Response</code> are overwritten by <code>Response = mean(Response)</code>, so it has just <strong>one</strong> value, the mean. And <code>min()</code> and <code>max()</code> of a single value is that value, so their difference is <code>0</code>. It is obvious once you carefully consider the code but it is <em>not</em> obvious (at least to me) straightaway. In short, be <strong>very careful</strong> when you are reusing column names. Better still, do not reuse them, be creating, come up with new ones!</p>
 <p>Getting back to the exercise, compute average performance per <code>Prime</code>×<code>Probe</code>. Store the result of the computation in a new variable (I’ve called it <code>persistence_avg</code>) and check that results makes sense, e.g. you have just three columns <code>Prime</code>, <code>Probe</code>, and <code>Pavg</code> (or however you decided to name the column). They should look like this:</p>
 <table>
@@ -539,48 +541,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Do exercise 4.</p>
 </div>
 <p>Then, plot the results. Use <a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point()</a> plus <a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line()</a> to plot the mean response The plot should like like this (hint, drop color mapping and map <code>Prime</code> to <code>group</code> property).
-<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-155-1.png" width="672" style="display: block; margin: auto;" /></p>
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-162-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div class="infobox practice">
 <p>Do exercise 5.</p>
 </div>
 <p>Tweak code from exercise 4 to plot all lines on the same plot and use color property to distinguish between different primes.
-<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-156-1.png" width="672" style="display: block; margin: auto;" /></p>
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-163-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div class="infobox practice">
 <p>Do exercise 6.</p>
 </div>
 </div>
-<div id="plotting-our-confidence-in-group-averages" class="section level2" number="7.6">
-<h2><span class="header-section-number">7.6</span> Plotting our confidence in group averages</h2>
-<p>From the plots above, you get a sense that identities of the probe and prime (objects before and after the interruption) matter. Single band appears to be the poorest prime (its line is lowest) and probe (its dots are lower than the rest). Conversely, sphere is an excellent prime (line at the top) and probe (dots are very high). However, averages that we plotted is just a point estimate for most likely effect strength but they alone cannot tell us whether differences in objects’ shape do matter. For this, you need to plot <a href="https://en.wikipedia.org/wiki/Confidence_interval">confidence interval</a>: A range that includes a certain proportion of plausible values. I.e., although our mean is our best about average persistence of rotation for our group, other values just below it or just above it, are almost as good of an explanation. Just mathematically, there must be one best explanation but, just mathematically, it is the best explanation due to noise in our sample, not due to real dependency<a href="#fn34" class="footnote-ref" id="fnref34"><sup>34</sup></a>. Here, we will look at 89% confidence interval to see how broad is the range of values consistent with an average persistence in a group.</p>
+<div id="plotting-our-confidence-in-group-averages" class="section level2" number="8.6">
+<h2><span class="header-section-number">8.6</span> Plotting our confidence in group averages</h2>
+<p>From the plots above, you get a sense that identities of the probe and prime (objects before and after the interruption) matter. Single band appears to be the poorest prime (its line is lowest) and probe (its dots are lower than the rest). Conversely, sphere is an excellent prime (line at the top) and probe (dots are very high). However, averages that we plotted is just a point estimate for most likely effect strength but they alone cannot tell us whether differences in objects’ shape do matter. For this, you need to plot <a href="https://en.wikipedia.org/wiki/Confidence_interval">confidence interval</a>: A range that includes a certain proportion of plausible values. I.e., although our mean is our best about average persistence of rotation for our group, other values just below it or just above it, are almost as good of an explanation. Just mathematically, there must be one best explanation but, just mathematically, it is the best explanation due to noise in our sample, not due to real dependency<a href="#fn38" class="footnote-ref" id="fnref38"><sup>38</sup></a>. Here, we will look at 89% confidence interval to see how broad is the range of values consistent with an average persistence in a group.</p>
 <p>To compute confidence interval, you need to compute its lower and upper limits separately via <a href="https://en.wikipedia.org/wiki/Quantile">quantiles</a>. A quantile for 0.1 (10%) tells you a value, so that 10% of all values in the vector are below it, the quantile of 0.9 (90%) means that only 10% of values are above it (or 90% are below). So, an 80% confidence intervals includes values that are between 10% and 90% or, alternatively, between 0.1 and 0.9 quantiles.
-<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-157-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-164-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>To compute this, R has function <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html">quantile()</a>.</p>
-<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="seminar07.html#cb303-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">50</span></span>
-<span id="cb303-2"><a href="seminar07.html#cb303-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(x, <span class="fl">0.1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="seminar07.html#cb315-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">50</span></span>
+<span id="cb315-2"><a href="seminar07.html#cb315-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(x, <span class="fl">0.1</span>)</span></code></pre></div>
 <pre><code>## 10% 
 ##   5</code></pre>
 <p>Modify code from from exercise #5 to compute two additional variables/columns for lower and upper limits of the 89% confidence interval (think about what these limits are for 89% CI). Then, use <a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_errorbar()</a> to plot 89% CI (you will need to map the two variable you computed to <code>ymin</code> and <code>ymax</code> properties). The plot should like like this (hint, drop color mapping and map <code>Prime</code> to <code>group</code> property).</p>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-159-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-166-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div class="infobox practice">
 <p>Do exercise 7.</p>
 </div>
 </div>
-<div id="looking-at-similarity" class="section level2" number="7.7">
-<h2><span class="header-section-number">7.7</span> Looking at similarity</h2>
-<p>A different study, which used same four objects, showed that a similar looking history effect but for longer interruptions (1000 ms rather than 50 ms) was modulated by objects similarity. Let us check that hypothesis by computing a rough difference measure. It will assume that their difference is proportional to the absolute “distance” between them on x-axis in the above plot<a href="#fn35" class="footnote-ref" id="fnref35"><sup>35</sup></a>. E.g., distance between a sphere and a sphere is 0, but between sphere and quad-band or single-band and dual-band is 1. Difference between sphere and dual-band is 2, etc. You can compute it by converting <em>factor</em> variables <code>Prime</code> and <code>Probe</code> to integers (this assumes that levels are in the correct order). Then, you can compute the <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/MathFun.html">absolute difference</a> between those indexes and store it as a new column (e.g. <code>Difference</code>). Next, group by <code>Difference</code> and <code>Participant</code> to compute average probability of the same response. Your plot should look like this (you will need to map <code>Difference</code> on <code>group</code> to get four box plots rather than one).</p>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-160-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div id="looking-at-similarity" class="section level2" number="8.7">
+<h2><span class="header-section-number">8.7</span> Looking at similarity</h2>
+<p>A different study, which used same four objects, showed that a similar looking history effect but for longer interruptions (1000 ms rather than 50 ms) was modulated by objects similarity. Let us check that hypothesis by computing a rough difference measure. It will assume that their difference is proportional to the absolute “distance” between them on x-axis in the above plot<a href="#fn39" class="footnote-ref" id="fnref39"><sup>39</sup></a>. E.g., distance between a sphere and a sphere is 0, but between sphere and quad-band or single-band and dual-band is 1. Difference between sphere and dual-band is 2, etc. You can compute it by converting <em>factor</em> variables <code>Prime</code> and <code>Probe</code> to integers (this assumes that levels are in the correct order). Then, you can compute the <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/MathFun.html">absolute difference</a> between those indexes and store it as a new column (e.g. <code>Difference</code>). Next, group by <code>Difference</code> and <code>Participant</code> to compute average probability of the same response. Your plot should look like this (you will need to map <code>Difference</code> on <code>group</code> to get four box plots rather than one).</p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-167-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div class="infobox practice">
 <p>Do exercise 8.</p>
 </div>
 </div>
-<div id="joining-tables" class="section level2" number="7.8">
-<h2><span class="header-section-number">7.8</span> Joining tables</h2>
+<div id="joining-tables" class="section level2" number="8.8">
+<h2><span class="header-section-number">8.8</span> Joining tables</h2>
 <p>Sometimes, different information is stored in separate tables. For example, information on participants’ demographics can be stored separately from their responses. The former is the same for all trials and conditions, so it makes little sense to duplicate it. However, for the actual analysis, you need to add this information, merging or, in Tidyverse-speak, <a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">joining</a> two tables. To join two tables you must specify “key” columns, columns that contain values that will be used to match rows between the tables.</p>
 <p>Assume that we have two tables that both have column named <code>ID</code> that contains a unique of a participant. For the second table, I use functions <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/rep.html">rep()</a> to repeat each <code>ID</code> three times and <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Uniform.html">runif()</a> to generate random number from a specific range. Note that we have participant <code>"D"</code> in <code>demographics</code> but participants <code>"E"</code> in <code>reports</code>!</p>
-<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="seminar07.html#cb305-1" aria-hidden="true" tabindex="-1"></a>demographics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>),</span>
-<span id="cb305-2"><a href="seminar07.html#cb305-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">19</span>, <span class="dv">30</span>, <span class="dv">22</span>))</span>
-<span id="cb305-3"><a href="seminar07.html#cb305-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb305-4"><a href="seminar07.html#cb305-4" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(demographics)</span></code></pre></div>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="seminar07.html#cb317-1" aria-hidden="true" tabindex="-1"></a>demographics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>),</span>
+<span id="cb317-2"><a href="seminar07.html#cb317-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">19</span>, <span class="dv">30</span>, <span class="dv">22</span>))</span>
+<span id="cb317-3"><a href="seminar07.html#cb317-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb317-4"><a href="seminar07.html#cb317-4" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(demographics)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -607,10 +609,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="seminar07.html#cb306-1" aria-hidden="true" tabindex="-1"></a>reports <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;E&quot;</span>), <span class="at">each=</span><span class="dv">2</span>),</span>
-<span id="cb306-2"><a href="seminar07.html#cb306-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Report =</span> <span class="fu">runif</span>(<span class="fu">length</span>(ID), <span class="dv">1</span>, <span class="dv">7</span>))</span>
-<span id="cb306-3"><a href="seminar07.html#cb306-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb306-4"><a href="seminar07.html#cb306-4" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(reports)</span></code></pre></div>
+<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="seminar07.html#cb318-1" aria-hidden="true" tabindex="-1"></a>reports <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;E&quot;</span>), <span class="at">each=</span><span class="dv">2</span>),</span>
+<span id="cb318-2"><a href="seminar07.html#cb318-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Report =</span> <span class="fu">runif</span>(<span class="fu">length</span>(ID), <span class="dv">1</span>, <span class="dv">7</span>))</span>
+<span id="cb318-3"><a href="seminar07.html#cb318-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb318-4"><a href="seminar07.html#cb318-4" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(reports)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -621,41 +623,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
 <tr class="odd">
 <td align="left">A</td>
-<td align="right">3.883215</td>
+<td align="right">2.610020</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
-<td align="right">2.181293</td>
+<td align="right">5.784432</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
-<td align="right">5.401892</td>
+<td align="right">2.634509</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
-<td align="right">1.222427</td>
+<td align="right">6.712745</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
-<td align="right">2.274379</td>
+<td align="right">5.459099</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
-<td align="right">3.414744</td>
+<td align="right">2.082438</td>
 </tr>
 <tr class="odd">
 <td align="left">E</td>
-<td align="right">1.402764</td>
+<td align="right">3.644282</td>
 </tr>
 <tr class="even">
 <td align="left">E</td>
-<td align="right">1.506348</td>
+<td align="right">2.699978</td>
 </tr>
 </tbody>
 </table>
 <p>Here, <code>ID</code> column will serve as a key to indicate which rows from two columns belong together. <em>dplyr</em> implements four <a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">Mutating joins</a> which differ in how the two tables are joined, if a key value is missing in one of them. The <code>inner_join()</code> only include the rows for which key value is present in <strong>both</strong> tables. In our case, only <code>"A"</code>, <code>"B"</code>, and <code>"C"</code> participants are in both tables, so <em>inner join</em> will discard rows with <code>"D"</code> (not present in <code>reports</code>) and <code>"E"</code> (not present in <code>demographics</code>).</p>
-<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="seminar07.html#cb307-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb307-2"><a href="seminar07.html#cb307-2" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="seminar07.html#cb319-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb319-2"><a href="seminar07.html#cb319-2" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -668,38 +670,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">20</td>
-<td align="right">3.883215</td>
+<td align="right">2.610020</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">20</td>
-<td align="right">2.181293</td>
+<td align="right">5.784432</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">19</td>
-<td align="right">5.401892</td>
+<td align="right">2.634509</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">19</td>
-<td align="right">1.222427</td>
+<td align="right">6.712745</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">30</td>
-<td align="right">2.274379</td>
+<td align="right">5.459099</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">30</td>
-<td align="right">3.414744</td>
+<td align="right">2.082438</td>
 </tr>
 </tbody>
 </table>
 <p>Conversely, <code>full_join()</code> will include all rows from both tables but will fill missing values with <code>NA</code> (<em>Not Available</em> / <em>Missing Values</em>). Thus, it will put <code>NA</code> for the <code>Age</code> of participant <code>"E"</code> and <code>Report</code> of participant <code>"D"</code>.</p>
-<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="seminar07.html#cb308-1" aria-hidden="true" tabindex="-1"></a><span class="fu">full_join</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb308-2"><a href="seminar07.html#cb308-2" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="seminar07.html#cb320-1" aria-hidden="true" tabindex="-1"></a><span class="fu">full_join</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb320-2"><a href="seminar07.html#cb320-2" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -712,32 +714,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">20</td>
-<td align="right">3.883215</td>
+<td align="right">2.610020</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">20</td>
-<td align="right">2.181293</td>
+<td align="right">5.784432</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">19</td>
-<td align="right">5.401892</td>
+<td align="right">2.634509</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">19</td>
-<td align="right">1.222427</td>
+<td align="right">6.712745</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">30</td>
-<td align="right">2.274379</td>
+<td align="right">5.459099</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">30</td>
-<td align="right">3.414744</td>
+<td align="right">2.082438</td>
 </tr>
 <tr class="odd">
 <td align="left">D</td>
@@ -747,18 +749,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="even">
 <td align="left">E</td>
 <td align="right">NA</td>
-<td align="right">1.402764</td>
+<td align="right">3.644282</td>
 </tr>
 <tr class="odd">
 <td align="left">E</td>
 <td align="right">NA</td>
-<td align="right">1.506348</td>
+<td align="right">2.699978</td>
 </tr>
 </tbody>
 </table>
 <p>The <code>left_join()</code> and <code>right_join()</code> include all the row from, respectively, left and right (first and second) tables but discard extra keys from the other one. Note that two functions are just mirror opposites, so doing <code>left_join(demographics, reports, by="ID")</code> is equivalent (but for order of columns and rows) to <code>right_join(reports, demographics, by="ID")</code>.</p>
-<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="seminar07.html#cb309-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb309-2"><a href="seminar07.html#cb309-2" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="seminar07.html#cb321-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb321-2"><a href="seminar07.html#cb321-2" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -771,32 +773,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">20</td>
-<td align="right">3.883215</td>
+<td align="right">2.610020</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">20</td>
-<td align="right">2.181293</td>
+<td align="right">5.784432</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">19</td>
-<td align="right">5.401892</td>
+<td align="right">2.634509</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">19</td>
-<td align="right">1.222427</td>
+<td align="right">6.712745</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">30</td>
-<td align="right">2.274379</td>
+<td align="right">5.459099</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">30</td>
-<td align="right">3.414744</td>
+<td align="right">2.082438</td>
 </tr>
 <tr class="odd">
 <td align="left">D</td>
@@ -805,8 +807,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="seminar07.html#cb310-1" aria-hidden="true" tabindex="-1"></a><span class="fu">right_join</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb310-2"><a href="seminar07.html#cb310-2" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="seminar07.html#cb322-1" aria-hidden="true" tabindex="-1"></a><span class="fu">right_join</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb322-2"><a href="seminar07.html#cb322-2" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -819,51 +821,51 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">20</td>
-<td align="right">3.883215</td>
+<td align="right">2.610020</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">20</td>
-<td align="right">2.181293</td>
+<td align="right">5.784432</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">19</td>
-<td align="right">5.401892</td>
+<td align="right">2.634509</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">19</td>
-<td align="right">1.222427</td>
+<td align="right">6.712745</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">30</td>
-<td align="right">2.274379</td>
+<td align="right">5.459099</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">30</td>
-<td align="right">3.414744</td>
+<td align="right">2.082438</td>
 </tr>
 <tr class="odd">
 <td align="left">E</td>
 <td align="right">NA</td>
-<td align="right">1.402764</td>
+<td align="right">3.644282</td>
 </tr>
 <tr class="even">
 <td align="left">E</td>
 <td align="right">NA</td>
-<td align="right">1.506348</td>
+<td align="right">2.699978</td>
 </tr>
 </tbody>
 </table>
 <p>You can also use more than one key. Note in the example below, there are no missing / extra keys, so all four joins will produce the same results, they differ only in how they treat those missing/extra keys.</p>
-<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="seminar07.html#cb311-1" aria-hidden="true" tabindex="-1"></a>demographics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
-<span id="cb311-2"><a href="seminar07.html#cb311-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Gender =</span> <span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;M&quot;</span>),</span>
-<span id="cb311-3"><a href="seminar07.html#cb311-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">19</span>, <span class="dv">30</span>, <span class="dv">22</span>))</span>
-<span id="cb311-4"><a href="seminar07.html#cb311-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb311-5"><a href="seminar07.html#cb311-5" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(demographics)</span></code></pre></div>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="seminar07.html#cb323-1" aria-hidden="true" tabindex="-1"></a>demographics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
+<span id="cb323-2"><a href="seminar07.html#cb323-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Gender =</span> <span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;M&quot;</span>),</span>
+<span id="cb323-3"><a href="seminar07.html#cb323-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">19</span>, <span class="dv">30</span>, <span class="dv">22</span>))</span>
+<span id="cb323-4"><a href="seminar07.html#cb323-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb323-5"><a href="seminar07.html#cb323-5" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(demographics)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -895,10 +897,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="seminar07.html#cb312-1" aria-hidden="true" tabindex="-1"></a>reports <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
-<span id="cb312-2"><a href="seminar07.html#cb312-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Gender =</span> <span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;M&quot;</span>),</span>
-<span id="cb312-3"><a href="seminar07.html#cb312-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Report =</span> <span class="fu">runif</span>(<span class="fu">length</span>(ID), <span class="dv">1</span>, <span class="dv">7</span>))</span>
-<span id="cb312-4"><a href="seminar07.html#cb312-4" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(reports)</span></code></pre></div>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="seminar07.html#cb324-1" aria-hidden="true" tabindex="-1"></a>reports <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
+<span id="cb324-2"><a href="seminar07.html#cb324-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Gender =</span> <span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;M&quot;</span>),</span>
+<span id="cb324-3"><a href="seminar07.html#cb324-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Report =</span> <span class="fu">runif</span>(<span class="fu">length</span>(ID), <span class="dv">1</span>, <span class="dv">7</span>))</span>
+<span id="cb324-4"><a href="seminar07.html#cb324-4" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(reports)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -911,27 +913,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="left">M</td>
-<td align="right">5.672310</td>
+<td align="right">6.056447</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="left">F</td>
-<td align="right">1.826645</td>
+<td align="right">3.761925</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="left">F</td>
-<td align="right">3.215267</td>
+<td align="right">2.976036</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="left">M</td>
-<td align="right">5.014673</td>
+<td align="right">2.649394</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="seminar07.html#cb313-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(demographics, reports, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;Gender&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb313-2"><a href="seminar07.html#cb313-2" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="seminar07.html#cb325-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(demographics, reports, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;Gender&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb325-2"><a href="seminar07.html#cb325-2" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -946,34 +948,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">A</td>
 <td align="left">M</td>
 <td align="right">20</td>
-<td align="right">5.672310</td>
+<td align="right">6.056447</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="left">F</td>
 <td align="right">19</td>
-<td align="right">1.826645</td>
+<td align="right">3.761925</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="left">F</td>
 <td align="right">30</td>
-<td align="right">3.215267</td>
+<td align="right">2.976036</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="left">M</td>
 <td align="right">22</td>
-<td align="right">5.014673</td>
+<td align="right">2.649394</td>
 </tr>
 </tbody>
 </table>
 <p>Finally, you key columns can be named <em>differently</em> in two tables. In this case, you need to “match” them explicitly.</p>
-<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="seminar07.html#cb314-1" aria-hidden="true" tabindex="-1"></a>demographics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">VPCode =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
-<span id="cb314-2"><a href="seminar07.html#cb314-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Sex =</span> <span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;M&quot;</span>),</span>
-<span id="cb314-3"><a href="seminar07.html#cb314-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">19</span>, <span class="dv">30</span>, <span class="dv">22</span>))</span>
-<span id="cb314-4"><a href="seminar07.html#cb314-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb314-5"><a href="seminar07.html#cb314-5" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(demographics)</span></code></pre></div>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="seminar07.html#cb326-1" aria-hidden="true" tabindex="-1"></a>demographics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">VPCode =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
+<span id="cb326-2"><a href="seminar07.html#cb326-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Sex =</span> <span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;M&quot;</span>),</span>
+<span id="cb326-3"><a href="seminar07.html#cb326-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">19</span>, <span class="dv">30</span>, <span class="dv">22</span>))</span>
+<span id="cb326-4"><a href="seminar07.html#cb326-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb326-5"><a href="seminar07.html#cb326-5" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(demographics)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1005,10 +1007,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="seminar07.html#cb315-1" aria-hidden="true" tabindex="-1"></a>reports <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
-<span id="cb315-2"><a href="seminar07.html#cb315-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Gender =</span> <span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;M&quot;</span>),</span>
-<span id="cb315-3"><a href="seminar07.html#cb315-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Report =</span> <span class="fu">runif</span>(<span class="fu">length</span>(ID), <span class="dv">1</span>, <span class="dv">7</span>))</span>
-<span id="cb315-4"><a href="seminar07.html#cb315-4" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(reports)</span></code></pre></div>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="seminar07.html#cb327-1" aria-hidden="true" tabindex="-1"></a>reports <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
+<span id="cb327-2"><a href="seminar07.html#cb327-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Gender =</span> <span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;M&quot;</span>),</span>
+<span id="cb327-3"><a href="seminar07.html#cb327-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Report =</span> <span class="fu">runif</span>(<span class="fu">length</span>(ID), <span class="dv">1</span>, <span class="dv">7</span>))</span>
+<span id="cb327-4"><a href="seminar07.html#cb327-4" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(reports)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1021,27 +1023,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="left">M</td>
-<td align="right">5.320584</td>
+<td align="right">6.449831</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="left">F</td>
-<td align="right">4.267394</td>
+<td align="right">6.275828</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="left">F</td>
-<td align="right">2.179093</td>
+<td align="right">2.527516</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="left">M</td>
-<td align="right">1.915522</td>
+<td align="right">5.157247</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="seminar07.html#cb316-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(demographics, reports, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;VPCode&quot;</span><span class="ot">=</span><span class="st">&quot;ID&quot;</span>, <span class="st">&quot;Sex&quot;</span><span class="ot">=</span><span class="st">&quot;Gender&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb316-2"><a href="seminar07.html#cb316-2" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="seminar07.html#cb328-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(demographics, reports, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;VPCode&quot;</span><span class="ot">=</span><span class="st">&quot;ID&quot;</span>, <span class="st">&quot;Sex&quot;</span><span class="ot">=</span><span class="st">&quot;Gender&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb328-2"><a href="seminar07.html#cb328-2" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1056,25 +1058,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">A</td>
 <td align="left">M</td>
 <td align="right">20</td>
-<td align="right">5.320584</td>
+<td align="right">6.449831</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="left">F</td>
 <td align="right">19</td>
-<td align="right">4.267394</td>
+<td align="right">6.275828</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="left">F</td>
 <td align="right">30</td>
-<td align="right">2.179093</td>
+<td align="right">2.527516</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="left">M</td>
 <td align="right">22</td>
-<td align="right">1.915522</td>
+<td align="right">5.157247</td>
 </tr>
 </tbody>
 </table>
@@ -1087,10 +1089,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div class="footnotes">
 <hr />
-<ol start="33">
-<li id="fn33"><p>The package’s name is anagram of <em>factors</em>.<a href="seminar07.html#fnref33" class="footnote-back">↩︎</a></p></li>
-<li id="fn34"><p>This is a statistical issue called over-fitting.<a href="seminar07.html#fnref34" class="footnote-back">↩︎</a></p></li>
-<li id="fn35"><p>This measure assumes metric distance, which is a very strong assumption.<a href="seminar07.html#fnref35" class="footnote-back">↩︎</a></p></li>
+<ol start="37">
+<li id="fn37"><p>The package’s name is anagram of <em>factors</em>.<a href="seminar07.html#fnref37" class="footnote-back">↩︎</a></p></li>
+<li id="fn38"><p>This is a statistical issue called over-fitting.<a href="seminar07.html#fnref38" class="footnote-back">↩︎</a></p></li>
+<li id="fn39"><p>This measure assumes metric distance, which is a very strong assumption.<a href="seminar07.html#fnref39" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
