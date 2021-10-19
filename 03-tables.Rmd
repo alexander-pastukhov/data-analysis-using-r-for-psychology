@@ -298,7 +298,7 @@ knitr::include_graphics("images/table-rows-columns.png")
 ```
 
 ::: {.infobox .practice}
-Do exercise 5.
+Do exercise 6.
 :::
 
 ## Using libraries {#library}
@@ -357,7 +357,7 @@ tribble(
 ```
 
 ::: {.infobox .practice}
-Do exercise 6.
+Do exercise 7.
 :::
 
 ## Reading example tables {#data}
@@ -424,14 +424,14 @@ results <- read_csv("data/example.csv",
 Personally, I would prefer for `read_csv()` to loudly fail with an error in cases like these but having a nice red warning is already very helpful to quickly detect the problem with your data (and if your data is wrong, your whole analysis is meaningless). Thus, _always_ use `read_` rather than `read.` functions and _always_ specify the table structure. The lazy, and my preferred, way to do it, is to first read the file without specifying the structure and copy-paste-edit the warning column-specification message into the code adjusting as necessary.
 
 ::: {.infobox .practice}
-Do exercise 7, you need [face_rank.csv](data/face_rank.csv) file for it. Download it and place it in the project folder. _Warning_, if you use Chrome or any Chromium-based browsers like MS Edge, Opera,  etc. they might, for some odd reason, automatically *rename it* into _face_rank.xls_ during the download. Just rename it back to _face_rank.csv_, because the file is not converted to an Excel, it is only the extension that gets changed (why? No idea, ask Google!).
+Do exercise 8, you need [face_rank.csv](data/face_rank.csv) file for it. Download it and place it in the project folder. _Warning_, if you use Chrome or any Chromium-based browsers like MS Edge, Opera,  etc. they might, for some odd reason, automatically *rename it* into _face_rank.xls_ during the download. Just rename it back to _face_rank.csv_, because the file itself is not converted to an Excel, it is only the extension that gets changed (why? No idea, ask Google!).
 :::
 
 ## Reading Excel files {#readxl}
 There are several libraries that allow you to read Excel files directly. My personal preference is [readxl](https://readxl.tidyverse.org/) package, which is part of the Tidyverse. Warning, it will be installed as part of the Tidyverse (i.e., when you typed `install.packages(tidyverse)`) but you still need to import it explicitly via `library(readxl)`. Because an Excel file has many sheets, by default the `read_excel()` function reads the _first_ sheet but you can specify it via a `sheet` parameter using its index `read_excel("my_excel_file.xls", sheet=2)` or name `read_excel("my_excel_file.xls", sheet="addendum")`.
 
 ::: {.infobox .practice}
-Do exercise 8, you need [face_rank.xlsx](data/face_rank.xlsx) file for it.
+Do exercise 9, you need [face_rank.xlsx](data/face_rank.xlsx) file for it.
 :::
 
 You can read about further options at the package's website but I would generally discourage you from using Excel for your work and, definitely, for your data analysis. Because, you see, Excel is very smart and it can figure out the _true_ meaning and type of columns by itself. The fact that you might disagree is your problem. Excel knows what is best for you. The easiest way to screw a CSV file up (at least in Germany) is to open it in Excel and immediately save it. The file name will remain the same but Excel will "adjust" the content as it feels is better for you (you don't need to be consulted with). If you think I am exaggerating, read this [article](https://www.theverge.com/2020/8/6/21355674/human-genes-rename-microsoft-excel-misreading-dates) at The Verge on how Excel messed up thousands of human genome data tables by turning some values into dates (because why not?). So now the entire community is _renaming_ some genes because it is easier to waste literally thousands of man-hours on that than to fix Excel. In short, friends don't let friends use Excel.
