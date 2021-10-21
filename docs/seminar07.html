@@ -327,7 +327,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Let us start with a “warm up” exercise that will require combining various things that you already learned. Download <a href="data/persistence.csv">persistence.csv</a> file (remember, Chrome/Edge browsers may change the extension to <em>.xls</em>, just rename it back to <em>.csv</em>) and put it into <em>data</em> subfolder in your seminar project folder. This is data from a Master thesis project by Kristina Burkel, published as an article in <a href="http://link.springer.com/10.3758/s13414-019-01954-7">Attention, Perception, &amp; Psychophysics</a>. The work investigated how change in object’s shape affected perceptual stability during brief interruptions (50 ms blank intervals). The research question was whether the results will match those for one other two history effects, which work at longer time scales. Such match would indicate that both history effects are likely to be produced by the same or shared neuronal representations of 3D rotation. Grab the <a href="notebooks/Seminar%2007.Rmd">exercise notebook</a> before we start.</p>
 <div id="how-to-write-code" class="section level2" number="7.1">
 <h2><span class="header-section-number">7.1</span> How to write code</h2>
-<p>From now on, you will need to implement progressively longer analysis sequences. Unfortunately, the longer and the more complex the analysis is, the easier it is to make a mistake that will ruin everything after that stage. And you will make mistakes, simply because no one is perfect and everyone makes them. I make them all the time. Professional programmers make them. So the skill of programming is not about writing the perfect code on your first attempt, it is writing your code in iterative manner, so that any mistake you make (and, again, you will make them!) will be spotted and fixed immediately, before you continue adding more code. It should be like walking blind through uncertain terrain: One step a time, no running, no jumping, as you have no idea what awaits you.</p>
+<p>From now on, you will need to implement progressively longer analysis sequences. Unfortunately, the longer and the more complex the analysis is, the easier it is to make a mistake that will ruin everything after that stage. And you will make mistakes, simply because no one is perfect and everyone makes them. I make them all the time. Professional programmers make them. So the skill of programming is not about writing the perfect code on your first attempt, it is writing your code in an iterative manner, so that any mistake you make (and, again, you will make them!) will be spotted and fixed immediately, before you continue adding more code. It should be like walking blind through uncertain terrain: One step a time, no running, no jumping, as you have no idea what awaits you.</p>
 <p>What does this mean in practical terms? In a typical analysis (such as in the exercise below), you will need to do many things: read data, select columns, filter it, compute new variables, group data and summarize it, plot it, etc. You might be tempted to program the whole thing in one go but it is a terrible idea. Again, if your step #2 does not do what you think it should, your later stages will work with the wrong data and tracing it back to that step #2 may not be trivial (it almost never is). Instead, implement one step at a time and check that the results look as they should. E.g., in the exercise below, read the table. Check, does it look good, does it even have the data? Once you are sure that your reading bit works, proceed to columns selection. Run this two-step code and then check that it works and the table looks the way it should. It does (it has only the relevant columns)? Good, proceed to the next step.</p>
 <p><strong>Never</strong> skip these checks! Always look at the results of each additional step, do not just <em>hope</em> that they will be as they should. They might, they might not. In the latter case, if you are lucky, you will see that and are in for a long debugging session. But you may not even notice that computation is subtly broken and use its results to draw <a href="https://www.powerusersoftwares.com/post/2016/08/11/the-excel-formula-error-that-initiated-austerity-policies-after-the-crisis">erroneous conclusions</a>. It may feel overly slow to keep checking yourself continuously but it is a <em>faster</em> way to program in a long term. Moreover, if you do it once step at a time, you actually <em>know</em>, not hope, that it works.</p>
 <p>I’ve spent three paragraphs on it (and now adding even the forth one!), because, in my opinion, this approach is the main difference between novice and experienced programmers (or, one could go even further and say between good and bad programmers). And I see this mistake of writing everything in one go repeated again and again irrespective of the tool people use (you can make a really fine mess using SPSS!). So, pace yourself and let’s start programming in earnest!</p>
@@ -339,7 +339,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="tables.html#readr">Load</a> the data in a table. Name of the variable is up to you. Typically, I use names like <code>data</code>, <code>reports</code>, <code>results</code>, etc. Don’t forget to specify columns’ type.</li>
 <li>Exclude <code>filename</code> column (it duplicates <code>Participant</code> and <code>Session</code> columns).</li>
 <li>Compute a new variable <code>SameResponse</code> which is <code>TRUE</code> when <code>Response1</code> and <code>Response2</code> match each other (in the experiment, that means that an object was rotating in the same direction before and after the intervention).</li>
-<li>For every combination of <code>Participant</code>, <code>Prime</code> and <code>Probe</code> compute proportion of same responses. You can do this in to ways. Recall that <code>as.integer(TRUE)</code> is <code>1</code> and <code>as.integer(FALSE)</code> is <code>0</code>. Thus, you can either compute proportion as <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/mean.html">mean</a> or compute the <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/sum.html">sum</a> of same responses and divide it by total number of trials. Use function <a href="https://dplyr.tidyverse.org/reference/n.html">n()</a> for the latter, it return the total number of rows in the table or the group. Try doing it both ways.</li>
+<li>For every combination of <code>Participant</code>, <code>Prime</code> and <code>Probe</code> compute proportion of same responses. You can do this in to ways. Recall that <code>as.integer(TRUE)</code> is <code>1</code> and <code>as.integer(FALSE)</code> is <code>0</code>. Thus, you can either compute proportion as <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/mean.html">mean</a> or compute the <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/sum.html">sum</a> of same responses and divide it by total number of trials. Use function <a href="https://dplyr.tidyverse.org/reference/n.html">n()</a> for the latter, it returns the total number of rows in the table or the group. Try doing it both ways.</li>
 <li>Plot the results with <code>Probe</code> variable on x-axis, proportion of same responses on y-axis, and use <code>Prime</code> to facet plots. Use box plots (or violin plots) to visualize the data. Try adding color, labels, etc. to make plots look nice.</li>
 </ol>
 <p>Your final plot should look something like this
@@ -351,7 +351,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="factors" class="section level2" number="7.3">
 <h2><span class="header-section-number">7.3</span> Factors</h2>
-<p>Factors are categorical variables, thus variables that have a finite fixed and known set of possible values. They can be either <em>nominal</em> (cannot be ordered) or <em>ordinal</em> (have a specific order to them). An example of the former is the drive train (<code>drv</code>) variable in <a href="https://ggplot2.tidyverse.org/reference/mpg.html">mpg</a> table. There is a finite set of possible values (<code>"f"</code> for front-wheel drive, <code>"r"</code> for rear wheel drive, and <code>"4"</code> for a four-wheel drive) but ordering them makes no sense. An example of an ordinal variable is a Likert scale that has a finite set of possible responses (for example, <code>"disagree"</code>, <code>"neither agree, nor disagree"</code>, <code>"agree"</code>) and they do a fix specific order to them (participant’s support for a statement is progressively stronger so that <code>"disagree"</code> &lt; <code>"neither agree, nor disagree"</code> &lt; <code>"agree"</code>).</p>
+<p>Factors are categorical variables, thus variables that have a finite fixed and known set of possible values. They can be either <em>nominal</em> (cannot be ordered) or <em>ordinal</em> (have a specific order to them). An example of the former is the drive train (<code>drv</code>) variable in <a href="https://ggplot2.tidyverse.org/reference/mpg.html">mpg</a> table. There is a finite set of possible values (<code>"f"</code> for front-wheel drive, <code>"r"</code> for rear wheel drive, and <code>"4"</code> for a four-wheel drive) but ordering them makes no sense. An example of an ordinal variable is a Likert scale that has a finite set of possible responses (for example, <code>"disagree"</code>, <code>"neither agree, nor disagree"</code>, <code>"agree"</code>) with a specific fixed order (participant’s support for a statement is progressively stronger so that <code>"disagree"</code> &lt; <code>"neither agree, nor disagree"</code> &lt; <code>"agree"</code>).</p>
 <p>You can convert <em>any</em> variable to a factor using <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/factor.html">factor()</a> or <code>as.factor()</code> functions. The latter is a more limited version of the former, so, below, I will only use <code>factor()</code>. When you convert a variable (a vector) to factor, R:</p>
 <ol style="list-style-type: decimal">
 <li>figures out all <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/unique.html">unique</a> values in this vector</li>
@@ -368,13 +368,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>You can extracts <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/levels.html">levels</a> of a factor variable by using the function with this name</p>
 <div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="seminar07.html#cb292-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(letters_as_factor)</span></code></pre></div>
 <pre><code>## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot;</code></pre>
-<p>You can specify the order of levels either during the <code>factor()</code> conversion call or later using <a href="https://forcats.tidyverse.org/">forcats</a> (more on that later). For example, if we want to have levels in the reverse order we specify it via <code>levels</code> parameter. Note the opposite order of levels.</p>
+<p>You can specify the order of levels either during the <code>factor()</code> conversion call or later using <a href="https://forcats.tidyverse.org/">forcats</a> library (more on that later). For example, if we want to have levels in the reverse order we specify it via <code>levels</code> parameter. Note the opposite order of levels.</p>
 <div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="seminar07.html#cb294-1" aria-hidden="true" tabindex="-1"></a>letters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;C&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>)</span>
 <span id="cb294-2"><a href="seminar07.html#cb294-2" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">factor</span>(letters, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;D&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>))</span>
 <span id="cb294-3"><a href="seminar07.html#cb294-3" aria-hidden="true" tabindex="-1"></a>letters_as_factor</span></code></pre></div>
 <pre><code>## [1] C A D B A B
 ## Levels: D C B A</code></pre>
-<p>We can also specify <code>labels</code> of individual labels instead of using values themselves. Note that labels must</p>
+<p>We can also specify <code>labels</code> of individual labels instead of using values themselves. Note that the labels must match levels in number and order.</p>
 <div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="seminar07.html#cb296-1" aria-hidden="true" tabindex="-1"></a>responses <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>)</span>
 <span id="cb296-2"><a href="seminar07.html#cb296-2" aria-hidden="true" tabindex="-1"></a>responses_as_factor <span class="ot">&lt;-</span> <span class="fu">factor</span>(responses, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;negative&quot;</span>, <span class="st">&quot;neutral&quot;</span>, <span class="st">&quot;positive&quot;</span>))</span>
 <span id="cb296-3"><a href="seminar07.html#cb296-3" aria-hidden="true" tabindex="-1"></a>responses_as_factor</span></code></pre></div>
@@ -383,7 +383,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>You can see <em>indexes</em> that were assigned to each level by converting <code>letter_as_factor</code> to a numeric vector. In this case, R throws away labels and returns indexes.</p>
 <div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="seminar07.html#cb298-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(letters_as_factor)</span></code></pre></div>
 <pre><code>## [1] 2 4 1 3 4 3</code></pre>
-<p>However, be careful when level labels are numbers. In the example below, you might be expecting that <code>as.numeric(tens)</code> should give you <code>[20, 40, 30]</code> but these are labels! If you need to convert labels to numbers, you have to do it in two steps <code>as.numeric(as.character(tens))</code>: <code>as.character()</code> turns factors to strings (using labels) and <code>as.numeric()</code> converts those labels to numbers (if that conversion can work).</p>
+<p>However, be careful when level labels are numbers. In the example below, you might think that <code>as.numeric(tens)</code> should give you <code>[20, 40, 30]</code> but these are labels! If you need to convert labels to numbers, you have to do it in two steps <code>as.numeric(as.character(tens))</code>: <code>as.character()</code> turns factors to strings (using labels) and <code>as.numeric()</code> converts those labels to numbers (if that conversion can work).</p>
 <div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="seminar07.html#cb300-1" aria-hidden="true" tabindex="-1"></a>tens <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">30</span>))</span>
 <span id="cb300-2"><a href="seminar07.html#cb300-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(tens)</span></code></pre></div>
 <pre><code>## [1] 20 40 30
@@ -400,7 +400,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="forcats" class="section level2" number="7.4">
 <h2><span class="header-section-number">7.4</span> Forcats</h2>
-<p>Tidyverse has a package <a href="https://forcats.tidyverse.org/">forcats</a><a href="#fn44" class="footnote-ref" id="fnref44"><sup>44</sup></a> that makes working with factors easier. For example, it allows to reorder levels either <a href="https://forcats.tidyverse.org/reference/fct_relevel.html">by hand</a> or automatically based on the <a href="https://forcats.tidyverse.org/reference/fct_inorder.html">order of appearance</a>, <a href="https://forcats.tidyverse.org/reference/fct_inorder.html">frequency</a>, <a href="https://forcats.tidyverse.org/reference/fct_reorder.html">value of other variable</a>, etc. It also gives you flexible tool to changes labels either <a href="https://forcats.tidyverse.org/reference/fct_recode.html">by hand</a>, by <a href="https://forcats.tidyverse.org/reference/fct_lump.html">lumping</a> some levels together, by <a href="https://forcats.tidyverse.org/reference/fct_anon.html">anonymising them</a>, etc. In my work, I mostly use reordering (<a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel()</a>) and renaming (<a href="https://forcats.tidyverse.org/reference/fct_recode.html">fct_recode()</a>) of factors by hand. You will need to use yhese two functions in exercise #3. However, if you find yourself working with factors, it is a good idea to check other <a href="https://forcats.tidyverse.org/">forcats</a> functions to see whether they can make your life easier.</p>
+<p>Tidyverse has a package <a href="https://forcats.tidyverse.org/">forcats</a><a href="#fn44" class="footnote-ref" id="fnref44"><sup>44</sup></a> that makes working with factors easier. For example, it allows to reorder levels either <a href="https://forcats.tidyverse.org/reference/fct_relevel.html">by hand</a> or automatically based on the <a href="https://forcats.tidyverse.org/reference/fct_inorder.html">order of appearance</a>, <a href="https://forcats.tidyverse.org/reference/fct_inorder.html">frequency</a>, <a href="https://forcats.tidyverse.org/reference/fct_reorder.html">value of other variable</a>, etc. It also gives you flexible tool to changes labels either <a href="https://forcats.tidyverse.org/reference/fct_recode.html">by hand</a>, by <a href="https://forcats.tidyverse.org/reference/fct_lump.html">lumping</a> some levels together, by <a href="https://forcats.tidyverse.org/reference/fct_anon.html">anonymising them</a>, etc. In my work, I mostly use reordering (<a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel()</a>) and renaming (<a href="https://forcats.tidyverse.org/reference/fct_recode.html">fct_recode()</a>) of factors by hand. You will need to use these two functions in exercise #3. However, if you find yourself working with factors, it is a good idea to check other <a href="https://forcats.tidyverse.org/">forcats</a> functions to see whether they can make your life easier.</p>
 <p>To reorder factor by hand, you simply state the desired order of factors, similar to they way you specify this via <code>levels=</code> parameters in <code>factor()</code> function. However, in <a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel()</a> you can move only <em>some</em> factors and others are “pushed to the back.”</p>
 <div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="seminar07.html#cb306-1" aria-hidden="true" tabindex="-1"></a>letters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;C&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>)</span>
 <span id="cb306-2"><a href="seminar07.html#cb306-2" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">factor</span>(letters, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;A&quot;</span>))</span>
@@ -624,35 +624,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
 <tr class="odd">
 <td align="left">A</td>
-<td align="right">1.133387</td>
+<td align="right">3.221624</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
-<td align="right">1.614683</td>
+<td align="right">1.547214</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
-<td align="right">3.119767</td>
+<td align="right">4.098503</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
-<td align="right">4.451284</td>
+<td align="right">6.125444</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
-<td align="right">6.508236</td>
+<td align="right">6.436085</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
-<td align="right">3.633704</td>
+<td align="right">1.998121</td>
 </tr>
 <tr class="odd">
 <td align="left">E</td>
-<td align="right">2.212317</td>
+<td align="right">5.022291</td>
 </tr>
 <tr class="even">
 <td align="left">E</td>
-<td align="right">4.607839</td>
+<td align="right">6.843432</td>
 </tr>
 </tbody>
 </table>
@@ -671,32 +671,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">20</td>
-<td align="right">1.133387</td>
+<td align="right">3.221624</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">20</td>
-<td align="right">1.614683</td>
+<td align="right">1.547214</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">19</td>
-<td align="right">3.119767</td>
+<td align="right">4.098503</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">19</td>
-<td align="right">4.451284</td>
+<td align="right">6.125444</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">30</td>
-<td align="right">6.508236</td>
+<td align="right">6.436085</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">30</td>
-<td align="right">3.633704</td>
+<td align="right">1.998121</td>
 </tr>
 </tbody>
 </table>
@@ -715,32 +715,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">20</td>
-<td align="right">1.133387</td>
+<td align="right">3.221624</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">20</td>
-<td align="right">1.614683</td>
+<td align="right">1.547214</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">19</td>
-<td align="right">3.119767</td>
+<td align="right">4.098503</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">19</td>
-<td align="right">4.451284</td>
+<td align="right">6.125444</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">30</td>
-<td align="right">6.508236</td>
+<td align="right">6.436085</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">30</td>
-<td align="right">3.633704</td>
+<td align="right">1.998121</td>
 </tr>
 <tr class="odd">
 <td align="left">D</td>
@@ -750,12 +750,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="even">
 <td align="left">E</td>
 <td align="right">NA</td>
-<td align="right">2.212317</td>
+<td align="right">5.022291</td>
 </tr>
 <tr class="odd">
 <td align="left">E</td>
 <td align="right">NA</td>
-<td align="right">4.607839</td>
+<td align="right">6.843432</td>
 </tr>
 </tbody>
 </table>
@@ -774,32 +774,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">20</td>
-<td align="right">1.133387</td>
+<td align="right">3.221624</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">20</td>
-<td align="right">1.614683</td>
+<td align="right">1.547214</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">19</td>
-<td align="right">3.119767</td>
+<td align="right">4.098503</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">19</td>
-<td align="right">4.451284</td>
+<td align="right">6.125444</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">30</td>
-<td align="right">6.508236</td>
+<td align="right">6.436085</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">30</td>
-<td align="right">3.633704</td>
+<td align="right">1.998121</td>
 </tr>
 <tr class="odd">
 <td align="left">D</td>
@@ -822,42 +822,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">20</td>
-<td align="right">1.133387</td>
+<td align="right">3.221624</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">20</td>
-<td align="right">1.614683</td>
+<td align="right">1.547214</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">19</td>
-<td align="right">3.119767</td>
+<td align="right">4.098503</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">19</td>
-<td align="right">4.451284</td>
+<td align="right">6.125444</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">30</td>
-<td align="right">6.508236</td>
+<td align="right">6.436085</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">30</td>
-<td align="right">3.633704</td>
+<td align="right">1.998121</td>
 </tr>
 <tr class="odd">
 <td align="left">E</td>
 <td align="right">NA</td>
-<td align="right">2.212317</td>
+<td align="right">5.022291</td>
 </tr>
 <tr class="even">
 <td align="left">E</td>
 <td align="right">NA</td>
-<td align="right">4.607839</td>
+<td align="right">6.843432</td>
 </tr>
 </tbody>
 </table>
@@ -914,22 +914,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="left">M</td>
-<td align="right">5.137939</td>
+<td align="right">3.897865</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="left">F</td>
-<td align="right">1.845852</td>
+<td align="right">4.932877</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="left">F</td>
-<td align="right">6.005746</td>
+<td align="right">6.554810</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="left">M</td>
-<td align="right">1.739748</td>
+<td align="right">5.701036</td>
 </tr>
 </tbody>
 </table>
@@ -949,25 +949,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">A</td>
 <td align="left">M</td>
 <td align="right">20</td>
-<td align="right">5.137939</td>
+<td align="right">3.897865</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="left">F</td>
 <td align="right">19</td>
-<td align="right">1.845852</td>
+<td align="right">4.932877</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="left">F</td>
 <td align="right">30</td>
-<td align="right">6.005746</td>
+<td align="right">6.554810</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="left">M</td>
 <td align="right">22</td>
-<td align="right">1.739748</td>
+<td align="right">5.701036</td>
 </tr>
 </tbody>
 </table>
@@ -1024,22 +1024,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="left">M</td>
-<td align="right">3.957940</td>
+<td align="right">3.288679</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="left">F</td>
-<td align="right">4.556946</td>
+<td align="right">4.401253</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="left">F</td>
-<td align="right">5.810037</td>
+<td align="right">5.218737</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="left">M</td>
-<td align="right">2.198714</td>
+<td align="right">4.413652</td>
 </tr>
 </tbody>
 </table>
@@ -1059,25 +1059,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">A</td>
 <td align="left">M</td>
 <td align="right">20</td>
-<td align="right">3.957940</td>
+<td align="right">3.288679</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="left">F</td>
 <td align="right">19</td>
-<td align="right">4.556946</td>
+<td align="right">4.401253</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="left">F</td>
 <td align="right">30</td>
-<td align="right">5.810037</td>
+<td align="right">5.218737</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="left">M</td>
 <td align="right">22</td>
-<td align="right">2.198714</td>
+<td align="right">4.413652</td>
 </tr>
 </tbody>
 </table>

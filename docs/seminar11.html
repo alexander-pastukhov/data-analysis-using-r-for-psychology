@@ -345,7 +345,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb405-2"><a href="seminar11.html#cb405-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb405-3"><a href="seminar11.html#cb405-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">y =</span> <span class="fu">rnorm</span>(<span class="fu">n</span>(), x, <span class="fl">0.5</span>))</span>
 <span id="cb405-4"><a href="seminar11.html#cb405-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y, <span class="at">method=</span><span class="st">&quot;pearson&quot;</span>)</span></code></pre></div>
-<pre><code>## [1] 0.9230494</code></pre>
+<pre><code>## [1] 0.8991517</code></pre>
 <p>Alternatively, you can use <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.test.html">cor.test()</a> that also computes test statistics and significance.</p>
 <div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="seminar11.html#cb407-1" aria-hidden="true" tabindex="-1"></a>cor_result <span class="ot">&lt;-</span> <span class="fu">cor.test</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y, <span class="at">method=</span><span class="st">&quot;pearson&quot;</span>)</span>
 <span id="cb407-2"><a href="seminar11.html#cb407-2" aria-hidden="true" tabindex="-1"></a>cor_result</span></code></pre></div>
@@ -353,22 +353,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  Pearson&#39;s product-moment correlation
 ## 
 ## data:  df$x and df$y
-## t = 23.754, df = 98, p-value &lt; 2.2e-16
+## t = 20.339, df = 98, p-value &lt; 2.2e-16
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
-##  0.8875467 0.9476543
+##  0.8534634 0.9311242
 ## sample estimates:
 ##       cor 
-## 0.9230494</code></pre>
+## 0.8991517</code></pre>
 <p><code>cor.test</code> returns a list, so you can access its individual elements<a href="#fn55" class="footnote-ref" id="fnref55"><sup>55</sup></a> via a double-bracket or <code>$</code> notation.</p>
 <div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb409-1"><a href="seminar11.html#cb409-1" aria-hidden="true" tabindex="-1"></a>cor_result<span class="sc">$</span>p.value</span></code></pre></div>
-<pre><code>## [1] 1.901801e-42</code></pre>
+<pre><code>## [1] 6.01944e-37</code></pre>
 <p>Bayesian correlation with a posterior distribution for the correlation coefficient and Bayes Factor as a measure of significance, can be computed via <code>correlationBF()</code> function, which is part of <a href="https://richarddmorey.github.io/BayesFactor">BayesFactor</a> package.</p>
 <div class="sourceCode" id="cb411"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb411-1"><a href="seminar11.html#cb411-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(BayesFactor)</span>
 <span id="cb411-2"><a href="seminar11.html#cb411-2" aria-hidden="true" tabindex="-1"></a><span class="fu">correlationBF</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y)</span></code></pre></div>
 <pre><code>## Bayes factor analysis
 ## --------------
-## [1] Alt., r=0.333 : 4.203305e+37 ±0%
+## [1] Alt., r=0.333 : 2.920163e+32 ±0%
 ## 
 ## Against denominator:
 ##   Null, rho = 0 

@@ -2521,53 +2521,53 @@ You always need the first one. But you do not need to specify the other two, eve
 \hline
 Condition & Intensity & Response\\
 \hline
-A & 1 & 0.8465764\\
+A & 1 & -0.8723858\\
 \hline
-B & 1 & -0.8946517\\
+B & 1 & -1.5746330\\
 \hline
-C & 1 & -4.7743923\\
+C & 1 & -4.5931121\\
 \hline
-A & 2 & 1.3305721\\
+A & 2 & 1.4741733\\
 \hline
-B & 2 & -1.1746898\\
+B & 2 & -0.5901705\\
 \hline
-C & 2 & -2.5113013\\
+C & 2 & -2.9504047\\
 \hline
-A & 3 & 2.1414432\\
+A & 3 & 2.1003018\\
 \hline
-B & 3 & -0.2696954\\
+B & 3 & -0.2349878\\
 \hline
-C & 3 & -2.8062532\\
+C & 3 & -1.8953333\\
 \hline
-A & 4 & 3.0782811\\
+A & 4 & 2.8053523\\
 \hline
-B & 4 & 0.3241116\\
+B & 4 & 0.3276598\\
 \hline
-C & 4 & -0.8584369\\
+C & 4 & 0.0097449\\
 \hline
-A & 5 & 3.8277940\\
+A & 5 & 4.4137896\\
 \hline
-B & 5 & 1.7121227\\
+B & 5 & 1.7455255\\
 \hline
-C & 5 & -0.3924913\\
+C & 5 & 0.5341589\\
 \hline
-A & 6 & 4.9797312\\
+A & 6 & 4.9851277\\
 \hline
-B & 6 & 3.0978869\\
+B & 6 & 2.9734889\\
 \hline
-C & 6 & 1.1242312\\
+C & 6 & 1.1231594\\
 \hline
-A & 7 & 5.6671980\\
+A & 7 & 6.3333385\\
 \hline
-B & 7 & 3.9016729\\
+B & 7 & 5.0095241\\
 \hline
-C & 7 & 2.3276265\\
+C & 7 & 1.4644955\\
 \hline
-A & 8 & 6.6890683\\
+A & 8 & 6.8792759\\
 \hline
-B & 8 & 4.1496168\\
+B & 8 & 5.4874302\\
 \hline
-C & 8 & 2.8852993\\
+C & 8 & 2.8749121\\
 \hline
 \end{tabular}
 
@@ -3642,7 +3642,7 @@ Let us start with a ``warm up'' exercise that will require combining various thi
 \hypertarget{how-to-write-code}{%
 \section{How to write code}\label{how-to-write-code}}
 
-From now on, you will need to implement progressively longer analysis sequences. Unfortunately, the longer and the more complex the analysis is, the easier it is to make a mistake that will ruin everything after that stage. And you will make mistakes, simply because no one is perfect and everyone makes them. I make them all the time. Professional programmers make them. So the skill of programming is not about writing the perfect code on your first attempt, it is writing your code in iterative manner, so that any mistake you make (and, again, you will make them!) will be spotted and fixed immediately, before you continue adding more code. It should be like walking blind through uncertain terrain: One step a time, no running, no jumping, as you have no idea what awaits you.
+From now on, you will need to implement progressively longer analysis sequences. Unfortunately, the longer and the more complex the analysis is, the easier it is to make a mistake that will ruin everything after that stage. And you will make mistakes, simply because no one is perfect and everyone makes them. I make them all the time. Professional programmers make them. So the skill of programming is not about writing the perfect code on your first attempt, it is writing your code in an iterative manner, so that any mistake you make (and, again, you will make them!) will be spotted and fixed immediately, before you continue adding more code. It should be like walking blind through uncertain terrain: One step a time, no running, no jumping, as you have no idea what awaits you.
 
 What does this mean in practical terms? In a typical analysis (such as in the exercise below), you will need to do many things: read data, select columns, filter it, compute new variables, group data and summarize it, plot it, etc. You might be tempted to program the whole thing in one go but it is a terrible idea. Again, if your step \#2 does not do what you think it should, your later stages will work with the wrong data and tracing it back to that step \#2 may not be trivial (it almost never is). Instead, implement one step at a time and check that the results look as they should. E.g., in the exercise below, read the table. Check, does it look good, does it even have the data? Once you are sure that your reading bit works, proceed to columns selection. Run this two-step code and then check that it works and the table looks the way it should. It does (it has only the relevant columns)? Good, proceed to the next step.
 
@@ -3665,7 +3665,7 @@ In the first exercise, I want you to implement the actual analysis performed in 
 \item
   Compute a new variable \texttt{SameResponse} which is \texttt{TRUE} when \texttt{Response1} and \texttt{Response2} match each other (in the experiment, that means that an object was rotating in the same direction before and after the intervention).
 \item
-  For every combination of \texttt{Participant}, \texttt{Prime} and \texttt{Probe} compute proportion of same responses. You can do this in to ways. Recall that \texttt{as.integer(TRUE)} is \texttt{1} and \texttt{as.integer(FALSE)} is \texttt{0}. Thus, you can either compute proportion as \href{https://stat.ethz.ch/R-manual/R-patched/library/base/html/mean.html}{mean} or compute the \href{https://stat.ethz.ch/R-manual/R-patched/library/base/html/sum.html}{sum} of same responses and divide it by total number of trials. Use function \href{https://dplyr.tidyverse.org/reference/n.html}{n()} for the latter, it return the total number of rows in the table or the group. Try doing it both ways.
+  For every combination of \texttt{Participant}, \texttt{Prime} and \texttt{Probe} compute proportion of same responses. You can do this in to ways. Recall that \texttt{as.integer(TRUE)} is \texttt{1} and \texttt{as.integer(FALSE)} is \texttt{0}. Thus, you can either compute proportion as \href{https://stat.ethz.ch/R-manual/R-patched/library/base/html/mean.html}{mean} or compute the \href{https://stat.ethz.ch/R-manual/R-patched/library/base/html/sum.html}{sum} of same responses and divide it by total number of trials. Use function \href{https://dplyr.tidyverse.org/reference/n.html}{n()} for the latter, it returns the total number of rows in the table or the group. Try doing it both ways.
 \item
   Plot the results with \texttt{Probe} variable on x-axis, proportion of same responses on y-axis, and use \texttt{Prime} to facet plots. Use box plots (or violin plots) to visualize the data. Try adding color, labels, etc. to make plots look nice.
 \end{enumerate}
@@ -3681,7 +3681,7 @@ When you examine the plot, you can see some sort of non-monotonic dependence wit
 \hypertarget{factors}{%
 \section{Factors}\label{factors}}
 
-Factors are categorical variables, thus variables that have a finite fixed and known set of possible values. They can be either \emph{nominal} (cannot be ordered) or \emph{ordinal} (have a specific order to them). An example of the former is the drive train (\texttt{drv}) variable in \href{https://ggplot2.tidyverse.org/reference/mpg.html}{mpg} table. There is a finite set of possible values (\texttt{"f"} for front-wheel drive, \texttt{"r"} for rear wheel drive, and \texttt{"4"} for a four-wheel drive) but ordering them makes no sense. An example of an ordinal variable is a Likert scale that has a finite set of possible responses (for example, \texttt{"disagree"}, \texttt{"neither\ agree,\ nor\ disagree"}, \texttt{"agree"}) and they do a fix specific order to them (participant's support for a statement is progressively stronger so that \texttt{"disagree"} \textless{} \texttt{"neither\ agree,\ nor\ disagree"} \textless{} \texttt{"agree"}).
+Factors are categorical variables, thus variables that have a finite fixed and known set of possible values. They can be either \emph{nominal} (cannot be ordered) or \emph{ordinal} (have a specific order to them). An example of the former is the drive train (\texttt{drv}) variable in \href{https://ggplot2.tidyverse.org/reference/mpg.html}{mpg} table. There is a finite set of possible values (\texttt{"f"} for front-wheel drive, \texttt{"r"} for rear wheel drive, and \texttt{"4"} for a four-wheel drive) but ordering them makes no sense. An example of an ordinal variable is a Likert scale that has a finite set of possible responses (for example, \texttt{"disagree"}, \texttt{"neither\ agree,\ nor\ disagree"}, \texttt{"agree"}) with a specific fixed order (participant's support for a statement is progressively stronger so that \texttt{"disagree"} \textless{} \texttt{"neither\ agree,\ nor\ disagree"} \textless{} \texttt{"agree"}).
 
 You can convert \emph{any} variable to a factor using \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/factor.html}{factor()} or \texttt{as.factor()} functions. The latter is a more limited version of the former, so, below, I will only use \texttt{factor()}. When you convert a variable (a vector) to factor, R:
 
@@ -3725,7 +3725,7 @@ You can extracts \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/l
 ## [1] "A" "B" "C" "D"
 \end{verbatim}
 
-You can specify the order of levels either during the \texttt{factor()} conversion call or later using \href{https://forcats.tidyverse.org/}{forcats} (more on that later). For example, if we want to have levels in the reverse order we specify it via \texttt{levels} parameter. Note the opposite order of levels.
+You can specify the order of levels either during the \texttt{factor()} conversion call or later using \href{https://forcats.tidyverse.org/}{forcats} library (more on that later). For example, if we want to have levels in the reverse order we specify it via \texttt{levels} parameter. Note the opposite order of levels.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3740,7 +3740,7 @@ You can specify the order of levels either during the \texttt{factor()} conversi
 ## Levels: D C B A
 \end{verbatim}
 
-We can also specify \texttt{labels} of individual labels instead of using values themselves. Note that labels must
+We can also specify \texttt{labels} of individual labels instead of using values themselves. Note that the labels must match levels in number and order.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3767,7 +3767,7 @@ You can see \emph{indexes} that were assigned to each level by converting \textt
 ## [1] 2 4 1 3 4 3
 \end{verbatim}
 
-However, be careful when level labels are numbers. In the example below, you might be expecting that \texttt{as.numeric(tens)} should give you \texttt{{[}20,\ 40,\ 30{]}} but these are labels! If you need to convert labels to numbers, you have to do it in two steps \texttt{as.numeric(as.character(tens))}: \texttt{as.character()} turns factors to strings (using labels) and \texttt{as.numeric()} converts those labels to numbers (if that conversion can work).
+However, be careful when level labels are numbers. In the example below, you might think that \texttt{as.numeric(tens)} should give you \texttt{{[}20,\ 40,\ 30{]}} but these are labels! If you need to convert labels to numbers, you have to do it in two steps \texttt{as.numeric(as.character(tens))}: \texttt{as.character()} turns factors to strings (using labels) and \texttt{as.numeric()} converts those labels to numbers (if that conversion can work).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3810,7 +3810,7 @@ Do exercise 2.
 \hypertarget{forcats}{%
 \section{Forcats}\label{forcats}}
 
-Tidyverse has a package \href{https://forcats.tidyverse.org/}{forcats}\footnote{The package's name is anagram of \emph{factors}.} that makes working with factors easier. For example, it allows to reorder levels either \href{https://forcats.tidyverse.org/reference/fct_relevel.html}{by hand} or automatically based on the \href{https://forcats.tidyverse.org/reference/fct_inorder.html}{order of appearance}, \href{https://forcats.tidyverse.org/reference/fct_inorder.html}{frequency}, \href{https://forcats.tidyverse.org/reference/fct_reorder.html}{value of other variable}, etc. It also gives you flexible tool to changes labels either \href{https://forcats.tidyverse.org/reference/fct_recode.html}{by hand}, by \href{https://forcats.tidyverse.org/reference/fct_lump.html}{lumping} some levels together, by \href{https://forcats.tidyverse.org/reference/fct_anon.html}{anonymising them}, etc. In my work, I mostly use reordering (\href{https://forcats.tidyverse.org/reference/fct_relevel.html}{fct\_relevel()}) and renaming (\href{https://forcats.tidyverse.org/reference/fct_recode.html}{fct\_recode()}) of factors by hand. You will need to use yhese two functions in exercise \#3. However, if you find yourself working with factors, it is a good idea to check other \href{https://forcats.tidyverse.org/}{forcats} functions to see whether they can make your life easier.
+Tidyverse has a package \href{https://forcats.tidyverse.org/}{forcats}\footnote{The package's name is anagram of \emph{factors}.} that makes working with factors easier. For example, it allows to reorder levels either \href{https://forcats.tidyverse.org/reference/fct_relevel.html}{by hand} or automatically based on the \href{https://forcats.tidyverse.org/reference/fct_inorder.html}{order of appearance}, \href{https://forcats.tidyverse.org/reference/fct_inorder.html}{frequency}, \href{https://forcats.tidyverse.org/reference/fct_reorder.html}{value of other variable}, etc. It also gives you flexible tool to changes labels either \href{https://forcats.tidyverse.org/reference/fct_recode.html}{by hand}, by \href{https://forcats.tidyverse.org/reference/fct_lump.html}{lumping} some levels together, by \href{https://forcats.tidyverse.org/reference/fct_anon.html}{anonymising them}, etc. In my work, I mostly use reordering (\href{https://forcats.tidyverse.org/reference/fct_relevel.html}{fct\_relevel()}) and renaming (\href{https://forcats.tidyverse.org/reference/fct_recode.html}{fct\_recode()}) of factors by hand. You will need to use these two functions in exercise \#3. However, if you find yourself working with factors, it is a good idea to check other \href{https://forcats.tidyverse.org/}{forcats} functions to see whether they can make your life easier.
 
 To reorder factor by hand, you simply state the desired order of factors, similar to they way you specify this via \texttt{levels=} parameters in \texttt{factor()} function. However, in \href{https://forcats.tidyverse.org/reference/fct_relevel.html}{fct\_relevel()} you can move only \emph{some} factors and others are ``pushed to the back''.
 
@@ -4043,21 +4043,21 @@ D & 22\\
 \hline
 ID & Report\\
 \hline
-A & 1.578561\\
+A & 2.255652\\
 \hline
-A & 5.244835\\
+A & 5.381819\\
 \hline
-B & 1.134646\\
+B & 4.736327\\
 \hline
-B & 3.512635\\
+B & 6.893878\\
 \hline
-C & 3.696597\\
+C & 4.762267\\
 \hline
-C & 2.973226\\
+C & 3.190621\\
 \hline
-E & 6.752840\\
+E & 4.492282\\
 \hline
-E & 3.890652\\
+E & 2.683501\\
 \hline
 \end{tabular}
 
@@ -4074,17 +4074,17 @@ Here, \texttt{ID} column will serve as a key to indicate which rows from two col
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 1.578561\\
+A & 20 & 2.255652\\
 \hline
-A & 20 & 5.244835\\
+A & 20 & 5.381819\\
 \hline
-B & 19 & 1.134646\\
+B & 19 & 4.736327\\
 \hline
-B & 19 & 3.512635\\
+B & 19 & 6.893878\\
 \hline
-C & 30 & 3.696597\\
+C & 30 & 4.762267\\
 \hline
-C & 30 & 2.973226\\
+C & 30 & 3.190621\\
 \hline
 \end{tabular}
 
@@ -4101,23 +4101,23 @@ Conversely, \texttt{full\_join()} will include all rows from both tables but wil
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 1.578561\\
+A & 20 & 2.255652\\
 \hline
-A & 20 & 5.244835\\
+A & 20 & 5.381819\\
 \hline
-B & 19 & 1.134646\\
+B & 19 & 4.736327\\
 \hline
-B & 19 & 3.512635\\
+B & 19 & 6.893878\\
 \hline
-C & 30 & 3.696597\\
+C & 30 & 4.762267\\
 \hline
-C & 30 & 2.973226\\
+C & 30 & 3.190621\\
 \hline
 D & 22 & NA\\
 \hline
-E & NA & 6.752840\\
+E & NA & 4.492282\\
 \hline
-E & NA & 3.890652\\
+E & NA & 2.683501\\
 \hline
 \end{tabular}
 
@@ -4134,17 +4134,17 @@ The \texttt{left\_join()} and \texttt{right\_join()} include all the row from, r
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 1.578561\\
+A & 20 & 2.255652\\
 \hline
-A & 20 & 5.244835\\
+A & 20 & 5.381819\\
 \hline
-B & 19 & 1.134646\\
+B & 19 & 4.736327\\
 \hline
-B & 19 & 3.512635\\
+B & 19 & 6.893878\\
 \hline
-C & 30 & 3.696597\\
+C & 30 & 4.762267\\
 \hline
-C & 30 & 2.973226\\
+C & 30 & 3.190621\\
 \hline
 D & 22 & NA\\
 \hline
@@ -4161,21 +4161,21 @@ D & 22 & NA\\
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 1.578561\\
+A & 20 & 2.255652\\
 \hline
-A & 20 & 5.244835\\
+A & 20 & 5.381819\\
 \hline
-B & 19 & 1.134646\\
+B & 19 & 4.736327\\
 \hline
-B & 19 & 3.512635\\
+B & 19 & 6.893878\\
 \hline
-C & 30 & 3.696597\\
+C & 30 & 4.762267\\
 \hline
-C & 30 & 2.973226\\
+C & 30 & 3.190621\\
 \hline
-E & NA & 6.752840\\
+E & NA & 4.492282\\
 \hline
-E & NA & 3.890652\\
+E & NA & 2.683501\\
 \hline
 \end{tabular}
 
@@ -4218,13 +4218,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 6.050203\\
+A & M & 5.892994\\
 \hline
-B & F & 5.730057\\
+B & F & 4.058781\\
 \hline
-A & F & 6.852557\\
+A & F & 2.718156\\
 \hline
-B & M & 5.804771\\
+B & M & 5.732511\\
 \hline
 \end{tabular}
 
@@ -4239,13 +4239,13 @@ B & M & 5.804771\\
 \hline
 ID & Gender & Age & Report\\
 \hline
-A & M & 20 & 6.050203\\
+A & M & 20 & 5.892994\\
 \hline
-B & F & 19 & 5.730057\\
+B & F & 19 & 4.058781\\
 \hline
-A & F & 30 & 6.852557\\
+A & F & 30 & 2.718156\\
 \hline
-B & M & 22 & 5.804771\\
+B & M & 22 & 5.732511\\
 \hline
 \end{tabular}
 
@@ -4288,13 +4288,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 3.498259\\
+A & M & 1.008664\\
 \hline
-B & F & 1.181585\\
+B & F & 3.901728\\
 \hline
-A & F & 1.798796\\
+A & F & 1.321361\\
 \hline
-B & M & 3.624160\\
+B & M & 3.092274\\
 \hline
 \end{tabular}
 
@@ -4309,13 +4309,13 @@ B & M & 3.624160\\
 \hline
 VPCode & Sex & Age & Report\\
 \hline
-A & M & 20 & 3.498259\\
+A & M & 20 & 1.008664\\
 \hline
-B & F & 19 & 1.181585\\
+B & F & 19 & 3.901728\\
 \hline
-A & F & 30 & 1.798796\\
+A & F & 30 & 1.321361\\
 \hline
-B & M & 22 & 3.624160\\
+B & M & 22 & 3.092274\\
 \hline
 \end{tabular}
 
@@ -4624,13 +4624,13 @@ Now let us take a look at the importance of \texttt{id\_cols}. Imagine that we h
 \hline
 Participant & Face & Property & Response & RT\\
 \hline
-1 & M-1 & Symmetry & 6 & 1.97\\
+1 & M-1 & Symmetry & 6 & 0.68\\
 \hline
-1 & M-1 & Attractiveness & 4 & 0.75\\
+1 & M-1 & Attractiveness & 4 & 0.87\\
 \hline
-1 & M-1 & Trustworthiness & 3 & 0.84\\
+1 & M-1 & Trustworthiness & 3 & 1.03\\
 \hline
-1 & M-2 & Symmetry & 4 & 1.86\\
+1 & M-2 & Symmetry & 4 & 2.87\\
 \hline
 \end{tabular}
 
@@ -4656,13 +4656,13 @@ Now, if we do not specify which columns identify rows that belong together, \tex
 \hline
 Participant & Face & RT & Symmetry & Attractiveness & Trustworthiness\\
 \hline
-1 & M-1 & 1.97 & 6 & NA & NA\\
+1 & M-1 & 0.68 & 6 & NA & NA\\
 \hline
-1 & M-1 & 0.75 & NA & 4 & NA\\
+1 & M-1 & 0.87 & NA & 4 & NA\\
 \hline
-1 & M-1 & 0.84 & NA & NA & 3\\
+1 & M-1 & 1.03 & NA & NA & 3\\
 \hline
-1 & M-2 & 1.86 & 4 & NA & NA\\
+1 & M-2 & 2.87 & 4 & NA & NA\\
 \hline
 \end{tabular}
 
@@ -5561,8 +5561,8 @@ Do exercise 4.
 As I have noted above, loops are particularly useful when you current value depends on a previous one (or many previous values). In the next exercise, use \texttt{for} loop to create a random walk (length 10) starting at value zero with each next step drawn randomly from a normal distribution with mean of 0.5 and standard deviation of 2 (the function you are looking for is \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html}{rnorm()}). You end-produce might look like this
 
 \begin{verbatim}
-##  [1]  0.0000000 -1.0100328 -1.1418734 -6.0327424 -2.4755220 -0.8595206
-##  [7] -0.9142336 -2.3766192 -1.8725969 -2.1861684
+##  [1]  0.000000  1.208167  7.371090  7.814418  4.191588  5.661427  5.313030
+##  [8]  6.864654  9.959652 13.031879
 \end{verbatim}
 
 Do exercise 5.
@@ -5638,10 +5638,10 @@ Let us create a simple 3 by 4 matrix of normally distributed random numbers.
 \end{Shaded}
 
 \begin{verbatim}
-##            [,1]       [,2]       [,3]       [,4]
-## [1,] -0.5186224 -0.1647257 -0.6337838  0.8207823
-## [2,] -0.2565446  0.8163781 -1.2500688  1.4282484
-## [3,]  0.0279033  0.9599214  0.7325325 -2.3325624
+##            [,1]        [,2]       [,3]       [,4]
+## [1,] -0.3449145  1.05804468 -0.8904780  0.5272834
+## [2,]  0.8106965  0.10981307  0.8418642 -0.6198217
+## [3,]  0.6018771 -0.01558582 -0.6662144 -0.6133678
 \end{verbatim}
 
 We would expect median value of any row or column to be 0 but because we have so few data points, they will be close but not exactly zero. Computing median for each row (we should get \emph{three} numbers)
@@ -5653,7 +5653,7 @@ We would expect median value of any row or column to be 0 but because we have so
 \end{Shaded}
 
 \begin{verbatim}
-## [1] -0.3416741  0.2799167  0.3802179
+## [1]  0.09118444  0.46025481 -0.31447680
 \end{verbatim}
 
 Similarly for a column (here, it should be \emph{four} numbers)
@@ -5665,7 +5665,7 @@ Similarly for a column (here, it should be \emph{four} numbers)
 \end{Shaded}
 
 \begin{verbatim}
-## [1] -0.2565446  0.8163781 -0.6337838  0.8207823
+## [1]  0.6018771  0.1098131 -0.6662144 -0.6133678
 \end{verbatim}
 
 I will not go into any further details on these functions, concentrating on similar functionality by \protect\hyperlink{purrr}{purrr} package. However, if you find yourself working with matrices or needing to apply a function to rows of a data frame, \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/apply.html}{apply} might be a simpler solution. Keep this option in mind, if you feel that either looping or purrring looks inadequate.
@@ -5771,7 +5771,7 @@ To compute correlation, use function \href{https://stat.ethz.ch/R-manual/R-devel
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.8942383
+## [1] 0.922305
 \end{verbatim}
 
 Alternatively, you can use \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.test.html}{cor.test()} that also computes test statistics and significance.
@@ -5788,13 +5788,13 @@ Alternatively, you can use \href{https://stat.ethz.ch/R-manual/R-devel/library/s
 ##  Pearson's product-moment correlation
 ## 
 ## data:  df$x and df$y
-## t = 19.778, df = 98, p-value < 2.2e-16
+## t = 23.625, df = 98, p-value < 2.2e-16
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
-##  0.8465041 0.9277093
+##  0.8864791 0.9471414
 ## sample estimates:
-##       cor 
-## 0.8942383
+##      cor 
+## 0.922305
 \end{verbatim}
 
 \texttt{cor.test} returns a list, so you can access its individual elements\footnote{Use (names()){[}\url{https://stat.ethz.ch/R-manual/R-devel/library/base/html/names.html}{]} function to get names of all elements.} via a double-bracket or \texttt{\$} notation.
@@ -5806,7 +5806,7 @@ Alternatively, you can use \href{https://stat.ethz.ch/R-manual/R-devel/library/s
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 5.483606e-36
+## [1] 2.993276e-42
 \end{verbatim}
 
 Bayesian correlation with a posterior distribution for the correlation coefficient and Bayes Factor as a measure of significance, can be computed via \texttt{correlationBF()} function, which is part of \href{https://richarddmorey.github.io/BayesFactor}{BayesFactor} package.
@@ -5821,7 +5821,7 @@ Bayesian correlation with a posterior distribution for the correlation coefficie
 \begin{verbatim}
 ## Bayes factor analysis
 ## --------------
-## [1] Alt., r=0.333 : 3.679734e+31 ±0%
+## [1] Alt., r=0.333 : 2.746835e+37 ±0%
 ## 
 ## Against denominator:
 ##   Null, rho = 0 
