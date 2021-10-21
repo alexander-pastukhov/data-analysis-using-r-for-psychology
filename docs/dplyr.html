@@ -196,7 +196,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.14" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.14</b> Reading files from other programs</a></li>
 <li class="chapter" data-level="3.15" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.15</b> Wrap up</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>4</b> Functions and pipes</a>
+<li class="chapter" data-level="4" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>4</b> Functions! Functions everywhere!</a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="functions.html"><a href="functions.html#functions-1"><i class="fa fa-check"></i><b>4.1</b> Functions</a></li>
 <li class="chapter" data-level="4.2" data-path="functions.html"><a href="functions.html#writing-a-function"><i class="fa fa-check"></i><b>4.2</b> Writing a function</a></li>
@@ -324,7 +324,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="dplyr" class="section level1" number="6">
 <h1><span class="header-section-number">Seminar 6</span> Tidyverse: dplyr</h1>
-<p>Now that you understand vectors, tables, functions, and pipes, we can start with data analysis and Tidyverse way of doing it. All functions discussed below are part of <a href="https://dplyr.tidyverse.org/">dplyr</a><a href="#fn35" class="footnote-ref" id="fnref35"><sup>35</sup></a> “grammar of data manipulation” package. Grab the <a href="notebooks/Seminar%2006%20-%20dplyr.Rmd">exercise notebook</a>!</p>
+<p>Now that you understand vectors, tables, functions and pipes, and you know what our end goal (a tidy table) is, we can start with data analysis and Tidyverse way of doing it. All functions discussed below are part of <a href="https://dplyr.tidyverse.org/">dplyr</a><a href="#fn36" class="footnote-ref" id="fnref36"><sup>36</sup></a> “grammar of data manipulation” package. Grab the <a href="notebooks/Seminar%2006%20-%20dplyr.Rmd">exercise notebook</a>!</p>
 <div id="tidyverse-philosophy" class="section level2" number="6.1">
 <h2><span class="header-section-number">6.1</span> Tidyverse philosophy</h2>
 <p>Data analysis is different from “normal” programming as it mostly involves a series of sequential operations on the same table. You might load the table, transform some variables, filter data, select smaller subset of columns, aggregate by summarizing across different groups of variables before plotting it or formally analyzing it via statistical tests. Tidyverse is built around this serial nature of data analysis of piping a table through a chain of functions. Accordingly, Tidyverse functions take a <em>table</em> (<code>data.frame</code> or <code>tibble</code>) as their <em>first</em> parameter, which makes piping simpler, and return a <em>modified table</em> as an output. This <em>table-in → table-out</em> consistency makes it easy to pipe these operations one after another. For me, it helps to think about Tidyverse functions as <em>verbs</em>: Actions that I perform on the table at each step.</p>
@@ -352,7 +352,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb245-21"><a href="dplyr.html#cb245-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># we group by each class of car</span></span>
 <span id="cb245-22"><a href="dplyr.html#cb245-22" aria-hidden="true" tabindex="-1"></a>  <span class="co"># and compute average efficiency for each group (class of car)</span></span>
 <span id="cb245-23"><a href="dplyr.html#cb245-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(class) <span class="sc">%&gt;%</span></span>
-<span id="cb245-24"><a href="dplyr.html#cb245-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">class_avg_mpg =</span> <span class="fu">mean</span>(avg_mpg), <span class="at">.groups=</span><span class="st">&quot;drop&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb245-24"><a href="dplyr.html#cb245-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">class_avg_mpg =</span> <span class="fu">mean</span>(avg_mpg), <span class="at">.groups=</span><span class="st">&quot;keep&quot;</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb245-25"><a href="dplyr.html#cb245-25" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb245-26"><a href="dplyr.html#cb245-26" aria-hidden="true" tabindex="-1"></a>  <span class="co"># we sort table rows to go from worst to best on efficiency</span></span>
 <span id="cb245-27"><a href="dplyr.html#cb245-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(class_avg_mpg) <span class="sc">%&gt;%</span></span>
@@ -492,7 +492,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<p>Here is how you can select only <code>model</code> and <code>cty</code> columns via square brackets notation</p>
+<p>Here is how you can select only <code>model</code> and <code>cty</code> columns via preserving <code>[]</code> subsetting</p>
 <div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="dplyr.html#cb247-1" aria-hidden="true" tabindex="-1"></a>short_mpg[, <span class="fu">c</span>(<span class="st">&quot;model&quot;</span>, <span class="st">&quot;cty&quot;</span>)] </span></code></pre></div>
 <table>
 <thead>
@@ -524,7 +524,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<p>And here how it is done via <code>select()</code>.</p>
+<p>And here is how it is done via <code>select()</code>.</p>
 <div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="dplyr.html#cb248-1" aria-hidden="true" tabindex="-1"></a>short_mpg <span class="sc">%&gt;%</span></span>
 <span id="cb248-2"><a href="dplyr.html#cb248-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(model, cty)</span></code></pre></div>
 <table>
@@ -557,7 +557,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<p>The idea of Tidyverse functions is to adopt to you, so you <em>can</em> use quotes or pass a vector of strings with column names. All calls below produce the same effect, so pick the style you prefer (mine, is in the code <em>above</em>) and stick to it<a href="#fn36" class="footnote-ref" id="fnref36"><sup>36</sup></a>.</p>
+<p>The idea of Tidyverse functions is to adopt to you, so you <em>can</em> use quotes or pass a vector of strings with column names. All calls below produce the same effect, so pick the style you prefer (mine, is in the code <em>above</em>) and stick to it<a href="#fn37" class="footnote-ref" id="fnref37"><sup>37</sup></a>.</p>
 <div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="dplyr.html#cb249-1" aria-hidden="true" tabindex="-1"></a>short_mpg <span class="sc">%&gt;%</span></span>
 <span id="cb249-2"><a href="dplyr.html#cb249-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(<span class="st">&quot;model&quot;</span>, <span class="st">&quot;cty&quot;</span>))</span>
 <span id="cb249-3"><a href="dplyr.html#cb249-3" aria-hidden="true" tabindex="-1"></a>  </span>
@@ -566,7 +566,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb249-6"><a href="dplyr.html#cb249-6" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb249-7"><a href="dplyr.html#cb249-7" aria-hidden="true" tabindex="-1"></a>short_mpg <span class="sc">%&gt;%</span></span>
 <span id="cb249-8"><a href="dplyr.html#cb249-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(model, cty))</span></code></pre></div>
-<p>As you surely remember, you can use negation to select <em>other</em> indexes within a vector (<code>c(4, 5, 6)[-2]</code> gives you <code>[4, 6]</code>). For the single bracket notation this mechanism does not work with column <em>names</em> (only with their indexes). However, <code>select</code> has you covered, so we can select everything <em>but</em> <code>cty</code> and <code>model</code></p>
+<p>As you surely remember, you can use negation to select <em>other</em> indexes within a vector (<code>c(4, 5, 6)[-2]</code> gives you <code>[4, 6]</code>). For the single brackets <code>[]</code> this mechanism does not work with column <em>names</em> (only with their indexes). However, <code>select</code> has you covered, so we can select everything <em>but</em> <code>cty</code> and <code>model</code></p>
 <div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="dplyr.html#cb250-1" aria-hidden="true" tabindex="-1"></a>short_mpg <span class="sc">%&gt;%</span></span>
 <span id="cb250-2"><a href="dplyr.html#cb250-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>cty, <span class="sc">-</span>model)</span></code></pre></div>
 <table>
@@ -641,7 +641,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<p>In the current version of <code>dplyr</code>, you can do the same negation via <code>!</code> (a <code>logical not</code> operator, you will meet later), moreover, it is now a recommended way of writing the selection<a href="#fn37" class="footnote-ref" id="fnref37"><sup>37</sup></a>. The <code>-</code> and <code>!</code> are not synonyms and the difference is subtle but important, see below.</p>
+<p>In the current version of <code>dplyr</code>, you can do the same negation via <code>!</code> (a <code>logical not</code> operator, you will meet later), moreover, it is now a recommended way of writing the selection<a href="#fn38" class="footnote-ref" id="fnref38"><sup>38</sup></a>. The <code>-</code> and <code>!</code> are not synonyms and the difference is subtle but important, see below.</p>
 <div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="dplyr.html#cb251-1" aria-hidden="true" tabindex="-1"></a><span class="co"># will produce the same result as above</span></span>
 <span id="cb251-2"><a href="dplyr.html#cb251-2" aria-hidden="true" tabindex="-1"></a>short_mpg <span class="sc">%&gt;%</span></span>
 <span id="cb251-3"><a href="dplyr.html#cb251-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span>cty, <span class="sc">!</span>model)</span></code></pre></div>
@@ -651,11 +651,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb252-3"><a href="dplyr.html#cb252-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span><span class="fu">c</span>(<span class="st">&quot;cty&quot;</span>, <span class="st">&quot;model&quot;</span>))</span>
 <span id="cb252-4"><a href="dplyr.html#cb252-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb252-5"><a href="dplyr.html#cb252-5" aria-hidden="true" tabindex="-1"></a>short_mpg <span class="sc">%&gt;%</span></span>
-<span id="cb252-6"><a href="dplyr.html#cb252-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span><span class="st">&quot;cty&quot;</span>, <span class="sc">!</span><span class="st">&quot;model&quot;</span>)<span class="er">)</span></span>
+<span id="cb252-6"><a href="dplyr.html#cb252-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span><span class="st">&quot;cty&quot;</span>, <span class="sc">!</span><span class="st">&quot;model&quot;</span>)</span>
 <span id="cb252-7"><a href="dplyr.html#cb252-7" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb252-8"><a href="dplyr.html#cb252-8" aria-hidden="true" tabindex="-1"></a>short_mpg <span class="sc">%&gt;%</span></span>
 <span id="cb252-9"><a href="dplyr.html#cb252-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span><span class="fu">c</span>(cty, model))</span></code></pre></div>
-<p>Unlike vector indexing that forbids mixing positive and negative indexing, <code>select</code> does allow for it. However, <strong>do not use it</strong><a href="#fn38" class="footnote-ref" id="fnref38"><sup>38</sup></a> because results can be fairly counter-intuitive and, on top of that, <code>-</code> and <code>!</code> work somewhat differently. Note the difference between <code>!</code> and <code>-</code>: In the former case only the <code>!model</code> part appears to have the effect, whereas in case of <code>-</code> only <code>cty</code> works.</p>
+<p>Unlike vector indexing that forbids mixing positive and negative indexing, <code>select</code> does allow it. However, <strong>do not use it</strong><a href="#fn39" class="footnote-ref" id="fnref39"><sup>39</sup></a> because results can be fairly counter-intuitive and, on top of that, <code>-</code> and <code>!</code> work somewhat differently. Note the difference between <code>!</code> and <code>-</code>: In the former case only the <code>!model</code> part appears to have the effect, whereas in case of <code>-</code> only <code>cty</code> works.</p>
 <div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="dplyr.html#cb253-1" aria-hidden="true" tabindex="-1"></a>short_mpg <span class="sc">%&gt;%</span></span>
 <span id="cb253-2"><a href="dplyr.html#cb253-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(cty, <span class="sc">!</span>model)</span></code></pre></div>
 <table>
@@ -847,7 +847,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="infobox practice">
 <p>Do exercise 1.</p>
 </div>
-<p>Simple names and their negation will be sufficient for most of your projects. However, I would recommend taking a look at the <a href="https://dplyr.tidyverse.org/reference/select.html">official manual</a> just to see that <code>select</code> offers a lot of flexibility (selecting range of columns, by column type, by partial name matching, etc), something that might be useful for you in your later work.</p>
+<p>Simple names and their negation will be sufficient for most of your projects. However, I would recommend taking a look at the <a href="https://dplyr.tidyverse.org/reference/select.html">official manual</a> just to see that <code>select</code> offers a lot of flexibility (selecting range of columns, by column type, by partial name matching, etc), something that might be useful for you in your work.</p>
 </div>
 <div id="conditions" class="section level2" number="6.3">
 <h2><span class="header-section-number">6.3</span> Conditions</h2>
@@ -890,7 +890,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="logical-indexing" class="section level2" number="6.4">
 <h2><span class="header-section-number">6.4</span> Logical indexing</h2>
-<p>In the second seminar, you learned about vector indexing when you access <em>some</em> elements of a vector by specifying their index. There is an alternative way, called <em>logical indexing</em>, when instead you supply a vector of equal length with <em>logical values</em> and you get elements of the original vector whenever the logical value is <code>TRUE</code></p>
+<p>In the second seminar, you learned about vector indexing when you access <em>some</em> elements of a vector by specifying their index. There is an alternative way, called <em>logical indexing</em>. Here, you supply a vector of equal length with <em>logical values</em> and you get elements of the original vector whenever the logical value is <code>TRUE</code></p>
 <div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="dplyr.html#cb268-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span></span>
 <span id="cb268-2"><a href="dplyr.html#cb268-2" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>)]</span></code></pre></div>
 <pre><code>## [1] 1 2 4</code></pre>
@@ -1063,8 +1063,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="infobox practice">
 <p>Do exercise 7.</p>
 </div>
-<p>Note that you can emulate <code>filter()</code> in a very straightforward way using single-brackets base R, the main difference is that you need to prefix every column with the table name, so <code>mpg$class</code> instead of just <code>class</code><a href="#fn39" class="footnote-ref" id="fnref39"><sup>39</sup></a>.</p>
-<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="dplyr.html#cb278-1" aria-hidden="true" tabindex="-1"></a>mpg[mpg<span class="sc">$</span>class <span class="sc">==</span> <span class="st">&quot;midsize&quot;</span> <span class="sc">&amp;</span> mpg<span class="sc">$</span>drv <span class="sc">==</span> <span class="st">&quot;4&quot;</span>, ]</span></code></pre></div>
+<p>Note that you can emulate <code>filter()</code> in a very straightforward way using single-brackets base R, the main difference is that you need to prefix every column with the table name, so <code>mpg[["class"]]</code> instead of just <code>class</code><a href="#fn40" class="footnote-ref" id="fnref40"><sup>40</sup></a>.</p>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="dplyr.html#cb278-1" aria-hidden="true" tabindex="-1"></a>mpg[mpg[[<span class="st">&quot;class&quot;</span>]] <span class="sc">==</span> <span class="st">&quot;midsize&quot;</span> <span class="sc">&amp;</span> mpg[[<span class="st">&quot;drv&quot;</span>]] <span class="sc">==</span> <span class="st">&quot;4&quot;</span>, ]</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1123,16 +1123,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<p>So why use <code>filter()</code> then? In isolation, as a single line computation, both options are equally compact and clear (apart from all the extra <code>table$</code> in base R). But pipe-oriented nature of the <code>filter()</code> makes it more suitable for chains of computations, which is the main advantage of Tidyverse.</p>
+<p>So why use <code>filter()</code> then? In isolation, as a single line computation, both options are equally compact and clear (apart from all the extra <code>table[["..."]]</code> in base R). But pipe-oriented nature of the <code>filter()</code> makes it more suitable for chains of computations, which is the main advantage of Tidyverse.</p>
 </div>
 <div id="arrange-rows-in-a-particular-order" class="section level2" number="6.6">
 <h2><span class="header-section-number">6.6</span> <code>arrange()</code> rows in a particular order</h2>
-<p>Sometimes you might need to sort your table so that rows go in a particular order<a href="#fn40" class="footnote-ref" id="fnref40"><sup>40</sup></a>. In Tidyverse, you <a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a> rows based on values of specific variables. This verb is very straightforward, you simply list all variables that must be used for sorting in the order the sorting must be carried out. I.e., first the table is sorted based on values of the first variable. Then, for equal values of that variable, rows are sorted based on the second variable, etc. By default, rows are arranged in ascending order but you can reverse it by putting a variable inside of <a href="https://dplyr.tidyverse.org/reference/desc.html">desc()</a> function. Here is the <code>short_mpg</code> table arranged by city cycle highway efficiency (ascending order) and engine displacement (descending order, note the order of the last two rows).</p>
+<p>Sometimes you might need to sort your table so that rows go in a particular order<a href="#fn41" class="footnote-ref" id="fnref41"><sup>41</sup></a>. In Tidyverse, you <a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a> rows based on values of specific variables. This verb is very straightforward, you simply list all variables that must be used for sorting in the order the sorting must be carried out. I.e., first the table is sorted based on values of the first variable. Then, for equal values of that variable, rows are sorted based on the second variable, etc. By default, rows are arranged in ascending order but you can reverse it by putting a variable inside of <a href="https://dplyr.tidyverse.org/reference/desc.html">desc()</a> function. Here is the <code>short_mpg</code> table arranged by city cycle highway efficiency (ascending order) and engine displacement (descending order, note the order of the last two rows).</p>
 <div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="dplyr.html#cb279-1" aria-hidden="true" tabindex="-1"></a>short_mpg <span class="sc">%&gt;%</span></span>
 <span id="cb279-2"><a href="dplyr.html#cb279-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(cty, <span class="fu">desc</span>(displ)) </span></code></pre></div>
-<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="dplyr.html#cb280-1" aria-hidden="true" tabindex="-1"></a>short_mpg <span class="sc">%&gt;%</span></span>
-<span id="cb280-2"><a href="dplyr.html#cb280-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(cty, <span class="fu">desc</span>(displ)) <span class="sc">%&gt;%</span></span>
-<span id="cb280-3"><a href="dplyr.html#cb280-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1220,10 +1217,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="infobox practice">
 <p>Do exercise 8.</p>
 </div>
-<p>You can arrange a table using base R via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/order.html">order()</a> function that gives index of ordered elements and can be used inside of single bracket notation. You can control for ascending/descending of a specific variable using <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/rev.html">rev()</a> function that is applied <em>after</em> ordering, so <code>rev(order(...))</code>.</p>
-<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="dplyr.html#cb281-1" aria-hidden="true" tabindex="-1"></a>short_mpg[<span class="fu">order</span>(short_mpg<span class="sc">$</span>cty, <span class="fu">rev</span>(short_mpg<span class="sc">$</span>displ)), ]</span></code></pre></div>
-<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="dplyr.html#cb282-1" aria-hidden="true" tabindex="-1"></a>short_mpg[<span class="fu">order</span>(short_mpg<span class="sc">$</span>cty, <span class="fu">rev</span>(short_mpg<span class="sc">$</span>displ)), ] <span class="sc">%&gt;%</span></span>
-<span id="cb282-2"><a href="dplyr.html#cb282-2" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<p>You can arrange a table using base R via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/order.html">order()</a> function that gives index of ordered elements and can be used inside of preserving subsetting via single brackets <code>[]</code> notation. You can control for ascending/descending of a specific variable using <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/rev.html">rev()</a> function that is applied <em>after</em> ordering, so <code>rev(order(...))</code>.</p>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="dplyr.html#cb280-1" aria-hidden="true" tabindex="-1"></a>short_mpg[<span class="fu">order</span>(short_mpg[[<span class="st">&quot;cty&quot;</span>]], <span class="fu">rev</span>(short_mpg[[<span class="st">&quot;displ&quot;</span>]])), ]</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1315,128 +1310,60 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="mutate" class="section level2" number="6.7">
 <h2><span class="header-section-number">6.7</span> <code>mutate()</code> columns</h2>
 <p>In Tidyverse, <a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a> function allows you to both add new columns/variables to a table and change the existing ones. In essence, it is equivalent to a simple column assignment statement in base R.</p>
-<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="dplyr.html#cb283-1" aria-hidden="true" tabindex="-1"></a><span class="co"># base R</span></span>
-<span id="cb283-2"><a href="dplyr.html#cb283-2" aria-hidden="true" tabindex="-1"></a>short_mpg<span class="sc">$</span>avg_mpg <span class="ot">&lt;-</span> (short_mpg<span class="sc">$</span>cty <span class="sc">+</span> short_mpg<span class="sc">$</span>hwy) <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb283-3"><a href="dplyr.html#cb283-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb283-4"><a href="dplyr.html#cb283-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Tidyverse equivalent</span></span>
-<span id="cb283-5"><a href="dplyr.html#cb283-5" aria-hidden="true" tabindex="-1"></a>short_mpg <span class="ot">&lt;-</span> </span>
-<span id="cb283-6"><a href="dplyr.html#cb283-6" aria-hidden="true" tabindex="-1"></a>  short_mpg <span class="sc">%&gt;%</span></span>
-<span id="cb283-7"><a href="dplyr.html#cb283-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">avg_mpg =</span> (cty <span class="sc">+</span> hwy) <span class="sc">/</span> <span class="dv">2</span>)</span></code></pre></div>
-<p>Note two critical differences. First, <code>mutate()</code> takes a table as an input and returns a table as an output. This is why you start with a table, pipe it to mutate, and assign the results <em>back</em> to the original variable. If you have more verbs/lines, it is the output of the last computation that is assigned to the variable on the left-hand side of assignment<a href="#fn41" class="footnote-ref" id="fnref41"><sup>41</sup></a>. Look at the listing below that indexes each line by when it is executed.</p>
-<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="dplyr.html#cb284-1" aria-hidden="true" tabindex="-1"></a>some_table <span class="ot">&lt;-</span>    <span class="co"># 3. We assign the result to the original table, only once all the code below has been executed.</span></span>
-<span id="cb284-2"><a href="dplyr.html#cb284-2" aria-hidden="true" tabindex="-1"></a>  some_table <span class="sc">%&gt;%</span> <span class="co"># 1. We start here, with the original table and pipe to the next computation</span></span>
-<span id="cb284-3"><a href="dplyr.html#cb284-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(...)    <span class="co"># 2. We add/change columns inside of the table. The output is a table which we use for assignment all the way at the top.</span></span></code></pre></div>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="dplyr.html#cb281-1" aria-hidden="true" tabindex="-1"></a><span class="co"># base R</span></span>
+<span id="cb281-2"><a href="dplyr.html#cb281-2" aria-hidden="true" tabindex="-1"></a>short_mpg[[<span class="st">&quot;avg_mpg&quot;</span>]] <span class="ot">&lt;-</span> (short_mpg[[<span class="st">&quot;cty&quot;</span>]] <span class="sc">+</span> short_mpg[[<span class="st">&quot;hwy&quot;</span>]]) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb281-3"><a href="dplyr.html#cb281-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb281-4"><a href="dplyr.html#cb281-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Tidyverse equivalent</span></span>
+<span id="cb281-5"><a href="dplyr.html#cb281-5" aria-hidden="true" tabindex="-1"></a>short_mpg <span class="ot">&lt;-</span> </span>
+<span id="cb281-6"><a href="dplyr.html#cb281-6" aria-hidden="true" tabindex="-1"></a>  short_mpg <span class="sc">%&gt;%</span></span>
+<span id="cb281-7"><a href="dplyr.html#cb281-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">avg_mpg =</span> (cty <span class="sc">+</span> hwy) <span class="sc">/</span> <span class="dv">2</span>)</span></code></pre></div>
+<p>Note two critical differences. First, <code>mutate()</code> takes a table as an input and returns a table as an output. This is why you start with a table, pipe it to mutate, and assign the results <em>back</em> to the original variable. If you have more verbs/lines, it is the output of the <em>last</em> computation that is assigned to the variable on the left-hand side of assignment<a href="#fn42" class="footnote-ref" id="fnref42"><sup>42</sup></a>. Look at the listing below that indexes each line by when it is executed.</p>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="dplyr.html#cb282-1" aria-hidden="true" tabindex="-1"></a>some_table <span class="ot">&lt;-</span>    <span class="co"># 3. We assign the result to the original table, only once all the code below has been executed.</span></span>
+<span id="cb282-2"><a href="dplyr.html#cb282-2" aria-hidden="true" tabindex="-1"></a>  some_table <span class="sc">%&gt;%</span> <span class="co"># 1. We start here, with the original table and pipe to the next computation</span></span>
+<span id="cb282-3"><a href="dplyr.html#cb282-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(...)    <span class="co"># 2. We add/change columns inside of the table. The output is a table which we use for assignment all the way at the top.</span></span></code></pre></div>
 <p>Second, you are performing a computation <em>inside</em> the call of the <code>mutate()</code> function, so <code>avg_mpg = (short_mpg$cty + short_mpg$hwy) / 2</code> is a <em>parameter</em> that you pass to it (yes, it does not look like one). This is why you use <code>=</code> rather than a normal assignment arrow <code>&lt;-</code>. Unfortunately, you <em>can</em> use <code>&lt;-</code> inside the <code>mutate</code> and the computation will work as intended but, for internal-processing reasons, the <em>entire statement</em>, rather than just the left-hand side, will be used as a column name. Thus, use <code>&lt;-</code> <em>outside</em> and <code>=</code> <em>inside</em> of Tydiverse verbs.</p>
-<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="dplyr.html#cb285-1" aria-hidden="true" tabindex="-1"></a>short_mpg <span class="sc">%&gt;%</span></span>
-<span id="cb285-2"><a href="dplyr.html#cb285-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">avg_mpg =</span>  (cty <span class="sc">+</span> hwy) <span class="sc">/</span> <span class="dv">2</span>,      <span class="co"># column name will be avp_mpg</span></span>
-<span id="cb285-3"><a href="dplyr.html#cb285-3" aria-hidden="true" tabindex="-1"></a>         avg_mpg <span class="ot">&lt;-</span> (cty <span class="sc">+</span> hwy) <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span> <span class="co"># column name will be `avg_mpg &lt;- (short_mpg$cty + short_mpg$hwy) / 2`</span></span>
-<span id="cb285-4"><a href="dplyr.html#cb285-4" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
-<table style="width:100%;">
-<colgroup>
-<col width="12%" />
-<col width="5%" />
-<col width="5%" />
-<col width="4%" />
-<col width="3%" />
-<col width="10%" />
-<col width="3%" />
-<col width="3%" />
-<col width="3%" />
-<col width="2%" />
-<col width="7%" />
-<col width="7%" />
-<col width="24%" />
-</colgroup>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="dplyr.html#cb283-1" aria-hidden="true" tabindex="-1"></a>short_mpg <span class="sc">%&gt;%</span></span>
+<span id="cb283-2"><a href="dplyr.html#cb283-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(cty, hwy) <span class="sc">%&gt;%</span></span>
+<span id="cb283-3"><a href="dplyr.html#cb283-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">avg_mpg =</span>  (cty <span class="sc">+</span> hwy) <span class="sc">/</span> <span class="dv">2</span>,      <span class="co"># column name will be avp_mpg</span></span>
+<span id="cb283-4"><a href="dplyr.html#cb283-4" aria-hidden="true" tabindex="-1"></a>         avg_mpg <span class="ot">&lt;-</span> (cty <span class="sc">+</span> hwy) <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span> <span class="co"># column name will be `avg_mpg &lt;- (short_mpg$cty + short_mpg$hwy) / 2`</span></span>
+<span id="cb283-5"><a href="dplyr.html#cb283-5" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<table>
 <thead>
 <tr class="header">
-<th align="left">manufacturer</th>
-<th align="left">model</th>
-<th align="right">displ</th>
-<th align="right">year</th>
-<th align="right">cyl</th>
-<th align="left">trans</th>
-<th align="left">drv</th>
 <th align="right">cty</th>
 <th align="right">hwy</th>
-<th align="left">fl</th>
-<th align="left">class</th>
 <th align="right">avg_mpg</th>
 <th align="right">avg_mpg &lt;- (cty + hwy)/2</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">audi</td>
-<td align="left">a4</td>
-<td align="right">1.8</td>
-<td align="right">1999</td>
-<td align="right">4</td>
-<td align="left">auto(l5)</td>
-<td align="left">f</td>
 <td align="right">18</td>
 <td align="right">29</td>
-<td align="left">p</td>
-<td align="left">compact</td>
 <td align="right">23.5</td>
 <td align="right">23.5</td>
 </tr>
 <tr class="even">
-<td align="left">audi</td>
-<td align="left">a4</td>
-<td align="right">1.8</td>
-<td align="right">1999</td>
-<td align="right">4</td>
-<td align="left">manual(m5)</td>
-<td align="left">f</td>
 <td align="right">21</td>
 <td align="right">29</td>
-<td align="left">p</td>
-<td align="left">compact</td>
 <td align="right">25.0</td>
 <td align="right">25.0</td>
 </tr>
 <tr class="odd">
-<td align="left">audi</td>
-<td align="left">a4</td>
-<td align="right">2.0</td>
-<td align="right">2008</td>
-<td align="right">4</td>
-<td align="left">manual(m6)</td>
-<td align="left">f</td>
 <td align="right">20</td>
 <td align="right">31</td>
-<td align="left">p</td>
-<td align="left">compact</td>
 <td align="right">25.5</td>
 <td align="right">25.5</td>
 </tr>
 <tr class="even">
-<td align="left">audi</td>
-<td align="left">a4</td>
-<td align="right">2.0</td>
-<td align="right">2008</td>
-<td align="right">4</td>
-<td align="left">auto(av)</td>
-<td align="left">f</td>
 <td align="right">21</td>
 <td align="right">30</td>
-<td align="left">p</td>
-<td align="left">compact</td>
 <td align="right">25.5</td>
 <td align="right">25.5</td>
 </tr>
 <tr class="odd">
-<td align="left">audi</td>
-<td align="left">a4</td>
-<td align="right">2.8</td>
-<td align="right">1999</td>
-<td align="right">6</td>
-<td align="left">auto(l5)</td>
-<td align="left">f</td>
 <td align="right">16</td>
 <td align="right">26</td>
-<td align="left">p</td>
-<td align="left">compact</td>
 <td align="right">21.0</td>
 <td align="right">21.0</td>
 </tr>
@@ -1446,10 +1373,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="infobox practice">
 <p>Do exercise 10.</p>
 </div>
-<p>Finally, <code>mutate</code> has a cousin-verb called <code>transmute</code> that works the same way but <em>discards</em> all original columns that were not modified. You probably won’t use this verb all too often but I want you to be able to recognize it, as its name and function are very similar to <code>mutate</code> and the two are easy to confuse.</p>
-<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="dplyr.html#cb286-1" aria-hidden="true" tabindex="-1"></a>short_mpg <span class="sc">%&gt;%</span></span>
-<span id="cb286-2"><a href="dplyr.html#cb286-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(<span class="at">avg_mpg =</span> (cty <span class="sc">+</span> hwy) <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb286-3"><a href="dplyr.html#cb286-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">align =</span> <span class="st">&quot;c&quot;</span>)</span></code></pre></div>
+<p>Finally, <code>mutate</code> has two cousin-verbs called <a href="">transmute</a> and <a href="https://tibble.tidyverse.org/reference/add_column.html">add_column</a>. The former (<code>transmute</code>) works the same way but <em>discards</em> all original columns that were not modified. You probably won’t use this verb all too often but I want you to be able to recognize it, as its name and function are very similar to <code>mutate</code> and the two are easy to confuse.</p>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="dplyr.html#cb284-1" aria-hidden="true" tabindex="-1"></a>short_mpg <span class="sc">%&gt;%</span></span>
+<span id="cb284-2"><a href="dplyr.html#cb284-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(<span class="at">avg_mpg =</span> (cty <span class="sc">+</span> hwy) <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb284-3"><a href="dplyr.html#cb284-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">align =</span> <span class="st">&quot;c&quot;</span>)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1474,29 +1401,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
+<p>The latter — <code>add_column</code> — is <em>similar</em> to <code>mutate</code> if you need to add a new column rather than to modify a new one. Its advantage is that it will produce an error, if you try to overwrite an existing column. Its disadvantage is that it does not appear to respect data grouping (see below), which can be very confusing. In short, stick to <code>mutate</code> unless you need either of these two functions specifically.</p>
 </div>
 <div id="summarize" class="section level2" number="6.8">
 <h2><span class="header-section-number">6.8</span> <code>summarize()</code> table by <code>groups</code></h2>
-<p>This verb is used when you <em>aggregate</em> across <em>all</em> rows, reducing them to a <em>single value</em>. Some examples of aggregating functions that are probably already familiar to you are <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html">mean</a>, <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/median.html">median</a>, <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/sd.html">standard deviation</a>, <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/Extremes.html">min/max</a>. However, you can “aggregate” by taking a first or a last value or even by putting in a constant. Important is that <code>summarize</code> expects that it should assign a <em>single</em> value to the column.</p>
+<p>This verb is used when you <em>aggregate</em> across <em>all</em> rows, reducing them to a <em>single value</em>. Some examples of aggregating functions that are probably already familiar to you are <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html">mean</a>, <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/median.html">median</a>, <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/sd.html">standard deviation</a>, <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/Extremes.html">min/max</a>. However, you can “aggregate” by taking a first or a last value or even by putting in a constant. Important is that you should assign a <em>single</em> value to the column when using <code>summarize</code><a href="#fn43" class="footnote-ref" id="fnref43"><sup>43</sup></a>.</p>
 <p>If you use <code>summarize</code> on an <em>ungrouped</em> table (these are the only tables we’ve been working on so far), it keeps only the computed columns, which makes you wonder “what’s the point?”</p>
-<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="dplyr.html#cb287-1" aria-hidden="true" tabindex="-1"></a>mpg <span class="sc">%&gt;%</span></span>
-<span id="cb287-2"><a href="dplyr.html#cb287-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg_cty =</span> <span class="fu">mean</span>(cty),</span>
-<span id="cb287-3"><a href="dplyr.html#cb287-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">avg_hwy =</span> <span class="fu">mean</span>(hwy))</span></code></pre></div>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="dplyr.html#cb285-1" aria-hidden="true" tabindex="-1"></a>mpg <span class="sc">%&gt;%</span></span>
+<span id="cb285-2"><a href="dplyr.html#cb285-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg_cty =</span> <span class="fu">mean</span>(cty),</span>
+<span id="cb285-3"><a href="dplyr.html#cb285-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">avg_hwy =</span> <span class="fu">mean</span>(hwy))</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 2
 ##   avg_cty avg_hwy
 ##     &lt;dbl&gt;   &lt;dbl&gt;
 ## 1    16.9    23.4</code></pre>
-<p>However, the real power of <code>summarize</code> (and of <code>mutate</code>) becomes evident when it is applied to the data that is <em>grouped by</em> certain criteria. <a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by()</a> verb groups the rows of the table based values of variables you specified. Behind the scenes, this turns your single table into set of tables, so that your Tidyverse verbs are applied to <em>each</em> table <em>separately</em>. This ability to parse your table into different groups of rows (all rows that belong to a particular participant, or participant and condition, or rows per block, or per trial), change that grouping on the fly, return back to the original full table, etc. makes analysis a breeze. Here is how we can compute average efficiency not across all cars (as in the code above) but for each car class separately.</p>
-<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="dplyr.html#cb289-1" aria-hidden="true" tabindex="-1"></a>mpg <span class="sc">%&gt;%</span></span>
-<span id="cb289-2"><a href="dplyr.html#cb289-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># there are seven different classes of cars, so group_by(cars)  will</span></span>
-<span id="cb289-3"><a href="dplyr.html#cb289-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create seven hidden independent tables and all verbs below will be </span></span>
-<span id="cb289-4"><a href="dplyr.html#cb289-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># applied to each table separately</span></span>
-<span id="cb289-5"><a href="dplyr.html#cb289-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(class)  <span class="sc">%&gt;%</span></span>
-<span id="cb289-6"><a href="dplyr.html#cb289-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb289-7"><a href="dplyr.html#cb289-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># same mean computation but per table and we&#39;ve got seven of them</span></span>
-<span id="cb289-8"><a href="dplyr.html#cb289-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg_cty =</span> <span class="fu">mean</span>(cty),</span>
-<span id="cb289-9"><a href="dplyr.html#cb289-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">avg_hwy =</span> <span class="fu">mean</span>(hwy), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb289-10"><a href="dplyr.html#cb289-10" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<p>However, the real power of <code>summarize</code> (and of <code>mutate</code>) becomes evident when it is applied to the data that is <em>grouped by</em> certain criteria. <a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by()</a> verb groups rows of the table based on values of variables you specified. Behind the scenes, this turns your single table into set of tables, so that your Tidyverse verbs are applied to <em>each</em> table <em>separately</em>. This ability to parse your table into different groups of rows (all rows that belong to a particular participant, or participant and condition, or rows per block, or per trial), change that grouping on the fly, return back to the original full table, etc. makes analysis a breeze. Here is how we can compute average efficiency not across all cars (as in the code above) but for each car class separately.</p>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="dplyr.html#cb287-1" aria-hidden="true" tabindex="-1"></a>mpg <span class="sc">%&gt;%</span></span>
+<span id="cb287-2"><a href="dplyr.html#cb287-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># there are seven different classes of cars, so group_by(cars)  will</span></span>
+<span id="cb287-3"><a href="dplyr.html#cb287-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create seven hidden independent tables and all verbs below will be </span></span>
+<span id="cb287-4"><a href="dplyr.html#cb287-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># applied to each table separately</span></span>
+<span id="cb287-5"><a href="dplyr.html#cb287-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(class)  <span class="sc">%&gt;%</span></span>
+<span id="cb287-6"><a href="dplyr.html#cb287-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb287-7"><a href="dplyr.html#cb287-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># same mean computation but per table and we&#39;ve got seven of them</span></span>
+<span id="cb287-8"><a href="dplyr.html#cb287-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg_cty =</span> <span class="fu">mean</span>(cty),</span>
+<span id="cb287-9"><a href="dplyr.html#cb287-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">avg_hwy =</span> <span class="fu">mean</span>(hwy),</span>
+<span id="cb287-10"><a href="dplyr.html#cb287-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups =</span> <span class="st">&quot;keep&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb287-11"><a href="dplyr.html#cb287-11" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1543,13 +1472,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<p>Note that summarize still expects us to compute a <em>single</em> value per table but because we do it for <em>seven tables</em>, we get <em>seven rows</em> in our resultant table. And <code>group_by</code> makes it easy to group data in any way you want. Are you interested in manufacturers instead car classes? Easy!</p>
-<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="dplyr.html#cb290-1" aria-hidden="true" tabindex="-1"></a>mpg <span class="sc">%&gt;%</span></span>
-<span id="cb290-2"><a href="dplyr.html#cb290-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(manufacturer)  <span class="sc">%&gt;%</span></span>
-<span id="cb290-3"><a href="dplyr.html#cb290-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># same mean computation but per table and we&#39;ve got seven of them</span></span>
-<span id="cb290-4"><a href="dplyr.html#cb290-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg_cty =</span> <span class="fu">mean</span>(cty),</span>
-<span id="cb290-5"><a href="dplyr.html#cb290-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">avg_hwy =</span> <span class="fu">mean</span>(hwy), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb290-6"><a href="dplyr.html#cb290-6" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<p>Note that we compute a <em>single</em> value per table but because we do it for <em>seven tables</em>, we get <em>seven rows</em> in our resultant table. And <code>group_by</code> makes it easy to group data in any way you want. Are you interested in manufacturers instead car classes? Easy!</p>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="dplyr.html#cb288-1" aria-hidden="true" tabindex="-1"></a>mpg <span class="sc">%&gt;%</span></span>
+<span id="cb288-2"><a href="dplyr.html#cb288-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(manufacturer)  <span class="sc">%&gt;%</span></span>
+<span id="cb288-3"><a href="dplyr.html#cb288-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># same mean computation but per table and we&#39;ve got seven of them</span></span>
+<span id="cb288-4"><a href="dplyr.html#cb288-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg_cty =</span> <span class="fu">mean</span>(cty),</span>
+<span id="cb288-5"><a href="dplyr.html#cb288-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">avg_hwy =</span> <span class="fu">mean</span>(hwy), <span class="at">.groups =</span> <span class="st">&quot;keep&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb288-6"><a href="dplyr.html#cb288-6" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1637,12 +1566,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>How about efficiency per class <em>and</em> year? Still easy!</p>
-<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="dplyr.html#cb291-1" aria-hidden="true" tabindex="-1"></a>mpg <span class="sc">%&gt;%</span></span>
-<span id="cb291-2"><a href="dplyr.html#cb291-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(class, year)  <span class="sc">%&gt;%</span></span>
-<span id="cb291-3"><a href="dplyr.html#cb291-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># same mean computation but per table and we&#39;ve got seven of them</span></span>
-<span id="cb291-4"><a href="dplyr.html#cb291-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg_cty =</span> <span class="fu">mean</span>(cty),</span>
-<span id="cb291-5"><a href="dplyr.html#cb291-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">avg_hwy =</span> <span class="fu">mean</span>(hwy), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb291-6"><a href="dplyr.html#cb291-6" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="dplyr.html#cb289-1" aria-hidden="true" tabindex="-1"></a>mpg <span class="sc">%&gt;%</span></span>
+<span id="cb289-2"><a href="dplyr.html#cb289-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(class, year)  <span class="sc">%&gt;%</span></span>
+<span id="cb289-3"><a href="dplyr.html#cb289-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># same mean computation but per table and we&#39;ve got seven of them</span></span>
+<span id="cb289-4"><a href="dplyr.html#cb289-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg_cty =</span> <span class="fu">mean</span>(cty),</span>
+<span id="cb289-5"><a href="dplyr.html#cb289-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">avg_hwy =</span> <span class="fu">mean</span>(hwy), <span class="at">.groups =</span> <span class="st">&quot;keep&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb289-6"><a href="dplyr.html#cb289-6" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1743,7 +1672,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="infobox practice">
 <p>Do exercise 11.</p>
 </div>
-<p>You can replicate the functionality of <code>group_by</code> + <code>summarize</code> in base R via <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/aggregate.html">aggregate()</a> and <code>group_by</code> + <code>mutate</code> via <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/by.html">by</a> functions. However, they are somewhat less straightforward in use as they rely on functional programming and require both grouping and summary function within a single call.</p>
+<p>You have probably notice the <code>.groups="keep"</code> parameter in all <code>summarize</code> calls and wondered what is it for and what other options exist? Current (21.10.2021) it is still an experimental feature of <a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a> that determines what happens to grouping of the table <em>after</em> summarized finished the computation. The four options are:</p>
+<ul>
+<li><code>.groups = "drop"</code> ungroups the data and is equivalent to using <code>ungroup</code> immediately after a <code>summarize</code>.</li>
+<li><code>.groups = "keep"</code> keeps grouping as is.</li>
+<li><code>.groups = "rowwise"</code> each row becomes its own group. If you returned one value per group, this would be identical to <code>.groups = "keep"</code>.</li>
+<li><code>.groups = "drop_last"</code> drops the <em>last</em> level of grouping you specified. E.g., if you grouped by <code>class</code>, <code>manufacturer</code>, and <code>year</code>, using this option will produce a table that is grouped only by <code>class</code> and <code>manufacturer</code>. On the one hand, this is a <em>default</em> option. On the other hand, I am not quite sure why this would be preferable over <code>keep"</code> or when would I actually require this.</li>
+</ul>
+<p>My suggestions would be to <em>always</em> use <code>.groups="keep"</code> in conjunction with an explicit <code>ungroup()</code>. This way <code>summarize</code> would always behave the same way, making it easier to stop regrouping and ungrouping. I went into details only because you must specify this parameter to avoid a warning that looks both ominous and confusing. And a brief look in the manual did not help me much (you can play with different options while looking at the resultant grouping via <a href="https://dplyr.tidyverse.org/reference/group_data.html">groups()</a> function to explore outcomes). At the moment, it is unclear whether this options stays or how it will be transformed in the future (remember, it is still an experimental one).</p>
+<p>You can replicate the functionality of <code>group_by</code> + <code>summarize</code> in base R via <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/aggregate.html">aggregate()</a> and <code>group_by</code> + <code>mutate</code> via <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/by.html">by</a> functions. However, they are somewhat less straightforward in use as they rely on functional programming (which you haven’t learned about yet) and require both grouping and summary function within a single call.</p>
 </div>
 <div id="putting-it-all-together" class="section level2" number="6.9">
 <h2><span class="header-section-number">6.9</span> Putting it all together</h2>
@@ -1754,20 +1691,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="should-i-use-tidyverse" class="section level2" number="6.10">
 <h2><span class="header-section-number">6.10</span> Should I use Tidyverse?</h2>
-<p>As you saw above, whatever Tidyverse can do, base R can do as well. So why use a non-standard family of packages? If you are using each function in isolation, there is probably not much sense in this. Base R can do it equally well and <em>each individual</em> function is also compact and simple. However, if you need to <em>chain</em> your computation, which is almost always the case, Tidyverse’s ability to pipe the entire sequence of functions in a simple consistent and, therefore, easy to understand way is a game-changer. In the long run, pick your style. Either go “all in” with Tidyverse (that is my approach), stick to base R, or find some alternative package family. However, as far as the seminar is concerned, it will be almost exclusively Tydiverse from now on.</p>
+<p>As you saw above, whatever Tidyverse can do, base R can do as well. So why use a non-standard family of packages? If you are using each function in isolation, there is probably not much sense in this. Base R can do it equally well and <em>each individual</em> function is also compact and simple. However, if you need to <em>chain</em> your computation, which is almost always the case, Tidyverse’s ability to pipe the entire sequence of functions in a simple consistent and, therefore, easy to understand way is a game-changer. In the long run, pick your style. Either go “all in” with Tidyverse (that is my approach), stick to base R, or find some alternative package family (e.g., <a href="https://github.com/Rdatatable/data.table">data.table</a>). However, as far as the book is concerned, it will be almost exclusively Tydiverse from now on.</p>
 
 </div>
 </div>
 <div class="footnotes">
 <hr />
-<ol start="35">
-<li id="fn35"><p>The name should invoke an image of data pliers. According to Hadley Wickham, you can pronounce it any way you like.<a href="dplyr.html#fnref35" class="footnote-back">↩︎</a></p></li>
-<li id="fn36"><p>In general, bad but consistent styling is better than an inconsistent mix of good styles.<a href="dplyr.html#fnref36" class="footnote-back">↩︎</a></p></li>
-<li id="fn37"><p>At least, <code>-</code> is not mentioned anymore, even though it still works.<a href="dplyr.html#fnref37" class="footnote-back">↩︎</a></p></li>
-<li id="fn38"><p>Unless you know what you are doing and that is the simplest and clearest way to achieve this.<a href="dplyr.html#fnref38" class="footnote-back">↩︎</a></p></li>
-<li id="fn39"><p>You can sidestep this issue via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/with.html">with()</a> function, although I am not a big fan of this approach.<a href="dplyr.html#fnref39" class="footnote-back">↩︎</a></p></li>
-<li id="fn40"><p>In my experience, this mostly happens when you need to print out or view a table.<a href="dplyr.html#fnref40" class="footnote-back">↩︎</a></p></li>
-<li id="fn41"><p>R does have <code>-&gt;</code> statement, so, technically, you can pipe your computation and then assign it to a variable <code>table %&gt;% mutate() -&gt; table</code>. However, this style is generally discouraged as starting with <code>table &lt;- table %&gt;%</code> makes it clear that you modify and store the computation, whereas <code>table %&gt;%</code> signals that you pipe the results to an output: console, printed-out table, plot, etc.<a href="dplyr.html#fnref41" class="footnote-back">↩︎</a></p></li>
+<ol start="36">
+<li id="fn36"><p>The name should invoke an image of data pliers. According to Hadley Wickham, you can pronounce it any way you like.<a href="dplyr.html#fnref36" class="footnote-back">↩︎</a></p></li>
+<li id="fn37"><p>In general, bad but consistent styling is better than an inconsistent mix of good styles.<a href="dplyr.html#fnref37" class="footnote-back">↩︎</a></p></li>
+<li id="fn38"><p>At least, <code>-</code> is not mentioned anymore, even though it still works.<a href="dplyr.html#fnref38" class="footnote-back">↩︎</a></p></li>
+<li id="fn39"><p>Unless you know what you are doing and that is the simplest and clearest way to achieve this.<a href="dplyr.html#fnref39" class="footnote-back">↩︎</a></p></li>
+<li id="fn40"><p>You can sidestep this issue via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/with.html">with()</a> function, although I am not a big fan of this approach.<a href="dplyr.html#fnref40" class="footnote-back">↩︎</a></p></li>
+<li id="fn41"><p>In my experience, this mostly happens when you need to print out or view a table.<a href="dplyr.html#fnref41" class="footnote-back">↩︎</a></p></li>
+<li id="fn42"><p>R does have <code>-&gt;</code> statement, so, technically, you can pipe your computation and then assign it to a variable <code>table %&gt;% mutate() -&gt; table</code>. However, this style is generally discouraged as starting with <code>table &lt;- table %&gt;%</code> makes it clear that you modify and store the computation, whereas <code>table %&gt;%</code> signals that you pipe the results to an output: console, printed-out table, plot, etc.<a href="dplyr.html#fnref42" class="footnote-back">↩︎</a></p></li>
+<li id="fn43"><p>In the old times, summarize would only accept a single value and raise an error in any other case. That was good, as it made role of <code>summarize</code> very clear (aggregation) and it was clearly different from <code>mutate</code> (modification). Unfortunately, at certain point of time <code>summarize</code> got a power up, so now it will accept <em>any</em> number of values per table/group. This means that, technically, you can use it instead of <code>mutate</code> with no loss of functionality. It also means that it won’t warn you that you are doing something wrong in your aggregation, if you return more than one value per group/column. Happened to me often enough to make me wonder why this unfortunate decision was made.<a href="dplyr.html#fnref43" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

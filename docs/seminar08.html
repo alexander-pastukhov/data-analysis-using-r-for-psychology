@@ -196,7 +196,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.14" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.14</b> Reading files from other programs</a></li>
 <li class="chapter" data-level="3.15" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.15</b> Wrap up</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>4</b> Functions and pipes</a>
+<li class="chapter" data-level="4" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>4</b> Functions! Functions everywhere!</a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="functions.html"><a href="functions.html#functions-1"><i class="fa fa-check"></i><b>4.1</b> Functions</a></li>
 <li class="chapter" data-level="4.2" data-path="functions.html"><a href="functions.html#writing-a-function"><i class="fa fa-check"></i><b>4.2</b> Writing a function</a></li>
@@ -347,7 +347,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Merge two tables by <code>Prime</code> and <code>Probe</code>, store results in a new variable (the name is up to you). Note that each table has column with average proportion of same responses. You probably used the same name for this variable for both columns (if not, do use the same name, like <code>Pavg</code>). Joining functions are average of this possibility and use <em>suffixes</em> to differentiate which table the original column came from. By defaults <code>suffix = c(".x", ".y")</code>, so that that column <code>Pavg</code> from the first (left) table will become <code>Pavg.x</code> and the other one <code>Pavg.y</code>. We can do better than <code>c(".x", ".y")</code>! Use suffix parameter but use meaningful suffixes. The table should have four columns and sixteen rows.</li>
 <li>Plot average proportion of same responses for adaptation versus persistence. Use points for individual values and add linear regression line via <code>geom_smooth()</code>. The final plot should look approximately like this:</li>
 </ul>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-179-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-180-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div class="infobox practice">
 <p>Do exercise 1.</p>
 </div>
@@ -356,16 +356,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">8.2</span> Gluing in correlation strength information.</h2>
 <p>Let us be more precise about the strength of the correlation between the two variables. First, compute it via <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/cor.html">cor</a> function. Use function <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/Round.html">round</a> to round it to just two decimal places. Then, use <a href="https://glue.tidyverse.org/">glue()</a> (see below) to make the title look nice and put it as a title or subtitle of the plot via <a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a>.</p>
 <p>Function <code>glue()</code> lives in the package of the same name that you will need to import separately (it is part of the tidyverse but is not imported automatically). It makes it simple to “glue” values directly into a string. You simply surround the R code by wiggle brackets and the result of the code execution is glued in. If you use just a variable, its value will be glued-in.</p>
-<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="seminar08.html#cb333-1" aria-hidden="true" tabindex="-1"></a>answer <span class="ot">&lt;-</span> <span class="dv">42</span></span>
-<span id="cb333-2"><a href="seminar08.html#cb333-2" aria-hidden="true" tabindex="-1"></a>bad_answer <span class="ot">&lt;-</span> <span class="dv">41</span></span>
-<span id="cb333-3"><a href="seminar08.html#cb333-3" aria-hidden="true" tabindex="-1"></a><span class="fu">glue</span>(<span class="st">&quot;The answer is {answer}, not {bad_answer}&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="seminar08.html#cb331-1" aria-hidden="true" tabindex="-1"></a>answer <span class="ot">&lt;-</span> <span class="dv">42</span></span>
+<span id="cb331-2"><a href="seminar08.html#cb331-2" aria-hidden="true" tabindex="-1"></a>bad_answer <span class="ot">&lt;-</span> <span class="dv">41</span></span>
+<span id="cb331-3"><a href="seminar08.html#cb331-3" aria-hidden="true" tabindex="-1"></a><span class="fu">glue</span>(<span class="st">&quot;The answer is {answer}, not {bad_answer}&quot;</span>)</span></code></pre></div>
 <pre><code>## The answer is 42, not 41</code></pre>
 <p>But, you can put <em>any</em> code inside, although, the more code you put, the harder it will be to read and understand it.</p>
-<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="seminar08.html#cb335-1" aria-hidden="true" tabindex="-1"></a>single_package_weight <span class="ot">&lt;-</span> <span class="fl">1.2</span></span>
-<span id="cb335-2"><a href="seminar08.html#cb335-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glue</span>(<span class="st">&quot;Ten packages weight {single_package_weight * 10} kg&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="seminar08.html#cb333-1" aria-hidden="true" tabindex="-1"></a>single_package_weight <span class="ot">&lt;-</span> <span class="fl">1.2</span></span>
+<span id="cb333-2"><a href="seminar08.html#cb333-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glue</span>(<span class="st">&quot;Ten packages weight {single_package_weight * 10} kg&quot;</span>)</span></code></pre></div>
 <pre><code>## Ten packages weight 12 kg</code></pre>
 <p>So, compute the correlation, glue it into the text and put it as a title of the plot.
-<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-182-1.png" width="672" /></p>
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-183-1.png" width="672" /></p>
 <div class="infobox practice">
 <p>Do exercise 2.</p>
 </div>
@@ -382,18 +382,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>g</code> for an “optimally” printed float value, so that exponential notation is used for large values (<em>e.g.</em>, <code>10e5</code> instead of <code>100000</code>).</li>
 </ul>
 <p>Here is an example of formatting a string using an integer:</p>
-<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="seminar08.html#cb337-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes for breakfast&quot;</span>, <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="seminar08.html#cb335-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes for breakfast&quot;</span>, <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;I had 10 pancakes for breakfast&quot;</code></pre>
 <p>You are not limited to a single value that you can put into a string. You can specify more locations via <code>%</code> but you must make sure that you pass the right number of values. Before running it, can you figure out which call will actually work (and what will be the output ) and which will produce an error?</p>
-<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="seminar08.html#cb339-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes and either %d  or %d stakes for dinner&quot;</span>, <span class="dv">2</span>)</span>
-<span id="cb339-2"><a href="seminar08.html#cb339-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes and %d stakes for dinner&quot;</span>, <span class="dv">7</span>, <span class="dv">10</span>)</span>
-<span id="cb339-3"><a href="seminar08.html#cb339-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes and %d stakes for dinner&quot;</span>, <span class="dv">1</span>, <span class="dv">7</span>, <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="seminar08.html#cb337-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes and either %d  or %d stakes for dinner&quot;</span>, <span class="dv">2</span>)</span>
+<span id="cb337-2"><a href="seminar08.html#cb337-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes and %d stakes for dinner&quot;</span>, <span class="dv">7</span>, <span class="dv">10</span>)</span>
+<span id="cb337-3"><a href="seminar08.html#cb337-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes and %d stakes for dinner&quot;</span>, <span class="dv">1</span>, <span class="dv">7</span>, <span class="dv">10</span>)</span></code></pre></div>
 <div class="infobox practice">
 <p>Do exercise 3.</p>
 </div>
 <p>In case of real values you have two options: <code>%f</code> and <code>%g</code>. The latter uses scientific notation (e.g. <code>1e10</code> for <code>10000000000</code>) to make a representation more compact. When formatting floating numbers, you can specify the number of decimal points to be displayed.</p>
-<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="seminar08.html#cb340-1" aria-hidden="true" tabindex="-1"></a>e <span class="ot">&lt;-</span> <span class="fl">2.71828182845904523536028747135266249775724709369995</span></span>
-<span id="cb340-2"><a href="seminar08.html#cb340-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;Euler&#39;s number is roughly %.4f&quot;</span>, e)</span></code></pre></div>
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="seminar08.html#cb338-1" aria-hidden="true" tabindex="-1"></a>e <span class="ot">&lt;-</span> <span class="fl">2.71828182845904523536028747135266249775724709369995</span></span>
+<span id="cb338-2"><a href="seminar08.html#cb338-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;Euler&#39;s number is roughly %.4f&quot;</span>, e)</span></code></pre></div>
 <pre><code>## [1] &quot;Euler&#39;s number is roughly 2.7183&quot;</code></pre>
 <p>Repeat exercise #2 but use <code>sprintf()</code> in place of <code>glue()</code>.
 ::: {.infobox .practice}

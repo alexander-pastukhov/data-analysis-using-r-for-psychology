@@ -1984,7 +1984,7 @@ However, sometimes you have a file but you do not have the program (Matlab, SPSS
 We have started with vectors and now extended them to tables. Next time, we will look at how to visualize the data using The Grammar of Graphics approach.
 
 \hypertarget{functions}{%
-\chapter{Functions and pipes}\label{functions}}
+\chapter{Functions! Functions everywhere!}\label{functions}}
 
 In this chapter you will learn about \emph{functions} in R, as they are the second most important concept in R and are everywhere (just like vectors and lists). You will also learn how to \emph{pipe} your computation through series of functions without creating a mess of temporary variables or nested calls. Don't forget to download the \href{notebooks/Seminar\%2004\%20-\%20functions.Rmd}{notebook}.
 
@@ -2411,7 +2411,7 @@ The lack of \texttt{return} function in the final line is actually an \href{http
 \hypertarget{ggplot2}{%
 \chapter{Grammar of Graphics}\label{ggplot2}}
 
-In previous seminar, you have learned about tables that are the main way of representing data in psychological research and in R. In the following seminars, you will learn how to manipulate the data in these tables: change it, aggregate or transform individual groups of data, use it for statistical analysis. But before that you need to understand how to store your data in the table in the optimal way. First, I will introduce the idea of \emph{tidy data}, the concept that gave \href{https://www.tidyverse.org/}{Tidyverse} its name. Next, we will see how tidy data helps you visualize relationships between variables. Don't forget to download the \href{notebooks/Seminar\%2005\%20-\%20ggplot2.Rmd}{notebook}.
+In previous chapters, you have learned about tables that are the main way of representing data in psychological research and in R. In the following ones, you will learn how to manipulate data in these tables: change it, aggregate or transform individual groups of data, use it for statistical analysis. But before that you need to understand how to store your data in the table in the optimal way. First, I will introduce the idea of \emph{tidy data}, the concept that gave \href{https://www.tidyverse.org/}{Tidyverse} its name. Next, we will see how tidy data helps you visualize relationships between variables. Don't forget to download the \href{notebooks/Seminar\%2005\%20-\%20ggplot2.Rmd}{notebook}.
 
 \hypertarget{tidydata}{%
 \section{Tidy data}\label{tidydata}}
@@ -2460,25 +2460,33 @@ So, what is wrong with it? Don't we have variables in columns, observations in r
 
 Then, what about the first table, which has \texttt{Face} as a column, is it tidy? The short answer: Not really but that depends on your goals as well! In the experiment, we collected \emph{responses} (these are numbers in cells) for different type of \emph{judgments}. The latter are a variable but it is hidden in column names. Thus, a \emph{tidy} table for this data would be
 
-\begin{tabular}{c|c|c|c|c}
+\begin{tabular}{c|c|c|c}
 \hline
-Participant & Face & Trustworthiness & Judgment & Response\\
+Participant & Face & Judgment & Response\\
 \hline
-1 & M1 & 3 & Symmetry & 6\\
+1 & M1 & Symmetry & 6\\
 \hline
-1 & M1 & 3 & Attractiveness & 4\\
+1 & M1 & Attractiveness & 4\\
 \hline
-1 & M2 & 6 & Symmetry & 4\\
+1 & M1 & Trustworthiness & 3\\
 \hline
-1 & M2 & 6 & Attractiveness & 7\\
+1 & M2 & Symmetry & 4\\
 \hline
-2 & M1 & 1 & Symmetry & 5\\
+1 & M2 & Attractiveness & 7\\
 \hline
-2 & M1 & 1 & Attractiveness & 2\\
+1 & M2 & Trustworthiness & 6\\
 \hline
-2 & M2 & 2 & Symmetry & 3\\
+2 & M1 & Symmetry & 5\\
 \hline
-2 & M2 & 2 & Attractiveness & 7\\
+2 & M1 & Attractiveness & 2\\
+\hline
+2 & M1 & Trustworthiness & 1\\
+\hline
+2 & M2 & Symmetry & 3\\
+\hline
+2 & M2 & Attractiveness & 7\\
+\hline
+2 & M2 & Trustworthiness & 2\\
 \hline
 \end{tabular}
 
@@ -2507,63 +2515,63 @@ A plot in \emph{ggplot2} is described in three parts:
 \end{enumerate}
 
 You always need the first one. But you do not need to specify the other two, even though a plot without geometry in it looks very empty. Let us start with a very simple artificial example table below. I simulate a response as
-\[Response = Normal(\mu=1, \sigma=0.2) - Normal(\mu=2*ConditionIndex, \sigma=0.4) + Normal(\mu=Intensity, \sigma=0.4)\]
+\[Response = Normal(\mu=1, \sigma=0.2) - \\Normal(\mu=2*ConditionIndex, \sigma=0.4) + \\Normal(\mu=Intensity, \sigma=0.4)\]
 
 \begin{tabular}{l|r|r}
 \hline
 Condition & Intensity & Response\\
 \hline
-A & 1 & 0.1249701\\
+A & 1 & 0.8465764\\
 \hline
-B & 1 & -0.8861438\\
+B & 1 & -0.8946517\\
 \hline
-C & 1 & -3.9469551\\
+C & 1 & -4.7743923\\
 \hline
-A & 2 & 0.4478796\\
+A & 2 & 1.3305721\\
 \hline
-B & 2 & -1.0443801\\
+B & 2 & -1.1746898\\
 \hline
-C & 2 & -2.7447657\\
+C & 2 & -2.5113013\\
 \hline
-A & 3 & 2.9974132\\
+A & 3 & 2.1414432\\
 \hline
-B & 3 & 0.0301631\\
+B & 3 & -0.2696954\\
 \hline
-C & 3 & -1.8535325\\
+C & 3 & -2.8062532\\
 \hline
-A & 4 & 3.6427046\\
+A & 4 & 3.0782811\\
 \hline
-B & 4 & 0.6859744\\
+B & 4 & 0.3241116\\
 \hline
-C & 4 & -1.7033847\\
+C & 4 & -0.8584369\\
 \hline
-A & 5 & 3.7585119\\
+A & 5 & 3.8277940\\
 \hline
-B & 5 & 1.8105004\\
+B & 5 & 1.7121227\\
 \hline
-C & 5 & -0.5625636\\
+C & 5 & -0.3924913\\
 \hline
-A & 6 & 4.1708890\\
+A & 6 & 4.9797312\\
 \hline
-B & 6 & 3.4871327\\
+B & 6 & 3.0978869\\
 \hline
-C & 6 & 1.7586398\\
+C & 6 & 1.1242312\\
 \hline
-A & 7 & 5.7762752\\
+A & 7 & 5.6671980\\
 \hline
-B & 7 & 2.8100985\\
+B & 7 & 3.9016729\\
 \hline
-C & 7 & 1.8964214\\
+C & 7 & 2.3276265\\
 \hline
-A & 8 & 6.2498107\\
+A & 8 & 6.6890683\\
 \hline
-B & 8 & 4.9385002\\
+B & 8 & 4.1496168\\
 \hline
-C & 8 & 3.3725374\\
+C & 8 & 2.8852993\\
 \hline
 \end{tabular}
 
-We plot this data by 1) \emph{defining aesthetics} (mapping \texttt{Intensity} on to x-axis, \texttt{Response}on y-axis, and \texttt{Condition} on color) and 2) \emph{adding} lines to the plot (note the plus in \texttt{+\ geom\_line()}).
+We plot this data by 1) \emph{defining aesthetics} (mapping \texttt{Intensity} on to x-axis, \texttt{Response}on y-axis, and \texttt{Condition} on color) and 2) \emph{adding} lines to the plot (note the plus\footnote{One of a potentially confusing bits is usage of \texttt{+} in ggplot2 but of pipe \texttt{\%\textgreater{}\%} everywhere else. The difference is deliberate and fundamental. Pipe \texttt{\%\textgreater{}\%} passes the output to the next function, \texttt{+} \emph{adds} something to the already existing plot.} in \texttt{+\ geom\_line()}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2574,7 +2582,7 @@ We plot this data by 1) \emph{defining aesthetics} (mapping \texttt{Intensity} o
 
 \includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-116-1.pdf}
 
-As I already wrote, technically, we only thing you need to define is aesthetics, so let us not add anything to the plot (we drop the \texttt{+geom\_line()}).
+As I already wrote, technically, the only thing you need to define is aesthetics, so let us not add anything to the plot (we drop the \texttt{+geom\_line()}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2584,7 +2592,7 @@ As I already wrote, technically, we only thing you need to define is aesthetics,
 
 \begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-117-1} \end{center}
 
-Told you it will look empty and yet you can already see \emph{ggplot2} in action. Notice that axes are labeled and their limits are set. You cannot see the legend (they are not plotted without corresponding geometry) but it is also ready behind the scenes. This is because our initial call specified the most important part: how the individual variables map on various properties even before we tell \emph{ggplot2} which visuals we will use to plot the data. When we specified that x-axis will represent the \texttt{Intensity}, ggplot2 figured out the range of values, so it knows \emph{where} it is going to plot whatever we decide to plot. Points, lines, bar, error bars and what not will span only that range. Same goes for other properties such as color. We wanted \emph{color} to represent the condition. Again, we may not know what exactly we will be plotting (points, lines?) or even how many different visuals we will be adding to the plot (just lines? points + lines? points + lines + linear fit?) but we do know that whatever visual we add, if it can have color, its color \emph{must} represent condition for that data point. The beauty of \emph{ggplot2} is that it analyses your data and figures out how many colors you need and is ready to apply them \emph{consistently} to all visuals you will add later. It will ensure that all points, bars, lines, etc. will have consistent coordinates scaling, color, size, fill mapping that are the same across the entire plot. This may sound trivial but typically (e.g., Matlab, Matplotlib), it is \emph{your} job to make sure that all these properties match and that they represent the same value across all visual elements. And this is a pretty tedious job, particularly when you decide to change your mappings and have to redo all individual components by hand. In \emph{ggplot2}, this dissociation between mapping and visuals means you can tinker with one of them at a time. E.g. keep the visuals but change grouping or see if effect of condition is easier to see via line type, size or shape of the point? Or you can keep the mapping and see whether adding another visual will make the plot easier to understand. Note that some mapping also \emph{groups} your data, so when you use group-based visual information (e.g., a linear regression line) it will know what data belongs together and so will perform this computation per group.
+Told you it will look empty and yet you can already see \emph{ggplot2} in action. Notice that axes are labeled and their limits are set. You cannot see the legend (they are not plotted without corresponding geometry) but it is also ready behind the scenes. This is because our initial call specified the most important part: how individual variables map on various properties even before we tell \emph{ggplot2} which visuals we will use to plot the data. When we specified that x-axis will represent the \texttt{Intensity}, ggplot2 figured out the range of values, so it knows \emph{where} it is going to plot whatever we decide to plot. Points, lines, bars, error bars and what not will span only that range. Same goes for other properties such as color. We wanted \emph{color} to represent the condition. Again, we may not know what exactly we will be plotting (points, lines?) or even how many different visuals we will be adding to the plot (just lines? points + lines? points + lines + linear fit?) but we do know that whatever visual we add, if it can have color, its color \emph{must} represent condition for that data point. The beauty of \emph{ggplot2} is that it analyses your data and figures out how many colors you need and is ready to apply them \emph{consistently} to all visuals you will add later. It will ensure that all points, bars, lines, etc. will have consistent coordinates scaling, color, size, fill mapping that are the same across the entire plot. This may sound trivial but typically (e.g., Matlab, Matplotlib), it is \emph{your} job to make sure that all these properties match and that they represent the same value across all visual elements. And this is a pretty tedious job, particularly when you decide to change your mappings and have to redo all individual components by hand. In \emph{ggplot2}, this dissociation between mapping and visuals means you can tinker with one of them at a time. E.g. keep the visuals but change grouping or see if effect of condition is easier to see via line type, size or shape of the point? Or you can keep the mapping and see whether adding another visual will make the plot easier to understand. Note that some mapping also \emph{groups} your data, so when you use group-based visual information (e.g., a linear regression line) it will know what data belongs together and so will perform this computation per group.
 
 Let us see how you can keep the relationship mapping but add more visuals. Let us add both lines and points.
 
@@ -2612,7 +2620,7 @@ In the plot above, we \emph{kept} the relationship between variables and propert
 
 \begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-119-1} \end{center}
 
-Now we added a linear regression line that helps us to better see the relationship between \texttt{Intensity} and \texttt{Response}. Again, we simply wished for another visual to be added (\texttt{method="lm"} means that we wanted to average data via linear regression with \texttt{formula\ =\ y\ \textasciitilde{}\ x} meaning that we regress y-axis on x-axis with no further covariates, \texttt{se=FALSE} means no standard error stripe, \texttt{linetype="dashed"} just makes it easier to distinguish from the solid data line).
+Now we added a linear regression line that helps us to better see the relationship between \texttt{Intensity} and \texttt{Response}. Again, we simply wished for another visual to be added (\texttt{method="lm"} means that we wanted to average data via linear regression with \texttt{formula\ =\ y\ \textasciitilde{}\ x} meaning that we regress y-axis on x-axis with no further covariates, \texttt{se=FALSE} means no standard error stripe, \texttt{linetype="dashed"} just makes it easier to distinguish linar fit from the solid data line).
 
 Or, we can keep the \emph{visuals} but see whether changing \emph{mapping} would make it more informative (we need to specify \texttt{group=Intensity} as continuous data is not grouped automatically).
 
@@ -2653,7 +2661,7 @@ We start by visualizing how car efficiency, measured as miles-per-gallon, is aff
 First, let us look at the relationship between car efficiency in the city cycle (\texttt{cty}), engine displacement (\texttt{displ}), and drive train type (\texttt{drv}) using color points. Reminder, the call should look as
 
 \begin{verbatim}
-[ggplot2](https://ggplot2.tidyverse.org/reference/ggplot.html)(data_table_name, [aes](https://ggplot2.tidyverse.org/reference/aes.html)(x = var1, y = var2, color = var3, shape = var4, ...)) + 
+ggplot(data_table_name, [aes](https://ggplot2.tidyverse.org/reference/aes.html)(x = var1, y = var2, color = var3, shape = var4, ...)) + 
   geom_primitive1() + 
   geom_primitive2() +
   ...
@@ -2690,7 +2698,7 @@ The previous section use a continuous engine displacement variable for x-axis (a
 
 Do exercise 7.
 
-One problem with the plot is that all points are plotted at the same x-axis location. This means that if two points share the location, they overlap and appear as just one dot. This makes it hard to understand the density: one point can mean one point, or two, or a hundred. A better way to plot such data is by using \href{https://ggplot2.tidyverse.org/reference/geom_boxplot.html}{box} or {]}violin{]}(\url{https://ggplot2.tidyverse.org/reference/geom_violin.html}) plots. Experiment by using them instead of points.
+One problem with the plot is that all points are plotted at the same x-axis location. This means that if two points share the location, they overlap and appear as just one dot. This makes it hard to understand the density: one point can mean one point, or two, or a hundred. A better way to plot such data is by using \href{https://ggplot2.tidyverse.org/reference/geom_boxplot.html}{box} or \href{https://ggplot2.tidyverse.org/reference/geom_violin.html}{violin} plots. Experiment by using them instead of points.
 
 Do exercise 8.
 
@@ -2709,7 +2717,7 @@ Now lets us work on plotting a distribution for a single variable using \href{ht
 
 Do exercise 11.
 
-Using a histogram gives you exact counts per each bin. However, the appearance may change quite dramatically if you would use fewer or more bins. An alternative way to represent the same information is via \href{https://ggplot2.tidyverse.org/reference/geom_density.html}{smoothed density estimates}. They use a sliding window and compute an estimate at each point but also include points \emph{around} it and weight them according to a kernel (e.g.~a Gaussian one). This makes the plot look smoother and will mask sudden jumps in density (counts) as you, effectively, average over many bins. Whether this approach is better for visualizing data depends on the sample you have and message you are trying to get across. It is always worth checking both (just like it is worth checking different number of bins in histogram) to see which way is the best for your specific case.
+Using a histogram gives you exact counts per each bin. However, the appearance may change quite dramatically if you would use fewer or more bins. An alternative way to represent the same information is via \href{https://ggplot2.tidyverse.org/reference/geom_density.html}{smoothed density estimates}. They use a sliding window and compute an estimate at each point but also include points \emph{around} it and weight them according to a kernel (e.g., a Gaussian one). This makes the plot look smoother and will mask sudden jumps in density (counts) as you, effectively, average over many bins. Whether this approach is better for visualizing data depends on the sample you have and message you are trying to get across. It is always worth checking both (just like it is worth checking different number of bins in histogram) to see which way is the best for your specific case.
 
 Do exercise 12.
 
@@ -2771,7 +2779,7 @@ If plotting data is part of your daily routine, I recommend reading \href{https:
 \hypertarget{extending-ggplot2}{%
 \section{Extending ggplot2}\label{extending-ggplot2}}
 
-There are 80 (as of 19.11.2020) extensions that you find at \href{https://exts.ggplot2.tidyverse.org/gallery/}{ggplot2 website}. They add more ways to plot your data, more themes, animated plots, etc. If you feel that \emph{ggplot2} does not have the geometric primitives you need, take a look at the gallery and, most likely, you will find something that fits your bill.
+There are 102 (as of 21.10.2021) extensions that you find at \href{https://exts.ggplot2.tidyverse.org/gallery/}{ggplot2 website}. They add more ways to plot your data, more themes, animated plots, etc. If you feel that \emph{ggplot2} does not have the geometric primitives you need, take a look at the gallery and, most likely, you will find something that fits your bill.
 
 One package that is \emph{not} in the gallery is \href{https://patchwork.data-imaginist.com/}{patchwork}. It was created ``to make it ridiculously simple to combine separate ggplots into the same graphic''. It is a bold promise but authors do make good on it. It is probably the easiest way to combine multiple plots but you can also consider \href{https://github.com/wilkelab/cowplot}{cowplot} and \href{https://cran.r-project.org/web/packages/gridExtra/index.html}{gridExtra} packages.
 
@@ -2783,7 +2791,7 @@ There are many different plotting routines and packages for R but I would recomm
 \hypertarget{dplyr}{%
 \chapter{Tidyverse: dplyr}\label{dplyr}}
 
-Now that you understand vectors, tables, functions, and pipes, we can start with data analysis and Tidyverse way of doing it. All functions discussed below are part of \href{https://dplyr.tidyverse.org/}{dplyr}\footnote{The name should invoke an image of data pliers. According to Hadley Wickham, you can pronounce it any way you like.} ``grammar of data manipulation'' package. Grab the \href{notebooks/Seminar\%2006\%20-\%20dplyr.Rmd}{exercise notebook}!
+Now that you understand vectors, tables, functions and pipes, and you know what our end goal (a tidy table) is, we can start with data analysis and Tidyverse way of doing it. All functions discussed below are part of \href{https://dplyr.tidyverse.org/}{dplyr}\footnote{The name should invoke an image of data pliers. According to Hadley Wickham, you can pronounce it any way you like.} ``grammar of data manipulation'' package. Grab the \href{notebooks/Seminar\%2006\%20-\%20dplyr.Rmd}{exercise notebook}!
 
 \hypertarget{tidyverse-philosophy}{%
 \section{Tidyverse philosophy}\label{tidyverse-philosophy}}
@@ -2817,7 +2825,7 @@ Here is quick teaser of how such sequential piping works. Below, we will examine
   \CommentTok{\# we group by each class of car}
   \CommentTok{\# and compute average efficiency for each group (class of car)}
   \FunctionTok{group\_by}\NormalTok{(class) }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{class\_avg\_mpg =} \FunctionTok{mean}\NormalTok{(avg\_mpg), }\AttributeTok{.groups=}\StringTok{"drop"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{class\_avg\_mpg =} \FunctionTok{mean}\NormalTok{(avg\_mpg), }\AttributeTok{.groups=}\StringTok{"keep"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
   
   \CommentTok{\# we sort table rows to go from worst to best on efficiency}
   \FunctionTok{arrange}\NormalTok{(class\_avg\_mpg) }\SpecialCharTok{\%\textgreater{}\%}
@@ -2881,7 +2889,7 @@ audi & a4 & 2.8 & 1999 & 6 & auto(l5) & f & 16 & 26 & p & compact\\
 \hline
 \end{tabular}
 
-Here is how you can select only \texttt{model} and \texttt{cty} columns via square brackets notation
+Here is how you can select only \texttt{model} and \texttt{cty} columns via preserving \texttt{{[}{]}} subsetting
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2905,7 +2913,7 @@ a4 & 16\\
 \hline
 \end{tabular}
 
-And here how it is done via \texttt{select()}.
+And here is how it is done via \texttt{select()}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2945,7 +2953,7 @@ The idea of Tidyverse functions is to adopt to you, so you \emph{can} use quotes
 \end{Highlighting}
 \end{Shaded}
 
-As you surely remember, you can use negation to select \emph{other} indexes within a vector (\texttt{c(4,\ 5,\ 6){[}-2{]}} gives you \texttt{{[}4,\ 6{]}}). For the single bracket notation this mechanism does not work with column \emph{names} (only with their indexes). However, \texttt{select} has you covered, so we can select everything \emph{but} \texttt{cty} and \texttt{model}
+As you surely remember, you can use negation to select \emph{other} indexes within a vector (\texttt{c(4,\ 5,\ 6){[}-2{]}} gives you \texttt{{[}4,\ 6{]}}). For the single brackets \texttt{{[}{]}} this mechanism does not work with column \emph{names} (only with their indexes). However, \texttt{select} has you covered, so we can select everything \emph{but} \texttt{cty} and \texttt{model}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2989,14 +2997,14 @@ As with the direct selection above, you can use negation with names as strings, 
   \FunctionTok{select}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{c}\NormalTok{(}\StringTok{"cty"}\NormalTok{, }\StringTok{"model"}\NormalTok{))}
 
 \NormalTok{short\_mpg }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{!}\StringTok{"cty"}\NormalTok{, }\SpecialCharTok{!}\StringTok{"model"}\NormalTok{)}\ErrorTok{)}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{!}\StringTok{"cty"}\NormalTok{, }\SpecialCharTok{!}\StringTok{"model"}\NormalTok{)}
   
 \NormalTok{short\_mpg }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{select}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{c}\NormalTok{(cty, model))}
 \end{Highlighting}
 \end{Shaded}
 
-Unlike vector indexing that forbids mixing positive and negative indexing, \texttt{select} does allow for it. However, \textbf{do not use it}\footnote{Unless you know what you are doing and that is the simplest and clearest way to achieve this.} because results can be fairly counter-intuitive and, on top of that, \texttt{-} and \texttt{!} work somewhat differently. Note the difference between \texttt{!} and \texttt{-}: In the former case only the \texttt{!model} part appears to have the effect, whereas in case of \texttt{-} only \texttt{cty} works.
+Unlike vector indexing that forbids mixing positive and negative indexing, \texttt{select} does allow it. However, \textbf{do not use it}\footnote{Unless you know what you are doing and that is the simplest and clearest way to achieve this.} because results can be fairly counter-intuitive and, on top of that, \texttt{-} and \texttt{!} work somewhat differently. Note the difference between \texttt{!} and \texttt{-}: In the former case only the \texttt{!model} part appears to have the effect, whereas in case of \texttt{-} only \texttt{cty} works.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3073,7 +3081,7 @@ So, bottom line, do not mix positive and negative indexing in \texttt{select}! I
 
 Do exercise 1.
 
-Simple names and their negation will be sufficient for most of your projects. However, I would recommend taking a look at the \href{https://dplyr.tidyverse.org/reference/select.html}{official manual} just to see that \texttt{select} offers a lot of flexibility (selecting range of columns, by column type, by partial name matching, etc), something that might be useful for you in your later work.
+Simple names and their negation will be sufficient for most of your projects. However, I would recommend taking a look at the \href{https://dplyr.tidyverse.org/reference/select.html}{official manual} just to see that \texttt{select} offers a lot of flexibility (selecting range of columns, by column type, by partial name matching, etc), something that might be useful for you in your work.
 
 \hypertarget{conditions}{%
 \section{Conditions}\label{conditions}}
@@ -3166,7 +3174,7 @@ Do exercise 5.
 \hypertarget{logical-indexing}{%
 \section{Logical indexing}\label{logical-indexing}}
 
-In the second seminar, you learned about vector indexing when you access \emph{some} elements of a vector by specifying their index. There is an alternative way, called \emph{logical indexing}, when instead you supply a vector of equal length with \emph{logical values} and you get elements of the original vector whenever the logical value is \texttt{TRUE}
+In the second seminar, you learned about vector indexing when you access \emph{some} elements of a vector by specifying their index. There is an alternative way, called \emph{logical indexing}. Here, you supply a vector of equal length with \emph{logical values} and you get elements of the original vector whenever the logical value is \texttt{TRUE}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3271,11 +3279,11 @@ audi & a6 quattro & 4.2 & 2008 & 8 & auto(s6) & 4 & 16 & 23 & p & midsize\\
 
 Do exercise 7.
 
-Note that you can emulate \texttt{filter()} in a very straightforward way using single-brackets base R, the main difference is that you need to prefix every column with the table name, so \texttt{mpg\$class} instead of just \texttt{class}\footnote{You can sidestep this issue via \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/with.html}{with()} function, although I am not a big fan of this approach.}.
+Note that you can emulate \texttt{filter()} in a very straightforward way using single-brackets base R, the main difference is that you need to prefix every column with the table name, so \texttt{mpg{[}{[}"class"{]}{]}} instead of just \texttt{class}\footnote{You can sidestep this issue via \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/with.html}{with()} function, although I am not a big fan of this approach.}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mpg[mpg}\SpecialCharTok{$}\NormalTok{class }\SpecialCharTok{==} \StringTok{"midsize"} \SpecialCharTok{\&}\NormalTok{ mpg}\SpecialCharTok{$}\NormalTok{drv }\SpecialCharTok{==} \StringTok{"4"}\NormalTok{, ]}
+\NormalTok{mpg[mpg[[}\StringTok{"class"}\NormalTok{]] }\SpecialCharTok{==} \StringTok{"midsize"} \SpecialCharTok{\&}\NormalTok{ mpg[[}\StringTok{"drv"}\NormalTok{]] }\SpecialCharTok{==} \StringTok{"4"}\NormalTok{, ]}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3291,7 +3299,7 @@ audi & a6 quattro & 4.2 & 2008 & 8 & auto(s6) & 4 & 16 & 23 & p & midsize\\
 \hline
 \end{tabular}
 
-So why use \texttt{filter()} then? In isolation, as a single line computation, both options are equally compact and clear (apart from all the extra \texttt{table\$} in base R). But pipe-oriented nature of the \texttt{filter()} makes it more suitable for chains of computations, which is the main advantage of Tidyverse.
+So why use \texttt{filter()} then? In isolation, as a single line computation, both options are equally compact and clear (apart from all the extra \texttt{table{[}{[}"..."{]}{]}} in base R). But pipe-oriented nature of the \texttt{filter()} makes it more suitable for chains of computations, which is the main advantage of Tidyverse.
 
 \hypertarget{arrange-rows-in-a-particular-order}{%
 \section{\texorpdfstring{\texttt{arrange()} rows in a particular order}{arrange() rows in a particular order}}\label{arrange-rows-in-a-particular-order}}
@@ -3302,14 +3310,6 @@ Sometimes you might need to sort your table so that rows go in a particular orde
 \begin{Highlighting}[]
 \NormalTok{short\_mpg }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{arrange}\NormalTok{(cty, }\FunctionTok{desc}\NormalTok{(displ)) }
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{short\_mpg }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{arrange}\NormalTok{(cty, }\FunctionTok{desc}\NormalTok{(displ)) }\SpecialCharTok{\%\textgreater{}\%}
-\NormalTok{  knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3331,18 +3331,11 @@ audi & a4 & 1.8 & 1999 & 4 & manual(m5) & f & 21 & 29 & p & compact\\
 
 Do exercise 8.
 
-You can arrange a table using base R via \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/order.html}{order()} function that gives index of ordered elements and can be used inside of single bracket notation. You can control for ascending/descending of a specific variable using \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/rev.html}{rev()} function that is applied \emph{after} ordering, so \texttt{rev(order(...))}.
+You can arrange a table using base R via \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/order.html}{order()} function that gives index of ordered elements and can be used inside of preserving subsetting via single brackets \texttt{{[}{]}} notation. You can control for ascending/descending of a specific variable using \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/rev.html}{rev()} function that is applied \emph{after} ordering, so \texttt{rev(order(...))}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{short\_mpg[}\FunctionTok{order}\NormalTok{(short\_mpg}\SpecialCharTok{$}\NormalTok{cty, }\FunctionTok{rev}\NormalTok{(short\_mpg}\SpecialCharTok{$}\NormalTok{displ)), ]}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{short\_mpg[}\FunctionTok{order}\NormalTok{(short\_mpg}\SpecialCharTok{$}\NormalTok{cty, }\FunctionTok{rev}\NormalTok{(short\_mpg}\SpecialCharTok{$}\NormalTok{displ)), ] }\SpecialCharTok{\%\textgreater{}\%}
-\NormalTok{  knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
+\NormalTok{short\_mpg[}\FunctionTok{order}\NormalTok{(short\_mpg[[}\StringTok{"cty"}\NormalTok{]], }\FunctionTok{rev}\NormalTok{(short\_mpg[[}\StringTok{"displ"}\NormalTok{]])), ]}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3372,7 +3365,7 @@ In Tidyverse, \href{https://dplyr.tidyverse.org/reference/mutate.html}{mutate} f
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# base R}
-\NormalTok{short\_mpg}\SpecialCharTok{$}\NormalTok{avg\_mpg }\OtherTok{\textless{}{-}}\NormalTok{ (short\_mpg}\SpecialCharTok{$}\NormalTok{cty }\SpecialCharTok{+}\NormalTok{ short\_mpg}\SpecialCharTok{$}\NormalTok{hwy) }\SpecialCharTok{/} \DecValTok{2}
+\NormalTok{short\_mpg[[}\StringTok{"avg\_mpg"}\NormalTok{]] }\OtherTok{\textless{}{-}}\NormalTok{ (short\_mpg[[}\StringTok{"cty"}\NormalTok{]] }\SpecialCharTok{+}\NormalTok{ short\_mpg[[}\StringTok{"hwy"}\NormalTok{]]) }\SpecialCharTok{/} \DecValTok{2}
 
 \CommentTok{\# Tidyverse equivalent}
 \NormalTok{short\_mpg }\OtherTok{\textless{}{-}} 
@@ -3381,7 +3374,7 @@ In Tidyverse, \href{https://dplyr.tidyverse.org/reference/mutate.html}{mutate} f
 \end{Highlighting}
 \end{Shaded}
 
-Note two critical differences. First, \texttt{mutate()} takes a table as an input and returns a table as an output. This is why you start with a table, pipe it to mutate, and assign the results \emph{back} to the original variable. If you have more verbs/lines, it is the output of the last computation that is assigned to the variable on the left-hand side of assignment\footnote{R does have \texttt{-\textgreater{}} statement, so, technically, you can pipe your computation and then assign it to a variable \texttt{table\ \%\textgreater{}\%\ mutate()\ -\textgreater{}\ table}. However, this style is generally discouraged as starting with \texttt{table\ \textless{}-\ table\ \%\textgreater{}\%} makes it clear that you modify and store the computation, whereas \texttt{table\ \%\textgreater{}\%} signals that you pipe the results to an output: console, printed-out table, plot, etc.}. Look at the listing below that indexes each line by when it is executed.
+Note two critical differences. First, \texttt{mutate()} takes a table as an input and returns a table as an output. This is why you start with a table, pipe it to mutate, and assign the results \emph{back} to the original variable. If you have more verbs/lines, it is the output of the \emph{last} computation that is assigned to the variable on the left-hand side of assignment\footnote{R does have \texttt{-\textgreater{}} statement, so, technically, you can pipe your computation and then assign it to a variable \texttt{table\ \%\textgreater{}\%\ mutate()\ -\textgreater{}\ table}. However, this style is generally discouraged as starting with \texttt{table\ \textless{}-\ table\ \%\textgreater{}\%} makes it clear that you modify and store the computation, whereas \texttt{table\ \%\textgreater{}\%} signals that you pipe the results to an output: console, printed-out table, plot, etc.}. Look at the listing below that indexes each line by when it is executed.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3396,25 +3389,26 @@ Second, you are performing a computation \emph{inside} the call of the \texttt{m
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{short\_mpg }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(cty, hwy) }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{avg\_mpg =}\NormalTok{  (cty }\SpecialCharTok{+}\NormalTok{ hwy) }\SpecialCharTok{/} \DecValTok{2}\NormalTok{,      }\CommentTok{\# column name will be avp\_mpg}
 \NormalTok{         avg\_mpg }\OtherTok{\textless{}{-}}\NormalTok{ (cty }\SpecialCharTok{+}\NormalTok{ hwy) }\SpecialCharTok{/} \DecValTok{2}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \CommentTok{\# column name will be \textasciigrave{}avg\_mpg \textless{}{-} (short\_mpg$cty + short\_mpg$hwy) / 2\textasciigrave{}}
 \NormalTok{  knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{tabular}{l|l|r|r|r|l|l|r|r|l|l|r|r}
+\begin{tabular}{r|r|r|r}
 \hline
-manufacturer & model & displ & year & cyl & trans & drv & cty & hwy & fl & class & avg\_mpg & avg\_mpg <- (cty + hwy)/2\\
+cty & hwy & avg\_mpg & avg\_mpg <- (cty + hwy)/2\\
 \hline
-audi & a4 & 1.8 & 1999 & 4 & auto(l5) & f & 18 & 29 & p & compact & 23.5 & 23.5\\
+18 & 29 & 23.5 & 23.5\\
 \hline
-audi & a4 & 1.8 & 1999 & 4 & manual(m5) & f & 21 & 29 & p & compact & 25.0 & 25.0\\
+21 & 29 & 25.0 & 25.0\\
 \hline
-audi & a4 & 2.0 & 2008 & 4 & manual(m6) & f & 20 & 31 & p & compact & 25.5 & 25.5\\
+20 & 31 & 25.5 & 25.5\\
 \hline
-audi & a4 & 2.0 & 2008 & 4 & auto(av) & f & 21 & 30 & p & compact & 25.5 & 25.5\\
+21 & 30 & 25.5 & 25.5\\
 \hline
-audi & a4 & 2.8 & 1999 & 6 & auto(l5) & f & 16 & 26 & p & compact & 21.0 & 21.0\\
+16 & 26 & 21.0 & 21.0\\
 \hline
 \end{tabular}
 
@@ -3422,7 +3416,7 @@ As shown in the example above, you can perform several computations within a sin
 
 Do exercise 10.
 
-Finally, \texttt{mutate} has a cousin-verb called \texttt{transmute} that works the same way but \emph{discards} all original columns that were not modified. You probably won't use this verb all too often but I want you to be able to recognize it, as its name and function are very similar to \texttt{mutate} and the two are easy to confuse.
+Finally, \texttt{mutate} has two cousin-verbs called \href{}{transmute} and \href{https://tibble.tidyverse.org/reference/add_column.html}{add\_column}. The former (\texttt{transmute}) works the same way but \emph{discards} all original columns that were not modified. You probably won't use this verb all too often but I want you to be able to recognize it, as its name and function are very similar to \texttt{mutate} and the two are easy to confuse.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3448,10 +3442,12 @@ avg\_mpg\\
 \hline
 \end{tabular}
 
+The latter --- \texttt{add\_column} --- is \emph{similar} to \texttt{mutate} if you need to add a new column rather than to modify a new one. Its advantage is that it will produce an error, if you try to overwrite an existing column. Its disadvantage is that it does not appear to respect data grouping (see below), which can be very confusing. In short, stick to \texttt{mutate} unless you need either of these two functions specifically.
+
 \hypertarget{summarize}{%
 \section{\texorpdfstring{\texttt{summarize()} table by \texttt{groups}}{summarize() table by groups}}\label{summarize}}
 
-This verb is used when you \emph{aggregate} across \emph{all} rows, reducing them to a \emph{single value}. Some examples of aggregating functions that are probably already familiar to you are \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html}{mean}, \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/median.html}{median}, \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/sd.html}{standard deviation}, \href{https://stat.ethz.ch/R-manual/R-patched/library/base/html/Extremes.html}{min/max}. However, you can ``aggregate'' by taking a first or a last value or even by putting in a constant. Important is that \texttt{summarize} expects that it should assign a \emph{single} value to the column.
+This verb is used when you \emph{aggregate} across \emph{all} rows, reducing them to a \emph{single value}. Some examples of aggregating functions that are probably already familiar to you are \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html}{mean}, \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/median.html}{median}, \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/sd.html}{standard deviation}, \href{https://stat.ethz.ch/R-manual/R-patched/library/base/html/Extremes.html}{min/max}. However, you can ``aggregate'' by taking a first or a last value or even by putting in a constant. Important is that you should assign a \emph{single} value to the column when using \texttt{summarize}\footnote{In the old times, summarize would only accept a single value and raise an error in any other case. That was good, as it made role of \texttt{summarize} very clear (aggregation) and it was clearly different from \texttt{mutate} (modification). Unfortunately, at certain point of time \texttt{summarize} got a power up, so now it will accept \emph{any} number of values per table/group. This means that, technically, you can use it instead of \texttt{mutate} with no loss of functionality. It also means that it won't warn you that you are doing something wrong in your aggregation, if you return more than one value per group/column. Happened to me often enough to make me wonder why this unfortunate decision was made.}.
 
 If you use \texttt{summarize} on an \emph{ungrouped} table (these are the only tables we've been working on so far), it keeps only the computed columns, which makes you wonder ``what's the point?''
 
@@ -3470,7 +3466,7 @@ If you use \texttt{summarize} on an \emph{ungrouped} table (these are the only t
 ## 1    16.9    23.4
 \end{verbatim}
 
-However, the real power of \texttt{summarize} (and of \texttt{mutate}) becomes evident when it is applied to the data that is \emph{grouped by} certain criteria. \href{https://dplyr.tidyverse.org/reference/group_by.html}{group\_by()} verb groups the rows of the table based values of variables you specified. Behind the scenes, this turns your single table into set of tables, so that your Tidyverse verbs are applied to \emph{each} table \emph{separately}. This ability to parse your table into different groups of rows (all rows that belong to a particular participant, or participant and condition, or rows per block, or per trial), change that grouping on the fly, return back to the original full table, etc. makes analysis a breeze. Here is how we can compute average efficiency not across all cars (as in the code above) but for each car class separately.
+However, the real power of \texttt{summarize} (and of \texttt{mutate}) becomes evident when it is applied to the data that is \emph{grouped by} certain criteria. \href{https://dplyr.tidyverse.org/reference/group_by.html}{group\_by()} verb groups rows of the table based on values of variables you specified. Behind the scenes, this turns your single table into set of tables, so that your Tidyverse verbs are applied to \emph{each} table \emph{separately}. This ability to parse your table into different groups of rows (all rows that belong to a particular participant, or participant and condition, or rows per block, or per trial), change that grouping on the fly, return back to the original full table, etc. makes analysis a breeze. Here is how we can compute average efficiency not across all cars (as in the code above) but for each car class separately.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3482,7 +3478,8 @@ However, the real power of \texttt{summarize} (and of \texttt{mutate}) becomes e
   
   \CommentTok{\# same mean computation but per table and we\textquotesingle{}ve got seven of them}
   \FunctionTok{summarise}\NormalTok{(}\AttributeTok{avg\_cty =} \FunctionTok{mean}\NormalTok{(cty),}
-            \AttributeTok{avg\_hwy =} \FunctionTok{mean}\NormalTok{(hwy), }\AttributeTok{.groups =} \StringTok{"drop"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+            \AttributeTok{avg\_hwy =} \FunctionTok{mean}\NormalTok{(hwy),}
+            \AttributeTok{.groups =} \StringTok{"keep"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
 \NormalTok{  knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
@@ -3507,7 +3504,7 @@ suv & 13.50000 & 18.12903\\
 \hline
 \end{tabular}
 
-Note that summarize still expects us to compute a \emph{single} value per table but because we do it for \emph{seven tables}, we get \emph{seven rows} in our resultant table. And \texttt{group\_by} makes it easy to group data in any way you want. Are you interested in manufacturers instead car classes? Easy!
+Note that we compute a \emph{single} value per table but because we do it for \emph{seven tables}, we get \emph{seven rows} in our resultant table. And \texttt{group\_by} makes it easy to group data in any way you want. Are you interested in manufacturers instead car classes? Easy!
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3515,7 +3512,7 @@ Note that summarize still expects us to compute a \emph{single} value per table 
   \FunctionTok{group\_by}\NormalTok{(manufacturer)  }\SpecialCharTok{\%\textgreater{}\%}
   \CommentTok{\# same mean computation but per table and we\textquotesingle{}ve got seven of them}
   \FunctionTok{summarise}\NormalTok{(}\AttributeTok{avg\_cty =} \FunctionTok{mean}\NormalTok{(cty),}
-            \AttributeTok{avg\_hwy =} \FunctionTok{mean}\NormalTok{(hwy), }\AttributeTok{.groups =} \StringTok{"drop"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+            \AttributeTok{avg\_hwy =} \FunctionTok{mean}\NormalTok{(hwy), }\AttributeTok{.groups =} \StringTok{"keep"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
 \NormalTok{  knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
@@ -3564,7 +3561,7 @@ How about efficiency per class \emph{and} year? Still easy!
   \FunctionTok{group\_by}\NormalTok{(class, year)  }\SpecialCharTok{\%\textgreater{}\%}
   \CommentTok{\# same mean computation but per table and we\textquotesingle{}ve got seven of them}
   \FunctionTok{summarise}\NormalTok{(}\AttributeTok{avg\_cty =} \FunctionTok{mean}\NormalTok{(cty),}
-            \AttributeTok{avg\_hwy =} \FunctionTok{mean}\NormalTok{(hwy), }\AttributeTok{.groups =} \StringTok{"drop"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+            \AttributeTok{avg\_hwy =} \FunctionTok{mean}\NormalTok{(hwy), }\AttributeTok{.groups =} \StringTok{"keep"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
 \NormalTok{  knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
@@ -3607,7 +3604,23 @@ Finally, \texttt{ungroup()} verb removes all the grouping and turns your data in
 
 Do exercise 11.
 
-You can replicate the functionality of \texttt{group\_by} + \texttt{summarize} in base R via \href{https://stat.ethz.ch/R-manual/R-patched/library/stats/html/aggregate.html}{aggregate()} and \texttt{group\_by} + \texttt{mutate} via \href{https://stat.ethz.ch/R-manual/R-patched/library/base/html/by.html}{by} functions. However, they are somewhat less straightforward in use as they rely on functional programming and require both grouping and summary function within a single call.
+You have probably notice the \texttt{.groups="keep"} parameter in all \texttt{summarize} calls and wondered what is it for and what other options exist? Current (21.10.2021) it is still an experimental feature of \href{https://dplyr.tidyverse.org/reference/summarise.html}{summarize} that determines what happens to grouping of the table \emph{after} summarized finished the computation. The four options are:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{.groups\ =\ "drop"} ungroups the data and is equivalent to using \texttt{ungroup} immediately after a \texttt{summarize}.
+\item
+  \texttt{.groups\ =\ "keep"} keeps grouping as is.
+\item
+  \texttt{.groups\ =\ "rowwise"} each row becomes its own group. If you returned one value per group, this would be identical to \texttt{.groups\ =\ "keep"}.
+\item
+  \texttt{.groups\ =\ "drop\_last"} drops the \emph{last} level of grouping you specified. E.g., if you grouped by \texttt{class}, \texttt{manufacturer}, and \texttt{year}, using this option will produce a table that is grouped only by \texttt{class} and \texttt{manufacturer}. On the one hand, this is a \emph{default} option. On the other hand, I am not quite sure why this would be preferable over \texttt{keep"} or when would I actually require this.
+\end{itemize}
+
+My suggestions would be to \emph{always} use \texttt{.groups="keep"} in conjunction with an explicit \texttt{ungroup()}. This way \texttt{summarize} would always behave the same way, making it easier to stop regrouping and ungrouping. I went into details only because you must specify this parameter to avoid a warning that looks both ominous and confusing. And a brief look in the manual did not help me much (you can play with different options while looking at the resultant grouping via \href{https://dplyr.tidyverse.org/reference/group_data.html}{groups()} function to explore outcomes). At the moment, it is unclear whether this options stays or how it will be transformed in the future (remember, it is still an experimental one).
+
+You can replicate the functionality of \texttt{group\_by} + \texttt{summarize} in base R via \href{https://stat.ethz.ch/R-manual/R-patched/library/stats/html/aggregate.html}{aggregate()} and \texttt{group\_by} + \texttt{mutate} via \href{https://stat.ethz.ch/R-manual/R-patched/library/base/html/by.html}{by} functions. However, they are somewhat less straightforward in use as they rely on functional programming (which you haven't learned about yet) and require both grouping and summary function within a single call.
 
 \hypertarget{putting-it-all-together}{%
 \section{Putting it all together}\label{putting-it-all-together}}
@@ -3619,7 +3632,7 @@ Do exercise 12.
 \hypertarget{should-i-use-tidyverse}{%
 \section{Should I use Tidyverse?}\label{should-i-use-tidyverse}}
 
-As you saw above, whatever Tidyverse can do, base R can do as well. So why use a non-standard family of packages? If you are using each function in isolation, there is probably not much sense in this. Base R can do it equally well and \emph{each individual} function is also compact and simple. However, if you need to \emph{chain} your computation, which is almost always the case, Tidyverse's ability to pipe the entire sequence of functions in a simple consistent and, therefore, easy to understand way is a game-changer. In the long run, pick your style. Either go ``all in'' with Tidyverse (that is my approach), stick to base R, or find some alternative package family. However, as far as the seminar is concerned, it will be almost exclusively Tydiverse from now on.
+As you saw above, whatever Tidyverse can do, base R can do as well. So why use a non-standard family of packages? If you are using each function in isolation, there is probably not much sense in this. Base R can do it equally well and \emph{each individual} function is also compact and simple. However, if you need to \emph{chain} your computation, which is almost always the case, Tidyverse's ability to pipe the entire sequence of functions in a simple consistent and, therefore, easy to understand way is a game-changer. In the long run, pick your style. Either go ``all in'' with Tidyverse (that is my approach), stick to base R, or find some alternative package family (e.g., \href{https://github.com/Rdatatable/data.table}{data.table}). However, as far as the book is concerned, it will be almost exclusively Tydiverse from now on.
 
 \hypertarget{seminar07}{%
 \chapter{Factors and Joins}\label{seminar07}}
@@ -3659,7 +3672,7 @@ In the first exercise, I want you to implement the actual analysis performed in 
 
 Your final plot should look something like this
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-151-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-152-1} \end{center}
 
 Do exercise 1.
 
@@ -3790,7 +3803,7 @@ However, be careful when level labels are numbers. In the example below, you mig
 
 For the next exercise, copy-paste the code from exercise \#1 and alter it so the labels are \texttt{"sphere"} (for \texttt{"heavy\ poles\ sphere"}), \texttt{"quad\ band"} (for \texttt{"stripes-8"}), \texttt{"dual\ band"} (\texttt{"stripes-4"}), \texttt{"single\ band"} (for \texttt{"stripes-2"}) and levels are in that order. Your plot should look something like this.
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-158-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-159-1} \end{center}
 
 Do exercise 2.
 
@@ -3939,13 +3952,13 @@ Do exercise 4.
 
 Then, plot the results. Use \href{https://ggplot2.tidyverse.org/reference/geom_point.html}{geom\_point()} plus \href{https://ggplot2.tidyverse.org/reference/geom_path.html}{geom\_line()} to plot the mean response The plot should like like this (hint, drop color mapping and map \texttt{Prime} to \texttt{group} property).
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-166-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-167-1} \end{center}
 
 Do exercise 5.
 
 Tweak code from exercise 4 to plot all lines on the same plot and use color property to distinguish between different primes.
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-167-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-168-1} \end{center}
 
 Do exercise 6.
 
@@ -3956,7 +3969,7 @@ From the plots above, you get a sense that identities of the probe and prime (ob
 
 To compute confidence interval, you need to compute its lower and upper limits separately via \href{https://en.wikipedia.org/wiki/Quantile}{quantiles}. A quantile for 0.1 (10\%) tells you a value, so that 10\% of all values in the vector are below it, the quantile of 0.9 (90\%) means that only 10\% of values are above it (or 90\% are below). So, an 80\% confidence intervals includes values that are between 10\% and 90\% or, alternatively, between 0.1 and 0.9 quantiles.
 
-\begin{center}\includegraphics[width=1\linewidth]{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-168-1} \end{center}
+\begin{center}\includegraphics[width=1\linewidth]{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-169-1} \end{center}
 
 To compute this, R has function \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html}{quantile()}.
 
@@ -3974,7 +3987,7 @@ To compute this, R has function \href{https://stat.ethz.ch/R-manual/R-devel/libr
 
 Modify code from from exercise \#5 to compute two additional variables/columns for lower and upper limits of the 89\% confidence interval (think about what these limits are for 89\% CI). Then, use \href{https://ggplot2.tidyverse.org/reference/geom_linerange.html}{geom\_errorbar()} to plot 89\% CI (you will need to map the two variable you computed to \texttt{ymin} and \texttt{ymax} properties). The plot should like like this (hint, drop color mapping and map \texttt{Prime} to \texttt{group} property).
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-170-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-171-1} \end{center}
 
 Do exercise 7.
 
@@ -3983,7 +3996,7 @@ Do exercise 7.
 
 A different study, which used same four objects, showed that a similar looking history effect but for longer interruptions (1000 ms rather than 50 ms) was modulated by objects similarity. Let us check that hypothesis by computing a rough difference measure. It will assume that their difference is proportional to the absolute ``distance'' between them on x-axis in the above plot\footnote{This measure assumes metric distance, which is a very strong assumption.}. E.g., distance between a sphere and a sphere is 0, but between sphere and quad-band or single-band and dual-band is 1. Difference between sphere and dual-band is 2, etc. You can compute it by converting \emph{factor} variables \texttt{Prime} and \texttt{Probe} to integers (this assumes that levels are in the correct order). Then, you can compute the \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/MathFun.html}{absolute difference} between those indexes and store it as a new column (e.g.~\texttt{Difference}). Next, group by \texttt{Difference} and \texttt{Participant} to compute average probability of the same response. Your plot should look like this (you will need to map \texttt{Difference} on \texttt{group} to get four box plots rather than one).
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-171-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-172-1} \end{center}
 
 Do exercise 8.
 
@@ -4030,21 +4043,21 @@ D & 22\\
 \hline
 ID & Report\\
 \hline
-A & 1.597864\\
+A & 1.578561\\
 \hline
-A & 3.268596\\
+A & 5.244835\\
 \hline
-B & 3.328343\\
+B & 1.134646\\
 \hline
-B & 6.135786\\
+B & 3.512635\\
 \hline
-C & 1.795323\\
+C & 3.696597\\
 \hline
-C & 3.028971\\
+C & 2.973226\\
 \hline
-E & 2.613691\\
+E & 6.752840\\
 \hline
-E & 5.920009\\
+E & 3.890652\\
 \hline
 \end{tabular}
 
@@ -4061,17 +4074,17 @@ Here, \texttt{ID} column will serve as a key to indicate which rows from two col
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 1.597864\\
+A & 20 & 1.578561\\
 \hline
-A & 20 & 3.268596\\
+A & 20 & 5.244835\\
 \hline
-B & 19 & 3.328343\\
+B & 19 & 1.134646\\
 \hline
-B & 19 & 6.135786\\
+B & 19 & 3.512635\\
 \hline
-C & 30 & 1.795323\\
+C & 30 & 3.696597\\
 \hline
-C & 30 & 3.028971\\
+C & 30 & 2.973226\\
 \hline
 \end{tabular}
 
@@ -4088,23 +4101,23 @@ Conversely, \texttt{full\_join()} will include all rows from both tables but wil
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 1.597864\\
+A & 20 & 1.578561\\
 \hline
-A & 20 & 3.268596\\
+A & 20 & 5.244835\\
 \hline
-B & 19 & 3.328343\\
+B & 19 & 1.134646\\
 \hline
-B & 19 & 6.135786\\
+B & 19 & 3.512635\\
 \hline
-C & 30 & 1.795323\\
+C & 30 & 3.696597\\
 \hline
-C & 30 & 3.028971\\
+C & 30 & 2.973226\\
 \hline
 D & 22 & NA\\
 \hline
-E & NA & 2.613691\\
+E & NA & 6.752840\\
 \hline
-E & NA & 5.920009\\
+E & NA & 3.890652\\
 \hline
 \end{tabular}
 
@@ -4121,17 +4134,17 @@ The \texttt{left\_join()} and \texttt{right\_join()} include all the row from, r
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 1.597864\\
+A & 20 & 1.578561\\
 \hline
-A & 20 & 3.268596\\
+A & 20 & 5.244835\\
 \hline
-B & 19 & 3.328343\\
+B & 19 & 1.134646\\
 \hline
-B & 19 & 6.135786\\
+B & 19 & 3.512635\\
 \hline
-C & 30 & 1.795323\\
+C & 30 & 3.696597\\
 \hline
-C & 30 & 3.028971\\
+C & 30 & 2.973226\\
 \hline
 D & 22 & NA\\
 \hline
@@ -4148,21 +4161,21 @@ D & 22 & NA\\
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 1.597864\\
+A & 20 & 1.578561\\
 \hline
-A & 20 & 3.268596\\
+A & 20 & 5.244835\\
 \hline
-B & 19 & 3.328343\\
+B & 19 & 1.134646\\
 \hline
-B & 19 & 6.135786\\
+B & 19 & 3.512635\\
 \hline
-C & 30 & 1.795323\\
+C & 30 & 3.696597\\
 \hline
-C & 30 & 3.028971\\
+C & 30 & 2.973226\\
 \hline
-E & NA & 2.613691\\
+E & NA & 6.752840\\
 \hline
-E & NA & 5.920009\\
+E & NA & 3.890652\\
 \hline
 \end{tabular}
 
@@ -4205,13 +4218,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 1.490870\\
+A & M & 6.050203\\
 \hline
-B & F & 3.699448\\
+B & F & 5.730057\\
 \hline
-A & F & 5.909822\\
+A & F & 6.852557\\
 \hline
-B & M & 5.308534\\
+B & M & 5.804771\\
 \hline
 \end{tabular}
 
@@ -4226,13 +4239,13 @@ B & M & 5.308534\\
 \hline
 ID & Gender & Age & Report\\
 \hline
-A & M & 20 & 1.490870\\
+A & M & 20 & 6.050203\\
 \hline
-B & F & 19 & 3.699448\\
+B & F & 19 & 5.730057\\
 \hline
-A & F & 30 & 5.909822\\
+A & F & 30 & 6.852557\\
 \hline
-B & M & 22 & 5.308534\\
+B & M & 22 & 5.804771\\
 \hline
 \end{tabular}
 
@@ -4275,13 +4288,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 6.218847\\
+A & M & 3.498259\\
 \hline
-B & F & 6.733975\\
+B & F & 1.181585\\
 \hline
-A & F & 3.380977\\
+A & F & 1.798796\\
 \hline
-B & M & 2.273373\\
+B & M & 3.624160\\
 \hline
 \end{tabular}
 
@@ -4296,13 +4309,13 @@ B & M & 2.273373\\
 \hline
 VPCode & Sex & Age & Report\\
 \hline
-A & M & 20 & 6.218847\\
+A & M & 20 & 3.498259\\
 \hline
-B & F & 19 & 6.733975\\
+B & F & 19 & 1.181585\\
 \hline
-A & F & 30 & 3.380977\\
+A & F & 30 & 1.798796\\
 \hline
-B & M & 22 & 2.273373\\
+B & M & 22 & 3.624160\\
 \hline
 \end{tabular}
 
@@ -4360,7 +4373,7 @@ Here is the outline of the analysis:
   Plot average proportion of same responses for adaptation versus persistence. Use points for individual values and add linear regression line via \texttt{geom\_smooth()}. The final plot should look approximately like this:
 \end{itemize}
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-179-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-180-1} \end{center}
 
 Do exercise 1.
 
@@ -4397,7 +4410,7 @@ But, you can put \emph{any} code inside, although, the more code you put, the ha
 \end{verbatim}
 
 So, compute the correlation, glue it into the text and put it as a title of the plot.
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-182-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-183-1.pdf}
 
 Do exercise 2.
 
@@ -4611,13 +4624,13 @@ Now let us take a look at the importance of \texttt{id\_cols}. Imagine that we h
 \hline
 Participant & Face & Property & Response & RT\\
 \hline
-1 & M-1 & Symmetry & 6 & 1.57\\
+1 & M-1 & Symmetry & 6 & 1.97\\
 \hline
-1 & M-1 & Attractiveness & 4 & 1.85\\
+1 & M-1 & Attractiveness & 4 & 0.75\\
 \hline
-1 & M-1 & Trustworthiness & 3 & 0.53\\
+1 & M-1 & Trustworthiness & 3 & 0.84\\
 \hline
-1 & M-2 & Symmetry & 4 & 1.65\\
+1 & M-2 & Symmetry & 4 & 1.86\\
 \hline
 \end{tabular}
 
@@ -4643,13 +4656,13 @@ Now, if we do not specify which columns identify rows that belong together, \tex
 \hline
 Participant & Face & RT & Symmetry & Attractiveness & Trustworthiness\\
 \hline
-1 & M-1 & 1.57 & 6 & NA & NA\\
+1 & M-1 & 1.97 & 6 & NA & NA\\
 \hline
-1 & M-1 & 1.85 & NA & 4 & NA\\
+1 & M-1 & 0.75 & NA & 4 & NA\\
 \hline
-1 & M-1 & 0.53 & NA & NA & 3\\
+1 & M-1 & 0.84 & NA & NA & 3\\
 \hline
-1 & M-2 & 1.65 & 4 & NA & NA\\
+1 & M-2 & 1.86 & 4 & NA & NA\\
 \hline
 \end{tabular}
 
@@ -4739,13 +4752,13 @@ Game & GP02\_03 & 3.5 & 3.7065\\
 
 Now you have a table that has median and MAD values for each combination and item. Plot them to compare them visually. Use median responses for y-value of points and median±MAD for error bars. Use facets and color to make it easier to identify the items and conditions. My take on the plot is below, do you think we should expect to find difference between the conditions?
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-196-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-197-1} \end{center}
 
 Do exercise 1.
 
 Perform similar analysis but do not group data and summarize the data. Instead, use box plots to show the variability. Which visualization do you prefer?
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-197-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-198-1} \end{center}
 
 Do exercise 2.
 
@@ -5548,8 +5561,8 @@ Do exercise 4.
 As I have noted above, loops are particularly useful when you current value depends on a previous one (or many previous values). In the next exercise, use \texttt{for} loop to create a random walk (length 10) starting at value zero with each next step drawn randomly from a normal distribution with mean of 0.5 and standard deviation of 2 (the function you are looking for is \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html}{rnorm()}). You end-produce might look like this
 
 \begin{verbatim}
-##  [1]  0.00000000 -0.04239048 -0.49598556  2.22708492  4.41586848  6.43228799
-##  [7]  9.65947146  8.31322927  8.70401465  8.00545790
+##  [1]  0.0000000 -1.0100328 -1.1418734 -6.0327424 -2.4755220 -0.8595206
+##  [7] -0.9142336 -2.3766192 -1.8725969 -2.1861684
 \end{verbatim}
 
 Do exercise 5.
@@ -5626,9 +5639,9 @@ Let us create a simple 3 by 4 matrix of normally distributed random numbers.
 
 \begin{verbatim}
 ##            [,1]       [,2]       [,3]       [,4]
-## [1,] -0.8986182 -1.3197675  0.6480471  1.5777125
-## [2,] -0.7325772  1.5584275 -0.8968991 -1.7287013
-## [3,]  0.4741966 -0.8491506  0.3828762  0.3685636
+## [1,] -0.5186224 -0.1647257 -0.6337838  0.8207823
+## [2,] -0.2565446  0.8163781 -1.2500688  1.4282484
+## [3,]  0.0279033  0.9599214  0.7325325 -2.3325624
 \end{verbatim}
 
 We would expect median value of any row or column to be 0 but because we have so few data points, they will be close but not exactly zero. Computing median for each row (we should get \emph{three} numbers)
@@ -5640,7 +5653,7 @@ We would expect median value of any row or column to be 0 but because we have so
 \end{Shaded}
 
 \begin{verbatim}
-## [1] -0.1252856 -0.8147382  0.3757199
+## [1] -0.3416741  0.2799167  0.3802179
 \end{verbatim}
 
 Similarly for a column (here, it should be \emph{four} numbers)
@@ -5652,7 +5665,7 @@ Similarly for a column (here, it should be \emph{four} numbers)
 \end{Shaded}
 
 \begin{verbatim}
-## [1] -0.7325772 -0.8491506  0.3828762  0.3685636
+## [1] -0.2565446  0.8163781 -0.6337838  0.8207823
 \end{verbatim}
 
 I will not go into any further details on these functions, concentrating on similar functionality by \protect\hyperlink{purrr}{purrr} package. However, if you find yourself working with matrices or needing to apply a function to rows of a data frame, \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/apply.html}{apply} might be a simpler solution. Keep this option in mind, if you feel that either looping or purrring looks inadequate.
@@ -5758,7 +5771,7 @@ To compute correlation, use function \href{https://stat.ethz.ch/R-manual/R-devel
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.8972143
+## [1] 0.8942383
 \end{verbatim}
 
 Alternatively, you can use \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.test.html}{cor.test()} that also computes test statistics and significance.
@@ -5775,13 +5788,13 @@ Alternatively, you can use \href{https://stat.ethz.ch/R-manual/R-devel/library/s
 ##  Pearson's product-moment correlation
 ## 
 ## data:  df$x and df$y
-## t = 20.113, df = 98, p-value < 2.2e-16
+## t = 19.778, df = 98, p-value < 2.2e-16
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
-##  0.8507173 0.9297784
+##  0.8465041 0.9277093
 ## sample estimates:
 ##       cor 
-## 0.8972143
+## 0.8942383
 \end{verbatim}
 
 \texttt{cor.test} returns a list, so you can access its individual elements\footnote{Use (names()){[}\url{https://stat.ethz.ch/R-manual/R-devel/library/base/html/names.html}{]} function to get names of all elements.} via a double-bracket or \texttt{\$} notation.
@@ -5793,7 +5806,7 @@ Alternatively, you can use \href{https://stat.ethz.ch/R-manual/R-devel/library/s
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 1.457767e-36
+## [1] 5.483606e-36
 \end{verbatim}
 
 Bayesian correlation with a posterior distribution for the correlation coefficient and Bayes Factor as a measure of significance, can be computed via \texttt{correlationBF()} function, which is part of \href{https://richarddmorey.github.io/BayesFactor}{BayesFactor} package.
@@ -5808,7 +5821,7 @@ Bayesian correlation with a posterior distribution for the correlation coefficie
 \begin{verbatim}
 ## Bayes factor analysis
 ## --------------
-## [1] Alt., r=0.333 : 1.274249e+32 ±0%
+## [1] Alt., r=0.333 : 3.679734e+31 ±0%
 ## 
 ## Against denominator:
 ##   Null, rho = 0 
@@ -5825,7 +5838,7 @@ Bayesian correlation with a posterior distribution for the correlation coefficie
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-248-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-249-1.pdf}
 
 \hypertarget{pairwise-comparisons}{%
 \section{Pairwise comparisons}\label{pairwise-comparisons}}
@@ -5841,7 +5854,7 @@ For pairwise comparisons for normally distributed data, you can use Student's t-
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-250-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-251-1.pdf}
 
 You can perform \emph{t-test} assuming that samples in two variables are independent
 
@@ -5979,7 +5992,7 @@ First, let us simulate data for ten participants and their responses, assuming t
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-258-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-259-1.pdf}
 The base R ANOVA function is called \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/aov.html}{aov()}, however, it does not support repeated measures. Instead, you can use function \texttt{anova\_test} from package \href{https://github.com/kassambara/rstatix}{rstatix}
 
 For the \emph{repeated-measures} ANOVA, we need to specify column with identity of participants via parameter \texttt{wid}
@@ -6064,7 +6077,7 @@ where \(\epsilon\) is normally distributed noise.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-263-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-264-1.pdf}
 
 Now let us fit the linear model using formula \texttt{y\ \textasciitilde{}\ x} and use \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/summary.lm.html}{summary()} function to see the details.
 
@@ -6408,10 +6421,10 @@ AAF1997w & experiment & -100 & 4 & 45 & 48 & 0.9375000\\
 \end{tabular}
 
 Let us visualize the performance. Generate a similar looking plot
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-276-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-277-1.pdf}
 
 And an alternative visualization.
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-277-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-278-1.pdf}
 
 The first one, shows an effect of experience (note how performance gets higher for the later blocks), for second one makes it easier to compare between conditions. Here, \texttt{experiment} tends to produce higher accuracy. However, this is just eye-balling the data, we need some actual numbers. For this, we will use Generalized Linear Mixed Model. It is \emph{generalized} because out data is binomial (participants were successful in \texttt{Ncorrect} trials out of \texttt{Ntotal}). It is \emph{linear} because we assume a simple linear sum of individual effects. It is \emph{mixed}, because we will add \texttt{Observer} as a random factor\footnote{The magic machinery underneath will mix ordinary least squares (OLS) estimates for fixed effects with Best Linear Unbiased Predictions (BLUP) for random effects.}. We will also use \texttt{COA} as a factor variable to have a more direct comparison between individual \texttt{COA} levels. Read \href{https://www.rdocumentation.org/packages/lme4/versions/1.1-26/topics/glmer}{documentation} to figure out how you specify the formula and binomial family. You will need to use library \href{https://github.com/lme4/lme4}{lmer4} and I strongly suggest using \texttt{lmer4::glmer()} notation as we will later use \href{}{lmerTest} package, which redefines some functions and it can be hard to figure out function from which package was actually called.
 
@@ -6492,9 +6505,9 @@ AAF1997w & experiment & -100 & 4 & 0.7180001\\
 \hline
 \end{tabular}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-281-1.pdf}
-
 \includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-282-1.pdf}
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-283-1.pdf}
 
 \begin{verbatim}
 ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
@@ -6730,9 +6743,9 @@ AAF1997w & experiment & 100 & 2 & 3281\\
 \hline
 \end{tabular}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-296-1.pdf}
-
 \includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-297-1.pdf}
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-298-1.pdf}
 
 \begin{verbatim}
 ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
@@ -6960,11 +6973,11 @@ HabitNr & Condition & IncongruentFirst & Congruency & RT\\
 
 Let us see how condition and incongruency-order presentation affects our response times.
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-306-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-307-1.pdf}
 
 Participants responses were clearly faster on trials when color and word were incongruent. But to better see the effect of condition, let us replot the data.
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-307-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-308-1.pdf}
 
 Now, we can that some conditions do appear to be different as well. Let us confirm this via statistics. We will use linear mixed models (thus, package \emph{lmerTest}) with \texttt{Condition}, \texttt{IncongruentFirst}, and \texttt{Congruency} as fixed effect and \texttt{HabitNr} (participant ID) as a random factor. We will not look at any interactions although they are most likely of interest for the follow up analysis.
 
@@ -7059,9 +7072,9 @@ HabitNr & Condition & IncongruentFirst & Congruency & Errors\\
 
 Again, let us plot data both ways
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-311-1.pdf}
-
 \includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-312-1.pdf}
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-313-1.pdf}
 
 Plots are very similar to those for response times. So let us perform the statistical analysis. This is a binomial data, so many errors per 120 trials, so use \texttt{glmer()} function (generalized linear mixed model) from \texttt{lme4} package with binomial family.
 
@@ -7213,11 +7226,11 @@ Once you merged two tables by rows (see \href{https://dplyr.tidyverse.org/refere
 
 , let us take a look at the results.
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-319-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-320-1.pdf}
 
 There seems to be clear outliers, so let us drop all values above 1000 (filter inside the ggplot call) and plot again
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-320-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-321-1.pdf}
 
 Well, certainly hard to tell, so no clear and consistent effect. Still, let us do stats via linear mixed models.
 

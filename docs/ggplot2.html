@@ -196,7 +196,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.14" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.14</b> Reading files from other programs</a></li>
 <li class="chapter" data-level="3.15" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.15</b> Wrap up</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>4</b> Functions and pipes</a>
+<li class="chapter" data-level="4" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>4</b> Functions! Functions everywhere!</a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="functions.html"><a href="functions.html#functions-1"><i class="fa fa-check"></i><b>4.1</b> Functions</a></li>
 <li class="chapter" data-level="4.2" data-path="functions.html"><a href="functions.html#writing-a-function"><i class="fa fa-check"></i><b>4.2</b> Writing a function</a></li>
@@ -324,7 +324,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="ggplot2" class="section level1" number="5">
 <h1><span class="header-section-number">Seminar 5</span> Grammar of Graphics</h1>
-<p>In previous seminar, you have learned about tables that are the main way of representing data in psychological research and in R. In the following seminars, you will learn how to manipulate the data in these tables: change it, aggregate or transform individual groups of data, use it for statistical analysis. But before that you need to understand how to store your data in the table in the optimal way. First, I will introduce the idea of <em>tidy data</em>, the concept that gave <a href="https://www.tidyverse.org/">Tidyverse</a> its name. Next, we will see how tidy data helps you visualize relationships between variables. Don’t forget to download the <a href="notebooks/Seminar%2005%20-%20ggplot2.Rmd">notebook</a>.</p>
+<p>In previous chapters, you have learned about tables that are the main way of representing data in psychological research and in R. In the following ones, you will learn how to manipulate data in these tables: change it, aggregate or transform individual groups of data, use it for statistical analysis. But before that you need to understand how to store your data in the table in the optimal way. First, I will introduce the idea of <em>tidy data</em>, the concept that gave <a href="https://www.tidyverse.org/">Tidyverse</a> its name. Next, we will see how tidy data helps you visualize relationships between variables. Don’t forget to download the <a href="notebooks/Seminar%2005%20-%20ggplot2.Rmd">notebook</a>.</p>
 <div id="tidydata" class="section level2" number="5.1">
 <h2><span class="header-section-number">5.1</span> Tidy data</h2>
 <p>The tidy data follows <a href="https://r4ds.had.co.nz/tidy-data.html">three rules</a>:</p>
@@ -425,7 +425,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="header">
 <th align="center">Participant</th>
 <th align="center">Face</th>
-<th align="center">Trustworthiness</th>
 <th align="center">Judgment</th>
 <th align="center">Response</th>
 </tr>
@@ -434,58 +433,74 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="center">1</td>
 <td align="center">M1</td>
-<td align="center">3</td>
 <td align="center">Symmetry</td>
 <td align="center">6</td>
 </tr>
 <tr class="even">
 <td align="center">1</td>
 <td align="center">M1</td>
-<td align="center">3</td>
 <td align="center">Attractiveness</td>
 <td align="center">4</td>
 </tr>
 <tr class="odd">
 <td align="center">1</td>
-<td align="center">M2</td>
-<td align="center">6</td>
-<td align="center">Symmetry</td>
-<td align="center">4</td>
+<td align="center">M1</td>
+<td align="center">Trustworthiness</td>
+<td align="center">3</td>
 </tr>
 <tr class="even">
 <td align="center">1</td>
 <td align="center">M2</td>
-<td align="center">6</td>
+<td align="center">Symmetry</td>
+<td align="center">4</td>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">M2</td>
 <td align="center">Attractiveness</td>
 <td align="center">7</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">M2</td>
+<td align="center">Trustworthiness</td>
+<td align="center">6</td>
 </tr>
 <tr class="odd">
 <td align="center">2</td>
 <td align="center">M1</td>
-<td align="center">1</td>
 <td align="center">Symmetry</td>
 <td align="center">5</td>
 </tr>
 <tr class="even">
 <td align="center">2</td>
 <td align="center">M1</td>
-<td align="center">1</td>
 <td align="center">Attractiveness</td>
 <td align="center">2</td>
 </tr>
 <tr class="odd">
 <td align="center">2</td>
-<td align="center">M2</td>
-<td align="center">2</td>
-<td align="center">Symmetry</td>
-<td align="center">3</td>
+<td align="center">M1</td>
+<td align="center">Trustworthiness</td>
+<td align="center">1</td>
 </tr>
 <tr class="even">
 <td align="center">2</td>
 <td align="center">M2</td>
+<td align="center">Symmetry</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
 <td align="center">2</td>
+<td align="center">M2</td>
 <td align="center">Attractiveness</td>
 <td align="center">7</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">M2</td>
+<td align="center">Trustworthiness</td>
+<td align="center">2</td>
 </tr>
 </tbody>
 </table>
@@ -503,7 +518,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Other properties of the plot (scaling of axes, labels, annotations, etc.) that are <em>added</em> to the plot.</li>
 </ol>
 <p>You always need the first one. But you do not need to specify the other two, even though a plot without geometry in it looks very empty. Let us start with a very simple artificial example table below. I simulate a response as
-<span class="math display">\[Response = Normal(\mu=1, \sigma=0.2) - Normal(\mu=2*ConditionIndex, \sigma=0.4) + Normal(\mu=Intensity, \sigma=0.4)\]</span></p>
+<span class="math display">\[Response = Normal(\mu=1, \sigma=0.2) - \\Normal(\mu=2*ConditionIndex, \sigma=0.4) + \\Normal(\mu=Intensity, \sigma=0.4)\]</span></p>
 <table>
 <thead>
 <tr class="header">
@@ -516,133 +531,133 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">1</td>
-<td align="right">-0.7243943</td>
+<td align="right">0.1844152</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">1</td>
-<td align="right">-2.4923376</td>
+<td align="right">-1.4948864</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">1</td>
-<td align="right">-4.6480378</td>
+<td align="right">-3.6483766</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">2</td>
-<td align="right">-0.9906831</td>
+<td align="right">0.6676233</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">2</td>
-<td align="right">-0.7861101</td>
+<td align="right">-1.2608046</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">2</td>
-<td align="right">-1.8002654</td>
+<td align="right">-2.2957286</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">3</td>
-<td align="right">1.6894674</td>
+<td align="right">3.4340770</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">3</td>
-<td align="right">0.2252514</td>
+<td align="right">-0.3201843</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">3</td>
-<td align="right">-2.0092207</td>
+<td align="right">-1.8592810</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">4</td>
-<td align="right">3.5182598</td>
+<td align="right">3.2006230</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">4</td>
-<td align="right">1.7554323</td>
+<td align="right">0.6417558</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">4</td>
-<td align="right">-0.6699766</td>
+<td align="right">-1.9628187</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">5</td>
-<td align="right">3.8641059</td>
+<td align="right">3.5121536</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">5</td>
-<td align="right">1.9347738</td>
+<td align="right">1.9425337</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">5</td>
-<td align="right">-0.1938341</td>
+<td align="right">-0.2913308</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">6</td>
-<td align="right">5.2278246</td>
+<td align="right">4.3837969</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">6</td>
-<td align="right">1.8684646</td>
+<td align="right">2.9976199</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">6</td>
-<td align="right">0.4652588</td>
+<td align="right">1.0774393</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">7</td>
-<td align="right">5.2899540</td>
+<td align="right">5.4506460</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">7</td>
-<td align="right">4.6193064</td>
+<td align="right">3.8854995</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">7</td>
-<td align="right">1.8242596</td>
+<td align="right">2.3027518</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">8</td>
-<td align="right">7.4428964</td>
+<td align="right">7.2563817</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">8</td>
-<td align="right">5.1350131</td>
+<td align="right">5.8737137</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">8</td>
-<td align="right">2.0639926</td>
+<td align="right">3.5700490</td>
 </tr>
 </tbody>
 </table>
-<p>We plot this data by 1) <em>defining aesthetics</em> (mapping <code>Intensity</code> on to x-axis, <code>Response</code>on y-axis, and <code>Condition</code> on color) and 2) <em>adding</em> lines to the plot (note the plus in <code>+ geom_line()</code>).</p>
+<p>We plot this data by 1) <em>defining aesthetics</em> (mapping <code>Intensity</code> on to x-axis, <code>Response</code>on y-axis, and <code>Condition</code> on color) and 2) <em>adding</em> lines to the plot (note the plus<a href="#fn35" class="footnote-ref" id="fnref35"><sup>35</sup></a> in <code>+ geom_line()</code>).</p>
 <div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="ggplot2.html#cb238-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Intensity, <span class="at">y =</span> Response, <span class="at">color=</span>Condition)) <span class="sc">+</span> </span>
 <span id="cb238-2"><a href="ggplot2.html#cb238-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code></pre></div>
 <p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-116-1.png" width="672" /></p>
-<p>As I already wrote, technically, we only thing you need to define is aesthetics, so let us not add anything to the plot (we drop the <code>+geom_line()</code>).</p>
+<p>As I already wrote, technically, the only thing you need to define is aesthetics, so let us not add anything to the plot (we drop the <code>+geom_line()</code>).</p>
 <div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="ggplot2.html#cb239-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Intensity, <span class="at">y =</span> Response, <span class="at">color=</span>Condition))</span></code></pre></div>
 <p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-117-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>Told you it will look empty and yet you can already see <em>ggplot2</em> in action. Notice that axes are labeled and their limits are set. You cannot see the legend (they are not plotted without corresponding geometry) but it is also ready behind the scenes. This is because our initial call specified the most important part: how the individual variables map on various properties even before we tell <em>ggplot2</em> which visuals we will use to plot the data. When we specified that x-axis will represent the <code>Intensity</code>, ggplot2 figured out the range of values, so it knows <em>where</em> it is going to plot whatever we decide to plot. Points, lines, bar, error bars and what not will span only that range. Same goes for other properties such as color. We wanted <em>color</em> to represent the condition. Again, we may not know what exactly we will be plotting (points, lines?) or even how many different visuals we will be adding to the plot (just lines? points + lines? points + lines + linear fit?) but we do know that whatever visual we add, if it can have color, its color <em>must</em> represent condition for that data point. The beauty of <em>ggplot2</em> is that it analyses your data and figures out how many colors you need and is ready to apply them <em>consistently</em> to all visuals you will add later. It will ensure that all points, bars, lines, etc. will have consistent coordinates scaling, color, size, fill mapping that are the same across the entire plot. This may sound trivial but typically (e.g., Matlab, Matplotlib), it is <em>your</em> job to make sure that all these properties match and that they represent the same value across all visual elements. And this is a pretty tedious job, particularly when you decide to change your mappings and have to redo all individual components by hand. In <em>ggplot2</em>, this dissociation between mapping and visuals means you can tinker with one of them at a time. E.g. keep the visuals but change grouping or see if effect of condition is easier to see via line type, size or shape of the point? Or you can keep the mapping and see whether adding another visual will make the plot easier to understand. Note that some mapping also <em>groups</em> your data, so when you use group-based visual information (e.g., a linear regression line) it will know what data belongs together and so will perform this computation per group.</p>
+<p>Told you it will look empty and yet you can already see <em>ggplot2</em> in action. Notice that axes are labeled and their limits are set. You cannot see the legend (they are not plotted without corresponding geometry) but it is also ready behind the scenes. This is because our initial call specified the most important part: how individual variables map on various properties even before we tell <em>ggplot2</em> which visuals we will use to plot the data. When we specified that x-axis will represent the <code>Intensity</code>, ggplot2 figured out the range of values, so it knows <em>where</em> it is going to plot whatever we decide to plot. Points, lines, bars, error bars and what not will span only that range. Same goes for other properties such as color. We wanted <em>color</em> to represent the condition. Again, we may not know what exactly we will be plotting (points, lines?) or even how many different visuals we will be adding to the plot (just lines? points + lines? points + lines + linear fit?) but we do know that whatever visual we add, if it can have color, its color <em>must</em> represent condition for that data point. The beauty of <em>ggplot2</em> is that it analyses your data and figures out how many colors you need and is ready to apply them <em>consistently</em> to all visuals you will add later. It will ensure that all points, bars, lines, etc. will have consistent coordinates scaling, color, size, fill mapping that are the same across the entire plot. This may sound trivial but typically (e.g., Matlab, Matplotlib), it is <em>your</em> job to make sure that all these properties match and that they represent the same value across all visual elements. And this is a pretty tedious job, particularly when you decide to change your mappings and have to redo all individual components by hand. In <em>ggplot2</em>, this dissociation between mapping and visuals means you can tinker with one of them at a time. E.g. keep the visuals but change grouping or see if effect of condition is easier to see via line type, size or shape of the point? Or you can keep the mapping and see whether adding another visual will make the plot easier to understand. Note that some mapping also <em>groups</em> your data, so when you use group-based visual information (e.g., a linear regression line) it will know what data belongs together and so will perform this computation per group.</p>
 <p>Let us see how you can keep the relationship mapping but add more visuals. Let us add both lines and points.</p>
 <div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="ggplot2.html#cb240-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Intensity, <span class="at">y =</span> Response, <span class="at">color=</span>Condition)) <span class="sc">+</span> </span>
 <span id="cb240-2"><a href="ggplot2.html#cb240-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
@@ -655,7 +670,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb241-4"><a href="ggplot2.html#cb241-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># a linear regression over all dots in the group</span></span>
 <span id="cb241-5"><a href="ggplot2.html#cb241-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">se=</span><span class="cn">FALSE</span>, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) </span></code></pre></div>
 <p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-119-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>Now we added a linear regression line that helps us to better see the relationship between <code>Intensity</code> and <code>Response</code>. Again, we simply wished for another visual to be added (<code>method="lm"</code> means that we wanted to average data via linear regression with <code>formula = y ~ x</code> meaning that we regress y-axis on x-axis with no further covariates, <code>se=FALSE</code> means no standard error stripe, <code>linetype="dashed"</code> just makes it easier to distinguish from the solid data line).</p>
+<p>Now we added a linear regression line that helps us to better see the relationship between <code>Intensity</code> and <code>Response</code>. Again, we simply wished for another visual to be added (<code>method="lm"</code> means that we wanted to average data via linear regression with <code>formula = y ~ x</code> meaning that we regress y-axis on x-axis with no further covariates, <code>se=FALSE</code> means no standard error stripe, <code>linetype="dashed"</code> just makes it easier to distinguish linar fit from the solid data line).</p>
 <p>Or, we can keep the <em>visuals</em> but see whether changing <em>mapping</em> would make it more informative (we need to specify <code>group=Intensity</code> as continuous data is not grouped automatically).</p>
 <div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="ggplot2.html#cb242-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>simple_tidy_data, <span class="fu">aes</span>(<span class="at">x =</span> Condition, <span class="at">y =</span> Response, <span class="at">color=</span>Intensity, <span class="at">group=</span>Intensity)) <span class="sc">+</span> </span>
 <span id="cb242-2"><a href="ggplot2.html#cb242-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
@@ -676,7 +691,7 @@ Again, note that all three plots live on the same scale for x- and y-axis, makin
 <h2><span class="header-section-number">5.3</span> Auto efficiency: continuous x-axis</h2>
 <p>We start by visualizing how car efficiency, measured as miles-per-gallon, is affected by various factors such as production year, size of the engine, type of transmission, etc. The data is in the table <a href="https://ggplot2.tidyverse.org/reference/mpg.html">mpg</a>, which is part of the <em>ggplot2</em> package. Thus, you need to first <a href="tables.html#library">import</a> the library and then load the table via <a href="tables.html#data">data()</a> function. Take a look at the <a href="https://ggplot2.tidyverse.org/reference/mpg.html">table description</a> to familiarize yourself with the variables.</p>
 <p>First, let us look at the relationship between car efficiency in the city cycle (<code>cty</code>), engine displacement (<code>displ</code>), and drive train type (<code>drv</code>) using color points. Reminder, the call should look as</p>
-<pre><code>[ggplot2](https://ggplot2.tidyverse.org/reference/ggplot.html)(data_table_name, [aes](https://ggplot2.tidyverse.org/reference/aes.html)(x = var1, y = var2, color = var3, shape = var4, ...)) + 
+<pre><code>ggplot(data_table_name, [aes](https://ggplot2.tidyverse.org/reference/aes.html)(x = var1, y = var2, color = var3, shape = var4, ...)) + 
   geom_primitive1() + 
   geom_primitive2() +
   ...</code></pre>
@@ -711,7 +726,7 @@ Again, note that all three plots live on the same scale for x- and y-axis, makin
 <div class="infobox practice">
 <p>Do exercise 7.</p>
 </div>
-<p>One problem with the plot is that all points are plotted at the same x-axis location. This means that if two points share the location, they overlap and appear as just one dot. This makes it hard to understand the density: one point can mean one point, or two, or a hundred. A better way to plot such data is by using <a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">box</a> or ]violin](<a href="https://ggplot2.tidyverse.org/reference/geom_violin.html" class="uri">https://ggplot2.tidyverse.org/reference/geom_violin.html</a>) plots. Experiment by using them instead of points.</p>
+<p>One problem with the plot is that all points are plotted at the same x-axis location. This means that if two points share the location, they overlap and appear as just one dot. This makes it hard to understand the density: one point can mean one point, or two, or a hundred. A better way to plot such data is by using <a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">box</a> or <a href="https://ggplot2.tidyverse.org/reference/geom_violin.html">violin</a> plots. Experiment by using them instead of points.</p>
 <div class="infobox practice">
 <p>Do exercise 8.</p>
 </div>
@@ -730,7 +745,7 @@ Again, note that all three plots live on the same scale for x- and y-axis, makin
 <div class="infobox practice">
 <p>Do exercise 11.</p>
 </div>
-<p>Using a histogram gives you exact counts per each bin. However, the appearance may change quite dramatically if you would use fewer or more bins. An alternative way to represent the same information is via <a href="https://ggplot2.tidyverse.org/reference/geom_density.html">smoothed density estimates</a>. They use a sliding window and compute an estimate at each point but also include points <em>around</em> it and weight them according to a kernel (e.g. a Gaussian one). This makes the plot look smoother and will mask sudden jumps in density (counts) as you, effectively, average over many bins. Whether this approach is better for visualizing data depends on the sample you have and message you are trying to get across. It is always worth checking both (just like it is worth checking different number of bins in histogram) to see which way is the best for your specific case.</p>
+<p>Using a histogram gives you exact counts per each bin. However, the appearance may change quite dramatically if you would use fewer or more bins. An alternative way to represent the same information is via <a href="https://ggplot2.tidyverse.org/reference/geom_density.html">smoothed density estimates</a>. They use a sliding window and compute an estimate at each point but also include points <em>around</em> it and weight them according to a kernel (e.g., a Gaussian one). This makes the plot look smoother and will mask sudden jumps in density (counts) as you, effectively, average over many bins. Whether this approach is better for visualizing data depends on the sample you have and message you are trying to get across. It is always worth checking both (just like it is worth checking different number of bins in histogram) to see which way is the best for your specific case.</p>
 <div class="infobox practice">
 <p>Do exercise 12.</p>
 </div>
@@ -784,7 +799,7 @@ Again, note that all three plots live on the same scale for x- and y-axis, makin
 </div>
 <div id="extending-ggplot2" class="section level2" number="5.11">
 <h2><span class="header-section-number">5.11</span> Extending ggplot2</h2>
-<p>There are 80 (as of 19.11.2020) extensions that you find at <a href="https://exts.ggplot2.tidyverse.org/gallery/">ggplot2 website</a>. They add more ways to plot your data, more themes, animated plots, etc. If you feel that <em>ggplot2</em> does not have the geometric primitives you need, take a look at the gallery and, most likely, you will find something that fits your bill.</p>
+<p>There are 102 (as of 21.10.2021) extensions that you find at <a href="https://exts.ggplot2.tidyverse.org/gallery/">ggplot2 website</a>. They add more ways to plot your data, more themes, animated plots, etc. If you feel that <em>ggplot2</em> does not have the geometric primitives you need, take a look at the gallery and, most likely, you will find something that fits your bill.</p>
 <p>One package that is <em>not</em> in the gallery is <a href="https://patchwork.data-imaginist.com/">patchwork</a>. It was created “to make it ridiculously simple to combine separate ggplots into the same graphic.” It is a bold promise but authors do make good on it. It is probably the easiest way to combine multiple plots but you can also consider <a href="https://github.com/wilkelab/cowplot">cowplot</a> and <a href="https://cran.r-project.org/web/packages/gridExtra/index.html">gridExtra</a> packages.</p>
 </div>
 <div id="ggplot2-cannot-do-everything" class="section level2" number="5.12">
@@ -792,6 +807,12 @@ Again, note that all three plots live on the same scale for x- and y-axis, makin
 <p>There are many different plotting routines and packages for R but I would recommend to use <em>ggplot2</em> as your main tool. However, that does not mean that it must be your only tool, after all, CRAN is brimming with packages. In particular, <em>ggplot2</em> is built for plotting data from a single tidy table, meaning it is less optimal for plotting data in other cases. E.g., you can use it to combine information from several tables in one plot but things become less automatic and consistent. Similarly, you can plot data which is stored in non-tidy tables or even in individual vectors but that makes it less intuitive and more convoluted. No package can do everything and <em>ggplot2</em> is no exception.</p>
 
 </div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="35">
+<li id="fn35"><p>One of a potentially confusing bits is usage of <code>+</code> in ggplot2 but of pipe <code>%&gt;%</code> everywhere else. The difference is deliberate and fundamental. Pipe <code>%&gt;%</code> passes the output to the next function, <code>+</code> <em>adds</em> something to the already existing plot.<a href="ggplot2.html#fnref35" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
             </section>
 

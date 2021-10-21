@@ -196,7 +196,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.14" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.14</b> Reading files from other programs</a></li>
 <li class="chapter" data-level="3.15" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.15</b> Wrap up</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>4</b> Functions and pipes</a>
+<li class="chapter" data-level="4" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>4</b> Functions! Functions everywhere!</a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="functions.html"><a href="functions.html#functions-1"><i class="fa fa-check"></i><b>4.1</b> Functions</a></li>
 <li class="chapter" data-level="4.2" data-path="functions.html"><a href="functions.html#writing-a-function"><i class="fa fa-check"></i><b>4.2</b> Writing a function</a></li>
@@ -379,8 +379,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The function to do this is <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a>. It takes a table, which you can pipe to the function and vector of column names that need to be transformed. All <em>column names</em> go to one new column and all the <em>values</em> go to another new column. Defaults names of these two columns are, respectively, <code>"name"</code> and <code>"value"</code> but you can specify something more suitable via, respectively, <code>names_to</code> and <code>values_to</code> parameters. Another</p>
 <p>There are many more bells-and-whistles (name and value transformations, removing a prefix via regular expressions, etc.), so recommend looking at the manual and a <a href="https://tidyr.tidyverse.org/articles/pivot.html">vignette</a>. However, in most cases these for parameters will be all you need, so let us see <code>pivot_longer</code> in action.</p>
 <p>I assume that table presented above is in <code>widish_df</code> table. The columns that we want to transform are <code>Symmetry</code>, <code>Attractiveness</code>, <code>Trustworthiness</code>. Thus, the simplest call with all defaults is</p>
-<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="seminar09.html#cb342-1" aria-hidden="true" tabindex="-1"></a>tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(widish_df, </span>
-<span id="cb342-2"><a href="seminar09.html#cb342-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">cols=</span><span class="fu">c</span>(<span class="st">&quot;Symmetry&quot;</span>, <span class="st">&quot;Attractiveness&quot;</span>, <span class="st">&quot;Trustworthiness&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="seminar09.html#cb340-1" aria-hidden="true" tabindex="-1"></a>tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(widish_df, </span>
+<span id="cb340-2"><a href="seminar09.html#cb340-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">cols=</span><span class="fu">c</span>(<span class="st">&quot;Symmetry&quot;</span>, <span class="st">&quot;Attractiveness&quot;</span>, <span class="st">&quot;Trustworthiness&quot;</span>))</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -465,14 +465,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<p>When you compare the two tables, you will see that original three columns × four rows are now stretched into twelve rows and name-value pairs are consistent across the two tables<a href="#fn45" class="footnote-ref" id="fnref45"><sup>45</sup></a>. As noted above, you can use better names for new columns (I use <a href="https://stat.ethz.ch/R-manual/R-devel/library/utils/html/head.html">head()</a> function to show only first 4 rows to save space, because data is the same):</p>
-<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="seminar09.html#cb343-1" aria-hidden="true" tabindex="-1"></a>longish_df <span class="ot">&lt;-</span> </span>
-<span id="cb343-2"><a href="seminar09.html#cb343-2" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(widish_df, </span>
-<span id="cb343-3"><a href="seminar09.html#cb343-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">cols=</span><span class="fu">c</span>(<span class="st">&quot;Symmetry&quot;</span>, <span class="st">&quot;Attractiveness&quot;</span>, <span class="st">&quot;Trustworthiness&quot;</span>),</span>
-<span id="cb343-4"><a href="seminar09.html#cb343-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">names_to=</span><span class="st">&quot;Property&quot;</span>,</span>
-<span id="cb343-5"><a href="seminar09.html#cb343-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">values_to=</span><span class="st">&quot;Response&quot;</span>)</span>
-<span id="cb343-6"><a href="seminar09.html#cb343-6" aria-hidden="true" tabindex="-1"></a>                      </span>
-<span id="cb343-7"><a href="seminar09.html#cb343-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(longish_df, <span class="dv">4</span>)</span></code></pre></div>
+<p>When you compare the two tables, you will see that original three columns × four rows are now stretched into twelve rows and name-value pairs are consistent across the two tables<a href="#fn47" class="footnote-ref" id="fnref47"><sup>47</sup></a>. As noted above, you can use better names for new columns (I use <a href="https://stat.ethz.ch/R-manual/R-devel/library/utils/html/head.html">head()</a> function to show only first 4 rows to save space, because data is the same):</p>
+<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="seminar09.html#cb341-1" aria-hidden="true" tabindex="-1"></a>longish_df <span class="ot">&lt;-</span> </span>
+<span id="cb341-2"><a href="seminar09.html#cb341-2" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(widish_df, </span>
+<span id="cb341-3"><a href="seminar09.html#cb341-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">cols=</span><span class="fu">c</span>(<span class="st">&quot;Symmetry&quot;</span>, <span class="st">&quot;Attractiveness&quot;</span>, <span class="st">&quot;Trustworthiness&quot;</span>),</span>
+<span id="cb341-4"><a href="seminar09.html#cb341-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">names_to=</span><span class="st">&quot;Property&quot;</span>,</span>
+<span id="cb341-5"><a href="seminar09.html#cb341-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">values_to=</span><span class="st">&quot;Response&quot;</span>)</span>
+<span id="cb341-6"><a href="seminar09.html#cb341-6" aria-hidden="true" tabindex="-1"></a>                      </span>
+<span id="cb341-7"><a href="seminar09.html#cb341-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(longish_df, <span class="dv">4</span>)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -510,9 +510,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>You also can go from long to wide representation via <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a> function. The logic is reverse, you need to specify which columns <em>identify</em> different rows that belong together (that one is optional), which columns contain column names and which contain their values. For our example table the names of the columns are in the column <code>Property</code> and values are in <code>Response</code>. But what about columns that identify the rows that belong together? In our case, these are <code>Participant</code> and <code>Face</code>, so all rows from a <em>long</em> table that have same combination of <code>Participant</code> and <code>Face</code> values should be merged together into a single row. If you do not explicitly specify <code>id_cols</code>, then by default, <em>all other remaining columns</em> are used to identify which rows belong together. This is irrelevant in this toy example, as <code>Participant</code> and <code>Face</code> is all we have left anyhow but I will show you how things can get confusing and how to overcome this below.</p>
-<p>So, let us undo our previous wide-to-long transformation<a href="#fn46" class="footnote-ref" id="fnref46"><sup>46</sup></a></p>
-<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="seminar09.html#cb344-1" aria-hidden="true" tabindex="-1"></a>longish_df <span class="sc">%&gt;%</span></span>
-<span id="cb344-2"><a href="seminar09.html#cb344-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">&quot;Property&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Response&quot;</span>)</span></code></pre></div>
+<p>So, let us undo our previous wide-to-long transformation<a href="#fn48" class="footnote-ref" id="fnref48"><sup>48</sup></a></p>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="seminar09.html#cb342-1" aria-hidden="true" tabindex="-1"></a>longish_df <span class="sc">%&gt;%</span></span>
+<span id="cb342-2"><a href="seminar09.html#cb342-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">&quot;Property&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Response&quot;</span>)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -572,38 +572,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">M-1</td>
 <td align="left">Symmetry</td>
 <td align="right">6</td>
-<td align="right">1.36</td>
+<td align="right">0.50</td>
 </tr>
 <tr class="even">
 <td align="right">1</td>
 <td align="left">M-1</td>
 <td align="left">Attractiveness</td>
 <td align="right">4</td>
-<td align="right">1.48</td>
+<td align="right">0.92</td>
 </tr>
 <tr class="odd">
 <td align="right">1</td>
 <td align="left">M-1</td>
 <td align="left">Trustworthiness</td>
 <td align="right">3</td>
-<td align="right">1.70</td>
+<td align="right">1.96</td>
 </tr>
 <tr class="even">
 <td align="right">1</td>
 <td align="left">M-2</td>
 <td align="left">Symmetry</td>
 <td align="right">4</td>
-<td align="right">0.83</td>
+<td align="right">0.21</td>
 </tr>
 </tbody>
 </table>
 <p>Now, if we do not specify which columns identify rows that belong together, <code>RT</code> will be used as well. But, because it is different for every response, each row in the original table will be unique. Now we have a weird looking table</p>
-<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="seminar09.html#cb345-1" aria-hidden="true" tabindex="-1"></a>longish_df_rt <span class="sc">%&gt;%</span></span>
-<span id="cb345-2"><a href="seminar09.html#cb345-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">&quot;Property&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Response&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="seminar09.html#cb346-1" aria-hidden="true" tabindex="-1"></a>longish_df_rt <span class="sc">%&gt;%</span></span>
-<span id="cb346-2"><a href="seminar09.html#cb346-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">&quot;Property&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Response&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb346-3"><a href="seminar09.html#cb346-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">4</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb346-4"><a href="seminar09.html#cb346-4" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="seminar09.html#cb343-1" aria-hidden="true" tabindex="-1"></a>longish_df_rt <span class="sc">%&gt;%</span></span>
+<span id="cb343-2"><a href="seminar09.html#cb343-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">&quot;Property&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Response&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="seminar09.html#cb344-1" aria-hidden="true" tabindex="-1"></a>longish_df_rt <span class="sc">%&gt;%</span></span>
+<span id="cb344-2"><a href="seminar09.html#cb344-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">&quot;Property&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Response&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb344-3"><a href="seminar09.html#cb344-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">4</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb344-4"><a href="seminar09.html#cb344-4" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -619,7 +619,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="right">1</td>
 <td align="left">M-1</td>
-<td align="right">1.36</td>
+<td align="right">0.50</td>
 <td align="right">6</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
@@ -627,7 +627,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="even">
 <td align="right">1</td>
 <td align="left">M-1</td>
-<td align="right">1.48</td>
+<td align="right">0.92</td>
 <td align="right">NA</td>
 <td align="right">4</td>
 <td align="right">NA</td>
@@ -635,7 +635,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="right">1</td>
 <td align="left">M-1</td>
-<td align="right">1.70</td>
+<td align="right">1.96</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">3</td>
@@ -643,7 +643,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="even">
 <td align="right">1</td>
 <td align="left">M-2</td>
-<td align="right">0.83</td>
+<td align="right">0.21</td>
 <td align="right">4</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
@@ -651,12 +651,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>To remedy that, we need to specify id columns explicitly, so that <code>pivot_wider()</code> can ignore and drop the rest:</p>
-<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="seminar09.html#cb347-1" aria-hidden="true" tabindex="-1"></a>longish_df_rt <span class="sc">%&gt;%</span></span>
-<span id="cb347-2"><a href="seminar09.html#cb347-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">id_cols =</span> <span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>, <span class="st">&quot;Face&quot;</span>), <span class="at">names_from =</span> <span class="st">&quot;Property&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Response&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="seminar09.html#cb348-1" aria-hidden="true" tabindex="-1"></a>longish_df_rt <span class="sc">%&gt;%</span></span>
-<span id="cb348-2"><a href="seminar09.html#cb348-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">id_cols =</span> <span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>, <span class="st">&quot;Face&quot;</span>), <span class="at">names_from =</span> <span class="st">&quot;Property&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Response&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb348-3"><a href="seminar09.html#cb348-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">4</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb348-4"><a href="seminar09.html#cb348-4" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="seminar09.html#cb345-1" aria-hidden="true" tabindex="-1"></a>longish_df_rt <span class="sc">%&gt;%</span></span>
+<span id="cb345-2"><a href="seminar09.html#cb345-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">id_cols =</span> <span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>, <span class="st">&quot;Face&quot;</span>), <span class="at">names_from =</span> <span class="st">&quot;Property&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Response&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="seminar09.html#cb346-1" aria-hidden="true" tabindex="-1"></a>longish_df_rt <span class="sc">%&gt;%</span></span>
+<span id="cb346-2"><a href="seminar09.html#cb346-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">id_cols =</span> <span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>, <span class="st">&quot;Face&quot;</span>), <span class="at">names_from =</span> <span class="st">&quot;Property&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Response&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb346-3"><a href="seminar09.html#cb346-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">4</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb346-4"><a href="seminar09.html#cb346-4" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -789,12 +789,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>Now you have a table that has median and MAD values for each combination and item. Plot them to compare them visually. Use median responses for y-value of points and median±MAD for error bars. Use facets and color to make it easier to identify the items and conditions. My take on the plot is below, do you think we should expect to find difference between the conditions?
-<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-196-1.png" width="672" style="display: block; margin: auto;" /></p>
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-197-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div class="infobox practice">
 <p>Do exercise 1.</p>
 </div>
 <p>Perform similar analysis but do not group data and summarize the data. Instead, use box plots to show the variability. Which visualization do you prefer?</p>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-197-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-198-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div class="infobox practice">
 <p>Do exercise 2.</p>
 </div>
@@ -960,8 +960,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="separate" class="section level2" number="9.5">
 <h2><span class="header-section-number">9.5</span> Separate</h2>
 <p>Use of <a href="https://tidyr.tidyverse.org/reference/separate.html">separate()</a> functions is generally straightforward: you pass the name of the column that you want to split, names of the columns it needs to be split into, a separator symbol or indexes of splitting positions. Examples using the face table should make it clear. Reminder, this is the original wide table and we want to separate <code>Face</code> into <code>FaceGender</code> and <code>FaceIndex</code>.</p>
-<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="seminar09.html#cb349-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
-<span id="cb349-2"><a href="seminar09.html#cb349-2" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="seminar09.html#cb347-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
+<span id="cb347-2"><a href="seminar09.html#cb347-2" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1004,8 +1004,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>As there is a very convenient “dash” between the two, we can use it for a separator symbol:</p>
-<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="seminar09.html#cb350-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
-<span id="cb350-2"><a href="seminar09.html#cb350-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;FaceGender&quot;</span>, <span class="st">&quot;FaceIndex&quot;</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="seminar09.html#cb348-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
+<span id="cb348-2"><a href="seminar09.html#cb348-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;FaceGender&quot;</span>, <span class="st">&quot;FaceIndex&quot;</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1053,8 +1053,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>Note that the original <code>Face</code> column is gone. We can keep it via <code>remove=FALSE</code> option</p>
-<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="seminar09.html#cb351-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
-<span id="cb351-2"><a href="seminar09.html#cb351-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;FaceGender&quot;</span>, <span class="st">&quot;FaceIndex&quot;</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>, <span class="at">remove=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="seminar09.html#cb349-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
+<span id="cb349-2"><a href="seminar09.html#cb349-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;FaceGender&quot;</span>, <span class="st">&quot;FaceIndex&quot;</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>, <span class="at">remove=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1107,8 +1107,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>We also do not need to extract <em>all</em> information. For example, we can extract only face gender or face index. To get only the gender, we only specify <em>one</em> <code>into</code> column and add <code>extra="drop"</code> parameter, telling <code>separate()</code> to drop any extra piece it obtained:</p>
-<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="seminar09.html#cb352-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
-<span id="cb352-2"><a href="seminar09.html#cb352-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;Gender&quot;</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>, <span class="at">remove=</span><span class="cn">FALSE</span>, <span class="at">extra=</span><span class="st">&quot;drop&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="seminar09.html#cb350-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
+<span id="cb350-2"><a href="seminar09.html#cb350-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;Gender&quot;</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>, <span class="at">remove=</span><span class="cn">FALSE</span>, <span class="at">extra=</span><span class="st">&quot;drop&quot;</span>)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1156,11 +1156,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>Alternatively, we can explicitly <em>ignore</em> pieces by using <code>NA</code> for their column name:</p>
-<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="seminar09.html#cb353-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
-<span id="cb353-2"><a href="seminar09.html#cb353-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;Gender&quot;</span>, <span class="cn">NA</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>, <span class="at">remove=</span><span class="cn">FALSE</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="seminar09.html#cb354-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
-<span id="cb354-2"><a href="seminar09.html#cb354-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;Gender&quot;</span>, <span class="cn">NA</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>, <span class="at">remove=</span><span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb354-3"><a href="seminar09.html#cb354-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="seminar09.html#cb351-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
+<span id="cb351-2"><a href="seminar09.html#cb351-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;Gender&quot;</span>, <span class="cn">NA</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>, <span class="at">remove=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="seminar09.html#cb352-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
+<span id="cb352-2"><a href="seminar09.html#cb352-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;Gender&quot;</span>, <span class="cn">NA</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>, <span class="at">remove=</span><span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb352-3"><a href="seminar09.html#cb352-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1208,11 +1208,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>What about keeping only the <em>second</em> piece in a <code>FaceIndex</code> column? We ignore the first one via <code>NA</code></p>
-<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="seminar09.html#cb355-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
-<span id="cb355-2"><a href="seminar09.html#cb355-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="cn">NA</span>, <span class="st">&quot;Index&quot;</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>, <span class="at">remove=</span><span class="cn">FALSE</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="seminar09.html#cb356-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
-<span id="cb356-2"><a href="seminar09.html#cb356-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="cn">NA</span>, <span class="st">&quot;Index&quot;</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>, <span class="at">remove=</span><span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb356-3"><a href="seminar09.html#cb356-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="seminar09.html#cb353-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
+<span id="cb353-2"><a href="seminar09.html#cb353-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="cn">NA</span>, <span class="st">&quot;Index&quot;</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>, <span class="at">remove=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="seminar09.html#cb354-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
+<span id="cb354-2"><a href="seminar09.html#cb354-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="cn">NA</span>, <span class="st">&quot;Index&quot;</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>, <span class="at">remove=</span><span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb354-3"><a href="seminar09.html#cb354-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1402,11 +1402,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>For our toy faces table, the first piece is the gender and the last one is its index. Thus, we tell <code>separate()</code> starting position each pieces, starting with the <em>second</em> one:</p>
-<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="seminar09.html#cb357-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
-<span id="cb357-2"><a href="seminar09.html#cb357-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;FaceGender&quot;</span>, <span class="st">&quot;Dash&quot;</span>, <span class="st">&quot;FaceIndex&quot;</span>), <span class="at">sep=</span><span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">7</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="seminar09.html#cb358-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
-<span id="cb358-2"><a href="seminar09.html#cb358-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;FaceGender&quot;</span>, <span class="st">&quot;Dash&quot;</span>, <span class="st">&quot;FaceIndex&quot;</span>), <span class="at">sep=</span><span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">7</span>), <span class="at">remove=</span><span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb358-3"><a href="seminar09.html#cb358-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="seminar09.html#cb355-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
+<span id="cb355-2"><a href="seminar09.html#cb355-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;FaceGender&quot;</span>, <span class="st">&quot;Dash&quot;</span>, <span class="st">&quot;FaceIndex&quot;</span>), <span class="at">sep=</span><span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">7</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="seminar09.html#cb356-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
+<span id="cb356-2"><a href="seminar09.html#cb356-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;FaceGender&quot;</span>, <span class="st">&quot;Dash&quot;</span>, <span class="st">&quot;FaceIndex&quot;</span>), <span class="at">sep=</span><span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">7</span>), <span class="at">remove=</span><span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb356-3"><a href="seminar09.html#cb356-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <colgroup>
 <col width="13%" />
@@ -1474,11 +1474,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>Here, I’ve create <code>Dash</code> column for the separator but, of course, I could have omitted it via <code>NA</code> column name.</p>
-<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="seminar09.html#cb359-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
-<span id="cb359-2"><a href="seminar09.html#cb359-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;FaceGender&quot;</span>, <span class="cn">NA</span>, <span class="st">&quot;FaceIndex&quot;</span>), <span class="at">sep=</span><span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="seminar09.html#cb360-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
-<span id="cb360-2"><a href="seminar09.html#cb360-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;FaceGender&quot;</span>, <span class="cn">NA</span>, <span class="st">&quot;FaceIndex&quot;</span>), <span class="at">sep=</span><span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">7</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb360-3"><a href="seminar09.html#cb360-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="seminar09.html#cb357-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
+<span id="cb357-2"><a href="seminar09.html#cb357-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;FaceGender&quot;</span>, <span class="cn">NA</span>, <span class="st">&quot;FaceIndex&quot;</span>), <span class="at">sep=</span><span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="seminar09.html#cb358-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
+<span id="cb358-2"><a href="seminar09.html#cb358-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;FaceGender&quot;</span>, <span class="cn">NA</span>, <span class="st">&quot;FaceIndex&quot;</span>), <span class="at">sep=</span><span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">7</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb358-3"><a href="seminar09.html#cb358-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1671,8 +1671,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>We can complete that table</p>
-<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="seminar09.html#cb361-1" aria-hidden="true" tabindex="-1"></a>incomplete_df <span class="sc">%&gt;%</span></span>
-<span id="cb361-2"><a href="seminar09.html#cb361-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">complete</span>(Participant, Face)</span></code></pre></div>
+<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="seminar09.html#cb359-1" aria-hidden="true" tabindex="-1"></a>incomplete_df <span class="sc">%&gt;%</span></span>
+<span id="cb359-2"><a href="seminar09.html#cb359-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">complete</span>(Participant, Face)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1714,7 +1714,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<p>We could also supply default values via <code>fill</code> parameter that takes a named list<a href="#fn47" class="footnote-ref" id="fnref47"><sup>47</sup></a> <code>list(column_name = default_value)</code>:</p>
+<p>We could also supply default values via <code>fill</code> parameter that takes a named list<a href="#fn49" class="footnote-ref" id="fnref49"><sup>49</sup></a> <code>list(column_name = default_value)</code>:</p>
 <table>
 <thead>
 <tr class="header">
@@ -1800,7 +1800,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>First, we can ensure only complete cases</p>
-<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="seminar09.html#cb362-1" aria-hidden="true" tabindex="-1"></a><span class="fu">na.omit</span>(widish_df_with_NA)</span></code></pre></div>
+<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="seminar09.html#cb360-1" aria-hidden="true" tabindex="-1"></a><span class="fu">na.omit</span>(widish_df_with_NA)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1828,8 +1828,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="seminar09.html#cb363-1" aria-hidden="true" tabindex="-1"></a>widish_df_with_NA <span class="sc">%&gt;%</span></span>
-<span id="cb363-2"><a href="seminar09.html#cb363-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="seminar09.html#cb361-1" aria-hidden="true" tabindex="-1"></a>widish_df_with_NA <span class="sc">%&gt;%</span></span>
+<span id="cb361-2"><a href="seminar09.html#cb361-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1858,8 +1858,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>Second, we drop rows only if <code>Attractiveness</code> data is missing.</p>
-<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="seminar09.html#cb364-1" aria-hidden="true" tabindex="-1"></a>widish_df_with_NA <span class="sc">%&gt;%</span></span>
-<span id="cb364-2"><a href="seminar09.html#cb364-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(Attractiveness)</span></code></pre></div>
+<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="seminar09.html#cb362-1" aria-hidden="true" tabindex="-1"></a>widish_df_with_NA <span class="sc">%&gt;%</span></span>
+<span id="cb362-2"><a href="seminar09.html#cb362-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(Attractiveness)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1906,10 +1906,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="infobox practice">
 <p>Do exercise 9.</p>
 </div>
-<p>As noted above, you can also impute values. The simplest strategy is to use either a fixed or an average (mean, median, etc.) value. <em>tidyr</em> function that performs a simple substitution is <a href="https://tidyr.tidyverse.org/reference/replace_na.html">replace_na()</a><a href="#fn48" class="footnote-ref" id="fnref48"><sup>48</sup></a> and, as a second parameter, it takes a named list of values <code>list(column_name = value_for_NA)</code>. For our toy table, we can replace missing <code>Attractiveness</code> and <code>Symmetry</code> values with some default value, e.g. <code>0</code> and <code>-1</code> (this is very arbitrary, just to demonstrate how it works!)</p>
-<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="seminar09.html#cb365-1" aria-hidden="true" tabindex="-1"></a>widish_df_with_NA <span class="sc">%&gt;%</span></span>
-<span id="cb365-2"><a href="seminar09.html#cb365-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">replace_na</span>(<span class="fu">list</span>(<span class="at">Attractiveness =</span> <span class="dv">0</span>, <span class="at">Symmetry =</span> <span class="sc">-</span><span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb365-3"><a href="seminar09.html#cb365-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<p>As noted above, you can also impute values. The simplest strategy is to use either a fixed or an average (mean, median, etc.) value. <em>tidyr</em> function that performs a simple substitution is <a href="https://tidyr.tidyverse.org/reference/replace_na.html">replace_na()</a><a href="#fn50" class="footnote-ref" id="fnref50"><sup>50</sup></a> and, as a second parameter, it takes a named list of values <code>list(column_name = value_for_NA)</code>. For our toy table, we can replace missing <code>Attractiveness</code> and <code>Symmetry</code> values with some default value, e.g. <code>0</code> and <code>-1</code> (this is very arbitrary, just to demonstrate how it works!)</p>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="seminar09.html#cb363-1" aria-hidden="true" tabindex="-1"></a>widish_df_with_NA <span class="sc">%&gt;%</span></span>
+<span id="cb363-2"><a href="seminar09.html#cb363-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">replace_na</span>(<span class="fu">list</span>(<span class="at">Attractiveness =</span> <span class="dv">0</span>, <span class="at">Symmetry =</span> <span class="sc">-</span><span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb363-3"><a href="seminar09.html#cb363-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1951,13 +1951,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<p>Unfortunately, <code>replace_na()</code> works only with constant values and does not handle grouped tables very well<a href="#fn49" class="footnote-ref" id="fnref49"><sup>49</sup></a> So to replace an <code>NA</code> with a mean value of a grouped data, we need to combine some of our old knowledge with an <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/ifelse.html">ifelse(conditon, value_if_true, value_if_false)</a> function. Here is how it works to replace all negative values in a vector with a <code>0</code> and all non-negative with <code>1</code>:</p>
-<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="seminar09.html#cb366-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">5</span>)</span>
-<span id="cb366-2"><a href="seminar09.html#cb366-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ifelse</span>(v <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
+<p>Unfortunately, <code>replace_na()</code> works only with constant values and does not handle grouped tables very well<a href="#fn51" class="footnote-ref" id="fnref51"><sup>51</sup></a> So to replace an <code>NA</code> with a mean value of a grouped data, we need to combine some of our old knowledge with an <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/ifelse.html">ifelse(conditon, value_if_true, value_if_false)</a> function. Here is how it works to replace all negative values in a vector with a <code>0</code> and all non-negative with <code>1</code>:</p>
+<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="seminar09.html#cb364-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">5</span>)</span>
+<span id="cb364-2"><a href="seminar09.html#cb364-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ifelse</span>(v <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## [1] 0 1 1 0 1</code></pre>
 <p>It works <em>per element</em> and you can use original values themselves. Here is how to replace only negative values but keep the positive ones:</p>
-<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="seminar09.html#cb368-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">5</span>)</span>
-<span id="cb368-2"><a href="seminar09.html#cb368-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ifelse</span>(v <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="dv">0</span>, v)</span></code></pre></div>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="seminar09.html#cb366-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">5</span>)</span>
+<span id="cb366-2"><a href="seminar09.html#cb366-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ifelse</span>(v <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="dv">0</span>, v)</span></code></pre></div>
 <pre><code>## [1] 0 3 5 0 5</code></pre>
 <p>We, essentially, tell the function, “if the condition is false, use the original value.” Now, your turn! Using the same vector and <code>ifelse()</code> function, replace negative values with a <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Extremes.html">maximal</a> value of the vector. I know it is <code>5</code> but you cannot hardcode it, that’s the point of the exercise!</p>
 <div class="infobox practice">
@@ -2072,12 +2072,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div class="footnotes">
 <hr />
-<ol start="45">
-<li id="fn45"><p>By the way, this simple math check may seem as a trivial point but this is a kind of simple sanity check that you should perform routinely. This way you <em>know</em> rather than <em>hope</em> that transformation did what it should. I also check value is a few rows to make sure that I didn’t mess things up. Catching simple errors early saves you a lot of time!<a href="seminar09.html#fnref45" class="footnote-back">↩︎</a></p></li>
-<li id="fn46"><p>I used table as an explicit first argument for <code>pivot_longer()</code> but piped it to <code>pivot_wider()</code>, why? To remind you that these two ways are the interchangeable and that both put the table as a parameter into the function.<a href="seminar09.html#fnref46" class="footnote-back">↩︎</a></p></li>
-<li id="fn47"><p>Lists are like vectors that you know but they can hold values of any type without auto-converting them. <code>data.frame</code> is a list, tibble is a list, most of things that are not a vector are lists.<a href="seminar09.html#fnref47" class="footnote-back">↩︎</a></p></li>
-<li id="fn48"><p>There is also an inverse function <a href="https://dplyr.tidyverse.org/reference/na_if.html">na_if()</a> that converts a specific value to an <code>NA</code>.<a href="seminar09.html#fnref48" class="footnote-back">↩︎</a></p></li>
-<li id="fn49"><p>At least I wasn’t able to figure out how to do this.<a href="seminar09.html#fnref49" class="footnote-back">↩︎</a></p></li>
+<ol start="47">
+<li id="fn47"><p>By the way, this simple math check may seem as a trivial point but this is a kind of simple sanity check that you should perform routinely. This way you <em>know</em> rather than <em>hope</em> that transformation did what it should. I also check value is a few rows to make sure that I didn’t mess things up. Catching simple errors early saves you a lot of time!<a href="seminar09.html#fnref47" class="footnote-back">↩︎</a></p></li>
+<li id="fn48"><p>I used table as an explicit first argument for <code>pivot_longer()</code> but piped it to <code>pivot_wider()</code>, why? To remind you that these two ways are the interchangeable and that both put the table as a parameter into the function.<a href="seminar09.html#fnref48" class="footnote-back">↩︎</a></p></li>
+<li id="fn49"><p>Lists are like vectors that you know but they can hold values of any type without auto-converting them. <code>data.frame</code> is a list, tibble is a list, most of things that are not a vector are lists.<a href="seminar09.html#fnref49" class="footnote-back">↩︎</a></p></li>
+<li id="fn50"><p>There is also an inverse function <a href="https://dplyr.tidyverse.org/reference/na_if.html">na_if()</a> that converts a specific value to an <code>NA</code>.<a href="seminar09.html#fnref50" class="footnote-back">↩︎</a></p></li>
+<li id="fn51"><p>At least I wasn’t able to figure out how to do this.<a href="seminar09.html#fnref51" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

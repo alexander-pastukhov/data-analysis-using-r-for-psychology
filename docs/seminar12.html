@@ -196,7 +196,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.14" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.14</b> Reading files from other programs</a></li>
 <li class="chapter" data-level="3.15" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.15</b> Wrap up</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>4</b> Functions and pipes</a>
+<li class="chapter" data-level="4" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>4</b> Functions! Functions everywhere!</a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="functions.html"><a href="functions.html#functions-1"><i class="fa fa-check"></i><b>4.1</b> Functions</a></li>
 <li class="chapter" data-level="4.2" data-path="functions.html"><a href="functions.html#writing-a-function"><i class="fa fa-check"></i><b>4.2</b> Writing a function</a></li>
@@ -964,9 +964,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>Let us see how condition and incongruency-order presentation affects our response times.</p>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-306-1.png" width="672" /></p>
-<p>Participants responses were clearly faster on trials when color and word were incongruent. But to better see the effect of condition, let us replot the data.</p>
 <p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-307-1.png" width="672" /></p>
+<p>Participants responses were clearly faster on trials when color and word were incongruent. But to better see the effect of condition, let us replot the data.</p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-308-1.png" width="672" /></p>
 <p>Now, we can that some conditions do appear to be different as well. Let us confirm this via statistics. We will use linear mixed models (thus, package <em>lmerTest</em>) with <code>Condition</code>, <code>IncongruentFirst</code>, and <code>Congruency</code> as fixed effect and <code>HabitNr</code> (participant ID) as a random factor. We will not look at any interactions although they are most likely of interest for the follow up analysis.</p>
 <pre><code>## boundary (singular) fit: see ?isSingular</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
@@ -1084,8 +1084,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>Again, let us plot data both ways</p>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-311-1.png" width="672" /></p>
 <p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-312-1.png" width="672" /></p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-313-1.png" width="672" /></p>
 <p>Plots are very similar to those for response times. So let us perform the statistical analysis. This is a binomial data, so many errors per 120 trials, so use <code>glmer()</code> function (generalized linear mixed model) from <code>lme4</code> package with binomial family.</p>
 <pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
 ##   Approximation) [glmerMod]
@@ -1534,9 +1534,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 <p>Once you merged two tables by rows (see <a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows()</a>).</p>
 <p>, let us take a look at the results.</p>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-319-1.png" width="672" /></p>
-<p>There seems to be clear outliers, so let us drop all values above 1000 (filter inside the ggplot call) and plot again</p>
 <p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-320-1.png" width="672" /></p>
+<p>There seems to be clear outliers, so let us drop all values above 1000 (filter inside the ggplot call) and plot again</p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-321-1.png" width="672" /></p>
 <p>Well, certainly hard to tell, so no clear and consistent effect. Still, let us do stats via linear mixed models.</p>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
@@ -1606,6 +1606,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </div>
 </div>
+
+
 
 
 

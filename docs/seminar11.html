@@ -196,7 +196,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.14" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.14</b> Reading files from other programs</a></li>
 <li class="chapter" data-level="3.15" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.15</b> Wrap up</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>4</b> Functions and pipes</a>
+<li class="chapter" data-level="4" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>4</b> Functions! Functions everywhere!</a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="functions.html"><a href="functions.html#functions-1"><i class="fa fa-check"></i><b>4.1</b> Functions</a></li>
 <li class="chapter" data-level="4.2" data-path="functions.html"><a href="functions.html#writing-a-function"><i class="fa fa-check"></i><b>4.2</b> Writing a function</a></li>
@@ -324,72 +324,72 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="seminar11" class="section level1" number="11">
 <h1><span class="header-section-number">Seminar 11</span> Statistical modeling</h1>
-<p>I suspect that this is a seminar that you were waiting for the most as it finally tells you how to call statistical functions in R. However, from my perspective, it is the least useful seminar in the entire course because if you know statistics and you know which specific tool you need, figuring out how to use it in R is fairly trivial. Conversely, if your knowledge of statistics is approximate, knowing how to call functions will do you little good. The catch about statistical models is that they are very easy to run (even if you implement them by hand from scratch) but they are easy to misuse and very hard to interpret<a href="#fn52" class="footnote-ref" id="fnref52"><sup>52</sup></a>.</p>
+<p>I suspect that this is a seminar that you were waiting for the most as it finally tells you how to call statistical functions in R. However, from my perspective, it is the least useful seminar in the entire course because if you know statistics and you know which specific tool you need, figuring out how to use it in R is fairly trivial. Conversely, if your knowledge of statistics is approximate, knowing how to call functions will do you little good. The catch about statistical models is that they are very easy to run (even if you implement them by hand from scratch) but they are easy to misuse and very hard to interpret<a href="#fn54" class="footnote-ref" id="fnref54"><sup>54</sup></a>.</p>
 <p>To make things worse, computers and algorithms do not care. In absolute majority of cases, statistical models will happily accept any input you provide, even if it is completely unsuitable, and spit out numbers. Unfortunately, it is on you, not on the computer, to know what you are doing and whether results even make sense. The only solution to this problem: do not spare any effort to learn statistics. Having a solid understanding of a basic regression analysis will help you in figuring out which statistical tools are applicable and, even more importantly, which will definitely misguide you. This is why I will give an general overview with some examples simulations but I will not explain here when and why you should use a particular tool or how to interpret the outputs. Want to know more? Attend my <strong>Statistical Rethinking</strong> seminar or read an excellent <a href="https://www.routledge.com/Statistical-Rethinking-A-Bayesian-Course-with-Examples-in-R-and-STAN/McElreath/p/book/9780367139919">book</a> by Richard McElreath that the seminar is based on.</p>
 <div id="formula-notation" class="section level2" number="11.1">
 <h2><span class="header-section-number">11.1</span> Formula notation</h2>
 <p>Using statistical models in R is particularly easy because most packages make use of a <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html">formula</a> to describe a model. Different functions and packages interpret the formula <em>mostly</em> the same way with differences arising due to how random effects or additional parameters are described. Here is an example of a formula:</p>
-<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb403-1"><a href="seminar11.html#cb403-1" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x1<span class="sc">:</span>x2</span></code></pre></div>
+<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="seminar11.html#cb401-1" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x1<span class="sc">:</span>x2</span></code></pre></div>
 <p>It says that the outcome variable <code>y</code> should be a modeled as a linear combination of an intercept <code>1</code> (can be omitted in a formula), predictor variables <code>x1</code> and <code>x2</code>, plus their interaction <code>x1:x2</code>. This also assume that all these variables are in a single table that you also supply to the function (typically called <code>data</code> parameter). Same formula can be shortened by using <code>*</code> which means “all predictors and their interaction,” thus (omitting redundant intercept)</p>
-<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb404-1"><a href="seminar11.html#cb404-1" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x1<span class="sc">*</span>x2</span></code></pre></div>
+<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb402-1"><a href="seminar11.html#cb402-1" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x1<span class="sc">*</span>x2</span></code></pre></div>
 <p>You can also <em>exclude</em> specific terms via <code>-</code>. So, if you insist that the intercept <em>must</em> go through 0, you write “exclude intercept term” as <code>-1</code></p>
-<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb405-1"><a href="seminar11.html#cb405-1" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x1<span class="sc">*</span>x2 <span class="sc">-</span> <span class="dv">1</span></span></code></pre></div>
+<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb403-1"><a href="seminar11.html#cb403-1" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x1<span class="sc">*</span>x2 <span class="sc">-</span> <span class="dv">1</span></span></code></pre></div>
 <p>Or you can exclude a specific term or an interaction. The two formulas below are equivalent with a main effect for <code>x2</code> and an interaction term but no main effect for <code>x1</code>. However, I would generally discourage you from using <code>-</code> as the first formula is much harder to understand (or, much easier to misunderstand).</p>
-<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb406-1"><a href="seminar11.html#cb406-1" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x1<span class="sc">*</span>x2 <span class="sc">-</span> x1</span>
-<span id="cb406-2"><a href="seminar11.html#cb406-2" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x2 <span class="sc">+</span> x1<span class="sc">:</span>x2</span></code></pre></div>
+<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb404-1"><a href="seminar11.html#cb404-1" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x1<span class="sc">*</span>x2 <span class="sc">-</span> x1</span>
+<span id="cb404-2"><a href="seminar11.html#cb404-2" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x2 <span class="sc">+</span> x1<span class="sc">:</span>x2</span></code></pre></div>
 </div>
 <div id="correlation" class="section level2" number="11.2">
 <h2><span class="header-section-number">11.2</span> Correlation</h2>
 <p>To compute correlation, use function <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.html">cor()</a>. You have a choice of <code>method</code>, either <code>"pearson"</code> (default, Pearson’s product moment correlation coefficient), or rank-based <code>"kendall"</code> (Kendall’s tau) or <code>"spearman"</code> (Spearman’s rho).</p>
-<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="seminar11.html#cb407-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> </span>
-<span id="cb407-2"><a href="seminar11.html#cb407-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb407-3"><a href="seminar11.html#cb407-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">y =</span> <span class="fu">rnorm</span>(<span class="fu">n</span>(), x, <span class="fl">0.5</span>))</span>
-<span id="cb407-4"><a href="seminar11.html#cb407-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y, <span class="at">method=</span><span class="st">&quot;pearson&quot;</span>)</span></code></pre></div>
-<pre><code>## [1] 0.857697</code></pre>
+<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb405-1"><a href="seminar11.html#cb405-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> </span>
+<span id="cb405-2"><a href="seminar11.html#cb405-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb405-3"><a href="seminar11.html#cb405-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">y =</span> <span class="fu">rnorm</span>(<span class="fu">n</span>(), x, <span class="fl">0.5</span>))</span>
+<span id="cb405-4"><a href="seminar11.html#cb405-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y, <span class="at">method=</span><span class="st">&quot;pearson&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] 0.9230494</code></pre>
 <p>Alternatively, you can use <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.test.html">cor.test()</a> that also computes test statistics and significance.</p>
-<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb409-1"><a href="seminar11.html#cb409-1" aria-hidden="true" tabindex="-1"></a>cor_result <span class="ot">&lt;-</span> <span class="fu">cor.test</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y, <span class="at">method=</span><span class="st">&quot;pearson&quot;</span>)</span>
-<span id="cb409-2"><a href="seminar11.html#cb409-2" aria-hidden="true" tabindex="-1"></a>cor_result</span></code></pre></div>
+<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="seminar11.html#cb407-1" aria-hidden="true" tabindex="-1"></a>cor_result <span class="ot">&lt;-</span> <span class="fu">cor.test</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y, <span class="at">method=</span><span class="st">&quot;pearson&quot;</span>)</span>
+<span id="cb407-2"><a href="seminar11.html#cb407-2" aria-hidden="true" tabindex="-1"></a>cor_result</span></code></pre></div>
 <pre><code>## 
 ##  Pearson&#39;s product-moment correlation
 ## 
 ## data:  df$x and df$y
-## t = 16.514, df = 98, p-value &lt; 2.2e-16
+## t = 23.754, df = 98, p-value &lt; 2.2e-16
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
-##  0.795253 0.902135
+##  0.8875467 0.9476543
 ## sample estimates:
-##      cor 
-## 0.857697</code></pre>
-<p><code>cor.test</code> returns a list, so you can access its individual elements<a href="#fn53" class="footnote-ref" id="fnref53"><sup>53</sup></a> via a double-bracket or <code>$</code> notation.</p>
-<div class="sourceCode" id="cb411"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb411-1"><a href="seminar11.html#cb411-1" aria-hidden="true" tabindex="-1"></a>cor_result<span class="sc">$</span>p.value</span></code></pre></div>
-<pre><code>## [1] 4.545612e-30</code></pre>
+##       cor 
+## 0.9230494</code></pre>
+<p><code>cor.test</code> returns a list, so you can access its individual elements<a href="#fn55" class="footnote-ref" id="fnref55"><sup>55</sup></a> via a double-bracket or <code>$</code> notation.</p>
+<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb409-1"><a href="seminar11.html#cb409-1" aria-hidden="true" tabindex="-1"></a>cor_result<span class="sc">$</span>p.value</span></code></pre></div>
+<pre><code>## [1] 1.901801e-42</code></pre>
 <p>Bayesian correlation with a posterior distribution for the correlation coefficient and Bayes Factor as a measure of significance, can be computed via <code>correlationBF()</code> function, which is part of <a href="https://richarddmorey.github.io/BayesFactor">BayesFactor</a> package.</p>
-<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="seminar11.html#cb413-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(BayesFactor)</span>
-<span id="cb413-2"><a href="seminar11.html#cb413-2" aria-hidden="true" tabindex="-1"></a><span class="fu">correlationBF</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y)</span></code></pre></div>
+<div class="sourceCode" id="cb411"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb411-1"><a href="seminar11.html#cb411-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(BayesFactor)</span>
+<span id="cb411-2"><a href="seminar11.html#cb411-2" aria-hidden="true" tabindex="-1"></a><span class="fu">correlationBF</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y)</span></code></pre></div>
 <pre><code>## Bayes factor analysis
 ## --------------
-## [1] Alt., r=0.333 : 1.044637e+26 ±0%
+## [1] Alt., r=0.333 : 4.203305e+37 ±0%
 ## 
 ## Against denominator:
 ##   Null, rho = 0 
 ## ---
 ## Bayes factor type: BFcorrelation, Jeffreys-beta*</code></pre>
-<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="seminar11.html#cb415-1" aria-hidden="true" tabindex="-1"></a>cor_bf <span class="ot">&lt;-</span> <span class="fu">correlationBF</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y, <span class="at">posterior =</span> <span class="cn">TRUE</span>, <span class="at">iterations=</span><span class="dv">1000</span>)</span>
-<span id="cb415-2"><a href="seminar11.html#cb415-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span><span class="cn">NULL</span>, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">c</span>(cor_bf[, <span class="st">&quot;rho&quot;</span>]))) <span class="sc">+</span> </span>
-<span id="cb415-3"><a href="seminar11.html#cb415-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">50</span>, ) <span class="sc">+</span> </span>
-<span id="cb415-4"><a href="seminar11.html#cb415-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Pearson&#39;s rho&quot;</span>)</span></code></pre></div>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-248-1.png" width="672" /></p>
+<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="seminar11.html#cb413-1" aria-hidden="true" tabindex="-1"></a>cor_bf <span class="ot">&lt;-</span> <span class="fu">correlationBF</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y, <span class="at">posterior =</span> <span class="cn">TRUE</span>, <span class="at">iterations=</span><span class="dv">1000</span>)</span>
+<span id="cb413-2"><a href="seminar11.html#cb413-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span><span class="cn">NULL</span>, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">c</span>(cor_bf[, <span class="st">&quot;rho&quot;</span>]))) <span class="sc">+</span> </span>
+<span id="cb413-3"><a href="seminar11.html#cb413-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">50</span>, ) <span class="sc">+</span> </span>
+<span id="cb413-4"><a href="seminar11.html#cb413-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Pearson&#39;s rho&quot;</span>)</span></code></pre></div>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-249-1.png" width="672" /></p>
 </div>
 <div id="pairwise-comparisons" class="section level2" number="11.3">
 <h2><span class="header-section-number">11.3</span> Pairwise comparisons</h2>
 <p>For pairwise comparisons for normally distributed data, you can use Student’s t-Test via <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/t.test.html">t.test()</a>. Here, I generate to <code>x</code> as a normally distributed normal variable and <code>y</code>, as a normally distributed variable random whose mean is <code>x+0.5</code>. I am using library <a href="https://github.com/eclarke/ggbeeswarm">ggbeeswarm</a> to generate the nicely looking cloud of dots.</p>
-<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb416-1"><a href="seminar11.html#cb416-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">14454</span>)</span>
-<span id="cb416-2"><a href="seminar11.html#cb416-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> </span>
-<span id="cb416-3"><a href="seminar11.html#cb416-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">1</span>, <span class="at">sd =</span> <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb416-4"><a href="seminar11.html#cb416-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">y =</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> x <span class="sc">+</span> <span class="fl">0.3</span>, <span class="at">sd =</span> <span class="dv">1</span>))</span></code></pre></div>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-250-1.png" width="672" /></p>
+<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb414-1"><a href="seminar11.html#cb414-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">14454</span>)</span>
+<span id="cb414-2"><a href="seminar11.html#cb414-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> </span>
+<span id="cb414-3"><a href="seminar11.html#cb414-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">1</span>, <span class="at">sd =</span> <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb414-4"><a href="seminar11.html#cb414-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">y =</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> x <span class="sc">+</span> <span class="fl">0.3</span>, <span class="at">sd =</span> <span class="dv">1</span>))</span></code></pre></div>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-251-1.png" width="672" /></p>
 <p>You can perform <em>t-test</em> assuming that samples in two variables are independent</p>
-<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="seminar11.html#cb417-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y, <span class="at">paired =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="seminar11.html#cb415-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y, <span class="at">paired =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
@@ -402,7 +402,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## mean of x mean of y 
 ##  1.018298  1.337780</code></pre>
 <p>Or, that they are paired, i.e., repeated-measures design (note the change in estimates, statistics, and significance).</p>
-<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb419-1"><a href="seminar11.html#cb419-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="seminar11.html#cb417-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## 
 ##  Paired t-test
 ## 
@@ -415,9 +415,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## mean of the differences 
 ##              -0.3194818</code></pre>
 <p>You can also use formula notation, if one variable describes grouping</p>
-<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="seminar11.html#cb421-1" aria-hidden="true" tabindex="-1"></a>df_group <span class="ot">&lt;-</span></span>
-<span id="cb421-2"><a href="seminar11.html#cb421-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">c</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y),</span>
-<span id="cb421-3"><a href="seminar11.html#cb421-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">group =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;A&quot;</span>, <span class="dv">100</span>), <span class="fu">rep</span>(<span class="st">&quot;B&quot;</span>, <span class="dv">100</span>))))</span></code></pre></div>
+<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb419-1"><a href="seminar11.html#cb419-1" aria-hidden="true" tabindex="-1"></a>df_group <span class="ot">&lt;-</span></span>
+<span id="cb419-2"><a href="seminar11.html#cb419-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">c</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y),</span>
+<span id="cb419-3"><a href="seminar11.html#cb419-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">group =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;A&quot;</span>, <span class="dv">100</span>), <span class="fu">rep</span>(<span class="st">&quot;B&quot;</span>, <span class="dv">100</span>))))</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -444,7 +444,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="seminar11.html#cb422-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x <span class="sc">~</span> group, <span class="at">data=</span>df_group, <span class="at">paired=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb420-1"><a href="seminar11.html#cb420-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x <span class="sc">~</span> group, <span class="at">data=</span>df_group, <span class="at">paired=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## 
 ##  Paired t-test
 ## 
@@ -457,8 +457,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## mean of the differences 
 ##              -0.3194818</code></pre>
 <p>A Bayesian version is provided via <code>ttestBF()</code> function, which is part of the <a href="https://richarddmorey.github.io/BayesFactor">BayesFactor</a> package.</p>
-<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb424-1"><a href="seminar11.html#cb424-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(BayesFactor)</span>
-<span id="cb424-2"><a href="seminar11.html#cb424-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ttestBF</span>(<span class="at">x =</span> df<span class="sc">$</span>x, <span class="at">y=</span>df<span class="sc">$</span>y, <span class="at">paired=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="seminar11.html#cb422-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(BayesFactor)</span>
+<span id="cb422-2"><a href="seminar11.html#cb422-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ttestBF</span>(<span class="at">x =</span> df<span class="sc">$</span>x, <span class="at">y=</span>df<span class="sc">$</span>y, <span class="at">paired=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## Bayes factor analysis
 ## --------------
 ## [1] Alt., r=0.707 : 19.27724 ±0%
@@ -472,34 +472,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="anova" class="section level2" number="11.4">
 <h2><span class="header-section-number">11.4</span> ANOVA</h2>
 <p><strong>AN</strong>alysis <strong>O</strong>f <strong>VA</strong>riance is probably the most widely used analysis in social sciences. However, I would strongly suggest considering <a href="seminar11.html#GLMM">generalized linear mixed models</a> instead. Unlike ANOVA they can work when residuals are not normally distributed (binomial, count, Likert-scale ordered categorical, proportions data, etc.), they can tolerate missing values, and they tend to overfit less (their results are likely to better generalize to future data) by assuming that individual participants are more average than they appear in the raw data (so-called shrinkage).</p>
-<p>First, let us simulate data for ten participants and their responses, assuming that condition <code>B</code> increases their responses by 2 (arbitrary) units and <code>C</code> by 3<a href="#fn54" class="footnote-ref" id="fnref54"><sup>54</sup></a>.</p>
-<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="seminar11.html#cb426-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">519264</span>)</span>
-<span id="cb426-2"><a href="seminar11.html#cb426-2" aria-hidden="true" tabindex="-1"></a>df_anova <span class="ot">&lt;-</span></span>
-<span id="cb426-3"><a href="seminar11.html#cb426-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># generate ten participants with five trials per condition</span></span>
-<span id="cb426-4"><a href="seminar11.html#cb426-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_grid</span>(<span class="at">Participant  =</span> <span class="fu">factor</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>),</span>
-<span id="cb426-5"><a href="seminar11.html#cb426-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">Condition =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;A&quot;</span>, <span class="dv">3</span>), <span class="fu">rep</span>(<span class="st">&quot;B&quot;</span>, <span class="dv">3</span>), <span class="fu">rep</span>(<span class="st">&quot;C&quot;</span>, <span class="dv">3</span>)))) <span class="sc">%&gt;%</span></span>
-<span id="cb426-6"><a href="seminar11.html#cb426-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb426-7"><a href="seminar11.html#cb426-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># decide on a SINGLE baseline (intercept) for each participant</span></span>
-<span id="cb426-8"><a href="seminar11.html#cb426-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Participant) <span class="sc">%&gt;%</span></span>
-<span id="cb426-9"><a href="seminar11.html#cb426-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Intercept =</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="fl">2.5</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb426-10"><a href="seminar11.html#cb426-10" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb426-11"><a href="seminar11.html#cb426-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># simulate normally distributed responses, assuming that are 3 units higher for condition &quot;B&quot;</span></span>
-<span id="cb426-12"><a href="seminar11.html#cb426-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb426-13"><a href="seminar11.html#cb426-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Response =</span> <span class="fu">rnorm</span>(<span class="fu">n</span>(), Intercept <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">as.integer</span>(Condition <span class="sc">==</span> <span class="st">&quot;B&quot;</span>) <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> <span class="fu">as.integer</span>(Condition <span class="sc">==</span> <span class="st">&quot;C&quot;</span>), <span class="fl">1.5</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb426-14"><a href="seminar11.html#cb426-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>Intercept)</span></code></pre></div>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-258-1.png" width="672" />
+<p>First, let us simulate data for ten participants and their responses, assuming that condition <code>B</code> increases their responses by 2 (arbitrary) units and <code>C</code> by 3<a href="#fn56" class="footnote-ref" id="fnref56"><sup>56</sup></a>.</p>
+<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb424-1"><a href="seminar11.html#cb424-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">519264</span>)</span>
+<span id="cb424-2"><a href="seminar11.html#cb424-2" aria-hidden="true" tabindex="-1"></a>df_anova <span class="ot">&lt;-</span></span>
+<span id="cb424-3"><a href="seminar11.html#cb424-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># generate ten participants with five trials per condition</span></span>
+<span id="cb424-4"><a href="seminar11.html#cb424-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_grid</span>(<span class="at">Participant  =</span> <span class="fu">factor</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>),</span>
+<span id="cb424-5"><a href="seminar11.html#cb424-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">Condition =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;A&quot;</span>, <span class="dv">3</span>), <span class="fu">rep</span>(<span class="st">&quot;B&quot;</span>, <span class="dv">3</span>), <span class="fu">rep</span>(<span class="st">&quot;C&quot;</span>, <span class="dv">3</span>)))) <span class="sc">%&gt;%</span></span>
+<span id="cb424-6"><a href="seminar11.html#cb424-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb424-7"><a href="seminar11.html#cb424-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># decide on a SINGLE baseline (intercept) for each participant</span></span>
+<span id="cb424-8"><a href="seminar11.html#cb424-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Participant) <span class="sc">%&gt;%</span></span>
+<span id="cb424-9"><a href="seminar11.html#cb424-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Intercept =</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="fl">2.5</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb424-10"><a href="seminar11.html#cb424-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb424-11"><a href="seminar11.html#cb424-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># simulate normally distributed responses, assuming that are 3 units higher for condition &quot;B&quot;</span></span>
+<span id="cb424-12"><a href="seminar11.html#cb424-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb424-13"><a href="seminar11.html#cb424-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Response =</span> <span class="fu">rnorm</span>(<span class="fu">n</span>(), Intercept <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">as.integer</span>(Condition <span class="sc">==</span> <span class="st">&quot;B&quot;</span>) <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> <span class="fu">as.integer</span>(Condition <span class="sc">==</span> <span class="st">&quot;C&quot;</span>), <span class="fl">1.5</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb424-14"><a href="seminar11.html#cb424-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>Intercept)</span></code></pre></div>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-259-1.png" width="672" />
 The base R ANOVA function is called <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/aov.html">aov()</a>, however, it does not support repeated measures. Instead, you can use function <code>anova_test</code> from package <a href="https://github.com/kassambara/rstatix">rstatix</a></p>
 <p>For the <em>repeated-measures</em> ANOVA, we need to specify column with identity of participants via parameter <code>wid</code></p>
-<div class="sourceCode" id="cb427"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb427-1"><a href="seminar11.html#cb427-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstatix)</span>
-<span id="cb427-2"><a href="seminar11.html#cb427-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova_test</span>(<span class="at">data=</span>df_anova, Response <span class="sc">~</span> Condition, <span class="at">wid=</span>Participant)</span></code></pre></div>
+<div class="sourceCode" id="cb425"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb425-1"><a href="seminar11.html#cb425-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstatix)</span>
+<span id="cb425-2"><a href="seminar11.html#cb425-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova_test</span>(<span class="at">data=</span>df_anova, Response <span class="sc">~</span> Condition, <span class="at">wid=</span>Participant)</span></code></pre></div>
 <pre><code>## ANOVA Table (type II tests)
 ## 
 ##      Effect DFn DFd     F     p p&lt;.05   ges
 ## 1 Condition   2  87 7.418 0.001     * 0.146</code></pre>
 <p>You can perform various pairwise post-hoc tests, e.g. Tukey</p>
-<div class="sourceCode" id="cb429"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb429-1"><a href="seminar11.html#cb429-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tukey_hsd</span>(df_anova, Response <span class="sc">~</span> Condition)</span></code></pre></div>
-<div class="sourceCode" id="cb430"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb430-1"><a href="seminar11.html#cb430-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tukey_hsd</span>(df_anova, Response <span class="sc">~</span> Condition) <span class="sc">%&gt;%</span></span>
-<span id="cb430-2"><a href="seminar11.html#cb430-2" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb427"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb427-1"><a href="seminar11.html#cb427-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tukey_hsd</span>(df_anova, Response <span class="sc">~</span> Condition)</span></code></pre></div>
+<div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb428-1"><a href="seminar11.html#cb428-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tukey_hsd</span>(df_anova, Response <span class="sc">~</span> Condition) <span class="sc">%&gt;%</span></span>
+<span id="cb428-2"><a href="seminar11.html#cb428-2" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -552,7 +552,7 @@ The base R ANOVA function is called <a href="https://stat.ethz.ch/R-manual/R-dev
 </table>
 <p>A Bayesian ANOVA with posterior distributions for individual coefficients and significance via Bayes Factor can be performed
 via <code>anovaBF</code> function from <a href="https://richarddmorey.github.io/BayesFactor">BayesFactor</a> package.</p>
-<div class="sourceCode" id="cb431"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb431-1"><a href="seminar11.html#cb431-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anovaBF</span>(Response <span class="sc">~</span> Condition <span class="sc">+</span> Participant, <span class="at">whichRandom=</span><span class="st">&quot;Participant&quot;</span>, <span class="at">data=</span><span class="fu">data.frame</span>(df_anova))</span></code></pre></div>
+<div class="sourceCode" id="cb429"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb429-1"><a href="seminar11.html#cb429-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anovaBF</span>(Response <span class="sc">~</span> Condition <span class="sc">+</span> Participant, <span class="at">whichRandom=</span><span class="st">&quot;Participant&quot;</span>, <span class="at">data=</span><span class="fu">data.frame</span>(df_anova))</span></code></pre></div>
 <pre><code>## Bayes factor analysis
 ## --------------
 ## [1] Condition + Participant : 55450.04 ±0.85%
@@ -569,13 +569,13 @@ via <code>anovaBF</code> function from <a href="https://richarddmorey.github.io/
 <p>Let us generate a simple linear dependence between two parameters and see how <code>lm()</code> will infer the dependence. Our formula will be
 <span class="math display">\[ y = 20 + 4 * x + \epsilon\]</span>
 where <span class="math inline">\(\epsilon\)</span> is normally distributed noise.</p>
-<div class="sourceCode" id="cb433"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb433-1"><a href="seminar11.html#cb433-1" aria-hidden="true" tabindex="-1"></a>df_lm <span class="ot">&lt;-</span></span>
-<span id="cb433-2"><a href="seminar11.html#cb433-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb433-3"><a href="seminar11.html#cb433-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">y =</span> <span class="fu">rnorm</span>(<span class="fu">n</span>(), <span class="dv">20</span> <span class="sc">+</span> <span class="dv">4</span> <span class="sc">*</span> x, <span class="dv">50</span>))</span></code></pre></div>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-263-1.png" width="672" /></p>
+<div class="sourceCode" id="cb431"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb431-1"><a href="seminar11.html#cb431-1" aria-hidden="true" tabindex="-1"></a>df_lm <span class="ot">&lt;-</span></span>
+<span id="cb431-2"><a href="seminar11.html#cb431-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb431-3"><a href="seminar11.html#cb431-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">y =</span> <span class="fu">rnorm</span>(<span class="fu">n</span>(), <span class="dv">20</span> <span class="sc">+</span> <span class="dv">4</span> <span class="sc">*</span> x, <span class="dv">50</span>))</span></code></pre></div>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-264-1.png" width="672" /></p>
 <p>Now let us fit the linear model using formula <code>y ~ x</code> and use <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/summary.lm.html">summary()</a> function to see the details.</p>
-<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb434-1"><a href="seminar11.html#cb434-1" aria-hidden="true" tabindex="-1"></a>lm_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">data=</span>df_lm)</span>
-<span id="cb434-2"><a href="seminar11.html#cb434-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm_fit)</span></code></pre></div>
+<div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb432-1"><a href="seminar11.html#cb432-1" aria-hidden="true" tabindex="-1"></a>lm_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">data=</span>df_lm)</span>
+<span id="cb432-2"><a href="seminar11.html#cb432-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm_fit)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = y ~ x, data = df_lm)
@@ -595,8 +595,8 @@ where <span class="math inline">\(\epsilon\)</span> is normally distributed nois
 ## Multiple R-squared:  0.8726, Adjusted R-squared:  0.8713 
 ## F-statistic: 671.1 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>As you can see, values for both intercept and the slope are very close to our original design. If you need to extract information about individual coefficients, I recommend <code>tidy()</code> function from <a href="https://github.com/tidymodels/broom">broom</a> package that returns information about the model in a “tidy” format:</p>
-<div class="sourceCode" id="cb436"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb436-1"><a href="seminar11.html#cb436-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
-<span id="cb436-2"><a href="seminar11.html#cb436-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lm_fit)</span></code></pre></div>
+<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb434-1"><a href="seminar11.html#cb434-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb434-2"><a href="seminar11.html#cb434-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lm_fit)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -627,10 +627,10 @@ where <span class="math inline">\(\epsilon\)</span> is normally distributed nois
 </div>
 <div id="generalized-linear-mixed-models" class="section level2" number="11.6">
 <h2><span class="header-section-number">11.6</span> (Generalized) Linear Mixed Models</h2>
-<p>Generalized linear mixed models allow you to incorporate information about random factors into the model. One of the most popular packages in R is <a href="https://github.com/lme4/lme4">lme4</a>. Let us use LMM on data we generated for ANOVA. Here, we specify that we would like to have individual slopes for each participants via <code>(1|Participant)</code> notation<a href="#fn55" class="footnote-ref" id="fnref55"><sup>55</sup></a>.</p>
-<div class="sourceCode" id="cb437"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb437-1"><a href="seminar11.html#cb437-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
-<span id="cb437-2"><a href="seminar11.html#cb437-2" aria-hidden="true" tabindex="-1"></a>lmer_fit <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Response <span class="sc">~</span> Condition <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Participant), <span class="at">data=</span>df_anova)</span>
-<span id="cb437-3"><a href="seminar11.html#cb437-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lmer_fit)</span></code></pre></div>
+<p>Generalized linear mixed models allow you to incorporate information about random factors into the model. One of the most popular packages in R is <a href="https://github.com/lme4/lme4">lme4</a>. Let us use LMM on data we generated for ANOVA. Here, we specify that we would like to have individual slopes for each participants via <code>(1|Participant)</code> notation<a href="#fn57" class="footnote-ref" id="fnref57"><sup>57</sup></a>.</p>
+<div class="sourceCode" id="cb435"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb435-1"><a href="seminar11.html#cb435-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb435-2"><a href="seminar11.html#cb435-2" aria-hidden="true" tabindex="-1"></a>lmer_fit <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Response <span class="sc">~</span> Condition <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Participant), <span class="at">data=</span>df_anova)</span>
+<span id="cb435-3"><a href="seminar11.html#cb435-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lmer_fit)</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
 ## Formula: Response ~ Condition + (1 | Participant)
 ##    Data: df_anova
@@ -658,8 +658,8 @@ where <span class="math inline">\(\epsilon\)</span> is normally distributed nois
 ## ConditionB -0.292       
 ## ConditionC -0.292  0.500</code></pre>
 <p>To get tidy summary you need to use function <code>tidy</code> but from <a href="https://github.com/bbolker/broom.mixed">broom.mixed</a></p>
-<div class="sourceCode" id="cb439"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb439-1"><a href="seminar11.html#cb439-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom.mixed)</span>
-<span id="cb439-2"><a href="seminar11.html#cb439-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lmer_fit)</span></code></pre></div>
+<div class="sourceCode" id="cb437"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb437-1"><a href="seminar11.html#cb437-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom.mixed)</span>
+<span id="cb437-2"><a href="seminar11.html#cb437-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lmer_fit)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -714,10 +714,10 @@ where <span class="math inline">\(\epsilon\)</span> is normally distributed nois
 </tr>
 </tbody>
 </table>
-<p>To also get information about formal statistical significance, you can use an extension package <a href="https://github.com/runehaubo/lmerTestR">lmerTest</a><a href="#fn56" class="footnote-ref" id="fnref56"><sup>56</sup></a>.</p>
-<div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb440-1"><a href="seminar11.html#cb440-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmerTest)</span>
-<span id="cb440-2"><a href="seminar11.html#cb440-2" aria-hidden="true" tabindex="-1"></a>lmert_fit <span class="ot">&lt;-</span> lmerTest<span class="sc">::</span><span class="fu">lmer</span>(Response <span class="sc">~</span> Condition <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Participant), <span class="at">data=</span>df_anova)</span>
-<span id="cb440-3"><a href="seminar11.html#cb440-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lmert_fit)</span></code></pre></div>
+<p>To also get information about formal statistical significance, you can use an extension package <a href="https://github.com/runehaubo/lmerTestR">lmerTest</a><a href="#fn58" class="footnote-ref" id="fnref58"><sup>58</sup></a>.</p>
+<div class="sourceCode" id="cb438"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb438-1"><a href="seminar11.html#cb438-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmerTest)</span>
+<span id="cb438-2"><a href="seminar11.html#cb438-2" aria-hidden="true" tabindex="-1"></a>lmert_fit <span class="ot">&lt;-</span> lmerTest<span class="sc">::</span><span class="fu">lmer</span>(Response <span class="sc">~</span> Condition <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Participant), <span class="at">data=</span>df_anova)</span>
+<span id="cb438-3"><a href="seminar11.html#cb438-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lmert_fit)</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: Response ~ Condition + (1 | Participant)
@@ -748,7 +748,7 @@ where <span class="math inline">\(\epsilon\)</span> is normally distributed nois
 ## ConditionB -0.292       
 ## ConditionC -0.292  0.500</code></pre>
 <p>Again, we can use <code>tidy</code> to get coefficients information in a single table.</p>
-<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb442-1"><a href="seminar11.html#cb442-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lmert_fit)</span></code></pre></div>
+<div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb440-1"><a href="seminar11.html#cb440-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lmert_fit)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -816,7 +816,7 @@ where <span class="math inline">\(\epsilon\)</span> is normally distributed nois
 </tbody>
 </table>
 <p>Note that <code>lmer()</code> functions provide information about difference of each condition to the baseline (condition <code>A</code>) not no ANOVA-style significance for the “overall” effect of condition. For this, you can use function <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/add1.html">drop1</a>, which test for a variable significance by dropping it from a model and checking whether it performed significantly worse <em>without</em> it.</p>
-<div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb443-1"><a href="seminar11.html#cb443-1" aria-hidden="true" tabindex="-1"></a><span class="fu">drop1</span>(lmert_fit)</span></code></pre></div>
+<div class="sourceCode" id="cb441"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb441-1"><a href="seminar11.html#cb441-1" aria-hidden="true" tabindex="-1"></a><span class="fu">drop1</span>(lmert_fit)</span></code></pre></div>
 <pre><code>## Single term deletions using Satterthwaite&#39;s method:
 ## 
 ## Model:
@@ -1164,10 +1164,10 @@ function that allows you to specify the delimiter via <code>delim</code> paramet
 </tbody>
 </table>
 <p>Let us visualize the performance. Generate a similar looking plot
-<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-276-1.png" width="672" /></p>
-<p>And an alternative visualization.
 <img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-277-1.png" width="672" /></p>
-<p>The first one, shows an effect of experience (note how performance gets higher for the later blocks), for second one makes it easier to compare between conditions. Here, <code>experiment</code> tends to produce higher accuracy. However, this is just eye-balling the data, we need some actual numbers. For this, we will use Generalized Linear Mixed Model. It is <em>generalized</em> because out data is binomial (participants were successful in <code>Ncorrect</code> trials out of <code>Ntotal</code>). It is <em>linear</em> because we assume a simple linear sum of individual effects. It is <em>mixed</em>, because we will add <code>Observer</code> as a random factor<a href="#fn57" class="footnote-ref" id="fnref57"><sup>57</sup></a>. We will also use <code>COA</code> as a factor variable to have a more direct comparison between individual <code>COA</code> levels. Read <a href="https://www.rdocumentation.org/packages/lme4/versions/1.1-26/topics/glmer">documentation</a> to figure out how you specify the formula and binomial family. You will need to use library <a href="https://github.com/lme4/lme4">lmer4</a> and I strongly suggest using <code>lmer4::glmer()</code> notation as we will later use <a href="">lmerTest</a> package, which redefines some functions and it can be hard to figure out function from which package was actually called.</p>
+<p>And an alternative visualization.
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-278-1.png" width="672" /></p>
+<p>The first one, shows an effect of experience (note how performance gets higher for the later blocks), for second one makes it easier to compare between conditions. Here, <code>experiment</code> tends to produce higher accuracy. However, this is just eye-balling the data, we need some actual numbers. For this, we will use Generalized Linear Mixed Model. It is <em>generalized</em> because out data is binomial (participants were successful in <code>Ncorrect</code> trials out of <code>Ntotal</code>). It is <em>linear</em> because we assume a simple linear sum of individual effects. It is <em>mixed</em>, because we will add <code>Observer</code> as a random factor<a href="#fn59" class="footnote-ref" id="fnref59"><sup>59</sup></a>. We will also use <code>COA</code> as a factor variable to have a more direct comparison between individual <code>COA</code> levels. Read <a href="https://www.rdocumentation.org/packages/lme4/versions/1.1-26/topics/glmer">documentation</a> to figure out how you specify the formula and binomial family. You will need to use library <a href="https://github.com/lme4/lme4">lmer4</a> and I strongly suggest using <code>lmer4::glmer()</code> notation as we will later use <a href="">lmerTest</a> package, which redefines some functions and it can be hard to figure out function from which package was actually called.</p>
 <p>The summary output of the model should look like this.</p>
 <pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
 ##   Approximation) [glmerMod]
@@ -1262,8 +1262,8 @@ function that allows you to specify the delimiter via <code>delim</code> paramet
 </tr>
 </tbody>
 </table>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-281-1.png" width="672" /></p>
 <p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-282-1.png" width="672" /></p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-283-1.png" width="672" /></p>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: MedianRT ~ Condition + as.factor(COA) + COABlock + (1 | Observer)
@@ -1322,15 +1322,15 @@ function that allows you to specify the delimiter via <code>delim</code> paramet
 <li>Lower value limit.</li>
 <li>Higher value limit.</li>
 </ol>
-<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb449-1"><a href="seminar11.html#cb449-1" aria-hidden="true" tabindex="-1"></a>example_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">15</span>, <span class="dv">2</span>, <span class="dv">10</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">4</span>)</span>
-<span id="cb449-2"><a href="seminar11.html#cb449-2" aria-hidden="true" tabindex="-1"></a><span class="fu">clip</span>(example_vector, <span class="dv">0</span>, <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb447-1"><a href="seminar11.html#cb447-1" aria-hidden="true" tabindex="-1"></a>example_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">15</span>, <span class="dv">2</span>, <span class="dv">10</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">4</span>)</span>
+<span id="cb447-2"><a href="seminar11.html#cb447-2" aria-hidden="true" tabindex="-1"></a><span class="fu">clip</span>(example_vector, <span class="dv">0</span>, <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## [1]  0 10  2 10  0  0</code></pre>
 <p>Here is the head of the table with the computed raw score</p>
-<div class="sourceCode" id="cb451"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb451-1"><a href="seminar11.html#cb451-1" aria-hidden="true" tabindex="-1"></a>results <span class="sc">%&gt;%</span></span>
-<span id="cb451-2"><a href="seminar11.html#cb451-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(RawScore<span class="sc">==</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb451-3"><a href="seminar11.html#cb451-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Target, Match, Response, RT, COABlock, OnsetDelay)) <span class="sc">%&gt;%</span></span>
-<span id="cb451-4"><a href="seminar11.html#cb451-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb451-5"><a href="seminar11.html#cb451-5" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb449-1"><a href="seminar11.html#cb449-1" aria-hidden="true" tabindex="-1"></a>results <span class="sc">%&gt;%</span></span>
+<span id="cb449-2"><a href="seminar11.html#cb449-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(RawScore<span class="sc">==</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb449-3"><a href="seminar11.html#cb449-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Target, Match, Response, RT, COABlock, OnsetDelay)) <span class="sc">%&gt;%</span></span>
+<span id="cb449-4"><a href="seminar11.html#cb449-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb449-5"><a href="seminar11.html#cb449-5" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1437,14 +1437,14 @@ function that allows you to specify the delimiter via <code>delim</code> paramet
 </tbody>
 </table>
 <p>To compute combo multiplier (number of correct responses on the row), we will write another function that loops over a vector of <code>Correct</code> responses. Every correct response (<code>TRUE</code>) add <code>1</code> to the multiplier for the <em>next</em> trial. Every incorrect response resets it to <code>1</code>, again, for the <em>next</em> trial.</p>
-<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="seminar11.html#cb452-1" aria-hidden="true" tabindex="-1"></a>correct <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>)</span>
-<span id="cb452-2"><a href="seminar11.html#cb452-2" aria-hidden="true" tabindex="-1"></a><span class="fu">compute_combo</span>(correct)</span></code></pre></div>
+<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb450-1"><a href="seminar11.html#cb450-1" aria-hidden="true" tabindex="-1"></a>correct <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>)</span>
+<span id="cb450-2"><a href="seminar11.html#cb450-2" aria-hidden="true" tabindex="-1"></a><span class="fu">compute_combo</span>(correct)</span></code></pre></div>
 <pre><code>## [1] 1 2 3 4 1 1 2 3 1</code></pre>
 <p>Once you have the function and it work correctly, you can use to compute combo multiplier for the table. However, note that you need to do it per block, so you need to group data by <code>Observer</code>, <code>Condition</code>, <code>COA</code>, and <code>COABlock</code> first. Otherwise, your combo score won’t be 1 at the beginning of each block.</p>
-<div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb454-1"><a href="seminar11.html#cb454-1" aria-hidden="true" tabindex="-1"></a>results <span class="sc">%&gt;%</span></span>
-<span id="cb454-2"><a href="seminar11.html#cb454-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb454-3"><a href="seminar11.html#cb454-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Target, Match, Response, RT, COABlock, OnsetDelay)) <span class="sc">%&gt;%</span></span>
-<span id="cb454-4"><a href="seminar11.html#cb454-4" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="seminar11.html#cb452-1" aria-hidden="true" tabindex="-1"></a>results <span class="sc">%&gt;%</span></span>
+<span id="cb452-2"><a href="seminar11.html#cb452-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb452-3"><a href="seminar11.html#cb452-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Target, Match, Response, RT, COABlock, OnsetDelay)) <span class="sc">%&gt;%</span></span>
+<span id="cb452-4"><a href="seminar11.html#cb452-4" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1562,10 +1562,10 @@ function that allows you to specify the delimiter via <code>delim</code> paramet
 </tbody>
 </table>
 <p>To get the actual score you just multiply raw score and multiplier</p>
-<div class="sourceCode" id="cb455"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb455-1"><a href="seminar11.html#cb455-1" aria-hidden="true" tabindex="-1"></a>results <span class="sc">%&gt;%</span></span>
-<span id="cb455-2"><a href="seminar11.html#cb455-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb455-3"><a href="seminar11.html#cb455-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Target, Match, Response, RT, COABlock, OnsetDelay)) <span class="sc">%&gt;%</span></span>
-<span id="cb455-4"><a href="seminar11.html#cb455-4" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb453"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb453-1"><a href="seminar11.html#cb453-1" aria-hidden="true" tabindex="-1"></a>results <span class="sc">%&gt;%</span></span>
+<span id="cb453-2"><a href="seminar11.html#cb453-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb453-3"><a href="seminar11.html#cb453-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Target, Match, Response, RT, COABlock, OnsetDelay)) <span class="sc">%&gt;%</span></span>
+<span id="cb453-4"><a href="seminar11.html#cb453-4" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1749,8 +1749,8 @@ function that allows you to specify the delimiter via <code>delim</code> paramet
 </tr>
 </tbody>
 </table>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-296-1.png" width="672" /></p>
 <p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-297-1.png" width="672" /></p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-298-1.png" width="672" /></p>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: TotalScore ~ Condition + as.factor(COA) + COABlock + (1 | Observer)
@@ -1800,13 +1800,13 @@ function that allows you to specify the delimiter via <code>delim</code> paramet
 </div>
 <div class="footnotes">
 <hr />
-<ol start="52">
-<li id="fn52"><p>In the Statistical Rethinking seminar we spend three seminars learning how to understand and interpret a simple linear multiple regression with just two predictors. And the conclusion is that even in this simple case, you are not guaranteed to fully understand it. And if you think that you can easily interpret an interaction term even for two continuous predictors…<a href="seminar11.html#fnref52" class="footnote-back">↩︎</a></p></li>
-<li id="fn53"><p>Use (names())[<a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/names.html" class="uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/names.html</a>] function to get names of all elements.<a href="seminar11.html#fnref53" class="footnote-back">↩︎</a></p></li>
-<li id="fn54"><p><a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html">set.seed()</a> function initializes random numbers generator to a specific state to get a reproducible but random (as in, sequentially uncorrelated) sequence of values.<a href="seminar11.html#fnref54" class="footnote-back">↩︎</a></p></li>
-<li id="fn55"><p>Here, each participant must have their own intercept but they all share same single slope for <code>Condition</code>. You can also specify that they individual slopes that are either correlated or uncorrelated with their intercept.<a href="seminar11.html#fnref55" class="footnote-back">↩︎</a></p></li>
-<li id="fn56"><p>I use <code>lmerTest::</code> to tell R that I need function <code>lmer()</code> from package <code>lmerTest</code> and not from <code>lme4</code> as before<a href="seminar11.html#fnref56" class="footnote-back">↩︎</a></p></li>
-<li id="fn57"><p>The magic machinery underneath will mix ordinary least squares (OLS) estimates for fixed effects with Best Linear Unbiased Predictions (BLUP) for random effects.<a href="seminar11.html#fnref57" class="footnote-back">↩︎</a></p></li>
+<ol start="54">
+<li id="fn54"><p>In the Statistical Rethinking seminar we spend three seminars learning how to understand and interpret a simple linear multiple regression with just two predictors. And the conclusion is that even in this simple case, you are not guaranteed to fully understand it. And if you think that you can easily interpret an interaction term even for two continuous predictors…<a href="seminar11.html#fnref54" class="footnote-back">↩︎</a></p></li>
+<li id="fn55"><p>Use (names())[<a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/names.html" class="uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/names.html</a>] function to get names of all elements.<a href="seminar11.html#fnref55" class="footnote-back">↩︎</a></p></li>
+<li id="fn56"><p><a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html">set.seed()</a> function initializes random numbers generator to a specific state to get a reproducible but random (as in, sequentially uncorrelated) sequence of values.<a href="seminar11.html#fnref56" class="footnote-back">↩︎</a></p></li>
+<li id="fn57"><p>Here, each participant must have their own intercept but they all share same single slope for <code>Condition</code>. You can also specify that they individual slopes that are either correlated or uncorrelated with their intercept.<a href="seminar11.html#fnref57" class="footnote-back">↩︎</a></p></li>
+<li id="fn58"><p>I use <code>lmerTest::</code> to tell R that I need function <code>lmer()</code> from package <code>lmerTest</code> and not from <code>lme4</code> as before<a href="seminar11.html#fnref58" class="footnote-back">↩︎</a></p></li>
+<li id="fn59"><p>The magic machinery underneath will mix ordinary least squares (OLS) estimates for fixed effects with Best Linear Unbiased Predictions (BLUP) for random effects.<a href="seminar11.html#fnref59" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
