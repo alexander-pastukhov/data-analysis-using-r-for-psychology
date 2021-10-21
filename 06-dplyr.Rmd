@@ -4,7 +4,7 @@
 library(tidyverse)
 ```
 
-Now that you understand vectors, tables, functions, and pipes, we can start with data analysis and Tidyverse way of doing it. All functions discussed below are part of [dplyr](https://dplyr.tidyverse.org/)^[The name should invoke an image of data pliers. According to Hadley Wickham, you can pronounce it any way you like.] "grammar of data manipulation" package. Grab the [exercise notebook](notebooks/Seminar 06 - dplyr.Rmd)!
+Now that you understand vectors, tables, functions and pipes, and you know what our end goal (a tidy table) is, we can start with data analysis and Tidyverse way of doing it. All functions discussed below are part of [dplyr](https://dplyr.tidyverse.org/)^[The name should invoke an image of data pliers. According to Hadley Wickham, you can pronounce it any way you like.] "grammar of data manipulation" package. Grab the [exercise notebook](notebooks/Seminar 06 - dplyr.Rmd)!
 
 
 ## Tidyverse philosophy
@@ -36,7 +36,7 @@ mpg %>%
   # we group by each class of car
   # and compute average efficiency for each group (class of car)
   group_by(class) %>%
-  summarise(class_avg_mpg = mean(avg_mpg), .groups="drop") %>%
+  summarise(class_avg_mpg = mean(avg_mpg), .groups="keep") %>%
   
   # we sort table rows to go from worst to best on efficiency
   arrange(class_avg_mpg) %>%
@@ -58,7 +58,7 @@ short_mpg <- head(mpg, 5)
 knitr::kable(short_mpg)
 ```
 
-Here is how you can select only `model` and `cty` columns via square brackets notation 
+Here is how you can select only `model` and `cty` columns via preserving `[]` subsetting
 ```r
 short_mpg[, c("model", "cty")] 
 ```
@@ -66,7 +66,7 @@ short_mpg[, c("model", "cty")]
 short_mpg[, c("model", "cty")] %>%
   knitr::kable()
 ```
-And here how it is done via `select()`. 
+And here is how it is done via `select()`. 
 ```r
 short_mpg %>%
   select(model, cty)
@@ -89,7 +89,7 @@ short_mpg %>%
   select(c(model, cty))
 ```
 
-As you surely remember, you can use negation to select _other_ indexes within a vector (`c(4, 5, 6)[-2]` gives you `[4, 6]`). For the single bracket notation this mechanism does not work with column _names_ (only with their indexes). However, `select` has you covered, so we can select everything _but_ `cty` and `model`
+As you surely remember, you can use negation to select _other_ indexes within a vector (`c(4, 5, 6)[-2]` gives you `[4, 6]`). For the single brackets `[]` this mechanism does not work with column _names_ (only with their indexes). However, `select` has you covered, so we can select everything _but_ `cty` and `model`
 ```r
 short_mpg %>%
   select(-cty, -model)
@@ -108,19 +108,19 @@ short_mpg %>%
 ```
 
 As with the direct selection above, you can use negation with names as strings, you can negate a vector of names, etc. Again, it is mostly a matter of taste with consistency being more important than a specific choice you make.
-```r
+```{r eval=FALSE}
 # will produce the same result as above
 short_mpg %>%
   select(!c("cty", "model"))
 
 short_mpg %>%
-  select(!"cty", !"model"))
+  select(!"cty", !"model")
   
 short_mpg %>%
   select(!c(cty, model))
 ```
 
-Unlike vector indexing that forbids mixing positive and negative indexing, `select` does allow for it. However, **do not use it**^[Unless you know what you are doing and that is the simplest and clearest way to achieve this.] because results can be fairly counter-intuitive and, on top of that, `-` and `!` work somewhat differently. Note the difference between `!` and `-`: In the former case only the `!model` part appears to have the effect, whereas in case of `-` only `cty` works.
+Unlike vector indexing that forbids mixing positive and negative indexing, `select` does allow it. However, **do not use it**^[Unless you know what you are doing and that is the simplest and clearest way to achieve this.] because results can be fairly counter-intuitive and, on top of that, `-` and `!` work somewhat differently. Note the difference between `!` and `-`: In the former case only the `!model` part appears to have the effect, whereas in case of `-` only `cty` works.
 ```r
 short_mpg %>%
   select(cty, !model)
@@ -158,7 +158,7 @@ So, bottom line, do not mix positive and negative indexing in `select`! I am sho
 Do exercise 1.
 :::
 
-Simple names and their negation will be sufficient for most of your projects. However, I would recommend taking a look at the [official manual](https://dplyr.tidyverse.org/reference/select.html) just to see that `select` offers a lot of flexibility (selecting range of columns, by column type, by partial name matching, etc), something that might be useful for you in your later work.
+Simple names and their negation will be sufficient for most of your projects. However, I would recommend taking a look at the [official manual](https://dplyr.tidyverse.org/reference/select.html) just to see that `select` offers a lot of flexibility (selecting range of columns, by column type, by partial name matching, etc), something that might be useful for you in your work.
 
 ## Conditions {#conditions}
 Before we can work with the next verb, you need to understand conditions. Conditions are statements about values that are either `TRUE` or `FALSE`. In the simplest case, you can check whether two values (one in a variable and one hard-coded) are equal via `==` operator
@@ -208,7 +208,7 @@ Do exercise 5.
 :::
 
 ## Logical indexing {#logical-indexing}
-In the second seminar, you learned about vector indexing when you access _some_ elements of a vector by specifying their index. There is an alternative way, called _logical indexing_, when instead you supply a vector of equal length with _logical values_ and you get elements of the original vector whenever the logical value is `TRUE`
+In the second seminar, you learned about vector indexing when you access _some_ elements of a vector by specifying their index. There is an alternative way, called _logical indexing_. Here, you supply a vector of equal length with _logical values_ and you get elements of the original vector whenever the logical value is `TRUE`
 ```{r}
 x <- 1:5
 x[c(TRUE, TRUE, FALSE, TRUE, FALSE)]
@@ -219,6 +219,7 @@ This is particularly useful, if you are interested in elements that satisfy cert
 x <- c(-2, 5, 3, -5, -1)
 x[x<0]
 ```
+
 You can have conditions of any complexity by combining them via _and_ `&` and _or_ `|` operators. For example, if you want number below -1 or above 3 (be careful to have space between `<` and `-`, otherwise it will be interpreted as assignment `<-`).
 ```{r}
 x <- c(-2, 5, 3, -5, -1)
@@ -261,16 +262,16 @@ mpg %>%
 Do exercise 7.
 :::
 
-Note that you can emulate `filter()` in a very straightforward way using single-brackets base R, the main difference is that you need to prefix every column with the table name, so `mpg$class` instead of just `class`^[You can sidestep this issue via [with()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/with.html) function, although I am not a big fan of this approach.].
+Note that you can emulate `filter()` in a very straightforward way using single-brackets base R, the main difference is that you need to prefix every column with the table name, so `mpg[["class"]]` instead of just `class`^[You can sidestep this issue via [with()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/with.html) function, although I am not a big fan of this approach.].
 ```r
-mpg[mpg$class == "midsize" & mpg$drv == "4", ]
+mpg[mpg[["class"]] == "midsize" & mpg[["drv"]] == "4", ]
 ```
 ```{r echo=FALSE}
-mpg[mpg$class == "midsize" & mpg$drv == "4", ] %>%
+mpg[mpg[["class"]] == "midsize" & mpg[["drv"]] == "4", ] %>%
   knitr::kable()  
 ```
 
-So why use `filter()` then? In isolation, as a single line computation, both options are equally compact and clear (apart from all the extra `table$` in base R). But pipe-oriented nature of the `filter()` makes it more suitable for chains of computations, which is the main advantage of Tidyverse.
+So why use `filter()` then? In isolation, as a single line computation, both options are equally compact and clear (apart from all the extra `table[["..."]]` in base R). But pipe-oriented nature of the `filter()` makes it more suitable for chains of computations, which is the main advantage of Tidyverse.
 
 ## `arrange()` rows in a particular order
 Sometimes you might need to sort your table so that rows go in a particular order^[In my experience, this mostly happens when you need to print out or view a table.]. In Tidyverse, you [arrange](https://dplyr.tidyverse.org/reference/arrange.html) rows based on values of specific variables. This verb is very straightforward, you simply list all variables that must be used for sorting in the order the sorting must be carried out. I.e., first the table is sorted based on values of the first variable. Then, for equal values of that variable, rows are sorted based on the second variable, etc. By default, rows are arranged in ascending order but you can reverse it by putting a variable inside of [desc()](https://dplyr.tidyverse.org/reference/desc.html) function. Here is the `short_mpg` table arranged by city cycle highway efficiency (ascending order) and engine displacement (descending order, note the order of the last two rows).
@@ -278,7 +279,7 @@ Sometimes you might need to sort your table so that rows go in a particular orde
 short_mpg %>%
   arrange(cty, desc(displ)) 
 ```
-```{r}
+```{r echo=FALSE}
 short_mpg %>%
   arrange(cty, desc(displ)) %>%
   knitr::kable()
@@ -288,13 +289,13 @@ short_mpg %>%
 Do exercise 8.
 :::
 
-You can arrange a table using base R via [order()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/order.html) function that gives index of ordered elements and can be used inside of single bracket notation. You can control for ascending/descending of a specific variable using [rev()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/rev.html) function that is applied _after_ ordering, so `rev(order(...))`.
+You can arrange a table using base R via [order()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/order.html) function that gives index of ordered elements and can be used inside of preserving subsetting via single brackets `[]` notation. You can control for ascending/descending of a specific variable using [rev()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/rev.html) function that is applied _after_ ordering, so `rev(order(...))`.
 
 ```r
-short_mpg[order(short_mpg$cty, rev(short_mpg$displ)), ]
+short_mpg[order(short_mpg[["cty"]], rev(short_mpg[["displ"]])), ]
 ```
-```{r}
-short_mpg[order(short_mpg$cty, rev(short_mpg$displ)), ] %>%
+```{r echo=FALSE}
+short_mpg[order(short_mpg[["cty"]], rev(short_mpg[["displ"]])), ] %>%
   knitr::kable()
 ```
 ::: {.infobox .practice}
@@ -305,7 +306,7 @@ Do exercise 9.
 In Tidyverse, [mutate](https://dplyr.tidyverse.org/reference/mutate.html) function allows you to both add new columns/variables to a table and change the existing ones. In essence, it is equivalent to a simple column assignment statement in base R.
 ```{r}
 # base R
-short_mpg$avg_mpg <- (short_mpg$cty + short_mpg$hwy) / 2
+short_mpg[["avg_mpg"]] <- (short_mpg[["cty"]] + short_mpg[["hwy"]]) / 2
 
 # Tidyverse equivalent
 short_mpg <- 
@@ -313,7 +314,7 @@ short_mpg <-
   mutate(avg_mpg = (cty + hwy) / 2)
 ```
 
-Note two critical differences. First, `mutate()` takes a table as an input and returns a table as an output. This is why you start with a table, pipe it to mutate, and assign the results _back_ to the original variable. If you have more verbs/lines, it is the output of the last computation that is assigned to the variable on the left-hand side of assignment^[R does have `->` statement, so, technically, you can pipe your computation and then assign it to a variable `table %>% mutate() -> table`. However, this style is generally discouraged as starting with `table <- table %>%` makes it clear that you modify and store the computation, whereas `table %>%` signals that you pipe the results to an output: console, printed-out table, plot, etc.]. Look at the listing below that indexes each line by when it is executed.
+Note two critical differences. First, `mutate()` takes a table as an input and returns a table as an output. This is why you start with a table, pipe it to mutate, and assign the results _back_ to the original variable. If you have more verbs/lines, it is the output of the _last_ computation that is assigned to the variable on the left-hand side of assignment^[R does have `->` statement, so, technically, you can pipe your computation and then assign it to a variable `table %>% mutate() -> table`. However, this style is generally discouraged as starting with `table <- table %>%` makes it clear that you modify and store the computation, whereas `table %>%` signals that you pipe the results to an output: console, printed-out table, plot, etc.]. Look at the listing below that indexes each line by when it is executed.
 ```r
 some_table <-    # 3. We assign the result to the original table, only once all the code below has been executed.
   some_table %>% # 1. We start here, with the original table and pipe to the next computation
@@ -322,6 +323,7 @@ some_table <-    # 3. We assign the result to the original table, only once all 
 Second, you are performing a computation _inside_ the call of the `mutate()` function, so `avg_mpg = (short_mpg$cty + short_mpg$hwy) / 2` is a _parameter_ that you pass to it (yes, it does not look like one). This is why you use `=` rather than a normal assignment arrow `<-`. Unfortunately, you _can_ use `<-` inside the `mutate` and the computation will work as intended but, for internal-processing reasons, the _entire statement_, rather than just the left-hand side, will be used as a column name. Thus, use `<-` _outside_ and `=` _inside_ of Tydiverse verbs.
 ```{r}
 short_mpg %>%
+  select(cty, hwy) %>%
   mutate(avg_mpg =  (cty + hwy) / 2,      # column name will be avp_mpg
          avg_mpg <- (cty + hwy) / 2) %>% # column name will be `avg_mpg <- (short_mpg$cty + short_mpg$hwy) / 2`
   knitr::kable()
@@ -333,15 +335,17 @@ As shown in the example above, you can perform several computations within a sin
 Do exercise 10.
 :::
 
-Finally, `mutate` has a cousin-verb called `transmute` that works the same way but _discards_ all original columns that were not modified. You probably won't use this verb all too often but I want you to be able to recognize it, as its name and function are very similar to `mutate` and the two are easy to confuse.
+Finally, `mutate` has two cousin-verbs called [transmute]() and [add_column](https://tibble.tidyverse.org/reference/add_column.html). The former (`transmute`) works the same way but _discards_ all original columns that were not modified. You probably won't use this verb all too often but I want you to be able to recognize it, as its name and function are very similar to `mutate` and the two are easy to confuse.
 ```{r}
 short_mpg %>%
   transmute(avg_mpg = (cty + hwy) / 2) %>%
   knitr::kable(align = "c")
 ```
 
+The latter --- `add_column` --- is _similar_ to `mutate` if you need to add a new column rather than to modify a new one. Its advantage is that it will produce an error, if you try to overwrite an existing column. Its disadvantage is that it does not appear to respect data grouping (see below), which can be very confusing. In short, stick to `mutate` unless you need either of these two functions specifically.
+
 ## `summarize()` table by `groups`  {#summarize}
-This verb is used when you _aggregate_ across _all_ rows, reducing them to a _single value_. Some examples of aggregating functions that are probably already familiar to you are [mean](https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html), [median](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/median.html), [standard deviation](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/sd.html), [min/max](https://stat.ethz.ch/R-manual/R-patched/library/base/html/Extremes.html). However, you can "aggregate" by taking a first or a last value or even by putting in a constant. Important is that `summarize` expects that it should assign a _single_ value to the column. 
+This verb is used when you _aggregate_ across _all_ rows, reducing them to a _single value_. Some examples of aggregating functions that are probably already familiar to you are [mean](https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html), [median](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/median.html), [standard deviation](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/sd.html), [min/max](https://stat.ethz.ch/R-manual/R-patched/library/base/html/Extremes.html). However, you can "aggregate" by taking a first or a last value or even by putting in a constant. Important is that you should assign a _single_ value to the column when using `summarize`^[In the old times, summarize would only accept a single value and raise an error in any other case. That was good, as it made role of `summarize` very clear (aggregation) and it was clearly different from `mutate` (modification). Unfortunately, at certain point of time `summarize` got a power up, so now it will accept _any_ number of values per table/group. This means that, technically, you can use it instead of `mutate` with no loss of functionality. It also means that it won't warn you that you are doing something wrong in your aggregation, if you return more than one value per group/column. Happened to me often enough to make me wonder why this unfortunate decision was made.].
 
 If you use `summarize` on an _ungrouped_ table (these are the only tables we've been working on so far), it keeps only the computed columns, which makes you wonder "what's the point?"
 ```{r}
@@ -350,7 +354,7 @@ mpg %>%
             avg_hwy = mean(hwy))
 ```
 
-However, the real power of `summarize` (and of `mutate`) becomes evident when it is applied to the data that is _grouped by_ certain criteria. [group_by()](https://dplyr.tidyverse.org/reference/group_by.html) verb groups the rows of the table based values of variables you specified. Behind the scenes, this turns your single table into set of tables, so that your Tidyverse verbs are applied to _each_ table _separately_. This ability to parse your table into different groups of rows (all rows that belong to a particular participant, or participant and condition, or rows per block, or per trial), change that grouping on the fly, return back to the original full table, etc. makes analysis a breeze. Here  is how  we can compute average efficiency not across all cars (as in the code above) but for each car class separately.
+However, the real power of `summarize` (and of `mutate`) becomes evident when it is applied to the data that is _grouped by_ certain criteria. [group_by()](https://dplyr.tidyverse.org/reference/group_by.html) verb groups rows of the table based on values of variables you specified. Behind the scenes, this turns your single table into set of tables, so that your Tidyverse verbs are applied to _each_ table _separately_. This ability to parse your table into different groups of rows (all rows that belong to a particular participant, or participant and condition, or rows per block, or per trial), change that grouping on the fly, return back to the original full table, etc. makes analysis a breeze. Here is how  we can compute average efficiency not across all cars (as in the code above) but for each car class separately.
 
 ```{r}
 mpg %>%
@@ -361,17 +365,18 @@ mpg %>%
   
   # same mean computation but per table and we've got seven of them
   summarise(avg_cty = mean(cty),
-            avg_hwy = mean(hwy), .groups = "drop") %>%
+            avg_hwy = mean(hwy),
+            .groups = "keep") %>%
   knitr::kable()
 ```
 
-Note that summarize still expects us to compute a _single_ value per table but because we do it for _seven tables_, we get _seven rows_ in our resultant table.  And `group_by` makes it easy to group data in any way you want. Are you interested in manufacturers instead car classes? Easy!
+Note that we compute a _single_ value per table but because we do it for _seven tables_, we get _seven rows_ in our resultant table.  And `group_by` makes it easy to group data in any way you want. Are you interested in manufacturers instead car classes? Easy!
 ```{r}
 mpg %>%
   group_by(manufacturer)  %>%
   # same mean computation but per table and we've got seven of them
   summarise(avg_cty = mean(cty),
-            avg_hwy = mean(hwy), .groups = "drop") %>%
+            avg_hwy = mean(hwy), .groups = "keep") %>%
   knitr::kable()
 ```
 
@@ -381,7 +386,7 @@ mpg %>%
   group_by(class, year)  %>%
   # same mean computation but per table and we've got seven of them
   summarise(avg_cty = mean(cty),
-            avg_hwy = mean(hwy), .groups = "drop") %>%
+            avg_hwy = mean(hwy), .groups = "keep") %>%
   knitr::kable()
 ```
 
@@ -391,7 +396,16 @@ Finally, `ungroup()` verb removes all the grouping and turns your data into a si
 Do exercise 11.
 :::
 
-You can replicate the functionality of `group_by` + `summarize` in base R via [aggregate()](https://stat.ethz.ch/R-manual/R-patched/library/stats/html/aggregate.html) and `group_by` + `mutate` via [by](https://stat.ethz.ch/R-manual/R-patched/library/base/html/by.html) functions. However, they are somewhat less straightforward in use as they rely on functional programming and require both grouping and summary function within a single call.
+You have probably notice the `.groups="keep"` parameter in all `summarize` calls and wondered what is it for and what other options exist? Current (21.10.2021) it is still an experimental feature of [summarize](https://dplyr.tidyverse.org/reference/summarise.html) that determines what happens to grouping of the table _after_ summarized finished the computation. The four options are:
+
+* `.groups = "drop"` ungroups the data and is equivalent to using `ungroup` immediately after a `summarize`.
+* `.groups = "keep"` keeps grouping as is.
+* `.groups = "rowwise"` each row becomes its own group. If you returned one value per group, this would be identical to `.groups = "keep"`.
+* `.groups = "drop_last"` drops the _last_ level of grouping you specified. E.g., if you grouped by `class`, `manufacturer`, and `year`, using this option will produce a table that is grouped only by `class` and `manufacturer`. On the one hand, this is a _default_ option. On the other hand, I am not quite sure why this would be preferable over `keep"` or when would I actually require this.
+
+My suggestions would be to _always_ use `.groups="keep"` in conjunction with an explicit `ungroup()`. This way `summarize` would always behave the same way, making it easier to stop regrouping and ungrouping. I went into details only because you must specify this parameter to avoid a warning that looks both ominous and confusing. And a brief look in the manual did not help me much (you can play with different options while looking at the resultant grouping via [groups()](https://dplyr.tidyverse.org/reference/group_data.html) function to explore outcomes). At the moment, it is unclear whether this options stays or how it will be transformed in the future (remember, it is still an experimental one).
+
+You can replicate the functionality of `group_by` + `summarize` in base R via [aggregate()](https://stat.ethz.ch/R-manual/R-patched/library/stats/html/aggregate.html) and `group_by` + `mutate` via [by](https://stat.ethz.ch/R-manual/R-patched/library/base/html/by.html) functions. However, they are somewhat less straightforward in use as they rely on functional programming (which you haven't learned about yet) and require both grouping and summary function within a single call.
 
 ## Putting it all together
 Now you have enough tools at your disposal to start programming a continuous analysis pipeline!
@@ -401,4 +415,4 @@ Do exercise 12.
 :::
 
 ## Should I use Tidyverse?
-As you saw above, whatever Tidyverse can do, base R can do as well. So why use a non-standard family of packages? If you are using each function in isolation, there is probably not much sense in this. Base R can do it equally well and _each individual_ function is also compact and simple. However, if you need to _chain_ your computation, which is almost always the case, Tidyverse's ability to pipe the entire sequence of functions in a simple consistent and, therefore, easy to understand way is a game-changer. In the long run, pick your style. Either go "all in" with Tidyverse (that is my approach), stick to base R, or find some alternative package family. However, as far as the seminar is concerned, it will be almost exclusively Tydiverse from now on.
+As you saw above, whatever Tidyverse can do, base R can do as well. So why use a non-standard family of packages? If you are using each function in isolation, there is probably not much sense in this. Base R can do it equally well and _each individual_ function is also compact and simple. However, if you need to _chain_ your computation, which is almost always the case, Tidyverse's ability to pipe the entire sequence of functions in a simple consistent and, therefore, easy to understand way is a game-changer. In the long run, pick your style. Either go "all in" with Tidyverse (that is my approach), stick to base R, or find some alternative package family (e.g., [data.table](https://github.com/Rdatatable/data.table)). However, as far as the book is concerned, it will be almost exclusively Tydiverse from now on.
