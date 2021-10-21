@@ -1,6 +1,6 @@
 # Grammar of Graphics {#ggplot2}
 
-In previous seminar, you have learned about tables that are the main way of representing data in psychological research and in R. In the following seminars, you will learn how to manipulate the data in these tables: change it, aggregate or transform individual groups of data, use it for statistical analysis. But before that you need to understand how to store your data in the table in the optimal way. First, I will introduce the idea of _tidy data_, the concept that gave [Tidyverse](https://www.tidyverse.org/) its name. Next, we will see how tidy data helps you visualize relationships between variables. Don't forget to download the [notebook](notebooks/Seminar 05 - ggplot2.Rmd).
+In previous chapters, you have learned about tables that are the main way of representing data in psychological research and in R. In the following ones, you will learn how to manipulate data in these tables: change it, aggregate or transform individual groups of data, use it for statistical analysis. But before that you need to understand how to store your data in the table in the optimal way. First, I will introduce the idea of _tidy data_, the concept that gave [Tidyverse](https://www.tidyverse.org/) its name. Next, we will see how tidy data helps you visualize relationships between variables. Don't forget to download the [notebook](notebooks/Seminar 05 - ggplot2.Rmd).
 
 ## Tidy data {#tidydata}
 The tidy data follows [three rules](https://r4ds.had.co.nz/tidy-data.html):
@@ -42,7 +42,7 @@ Then, what about the first table, which has `Face` as a column, is it tidy? The 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 long_df <- tidyr::pivot_longer(widish_df, 
-                               cols=c("Symmetry", "Attractiveness", "Symmetry"),
+                               cols=c("Symmetry", "Attractiveness", "Trustworthiness"),
                                names_to="Judgment",
                                values_to="Response")
 knitr::kable(long_df, align="c")
@@ -64,7 +64,7 @@ A plot in _ggplot2_ is described in three parts:
 3. Other properties of the plot (scaling of axes, labels, annotations, etc.) that are _added_ to the plot.
 
 You always need the first one. But you do not need to specify the other two, even though a plot without geometry in it looks very empty. Let us start with a very simple artificial example table below. I simulate a response as
-$$Response = Normal(\mu=1, \sigma=0.2) - Normal(\mu=2*ConditionIndex, \sigma=0.4) + Normal(\mu=Intensity, \sigma=0.4)$$
+$$Response = Normal(\mu=1, \sigma=0.2) - \\Normal(\mu=2*ConditionIndex, \sigma=0.4) + \\Normal(\mu=Intensity, \sigma=0.4)$$
 ```{r echo=FALSE, message=FALSE, warning=FALSE,  fig.align="center"}
 library(tidyverse)
 simple_tidy_data <- 
@@ -74,18 +74,18 @@ simple_tidy_data <-
 knitr::kable(simple_tidy_data)
 ```
 
-We plot this data by 1) _defining aesthetics_ (mapping `Intensity` on to x-axis, `Response`on y-axis, and `Condition` on color) and 2) _adding_ lines to the plot (note the plus in `+ geom_line()`).
+We plot this data by 1) _defining aesthetics_ (mapping `Intensity` on to x-axis, `Response`on y-axis, and `Condition` on color) and 2) _adding_ lines to the plot (note the plus^[One of a potentially confusing bits is usage of `+` in ggplot2 but of pipe `%>%` everywhere else. The difference is deliberate and fundamental. Pipe `%>%` passes the output to the next function, `+` _adds_ something to the already existing plot.] in `+ geom_line()`).
 ```{r}
 ggplot(data=simple_tidy_data, aes(x = Intensity, y = Response, color=Condition)) + 
   geom_line()
 ```
 
-As I already wrote, technically, we only thing you need to define is aesthetics, so let us not add anything to the plot (we drop the `+geom_line()`).
+As I already wrote, technically, the only thing you need to define is aesthetics, so let us not add anything to the plot (we drop the `+geom_line()`).
 ```{r fig.align = 'center'}
 ggplot(data=simple_tidy_data, aes(x = Intensity, y = Response, color=Condition))
 ```
 
-Told you it will look empty and yet you can already see _ggplot2_ in action. Notice that axes are labeled and their limits are set. You cannot see the legend (they are not plotted without corresponding geometry) but it is also ready behind the scenes. This is because our initial call specified the most important part: how the individual variables map on various properties even before we tell _ggplot2_ which visuals we will use to plot the data. When we specified that x-axis will represent the `Intensity`, ggplot2 figured out the range of values, so it knows _where_ it is going to plot whatever we decide to plot. Points, lines, bar, error bars and what not will span only that range. Same goes for other properties such as color. We wanted _color_ to represent the condition. Again, we may not know what exactly we will be plotting (points, lines?) or even how many different visuals we will be adding to the plot (just lines? points + lines? points + lines + linear fit?) but we do know that whatever visual we add, if it can have color, its color _must_ represent condition for that data point. The beauty of _ggplot2_ is that it analyses your data and figures out how many colors you need and is ready to apply them _consistently_ to all visuals you will add later. It will ensure that all points, bars, lines, etc. will have consistent coordinates scaling, color, size, fill mapping that are the same across the entire plot. This may sound trivial but typically (e.g., Matlab, Matplotlib), it is _your_ job to make sure that all these properties match and that they represent the same value across all visual elements. And this is a pretty tedious job, particularly when you decide to change your mappings and have to redo all individual components by hand. In _ggplot2_, this dissociation between mapping and visuals means you can tinker with one of them at a time. E.g. keep the visuals but change grouping or see if effect of condition is easier to see via line type, size or shape of the point? Or you can keep the mapping and see whether adding another visual will make the plot easier to understand. Note that some mapping also _groups_ your data, so when you use group-based visual information (e.g., a linear regression line) it will know what data belongs together and so will perform this computation per group.
+Told you it will look empty and yet you can already see _ggplot2_ in action. Notice that axes are labeled and their limits are set. You cannot see the legend (they are not plotted without corresponding geometry) but it is also ready behind the scenes. This is because our initial call specified the most important part: how individual variables map on various properties even before we tell _ggplot2_ which visuals we will use to plot the data. When we specified that x-axis will represent the `Intensity`, ggplot2 figured out the range of values, so it knows _where_ it is going to plot whatever we decide to plot. Points, lines, bars, error bars and what not will span only that range. Same goes for other properties such as color. We wanted _color_ to represent the condition. Again, we may not know what exactly we will be plotting (points, lines?) or even how many different visuals we will be adding to the plot (just lines? points + lines? points + lines + linear fit?) but we do know that whatever visual we add, if it can have color, its color _must_ represent condition for that data point. The beauty of _ggplot2_ is that it analyses your data and figures out how many colors you need and is ready to apply them _consistently_ to all visuals you will add later. It will ensure that all points, bars, lines, etc. will have consistent coordinates scaling, color, size, fill mapping that are the same across the entire plot. This may sound trivial but typically (e.g., Matlab, Matplotlib), it is _your_ job to make sure that all these properties match and that they represent the same value across all visual elements. And this is a pretty tedious job, particularly when you decide to change your mappings and have to redo all individual components by hand. In _ggplot2_, this dissociation between mapping and visuals means you can tinker with one of them at a time. E.g. keep the visuals but change grouping or see if effect of condition is easier to see via line type, size or shape of the point? Or you can keep the mapping and see whether adding another visual will make the plot easier to understand. Note that some mapping also _groups_ your data, so when you use group-based visual information (e.g., a linear regression line) it will know what data belongs together and so will perform this computation per group.
 
 Let us see how you can keep the relationship mapping but add more visuals. Let us add both lines and points.
 ```{r fig.align = 'center'}
@@ -103,7 +103,7 @@ ggplot(data=simple_tidy_data, aes(x = Intensity, y = Response, color=Condition))
   geom_smooth(method="lm", formula = y ~ x, se=FALSE, linetype="dashed") 
 ```
 
-Now we added a linear regression line that helps us to better see  the relationship between `Intensity` and `Response`. Again, we simply wished for another visual to be added (`method="lm"` means that we wanted to average data via linear regression with `formula = y ~ x` meaning that we regress y-axis on x-axis with no further covariates, `se=FALSE` means no standard error stripe, `linetype="dashed"` just makes it easier to distinguish from the solid data line).
+Now we added a linear regression line that helps us to better see  the relationship between `Intensity` and `Response`. Again, we simply wished for another visual to be added (`method="lm"` means that we wanted to average data via linear regression with `formula = y ~ x` meaning that we regress y-axis on x-axis with no further covariates, `se=FALSE` means no standard error stripe, `linetype="dashed"` just makes it easier to distinguish linar fit from the solid data line).
 
 Or, we can keep the _visuals_ but see whether changing _mapping_ would make it more informative (we need to specify `group=Intensity` as continuous data is not grouped automatically).
 ```{r fig.align = 'center'}
@@ -131,7 +131,7 @@ We start by visualizing how car efficiency, measured as miles-per-gallon, is aff
 
 First, let us look at the relationship between car efficiency in the city cycle (`cty`), engine displacement (`displ`), and drive train type (`drv`) using color points. Reminder, the call should look as
 ```
-[ggplot2](https://ggplot2.tidyverse.org/reference/ggplot.html)(data_table_name, [aes](https://ggplot2.tidyverse.org/reference/aes.html)(x = var1, y = var2, color = var3, shape = var4, ...)) + 
+ggplot(data_table_name, [aes](https://ggplot2.tidyverse.org/reference/aes.html)(x = var1, y = var2, color = var3, shape = var4, ...)) + 
   geom_primitive1() + 
   geom_primitive2() +
   ...
@@ -179,7 +179,7 @@ The previous section use a continuous engine displacement variable for x-axis (a
 Do exercise 7.
 :::
 
-One problem with the plot is that all points are plotted at the same x-axis location. This means that if two points share the location, they overlap and appear as just one dot. This makes it hard to understand the density: one point can mean one point, or two, or a hundred. A better way to plot such data is by using [box](https://ggplot2.tidyverse.org/reference/geom_boxplot.html) or ]violin](https://ggplot2.tidyverse.org/reference/geom_violin.html) plots. Experiment by using them instead of points.
+One problem with the plot is that all points are plotted at the same x-axis location. This means that if two points share the location, they overlap and appear as just one dot. This makes it hard to understand the density: one point can mean one point, or two, or a hundred. A better way to plot such data is by using [box](https://ggplot2.tidyverse.org/reference/geom_boxplot.html) or [violin](https://ggplot2.tidyverse.org/reference/geom_violin.html) plots. Experiment by using them instead of points.
 
 ::: {.infobox .practice}
 Do exercise 8.
@@ -205,7 +205,7 @@ Now lets us work on plotting a distribution for a single variable using [mammals
 Do exercise 11.
 :::
 
-Using a histogram gives you exact counts per each bin. However, the appearance may change quite dramatically if you would use fewer or more bins. An alternative way to represent the same information is via [smoothed density estimates](https://ggplot2.tidyverse.org/reference/geom_density.html). They use a sliding window and compute an estimate at each point but also include points _around_ it and weight them according to a kernel (e.g. a Gaussian one). This makes the plot look smoother and will mask sudden jumps in density (counts) as you, effectively, average over many bins. Whether this approach is better for visualizing data depends on the sample you have and message you are trying to get across. It is always worth checking both (just like it is worth checking different number of bins in histogram) to see which way is the best for your specific case.
+Using a histogram gives you exact counts per each bin. However, the appearance may change quite dramatically if you would use fewer or more bins. An alternative way to represent the same information is via [smoothed density estimates](https://ggplot2.tidyverse.org/reference/geom_density.html). They use a sliding window and compute an estimate at each point but also include points _around_ it and weight them according to a kernel (e.g., a Gaussian one). This makes the plot look smoother and will mask sudden jumps in density (counts) as you, effectively, average over many bins. Whether this approach is better for visualizing data depends on the sample you have and message you are trying to get across. It is always worth checking both (just like it is worth checking different number of bins in histogram) to see which way is the best for your specific case.
 
 ::: {.infobox .practice}
 Do exercise 12.
@@ -265,7 +265,7 @@ What you explored is just a tip of the iceberg. There are many more geometric pr
 If plotting data is part of your daily routine, I recommend reading [ggplot2 book](https://ggplot2-book.org/). It gives you an in-depth view of the package and goes through many possibilities that it offers. You may need all of them but I find useful to know that they exists (who knows, I might need them one day). Another book worth reading is [Data Visualization: A Practical Introduction.](https://kieranhealy.org/publications/dataviz/) by Kieran Healy.
 
 ## Extending ggplot2
-There are 80 (as of 19.11.2020) extensions that you find  at [ggplot2 website](https://exts.ggplot2.tidyverse.org/gallery/). They add more ways to plot your data, more themes, animated plots, etc. If you feel that _ggplot2_ does not have the geometric primitives you need, take a look at the gallery and, most likely, you will find something that fits your bill. 
+There are 102 (as of 21.10.2021) extensions that you find  at [ggplot2 website](https://exts.ggplot2.tidyverse.org/gallery/). They add more ways to plot your data, more themes, animated plots, etc. If you feel that _ggplot2_ does not have the geometric primitives you need, take a look at the gallery and, most likely, you will find something that fits your bill. 
 
 One package that is _not_ in the gallery is [patchwork](https://patchwork.data-imaginist.com/). It was created "to make it ridiculously simple to combine separate ggplots into the same graphic". It is a bold promise but authors do make good on it. It is probably the easiest way to  combine multiple plots but you can also consider [cowplot](https://github.com/wilkelab/cowplot) and [gridExtra](https://cran.r-project.org/web/packages/gridExtra/index.html) packages.
 
