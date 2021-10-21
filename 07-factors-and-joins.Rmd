@@ -185,7 +185,7 @@ tibble(ID = c("A", "A", "B", "B"),
   summarise(Response = mean(Response),
             Range = max(Response) - min(Response))
 ```
-I routinely assume that they should be `1` for `"A"` (because `2-1`) and `2` for `"B"` (`6-4`). Nope, both are `0` because by the time `Range = max(Response) - min(Response)` is executed, original values of `Response` are overwritten by `Response = mean(Response)`, so it has just **one** value, the mean. And `min()` and `max()` of a single value is that value, so their difference is `0`. It is obvious once you carefully consider the code but it is _not_ obvious (at least to me) straightaway. In short, be **very careful** when you are reusing column names. Better still, do not reuse them, be creating, come up with new ones!
+I routinely assume that they should be `1` for `"A"` (because `2-1`) and `2` for `"B"` (`6-4`). Nope, both are `0` because by the time `Range = max(Response) - min(Response)` is executed, original values of `Response` are overwritten by `Response = mean(Response)`, so it has just **one** value, the mean. And `min()` and `max()` of a single value is that value, so their difference is `0`. It is obvious once you carefully consider the code but it is _not_ obvious (at least to me) straightaway. In short, be **very careful** when you are reusing column names. Better still, do not reuse them, be creative, come up with new ones!
 
 Getting back to the exercise, compute average performance per `Prime`×`Probe`. Store the result of the computation in a new variable (I've called it `persistence_avg`) and check that results makes sense, e.g. you have just three columns `Prime`, `Probe`, and `Pavg` (or however you decided to name the column). They should look like this:
 ```{r echo=FALSE, fig.align='center'}
