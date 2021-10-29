@@ -282,7 +282,12 @@ x * y + z
 
 
 ## Exercise 11. Let's see if R can suprise you!
+This exercise has dual purpose. First, it reminds you that, as far as simple data types, everything is a vector. A number you type is a vector. Index you use to subset a vector is a vector. Values or a value you get from a vector is a vector. Even if it is a single value you are using / accessing, it is a single-element vector.
+
+Second, keep in mind that computers are dumb and interpret the code literally. Therefore, it will be easy for you figure out what the code does, if you pretend to be a computer and "execute" the code piece-by-piece. In case of brackets, the rules are left-to-right and inside-out. If you have several brackets one after another(e.g., `x[.#1.][.#2.][.#3.]`), you start with the first one (`x[.#1.]`) and figure out what _vector_ will you get. Then, you figure out what happens when you apply `[.#2.]` to that _new_ vector, etc. In case of nested brackets `x[y[z[w]]]`, you start with the innermost (`z[w]`) figure out what the _vector_ will be, substitute into the next level `y[vector-from-inner-brackets]` and figure out that second _vector_. Put it into the next level, etc.
+
 Take a look at the code below. What would be the results of the computation? Write down your answer **before** running the code chunk!
+
 
 **Answer #1:**
 ```{r exercise 11-01}
