@@ -229,7 +229,7 @@ deg2rad(90) %>% sin() # also return 1
 ```
 
 ::: {.infobox .practice}
-Do exercise 9.
+Do exercise 11.
 :::
 
 All functions you used in the exercise had only one parameter because `single-output %>% single-input` piping is very straightforward. But what if one of the functions takes more than one parameter? By default, `%>%` puts the piped value into the _first_ parameter. Thus `4 %>% radius(3)` is equivalent to `radius(4, 3)`. Although this default is very useful (the entire Tidyverse is build around this idea of piping a value into the _first_ parameter to streamline your experience), sometimes you need that value as some _other_ parameter (e.g., when you are pre-processing the data before piping it into a statistical test, the latter typically takes `formula` as the first parameter and `data` as second). For this, you can use a special dot variable: `.`, which is a hidden^[As in: It won't show up in your Global Environment tab.] temporary variable that holds the value you are piping through via `%>%`^[Yes, it is the same variable that you use over-and-over again but [magrittr](https://magrittr.tidyverse.org/articles/magrittr.html) package makes sure to clean it up after each call, so you are not in danger of incidentally using a value from a previous call.]. Thus,
@@ -254,7 +254,7 @@ Note that because `.` is a variable, you can use it several times just as you ca
 ```
 
 ::: {.infobox .practice}
-Do exercise 11.
+Do exercise 12.
 :::
 
 ## Function is just a code stored in a variable
