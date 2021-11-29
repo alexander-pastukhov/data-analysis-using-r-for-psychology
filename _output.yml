@@ -7,3 +7,11 @@ bookdown::gitbook:
         <li><a href="./">Data analysis using R for Psychology</a></li>
       after: |
         <li><a href="https://alexander-pastukhov.github.io/">Alexander (Sasha) Pastukhov</li>
+    download: ["pdf", "epub"]
+bookdown::pdf_book:
+  includes:
+    in_header: preamble.tex
+  latex_engine: xelatex
+  citation_package: natbib
+  keep_tex: yes
+bookdown::epub_book: default

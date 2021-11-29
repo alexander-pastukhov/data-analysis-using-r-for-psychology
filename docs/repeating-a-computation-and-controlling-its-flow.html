@@ -269,6 +269,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://alexander-pastukhov.github.io/">Alexander (Sasha) Pastukhov</li>
+
 </ul>
 
       </nav>
@@ -295,13 +296,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The most basic repetition mechanism in R is <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/rep.html">rep()</a> function. It takes a vector and repeats it specified number of <em>times</em>.</p>
 <div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb339-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">times=</span><span class="dv">4</span>)</span></code></pre></div>
 <pre><code>##  [1] 1 2 3 1 2 3 1 2 3 1 2 3</code></pre>
-<p>Alternatively, you can repeat each element specified number of times before repeating the next one, is done via <code>each</code> parameter. The difference between options lies only in the <em>order</em> of elements in the new vector. As you can see both vectors have the same length and each individual value is repeat four times.</p>
+<p>Alternatively, you can repeat each element specified number of times before repeating the next one via <code>each</code> parameter. The difference between options lies only in the <em>order</em> of elements in the new vector. As you can see both vectors have the same length and each individual value is repeated four times.</p>
 <div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb341-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">each=</span><span class="dv">4</span>)</span></code></pre></div>
 <pre><code>##  [1] 1 1 1 1 2 2 2 2 3 3 3 3</code></pre>
 <p>You can specify length of the output vector via <code>length.out</code>. When combined with <code>times</code> it can be useful for producing truncated vectors. E.g., when we repeat a three element vector but we want to get ten values. Using <code>times</code> only, we can get either nine (<code>times=3</code>) or twelve (<code>times=4</code>), not ten. <code>length.out=10</code> makes it happen.</p>
 <div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb343-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">times=</span><span class="dv">4</span>, <span class="at">length.out =</span> <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##  [1] 1 2 3 1 2 3 1 2 3 1</code></pre>
-<p>However, you can also use subsetting of a new vector to achieve same ends.</p>
+<p>However, you can also use subsetting of a new vector to achieve the same end.</p>
 <div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb345-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">times=</span><span class="dv">4</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code></pre></div>
 <pre><code>##  [1] 1 2 3 1 2 3 1 2 3 1</code></pre>
 <p>You should be more careful when combining <code>length.out</code> with <code>each</code>, as each value is repeated <code>each</code> times and, if <code>length.out</code> is longer, the same sequence is repeated again. Could be confusing and you might get a very unbalanced repeated sequence.</p>
@@ -313,7 +314,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="repeating-combinations" class="section level2" number="9.2">
 <h2><span class="header-section-number">9.2</span> Repeating combinations</h2>
-<p>To create a table with all combinations of values, you can use either base R <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/expand.grid.html">expand.grid()</a> or tidyr’s implementation <a href="https://tidyr.tidyverse.org/reference/expand_grid.html">expand_grid()</a>. The latter is a bit more robust and can expand even tables and matrices (but see the documentation for the differences in implementation and output).</p>
+<p>To create a table with all combinations of values, you can use either base R <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/expand.grid.html">expand.grid()</a> or tidyr’s implementation <a href="https://tidyr.tidyverse.org/reference/expand_grid.html">expand_grid()</a>. The latter is a bit more robust and can expand even tables and matrices (but see the documentation for subtle differences in implementation and output).</p>
 <p>The usage is very straightforward, you provide column names and values and you get all combinations of their values.</p>
 <div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb349-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(grid_base)</span></code></pre></div>
 <table>
@@ -534,6 +535,15 @@ FALSE
 <div class="infobox practice">
 <p>Do exercise 2.</p>
 </div>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb352-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">gender=</span><span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;female&quot;</span>, <span class="st">&quot;male&quot;</span>)), </span>
+<span id="cb352-2"><a href="repeating-a-computation-and-controlling-its-flow.html#cb352-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">handidness=</span><span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;right&quot;</span>, <span class="st">&quot;left&quot;</span>)),</span>
+<span id="cb352-3"><a href="repeating-a-computation-and-controlling-its-flow.html#cb352-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">colorblindness=</span><span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb352-4"><a href="repeating-a-computation-and-controlling-its-flow.html#cb352-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_grid</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 2 x 3
+##   gender handidness colorblindness
+##   &lt;fct&gt;  &lt;fct&gt;      &lt;lgl&gt;         
+## 1 female right      TRUE          
+## 2 male   left       FALSE</code></pre>
 </div>
 <div id="list" class="section level2" number="9.3">
 <h2><span class="header-section-number">9.3</span> Lists</h2>
@@ -543,22 +553,22 @@ FALSE
 <h2><span class="header-section-number">9.4</span> For loop</h2>
 <p>You can loop (iterate) over elements of a vector or list via a <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html">for</a> loop, which is very similar to for-loops in other programming languages. However, use of the <code>for</code> loop in R is fairly rare, because vectors are a fundamental build block and R is inherently vectorized (you can do the same thing to all values, not to one value at a time). Thus, almost always, you can do the same thing but using simpler or more expressive tools. In a sense, <code>for</code> loop is very un-R, so if you find yourself using it, consider whether there is a simpler or more expressive way. At the same time, if <code>for</code> loop <em>is</em> the simplest or clearest way to write you code, by all means, use it!</p>
 <p>The general format is</p>
-<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb352-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(loop_variable <span class="cf">in</span> vector_or_list){</span>
-<span id="cb352-2"><a href="repeating-a-computation-and-controlling-its-flow.html#cb352-2" aria-hidden="true" tabindex="-1"></a>  ...some operations using loop_variable that</span>
-<span id="cb352-3"><a href="repeating-a-computation-and-controlling-its-flow.html#cb352-3" aria-hidden="true" tabindex="-1"></a>  changes its value on each iteration... </span>
-<span id="cb352-4"><a href="repeating-a-computation-and-controlling-its-flow.html#cb352-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb354-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(loop_variable <span class="cf">in</span> vector_or_list){</span>
+<span id="cb354-2"><a href="repeating-a-computation-and-controlling-its-flow.html#cb354-2" aria-hidden="true" tabindex="-1"></a>  ...some operations using loop_variable that</span>
+<span id="cb354-3"><a href="repeating-a-computation-and-controlling-its-flow.html#cb354-3" aria-hidden="true" tabindex="-1"></a>  changes its value on each iteration... </span>
+<span id="cb354-4"><a href="repeating-a-computation-and-controlling-its-flow.html#cb354-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Note the curly brackets. We used them before to put the code inside a function. Here, we use them to put the code inside the loop. The loop is repeated as many times as the number of elements in a vector or a list with a loop variable<a href="#fn54" class="footnote-ref" id="fnref54"><sup>54</sup></a> getting assigned each vector/list value on each iteration. Thus, to print each value of a vector we can do</p>
-<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb353-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(a_number <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">200</span>)){</span>
-<span id="cb353-2"><a href="repeating-a-computation-and-controlling-its-flow.html#cb353-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(a_number)</span>
-<span id="cb353-3"><a href="repeating-a-computation-and-controlling-its-flow.html#cb353-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb355-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(a_number <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">200</span>)){</span>
+<span id="cb355-2"><a href="repeating-a-computation-and-controlling-its-flow.html#cb355-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(a_number)</span>
+<span id="cb355-3"><a href="repeating-a-computation-and-controlling-its-flow.html#cb355-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## [1] 1
 ## [1] 5
 ## [1] 200</code></pre>
 <p>A typical scenario is for the loop variable to be an <em>index</em> that can be used to access element of a vector or a list. You can build a vector of indexes via <code>start:stop</code> sequence tool we used for <a href="vectors.html#vector-index-slicing">slicing</a>. You can compute a length of an object via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/length.html">length()</a> function. For a <code>data.frame</code> or a <code>tibble</code>, you can figure out number of rows and columns via, respectively, <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/nrow.html">nrow()</a> and <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/nrow.html">ncol()</a> functions.</p>
-<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb355-1" aria-hidden="true" tabindex="-1"></a>vector_of_some_numbers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">200</span>)</span>
-<span id="cb355-2"><a href="repeating-a-computation-and-controlling-its-flow.html#cb355-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(index <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(vector_of_some_numbers)){</span>
-<span id="cb355-3"><a href="repeating-a-computation-and-controlling-its-flow.html#cb355-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(vector_of_some_numbers[index])</span>
-<span id="cb355-4"><a href="repeating-a-computation-and-controlling-its-flow.html#cb355-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb357-1" aria-hidden="true" tabindex="-1"></a>vector_of_some_numbers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">200</span>)</span>
+<span id="cb357-2"><a href="repeating-a-computation-and-controlling-its-flow.html#cb357-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(index <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(vector_of_some_numbers)){</span>
+<span id="cb357-3"><a href="repeating-a-computation-and-controlling-its-flow.html#cb357-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(vector_of_some_numbers[index])</span>
+<span id="cb357-4"><a href="repeating-a-computation-and-controlling-its-flow.html#cb357-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## [1] 1
 ## [1] 5
 ## [1] 200</code></pre>
@@ -566,11 +576,11 @@ FALSE
 <p>Do exercise 3.</p>
 </div>
 <p>You can also <em>nest</em> loops.</p>
-<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb357-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(letter <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>)){</span>
-<span id="cb357-2"><a href="repeating-a-computation-and-controlling-its-flow.html#cb357-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(number <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>){</span>
-<span id="cb357-3"><a href="repeating-a-computation-and-controlling-its-flow.html#cb357-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(letter)</span>
-<span id="cb357-4"><a href="repeating-a-computation-and-controlling-its-flow.html#cb357-4" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb357-5"><a href="repeating-a-computation-and-controlling-its-flow.html#cb357-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb359-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(letter <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>)){</span>
+<span id="cb359-2"><a href="repeating-a-computation-and-controlling-its-flow.html#cb359-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(number <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>){</span>
+<span id="cb359-3"><a href="repeating-a-computation-and-controlling-its-flow.html#cb359-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(letter)</span>
+<span id="cb359-4"><a href="repeating-a-computation-and-controlling-its-flow.html#cb359-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb359-5"><a href="repeating-a-computation-and-controlling-its-flow.html#cb359-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## [1] &quot;A&quot;
 ## [1] &quot;A&quot;
 ## [1] &quot;B&quot;
@@ -581,8 +591,8 @@ FALSE
 <p>Do exercise 4.</p>
 </div>
 <p>As I have noted above, loops are particularly useful when you current value depends on a previous one (or many previous values). In the next exercise, use <code>for</code> loop to create a random walk (length 10) starting at value zero with each next step drawn randomly from a normal distribution with mean of 0.5 and standard deviation of 2 (the function you are looking for is <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html">rnorm()</a>). You end-produce might look like this</p>
-<pre><code>##  [1] 0.0000000 1.0001475 0.9616751 4.7401713 3.5601919 6.4771612 7.1746048
-##  [8] 7.0101363 5.2505387 4.5273965</code></pre>
+<pre><code>##  [1]  0.0000000 -0.5589247  3.1729749  3.1647175  5.9955346  6.4425411
+##  [7] 11.1467371  8.5690309  6.9325206  8.7340626</code></pre>
 <div class="infobox practice">
 <p>Do exercise 5.</p>
 </div>
@@ -872,26 +882,26 @@ right
 <h2><span class="header-section-number">9.6</span> Apply</h2>
 <p>As noted above, for loops do the job by might not be the most elegant way of doing things. In R, you can <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/apply.html">apply</a> a function to each row or column of a matrix. In addition, there are more case-specific version of it, such <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/lapply.html">lapply</a>.</p>
 <p>The function is called <code>apply</code> because you <em>apply</em> it to values of a vector. In a sense, you have been applying functions the whole time by calling them. For example, we might compute a sinus of a sequence of numbers as</p>
-<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb360-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sin</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb362-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sin</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>))</span></code></pre></div>
 <pre><code>## [1] 0.000000e+00 7.071068e-01 1.000000e+00 7.071068e-01 1.224606e-16</code></pre>
 <p>Or, we can <em>apply</em> sinus function to a number sequence</p>
-<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb362-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>), sin)</span></code></pre></div>
+<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb364-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>), sin)</span></code></pre></div>
 <pre><code>## [1] 0.000000e+00 7.071068e-01 1.000000e+00 7.071068e-01 1.224606e-16</code></pre>
 <p>You might ask, what is then the point to use <code>apply</code>? Not much for simple vector cases like this, but is very useful when you have two dimensional data, as you can apply a function along horizontal (rows) or vertical (columns) margin. For example, imagine you need to compute an average (or median, or any other quantile) of each row or column in a matrix (something you might do fairly often for posterior samples in Bayesian statistics).</p>
 <p>Let us create a simple 3 by 4 matrix of normally distributed random numbers.</p>
-<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb364-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A </span></span>
-<span id="cb364-2"><a href="repeating-a-computation-and-controlling-its-flow.html#cb364-2" aria-hidden="true" tabindex="-1"></a>a_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">12</span>), <span class="at">nrow =</span> <span class="dv">3</span>)</span>
-<span id="cb364-3"><a href="repeating-a-computation-and-controlling-its-flow.html#cb364-3" aria-hidden="true" tabindex="-1"></a>a_matrix</span></code></pre></div>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb366-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A </span></span>
+<span id="cb366-2"><a href="repeating-a-computation-and-controlling-its-flow.html#cb366-2" aria-hidden="true" tabindex="-1"></a>a_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">12</span>), <span class="at">nrow =</span> <span class="dv">3</span>)</span>
+<span id="cb366-3"><a href="repeating-a-computation-and-controlling-its-flow.html#cb366-3" aria-hidden="true" tabindex="-1"></a>a_matrix</span></code></pre></div>
 <pre><code>##            [,1]       [,2]       [,3]        [,4]
-## [1,] -1.3114526 -1.6987117 -0.9720859 -0.06810538
-## [2,] -1.4236002  1.1277628  0.9528609  0.68165071
-## [3,] -0.6208797 -0.4354705 -1.3380581  1.25924239</code></pre>
+## [1,] -1.1862853  0.4990930 -0.8507123 -0.73211338
+## [2,]  0.1315799 -0.5961330  1.0252311 -0.01360648
+## [3,]  0.5109297  0.7227395 -0.7221697  0.53964532</code></pre>
 <p>We would expect median value of any row or column to be 0 but because we have so few data points, they will be close but not exactly zero. Computing median for each row (we should get <em>three</em> numbers)</p>
-<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb366-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a_matrix, <span class="dv">1</span>, median)</span></code></pre></div>
-<pre><code>## [1] -1.1417692  0.8172558 -0.5281751</code></pre>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb368-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a_matrix, <span class="dv">1</span>, median)</span></code></pre></div>
+<pre><code>## [1] -0.79141284  0.05898669  0.52528751</code></pre>
 <p>Similarly for a column (here, it should be <em>four</em> numbers)</p>
-<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb368-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a_matrix, <span class="dv">2</span>, median)</span></code></pre></div>
-<pre><code>## [1] -1.3114526 -0.4354705 -0.9720859  0.6816507</code></pre>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb370-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a_matrix, <span class="dv">2</span>, median)</span></code></pre></div>
+<pre><code>## [1]  0.13157986  0.49909296 -0.72216972 -0.01360648</code></pre>
 <p>I will not go into any further details on these functions, concentrating on similar functionality by <a href="repeating-a-computation-and-controlling-its-flow.html#purrr">purrr</a> package. However, if you find yourself working with matrices or needing to apply a function to rows of a data frame, <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/apply.html">apply</a> might be a simpler solution. Keep this option in mind, if you feel that either looping or purrring looks inadequate.</p>
 </div>
 <div id="purrr" class="section level2" number="9.7">
@@ -899,10 +909,10 @@ right
 <p>Package <a href="https://purrr.tidyverse.org/">purrr</a> is part of the tidyverse. It provides functional programming approach similar to (apply)[#apply] but it easier to use (IMHO) and it has a more explicit and consistent way to describe and combine the output. Language-wise, you do not <em>apply</em> a function, you use it to <a href="https://purrr.tidyverse.org/reference/map.html">map</a> inputs on outputs<a href="#fn55" class="footnote-ref" id="fnref55"><sup>55</sup></a></p>
 <p>The basic <a href="https://purrr.tidyverse.org/reference/map.html">map()</a> function always returns a list but you can explicitly state that you expect a number (<code>map_dbl()</code>) and all outputs will be combined into a numeric vector. And, unlike <code>apply</code>, <code>map_dbl()</code> will generate an error if outputs cannot be converted to numeric. Or, you can specify that you expect each output to be a <code>data.frame</code>. In this case, you can automatically bind them by rows via <code>map_dfr()</code> or by columns via <code>map_dfc()</code>. Again, if all outputs cannot be converted to a <code>data.frame</code>, either function will loudly complain (which is good!).</p>
 <p>The basic call is similar to <a href="repeating-a-computation-and-controlling-its-flow.html#apply">apply</a> but is easier to use as you can explicitly address current value via <code>.</code> variable and you can write a “normal” function call, prefixing it with a <code>~</code>. Here is the example of computing the sinus again. First, same a <code>apply</code></p>
-<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb370-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>), sin)</span></code></pre></div>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb372-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>), sin)</span></code></pre></div>
 <pre><code>## [1] 0.000000e+00 7.071068e-01 1.000000e+00 7.071068e-01 1.224606e-16</code></pre>
 <p>Now, we a magic tilde <code>~</code>. Note an explicit call to <code>sin()</code> function with <code>.</code> as an argument.</p>
-<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb372-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>), <span class="sc">~</span><span class="fu">sin</span>(.))</span></code></pre></div>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="repeating-a-computation-and-controlling-its-flow.html#cb374-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>), <span class="sc">~</span><span class="fu">sin</span>(.))</span></code></pre></div>
 <pre><code>## [1] 0.000000e+00 7.071068e-01 1.000000e+00 7.071068e-01 1.224606e-16</code></pre>
 <p>Again, using <code>map_dbl()</code> in this case looks as a complete overkill. So let us do something more relevant. Let us implement loading and merging of persistence study files. Use <code>map_dfr()</code> function and <code>~</code> call notation, remember <code>.</code> would then correspond to a single value from the vector of file names. Again, you should get a single table with twelve columns and 5232 rows.</p>
 <div class="infobox practice">
@@ -1032,7 +1042,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": null,
+"download": ["data-analysis-using-r-for-psychology.pdf", "data-analysis-using-r-for-psychology.epub"],
 "search": {
 "engine": "lunr",
 "options": null
