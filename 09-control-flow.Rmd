@@ -1,19 +1,19 @@
-# Repeating a computation {#seminar10}
+# Repeating a computation and controlling its flow
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(tidyverse)
 ```
 
 Grab the [exercise notebook](notebooks/Seminar 10 - repetition.Rmd) before we start.
 
-One the most powerful features of R is that it is vector-based. Remember, everything is a vector (or a list). In the previous seminars you saw you can apply a function, a filter, or perform a computation on all values of a vector or all rows in a table in a single call. However, sometimes, you need to go over one value or row at a time explicitly. There are different scenarios when it can be useful. For example, if you are computing a time-series, it might be easier to use an explicit `for` loop to compute current value based on previous state of the system. Or, if you change the type of data or number of values, such as looping/iterating over file names to load individual files and merge them into a single table or fitting different models.
+One the most powerful features of R is that it is vector-based. Remember, everything is a vector (or a list). In the previous seminars you saw you can apply a function, a filter, or perform a computation on all values of a vector or all rows in a table in a single call. However, sometimes, you need to go over one value or row at a time explicitly. For example, if you working with a time-series, it might be easier to use an explicit [for](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html) loop to compute current value based on previous state of the system. However, such instances are fairly rare, so the general rule for R is "you probably do not need a loop". Below, we will go through various tools that render explicit loops redundant.
 
 ## `rep()` {#rep}
-The most basic repetition mechanism in R is [rep()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/rep.html) function. It takes a vector and repeats it or each individual value specified number of times. The former, repeating the entire vector, is done via `times` parameter.
+The most basic repetition mechanism in R is [rep()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/rep.html) function. It takes a vector and repeats it specified number of _times_.
 ```{r}
 rep(c(1, 2, 3), times=4)
 ```
 
-The latter, repeating each element specified number of times before repeating the next one, is done via `each` parameter.
+Alternatively, you can repeat each element specified number of times before repeating the next one, is done via `each` parameter. The difference between options lies only in the _order_ of elements in the new vector. As you can see both vectors have the same length and each individual value is repeat four times. 
 ```{r}
 rep(c(1, 2, 3), each=4)
 ```
@@ -21,6 +21,11 @@ rep(c(1, 2, 3), each=4)
 You can specify length of the output vector via `length.out`. When combined with `times` it can be useful for producing truncated vectors. E.g., when we repeat a three element vector but we want to get ten values. Using `times` only, we can get either nine (`times=3`) or twelve (`times=4`), not ten. `length.out=10` makes it happen.
 ```{r}
 rep(c(1, 2, 3), times=4, length.out = 10)
+```
+
+However, you can also use subsetting of a new vector to achieve same ends.
+```{r}
+rep(c(1, 2, 3), times=4)[1:10]
 ```
 
 You should be more careful when combining `length.out` with `each`, as each value is repeated `each` times and, if `length.out` is longer, the same sequence is repeated again. Could be confusing and you might get a very unbalanced repeated sequence.
@@ -33,32 +38,31 @@ Do exercise 1.
 :::
 
 ## Repeating combinations
-To create a table with all combinations of values, you can use either base R [expand.grid()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/expand.grid.html) or tidyr's implementation [expand_grid()](https://tidyr.tidyverse.org/reference/expand_grid.html). The latter is a bit more robust and can expand even table and matrice, see the documentation for the differences.
+To create a table with all combinations of values, you can use either base R [expand.grid()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/expand.grid.html) or tidyr's implementation [expand_grid()](https://tidyr.tidyverse.org/reference/expand_grid.html). The latter is a bit more robust and can expand even tables and matrices (but see the documentation for the differences in implementation and output).
 
 The usage is very straightforward, you provide column names and values and you get all combinations of their values.
-```r
-expand.grid(gender=c("female", "male"), 
-            handidness=c("right", "left"),
-            colorblindness=c(TRUE, FALSE))
-```
 ```{r echo=FALSE}
-expand.grid(gender=c("female", "male"), 
-            handidness=c("right", "left"),
-            colorblindness=c(TRUE, FALSE)) %>%
-  knitr::kable()
+grid_base <- expand.grid(gender=c("female", "male"), 
+                         handidness=c("right", "left"),
+                         colorblindness=c(TRUE, FALSE))
+```
+```{r}
+knitr::kable(grid_base)
 ```
 
-Note that `expand.grid()` and `expand_grid()` vary in the order in which they vary values within columns 
+[expand_grid()](https://tidyr.tidyverse.org/reference/expand_grid.html) works the same they but for the order in the values very within columns.
 ```r
 expand_grid(gender=c("female", "male"), 
             handidness=c("right", "left"),
             colorblindness=c(TRUE, FALSE))
 ```
 ```{r echo=FALSE}
-expand_grid(gender=c("female", "male"), 
-            handidness=c("right", "left"),
-            colorblindness=c(TRUE, FALSE)) %>%
-  knitr::kable()
+grid_tidyr <- expand_grid(gender=c("female", "male"), 
+                          handidness=c("right", "left"),
+                          colorblindness=c(TRUE, FALSE))
+```
+```{r}
+knitr::kable(grid_tidyr)
 ```
 
 ::: {.infobox .practice}
