@@ -88,9 +88,10 @@ c(TRUE, 123, "1", NA, 5)
 Run this cell first to create the list.
 ```{r}
 l <- list("a" = c(1L, 2L, 3L), "bb" = list(c(10L, 20L, 30L, 40L)), "cc" = list("c1"= 1:5, "c2"= 5L))
+l
 ```
 
-Write down your answers before runing each cell. What would be extracted into variable `x`? Possible answers for `class(x)` are:
+Write down your answers before running each cell. What would be extracted into variable `x`? Possible answers for `class(x)` are:
 
 * a vector (`class(x)` returns  `"integer"`)
 * list (`class(x)` returns `"list"`)
@@ -122,6 +123,8 @@ class(x)
 x <- l[[3]][1]
 print(x)
 class(x)
+
+l[[3]][1]
 ```
 **Answer #5:**
 ```{r}
@@ -224,7 +227,6 @@ Use `tribble()` function from `tibble` library to replicate the following table
 ```
 
 ## Exercise 8. read_csv
-
 Use `read_csv` function from `readr` library to read `face_rank.csv` file you downloaded, see instructions and a warning the main text. Specify the columns, so that the program runs without a warning (see main text). Experiment with modifying the column specifications to see how you get warned about mismatches in the data.
 
 ```{r exercise 07-01}

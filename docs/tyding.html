@@ -1,0 +1,4149 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Seminar 8 Tidyng your data: joins and pivots | Data analysis using R for Psychology and Social Science</title>
+  <meta name="description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Seminar 8 Tidyng your data: joins and pivots | Data analysis using R for Psychology and Social Science" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Seminar 8 Tidyng your data: joins and pivots | Data analysis using R for Psychology and Social Science" />
+  
+  <meta name="twitter:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
+  
+
+<meta name="author" content="Alexander (Sasha) Pastukhov" />
+
+
+<meta name="date" content="2021-11-29" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="working-with-factors.html"/>
+<link rel="next" href="repeating-a-computation-and-controlling-its-flow.html"/>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="font-awesome.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Data analysis using R for Psychology</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-r"><i class="fa fa-check"></i>Why R?</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-tidyverse"><i class="fa fa-check"></i>Why Tidyverse</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-seminar"><i class="fa fa-check"></i>About the seminar</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#thinking-like-a-computer"><i class="fa fa-check"></i>Thinking like a computer</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-material"><i class="fa fa-check"></i>About the material</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html"><i class="fa fa-check"></i>Software</a>
+<ul>
+<li class="chapter" data-level="0.1" data-path="software.html"><a href="software.html#install-r"><i class="fa fa-check"></i><b>0.1</b> Installing R</a></li>
+<li class="chapter" data-level="0.2" data-path="software.html"><a href="software.html#install-rstudio"><i class="fa fa-check"></i><b>0.2</b> Installing R-Studio</a></li>
+<li class="chapter" data-level="0.3" data-path="software.html"><a href="software.html#install-rtools"><i class="fa fa-check"></i><b>0.3</b> Installing RTools</a></li>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install.packages"><i class="fa fa-check"></i>Installing packages</a></li>
+<li class="chapter" data-level="0.4" data-path="software.html"><a href="software.html#minimal-set-of-packages"><i class="fa fa-check"></i><b>0.4</b> Minimal set of packages</a></li>
+<li class="chapter" data-level="0.5" data-path="software.html"><a href="software.html#installr"><i class="fa fa-check"></i><b>0.5</b> Keeping R and packages up-to-date</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="reproducable-research.html"><a href="reproducable-research.html"><i class="fa fa-check"></i><b>1</b> Reproducable Research: Projects and RMarkdown Notebooks</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="reproducable-research.html"><a href="reproducable-research.html#projects"><i class="fa fa-check"></i><b>1.1</b> Projects</a></li>
+<li class="chapter" data-level="1.2" data-path="reproducable-research.html"><a href="reproducable-research.html#rmarkdown"><i class="fa fa-check"></i><b>1.2</b> RMarkdown</a></li>
+<li class="chapter" data-level="1.3" data-path="reproducable-research.html"><a href="reproducable-research.html#exercise"><i class="fa fa-check"></i><b>1.3</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="vectors.html"><a href="vectors.html"><i class="fa fa-check"></i><b>2</b> Vectors! Vectors everywhere!</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="vectors.html"><a href="vectors.html#variables"><i class="fa fa-check"></i><b>2.1</b> Variables as boxes</a></li>
+<li class="chapter" data-level="2.2" data-path="vectors.html"><a href="vectors.html#assignment-statement"><i class="fa fa-check"></i><b>2.2</b> Assignment statement in detail</a></li>
+<li class="chapter" data-level="2.3" data-path="vectors.html"><a href="vectors.html#vectors-scalars"><i class="fa fa-check"></i><b>2.3</b> Vectors and singluar values (scalars, which are also vectors)</a></li>
+<li class="chapter" data-level="2.4" data-path="vectors.html"><a href="vectors.html#vector-index"><i class="fa fa-check"></i><b>2.4</b> Vector indexes (subsetting)</a></li>
+<li class="chapter" data-level="2.5" data-path="vectors.html"><a href="vectors.html#names"><i class="fa fa-check"></i><b>2.5</b> Names as an Index</a></li>
+<li class="chapter" data-level="2.6" data-path="vectors.html"><a href="vectors.html#vector-index-slicing"><i class="fa fa-check"></i><b>2.6</b> Slicing</a></li>
+<li class="chapter" data-level="2.7" data-path="vectors.html"><a href="vectors.html#colon-sequence"><i class="fa fa-check"></i><b>2.7</b> Colon Operator and Sequence Generation</a></li>
+<li class="chapter" data-level="2.8" data-path="vectors.html"><a href="vectors.html#working-with-two-vectors-of-equal-length"><i class="fa fa-check"></i><b>2.8</b> Working with two vectors of <em>equal</em> length</a></li>
+<li class="chapter" data-level="2.9" data-path="vectors.html"><a href="vectors.html#different-length-vectors"><i class="fa fa-check"></i><b>2.9</b> Working with two vectors of <em>different</em> length</a></li>
+<li class="chapter" data-level="2.10" data-path="vectors.html"><a href="vectors.html#applying-functions-to-a-vector"><i class="fa fa-check"></i><b>2.10</b> Applying functions to a vector</a></li>
+<li class="chapter" data-level="2.11" data-path="vectors.html"><a href="vectors.html#wrap-up"><i class="fa fa-check"></i><b>2.11</b> Wrap up</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="tables.html"><a href="tables.html"><i class="fa fa-check"></i><b>3</b> Tables and Tibbles (and Tribbles)</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tables.html"><a href="tables.html#primary-types"><i class="fa fa-check"></i><b>3.1</b> Primary data types</a></li>
+<li class="chapter" data-level="3.2" data-path="tables.html"><a href="tables.html#vectors-are-homogeneous"><i class="fa fa-check"></i><b>3.2</b> All vector values must be of the same type</a></li>
+<li class="chapter" data-level="3.3" data-path="tables.html"><a href="tables.html#lists"><i class="fa fa-check"></i><b>3.3</b> Lists</a></li>
+<li class="chapter" data-level="3.4" data-path="tables.html"><a href="tables.html#subsetting"><i class="fa fa-check"></i><b>3.4</b> Subsetting, a fuller version</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="tables.html"><a href="tables.html#subsetting-for-atomics-vectors"><i class="fa fa-check"></i><b>3.4.1</b> Subsetting for (atomics) vectors</a></li>
+<li class="chapter" data-level="3.4.2" data-path="tables.html"><a href="tables.html#subsetting-for-lists"><i class="fa fa-check"></i><b>3.4.2</b> Subsetting for lists</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="tables.html"><a href="tables.html#dollar-subsetting"><i class="fa fa-check"></i><b>3.5</b> Yet another subsetting via $</a></li>
+<li class="chapter" data-level="3.6" data-path="tables.html"><a href="tables.html#data.frame"><i class="fa fa-check"></i><b>3.6</b> Tables, a.k.a. data frames</a></li>
+<li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#table-subsetting"><i class="fa fa-check"></i><b>3.7</b> Subsetting tables</a></li>
+<li class="chapter" data-level="3.8" data-path="tables.html"><a href="tables.html#library"><i class="fa fa-check"></i><b>3.8</b> Using libraries</a></li>
+<li class="chapter" data-level="3.9" data-path="tables.html"><a href="tables.html#tibble"><i class="fa fa-check"></i><b>3.9</b> Tibble, a better data.frame</a></li>
+<li class="chapter" data-level="3.10" data-path="tables.html"><a href="tables.html#tribble"><i class="fa fa-check"></i><b>3.10</b> Tribble, table from text</a></li>
+<li class="chapter" data-level="3.11" data-path="tables.html"><a href="tables.html#data"><i class="fa fa-check"></i><b>3.11</b> Reading example tables</a></li>
+<li class="chapter" data-level="3.12" data-path="tables.html"><a href="tables.html#readr"><i class="fa fa-check"></i><b>3.12</b> Reading csv files</a></li>
+<li class="chapter" data-level="3.13" data-path="tables.html"><a href="tables.html#readxl"><i class="fa fa-check"></i><b>3.13</b> Reading Excel files</a></li>
+<li class="chapter" data-level="3.14" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.14</b> Reading files from other programs</a></li>
+<li class="chapter" data-level="3.15" data-path="tables.html"><a href="tables.html#rds"><i class="fa fa-check"></i><b>3.15</b> Writing and reading a single object</a></li>
+<li class="chapter" data-level="3.16" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.16</b> Wrap up</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>4</b> Functions! Functions everywhere!</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="functions.html"><a href="functions.html#functions-1"><i class="fa fa-check"></i><b>4.1</b> Functions</a></li>
+<li class="chapter" data-level="4.2" data-path="functions.html"><a href="functions.html#writing-a-function"><i class="fa fa-check"></i><b>4.2</b> Writing a function</a></li>
+<li class="chapter" data-level="4.3" data-path="functions.html"><a href="functions.html#scopes-global-versus-local-variables"><i class="fa fa-check"></i><b>4.3</b> Scopes: Global versus Local variables</a></li>
+<li class="chapter" data-level="4.4" data-path="functions.html"><a href="functions.html#function-with-two-parameters"><i class="fa fa-check"></i><b>4.4</b> Function with two parameters</a></li>
+<li class="chapter" data-level="4.5" data-path="functions.html"><a href="functions.html#table-as-a-parameter"><i class="fa fa-check"></i><b>4.5</b> Table as a parameter</a></li>
+<li class="chapter" data-level="4.6" data-path="functions.html"><a href="functions.html#named-versus-positional-arguments"><i class="fa fa-check"></i><b>4.6</b> Named versus positional arguments</a></li>
+<li class="chapter" data-level="4.7" data-path="functions.html"><a href="functions.html#default-values"><i class="fa fa-check"></i><b>4.7</b> Default values</a></li>
+<li class="chapter" data-level="4.8" data-path="functions.html"><a href="functions.html#nested-calls"><i class="fa fa-check"></i><b>4.8</b> Nested calls</a></li>
+<li class="chapter" data-level="4.9" data-path="functions.html"><a href="functions.html#pipe"><i class="fa fa-check"></i><b>4.9</b> Piping</a></li>
+<li class="chapter" data-level="4.10" data-path="functions.html"><a href="functions.html#function-is-just-a-code-stored-in-a-variable"><i class="fa fa-check"></i><b>4.10</b> Function is just a code stored in a variable</a></li>
+<li class="chapter" data-level="4.11" data-path="functions.html"><a href="functions.html#functions-functions-everywhere"><i class="fa fa-check"></i><b>4.11</b> Functions! Functions everywhere!</a></li>
+<li class="chapter" data-level="4.12" data-path="functions.html"><a href="functions.html#using-or-not-using-explicit-return-statement"><i class="fa fa-check"></i><b>4.12</b> Using (or not using) explicit return statement</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>5</b> Grammar of Graphics</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="ggplot2.html"><a href="ggplot2.html#tidydata"><i class="fa fa-check"></i><b>5.1</b> Tidy data</a></li>
+<li class="chapter" data-level="5.2" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-1"><i class="fa fa-check"></i><b>5.2</b> ggplot2</a></li>
+<li class="chapter" data-level="5.3" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-continuous-x-axis"><i class="fa fa-check"></i><b>5.3</b> Auto efficiency: continuous x-axis</a></li>
+<li class="chapter" data-level="5.4" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-discrete-x-axis"><i class="fa fa-check"></i><b>5.4</b> Auto efficiency: discrete x-axis</a></li>
+<li class="chapter" data-level="5.5" data-path="ggplot2.html"><a href="ggplot2.html#mammals-sleep-single-variable"><i class="fa fa-check"></i><b>5.5</b> Mammals sleep: single variable</a></li>
+<li class="chapter" data-level="5.6" data-path="ggplot2.html"><a href="ggplot2.html#mapping-for-all-visuals-versus-just-one-visual"><i class="fa fa-check"></i><b>5.6</b> Mapping for all visuals versus just one visual</a></li>
+<li class="chapter" data-level="5.7" data-path="ggplot2.html"><a href="ggplot2.html#mapping-on-variables-versus-constants"><i class="fa fa-check"></i><b>5.7</b> Mapping on variables versus constants</a></li>
+<li class="chapter" data-level="5.8" data-path="ggplot2.html"><a href="ggplot2.html#themes"><i class="fa fa-check"></i><b>5.8</b> Themes</a></li>
+<li class="chapter" data-level="5.9" data-path="ggplot2.html"><a href="ggplot2.html#you-aint-seen-nothing-yet"><i class="fa fa-check"></i><b>5.9</b> You ain’t seen nothing yet</a></li>
+<li class="chapter" data-level="5.10" data-path="ggplot2.html"><a href="ggplot2.html#further-reading"><i class="fa fa-check"></i><b>5.10</b> Further reading</a></li>
+<li class="chapter" data-level="5.11" data-path="ggplot2.html"><a href="ggplot2.html#extending-ggplot2"><i class="fa fa-check"></i><b>5.11</b> Extending ggplot2</a></li>
+<li class="chapter" data-level="5.12" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-cannot-do-everything"><i class="fa fa-check"></i><b>5.12</b> ggplot2 cannot do everything</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>6</b> Tidyverse: dplyr</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="dplyr.html"><a href="dplyr.html#tidyverse-philosophy"><i class="fa fa-check"></i><b>6.1</b> Tidyverse philosophy</a></li>
+<li class="chapter" data-level="6.2" data-path="dplyr.html"><a href="dplyr.html#select"><i class="fa fa-check"></i><b>6.2</b> <code>select()</code> columns by name</a></li>
+<li class="chapter" data-level="6.3" data-path="dplyr.html"><a href="dplyr.html#conditions"><i class="fa fa-check"></i><b>6.3</b> Conditions</a></li>
+<li class="chapter" data-level="6.4" data-path="dplyr.html"><a href="dplyr.html#logical-indexing"><i class="fa fa-check"></i><b>6.4</b> Logical indexing</a></li>
+<li class="chapter" data-level="6.5" data-path="dplyr.html"><a href="dplyr.html#filter-rows-by-values"><i class="fa fa-check"></i><b>6.5</b> <code>filter()</code> rows by values</a></li>
+<li class="chapter" data-level="6.6" data-path="dplyr.html"><a href="dplyr.html#arrange-rows-in-a-particular-order"><i class="fa fa-check"></i><b>6.6</b> <code>arrange()</code> rows in a particular order</a></li>
+<li class="chapter" data-level="6.7" data-path="dplyr.html"><a href="dplyr.html#mutate"><i class="fa fa-check"></i><b>6.7</b> <code>mutate()</code> columns</a></li>
+<li class="chapter" data-level="6.8" data-path="dplyr.html"><a href="dplyr.html#summarize"><i class="fa fa-check"></i><b>6.8</b> <code>summarize()</code> table by <code>groups</code></a></li>
+<li class="chapter" data-level="6.9" data-path="dplyr.html"><a href="dplyr.html#putting-it-all-together"><i class="fa fa-check"></i><b>6.9</b> Putting it all together</a></li>
+<li class="chapter" data-level="6.10" data-path="dplyr.html"><a href="dplyr.html#should-i-use-tidyverse"><i class="fa fa-check"></i><b>6.10</b> Should I use Tidyverse?</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="working-with-factors.html"><a href="working-with-factors.html"><i class="fa fa-check"></i><b>7</b> Working with Factors</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="working-with-factors.html"><a href="working-with-factors.html#how-to-write-code"><i class="fa fa-check"></i><b>7.1</b> How to write code</a></li>
+<li class="chapter" data-level="7.2" data-path="working-with-factors.html"><a href="working-with-factors.html#implementing-a-typical-analysis"><i class="fa fa-check"></i><b>7.2</b> Implementing a typical analysis</a></li>
+<li class="chapter" data-level="7.3" data-path="working-with-factors.html"><a href="working-with-factors.html#factors"><i class="fa fa-check"></i><b>7.3</b> Factors</a></li>
+<li class="chapter" data-level="7.4" data-path="working-with-factors.html"><a href="working-with-factors.html#forcats"><i class="fa fa-check"></i><b>7.4</b> Forcats</a></li>
+<li class="chapter" data-level="7.5" data-path="working-with-factors.html"><a href="working-with-factors.html#plotting-group-averages"><i class="fa fa-check"></i><b>7.5</b> Plotting group averages</a></li>
+<li class="chapter" data-level="7.6" data-path="working-with-factors.html"><a href="working-with-factors.html#plotting-our-confidence-in-group-averages-via-quantiles"><i class="fa fa-check"></i><b>7.6</b> Plotting our confidence in group averages via quantiles</a></li>
+<li class="chapter" data-level="7.7" data-path="working-with-factors.html"><a href="working-with-factors.html#looking-at-similarity"><i class="fa fa-check"></i><b>7.7</b> Looking at similarity</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tyding.html"><a href="tyding.html"><i class="fa fa-check"></i><b>8</b> Tidyng your data: joins and pivots</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="tyding.html"><a href="tyding.html#joins"><i class="fa fa-check"></i><b>8.1</b> Joining tables</a></li>
+<li class="chapter" data-level="8.2" data-path="tyding.html"><a href="tyding.html#pivoting"><i class="fa fa-check"></i><b>8.2</b> Pivoting</a></li>
+<li class="chapter" data-level="8.3" data-path="tyding.html"><a href="tyding.html#pivot-longer"><i class="fa fa-check"></i><b>8.3</b> Pivot longer</a></li>
+<li class="chapter" data-level="8.4" data-path="tyding.html"><a href="tyding.html#pivot-wider"><i class="fa fa-check"></i><b>8.4</b> Pivot wider</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="repeating-a-computation-and-controlling-its-flow.html"><a href="repeating-a-computation-and-controlling-its-flow.html"><i class="fa fa-check"></i><b>9</b> Repeating a computation and controlling its flow</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="repeating-a-computation-and-controlling-its-flow.html"><a href="repeating-a-computation-and-controlling-its-flow.html#rep"><i class="fa fa-check"></i><b>9.1</b> <code>rep()</code></a></li>
+<li class="chapter" data-level="9.2" data-path="repeating-a-computation-and-controlling-its-flow.html"><a href="repeating-a-computation-and-controlling-its-flow.html#repeating-combinations"><i class="fa fa-check"></i><b>9.2</b> Repeating combinations</a></li>
+<li class="chapter" data-level="9.3" data-path="repeating-a-computation-and-controlling-its-flow.html"><a href="repeating-a-computation-and-controlling-its-flow.html#list"><i class="fa fa-check"></i><b>9.3</b> Lists</a></li>
+<li class="chapter" data-level="9.4" data-path="repeating-a-computation-and-controlling-its-flow.html"><a href="repeating-a-computation-and-controlling-its-flow.html#forloop"><i class="fa fa-check"></i><b>9.4</b> For loop</a></li>
+<li class="chapter" data-level="9.5" data-path="repeating-a-computation-and-controlling-its-flow.html"><a href="repeating-a-computation-and-controlling-its-flow.html#using-for-loop-to-load-and-join-multiple-data-files"><i class="fa fa-check"></i><b>9.5</b> Using for loop to load and join multiple data files</a></li>
+<li class="chapter" data-level="9.6" data-path="repeating-a-computation-and-controlling-its-flow.html"><a href="repeating-a-computation-and-controlling-its-flow.html#apply"><i class="fa fa-check"></i><b>9.6</b> Apply</a></li>
+<li class="chapter" data-level="9.7" data-path="repeating-a-computation-and-controlling-its-flow.html"><a href="repeating-a-computation-and-controlling-its-flow.html#purrr"><i class="fa fa-check"></i><b>9.7</b> Purrr</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://alexander-pastukhov.github.io/">Alexander (Sasha) Pastukhov</li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data analysis using R for Psychology and Social Science</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="tyding" class="section level1" number="8">
+<h1><span class="header-section-number">Seminar 8</span> Tidyng your data: joins and pivots</h1>
+<p>It is fun to work with tidy complete data. Unfortunately, more often than not you will need to preprocess and tidy it up before you can analyze it. In addition to <a href="https://dplyr.tidyverse.org/">dplyr</a>, Tidyverse has <a href="https://tidyr.tidyverse.org/">tidyr</a> package that helps you with some of the problems. Grab the <a href="notebooks/Seminar%2008%20-%20tidyr.Rmd">exercise notebook</a> and let’s get started.</p>
+<div id="joins" class="section level2" number="8.1">
+<h2><span class="header-section-number">8.1</span> Joining tables</h2>
+<p>Sometimes, results of a study are stored in separate tables. For example, demographic information can be stored separately from responses, as the former is the same for all trials and conditions, so it makes little sense to duplicate it. For the actual analysis, you may eed to add this information, <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merging</a> or, in SQL/Tidyverse-speak, <a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">joining</a> two tables (I’ll use term “join” from hereon).</p>
+<p>Examples make joining operations much easier to understand, so let us create two tables.</p>
+<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="tyding.html#cb319-1" aria-hidden="true" tabindex="-1"></a>demographics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>),</span>
+<span id="cb319-2"><a href="tyding.html#cb319-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">19</span>, <span class="dv">30</span>, <span class="dv">22</span>))</span>
+<span id="cb319-3"><a href="tyding.html#cb319-3" aria-hidden="true" tabindex="-1"></a>reports <span class="ot">&lt;-</span> </span>
+<span id="cb319-4"><a href="tyding.html#cb319-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb319-5"><a href="tyding.html#cb319-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Report =</span> <span class="fu">runif</span>(<span class="fu">length</span>(ID), <span class="dv">1</span>, <span class="dv">7</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb319-6"><a href="tyding.html#cb319-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(ID)</span></code></pre></div>
+<table class="kable_wrapper">
+<caption>
+<span id="tab:unnamed-chunk-175">Table 8.1: </span>demographics (left) and report (right) tables
+</caption>
+<tbody>
+<tr>
+<td>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+ID
+</th>
+<th style="text-align:right;">
+Age
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+20
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+19
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:right;">
+30
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+D
+</td>
+<td style="text-align:right;">
+22
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+ID
+</th>
+<th style="text-align:right;">
+Report
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+5.562931
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+5.471644
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+6.821210
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+4.784000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:right;">
+6.221843
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:right;">
+6.033254
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+D
+</td>
+<td style="text-align:right;">
+4.382906
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+D
+</td>
+<td style="text-align:right;">
+5.860369
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<p>To join two tables, you require “key” columns: columns that contain values that will be used to identify matching rows in the two tables. You can use multiple and differently named columns for that purpose but we will start with a simplest case: a single column with same name <code>"ID"</code>. A <a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">join</a> function (<code>inner_join()</code> here, see below for details on different joins) takes a first row in <code>demographics</code> table that has <code>"A"</code> in <code>ID</code> column and will look for all rows in table <code>reports</code> that has <code>ID == "A"</code>. Then, it will do the same for all remaining rows for <code>demographics</code> table, one row at a time. It takes three parameters: table <code>x</code> (first table), table <code>y</code> (second table), and <code>by</code> - a vector with key column names argument<a href="#fn49" class="footnote-ref" id="fnref49"><sup>49</sup></a>. A call to <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a> function is very similar and produces identical results. Note how column order has changed for <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a>, because I used a different order of tables, but the content itself is the same.</p>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="tyding.html#cb320-1" aria-hidden="true" tabindex="-1"></a>via_join <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>)</span>
+<span id="cb320-2"><a href="tyding.html#cb320-2" aria-hidden="true" tabindex="-1"></a>via_merge <span class="ot">&lt;-</span> <span class="fu">merge</span>(reports, demographics, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>)</span></code></pre></div>
+<table class="kable_wrapper">
+<caption>
+<span id="tab:unnamed-chunk-177">Table 8.2: </span>Joining/merging tables with fully matching keys via join (left) and merge (right). Note how a different order of tables results in a different order of columns.
+</caption>
+<tbody>
+<tr>
+<td>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+ID
+</th>
+<th style="text-align:right;">
+Age
+</th>
+<th style="text-align:right;">
+Report
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+5.562931
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+5.471644
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+6.821210
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+4.784000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:right;">
+6.221843
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:right;">
+6.033254
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+D
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+4.382906
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+D
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+5.860369
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+ID
+</th>
+<th style="text-align:right;">
+Report
+</th>
+<th style="text-align:right;">
+Age
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+5.562931
+</td>
+<td style="text-align:right;">
+20
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+5.471644
+</td>
+<td style="text-align:right;">
+20
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+6.821210
+</td>
+<td style="text-align:right;">
+19
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+4.784000
+</td>
+<td style="text-align:right;">
+19
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:right;">
+6.221843
+</td>
+<td style="text-align:right;">
+30
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:right;">
+6.033254
+</td>
+<td style="text-align:right;">
+30
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+D
+</td>
+<td style="text-align:right;">
+4.382906
+</td>
+<td style="text-align:right;">
+22
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+D
+</td>
+<td style="text-align:right;">
+5.860369
+</td>
+<td style="text-align:right;">
+22
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Things are easy when every key in the first table has its counterpart in the second one and vice versa. Things get tricky, if that is not the case. Which is why there are <em>four</em> different ways to join tables (note that they will all produce identical results for fully matching set of keys, as in the example above):</p>
+<ul>
+<li><strong>inner</strong> join: uses only key values that are present in both tables.</li>
+<li><strong>full</strong> join: uses all key values from both tables, if matching keys are missing in one of the tables, rows are filled with <code>NA</code>.</li>
+<li><strong>left</strong> join: uses only key values that are present in the left (first) table, if matching keys are missing in the <em>right</em> table, , rows are filled with <code>NA</code>.</li>
+<li><strong>right</strong> join: mirror twin of the left join, uses only key values that are present in the right (second) table, if matching keys are missing in the <em>left</em> table, , rows are filled with <code>NA</code>.</li>
+</ul>
+<p>To see each join in action, let us slightly modify the <code>reports</code> table to include <code>ID</code> “E” instead of “D.” Now, the “D” is missing the second table but “E” is missing in the <code>demographics</code>:</p>
+<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="tyding.html#cb321-1" aria-hidden="true" tabindex="-1"></a>reports <span class="ot">&lt;-</span> </span>
+<span id="cb321-2"><a href="tyding.html#cb321-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;E&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;E&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb321-3"><a href="tyding.html#cb321-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Report =</span> <span class="fu">runif</span>(<span class="fu">length</span>(ID), <span class="dv">1</span>, <span class="dv">7</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb321-4"><a href="tyding.html#cb321-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(ID)</span></code></pre></div>
+<table class="kable_wrapper">
+<caption>
+<span id="tab:unnamed-chunk-179">Table 8.3: </span>Now demographics (left) and reports (right) table have unique keys (“D” for demographics, “E” for reports) without a match in the second table.
+</caption>
+<tbody>
+<tr>
+<td>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+ID
+</th>
+<th style="text-align:right;">
+Age
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+20
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+19
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:right;">
+30
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+D
+</td>
+<td style="text-align:right;">
+22
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+ID
+</th>
+<th style="text-align:right;">
+Report
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+4.282386
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+1.259351
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+3.819751
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+1.441385
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:right;">
+6.735629
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:right;">
+3.453545
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+E
+</td>
+<td style="text-align:right;">
+1.146762
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+E
+</td>
+<td style="text-align:right;">
+5.558968
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Inner join</strong> is most conservative and excludes any non-matching keys, note that rows with <em>both</em> <code>ID == "D"</code> and <code>ID == "E"</code> are missing. This is the <em>default</em> behavior for the <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge</a> function.</p>
+<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="tyding.html#cb322-1" aria-hidden="true" tabindex="-1"></a>inner_tidy <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(reports, demographics, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>) </span>
+<span id="cb322-2"><a href="tyding.html#cb322-2" aria-hidden="true" tabindex="-1"></a>inner_base <span class="ot">&lt;-</span> <span class="fu">merge</span>(reports, demographics, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>)</span></code></pre></div>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-181">Table 8.4: </span>Inner join. Only rows for matching keys are merged
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+ID
+</th>
+<th style="text-align:right;">
+Report
+</th>
+<th style="text-align:right;">
+Age
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+4.282386
+</td>
+<td style="text-align:right;">
+20
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+1.259351
+</td>
+<td style="text-align:right;">
+20
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+3.819751
+</td>
+<td style="text-align:right;">
+19
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+1.441385
+</td>
+<td style="text-align:right;">
+19
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:right;">
+6.735629
+</td>
+<td style="text-align:right;">
+30
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:right;">
+3.453545
+</td>
+<td style="text-align:right;">
+30
+</td>
+</tr>
+</tbody>
+</table>
+<p>In contrast, <strong>full join</strong> is the most liberal as it includes all rows from both tables, filling in missing values with <code>NA</code> (e.g., see <code>Report</code> for <code>ID == "D"</code> and <code>Age</code> for <code>ID == "E"</code>). In base R <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a> function, you turn an inner join into a full one using <code>all=TRUE</code>.</p>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="tyding.html#cb323-1" aria-hidden="true" tabindex="-1"></a>full_tidy <span class="ot">&lt;-</span> <span class="fu">full_join</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>) </span>
+<span id="cb323-2"><a href="tyding.html#cb323-2" aria-hidden="true" tabindex="-1"></a>full_base <span class="ot">&lt;-</span> <span class="fu">merge</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>, <span class="at">all=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-183">Table 8.5: </span>Full join. All rows are merged, <code>NA</code> are used for missing values in rows from a complementary table
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+ID
+</th>
+<th style="text-align:right;">
+Age
+</th>
+<th style="text-align:right;">
+Report
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+4.282386
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+1.259351
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+3.819751
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+1.441385
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:right;">
+6.735629
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:right;">
+3.453545
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+D
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+E
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1.146762
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+E
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+5.558968
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Left join</strong> uses only rows from the left (first) table, dropping extra rows from the second one. Note <code>NA</code> in <code>Report</code> column for <code>ID == "D"</code> and no rows for <code>ID == "E"</code>. To do a left join via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a>, you need to specify <code>all.x=TRUE</code>.</p>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="tyding.html#cb324-1" aria-hidden="true" tabindex="-1"></a>left_tidy <span class="ot">&lt;-</span> <span class="fu">left_join</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>)</span>
+<span id="cb324-2"><a href="tyding.html#cb324-2" aria-hidden="true" tabindex="-1"></a>left_base <span class="ot">&lt;-</span> <span class="fu">merge</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>, <span class="at">all.x=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-185">Table 8.6: </span>Left join. All rows from demographics tables are used and missing matching rows are filled with <code>NA</code>
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+ID
+</th>
+<th style="text-align:right;">
+Age
+</th>
+<th style="text-align:right;">
+Report
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+4.282386
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+1.259351
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+3.819751
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+1.441385
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:right;">
+6.735629
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:right;">
+3.453545
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+D
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Right join</strong> is a mirror twin of the left join, so now rows for <code>ID == "D"</code> are missing and there are missing values for <code>ID=="E"</code>. You include <code>all.y=TRUE</code> for a right join via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a>.</p>
+<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="tyding.html#cb325-1" aria-hidden="true" tabindex="-1"></a>right_tidy <span class="ot">&lt;-</span> <span class="fu">right_join</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>) </span>
+<span id="cb325-2"><a href="tyding.html#cb325-2" aria-hidden="true" tabindex="-1"></a>right_base <span class="ot">&lt;-</span> <span class="fu">merge</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>, <span class="at">all.y=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-187">Table 8.7: </span>Right join. All rows from reports tables are used and missing matching rows are filled with <code>NA</code>
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+ID
+</th>
+<th style="text-align:right;">
+Age
+</th>
+<th style="text-align:right;">
+Report
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+4.282386
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+1.259351
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+3.819751
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+1.441385
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:right;">
+6.735629
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:right;">
+3.453545
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+E
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1.146762
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+E
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+5.558968
+</td>
+</tr>
+</tbody>
+</table>
+<p>As noted above, you can also use more than one key.</p>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="tyding.html#cb326-1" aria-hidden="true" tabindex="-1"></a>demographics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
+<span id="cb326-2"><a href="tyding.html#cb326-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Gender =</span> <span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;M&quot;</span>),</span>
+<span id="cb326-3"><a href="tyding.html#cb326-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">19</span>, <span class="dv">30</span>, <span class="dv">22</span>))</span>
+<span id="cb326-4"><a href="tyding.html#cb326-4" aria-hidden="true" tabindex="-1"></a>reports <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
+<span id="cb326-5"><a href="tyding.html#cb326-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Gender =</span> <span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;M&quot;</span>),</span>
+<span id="cb326-6"><a href="tyding.html#cb326-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Report =</span> <span class="fu">runif</span>(<span class="fu">length</span>(ID), <span class="dv">1</span>, <span class="dv">7</span>))</span></code></pre></div>
+<table class="kable_wrapper">
+<caption>
+<span id="tab:unnamed-chunk-189">Table 8.8: </span>Two identically named key columns: ID and Gender.
+</caption>
+<tbody>
+<tr>
+<td>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+ID
+</th>
+<th style="text-align:left;">
+Gender
+</th>
+<th style="text-align:right;">
+Age
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:right;">
+20
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:right;">
+19
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:right;">
+30
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:right;">
+22
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+ID
+</th>
+<th style="text-align:left;">
+Gender
+</th>
+<th style="text-align:right;">
+Report
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:right;">
+2.243342
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:right;">
+1.772168
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:right;">
+1.524675
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:right;">
+1.352882
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="tyding.html#cb327-1" aria-hidden="true" tabindex="-1"></a>inner_multi_tidy <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(demographics, reports, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;Gender&quot;</span>))</span>
+<span id="cb327-2"><a href="tyding.html#cb327-2" aria-hidden="true" tabindex="-1"></a>inner_multi_base <span class="ot">&lt;-</span> <span class="fu">merge</span>(demographics, reports, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;Gender&quot;</span>))</span></code></pre></div>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-191">Table 8.9: </span>Joining/merging two tables by ID and Gender.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+ID
+</th>
+<th style="text-align:left;">
+Gender
+</th>
+<th style="text-align:right;">
+Age
+</th>
+<th style="text-align:right;">
+Report
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+2.243342
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+1.772168
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:right;">
+1.524675
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+1.352882
+</td>
+</tr>
+</tbody>
+</table>
+<p>Finally, key columns can be named <em>differently</em> in two tables. In this case, you need to “match” them explicitly. For <a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">dplyr</a> joins, you use a named vector to match pairs of individual columns. For <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a>, you supply two vectors: one for columns in the first table (parameter <code>by.x</code>) and one columns in the the second one (parameter <code>by.y</code>). Here, you need to be careful and check that columns order matches in both parameters.</p>
+<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="tyding.html#cb328-1" aria-hidden="true" tabindex="-1"></a>demographics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">VPCode =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
+<span id="cb328-2"><a href="tyding.html#cb328-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Sex =</span> <span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;M&quot;</span>),</span>
+<span id="cb328-3"><a href="tyding.html#cb328-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">19</span>, <span class="dv">30</span>, <span class="dv">22</span>))</span>
+<span id="cb328-4"><a href="tyding.html#cb328-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb328-5"><a href="tyding.html#cb328-5" aria-hidden="true" tabindex="-1"></a>reports <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
+<span id="cb328-6"><a href="tyding.html#cb328-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Gender =</span> <span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;M&quot;</span>),</span>
+<span id="cb328-7"><a href="tyding.html#cb328-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Report =</span> <span class="fu">runif</span>(<span class="fu">length</span>(ID), <span class="dv">1</span>, <span class="dv">7</span>))</span></code></pre></div>
+<table class="kable_wrapper">
+<caption>
+<span id="tab:unnamed-chunk-193">Table 8.10: </span>Differently named key columns. VPCode in demographics table corresponds to ID in reports; sex in demographics corresponds to Gender in reports
+</caption>
+<tbody>
+<tr>
+<td>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+VPCode
+</th>
+<th style="text-align:left;">
+Sex
+</th>
+<th style="text-align:right;">
+Age
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:right;">
+20
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:right;">
+19
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:right;">
+30
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:right;">
+22
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+ID
+</th>
+<th style="text-align:left;">
+Gender
+</th>
+<th style="text-align:right;">
+Report
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:right;">
+3.262231
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:right;">
+3.320902
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:right;">
+6.152706
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:right;">
+4.951895
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="tyding.html#cb329-1" aria-hidden="true" tabindex="-1"></a>inner_diff_tidy <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(demographics, reports, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;VPCode&quot;</span><span class="ot">=</span><span class="st">&quot;ID&quot;</span>, <span class="st">&quot;Sex&quot;</span><span class="ot">=</span><span class="st">&quot;Gender&quot;</span>))</span>
+<span id="cb329-2"><a href="tyding.html#cb329-2" aria-hidden="true" tabindex="-1"></a>inner_diff_base <span class="ot">&lt;-</span> <span class="fu">merge</span>(demographics, reports, <span class="at">by.x=</span><span class="fu">c</span>(<span class="st">&quot;VPCode&quot;</span>, <span class="st">&quot;Sex&quot;</span>), <span class="at">by.y=</span><span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;Gender&quot;</span>))</span></code></pre></div>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-195">Table 8.11: </span>Joining tables by matching VPCode to ID and Sex to Gender.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+VPCode
+</th>
+<th style="text-align:left;">
+Sex
+</th>
+<th style="text-align:right;">
+Age
+</th>
+<th style="text-align:right;">
+Report
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:right;">
+6.152706
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+3.262231
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+3.320902
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+4.951895
+</td>
+</tr>
+</tbody>
+</table>
+<p>As you saw from examples above, <a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">dplyr joins</a> and <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a> produce identical results. However, I would recommend to use the former, simply because function names make it explicit which kind of join you perform (something you can figure out only by checking additional parameters of <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a>).</p>
+<p>Download files <a href="data/IM.csv">IM.csv</a> and <a href="data/GP.csv">GP.csv</a> that you will need for exercise #1<a href="#fn50" class="footnote-ref" id="fnref50"><sup>50</sup></a>. These are participants responses on two questionnaires with each participant identified by their ID (<code>Participant</code> in <em>IM.csv</em> and <code>Respondent</code> in <em>GP.csv</em>), <code>Condition</code> (which experimental group they belong to), and their <code>Gender</code>. Read both tables and join them so that there no missing values in the table (some participants are missing in <code>GP.csv</code>, so there are <em>three</em> joins that can do this, which one will you pick?). Then, turn <code>Condition</code> and <code>Gender</code> into factors, so that for <code>Condition</code> levels are <code>"control"</code> (<code>2</code>) and <code>"game"</code> (<code>1</code>) and for <code>Gender</code> levels are <code>"female"</code> (<code>1</code>) and <code>"male"</code> (<code>2</code>). Your final table should look as follows (I’ve dropped most of the columns for <code>IM.csv</code>, so they would fit to the page):</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Participant
+</th>
+<th style="text-align:left;">
+Condition
+</th>
+<th style="text-align:left;">
+Gender
+</th>
+<th style="text-align:right;">
+IM01_01
+</th>
+<th style="text-align:right;">
+IM01_02
+</th>
+<th style="text-align:right;">
+IM01_03
+</th>
+<th style="text-align:right;">
+GP01_01
+</th>
+<th style="text-align:right;">
+GP02_01
+</th>
+<th style="text-align:right;">
+GP02_02
+</th>
+<th style="text-align:right;">
+GP02_03
+</th>
+<th style="text-align:right;">
+GP02_04
+</th>
+<th style="text-align:right;">
+GP02_05
+</th>
+<th style="text-align:right;">
+GP02_06
+</th>
+<th style="text-align:right;">
+GP02_07
+</th>
+<th style="text-align:right;">
+GP02_08
+</th>
+<th style="text-align:right;">
+GP02_09
+</th>
+<th style="text-align:right;">
+GP03_01
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+TMM1990w
+</td>
+<td style="text-align:left;">
+game
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VEH1985w
+</td>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CEN2000w
+</td>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+IDK1985w
+</td>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AKB1996w
+</td>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SSF1993w
+</td>
+<td style="text-align:left;">
+game
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+</tbody>
+</table>
+<div class="infobox practice">
+<p>Do exercise 1.</p>
+</div>
+<p>Repeat the same exercise but use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a>.
+::: {.infobox .practice}
+Do exercise 2.
+:::</p>
+<p>Now let us practice joining and simulating data as well. Create two tables that need to be joined by a single key column. In the first table, Use <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html">rnorm()</a> function to generate normally distributed data with mean of 180 and standard deviation of 50 for column <code>x</code> (or use some other name that you like) (what range would you expect to cover 95% of the data?). In the second table, use same normal distribution but with mean of 10 and standard deviation of 2 for column <code>y</code> (again, you can pick another name). When filling in key column for both tables, do it so that <em>inner</em> and <em>right</em> join would give the same final table but <em>left</em> and <em>full</em> would give you a longer one (test this explicitly!). After joining two tables, plot <code>x</code> against <code>y</code> and superimpose linear regression fit. Are two columns correlated? Should they be?
+::: {.infobox .practice}
+Do exercise 3.
+:::</p>
+</div>
+<div id="pivoting" class="section level2" number="8.2">
+<h2><span class="header-section-number">8.2</span> Pivoting</h2>
+<p>Recall the idea of <a href="ggplot2.html#tidydata">tidy data</a>:</p>
+<ul>
+<li>variables are in columns,</li>
+<li>observations are in rows,</li>
+<li>values are in cells.</li>
+</ul>
+<p>And, also recall, that quite often data is stored in a wide format that is easier for humans read.</p>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-198">Table 8.12: </span>Wide non-tidy table.
+</caption>
+<thead>
+<tr>
+<th style="text-align:center;">
+Participant
+</th>
+<th style="text-align:center;">
+Face
+</th>
+<th style="text-align:center;">
+Symmetry
+</th>
+<th style="text-align:center;">
+Attractiveness
+</th>
+<th style="text-align:center;">
+Trustworthiness
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+M-1
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+M-2
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+M-1
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+M-2
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+2
+</td>
+</tr>
+</tbody>
+</table>
+<p>Here, <code>Symmetry</code>, <code>Attractiveness</code>, <code>Trustworthiness</code> are different face properties participants responded on, whereas values are <code>Response</code> they gave. You can work with a table like that but it is often more convenient to have a column <code>Scale</code> that will code which face property participants respond on and a column <code>Response</code> to hold values. Then, you can easily split or group your data by property while performing the same analysis on all of them.</p>
+<p>You can do pivoting using base R <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape()</a> function. But pivoting is a fairly confusing business, so Tidyverse alone offers three different solutions starting with <a href="https://cran.r-project.org/package=reshape2">reshape2</a> package,<a href="#fn51" class="footnote-ref" id="fnref51"><sup>51</sup></a> and continuing with original <a href="https://tidyr.tidyverse.org/reference/gather.html">gather()</a> and <a href="https://tidyr.tidyverse.org/reference/spread.html">spread()</a>
+functions in <a href="https://tidyr.tidyverse.org/index.html">tidyr</a> to modern <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a> and <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a> functions in the same package.</p>
+</div>
+<div id="pivot-longer" class="section level2" number="8.3">
+<h2><span class="header-section-number">8.3</span> Pivot longer</h2>
+<p><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a> takes a table, which you can pipe to the function Tidyverse-style, and a vector of column names that need to be transformed. All <em>column names</em> go to one new column and all the <em>values</em> go to another new column. Defaults names of these two columns are, respectively, <code>"name"</code> and <code>"value"</code> but you can specify something more suitable via, respectively, <code>names_to</code> and <code>values_to</code> parameters.</p>
+<p>There are many more bells-and-whistles (name and value transformations, removing a prefix via regular expressions, etc.), so I recommend looking at the <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">manual</a> and a <a href="https://tidyr.tidyverse.org/articles/pivot.html">vignette</a>. However, in most cases these four parameters will be all you need, so let us see <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a> in action.</p>
+<p>I assume that table presented above is in <code>widish_df</code> table defined above. The columns that we want to transform are <code>Symmetry</code>, <code>Attractiveness</code>, <code>Trustworthiness</code>. Thus, the simplest call with all defaults is</p>
+<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="tyding.html#cb330-1" aria-hidden="true" tabindex="-1"></a>long_tidy <span class="ot">&lt;-</span> tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(widish_df, </span>
+<span id="cb330-2"><a href="tyding.html#cb330-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">cols=</span><span class="fu">c</span>(<span class="st">&quot;Symmetry&quot;</span>, <span class="st">&quot;Attractiveness&quot;</span>, <span class="st">&quot;Trustworthiness&quot;</span>))</span></code></pre></div>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-200">Table 8.13: </span>Long version of widish_df table with default names for new columns.
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+Participant
+</th>
+<th style="text-align:left;">
+Face
+</th>
+<th style="text-align:left;">
+name
+</th>
+<th style="text-align:right;">
+value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:left;">
+Symmetry
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:left;">
+Attractiveness
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:left;">
+Trustworthiness
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:left;">
+Symmetry
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:left;">
+Attractiveness
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:left;">
+Trustworthiness
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:left;">
+Symmetry
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:left;">
+Attractiveness
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:left;">
+Trustworthiness
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:left;">
+Symmetry
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:left;">
+Attractiveness
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:left;">
+Trustworthiness
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+</tbody>
+</table>
+<p>When you compare the two tables, you will see that original three columns × four rows are now stretched into twelve rows and name-value pairs are consistent across the two tables<a href="#fn52" class="footnote-ref" id="fnref52"><sup>52</sup></a>. As noted above, we can improve on that by specifying proper names for new columns.</p>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="tyding.html#cb331-1" aria-hidden="true" tabindex="-1"></a>long_tidy <span class="ot">&lt;-</span> tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(widish_df, </span>
+<span id="cb331-2"><a href="tyding.html#cb331-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">cols=</span><span class="fu">c</span>(<span class="st">&quot;Symmetry&quot;</span>, <span class="st">&quot;Attractiveness&quot;</span>, <span class="st">&quot;Trustworthiness&quot;</span>),</span>
+<span id="cb331-3"><a href="tyding.html#cb331-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">names_to =</span> <span class="st">&quot;Scale&quot;</span>,</span>
+<span id="cb331-4"><a href="tyding.html#cb331-4" aria-hidden="true" tabindex="-1"></a>                               <span class="at">values_to =</span> <span class="st">&quot;Response&quot;</span>)</span></code></pre></div>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-202">Table 8.14: </span>Long version of widish_df table with <em>custom</em> names for new columns.
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+Participant
+</th>
+<th style="text-align:left;">
+Face
+</th>
+<th style="text-align:left;">
+Scale
+</th>
+<th style="text-align:right;">
+Response
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:left;">
+Symmetry
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:left;">
+Attractiveness
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:left;">
+Trustworthiness
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:left;">
+Symmetry
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:left;">
+Attractiveness
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:left;">
+Trustworthiness
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:left;">
+Symmetry
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:left;">
+Attractiveness
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:left;">
+Trustworthiness
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:left;">
+Symmetry
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:left;">
+Attractiveness
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:left;">
+Trustworthiness
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+</tbody>
+</table>
+<p>If you want to stick to base R, you can pivot longer via <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape()</a> function that can do both pivot to longer and wider tables. It is more flexible and, therefore, much more confusing (at least for me). Here are some parameters that we need to specify in order to emulate <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a> call above:</p>
+<ul>
+<li><code>direction</code>. Either <code>"long"</code> (here), or <code>"wide"</code>.</li>
+<li><code>idvar</code>: names of variables that identify multiple records in the long format. In contrast, <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a>, assumes that all columns that you did not transform are identity columns.</li>
+<li><code>varying</code>: names of columns that will be turned into a single variable that contains only <strong>values</strong> in a new long table. Corresponds to <code>cols</code> argument in <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a></li>
+<li><code>v.names</code>: name of the column with values. Corresponds to <code>values_to</code> parameter of <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a>.</li>
+<li><code>timevar</code> : sort of corresponds to <code>names_to</code> parameter of <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a>, so it is the name of the column where <em>indexes</em> or <em>labels</em> of transformed columns will go.</li>
+<li><code>times</code> : by default, <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape()</a> does not put column names into <code>timevar</code> column but uses their relative <em>indexes</em> instead. E.g., <code>Symmetry</code> column will get index of 1, <code>Attractiveness</code> will get 2, <code>Trustworthiness</code> will be 3. You can replaces these indexes with <em>any</em> labels. Below, I used the same labels as column names but I could have used <em>any</em> three values for this.</li>
+</ul>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="tyding.html#cb332-1" aria-hidden="true" tabindex="-1"></a>long_base <span class="ot">&lt;-</span> <span class="fu">reshape</span>(widish_df, </span>
+<span id="cb332-2"><a href="tyding.html#cb332-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">direction =</span> <span class="st">&quot;long&quot;</span>,</span>
+<span id="cb332-3"><a href="tyding.html#cb332-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">idvar =</span> <span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>,  <span class="st">&quot;Face&quot;</span>),</span>
+<span id="cb332-4"><a href="tyding.html#cb332-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">varying =</span> <span class="fu">c</span>(<span class="st">&quot;Symmetry&quot;</span>, <span class="st">&quot;Attractiveness&quot;</span>, <span class="st">&quot;Trustworthiness&quot;</span>),</span>
+<span id="cb332-5"><a href="tyding.html#cb332-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">v.names=</span><span class="st">&quot;Response&quot;</span>,</span>
+<span id="cb332-6"><a href="tyding.html#cb332-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">times =</span> <span class="fu">c</span>(<span class="st">&quot;Symmetry&quot;</span>, <span class="st">&quot;Attractiveness&quot;</span>, <span class="st">&quot;Trustworthiness&quot;</span>),</span>
+<span id="cb332-7"><a href="tyding.html#cb332-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">timevar =</span> <span class="st">&quot;Scale&quot;</span>)</span></code></pre></div>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-204">Table 8.15: </span>Same table pivoted via reshape.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Participant
+</th>
+<th style="text-align:left;">
+Face
+</th>
+<th style="text-align:left;">
+Scale
+</th>
+<th style="text-align:right;">
+Response
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1.M-1.Symmetry
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:left;">
+Symmetry
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1.M-2.Symmetry
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:left;">
+Symmetry
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2.M-1.Symmetry
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:left;">
+Symmetry
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2.M-2.Symmetry
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:left;">
+Symmetry
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1.M-1.Attractiveness
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:left;">
+Attractiveness
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1.M-2.Attractiveness
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:left;">
+Attractiveness
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2.M-1.Attractiveness
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:left;">
+Attractiveness
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2.M-2.Attractiveness
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:left;">
+Attractiveness
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1.M-1.Trustworthiness
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:left;">
+Trustworthiness
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1.M-2.Trustworthiness
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:left;">
+Trustworthiness
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2.M-1.Trustworthiness
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:left;">
+Trustworthiness
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2.M-2.Trustworthiness
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:left;">
+Trustworthiness
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+</tbody>
+</table>
+<p>I strongly suggest experimenting with parameters of <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape()</a> to get a feeling for how it should be (and should not be!) used.</p>
+<p>Let us put this new knowledge to practice, using <a href="data/GP.csv">GP.csv</a> file. These is a questionnaire on gaming habits, which was conducted prior to an experiment to check whether two groups of participants assigned to <em>Game</em> and <em>Experiment</em> conditions have similar gaming habits. We would like to visually inspect responses to individual items in a questionnaire appear for different conditions, as this will tell us whether we should expect a difference. Split the computations below into two pipelines. One that loads and pre-processes the data (steps 1-3). Another one that produces a summary and stores it into a different table (step 4). Advice, implement it one step at a time, checking the table and making sure that you get expected results before piping it and adding the next operation.</p>
+<ol style="list-style-type: decimal">
+<li>Read the file, make sure you specify column types.</li>
+<li>Convert <code>Condition</code> column to a factor with “game” (1) and “control” (2).</li>
+<li>Pivot all <code>GP..</code> columns. You should get a table with five columns: <code>Respondent</code>, <code>Condition</code>, <code>Gender</code>, <code>name</code> (or a column name that you specified), and <code>value</code> (or a column name that you specified). Hint, you can use slicing <code>:</code> to specify the range of columns or <a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with()</a> function to specify a common prefix. Try both approaches.</li>
+<li>Group data by condition and GP item and compute median and <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/mad.html">median absolute deviation</a> of responses. These are robust versions of mean and standard deviation, better suitable for data with potential outliers.</li>
+</ol>
+You first table, in long format, should look like this (I show only first four rows)
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Respondent
+</th>
+<th style="text-align:left;">
+Condition
+</th>
+<th style="text-align:right;">
+Gender
+</th>
+<th style="text-align:left;">
+Item
+</th>
+<th style="text-align:right;">
+Response
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+SBS1992w
+</td>
+<td style="text-align:left;">
+game
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+GP01_01
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SBS1992w
+</td>
+<td style="text-align:left;">
+game
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+GP02_01
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SBS1992w
+</td>
+<td style="text-align:left;">
+game
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+GP02_02
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SBS1992w
+</td>
+<td style="text-align:left;">
+game
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+GP02_03
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+</tbody>
+</table>
+<p>And your second table, with aggregated results, show be like this</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Condition
+</th>
+<th style="text-align:left;">
+Item
+</th>
+<th style="text-align:right;">
+MedianResponse
+</th>
+<th style="text-align:right;">
+ResponseMAD
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+game
+</td>
+<td style="text-align:left;">
+GP01_01
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+game
+</td>
+<td style="text-align:left;">
+GP02_01
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+game
+</td>
+<td style="text-align:left;">
+GP02_02
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+game
+</td>
+<td style="text-align:left;">
+GP02_03
+</td>
+<td style="text-align:right;">
+3.5
+</td>
+<td style="text-align:right;">
+3.7065
+</td>
+</tr>
+</tbody>
+</table>
+<div class="infobox practice">
+<p>Do exercise 4.</p>
+</div>
+<p>Repeat the exercise but now using base R <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape()</a> function.
+::: {.infobox .practice}
+Do exercise 5.
+:::</p>
+<p>Now you have a table that has median and MAD values for each combination and item. Plot them to compare them visually. Use median responses for y-value of points and median±MAD for error bars. Use facets and color to make it easier to identify the items and conditions. My take on the plot is below, do you think we should expect to find difference between the conditions?
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-207-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="infobox practice">
+<p>Do exercise 6.</p>
+</div>
+<p>Perform similar analysis but do not group data and summarize the data. Instead, use box plots to show the variability. Which visualization do you prefer?</p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-208-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="infobox practice">
+<p>Do exercise 7.</p>
+</div>
+</div>
+<div id="pivot-wider" class="section level2" number="8.4">
+<h2><span class="header-section-number">8.4</span> Pivot wider</h2>
+<p>You can also always go from a long to a wide representation via <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a> or <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape</a> functions. The logic is reverse, you need to specify which columns <em>identify</em> different rows that belong together, which columns contain column names, and which contain their values. For our example table the names of the columns are in the column <code>Scale</code> and values are in <code>Response</code>. But what about columns that identify the rows that belong together? In our case, these are <code>Participant</code> and <code>Face</code>, so all rows from a <em>long</em> table that have same combination of <code>Participant</code> and <code>Face</code> values should be merged together into a single row. If you do not explicitly specify <code>id_cols</code>, then by default, <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a> will use <em>all other remaining columns</em> to identify which rows belong together. This is irrelevant in this toy example, as <code>Participant</code> and <code>Face</code> is all we have left anyhow but below I will show you how things can get confusing and how to overcome this.</p>
+<p>Let us undo our previous wide-to-long transformation and get our original wide table back!<a href="#fn53" class="footnote-ref" id="fnref53"><sup>53</sup></a></p>
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="tyding.html#cb333-1" aria-hidden="true" tabindex="-1"></a>wide_again_tidy <span class="ot">&lt;-</span></span>
+<span id="cb333-2"><a href="tyding.html#cb333-2" aria-hidden="true" tabindex="-1"></a>  long_tidy <span class="sc">%&gt;%</span></span>
+<span id="cb333-3"><a href="tyding.html#cb333-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">&quot;Scale&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Response&quot;</span>)</span></code></pre></div>
+<p>Or, using explicit <code>id_cols</code></p>
+<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="tyding.html#cb334-1" aria-hidden="true" tabindex="-1"></a>wide_again_tidy <span class="ot">&lt;-</span></span>
+<span id="cb334-2"><a href="tyding.html#cb334-2" aria-hidden="true" tabindex="-1"></a>  long_tidy <span class="sc">%&gt;%</span></span>
+<span id="cb334-3"><a href="tyding.html#cb334-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">id_cols =</span> <span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>, <span class="st">&quot;Face&quot;</span>), <span class="at">names_from =</span> <span class="st">&quot;Scale&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Response&quot;</span>)</span></code></pre></div>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-211">Table 8.16: </span>Our table is wide again!
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+Participant
+</th>
+<th style="text-align:left;">
+Face
+</th>
+<th style="text-align:right;">
+Symmetry
+</th>
+<th style="text-align:right;">
+Attractiveness
+</th>
+<th style="text-align:right;">
+Trustworthiness
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+</tbody>
+</table>
+<p>You can pivot wider using <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape()</a> as well. However, note that, as of 01.11.2021, it works correctly <em>only</em> with data frames, so if you have a <a href="https://tibble.tidyverse.org/">tibble</a> (as I do), you need to convert it to a data frame via <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/data.frame.html">data.frame()</a> or <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/as.data.frame.html">as.data.frame()</a>. Otherwise, you need to specify</p>
+<ul>
+<li><code>direction = "wide"</code></li>
+<li><code>idvar</code> : different rows that belong together. Same as <code>id_cols</code> for <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a> but no defaults here.</li>
+<li><code>timevar</code> : same as <code>names_from</code> for <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a>, column with values that will be used as column names.</li>
+<li><code>v.names</code> : same as <code>values_from</code>.</li>
+<li><code>sep</code>: the new column names will constructed as <code>v.names</code> + <code>sep</code> + <code>timevar</code>. By default <code>sep="."</code>.</li>
+</ul>
+<p>The main difference, as compared to <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a>, is how the column names are constructed. With <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape()</a> function, the <code>v.names</code> + <code>sep</code> + <code>timevar</code> rule means that you end up with column names such as <code>Response.Symmetry</code> instead of just <code>Symmetry</code>.</p>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="tyding.html#cb335-1" aria-hidden="true" tabindex="-1"></a>wide_again_base <span class="ot">&lt;-</span> <span class="fu">reshape</span>(<span class="fu">as.data.frame</span>(long_tidy),</span>
+<span id="cb335-2"><a href="tyding.html#cb335-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">direction =</span> <span class="st">&quot;wide&quot;</span>,</span>
+<span id="cb335-3"><a href="tyding.html#cb335-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">idvar =</span> <span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>, <span class="st">&quot;Face&quot;</span>),</span>
+<span id="cb335-4"><a href="tyding.html#cb335-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">timevar =</span> <span class="st">&quot;Scale&quot;</span>,</span>
+<span id="cb335-5"><a href="tyding.html#cb335-5" aria-hidden="true" tabindex="-1"></a>                           <span class="at">v.names =</span> <span class="st">&quot;Response&quot;</span>,</span>
+<span id="cb335-6"><a href="tyding.html#cb335-6" aria-hidden="true" tabindex="-1"></a>                           <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>)</span></code></pre></div>
+<p>Let us take a look at the importance of <code>id_cols</code>. Imagine that we have <em>another</em> column, say, response times. So, our long table will look like this</p>
+<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="tyding.html#cb336-1" aria-hidden="true" tabindex="-1"></a>long_tidy_rt <span class="ot">&lt;-</span></span>
+<span id="cb336-2"><a href="tyding.html#cb336-2" aria-hidden="true" tabindex="-1"></a>  long_tidy <span class="sc">%&gt;%</span></span>
+<span id="cb336-3"><a href="tyding.html#cb336-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb336-4"><a href="tyding.html#cb336-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">RT =</span> <span class="fu">round</span>(<span class="fu">rgamma</span>(<span class="fu">n</span>(), <span class="dv">4</span>, <span class="dv">3</span>), <span class="dv">2</span>))</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+Participant
+</th>
+<th style="text-align:left;">
+Face
+</th>
+<th style="text-align:left;">
+Scale
+</th>
+<th style="text-align:right;">
+Response
+</th>
+<th style="text-align:right;">
+RT
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:left;">
+Symmetry
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+1.22
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:left;">
+Attractiveness
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:left;">
+Trustworthiness
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+2.00
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:left;">
+Symmetry
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.13
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:left;">
+Attractiveness
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+2.44
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:left;">
+Trustworthiness
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+1.81
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:left;">
+Symmetry
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.77
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:left;">
+Attractiveness
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1.51
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:left;">
+Trustworthiness
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1.04
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:left;">
+Symmetry
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.35
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:left;">
+Attractiveness
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+1.93
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:left;">
+Trustworthiness
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1.29
+</td>
+</tr>
+</tbody>
+</table>
+<p>For <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a>, if we do not specify which columns identify rows that belong together, <code>RT</code> will be used as well. But, because it is different for every response, each row in the original table will be unique and we will end up with a weird looking table wit lots of <code>NAs</code>.</p>
+<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="tyding.html#cb337-1" aria-hidden="true" tabindex="-1"></a>wide_odd_rt <span class="ot">&lt;-</span></span>
+<span id="cb337-2"><a href="tyding.html#cb337-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(long_tidy_rt, <span class="at">names_from =</span> <span class="st">&quot;Scale&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Response&quot;</span>)</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+Participant
+</th>
+<th style="text-align:left;">
+Face
+</th>
+<th style="text-align:right;">
+RT
+</th>
+<th style="text-align:right;">
+Symmetry
+</th>
+<th style="text-align:right;">
+Attractiveness
+</th>
+<th style="text-align:right;">
+Trustworthiness
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:right;">
+1.22
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:right;">
+2.00
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:right;">
+0.13
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:right;">
+2.44
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:right;">
+1.81
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:right;">
+0.77
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:right;">
+1.51
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:right;">
+1.04
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:right;">
+0.35
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:right;">
+1.93
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:right;">
+1.29
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+</tbody>
+</table>
+<p>To remedy that, we need to specify id columns explicitly, so that <code>pivot_wider()</code> can ignore and <em>drop</em> the rest:</p>
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="tyding.html#cb338-1" aria-hidden="true" tabindex="-1"></a>wide_rt <span class="ot">&lt;-</span></span>
+<span id="cb338-2"><a href="tyding.html#cb338-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(long_tidy_rt,</span>
+<span id="cb338-3"><a href="tyding.html#cb338-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">id_cols =</span> <span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>, <span class="st">&quot;Face&quot;</span>),</span>
+<span id="cb338-4"><a href="tyding.html#cb338-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_from =</span> <span class="st">&quot;Scale&quot;</span>,</span>
+<span id="cb338-5"><a href="tyding.html#cb338-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from=</span><span class="st">&quot;Response&quot;</span>) </span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+Participant
+</th>
+<th style="text-align:left;">
+Face
+</th>
+<th style="text-align:right;">
+Symmetry
+</th>
+<th style="text-align:right;">
+Attractiveness
+</th>
+<th style="text-align:right;">
+Trustworthiness
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+</tbody>
+</table>
+<p>For practice, let us take <a href="data/bands-adaptation.csv">adaptation</a> data and turn it onto a wide format that is easier for humans to read. In the original form, the table is a long format with a row for each pair of prime and probe stimuli.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Participant
+</th>
+<th style="text-align:left;">
+Prime
+</th>
+<th style="text-align:left;">
+Probe
+</th>
+<th style="text-align:right;">
+Nsame
+</th>
+<th style="text-align:right;">
+Ntotal
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+ma2
+</td>
+<td style="text-align:left;">
+Sphere
+</td>
+<td style="text-align:left;">
+Sphere
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+119
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ma2
+</td>
+<td style="text-align:left;">
+Sphere
+</td>
+<td style="text-align:left;">
+Quadro
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:right;">
+118
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ma2
+</td>
+<td style="text-align:left;">
+Sphere
+</td>
+<td style="text-align:left;">
+Dual
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+120
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ma2
+</td>
+<td style="text-align:left;">
+Sphere
+</td>
+<td style="text-align:left;">
+Single
+</td>
+<td style="text-align:right;">
+31
+</td>
+<td style="text-align:right;">
+115
+</td>
+</tr>
+</tbody>
+</table>
+<p>Let us turn it into a wider table, so that a single row corresponds to a single prime and four new column contain proportion of same responses for individual probes. The table will look like this (use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Round.html">round()</a> function to reduce the number of digits):</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Participant
+</th>
+<th style="text-align:left;">
+Prime
+</th>
+<th style="text-align:right;">
+Sphere
+</th>
+<th style="text-align:right;">
+Quadro
+</th>
+<th style="text-align:right;">
+Dual
+</th>
+<th style="text-align:right;">
+Single
+</th>
+<th style="text-align:right;">
+Average
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+ma2
+</td>
+<td style="text-align:left;">
+Sphere
+</td>
+<td style="text-align:right;">
+0.18
+</td>
+<td style="text-align:right;">
+0.19
+</td>
+<td style="text-align:right;">
+0.12
+</td>
+<td style="text-align:right;">
+0.27
+</td>
+<td style="text-align:right;">
+0.1900
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ma2
+</td>
+<td style="text-align:left;">
+Quadro
+</td>
+<td style="text-align:right;">
+0.21
+</td>
+<td style="text-align:right;">
+0.22
+</td>
+<td style="text-align:right;">
+0.14
+</td>
+<td style="text-align:right;">
+0.34
+</td>
+<td style="text-align:right;">
+0.2275
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ma2
+</td>
+<td style="text-align:left;">
+Dual
+</td>
+<td style="text-align:right;">
+0.25
+</td>
+<td style="text-align:right;">
+0.30
+</td>
+<td style="text-align:right;">
+0.27
+</td>
+<td style="text-align:right;">
+0.48
+</td>
+<td style="text-align:right;">
+0.3250
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ma2
+</td>
+<td style="text-align:left;">
+Single
+</td>
+<td style="text-align:right;">
+0.34
+</td>
+<td style="text-align:right;">
+0.30
+</td>
+<td style="text-align:right;">
+0.48
+</td>
+<td style="text-align:right;">
+0.39
+</td>
+<td style="text-align:right;">
+0.3775
+</td>
+</tr>
+</tbody>
+</table>
+<p>The overall procedure is fairly straightforward:</p>
+<ol style="list-style-type: decimal">
+<li>Read the file (don’t forget to specify column types)</li>
+<li>Computer <code>Psame</code> proportion of same responses given number of total responses for each .</li>
+<li>Pivot the table wider, think about your id columns. Also try this without specifying any and see what you get.</li>
+<li>Compute an average stability across all probes and put it into a new <code>Average</code> column. You can do it “by hand” but, instead, use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/colSums.html">rowSums()</a> to compute it. Here, use <code>.</code> to refer to the table inside the <code>mutate()</code> function and you will need to normalize it by the number of probes to get an average instead of the sum.</li>
+<li>Pipe it to the output, using <a href="https://bookdown.org/yihui/rmarkdown-cookbook/kable.html">knitr::kable()</a>.</li>
+</ol>
+<p>Use <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a> in exercise 8.<br />
+::: {.infobox .practice}
+Do exercise 8.
+:::</p>
+<p>Repeat the analysis but now using the <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape()</a> function.
+::: {.infobox .practice}
+Do exercise 9.
+:::</p>
+<p>Let us practice more and create group average summary as a square 5×4 table with a single row per <em>Prime</em> and four columns for <em>Probe</em> plus a column that says which prime the row corresponds to. As a value for each cell, we want to code a _median value. The table should look like this:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center;">
+Prime
+</th>
+<th style="text-align:center;">
+Sphere
+</th>
+<th style="text-align:center;">
+Quadro
+</th>
+<th style="text-align:center;">
+Dual
+</th>
+<th style="text-align:center;">
+Single
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+Sphere
+</td>
+<td style="text-align:center;">
+0.13
+</td>
+<td style="text-align:center;">
+0.13
+</td>
+<td style="text-align:center;">
+0.17
+</td>
+<td style="text-align:center;">
+0.32
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Quadro
+</td>
+<td style="text-align:center;">
+0.19
+</td>
+<td style="text-align:center;">
+0.12
+</td>
+<td style="text-align:center;">
+0.21
+</td>
+<td style="text-align:center;">
+0.38
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Dual
+</td>
+<td style="text-align:center;">
+0.15
+</td>
+<td style="text-align:center;">
+0.30
+</td>
+<td style="text-align:center;">
+0.27
+</td>
+<td style="text-align:center;">
+0.48
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Single
+</td>
+<td style="text-align:center;">
+0.34
+</td>
+<td style="text-align:center;">
+0.30
+</td>
+<td style="text-align:center;">
+0.48
+</td>
+<td style="text-align:center;">
+0.51
+</td>
+</tr>
+</tbody>
+</table>
+<p>You know almost everything you need, so think about how you would implement this as a <em>single</em> pipeline. Hints: to match my table you will definitely to convert <code>Prime</code> and <code>Probe</code> to factors to ensure consistent ordering (otherwise, they will be sorted alphabetically), you will need to <a href="https://dplyr.tidyverse.org/reference/group_by.html">group</a> individual combinations of prime and probe before computing a <a href="https://dplyr.tidyverse.org/reference/summarise.html">summary statistics</a>. And, of course, you will need to pivot the table wider (use your preferred method).</p>
+<div class="infobox practice">
+<p>Do exercise 10.</p>
+</div>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="49">
+<li id="fn49"><p>Theoretically, you can skip it and <em>dplyr</em> will do its best to find matching columns. However, this is a dangerous thing to leave out, as your intuition and <em>dlpyr’s</em> matching rules may lead to different results. I strongly recommend to always specify key columns.<a href="tyding.html#fnref49" class="footnote-back">↩︎</a></p></li>
+<li id="fn50"><p>Remember, if you end up with <code>.xls</code> extension, just rename to <code>.csv</code>.<a href="tyding.html#fnref50" class="footnote-back">↩︎</a></p></li>
+<li id="fn51"><p>It uses <code>melt</code> and <code>cast</code> functions for this.<a href="tyding.html#fnref51" class="footnote-back">↩︎</a></p></li>
+<li id="fn52"><p>By the way, this simple check may seem as a trivial point but this is a kind of simple sanity check that you should perform routinely. This way you <em>know</em> rather than <em>hope</em> that transformation did what it should. I also check value is a few rows to make sure that I didn’t mess things up. Catching simple errors early saves you a lot of time!<a href="tyding.html#fnref52" class="footnote-back">↩︎</a></p></li>
+<li id="fn53"><p>I used table as an explicit first argument for <code>pivot_longer()</code> but piped it to <code>pivot_wider()</code>, why? To remind you that these two ways are the interchangeable and that both put the table as a parameter into the function.<a href="tyding.html#fnref53" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="working-with-factors.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="repeating-a-computation-and-controlling-its-flow.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "lunr",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
