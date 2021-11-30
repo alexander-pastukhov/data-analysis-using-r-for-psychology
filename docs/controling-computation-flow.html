@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Seminar 9 Controling computation flow | Data analysis using R for Psychology and Social Science</title>
+  <meta name="description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Seminar 9 Controling computation flow | Data analysis using R for Psychology and Social Science" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Seminar 9 Controling computation flow | Data analysis using R for Psychology and Social Science" />
+  
+  <meta name="twitter:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
+  
+
+<meta name="author" content="Alexander (Sasha) Pastukhov" />
+
+
+<meta name="date" content="2021-11-30" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="tyding.html"/>
+
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="font-awesome.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Data analysis using R for Psychology</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-r"><i class="fa fa-check"></i>Why R?</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-tidyverse"><i class="fa fa-check"></i>Why Tidyverse</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-seminar"><i class="fa fa-check"></i>About the seminar</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#thinking-like-a-computer"><i class="fa fa-check"></i>Thinking like a computer</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-material"><i class="fa fa-check"></i>About the material</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html"><i class="fa fa-check"></i>Software</a>
+<ul>
+<li class="chapter" data-level="0.1" data-path="software.html"><a href="software.html#install-r"><i class="fa fa-check"></i><b>0.1</b> Installing R</a></li>
+<li class="chapter" data-level="0.2" data-path="software.html"><a href="software.html#install-rstudio"><i class="fa fa-check"></i><b>0.2</b> Installing R-Studio</a></li>
+<li class="chapter" data-level="0.3" data-path="software.html"><a href="software.html#install-rtools"><i class="fa fa-check"></i><b>0.3</b> Installing RTools</a></li>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install.packages"><i class="fa fa-check"></i>Installing packages</a></li>
+<li class="chapter" data-level="0.4" data-path="software.html"><a href="software.html#minimal-set-of-packages"><i class="fa fa-check"></i><b>0.4</b> Minimal set of packages</a></li>
+<li class="chapter" data-level="0.5" data-path="software.html"><a href="software.html#installr"><i class="fa fa-check"></i><b>0.5</b> Keeping R and packages up-to-date</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="reproducable-research.html"><a href="reproducable-research.html"><i class="fa fa-check"></i><b>1</b> Reproducable Research: Projects and RMarkdown Notebooks</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="reproducable-research.html"><a href="reproducable-research.html#projects"><i class="fa fa-check"></i><b>1.1</b> Projects</a></li>
+<li class="chapter" data-level="1.2" data-path="reproducable-research.html"><a href="reproducable-research.html#rmarkdown"><i class="fa fa-check"></i><b>1.2</b> RMarkdown</a></li>
+<li class="chapter" data-level="1.3" data-path="reproducable-research.html"><a href="reproducable-research.html#exercise"><i class="fa fa-check"></i><b>1.3</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="vectors.html"><a href="vectors.html"><i class="fa fa-check"></i><b>2</b> Vectors! Vectors everywhere!</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="vectors.html"><a href="vectors.html#variables"><i class="fa fa-check"></i><b>2.1</b> Variables as boxes</a></li>
+<li class="chapter" data-level="2.2" data-path="vectors.html"><a href="vectors.html#assignment-statement"><i class="fa fa-check"></i><b>2.2</b> Assignment statement in detail</a></li>
+<li class="chapter" data-level="2.3" data-path="vectors.html"><a href="vectors.html#vectors-scalars"><i class="fa fa-check"></i><b>2.3</b> Vectors and singluar values (scalars, which are also vectors)</a></li>
+<li class="chapter" data-level="2.4" data-path="vectors.html"><a href="vectors.html#vector-index"><i class="fa fa-check"></i><b>2.4</b> Vector indexes (subsetting)</a></li>
+<li class="chapter" data-level="2.5" data-path="vectors.html"><a href="vectors.html#names"><i class="fa fa-check"></i><b>2.5</b> Names as an Index</a></li>
+<li class="chapter" data-level="2.6" data-path="vectors.html"><a href="vectors.html#vector-index-slicing"><i class="fa fa-check"></i><b>2.6</b> Slicing</a></li>
+<li class="chapter" data-level="2.7" data-path="vectors.html"><a href="vectors.html#colon-sequence"><i class="fa fa-check"></i><b>2.7</b> Colon Operator and Sequence Generation</a></li>
+<li class="chapter" data-level="2.8" data-path="vectors.html"><a href="vectors.html#working-with-two-vectors-of-equal-length"><i class="fa fa-check"></i><b>2.8</b> Working with two vectors of <em>equal</em> length</a></li>
+<li class="chapter" data-level="2.9" data-path="vectors.html"><a href="vectors.html#different-length-vectors"><i class="fa fa-check"></i><b>2.9</b> Working with two vectors of <em>different</em> length</a></li>
+<li class="chapter" data-level="2.10" data-path="vectors.html"><a href="vectors.html#applying-functions-to-a-vector"><i class="fa fa-check"></i><b>2.10</b> Applying functions to a vector</a></li>
+<li class="chapter" data-level="2.11" data-path="vectors.html"><a href="vectors.html#wrap-up"><i class="fa fa-check"></i><b>2.11</b> Wrap up</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="tables.html"><a href="tables.html"><i class="fa fa-check"></i><b>3</b> Tables and Tibbles (and Tribbles)</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tables.html"><a href="tables.html#primary-types"><i class="fa fa-check"></i><b>3.1</b> Primary data types</a></li>
+<li class="chapter" data-level="3.2" data-path="tables.html"><a href="tables.html#vectors-are-homogeneous"><i class="fa fa-check"></i><b>3.2</b> All vector values must be of the same type</a></li>
+<li class="chapter" data-level="3.3" data-path="tables.html"><a href="tables.html#lists"><i class="fa fa-check"></i><b>3.3</b> Lists</a></li>
+<li class="chapter" data-level="3.4" data-path="tables.html"><a href="tables.html#subsetting"><i class="fa fa-check"></i><b>3.4</b> Subsetting, a fuller version</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="tables.html"><a href="tables.html#subsetting-for-atomics-vectors"><i class="fa fa-check"></i><b>3.4.1</b> Subsetting for (atomics) vectors</a></li>
+<li class="chapter" data-level="3.4.2" data-path="tables.html"><a href="tables.html#subsetting-for-lists"><i class="fa fa-check"></i><b>3.4.2</b> Subsetting for lists</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="tables.html"><a href="tables.html#dollar-subsetting"><i class="fa fa-check"></i><b>3.5</b> Yet another subsetting via $</a></li>
+<li class="chapter" data-level="3.6" data-path="tables.html"><a href="tables.html#data.frame"><i class="fa fa-check"></i><b>3.6</b> Tables, a.k.a. data frames</a></li>
+<li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#table-subsetting"><i class="fa fa-check"></i><b>3.7</b> Subsetting tables</a></li>
+<li class="chapter" data-level="3.8" data-path="tables.html"><a href="tables.html#library"><i class="fa fa-check"></i><b>3.8</b> Using libraries</a></li>
+<li class="chapter" data-level="3.9" data-path="tables.html"><a href="tables.html#tibble"><i class="fa fa-check"></i><b>3.9</b> Tibble, a better data.frame</a></li>
+<li class="chapter" data-level="3.10" data-path="tables.html"><a href="tables.html#tribble"><i class="fa fa-check"></i><b>3.10</b> Tribble, table from text</a></li>
+<li class="chapter" data-level="3.11" data-path="tables.html"><a href="tables.html#data"><i class="fa fa-check"></i><b>3.11</b> Reading example tables</a></li>
+<li class="chapter" data-level="3.12" data-path="tables.html"><a href="tables.html#readr"><i class="fa fa-check"></i><b>3.12</b> Reading csv files</a></li>
+<li class="chapter" data-level="3.13" data-path="tables.html"><a href="tables.html#readxl"><i class="fa fa-check"></i><b>3.13</b> Reading Excel files</a></li>
+<li class="chapter" data-level="3.14" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.14</b> Reading files from other programs</a></li>
+<li class="chapter" data-level="3.15" data-path="tables.html"><a href="tables.html#rds"><i class="fa fa-check"></i><b>3.15</b> Writing and reading a single object</a></li>
+<li class="chapter" data-level="3.16" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.16</b> Wrap up</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>4</b> Functions! Functions everywhere!</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="functions.html"><a href="functions.html#functions-1"><i class="fa fa-check"></i><b>4.1</b> Functions</a></li>
+<li class="chapter" data-level="4.2" data-path="functions.html"><a href="functions.html#writing-a-function"><i class="fa fa-check"></i><b>4.2</b> Writing a function</a></li>
+<li class="chapter" data-level="4.3" data-path="functions.html"><a href="functions.html#scopes-global-versus-local-variables"><i class="fa fa-check"></i><b>4.3</b> Scopes: Global versus Local variables</a></li>
+<li class="chapter" data-level="4.4" data-path="functions.html"><a href="functions.html#function-with-two-parameters"><i class="fa fa-check"></i><b>4.4</b> Function with two parameters</a></li>
+<li class="chapter" data-level="4.5" data-path="functions.html"><a href="functions.html#table-as-a-parameter"><i class="fa fa-check"></i><b>4.5</b> Table as a parameter</a></li>
+<li class="chapter" data-level="4.6" data-path="functions.html"><a href="functions.html#named-versus-positional-arguments"><i class="fa fa-check"></i><b>4.6</b> Named versus positional arguments</a></li>
+<li class="chapter" data-level="4.7" data-path="functions.html"><a href="functions.html#default-values"><i class="fa fa-check"></i><b>4.7</b> Default values</a></li>
+<li class="chapter" data-level="4.8" data-path="functions.html"><a href="functions.html#nested-calls"><i class="fa fa-check"></i><b>4.8</b> Nested calls</a></li>
+<li class="chapter" data-level="4.9" data-path="functions.html"><a href="functions.html#pipe"><i class="fa fa-check"></i><b>4.9</b> Piping</a></li>
+<li class="chapter" data-level="4.10" data-path="functions.html"><a href="functions.html#function-is-just-a-code-stored-in-a-variable"><i class="fa fa-check"></i><b>4.10</b> Function is just a code stored in a variable</a></li>
+<li class="chapter" data-level="4.11" data-path="functions.html"><a href="functions.html#functions-functions-everywhere"><i class="fa fa-check"></i><b>4.11</b> Functions! Functions everywhere!</a></li>
+<li class="chapter" data-level="4.12" data-path="functions.html"><a href="functions.html#using-or-not-using-explicit-return-statement"><i class="fa fa-check"></i><b>4.12</b> Using (or not using) explicit return statement</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>5</b> Grammar of Graphics</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="ggplot2.html"><a href="ggplot2.html#tidydata"><i class="fa fa-check"></i><b>5.1</b> Tidy data</a></li>
+<li class="chapter" data-level="5.2" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-1"><i class="fa fa-check"></i><b>5.2</b> ggplot2</a></li>
+<li class="chapter" data-level="5.3" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-continuous-x-axis"><i class="fa fa-check"></i><b>5.3</b> Auto efficiency: continuous x-axis</a></li>
+<li class="chapter" data-level="5.4" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-discrete-x-axis"><i class="fa fa-check"></i><b>5.4</b> Auto efficiency: discrete x-axis</a></li>
+<li class="chapter" data-level="5.5" data-path="ggplot2.html"><a href="ggplot2.html#mammals-sleep-single-variable"><i class="fa fa-check"></i><b>5.5</b> Mammals sleep: single variable</a></li>
+<li class="chapter" data-level="5.6" data-path="ggplot2.html"><a href="ggplot2.html#mapping-for-all-visuals-versus-just-one-visual"><i class="fa fa-check"></i><b>5.6</b> Mapping for all visuals versus just one visual</a></li>
+<li class="chapter" data-level="5.7" data-path="ggplot2.html"><a href="ggplot2.html#mapping-on-variables-versus-constants"><i class="fa fa-check"></i><b>5.7</b> Mapping on variables versus constants</a></li>
+<li class="chapter" data-level="5.8" data-path="ggplot2.html"><a href="ggplot2.html#themes"><i class="fa fa-check"></i><b>5.8</b> Themes</a></li>
+<li class="chapter" data-level="5.9" data-path="ggplot2.html"><a href="ggplot2.html#you-aint-seen-nothing-yet"><i class="fa fa-check"></i><b>5.9</b> You ain’t seen nothing yet</a></li>
+<li class="chapter" data-level="5.10" data-path="ggplot2.html"><a href="ggplot2.html#further-reading"><i class="fa fa-check"></i><b>5.10</b> Further reading</a></li>
+<li class="chapter" data-level="5.11" data-path="ggplot2.html"><a href="ggplot2.html#extending-ggplot2"><i class="fa fa-check"></i><b>5.11</b> Extending ggplot2</a></li>
+<li class="chapter" data-level="5.12" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-cannot-do-everything"><i class="fa fa-check"></i><b>5.12</b> ggplot2 cannot do everything</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>6</b> Tidyverse: dplyr</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="dplyr.html"><a href="dplyr.html#tidyverse-philosophy"><i class="fa fa-check"></i><b>6.1</b> Tidyverse philosophy</a></li>
+<li class="chapter" data-level="6.2" data-path="dplyr.html"><a href="dplyr.html#select"><i class="fa fa-check"></i><b>6.2</b> <code>select()</code> columns by name</a></li>
+<li class="chapter" data-level="6.3" data-path="dplyr.html"><a href="dplyr.html#conditions"><i class="fa fa-check"></i><b>6.3</b> Conditions</a></li>
+<li class="chapter" data-level="6.4" data-path="dplyr.html"><a href="dplyr.html#logical-indexing"><i class="fa fa-check"></i><b>6.4</b> Logical indexing</a></li>
+<li class="chapter" data-level="6.5" data-path="dplyr.html"><a href="dplyr.html#filter-rows-by-values"><i class="fa fa-check"></i><b>6.5</b> <code>filter()</code> rows by values</a></li>
+<li class="chapter" data-level="6.6" data-path="dplyr.html"><a href="dplyr.html#arrange-rows-in-a-particular-order"><i class="fa fa-check"></i><b>6.6</b> <code>arrange()</code> rows in a particular order</a></li>
+<li class="chapter" data-level="6.7" data-path="dplyr.html"><a href="dplyr.html#mutate"><i class="fa fa-check"></i><b>6.7</b> <code>mutate()</code> columns</a></li>
+<li class="chapter" data-level="6.8" data-path="dplyr.html"><a href="dplyr.html#summarize"><i class="fa fa-check"></i><b>6.8</b> <code>summarize()</code> table by <code>groups</code></a></li>
+<li class="chapter" data-level="6.9" data-path="dplyr.html"><a href="dplyr.html#putting-it-all-together"><i class="fa fa-check"></i><b>6.9</b> Putting it all together</a></li>
+<li class="chapter" data-level="6.10" data-path="dplyr.html"><a href="dplyr.html#should-i-use-tidyverse"><i class="fa fa-check"></i><b>6.10</b> Should I use Tidyverse?</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="working-with-factors.html"><a href="working-with-factors.html"><i class="fa fa-check"></i><b>7</b> Working with Factors</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="working-with-factors.html"><a href="working-with-factors.html#how-to-write-code"><i class="fa fa-check"></i><b>7.1</b> How to write code</a></li>
+<li class="chapter" data-level="7.2" data-path="working-with-factors.html"><a href="working-with-factors.html#implementing-a-typical-analysis"><i class="fa fa-check"></i><b>7.2</b> Implementing a typical analysis</a></li>
+<li class="chapter" data-level="7.3" data-path="working-with-factors.html"><a href="working-with-factors.html#factors"><i class="fa fa-check"></i><b>7.3</b> Factors</a></li>
+<li class="chapter" data-level="7.4" data-path="working-with-factors.html"><a href="working-with-factors.html#forcats"><i class="fa fa-check"></i><b>7.4</b> Forcats</a></li>
+<li class="chapter" data-level="7.5" data-path="working-with-factors.html"><a href="working-with-factors.html#plotting-group-averages"><i class="fa fa-check"></i><b>7.5</b> Plotting group averages</a></li>
+<li class="chapter" data-level="7.6" data-path="working-with-factors.html"><a href="working-with-factors.html#plotting-our-confidence-in-group-averages-via-quantiles"><i class="fa fa-check"></i><b>7.6</b> Plotting our confidence in group averages via quantiles</a></li>
+<li class="chapter" data-level="7.7" data-path="working-with-factors.html"><a href="working-with-factors.html#looking-at-similarity"><i class="fa fa-check"></i><b>7.7</b> Looking at similarity</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tyding.html"><a href="tyding.html"><i class="fa fa-check"></i><b>8</b> Tidyng your data: joins and pivots</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="tyding.html"><a href="tyding.html#joins"><i class="fa fa-check"></i><b>8.1</b> Joining tables</a></li>
+<li class="chapter" data-level="8.2" data-path="tyding.html"><a href="tyding.html#pivoting"><i class="fa fa-check"></i><b>8.2</b> Pivoting</a></li>
+<li class="chapter" data-level="8.3" data-path="tyding.html"><a href="tyding.html#pivot-longer"><i class="fa fa-check"></i><b>8.3</b> Pivot longer</a></li>
+<li class="chapter" data-level="8.4" data-path="tyding.html"><a href="tyding.html#pivot-wider"><i class="fa fa-check"></i><b>8.4</b> Pivot wider</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html"><i class="fa fa-check"></i><b>9</b> Controling computation flow</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#rep"><i class="fa fa-check"></i><b>9.1</b> <code>rep()</code></a></li>
+<li class="chapter" data-level="9.2" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#repeating-combinations"><i class="fa fa-check"></i><b>9.2</b> Repeating combinations</a></li>
+<li class="chapter" data-level="9.3" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#forloop"><i class="fa fa-check"></i><b>9.3</b> For loop</a></li>
+<li class="chapter" data-level="9.4" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#conditional-statement"><i class="fa fa-check"></i><b>9.4</b> Conditional statement</a></li>
+<li class="chapter" data-level="9.5" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#breaking-out-of-the-loop"><i class="fa fa-check"></i><b>9.5</b> Breaking out of the loop</a></li>
+<li class="chapter" data-level="9.6" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#using-for-loop-to-load-and-join-multiple-data-files"><i class="fa fa-check"></i><b>9.6</b> Using for loop to load and join multiple data files</a></li>
+<li class="chapter" data-level="9.7" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#apply"><i class="fa fa-check"></i><b>9.7</b> Apply</a></li>
+<li class="chapter" data-level="9.8" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#purrr"><i class="fa fa-check"></i><b>9.8</b> Purrr</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://alexander-pastukhov.github.io/">Alexander (Sasha) Pastukhov</li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data analysis using R for Psychology and Social Science</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="controling-computation-flow" class="section level1" number="9">
+<h1><span class="header-section-number">Seminar 9</span> Controling computation flow</h1>
+<p>Grab the <a href="notebooks/Seminar%2010%20-%20repetition.Rmd">exercise notebook</a> before we start.</p>
+<p>One the most powerful features of R is that it is vector-based. Remember, everything is a vector (or a list). In the previous seminars you saw you can apply a function, a filter, or perform a computation on all values of a vector or all rows in a table in a single call. However, sometimes, you need to go over one value or row at a time explicitly. For example, if you working with a time-series, it might be easier to use an explicit <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html">for</a> loop to compute current value based on previous state of the system. However, such instances are fairly rare, so the general rule for R is “you probably do not need a loop.” Below, we will go through various tools that render explicit loops redundant.</p>
+<div id="rep" class="section level2" number="9.1">
+<h2><span class="header-section-number">9.1</span> <code>rep()</code></h2>
+<p>The most basic repetition mechanism in R is <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/rep.html">rep()</a> function. It takes a vector and repeats it specified number of <em>times</em>.</p>
+<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="controling-computation-flow.html#cb339-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">times=</span><span class="dv">4</span>)</span></code></pre></div>
+<pre><code>##  [1] 1 2 3 1 2 3 1 2 3 1 2 3</code></pre>
+<p>Alternatively, you can repeat each element specified number of times before repeating the next one via <code>each</code> parameter. The difference between options lies only in the <em>order</em> of elements in the new vector. As you can see both vectors have the same length and each individual value is repeated four times.</p>
+<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="controling-computation-flow.html#cb341-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">each=</span><span class="dv">4</span>)</span></code></pre></div>
+<pre><code>##  [1] 1 1 1 1 2 2 2 2 3 3 3 3</code></pre>
+<p>You can specify length of the output vector via <code>length.out</code>. When combined with <code>times</code> it can be useful for producing truncated vectors. E.g., when we repeat a three element vector but we want to get ten values. Using <code>times</code> only, we can get either nine (<code>times=3</code>) or twelve (<code>times=4</code>), not ten. <code>length.out=10</code> makes it happen.</p>
+<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="controling-computation-flow.html#cb343-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">times=</span><span class="dv">4</span>, <span class="at">length.out =</span> <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>##  [1] 1 2 3 1 2 3 1 2 3 1</code></pre>
+<p>However, you can also use subsetting of a new vector to achieve the same end.</p>
+<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="controling-computation-flow.html#cb345-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">times=</span><span class="dv">4</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code></pre></div>
+<pre><code>##  [1] 1 2 3 1 2 3 1 2 3 1</code></pre>
+<p>You should be more careful when combining <code>length.out</code> with <code>each</code>, as each value is repeated <code>each</code> times and, if <code>length.out</code> is longer, the same sequence is repeated again. Could be confusing and you might get a very unbalanced repeated sequence.</p>
+<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="controling-computation-flow.html#cb347-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">each=</span><span class="dv">8</span>, <span class="at">length.out =</span> <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>##  [1] 1 1 1 1 1 1 1 1 2 2</code></pre>
+<div class="infobox practice">
+<p>Do exercise 1.</p>
+</div>
+</div>
+<div id="repeating-combinations" class="section level2" number="9.2">
+<h2><span class="header-section-number">9.2</span> Repeating combinations</h2>
+<p>To create a table with all combinations of values, you can use either base R <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/expand.grid.html">expand.grid()</a> or tidyr’s implementation <a href="https://tidyr.tidyverse.org/reference/expand_grid.html">expand_grid()</a>. The latter is a bit more robust and can expand even tables and matrices (but see the documentation for subtle differences in implementation and output).</p>
+<p>The usage is very straightforward, you provide column names and values and you get all combinations of their values.</p>
+<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="controling-computation-flow.html#cb349-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(grid_base)</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+gender
+</th>
+<th style="text-align:left;">
+handidness
+</th>
+<th style="text-align:left;">
+colorblindness
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+right
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+right
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+left
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+left
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+right
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+right
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+left
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+left
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+</tbody>
+</table>
+<p><a href="https://tidyr.tidyverse.org/reference/expand_grid.html">expand_grid()</a> works the same they but for the order in the values very within columns.</p>
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="controling-computation-flow.html#cb350-1" aria-hidden="true" tabindex="-1"></a><span class="fu">expand_grid</span>(<span class="at">gender=</span><span class="fu">c</span>(<span class="st">&quot;female&quot;</span>, <span class="st">&quot;male&quot;</span>), </span>
+<span id="cb350-2"><a href="controling-computation-flow.html#cb350-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">handidness=</span><span class="fu">c</span>(<span class="st">&quot;right&quot;</span>, <span class="st">&quot;left&quot;</span>),</span>
+<span id="cb350-3"><a href="controling-computation-flow.html#cb350-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">colorblindness=</span><span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="controling-computation-flow.html#cb351-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(grid_tidyr)</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+gender
+</th>
+<th style="text-align:left;">
+handidness
+</th>
+<th style="text-align:left;">
+colorblindness
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+right
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+right
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+left
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+left
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+right
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+right
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+left
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+left
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+</tbody>
+</table>
+<div class="infobox practice">
+<p>Do exercise 2.</p>
+</div>
+</div>
+<div id="forloop" class="section level2" number="9.3">
+<h2><span class="header-section-number">9.3</span> For loop</h2>
+<p>You can loop (iterate) over elements of a vector or list via a <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html">for</a> loop, which is very similar to for-loops in other programming languages. However, use of the <code>for</code> loop in R is fairly rare, because vectors are a fundamental building block of R and, therefore, it is inherently vectorized (you can do the same thing to all values, not to one value at a time). Thus, almost always, you can do the same thing but using simpler or more expressive tools. In a sense, <code>for</code> loop is very un-R, so if you find yourself using it, consider whether there is a simpler or more expressive way to do this. At the same time, if <code>for</code> loop <em>is</em> the simplest or clearest way to write you code, by all means, use it!</p>
+<p>The general format is</p>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="controling-computation-flow.html#cb352-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(loop_variable <span class="cf">in</span> vector_or_list){</span>
+<span id="cb352-2"><a href="controling-computation-flow.html#cb352-2" aria-hidden="true" tabindex="-1"></a>  ...some operations using loop_variable that</span>
+<span id="cb352-3"><a href="controling-computation-flow.html#cb352-3" aria-hidden="true" tabindex="-1"></a>  changes its value on each iteration... </span>
+<span id="cb352-4"><a href="controling-computation-flow.html#cb352-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Note the curly brackets. We used them before to put the code inside a function. Here, we use them to put the code inside the loop. The loop is repeated as many times as the number of elements in a vector or a list with a loop variable<a href="#fn54" class="footnote-ref" id="fnref54"><sup>54</sup></a> getting assigned each vector/list value on each iteration. Thus, to print each value of a vector we can do</p>
+<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="controling-computation-flow.html#cb353-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(a_number <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">200</span>)){</span>
+<span id="cb353-2"><a href="controling-computation-flow.html#cb353-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(a_number)</span>
+<span id="cb353-3"><a href="controling-computation-flow.html#cb353-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## [1] 1
+## [1] 5
+## [1] 200</code></pre>
+<p>A typical scenario is for the loop variable to be an <em>index</em> that can be used to access element of a vector or a list. You can build a vector of indexes via <code>start:stop</code> sequence tool we used for <a href="vectors.html#vector-index-slicing">slicing</a>. You can compute a length of an object via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/length.html">length()</a> function. For a <code>data.frame</code> or a <code>tibble</code>, you can figure out number of rows and columns via, respectively, <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/nrow.html">nrow()</a> and <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/nrow.html">ncol()</a> functions.</p>
+<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="controling-computation-flow.html#cb355-1" aria-hidden="true" tabindex="-1"></a>vector_of_some_numbers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">200</span>)</span>
+<span id="cb355-2"><a href="controling-computation-flow.html#cb355-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(index <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(vector_of_some_numbers)){</span>
+<span id="cb355-3"><a href="controling-computation-flow.html#cb355-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(vector_of_some_numbers[index])</span>
+<span id="cb355-4"><a href="controling-computation-flow.html#cb355-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## [1] 1
+## [1] 5
+## [1] 200</code></pre>
+<div class="infobox practice">
+<p>Do exercise 3.</p>
+</div>
+<p>You can also <em>nest</em> loops (wondering what <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/cat.html">cat()</a> does? Concatenates and ptings, so read the <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/cat.html">manual</a>!).</p>
+<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="controling-computation-flow.html#cb357-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(letter <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>)){</span>
+<span id="cb357-2"><a href="controling-computation-flow.html#cb357-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(number <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>){</span>
+<span id="cb357-3"><a href="controling-computation-flow.html#cb357-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(letter, number, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb357-4"><a href="controling-computation-flow.html#cb357-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb357-5"><a href="controling-computation-flow.html#cb357-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## A 1 
+## A 2 
+## B 1 
+## B 2 
+## C 1 
+## C 2</code></pre>
+<div class="infobox practice">
+<p>Do exercise 4.</p>
+</div>
+<p>As I have noted above, loops are particularly useful when you current value depends on a previous one (or many previous values). In the next exercise, use <code>for</code> loop to create a random walk with an initial value of zero. For each next step, draw a random value from a normal distribution with zero mean and standard deviation computed as <code>exp(value_on_previous_step)</code> (the function you are looking for is <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html">rnorm()</a>). Generate a ten-step, that might look like this</p>
+<pre><code>##  [1]  0.00000000 -0.56902925 -0.23326972  0.04788655 -0.26527382  0.05453601
+##  [7]  0.21423641 -1.36139599 -0.27036963  0.76728873</code></pre>
+<div class="infobox practice">
+<p>Do exercise 5.</p>
+</div>
+</div>
+<div id="conditional-statement" class="section level2" number="9.4">
+<h2><span class="header-section-number">9.4</span> Conditional statement</h2>
+<p>As for all other programming languages, you can control the flow of execution using <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html">if-else</a> statements. The general usage is as follows.</p>
+<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="controling-computation-flow.html#cb360-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (some_condition) {</span>
+<span id="cb360-2"><a href="controling-computation-flow.html#cb360-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># code runs if some_condition is TRUE</span></span>
+<span id="cb360-3"><a href="controling-computation-flow.html#cb360-3" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb360-4"><a href="controling-computation-flow.html#cb360-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># code runs if some_condition is FALSE</span></span>
+<span id="cb360-5"><a href="controling-computation-flow.html#cb360-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>For example, we can define our condition using <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Comparison.html">mathematical comparisons</a>.</p>
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="controling-computation-flow.html#cb361-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">3</span></span>
+<span id="cb361-2"><a href="controling-computation-flow.html#cb361-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (x <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb361-3"><a href="controling-computation-flow.html#cb361-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;X is definitely greater than  zero&quot;</span>)</span>
+<span id="cb361-4"><a href="controling-computation-flow.html#cb361-4" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb361-5"><a href="controling-computation-flow.html#cb361-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;X is not greater than zero.&quot;</span>)</span>
+<span id="cb361-6"><a href="controling-computation-flow.html#cb361-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## X is not greater than zero.</code></pre>
+<p>You can combine several conditions using <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Logic.html">logical operators</a> such as <em>and</em> <code>&amp;</code> or <em>or</em> <code>|</code>. For example, we can check whether x is smaller than zero but larger than -10.</p>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="controling-computation-flow.html#cb363-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">3</span></span>
+<span id="cb363-2"><a href="controling-computation-flow.html#cb363-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> ((x <span class="sc">&lt;</span> <span class="dv">0</span>) <span class="sc">&amp;</span> (x <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">10</span>)) {</span>
+<span id="cb363-3"><a href="controling-computation-flow.html#cb363-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Bingo!&quot;</span>)</span>
+<span id="cb363-4"><a href="controling-computation-flow.html#cb363-4" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb363-5"><a href="controling-computation-flow.html#cb363-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;I don&#39;t like this x.&quot;</span>)</span>
+<span id="cb363-6"><a href="controling-computation-flow.html#cb363-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## Bingo!</code></pre>
+<p>Beware that the <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html">if</a> requires a <em>single</em> logical value to work. If you have more than one value, it will use <em>only the first one</em> but it will give you a warning.</p>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="controling-computation-flow.html#cb365-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>,  <span class="sc">-</span><span class="dv">3</span>)</span>
+<span id="cb365-2"><a href="controling-computation-flow.html#cb365-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> ((x <span class="sc">&lt;</span> <span class="dv">0</span>)) {</span>
+<span id="cb365-3"><a href="controling-computation-flow.html#cb365-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Bingo!&quot;</span>)</span>
+<span id="cb365-4"><a href="controling-computation-flow.html#cb365-4" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb365-5"><a href="controling-computation-flow.html#cb365-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;I don&#39;t like this x.&quot;</span>)</span>
+<span id="cb365-6"><a href="controling-computation-flow.html#cb365-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## Warning in if ((x &lt; 0)) {: the condition has length &gt; 1 and only the first
+## element will be used</code></pre>
+<pre><code>## I don&#39;t like this x.</code></pre>
+<p>Also beware that R has both <code>&amp;</code>/<code>|</code> and <code>&amp;&amp;</code>/<code>||</code> versions of <em>and</em> and <em>or</em> logical operators (single versus double the number of symbols). Both perform logical operations on vectors but double-symbol ones return only the <em>first</em> value. E.g., single-symbol returns <code>TRUE</code>/<code>FALSE</code> for each value of <code>x</code></p>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="controling-computation-flow.html#cb368-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="sc">-</span><span class="dv">3</span>, <span class="sc">-</span><span class="dv">11</span>)</span>
+<span id="cb368-2"><a href="controling-computation-flow.html#cb368-2" aria-hidden="true" tabindex="-1"></a>(x <span class="sc">&lt;</span> <span class="dv">0</span>) <span class="sc">&amp;</span> (x <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## [1] FALSE  TRUE FALSE</code></pre>
+<p>But double-symbol returns it only for the <em>first</em> value.</p>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="controling-computation-flow.html#cb370-1" aria-hidden="true" tabindex="-1"></a>(x <span class="sc">&lt;</span> <span class="dv">0</span>) <span class="sc">&amp;&amp;</span> (x <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<p>I am sure there is a perfectly logical explanation for this bizarre implementation but I do not know it. I am bringing this up, just so that you would <em>never</em> use double-symbol logical operators! Chances are, you will forget about this “return-only-the-first-value” behavior and expect them to act normally. They won’t behave as you think they should, so simply stay away.</p>
+<p>Let us combine <code>for</code> loop with <code>if-else</code> operator. Generate a vector of ten normally distributed values (again, <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html">rnorm()</a> is the function). Loop over them in a <code>for</code> loop and <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/print.html">print()</a> <code>"Positive"</code> if a value is larger than zero and <code>"Not positive"</code> if not. The results should look like this<a href="#fn55" class="footnote-ref" id="fnref55"><sup>55</sup></a></p>
+<pre><code>##  [1]  0.03003683  1.22390943  1.71573769 -0.89994016  0.55507190  0.42319195
+##  [7]  0.82993426 -1.28614375  1.21511589 -0.05815403</code></pre>
+<pre><code>## [1] &quot;Positive&quot;
+## [1] &quot;Positive&quot;
+## [1] &quot;Positive&quot;
+## [1] &quot;Not positive&quot;
+## [1] &quot;Positive&quot;
+## [1] &quot;Positive&quot;
+## [1] &quot;Positive&quot;
+## [1] &quot;Not positive&quot;
+## [1] &quot;Positive&quot;
+## [1] &quot;Not positive&quot;</code></pre>
+<div class="infobox practice">
+<p>Do exercise 6. (NOT YET IMPLEMENTED!)</p>
+</div>
+</div>
+<div id="breaking-out-of-the-loop" class="section level2" number="9.5">
+<h2><span class="header-section-number">9.5</span> Breaking out of the loop</h2>
+<p>The code inside the <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html">for</a> loop is typically repeated for every value of the vector that you have supplied. However, there is a way to <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html">break</a> out of it using a <code>break</code> statement. This stops execution of the code <em>inside</em> of the loop immediately and continues with the code immediately after the loop.</p>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="controling-computation-flow.html#cb374-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(y <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)){</span>
+<span id="cb374-2"><a href="controling-computation-flow.html#cb374-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&quot;This will be exected&quot;</span>)</span>
+<span id="cb374-3"><a href="controling-computation-flow.html#cb374-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">break</span></span>
+<span id="cb374-4"><a href="controling-computation-flow.html#cb374-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&quot;But this won&#39;t be&quot;</span>)</span>
+<span id="cb374-5"><a href="controling-computation-flow.html#cb374-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## [1] &quot;This will be exected&quot;</code></pre>
+<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="controling-computation-flow.html#cb376-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;Now to the code AFTER the loop&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;Now to the code AFTER the loop&quot;</code></pre>
+<p>Note that in this case, the code was executed (incompletely!) only once. Typically, <code>break</code> is used in combination with the <code>if-else</code> statement to break out of the loop, if a certain condition is met. Let us practice. Again, generate ten normally distributed numbers, loop over them and print each one. However, <code>break</code> after the <em>fifth</em> value. For this, you need to loop over indexes of values (that go from 1 to the <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/length.html">length()</a> of your vector). Thus, you loop variable will contain an index of each element of x (because of that I called it <code>ix</code>) and you need to use it to get a value at this position within the vector. If that index is equal to 5, break out of the loop.
+For the ten values I’ve generated above, the output will be the following (“Done for today” is printed after the loop).</p>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="controling-computation-flow.html#cb378-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">164</span>)</span>
+<span id="cb378-2"><a href="controling-computation-flow.html#cb378-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)</span>
+<span id="cb378-3"><a href="controling-computation-flow.html#cb378-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(ix <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(x)){</span>
+<span id="cb378-4"><a href="controling-computation-flow.html#cb378-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (ix <span class="sc">==</span> <span class="dv">5</span>)  <span class="cf">break</span></span>
+<span id="cb378-5"><a href="controling-computation-flow.html#cb378-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(x[ix])</span>
+<span id="cb378-6"><a href="controling-computation-flow.html#cb378-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## [1] 0.03003683
+## [1] 1.223909
+## [1] 1.715738
+## [1] -0.8999402</code></pre>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="controling-computation-flow.html#cb380-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;Done for today&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;Done for today&quot;</code></pre>
+<div class="infobox practice">
+<p>Do exercise 7. (NOT YET IMPLEMENTED!)</p>
+</div>
+</div>
+<div id="using-for-loop-to-load-and-join-multiple-data-files" class="section level2" number="9.6">
+<h2><span class="header-section-number">9.6</span> Using for loop to load and join multiple data files</h2>
+<p>Your analysis starts with loading the data. Quite often, data for individual participants is stored in different files but with identical structure, so you need code that figures out which files you need to load, loads them on at a time and then binds them to one final table. Using a <code>for</code> loop is not the most elegant way to implement this but it does the job and gives you another example of how loops can be useful. I will walk you through details and then you We will implement the code that loads and merges individual files for persistence study. Download the <a href="data/persistence.zip">persistence.zip</a> and unzip into <code>Persistence</code> subfolder (we do not want to create a mess in your main folder!).</p>
+<p>First, you need to have a character vector with relevant file names. Package you are looking for is <a href="https://github.com/r-lib/fs">fs</a> (for <strong>f</strong>ile <strong>s</strong>ystem). It has everything you need to work with the file system, including working with file names (dropping or adding path, extension, etc.), creating/moving/deleting files, checking whether file exists, and what not. One function that I use the most is <a href="https://www.rdocumentation.org/packages/fs/versions/1.5.0/topics/dir_ls">dir_ls()</a> that list files in a specified folder. The two parameters you need are <code>path</code> to your folder (you can use relative path) and, optionally, <code>glob</code> filter string. The latter is a <a href="https://en.wikipedia.org/wiki/Glob_(programming)">globbing</a> wildcard pattern, where <code>*</code> stands for “any sequence of characters” and <code>?</code> stand for "one arbitrary character. For a csv file, this pattern would be <code>"*.csv"</code>. Test this single function call using appropriate <code>path</code> and <code>glob</code> parameters and make sure you get all the files in <em>Persistence</em> folder.</p>
+Next, you need to create a full table variable (I, typically, call it <code>results</code> or <code>reports</code>) and initialize it to an empty <code>data.frame()</code> (or an empty <code>tibble</code>). You loop over file names, <a href="tables.html#readr">read</a> one file at a time (don’t forget to specify column types or you will get a lot of warnings), and then use <a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows()</a> to combine the full table and the new table you loaded. Note that <a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows()</a> returns a <em>new</em> table, so you need to assign it back to the original full table variable. Once you are done, your table should have 5232 rows and twelve columns.
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Participant
+</th>
+<th style="text-align:left;">
+Session
+</th>
+<th style="text-align:right;">
+Block
+</th>
+<th style="text-align:right;">
+Trial
+</th>
+<th style="text-align:right;">
+OnsetDelay
+</th>
+<th style="text-align:left;">
+Bias
+</th>
+<th style="text-align:left;">
+Shape1
+</th>
+<th style="text-align:left;">
+Shape2
+</th>
+<th style="text-align:left;">
+Response1
+</th>
+<th style="text-align:left;">
+Response2
+</th>
+<th style="text-align:right;">
+RT1
+</th>
+<th style="text-align:right;">
+RT2
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+AKM1995M
+</td>
+<td style="text-align:left;">
+2019-06-12-14-07-17
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.5746952
+</td>
+<td style="text-align:left;">
+left
+</td>
+<td style="text-align:left;">
+stripes-8
+</td>
+<td style="text-align:left;">
+stripes-4
+</td>
+<td style="text-align:left;">
+right
+</td>
+<td style="text-align:left;">
+left
+</td>
+<td style="text-align:right;">
+5.0554813
+</td>
+<td style="text-align:right;">
+1.0238089
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AKM1995M
+</td>
+<td style="text-align:left;">
+2019-06-12-14-07-17
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.5741707
+</td>
+<td style="text-align:left;">
+left
+</td>
+<td style="text-align:left;">
+stripes-4
+</td>
+<td style="text-align:left;">
+heavy poles sphere
+</td>
+<td style="text-align:left;">
+left
+</td>
+<td style="text-align:left;">
+right
+</td>
+<td style="text-align:right;">
+2.9692460
+</td>
+<td style="text-align:right;">
+0.8239294
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AKM1995M
+</td>
+<td style="text-align:left;">
+2019-06-12-14-07-17
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.5082200
+</td>
+<td style="text-align:left;">
+left
+</td>
+<td style="text-align:left;">
+stripes-2
+</td>
+<td style="text-align:left;">
+stripes-2
+</td>
+<td style="text-align:left;">
+right
+</td>
+<td style="text-align:left;">
+left
+</td>
+<td style="text-align:right;">
+3.1623310
+</td>
+<td style="text-align:right;">
+0.6718403
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AKM1995M
+</td>
+<td style="text-align:left;">
+2019-06-12-14-07-17
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.6065058
+</td>
+<td style="text-align:left;">
+right
+</td>
+<td style="text-align:left;">
+stripes-8
+</td>
+<td style="text-align:left;">
+stripes-2
+</td>
+<td style="text-align:left;">
+right
+</td>
+<td style="text-align:left;">
+right
+</td>
+<td style="text-align:right;">
+1.0211627
+</td>
+<td style="text-align:right;">
+0.5919555
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AKM1995M
+</td>
+<td style="text-align:left;">
+2019-06-12-14-07-17
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.5359504
+</td>
+<td style="text-align:left;">
+left
+</td>
+<td style="text-align:left;">
+stripes-2
+</td>
+<td style="text-align:left;">
+heavy poles sphere
+</td>
+<td style="text-align:left;">
+right
+</td>
+<td style="text-align:left;">
+right
+</td>
+<td style="text-align:right;">
+0.9426957
+</td>
+<td style="text-align:right;">
+0.6157635
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AKM1995M
+</td>
+<td style="text-align:left;">
+2019-06-12-14-07-17
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.6435367
+</td>
+<td style="text-align:left;">
+right
+</td>
+<td style="text-align:left;">
+stripes-4
+</td>
+<td style="text-align:left;">
+stripes-4
+</td>
+<td style="text-align:left;">
+right
+</td>
+<td style="text-align:left;">
+right
+</td>
+<td style="text-align:right;">
+1.1646056
+</td>
+<td style="text-align:right;">
+0.6398231
+</td>
+</tr>
+</tbody>
+</table>
+<div class="infobox practice">
+<p>Do exercise 8.</p>
+</div>
+</div>
+<div id="apply" class="section level2" number="9.7">
+<h2><span class="header-section-number">9.7</span> Apply</h2>
+<p>As noted above, <code>for</code> loops do the job by might not be the most elegant way of doing things. In R, you can <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/apply.html">apply</a> a function to each row or column of a matrix. In addition, there are more case-specific versions of it, such <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/lapply.html">lapply</a>.</p>
+<p>The function is called <code>apply</code> because you <em>apply</em> it to values of a vector. In a sense, you have been applying functions the whole time by calling them. For example, we might compute a sinus of a sequence of numbers as</p>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="controling-computation-flow.html#cb382-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sin</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>))</span></code></pre></div>
+<pre><code>## [1] 0.000000e+00 7.071068e-01 1.000000e+00 7.071068e-01 1.224606e-16</code></pre>
+<p>Or, we can <em>apply</em> sinus function to a number sequence (note that I pass the name of the function alone <code>sin</code> but do not call it, so no round brackets!)</p>
+<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="controling-computation-flow.html#cb384-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>), sin)</span></code></pre></div>
+<pre><code>## [1] 0.000000e+00 7.071068e-01 1.000000e+00 7.071068e-01 1.224606e-16</code></pre>
+<p>You might ask, what is then the point to use <code>apply</code>? Not much for simple vector cases like this, but it is very useful when you have two dimensional data, as you can apply a function along horizontal (rows) or vertical (columns) margin. For example, imagine you need to compute an average (or median, or any other quantile) of each row or column in a matrix (something you might do fairly often for posterior samples in Bayesian statistics).</p>
+<p>Let us create a simple 3 by 4 matrix of normally distributed random numbers.</p>
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="controling-computation-flow.html#cb386-1" aria-hidden="true" tabindex="-1"></a>a_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">12</span>), <span class="at">nrow =</span> <span class="dv">3</span>)</span>
+<span id="cb386-2"><a href="controling-computation-flow.html#cb386-2" aria-hidden="true" tabindex="-1"></a>a_matrix</span></code></pre></div>
+<pre><code>##               [,1]       [,2]       [,3]       [,4]
+## [1,] -1.306076e-05 -0.9815949  0.3981706 -0.1809577
+## [2,]  1.880631e-02 -0.4210554 -1.2544423 -0.2319481
+## [3,]  2.429102e+00 -1.1964317  0.2265607  0.5361628</code></pre>
+<p>We would expect median value of any row or column to be 0 but because we have so few data points, they will be close but not exactly zero. Computing median for each row (we should get <em>three</em> numbers)</p>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="controling-computation-flow.html#cb388-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a_matrix, <span class="dv">1</span>, median)</span></code></pre></div>
+<pre><code>## [1] -0.0904854 -0.3265017  0.3813618</code></pre>
+<p>Similarly for a column (here, it should be <em>four</em> numbers)</p>
+<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="controling-computation-flow.html#cb390-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a_matrix, <span class="dv">2</span>, median)</span></code></pre></div>
+<pre><code>## [1]  0.01880631 -0.98159487  0.22656072 -0.18095773</code></pre>
+<p>I will not go into any further details on these functions, concentrating on similar functionality by <a href="controling-computation-flow.html#purrr">purrr</a> package. However, if you find yourself working with matrices or needing to apply a function to rows of a data frame, <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/apply.html">apply</a> might be a simpler solution. Keep this option in mind, if you feel that either looping or purrring looks inadequate.</p>
+</div>
+<div id="purrr" class="section level2" number="9.8">
+<h2><span class="header-section-number">9.8</span> Purrr</h2>
+<p>Package <a href="https://purrr.tidyverse.org/">purrr</a> is part of the tidyverse. It provides functional programming approach similar to <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/apply.html">apply</a> but it easier to use (IMHO) and it has a more explicit and consistent way to describe and combine the output. Language-wise, you do not <em>apply</em> a function, you use it to <a href="https://purrr.tidyverse.org/reference/map.html">map</a> inputs on outputs<a href="#fn56" class="footnote-ref" id="fnref56"><sup>56</sup></a></p>
+<p>The basic <a href="https://purrr.tidyverse.org/reference/map.html">map()</a> function always returns a list but you can explicitly state that you expect function to return a number (<code>map_dbl()</code>) and all outputs will be combined into a numeric vector. And, unlike <code>apply</code>, <code>map_dbl()</code> will generate an error if outputs cannot be converted to numeric. Or, you can specify that you expect each output to be a <code>data.frame</code>. In this case, you can automatically bind them by rows via <code>map_dfr()</code> or by columns via <code>map_dfc()</code>. Again, if all outputs cannot be converted to a <code>data.frame</code>, either function will loudly complain (which is good!).</p>
+<p>The basic call is similar to <a href="controling-computation-flow.html#apply">apply</a> but is easier to use as you can explicitly address current value via <code>.</code> variable and you can write a “normal” function call, prefixing it with a <code>~</code>. Here is the example of computing the sinus again. First, same a <code>apply</code></p>
+<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="controling-computation-flow.html#cb392-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>), sin)</span></code></pre></div>
+<pre><code>## [1] 0.000000e+00 7.071068e-01 1.000000e+00 7.071068e-01 1.224606e-16</code></pre>
+<p>Now, we a magic tilde <code>~</code>. Note an explicit call to <code>sin()</code> function with <code>.</code> as an argument.</p>
+<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="controling-computation-flow.html#cb394-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>), <span class="sc">~</span><span class="fu">sin</span>(.))</span></code></pre></div>
+<pre><code>## [1] 0.000000e+00 7.071068e-01 1.000000e+00 7.071068e-01 1.224606e-16</code></pre>
+<p>Again, using <code>map_dbl()</code> in this case looks as a complete overkill. So let us do something more relevant. Let us implement loading and merging of persistence study files. You already know how to get a vector with names of relevant files. Now you can use <code>map_dfr()</code> function on this vector to combine them into a single table. When using <code>~</code> call notation, remember <code>.</code> would then correspond to a single value from the vector of file names. Again, you should get a single table with twelve columns and 5232 rows.</p>
+<div class="infobox practice">
+<p>Do exercise 9.</p>
+</div>
+<p>You have just <em>mapped</em> inputs on outputs using <code>read_csv()</code> but functional programming is particularly useful, if you program your own functions. Let us program a function that takes a filename, loads the file and returns total number of trials/rows (if you forgot how to compute number of rows in a table, see <a href="controling-computation-flow.html#forloop">above</a>). Once you have a function, use it with <code>map_dbl</code> and a vector of persistence filenames. You should get a vector of ten values. Now we can easily see that there was something wrong with one of the files and we must pay attention to the amount of data that we have.</p>
+<pre><code>##  [1] 528 528 480 528 528 528 528 528 528 528</code></pre>
+<div class="infobox practice">
+<p>Do exercise 10.</p>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="footnotes">
+<hr />
+<ol start="54">
+<li id="fn54"><p>Just a reminder, the loop variable can have <em>any</em> name. Often, you see people using <code>i</code> but I would strongly recommend going for a more meaningful name.<a href="controling-computation-flow.html#fnref54" class="footnote-back">↩︎</a></p></li>
+<li id="fn55"><p>Want exact same numbers as I do? Use <code>set.seed(164)</code>. This function, see <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html">set.seed()</a> makes random generators start at a specific point, so that the you will get the <em>same</em> sequence of <em>random</em> numbers as I did.<a href="controling-computation-flow.html#fnref55" class="footnote-back">↩︎</a></p></li>
+<li id="fn56"><p>Means the same thing but this is a linear algebra way of expressing of what a function does.<a href="controling-computation-flow.html#fnref56" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="tyding.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["data-analysis-using-r-for-psychology.pdf", "data-analysis-using-r-for-psychology.epub"],
+"search": {
+"engine": "lunr",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

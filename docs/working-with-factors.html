@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2021-11-29" />
+<meta name="date" content="2021-11-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -257,15 +257,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.3" data-path="tyding.html"><a href="tyding.html#pivot-longer"><i class="fa fa-check"></i><b>8.3</b> Pivot longer</a></li>
 <li class="chapter" data-level="8.4" data-path="tyding.html"><a href="tyding.html#pivot-wider"><i class="fa fa-check"></i><b>8.4</b> Pivot wider</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="repeating-a-computation-and-controlling-its-flow.html"><a href="repeating-a-computation-and-controlling-its-flow.html"><i class="fa fa-check"></i><b>9</b> Repeating a computation and controlling its flow</a>
+<li class="chapter" data-level="9" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html"><i class="fa fa-check"></i><b>9</b> Controling computation flow</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="repeating-a-computation-and-controlling-its-flow.html"><a href="repeating-a-computation-and-controlling-its-flow.html#rep"><i class="fa fa-check"></i><b>9.1</b> <code>rep()</code></a></li>
-<li class="chapter" data-level="9.2" data-path="repeating-a-computation-and-controlling-its-flow.html"><a href="repeating-a-computation-and-controlling-its-flow.html#repeating-combinations"><i class="fa fa-check"></i><b>9.2</b> Repeating combinations</a></li>
-<li class="chapter" data-level="9.3" data-path="repeating-a-computation-and-controlling-its-flow.html"><a href="repeating-a-computation-and-controlling-its-flow.html#list"><i class="fa fa-check"></i><b>9.3</b> Lists</a></li>
-<li class="chapter" data-level="9.4" data-path="repeating-a-computation-and-controlling-its-flow.html"><a href="repeating-a-computation-and-controlling-its-flow.html#forloop"><i class="fa fa-check"></i><b>9.4</b> For loop</a></li>
-<li class="chapter" data-level="9.5" data-path="repeating-a-computation-and-controlling-its-flow.html"><a href="repeating-a-computation-and-controlling-its-flow.html#using-for-loop-to-load-and-join-multiple-data-files"><i class="fa fa-check"></i><b>9.5</b> Using for loop to load and join multiple data files</a></li>
-<li class="chapter" data-level="9.6" data-path="repeating-a-computation-and-controlling-its-flow.html"><a href="repeating-a-computation-and-controlling-its-flow.html#apply"><i class="fa fa-check"></i><b>9.6</b> Apply</a></li>
-<li class="chapter" data-level="9.7" data-path="repeating-a-computation-and-controlling-its-flow.html"><a href="repeating-a-computation-and-controlling-its-flow.html#purrr"><i class="fa fa-check"></i><b>9.7</b> Purrr</a></li>
+<li class="chapter" data-level="9.1" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#rep"><i class="fa fa-check"></i><b>9.1</b> <code>rep()</code></a></li>
+<li class="chapter" data-level="9.2" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#repeating-combinations"><i class="fa fa-check"></i><b>9.2</b> Repeating combinations</a></li>
+<li class="chapter" data-level="9.3" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#forloop"><i class="fa fa-check"></i><b>9.3</b> For loop</a></li>
+<li class="chapter" data-level="9.4" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#conditional-statement"><i class="fa fa-check"></i><b>9.4</b> Conditional statement</a></li>
+<li class="chapter" data-level="9.5" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#breaking-out-of-the-loop"><i class="fa fa-check"></i><b>9.5</b> Breaking out of the loop</a></li>
+<li class="chapter" data-level="9.6" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#using-for-loop-to-load-and-join-multiple-data-files"><i class="fa fa-check"></i><b>9.6</b> Using for loop to load and join multiple data files</a></li>
+<li class="chapter" data-level="9.7" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#apply"><i class="fa fa-check"></i><b>9.7</b> Apply</a></li>
+<li class="chapter" data-level="9.8" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#purrr"><i class="fa fa-check"></i><b>9.8</b> Purrr</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://alexander-pastukhov.github.io/">Alexander (Sasha) Pastukhov</li>
@@ -289,7 +290,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="working-with-factors" class="section level1" number="7">
 <h1><span class="header-section-number">Seminar 7</span> Working with Factors</h1>
-<p>Let us start with a “warm up” exercise that will require combining various things that you already learned. Download <a href="data/persistence.csv">persistence.csv</a> file (remember, Chrome/Edge browsers may change the extension to <em>.xls</em>, just rename it back to <em>.csv</em>) and put it into <em>data</em> subfolder in your seminar project folder. This is data from a Master thesis project by Kristina Burkel, published as an article in <a href="http://link.springer.com/10.3758/s13414-019-01954-7">Attention, Perception, &amp; Psychophysics</a>. The work investigated how change in object’s shape affected perceptual stability during brief interruptions (50 ms blank intervals). The research question was whether the results will match those for one other two history effects, which work at longer time scales. Such match would indicate that both history effects are likely to be produced by the same or shared neuronal representations of 3D rotation. Grab the <a href="notebooks/Seminar%2007.Rmd">exercise notebook</a> before we start.</p>
+<p>Let us start with a “warm up” exercise that will require combining various things that you already learned. Download <a href="data/persistence.csv">persistence.csv</a> file (remember, Chrome/Edge browsers may change the extension to <em>.xls</em>, just rename it back to <em>.csv</em>) and put it into <em>data</em> subfolder in your seminar project folder. This is data from a Master thesis project by Kristina Burkel, published as an article in <a href="http://link.springer.com/10.3758/s13414-019-01954-7">Attention, Perception, &amp; Psychophysics</a>. The work investigated how change in object’s shape affected perceptual stability during brief interruptions (50 ms blank intervals). The research question was whether the results will match those for one other two history effects, which work at longer time scales. Such match would indicate that both history effects are likely to be produced by the same or shared neuronal representations of 3D rotation. Grab the <a href="notebooks/Seminar%2007%20-%20factors.Rmd">exercise notebook</a> before we start.</p>
 <div id="how-to-write-code" class="section level2" number="7.1">
 <h2><span class="header-section-number">7.1</span> How to write code</h2>
 <p>From now on, you will need to implement progressively longer analysis sequences. Unfortunately, the longer and the more complex the analysis is, the easier it is to make a mistake that will ruin everything after that stage. And you will make mistakes, simply because no one is perfect and everyone makes them. I make them all the time. Professional programmers make them. So the skill of programming is not about writing the perfect code on your first attempt, it is writing your code in an iterative manner, so that any mistake you make (and, again, you will make them!) will be spotted and fixed immediately, before you continue adding more code. It should be like walking blind through uncertain terrain: One step a time, no running, no jumping, as you have no idea what awaits you.</p>
