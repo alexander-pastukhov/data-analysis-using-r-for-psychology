@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Seminar 8 Tidyng your data: joins and pivots | Data analysis using R for Psychology and Social Science</title>
   <meta name="description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
-  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Seminar 8 Tidyng your data: joins and pivots | Data analysis using R for Psychology and Social Science" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2021-11-30" />
+<meta name="date" content="2021-12-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +33,9 @@
   
 <link rel="prev" href="working-with-factors.html"/>
 <link rel="next" href="controling-computation-flow.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -42,7 +43,6 @@
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
 
 
 
@@ -295,12 +295,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">8.1</span> Joining tables</h2>
 <p>Sometimes, results of a study are stored in separate tables. For example, demographic information can be stored separately from responses, as the former is the same for all trials and conditions, so it makes little sense to duplicate it. For the actual analysis, you may eed to add this information, <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merging</a> or, in SQL/Tidyverse-speak, <a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">joining</a> two tables (I’ll use term “join” from hereon).</p>
 <p>Examples make joining operations much easier to understand, so let us create two tables.</p>
-<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="tyding.html#cb319-1" aria-hidden="true" tabindex="-1"></a>demographics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>),</span>
-<span id="cb319-2"><a href="tyding.html#cb319-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">19</span>, <span class="dv">30</span>, <span class="dv">22</span>))</span>
-<span id="cb319-3"><a href="tyding.html#cb319-3" aria-hidden="true" tabindex="-1"></a>reports <span class="ot">&lt;-</span> </span>
-<span id="cb319-4"><a href="tyding.html#cb319-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb319-5"><a href="tyding.html#cb319-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Report =</span> <span class="fu">runif</span>(<span class="fu">length</span>(ID), <span class="dv">1</span>, <span class="dv">7</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb319-6"><a href="tyding.html#cb319-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(ID)</span></code></pre></div>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="tyding.html#cb320-1" aria-hidden="true" tabindex="-1"></a>demographics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>),</span>
+<span id="cb320-2"><a href="tyding.html#cb320-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">19</span>, <span class="dv">30</span>, <span class="dv">22</span>))</span>
+<span id="cb320-3"><a href="tyding.html#cb320-3" aria-hidden="true" tabindex="-1"></a>reports <span class="ot">&lt;-</span> </span>
+<span id="cb320-4"><a href="tyding.html#cb320-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb320-5"><a href="tyding.html#cb320-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Report =</span> <span class="fu">runif</span>(<span class="fu">length</span>(ID), <span class="dv">1</span>, <span class="dv">7</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb320-6"><a href="tyding.html#cb320-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(ID)</span></code></pre></div>
 <table class="kable_wrapper">
 <caption>
 <span id="tab:unnamed-chunk-175">Table 8.1: </span>demographics (left) and report (right) tables
@@ -373,7 +373,7 @@ Report
 A
 </td>
 <td style="text-align:right;">
-1.743385
+2.849019
 </td>
 </tr>
 <tr>
@@ -381,7 +381,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-5.350277
+5.062055
 </td>
 </tr>
 <tr>
@@ -389,7 +389,7 @@ A
 B
 </td>
 <td style="text-align:right;">
-6.599485
+1.022896
 </td>
 </tr>
 <tr>
@@ -397,7 +397,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-4.813997
+1.742803
 </td>
 </tr>
 <tr>
@@ -405,7 +405,7 @@ B
 C
 </td>
 <td style="text-align:right;">
-4.414702
+5.945815
 </td>
 </tr>
 <tr>
@@ -413,7 +413,7 @@ C
 C
 </td>
 <td style="text-align:right;">
-2.171034
+1.657008
 </td>
 </tr>
 <tr>
@@ -421,7 +421,7 @@ C
 D
 </td>
 <td style="text-align:right;">
-3.926096
+4.010026
 </td>
 </tr>
 <tr>
@@ -429,7 +429,7 @@ D
 D
 </td>
 <td style="text-align:right;">
-5.728998
+1.252700
 </td>
 </tr>
 </tbody>
@@ -439,8 +439,8 @@ D
 </tbody>
 </table>
 <p>To join two tables, you require “key” columns: columns that contain values that will be used to identify matching rows in the two tables. You can use multiple and differently named columns for that purpose but we will start with a simplest case: a single column with same name <code>"ID"</code>. A <a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">join</a> function (<code>inner_join()</code> here, see below for details on different joins) takes a first row in <code>demographics</code> table that has <code>"A"</code> in <code>ID</code> column and will look for all rows in table <code>reports</code> that has <code>ID == "A"</code>. Then, it will do the same for all remaining rows for <code>demographics</code> table, one row at a time. It takes three parameters: table <code>x</code> (first table), table <code>y</code> (second table), and <code>by</code> - a vector with key column names argument<a href="#fn49" class="footnote-ref" id="fnref49"><sup>49</sup></a>. A call to <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a> function is very similar and produces identical results. Note how column order has changed for <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a>, because I used a different order of tables, but the content itself is the same.</p>
-<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="tyding.html#cb320-1" aria-hidden="true" tabindex="-1"></a>via_join <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>)</span>
-<span id="cb320-2"><a href="tyding.html#cb320-2" aria-hidden="true" tabindex="-1"></a>via_merge <span class="ot">&lt;-</span> <span class="fu">merge</span>(reports, demographics, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="tyding.html#cb321-1" aria-hidden="true" tabindex="-1"></a>via_join <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>)</span>
+<span id="cb321-2"><a href="tyding.html#cb321-2" aria-hidden="true" tabindex="-1"></a>via_merge <span class="ot">&lt;-</span> <span class="fu">merge</span>(reports, demographics, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>)</span></code></pre></div>
 <table class="kable_wrapper">
 <caption>
 <span id="tab:unnamed-chunk-177">Table 8.2: </span>Joining/merging tables with fully matching keys via join (left) and merge (right). Note how a different order of tables results in a different order of columns.
@@ -471,7 +471,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-1.743385
+2.849019
 </td>
 </tr>
 <tr>
@@ -482,7 +482,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-5.350277
+5.062055
 </td>
 </tr>
 <tr>
@@ -493,7 +493,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-6.599485
+1.022896
 </td>
 </tr>
 <tr>
@@ -504,7 +504,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-4.813997
+1.742803
 </td>
 </tr>
 <tr>
@@ -515,7 +515,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-4.414702
+5.945815
 </td>
 </tr>
 <tr>
@@ -526,7 +526,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-2.171034
+1.657008
 </td>
 </tr>
 <tr>
@@ -537,7 +537,7 @@ D
 22
 </td>
 <td style="text-align:right;">
-3.926096
+4.010026
 </td>
 </tr>
 <tr>
@@ -548,7 +548,7 @@ D
 22
 </td>
 <td style="text-align:right;">
-5.728998
+1.252700
 </td>
 </tr>
 </tbody>
@@ -575,7 +575,7 @@ Age
 A
 </td>
 <td style="text-align:right;">
-1.743385
+2.849019
 </td>
 <td style="text-align:right;">
 20
@@ -586,7 +586,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-5.350277
+5.062055
 </td>
 <td style="text-align:right;">
 20
@@ -597,7 +597,7 @@ A
 B
 </td>
 <td style="text-align:right;">
-6.599485
+1.022896
 </td>
 <td style="text-align:right;">
 19
@@ -608,7 +608,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-4.813997
+1.742803
 </td>
 <td style="text-align:right;">
 19
@@ -619,7 +619,7 @@ B
 C
 </td>
 <td style="text-align:right;">
-4.414702
+5.945815
 </td>
 <td style="text-align:right;">
 30
@@ -630,7 +630,7 @@ C
 C
 </td>
 <td style="text-align:right;">
-2.171034
+1.657008
 </td>
 <td style="text-align:right;">
 30
@@ -641,7 +641,7 @@ C
 D
 </td>
 <td style="text-align:right;">
-3.926096
+4.010026
 </td>
 <td style="text-align:right;">
 22
@@ -652,7 +652,7 @@ D
 D
 </td>
 <td style="text-align:right;">
-5.728998
+1.252700
 </td>
 <td style="text-align:right;">
 22
@@ -672,10 +672,10 @@ D
 <li><strong>right</strong> join: mirror twin of the left join, uses only key values that are present in the right (second) table, if matching keys are missing in the <em>left</em> table, , rows are filled with <code>NA</code>.</li>
 </ul>
 <p>To see each join in action, let us slightly modify the <code>reports</code> table to include <code>ID</code> “E” instead of “D.” Now, the “D” is missing the second table but “E” is missing in the <code>demographics</code>:</p>
-<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="tyding.html#cb321-1" aria-hidden="true" tabindex="-1"></a>reports <span class="ot">&lt;-</span> </span>
-<span id="cb321-2"><a href="tyding.html#cb321-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;E&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;E&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb321-3"><a href="tyding.html#cb321-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Report =</span> <span class="fu">runif</span>(<span class="fu">length</span>(ID), <span class="dv">1</span>, <span class="dv">7</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb321-4"><a href="tyding.html#cb321-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(ID)</span></code></pre></div>
+<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="tyding.html#cb322-1" aria-hidden="true" tabindex="-1"></a>reports <span class="ot">&lt;-</span> </span>
+<span id="cb322-2"><a href="tyding.html#cb322-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;E&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;E&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb322-3"><a href="tyding.html#cb322-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Report =</span> <span class="fu">runif</span>(<span class="fu">length</span>(ID), <span class="dv">1</span>, <span class="dv">7</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb322-4"><a href="tyding.html#cb322-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(ID)</span></code></pre></div>
 <table class="kable_wrapper">
 <caption>
 <span id="tab:unnamed-chunk-179">Table 8.3: </span>Now demographics (left) and reports (right) table have unique keys (“D” for demographics, “E” for reports) without a match in the second table.
@@ -748,7 +748,7 @@ Report
 A
 </td>
 <td style="text-align:right;">
-3.551044
+5.185183
 </td>
 </tr>
 <tr>
@@ -756,7 +756,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-3.605268
+3.119057
 </td>
 </tr>
 <tr>
@@ -764,7 +764,7 @@ A
 B
 </td>
 <td style="text-align:right;">
-1.412942
+5.555379
 </td>
 </tr>
 <tr>
@@ -772,7 +772,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-1.409112
+1.109531
 </td>
 </tr>
 <tr>
@@ -780,7 +780,7 @@ B
 C
 </td>
 <td style="text-align:right;">
-6.807311
+6.596183
 </td>
 </tr>
 <tr>
@@ -788,7 +788,7 @@ C
 C
 </td>
 <td style="text-align:right;">
-4.174572
+2.029197
 </td>
 </tr>
 <tr>
@@ -796,7 +796,7 @@ C
 E
 </td>
 <td style="text-align:right;">
-3.366528
+3.904401
 </td>
 </tr>
 <tr>
@@ -804,7 +804,7 @@ E
 E
 </td>
 <td style="text-align:right;">
-3.961301
+1.277150
 </td>
 </tr>
 </tbody>
@@ -814,8 +814,8 @@ E
 </tbody>
 </table>
 <p><strong>Inner join</strong> is most conservative and excludes any non-matching keys, note that rows with <em>both</em> <code>ID == "D"</code> and <code>ID == "E"</code> are missing. This is the <em>default</em> behavior for the <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge</a> function.</p>
-<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="tyding.html#cb322-1" aria-hidden="true" tabindex="-1"></a>inner_tidy <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(reports, demographics, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>) </span>
-<span id="cb322-2"><a href="tyding.html#cb322-2" aria-hidden="true" tabindex="-1"></a>inner_base <span class="ot">&lt;-</span> <span class="fu">merge</span>(reports, demographics, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="tyding.html#cb323-1" aria-hidden="true" tabindex="-1"></a>inner_tidy <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(reports, demographics, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>) </span>
+<span id="cb323-2"><a href="tyding.html#cb323-2" aria-hidden="true" tabindex="-1"></a>inner_base <span class="ot">&lt;-</span> <span class="fu">merge</span>(reports, demographics, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>)</span></code></pre></div>
 <table>
 <caption>
 <span id="tab:unnamed-chunk-181">Table 8.4: </span>Inner join. Only rows for matching keys are merged
@@ -839,7 +839,7 @@ Age
 A
 </td>
 <td style="text-align:right;">
-3.551044
+5.185183
 </td>
 <td style="text-align:right;">
 20
@@ -850,7 +850,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-3.605268
+3.119057
 </td>
 <td style="text-align:right;">
 20
@@ -861,7 +861,7 @@ A
 B
 </td>
 <td style="text-align:right;">
-1.412942
+5.555379
 </td>
 <td style="text-align:right;">
 19
@@ -872,7 +872,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-1.409112
+1.109531
 </td>
 <td style="text-align:right;">
 19
@@ -883,7 +883,7 @@ B
 C
 </td>
 <td style="text-align:right;">
-6.807311
+6.596183
 </td>
 <td style="text-align:right;">
 30
@@ -894,7 +894,7 @@ C
 C
 </td>
 <td style="text-align:right;">
-4.174572
+2.029197
 </td>
 <td style="text-align:right;">
 30
@@ -903,8 +903,8 @@ C
 </tbody>
 </table>
 <p>In contrast, <strong>full join</strong> is the most liberal as it includes all rows from both tables, filling in missing values with <code>NA</code> (e.g., see <code>Report</code> for <code>ID == "D"</code> and <code>Age</code> for <code>ID == "E"</code>). In base R <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a> function, you turn an inner join into a full one using <code>all=TRUE</code>.</p>
-<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="tyding.html#cb323-1" aria-hidden="true" tabindex="-1"></a>full_tidy <span class="ot">&lt;-</span> <span class="fu">full_join</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>) </span>
-<span id="cb323-2"><a href="tyding.html#cb323-2" aria-hidden="true" tabindex="-1"></a>full_base <span class="ot">&lt;-</span> <span class="fu">merge</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>, <span class="at">all=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="tyding.html#cb324-1" aria-hidden="true" tabindex="-1"></a>full_tidy <span class="ot">&lt;-</span> <span class="fu">full_join</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>) </span>
+<span id="cb324-2"><a href="tyding.html#cb324-2" aria-hidden="true" tabindex="-1"></a>full_base <span class="ot">&lt;-</span> <span class="fu">merge</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>, <span class="at">all=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <table>
 <caption>
 <span id="tab:unnamed-chunk-183">Table 8.5: </span>Full join. All rows are merged, <code>NA</code> are used for missing values in rows from a complementary table
@@ -931,7 +931,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-3.551044
+5.185183
 </td>
 </tr>
 <tr>
@@ -942,7 +942,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-3.605268
+3.119057
 </td>
 </tr>
 <tr>
@@ -953,7 +953,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-1.412942
+5.555379
 </td>
 </tr>
 <tr>
@@ -964,7 +964,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-1.409112
+1.109531
 </td>
 </tr>
 <tr>
@@ -975,7 +975,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-6.807311
+6.596183
 </td>
 </tr>
 <tr>
@@ -986,7 +986,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-4.174572
+2.029197
 </td>
 </tr>
 <tr>
@@ -1008,7 +1008,7 @@ E
 NA
 </td>
 <td style="text-align:right;">
-3.366528
+3.904401
 </td>
 </tr>
 <tr>
@@ -1019,14 +1019,14 @@ E
 NA
 </td>
 <td style="text-align:right;">
-3.961301
+1.277150
 </td>
 </tr>
 </tbody>
 </table>
 <p><strong>Left join</strong> uses only rows from the left (first) table, dropping extra rows from the second one. Note <code>NA</code> in <code>Report</code> column for <code>ID == "D"</code> and no rows for <code>ID == "E"</code>. To do a left join via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a>, you need to specify <code>all.x=TRUE</code>.</p>
-<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="tyding.html#cb324-1" aria-hidden="true" tabindex="-1"></a>left_tidy <span class="ot">&lt;-</span> <span class="fu">left_join</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>)</span>
-<span id="cb324-2"><a href="tyding.html#cb324-2" aria-hidden="true" tabindex="-1"></a>left_base <span class="ot">&lt;-</span> <span class="fu">merge</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>, <span class="at">all.x=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="tyding.html#cb325-1" aria-hidden="true" tabindex="-1"></a>left_tidy <span class="ot">&lt;-</span> <span class="fu">left_join</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>)</span>
+<span id="cb325-2"><a href="tyding.html#cb325-2" aria-hidden="true" tabindex="-1"></a>left_base <span class="ot">&lt;-</span> <span class="fu">merge</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>, <span class="at">all.x=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <table>
 <caption>
 <span id="tab:unnamed-chunk-185">Table 8.6: </span>Left join. All rows from demographics tables are used and missing matching rows are filled with <code>NA</code>
@@ -1053,7 +1053,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-3.551044
+5.185183
 </td>
 </tr>
 <tr>
@@ -1064,7 +1064,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-3.605268
+3.119057
 </td>
 </tr>
 <tr>
@@ -1075,7 +1075,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-1.412942
+5.555379
 </td>
 </tr>
 <tr>
@@ -1086,7 +1086,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-1.409112
+1.109531
 </td>
 </tr>
 <tr>
@@ -1097,7 +1097,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-6.807311
+6.596183
 </td>
 </tr>
 <tr>
@@ -1108,7 +1108,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-4.174572
+2.029197
 </td>
 </tr>
 <tr>
@@ -1125,8 +1125,8 @@ NA
 </tbody>
 </table>
 <p><strong>Right join</strong> is a mirror twin of the left join, so now rows for <code>ID == "D"</code> are missing and there are missing values for <code>ID=="E"</code>. You include <code>all.y=TRUE</code> for a right join via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a>.</p>
-<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="tyding.html#cb325-1" aria-hidden="true" tabindex="-1"></a>right_tidy <span class="ot">&lt;-</span> <span class="fu">right_join</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>) </span>
-<span id="cb325-2"><a href="tyding.html#cb325-2" aria-hidden="true" tabindex="-1"></a>right_base <span class="ot">&lt;-</span> <span class="fu">merge</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>, <span class="at">all.y=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="tyding.html#cb326-1" aria-hidden="true" tabindex="-1"></a>right_tidy <span class="ot">&lt;-</span> <span class="fu">right_join</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>) </span>
+<span id="cb326-2"><a href="tyding.html#cb326-2" aria-hidden="true" tabindex="-1"></a>right_base <span class="ot">&lt;-</span> <span class="fu">merge</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>, <span class="at">all.y=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <table>
 <caption>
 <span id="tab:unnamed-chunk-187">Table 8.7: </span>Right join. All rows from reports tables are used and missing matching rows are filled with <code>NA</code>
@@ -1153,7 +1153,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-3.551044
+5.185183
 </td>
 </tr>
 <tr>
@@ -1164,7 +1164,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-3.605268
+3.119057
 </td>
 </tr>
 <tr>
@@ -1175,7 +1175,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-1.412942
+5.555379
 </td>
 </tr>
 <tr>
@@ -1186,7 +1186,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-1.409112
+1.109531
 </td>
 </tr>
 <tr>
@@ -1197,7 +1197,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-6.807311
+6.596183
 </td>
 </tr>
 <tr>
@@ -1208,7 +1208,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-4.174572
+2.029197
 </td>
 </tr>
 <tr>
@@ -1219,7 +1219,7 @@ E
 NA
 </td>
 <td style="text-align:right;">
-3.366528
+3.904401
 </td>
 </tr>
 <tr>
@@ -1230,18 +1230,18 @@ E
 NA
 </td>
 <td style="text-align:right;">
-3.961301
+1.277150
 </td>
 </tr>
 </tbody>
 </table>
 <p>As noted above, you can also use more than one key.</p>
-<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="tyding.html#cb326-1" aria-hidden="true" tabindex="-1"></a>demographics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
-<span id="cb326-2"><a href="tyding.html#cb326-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Gender =</span> <span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;M&quot;</span>),</span>
-<span id="cb326-3"><a href="tyding.html#cb326-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">19</span>, <span class="dv">30</span>, <span class="dv">22</span>))</span>
-<span id="cb326-4"><a href="tyding.html#cb326-4" aria-hidden="true" tabindex="-1"></a>reports <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
-<span id="cb326-5"><a href="tyding.html#cb326-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Gender =</span> <span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;M&quot;</span>),</span>
-<span id="cb326-6"><a href="tyding.html#cb326-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Report =</span> <span class="fu">runif</span>(<span class="fu">length</span>(ID), <span class="dv">1</span>, <span class="dv">7</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="tyding.html#cb327-1" aria-hidden="true" tabindex="-1"></a>demographics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
+<span id="cb327-2"><a href="tyding.html#cb327-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Gender =</span> <span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;M&quot;</span>),</span>
+<span id="cb327-3"><a href="tyding.html#cb327-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">19</span>, <span class="dv">30</span>, <span class="dv">22</span>))</span>
+<span id="cb327-4"><a href="tyding.html#cb327-4" aria-hidden="true" tabindex="-1"></a>reports <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
+<span id="cb327-5"><a href="tyding.html#cb327-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Gender =</span> <span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;M&quot;</span>),</span>
+<span id="cb327-6"><a href="tyding.html#cb327-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Report =</span> <span class="fu">runif</span>(<span class="fu">length</span>(ID), <span class="dv">1</span>, <span class="dv">7</span>))</span></code></pre></div>
 <table class="kable_wrapper">
 <caption>
 <span id="tab:unnamed-chunk-189">Table 8.8: </span>Two identically named key columns: ID and Gender.
@@ -1335,7 +1335,7 @@ A
 M
 </td>
 <td style="text-align:right;">
-6.730350
+2.709495
 </td>
 </tr>
 <tr>
@@ -1346,7 +1346,7 @@ B
 F
 </td>
 <td style="text-align:right;">
-4.019470
+4.337229
 </td>
 </tr>
 <tr>
@@ -1357,7 +1357,7 @@ A
 F
 </td>
 <td style="text-align:right;">
-2.488393
+5.891576
 </td>
 </tr>
 <tr>
@@ -1368,7 +1368,7 @@ B
 M
 </td>
 <td style="text-align:right;">
-1.581212
+3.860113
 </td>
 </tr>
 </tbody>
@@ -1377,8 +1377,8 @@ M
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="tyding.html#cb327-1" aria-hidden="true" tabindex="-1"></a>inner_multi_tidy <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(demographics, reports, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;Gender&quot;</span>))</span>
-<span id="cb327-2"><a href="tyding.html#cb327-2" aria-hidden="true" tabindex="-1"></a>inner_multi_base <span class="ot">&lt;-</span> <span class="fu">merge</span>(demographics, reports, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;Gender&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="tyding.html#cb328-1" aria-hidden="true" tabindex="-1"></a>inner_multi_tidy <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(demographics, reports, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;Gender&quot;</span>))</span>
+<span id="cb328-2"><a href="tyding.html#cb328-2" aria-hidden="true" tabindex="-1"></a>inner_multi_base <span class="ot">&lt;-</span> <span class="fu">merge</span>(demographics, reports, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;Gender&quot;</span>))</span></code></pre></div>
 <table>
 <caption>
 <span id="tab:unnamed-chunk-191">Table 8.9: </span>Joining/merging two tables by ID and Gender.
@@ -1411,7 +1411,7 @@ M
 20
 </td>
 <td style="text-align:right;">
-6.730350
+2.709495
 </td>
 </tr>
 <tr>
@@ -1425,7 +1425,7 @@ F
 19
 </td>
 <td style="text-align:right;">
-4.019470
+4.337229
 </td>
 </tr>
 <tr>
@@ -1439,7 +1439,7 @@ F
 30
 </td>
 <td style="text-align:right;">
-2.488393
+5.891576
 </td>
 </tr>
 <tr>
@@ -1453,19 +1453,19 @@ M
 22
 </td>
 <td style="text-align:right;">
-1.581212
+3.860113
 </td>
 </tr>
 </tbody>
 </table>
 <p>Finally, key columns can be named <em>differently</em> in two tables. In this case, you need to “match” them explicitly. For <a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">dplyr</a> joins, you use a named vector to match pairs of individual columns. For <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a>, you supply two vectors: one for columns in the first table (parameter <code>by.x</code>) and one columns in the the second one (parameter <code>by.y</code>). Here, you need to be careful and check that columns order matches in both parameters.</p>
-<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="tyding.html#cb328-1" aria-hidden="true" tabindex="-1"></a>demographics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">VPCode =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
-<span id="cb328-2"><a href="tyding.html#cb328-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Sex =</span> <span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;M&quot;</span>),</span>
-<span id="cb328-3"><a href="tyding.html#cb328-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">19</span>, <span class="dv">30</span>, <span class="dv">22</span>))</span>
-<span id="cb328-4"><a href="tyding.html#cb328-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb328-5"><a href="tyding.html#cb328-5" aria-hidden="true" tabindex="-1"></a>reports <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
-<span id="cb328-6"><a href="tyding.html#cb328-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Gender =</span> <span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;M&quot;</span>),</span>
-<span id="cb328-7"><a href="tyding.html#cb328-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Report =</span> <span class="fu">runif</span>(<span class="fu">length</span>(ID), <span class="dv">1</span>, <span class="dv">7</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="tyding.html#cb329-1" aria-hidden="true" tabindex="-1"></a>demographics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">VPCode =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
+<span id="cb329-2"><a href="tyding.html#cb329-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Sex =</span> <span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;M&quot;</span>),</span>
+<span id="cb329-3"><a href="tyding.html#cb329-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">19</span>, <span class="dv">30</span>, <span class="dv">22</span>))</span>
+<span id="cb329-4"><a href="tyding.html#cb329-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb329-5"><a href="tyding.html#cb329-5" aria-hidden="true" tabindex="-1"></a>reports <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
+<span id="cb329-6"><a href="tyding.html#cb329-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Gender =</span> <span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;M&quot;</span>),</span>
+<span id="cb329-7"><a href="tyding.html#cb329-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Report =</span> <span class="fu">runif</span>(<span class="fu">length</span>(ID), <span class="dv">1</span>, <span class="dv">7</span>))</span></code></pre></div>
 <table class="kable_wrapper">
 <caption>
 <span id="tab:unnamed-chunk-193">Table 8.10: </span>Differently named key columns. VPCode in demographics table corresponds to ID in reports; sex in demographics corresponds to Gender in reports
@@ -1559,7 +1559,7 @@ A
 M
 </td>
 <td style="text-align:right;">
-1.452631
+6.246482
 </td>
 </tr>
 <tr>
@@ -1570,7 +1570,7 @@ B
 F
 </td>
 <td style="text-align:right;">
-4.644684
+1.311429
 </td>
 </tr>
 <tr>
@@ -1581,7 +1581,7 @@ A
 F
 </td>
 <td style="text-align:right;">
-4.824973
+1.140300
 </td>
 </tr>
 <tr>
@@ -1592,7 +1592,7 @@ B
 M
 </td>
 <td style="text-align:right;">
-5.265322
+4.301022
 </td>
 </tr>
 </tbody>
@@ -1601,8 +1601,8 @@ M
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="tyding.html#cb329-1" aria-hidden="true" tabindex="-1"></a>inner_diff_tidy <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(demographics, reports, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;VPCode&quot;</span><span class="ot">=</span><span class="st">&quot;ID&quot;</span>, <span class="st">&quot;Sex&quot;</span><span class="ot">=</span><span class="st">&quot;Gender&quot;</span>))</span>
-<span id="cb329-2"><a href="tyding.html#cb329-2" aria-hidden="true" tabindex="-1"></a>inner_diff_base <span class="ot">&lt;-</span> <span class="fu">merge</span>(demographics, reports, <span class="at">by.x=</span><span class="fu">c</span>(<span class="st">&quot;VPCode&quot;</span>, <span class="st">&quot;Sex&quot;</span>), <span class="at">by.y=</span><span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;Gender&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="tyding.html#cb330-1" aria-hidden="true" tabindex="-1"></a>inner_diff_tidy <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(demographics, reports, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;VPCode&quot;</span><span class="ot">=</span><span class="st">&quot;ID&quot;</span>, <span class="st">&quot;Sex&quot;</span><span class="ot">=</span><span class="st">&quot;Gender&quot;</span>))</span>
+<span id="cb330-2"><a href="tyding.html#cb330-2" aria-hidden="true" tabindex="-1"></a>inner_diff_base <span class="ot">&lt;-</span> <span class="fu">merge</span>(demographics, reports, <span class="at">by.x=</span><span class="fu">c</span>(<span class="st">&quot;VPCode&quot;</span>, <span class="st">&quot;Sex&quot;</span>), <span class="at">by.y=</span><span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;Gender&quot;</span>))</span></code></pre></div>
 <table>
 <caption>
 <span id="tab:unnamed-chunk-195">Table 8.11: </span>Joining tables by matching VPCode to ID and Sex to Gender.
@@ -1635,7 +1635,7 @@ F
 30
 </td>
 <td style="text-align:right;">
-4.824973
+1.140300
 </td>
 </tr>
 <tr>
@@ -1649,7 +1649,7 @@ M
 20
 </td>
 <td style="text-align:right;">
-1.452631
+6.246482
 </td>
 </tr>
 <tr>
@@ -1663,7 +1663,7 @@ F
 19
 </td>
 <td style="text-align:right;">
-4.644684
+1.311429
 </td>
 </tr>
 <tr>
@@ -1677,7 +1677,7 @@ M
 22
 </td>
 <td style="text-align:right;">
-5.265322
+4.301022
 </td>
 </tr>
 </tbody>
@@ -2185,8 +2185,8 @@ functions in <a href="https://tidyr.tidyverse.org/index.html">tidyr</a> to moder
 <p><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a> takes a table, which you can pipe to the function Tidyverse-style, and a vector of column names that need to be transformed. All <em>column names</em> go to one new column and all the <em>values</em> go to another new column. Defaults names of these two columns are, respectively, <code>"name"</code> and <code>"value"</code> but you can specify something more suitable via, respectively, <code>names_to</code> and <code>values_to</code> parameters.</p>
 <p>There are many more bells-and-whistles (name and value transformations, removing a prefix via regular expressions, etc.), so I recommend looking at the <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">manual</a> and a <a href="https://tidyr.tidyverse.org/articles/pivot.html">vignette</a>. However, in most cases these four parameters will be all you need, so let us see <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a> in action.</p>
 <p>I assume that table presented above is in <code>widish_df</code> table defined above. The columns that we want to transform are <code>Symmetry</code>, <code>Attractiveness</code>, <code>Trustworthiness</code>. Thus, the simplest call with all defaults is</p>
-<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="tyding.html#cb330-1" aria-hidden="true" tabindex="-1"></a>long_tidy <span class="ot">&lt;-</span> tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(widish_df, </span>
-<span id="cb330-2"><a href="tyding.html#cb330-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">cols=</span><span class="fu">c</span>(<span class="st">&quot;Symmetry&quot;</span>, <span class="st">&quot;Attractiveness&quot;</span>, <span class="st">&quot;Trustworthiness&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="tyding.html#cb331-1" aria-hidden="true" tabindex="-1"></a>long_tidy <span class="ot">&lt;-</span> tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(widish_df, </span>
+<span id="cb331-2"><a href="tyding.html#cb331-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">cols=</span><span class="fu">c</span>(<span class="st">&quot;Symmetry&quot;</span>, <span class="st">&quot;Attractiveness&quot;</span>, <span class="st">&quot;Trustworthiness&quot;</span>))</span></code></pre></div>
 <table>
 <caption>
 <span id="tab:unnamed-chunk-200">Table 8.13: </span>Long version of widish_df table with default names for new columns.
@@ -2379,10 +2379,10 @@ Trustworthiness
 </tbody>
 </table>
 <p>When you compare the two tables, you will see that original three columns × four rows are now stretched into twelve rows and name-value pairs are consistent across the two tables<a href="#fn52" class="footnote-ref" id="fnref52"><sup>52</sup></a>. As noted above, we can improve on that by specifying proper names for new columns.</p>
-<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="tyding.html#cb331-1" aria-hidden="true" tabindex="-1"></a>long_tidy <span class="ot">&lt;-</span> tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(widish_df, </span>
-<span id="cb331-2"><a href="tyding.html#cb331-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">cols=</span><span class="fu">c</span>(<span class="st">&quot;Symmetry&quot;</span>, <span class="st">&quot;Attractiveness&quot;</span>, <span class="st">&quot;Trustworthiness&quot;</span>),</span>
-<span id="cb331-3"><a href="tyding.html#cb331-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">names_to =</span> <span class="st">&quot;Scale&quot;</span>,</span>
-<span id="cb331-4"><a href="tyding.html#cb331-4" aria-hidden="true" tabindex="-1"></a>                               <span class="at">values_to =</span> <span class="st">&quot;Response&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="tyding.html#cb332-1" aria-hidden="true" tabindex="-1"></a>long_tidy <span class="ot">&lt;-</span> tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(widish_df, </span>
+<span id="cb332-2"><a href="tyding.html#cb332-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">cols=</span><span class="fu">c</span>(<span class="st">&quot;Symmetry&quot;</span>, <span class="st">&quot;Attractiveness&quot;</span>, <span class="st">&quot;Trustworthiness&quot;</span>),</span>
+<span id="cb332-3"><a href="tyding.html#cb332-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">names_to =</span> <span class="st">&quot;Scale&quot;</span>,</span>
+<span id="cb332-4"><a href="tyding.html#cb332-4" aria-hidden="true" tabindex="-1"></a>                               <span class="at">values_to =</span> <span class="st">&quot;Response&quot;</span>)</span></code></pre></div>
 <table>
 <caption>
 <span id="tab:unnamed-chunk-202">Table 8.14: </span>Long version of widish_df table with <em>custom</em> names for new columns.
@@ -2583,13 +2583,13 @@ Trustworthiness
 <li><code>timevar</code> : sort of corresponds to <code>names_to</code> parameter of <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a>, so it is the name of the column where <em>indexes</em> or <em>labels</em> of transformed columns will go.</li>
 <li><code>times</code> : by default, <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape()</a> does not put column names into <code>timevar</code> column but uses their relative <em>indexes</em> instead. E.g., <code>Symmetry</code> column will get index of 1, <code>Attractiveness</code> will get 2, <code>Trustworthiness</code> will be 3. You can replaces these indexes with <em>any</em> labels. Below, I used the same labels as column names but I could have used <em>any</em> three values for this.</li>
 </ul>
-<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="tyding.html#cb332-1" aria-hidden="true" tabindex="-1"></a>long_base <span class="ot">&lt;-</span> <span class="fu">reshape</span>(widish_df, </span>
-<span id="cb332-2"><a href="tyding.html#cb332-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">direction =</span> <span class="st">&quot;long&quot;</span>,</span>
-<span id="cb332-3"><a href="tyding.html#cb332-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">idvar =</span> <span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>,  <span class="st">&quot;Face&quot;</span>),</span>
-<span id="cb332-4"><a href="tyding.html#cb332-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">varying =</span> <span class="fu">c</span>(<span class="st">&quot;Symmetry&quot;</span>, <span class="st">&quot;Attractiveness&quot;</span>, <span class="st">&quot;Trustworthiness&quot;</span>),</span>
-<span id="cb332-5"><a href="tyding.html#cb332-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">v.names=</span><span class="st">&quot;Response&quot;</span>,</span>
-<span id="cb332-6"><a href="tyding.html#cb332-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">times =</span> <span class="fu">c</span>(<span class="st">&quot;Symmetry&quot;</span>, <span class="st">&quot;Attractiveness&quot;</span>, <span class="st">&quot;Trustworthiness&quot;</span>),</span>
-<span id="cb332-7"><a href="tyding.html#cb332-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">timevar =</span> <span class="st">&quot;Scale&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="tyding.html#cb333-1" aria-hidden="true" tabindex="-1"></a>long_base <span class="ot">&lt;-</span> <span class="fu">reshape</span>(widish_df, </span>
+<span id="cb333-2"><a href="tyding.html#cb333-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">direction =</span> <span class="st">&quot;long&quot;</span>,</span>
+<span id="cb333-3"><a href="tyding.html#cb333-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">idvar =</span> <span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>,  <span class="st">&quot;Face&quot;</span>),</span>
+<span id="cb333-4"><a href="tyding.html#cb333-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">varying =</span> <span class="fu">c</span>(<span class="st">&quot;Symmetry&quot;</span>, <span class="st">&quot;Attractiveness&quot;</span>, <span class="st">&quot;Trustworthiness&quot;</span>),</span>
+<span id="cb333-5"><a href="tyding.html#cb333-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">v.names=</span><span class="st">&quot;Response&quot;</span>,</span>
+<span id="cb333-6"><a href="tyding.html#cb333-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">times =</span> <span class="fu">c</span>(<span class="st">&quot;Symmetry&quot;</span>, <span class="st">&quot;Attractiveness&quot;</span>, <span class="st">&quot;Trustworthiness&quot;</span>),</span>
+<span id="cb333-7"><a href="tyding.html#cb333-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">timevar =</span> <span class="st">&quot;Scale&quot;</span>)</span></code></pre></div>
 <table>
 <caption>
 <span id="tab:unnamed-chunk-204">Table 8.15: </span>Same table pivoted via reshape.
@@ -3018,13 +3018,13 @@ Do exercise 5.
 <h2><span class="header-section-number">8.4</span> Pivot wider</h2>
 <p>You can also always go from a long to a wide representation via <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a> or <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape</a> functions. The logic is reverse, you need to specify which columns <em>identify</em> different rows that belong together, which columns contain column names, and which contain their values. For our example table the names of the columns are in the column <code>Scale</code> and values are in <code>Response</code>. But what about columns that identify the rows that belong together? In our case, these are <code>Participant</code> and <code>Face</code>, so all rows from a <em>long</em> table that have same combination of <code>Participant</code> and <code>Face</code> values should be merged together into a single row. If you do not explicitly specify <code>id_cols</code>, then by default, <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a> will use <em>all other remaining columns</em> to identify which rows belong together. This is irrelevant in this toy example, as <code>Participant</code> and <code>Face</code> is all we have left anyhow but below I will show you how things can get confusing and how to overcome this.</p>
 <p>Let us undo our previous wide-to-long transformation and get our original wide table back!<a href="#fn53" class="footnote-ref" id="fnref53"><sup>53</sup></a></p>
-<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="tyding.html#cb333-1" aria-hidden="true" tabindex="-1"></a>wide_again_tidy <span class="ot">&lt;-</span></span>
-<span id="cb333-2"><a href="tyding.html#cb333-2" aria-hidden="true" tabindex="-1"></a>  long_tidy <span class="sc">%&gt;%</span></span>
-<span id="cb333-3"><a href="tyding.html#cb333-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">&quot;Scale&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Response&quot;</span>)</span></code></pre></div>
-<p>Or, using explicit <code>id_cols</code></p>
 <div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="tyding.html#cb334-1" aria-hidden="true" tabindex="-1"></a>wide_again_tidy <span class="ot">&lt;-</span></span>
 <span id="cb334-2"><a href="tyding.html#cb334-2" aria-hidden="true" tabindex="-1"></a>  long_tidy <span class="sc">%&gt;%</span></span>
-<span id="cb334-3"><a href="tyding.html#cb334-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">id_cols =</span> <span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>, <span class="st">&quot;Face&quot;</span>), <span class="at">names_from =</span> <span class="st">&quot;Scale&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Response&quot;</span>)</span></code></pre></div>
+<span id="cb334-3"><a href="tyding.html#cb334-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">&quot;Scale&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Response&quot;</span>)</span></code></pre></div>
+<p>Or, using explicit <code>id_cols</code></p>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="tyding.html#cb335-1" aria-hidden="true" tabindex="-1"></a>wide_again_tidy <span class="ot">&lt;-</span></span>
+<span id="cb335-2"><a href="tyding.html#cb335-2" aria-hidden="true" tabindex="-1"></a>  long_tidy <span class="sc">%&gt;%</span></span>
+<span id="cb335-3"><a href="tyding.html#cb335-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">id_cols =</span> <span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>, <span class="st">&quot;Face&quot;</span>), <span class="at">names_from =</span> <span class="st">&quot;Scale&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Response&quot;</span>)</span></code></pre></div>
 <table>
 <caption>
 <span id="tab:unnamed-chunk-211">Table 8.16: </span>Our table is wide again!
@@ -3128,17 +3128,17 @@ M-2
 <li><code>sep</code>: the new column names will constructed as <code>v.names</code> + <code>sep</code> + <code>timevar</code>. By default <code>sep="."</code>.</li>
 </ul>
 <p>The main difference, as compared to <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a>, is how the column names are constructed. With <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape()</a> function, the <code>v.names</code> + <code>sep</code> + <code>timevar</code> rule means that you end up with column names such as <code>Response.Symmetry</code> instead of just <code>Symmetry</code>.</p>
-<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="tyding.html#cb335-1" aria-hidden="true" tabindex="-1"></a>wide_again_base <span class="ot">&lt;-</span> <span class="fu">reshape</span>(<span class="fu">as.data.frame</span>(long_tidy),</span>
-<span id="cb335-2"><a href="tyding.html#cb335-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">direction =</span> <span class="st">&quot;wide&quot;</span>,</span>
-<span id="cb335-3"><a href="tyding.html#cb335-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">idvar =</span> <span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>, <span class="st">&quot;Face&quot;</span>),</span>
-<span id="cb335-4"><a href="tyding.html#cb335-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">timevar =</span> <span class="st">&quot;Scale&quot;</span>,</span>
-<span id="cb335-5"><a href="tyding.html#cb335-5" aria-hidden="true" tabindex="-1"></a>                           <span class="at">v.names =</span> <span class="st">&quot;Response&quot;</span>,</span>
-<span id="cb335-6"><a href="tyding.html#cb335-6" aria-hidden="true" tabindex="-1"></a>                           <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="tyding.html#cb336-1" aria-hidden="true" tabindex="-1"></a>wide_again_base <span class="ot">&lt;-</span> <span class="fu">reshape</span>(<span class="fu">as.data.frame</span>(long_tidy),</span>
+<span id="cb336-2"><a href="tyding.html#cb336-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">direction =</span> <span class="st">&quot;wide&quot;</span>,</span>
+<span id="cb336-3"><a href="tyding.html#cb336-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">idvar =</span> <span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>, <span class="st">&quot;Face&quot;</span>),</span>
+<span id="cb336-4"><a href="tyding.html#cb336-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">timevar =</span> <span class="st">&quot;Scale&quot;</span>,</span>
+<span id="cb336-5"><a href="tyding.html#cb336-5" aria-hidden="true" tabindex="-1"></a>                           <span class="at">v.names =</span> <span class="st">&quot;Response&quot;</span>,</span>
+<span id="cb336-6"><a href="tyding.html#cb336-6" aria-hidden="true" tabindex="-1"></a>                           <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>)</span></code></pre></div>
 <p>Let us take a look at the importance of <code>id_cols</code>. Imagine that we have <em>another</em> column, say, response times. So, our long table will look like this</p>
-<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="tyding.html#cb336-1" aria-hidden="true" tabindex="-1"></a>long_tidy_rt <span class="ot">&lt;-</span></span>
-<span id="cb336-2"><a href="tyding.html#cb336-2" aria-hidden="true" tabindex="-1"></a>  long_tidy <span class="sc">%&gt;%</span></span>
-<span id="cb336-3"><a href="tyding.html#cb336-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb336-4"><a href="tyding.html#cb336-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">RT =</span> <span class="fu">round</span>(<span class="fu">rgamma</span>(<span class="fu">n</span>(), <span class="dv">4</span>, <span class="dv">3</span>), <span class="dv">2</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="tyding.html#cb337-1" aria-hidden="true" tabindex="-1"></a>long_tidy_rt <span class="ot">&lt;-</span></span>
+<span id="cb337-2"><a href="tyding.html#cb337-2" aria-hidden="true" tabindex="-1"></a>  long_tidy <span class="sc">%&gt;%</span></span>
+<span id="cb337-3"><a href="tyding.html#cb337-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb337-4"><a href="tyding.html#cb337-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">RT =</span> <span class="fu">round</span>(<span class="fu">rgamma</span>(<span class="fu">n</span>(), <span class="dv">4</span>, <span class="dv">3</span>), <span class="dv">2</span>))</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -3174,7 +3174,7 @@ Symmetry
 6
 </td>
 <td style="text-align:right;">
-1.01
+1.43
 </td>
 </tr>
 <tr>
@@ -3191,7 +3191,7 @@ Attractiveness
 4
 </td>
 <td style="text-align:right;">
-1.20
+1.15
 </td>
 </tr>
 <tr>
@@ -3208,7 +3208,7 @@ Trustworthiness
 3
 </td>
 <td style="text-align:right;">
-0.48
+2.37
 </td>
 </tr>
 <tr>
@@ -3225,7 +3225,7 @@ Symmetry
 4
 </td>
 <td style="text-align:right;">
-2.17
+0.91
 </td>
 </tr>
 <tr>
@@ -3242,7 +3242,7 @@ Attractiveness
 7
 </td>
 <td style="text-align:right;">
-2.84
+1.73
 </td>
 </tr>
 <tr>
@@ -3259,7 +3259,7 @@ Trustworthiness
 6
 </td>
 <td style="text-align:right;">
-2.12
+1.55
 </td>
 </tr>
 <tr>
@@ -3276,7 +3276,7 @@ Symmetry
 5
 </td>
 <td style="text-align:right;">
-1.32
+1.57
 </td>
 </tr>
 <tr>
@@ -3293,7 +3293,7 @@ Attractiveness
 2
 </td>
 <td style="text-align:right;">
-0.96
+0.45
 </td>
 </tr>
 <tr>
@@ -3310,7 +3310,7 @@ Trustworthiness
 1
 </td>
 <td style="text-align:right;">
-1.62
+0.79
 </td>
 </tr>
 <tr>
@@ -3327,7 +3327,7 @@ Symmetry
 3
 </td>
 <td style="text-align:right;">
-0.88
+2.06
 </td>
 </tr>
 <tr>
@@ -3344,7 +3344,7 @@ Attractiveness
 7
 </td>
 <td style="text-align:right;">
-1.23
+1.69
 </td>
 </tr>
 <tr>
@@ -3361,14 +3361,14 @@ Trustworthiness
 2
 </td>
 <td style="text-align:right;">
-1.73
+0.77
 </td>
 </tr>
 </tbody>
 </table>
 <p>For <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a>, if we do not specify which columns identify rows that belong together, <code>RT</code> will be used as well. But, because it is different for every response, each row in the original table will be unique and we will end up with a weird looking table wit lots of <code>NAs</code>.</p>
-<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="tyding.html#cb337-1" aria-hidden="true" tabindex="-1"></a>wide_odd_rt <span class="ot">&lt;-</span></span>
-<span id="cb337-2"><a href="tyding.html#cb337-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(long_tidy_rt, <span class="at">names_from =</span> <span class="st">&quot;Scale&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Response&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="tyding.html#cb338-1" aria-hidden="true" tabindex="-1"></a>wide_odd_rt <span class="ot">&lt;-</span></span>
+<span id="cb338-2"><a href="tyding.html#cb338-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(long_tidy_rt, <span class="at">names_from =</span> <span class="st">&quot;Scale&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Response&quot;</span>)</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -3401,7 +3401,7 @@ Trustworthiness
 M-1
 </td>
 <td style="text-align:right;">
-1.01
+1.43
 </td>
 <td style="text-align:right;">
 6
@@ -3421,7 +3421,7 @@ NA
 M-1
 </td>
 <td style="text-align:right;">
-1.20
+1.15
 </td>
 <td style="text-align:right;">
 NA
@@ -3441,7 +3441,7 @@ NA
 M-1
 </td>
 <td style="text-align:right;">
-0.48
+2.37
 </td>
 <td style="text-align:right;">
 NA
@@ -3461,7 +3461,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-2.17
+0.91
 </td>
 <td style="text-align:right;">
 4
@@ -3481,7 +3481,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-2.84
+1.73
 </td>
 <td style="text-align:right;">
 NA
@@ -3501,7 +3501,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-2.12
+1.55
 </td>
 <td style="text-align:right;">
 NA
@@ -3521,7 +3521,7 @@ NA
 M-1
 </td>
 <td style="text-align:right;">
-1.32
+1.57
 </td>
 <td style="text-align:right;">
 5
@@ -3541,7 +3541,7 @@ NA
 M-1
 </td>
 <td style="text-align:right;">
-0.96
+0.45
 </td>
 <td style="text-align:right;">
 NA
@@ -3561,7 +3561,7 @@ NA
 M-1
 </td>
 <td style="text-align:right;">
-1.62
+0.79
 </td>
 <td style="text-align:right;">
 NA
@@ -3581,7 +3581,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-0.88
+2.06
 </td>
 <td style="text-align:right;">
 3
@@ -3601,7 +3601,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-1.23
+1.69
 </td>
 <td style="text-align:right;">
 NA
@@ -3621,7 +3621,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-1.73
+0.77
 </td>
 <td style="text-align:right;">
 NA
@@ -3636,11 +3636,11 @@ NA
 </tbody>
 </table>
 <p>To remedy that, we need to specify id columns explicitly, so that <code>pivot_wider()</code> can ignore and <em>drop</em> the rest:</p>
-<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="tyding.html#cb338-1" aria-hidden="true" tabindex="-1"></a>wide_rt <span class="ot">&lt;-</span></span>
-<span id="cb338-2"><a href="tyding.html#cb338-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(long_tidy_rt,</span>
-<span id="cb338-3"><a href="tyding.html#cb338-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">id_cols =</span> <span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>, <span class="st">&quot;Face&quot;</span>),</span>
-<span id="cb338-4"><a href="tyding.html#cb338-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_from =</span> <span class="st">&quot;Scale&quot;</span>,</span>
-<span id="cb338-5"><a href="tyding.html#cb338-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from=</span><span class="st">&quot;Response&quot;</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="tyding.html#cb339-1" aria-hidden="true" tabindex="-1"></a>wide_rt <span class="ot">&lt;-</span></span>
+<span id="cb339-2"><a href="tyding.html#cb339-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(long_tidy_rt,</span>
+<span id="cb339-3"><a href="tyding.html#cb339-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">id_cols =</span> <span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>, <span class="st">&quot;Face&quot;</span>),</span>
+<span id="cb339-4"><a href="tyding.html#cb339-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_from =</span> <span class="st">&quot;Scale&quot;</span>,</span>
+<span id="cb339-5"><a href="tyding.html#cb339-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from=</span><span class="st">&quot;Response&quot;</span>) </span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -4081,7 +4081,6 @@ Single
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -4122,7 +4121,7 @@ gitbook.start({
 },
 "download": ["data-analysis-using-r-for-psychology.pdf", "data-analysis-using-r-for-psychology.epub"],
 "search": {
-"engine": "lunr",
+"engine": "fuse",
 "options": null
 },
 "toc": {

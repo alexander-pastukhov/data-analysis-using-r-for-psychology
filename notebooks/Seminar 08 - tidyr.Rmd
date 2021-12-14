@@ -125,9 +125,3 @@ Use  `ifelse()` function to replace negative values with a [maximal](https://sta
 v <- c(-1, 3, 5, -2, 5)
 ```
 
-## Exercise 11
-Use _adaptation_with_na_ table and replace missing information using participant-specific mean. This is the same table as above, so you need to compute `Psame` first. However, missing values in `Nsame` and `Ntotal` will result in `NA` for a corresponding `Psame`. Replace them with mean `Psame` _per participant_. This will require knowledge of additional details. First, you can compute [mean()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html) ignoring any `NA` using `na.rm` parameter. Second, you will need to use [is.na()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html) to detect values that you need to replace with the mean. Third, reminder, in order to apply some function per participant (stimulus, etc.), you need to first [group](https://dplyr.tidyverse.org/reference/group_by.html) your data. This entire computation should be implemented as a single pipeline.
-
-```{r exercise 11}
-```
-

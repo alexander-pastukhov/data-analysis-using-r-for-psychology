@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Seminar 3 Tables and Tibbles (and Tribbles) | Data analysis using R for Psychology and Social Science</title>
   <meta name="description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
-  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Seminar 3 Tables and Tibbles (and Tribbles) | Data analysis using R for Psychology and Social Science" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2021-11-30" />
+<meta name="date" content="2021-12-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +33,9 @@
   
 <link rel="prev" href="vectors.html"/>
 <link rel="next" href="functions.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -42,7 +43,6 @@
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
 
 
 
@@ -729,6 +729,7 @@ A1,1,2,0.05,FALSE
 <span id="cb199-6"><a href="tables.html#cb199-6" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Contrast =</span> <span class="fu">col_double</span>(),</span>
 <span id="cb199-7"><a href="tables.html#cb199-7" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Correct =</span> <span class="fu">col_integer</span>()))</span></code></pre></div>
 <pre><code>## Warning: The following named parsers don&#39;t match the column names: TheBlock</code></pre>
+<pre><code>## Warning: One or more parsing issues, see `problems()` for details</code></pre>
 <p>Personally, I would prefer for <code>read_csv()</code> to loudly fail with an error in cases like these but having a nice red warning is already very helpful to quickly detect the problem with your data (and if your data is wrong, your whole analysis is meaningless). Thus, <em>always</em> use <code>read_</code> rather than <code>read.</code> functions and <em>always</em> specify the table structure. The lazy, and my preferred, way to do it, is to first read the file without specifying the structure and copy-paste-edit the warning column-specification message into the code adjusting as necessary.</p>
 <div class="infobox practice">
 <p>Do exercise 8, you need <a href="data/face_rank.csv">face_rank.csv</a> file for it. Download it and place it in the project folder. <em>Warning</em>, if you use Chrome or any Chromium-based browsers like MS Edge, Opera, etc. they might, for some odd reason, automatically <em>rename it</em> into <em>face_rank.xls</em> during the download. Just rename it back to <em>face_rank.csv</em>, because the file itself is not converted to an Excel, it is only the extension that gets changed (why? No idea, ask Google!).</p>
@@ -778,7 +779,6 @@ A1,1,2,0.05,FALSE
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -819,7 +819,7 @@ gitbook.start({
 },
 "download": ["data-analysis-using-r-for-psychology.pdf", "data-analysis-using-r-for-psychology.epub"],
 "search": {
-"engine": "lunr",
+"engine": "fuse",
 "options": null
 },
 "toc": {

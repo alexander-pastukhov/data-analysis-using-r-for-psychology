@@ -83,6 +83,7 @@
 \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{longtable,booktabs}
+\usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
 \usepackage{etoolbox}
 \makeatletter
@@ -131,7 +132,7 @@
 
 \title{Data analysis using R for Psychology and Social Science}
 \author{Alexander (Sasha) Pastukhov}
-\date{2021-11-30}
+\date{2021-12-13}
 
 \begin{document}
 \maketitle
@@ -1974,6 +1975,10 @@ You may feel that this a lot of extra work just to suppress an annoying but, ult
 ## Warning: The following named parsers don't match the column names: TheBlock
 \end{verbatim}
 
+\begin{verbatim}
+## Warning: One or more parsing issues, see `problems()` for details
+\end{verbatim}
+
 Personally, I would prefer for \texttt{read\_csv()} to loudly fail with an error in cases like these but having a nice red warning is already very helpful to quickly detect the problem with your data (and if your data is wrong, your whole analysis is meaningless). Thus, \emph{always} use \texttt{read\_} rather than \texttt{read.} functions and \emph{always} specify the table structure. The lazy, and my preferred, way to do it, is to first read the file without specifying the structure and copy-paste-edit the warning column-specification message into the code adjusting as necessary.
 
 Do exercise 8, you need \href{data/face_rank.csv}{face\_rank.csv} file for it. Download it and place it in the project folder. \emph{Warning}, if you use Chrome or any Chromium-based browsers like MS Edge, Opera, etc. they might, for some odd reason, automatically \emph{rename it} into \emph{face\_rank.xls} during the download. Just rename it back to \emph{face\_rank.csv}, because the file itself is not converted to an Excel, it is only the extension that gets changed (why? No idea, ask Google!).
@@ -2540,53 +2545,53 @@ You always need the first one. But you do not need to specify the other two, eve
 \hline
 Condition & Intensity & Response\\
 \hline
-A & 1 & -0.8047291\\
+A & 1 & 0.3333212\\
 \hline
-B & 1 & -1.2266379\\
+B & 1 & -1.9101747\\
 \hline
-C & 1 & -3.4668216\\
+C & 1 & -2.7932770\\
 \hline
-A & 2 & 0.9826487\\
+A & 2 & -0.3578376\\
 \hline
-B & 2 & -0.9676217\\
+B & 2 & -0.8096717\\
 \hline
-C & 2 & -3.5326490\\
+C & 2 & -2.5783352\\
 \hline
-A & 3 & 1.9704660\\
+A & 3 & 1.3777521\\
 \hline
-B & 3 & -0.5920792\\
+B & 3 & -0.7120198\\
 \hline
-C & 3 & -2.7969152\\
+C & 3 & -1.4387485\\
 \hline
-A & 4 & 3.0540812\\
+A & 4 & 3.0674511\\
 \hline
-B & 4 & 0.6779237\\
+B & 4 & 0.1548836\\
 \hline
-C & 4 & -0.9337698\\
+C & 4 & -1.4360799\\
 \hline
-A & 5 & 3.4793685\\
+A & 5 & 3.8664557\\
 \hline
-B & 5 & 2.4353261\\
+B & 5 & 2.4961840\\
 \hline
-C & 5 & -0.5137827\\
+C & 5 & -0.1108725\\
 \hline
-A & 6 & 3.5784976\\
+A & 6 & 5.9622744\\
 \hline
-B & 6 & 2.9600321\\
+B & 6 & 3.0730696\\
 \hline
-C & 6 & 2.1673851\\
+C & 6 & 1.8178355\\
 \hline
-A & 7 & 6.4096107\\
+A & 7 & 6.0179457\\
 \hline
-B & 7 & 4.0347313\\
+B & 7 & 3.4541803\\
 \hline
-C & 7 & 1.8267696\\
+C & 7 & 1.6195238\\
 \hline
-A & 8 & 6.7003723\\
+A & 8 & 6.3809706\\
 \hline
-B & 8 & 4.9843241\\
+B & 8 & 4.5723473\\
 \hline
-C & 8 & 1.9371862\\
+C & 8 & 3.0622937\\
 \hline
 \end{tabular}
 
@@ -4068,21 +4073,21 @@ D & 22\\
 \hline
 ID & Report\\
 \hline
-A & 2.295984\\
+A & 4.552470\\
 \hline
-A & 2.457827\\
+A & 5.069592\\
 \hline
-B & 6.423922\\
+B & 5.590432\\
 \hline
-B & 2.426577\\
+B & 5.098795\\
 \hline
-C & 2.797792\\
+C & 5.862000\\
 \hline
-C & 3.524973\\
+C & 3.293651\\
 \hline
-D & 6.792641\\
+D & 1.254941\\
 \hline
-D & 3.066635\\
+D & 6.560998\\
 \hline
 \end{tabular}
 \end{table}
@@ -4104,21 +4109,21 @@ To join two tables, you require ``key'' columns: columns that contain values tha
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 2.295984\\
+A & 20 & 4.552470\\
 \hline
-A & 20 & 2.457827\\
+A & 20 & 5.069592\\
 \hline
-B & 19 & 6.423922\\
+B & 19 & 5.590432\\
 \hline
-B & 19 & 2.426577\\
+B & 19 & 5.098795\\
 \hline
-C & 30 & 2.797792\\
+C & 30 & 5.862000\\
 \hline
-C & 30 & 3.524973\\
+C & 30 & 3.293651\\
 \hline
-D & 22 & 6.792641\\
+D & 22 & 1.254941\\
 \hline
-D & 22 & 3.066635\\
+D & 22 & 6.560998\\
 \hline
 \end{tabular}
 \centering
@@ -4126,21 +4131,21 @@ D & 22 & 3.066635\\
 \hline
 ID & Report & Age\\
 \hline
-A & 2.295984 & 20\\
+A & 4.552470 & 20\\
 \hline
-A & 2.457827 & 20\\
+A & 5.069592 & 20\\
 \hline
-B & 6.423922 & 19\\
+B & 5.590432 & 19\\
 \hline
-B & 2.426577 & 19\\
+B & 5.098795 & 19\\
 \hline
-C & 2.797792 & 30\\
+C & 5.862000 & 30\\
 \hline
-C & 3.524973 & 30\\
+C & 3.293651 & 30\\
 \hline
-D & 6.792641 & 22\\
+D & 1.254941 & 22\\
 \hline
-D & 3.066635 & 22\\
+D & 6.560998 & 22\\
 \hline
 \end{tabular}
 \end{table}
@@ -4192,21 +4197,21 @@ D & 22\\
 \hline
 ID & Report\\
 \hline
-A & 4.358237\\
+A & 4.025461\\
 \hline
-A & 3.372808\\
+A & 3.584354\\
 \hline
-B & 6.500689\\
+B & 6.219907\\
 \hline
-B & 4.468184\\
+B & 3.765300\\
 \hline
-C & 1.380531\\
+C & 4.985474\\
 \hline
-C & 5.587882\\
+C & 2.855392\\
 \hline
-E & 3.160737\\
+E & 1.090241\\
 \hline
-E & 6.346388\\
+E & 1.260893\\
 \hline
 \end{tabular}
 \end{table}
@@ -4228,17 +4233,17 @@ E & 6.346388\\
 \hline
 ID & Report & Age\\
 \hline
-A & 4.358237 & 20\\
+A & 4.025461 & 20\\
 \hline
-A & 3.372808 & 20\\
+A & 3.584354 & 20\\
 \hline
-B & 6.500689 & 19\\
+B & 6.219907 & 19\\
 \hline
-B & 4.468184 & 19\\
+B & 3.765300 & 19\\
 \hline
-C & 1.380531 & 30\\
+C & 4.985474 & 30\\
 \hline
-C & 5.587882 & 30\\
+C & 2.855392 & 30\\
 \hline
 \end{tabular}
 \end{table}
@@ -4260,23 +4265,23 @@ In contrast, \textbf{full join} is the most liberal as it includes all rows from
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 4.358237\\
+A & 20 & 4.025461\\
 \hline
-A & 20 & 3.372808\\
+A & 20 & 3.584354\\
 \hline
-B & 19 & 6.500689\\
+B & 19 & 6.219907\\
 \hline
-B & 19 & 4.468184\\
+B & 19 & 3.765300\\
 \hline
-C & 30 & 1.380531\\
+C & 30 & 4.985474\\
 \hline
-C & 30 & 5.587882\\
+C & 30 & 2.855392\\
 \hline
 D & 22 & NA\\
 \hline
-E & NA & 3.160737\\
+E & NA & 1.090241\\
 \hline
-E & NA & 6.346388\\
+E & NA & 1.260893\\
 \hline
 \end{tabular}
 \end{table}
@@ -4298,17 +4303,17 @@ E & NA & 6.346388\\
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 4.358237\\
+A & 20 & 4.025461\\
 \hline
-A & 20 & 3.372808\\
+A & 20 & 3.584354\\
 \hline
-B & 19 & 6.500689\\
+B & 19 & 6.219907\\
 \hline
-B & 19 & 4.468184\\
+B & 19 & 3.765300\\
 \hline
-C & 30 & 1.380531\\
+C & 30 & 4.985474\\
 \hline
-C & 30 & 5.587882\\
+C & 30 & 2.855392\\
 \hline
 D & 22 & NA\\
 \hline
@@ -4332,21 +4337,21 @@ D & 22 & NA\\
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 4.358237\\
+A & 20 & 4.025461\\
 \hline
-A & 20 & 3.372808\\
+A & 20 & 3.584354\\
 \hline
-B & 19 & 6.500689\\
+B & 19 & 6.219907\\
 \hline
-B & 19 & 4.468184\\
+B & 19 & 3.765300\\
 \hline
-C & 30 & 1.380531\\
+C & 30 & 4.985474\\
 \hline
-C & 30 & 5.587882\\
+C & 30 & 2.855392\\
 \hline
-E & NA & 3.160737\\
+E & NA & 1.090241\\
 \hline
-E & NA & 6.346388\\
+E & NA & 1.260893\\
 \hline
 \end{tabular}
 \end{table}
@@ -4386,13 +4391,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 1.910337\\
+A & M & 2.867045\\
 \hline
-B & F & 4.210203\\
+B & F & 2.759981\\
 \hline
-A & F & 3.614240\\
+A & F & 1.238247\\
 \hline
-B & M & 4.669292\\
+B & M & 1.001560\\
 \hline
 \end{tabular}
 \end{table}
@@ -4412,13 +4417,13 @@ B & M & 4.669292\\
 \hline
 ID & Gender & Age & Report\\
 \hline
-A & M & 20 & 1.910337\\
+A & M & 20 & 2.867045\\
 \hline
-B & F & 19 & 4.210203\\
+B & F & 19 & 2.759981\\
 \hline
-A & F & 30 & 3.614240\\
+A & F & 30 & 1.238247\\
 \hline
-B & M & 22 & 4.669292\\
+B & M & 22 & 1.001560\\
 \hline
 \end{tabular}
 \end{table}
@@ -4459,13 +4464,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 1.491876\\
+A & M & 4.867500\\
 \hline
-B & F & 3.677963\\
+B & F & 2.741224\\
 \hline
-A & F & 3.707715\\
+A & F & 1.306175\\
 \hline
-B & M & 1.080628\\
+B & M & 3.077008\\
 \hline
 \end{tabular}
 \end{table}
@@ -4485,13 +4490,13 @@ B & M & 1.080628\\
 \hline
 VPCode & Sex & Age & Report\\
 \hline
-A & F & 30 & 3.707715\\
+A & F & 30 & 1.306175\\
 \hline
-A & M & 20 & 1.491876\\
+A & M & 20 & 4.867500\\
 \hline
-B & F & 19 & 3.677963\\
+B & F & 19 & 2.741224\\
 \hline
-B & M & 22 & 1.080628\\
+B & M & 22 & 3.077008\\
 \hline
 \end{tabular}
 \end{table}
@@ -4893,29 +4898,29 @@ Let us take a look at the importance of \texttt{id\_cols}. Imagine that we have 
 \hline
 Participant & Face & Scale & Response & RT\\
 \hline
-1 & M-1 & Symmetry & 6 & 1.48\\
+1 & M-1 & Symmetry & 6 & 1.86\\
 \hline
-1 & M-1 & Attractiveness & 4 & 1.55\\
+1 & M-1 & Attractiveness & 4 & 1.43\\
 \hline
-1 & M-1 & Trustworthiness & 3 & 1.18\\
+1 & M-1 & Trustworthiness & 3 & 1.38\\
 \hline
-1 & M-2 & Symmetry & 4 & 2.47\\
+1 & M-2 & Symmetry & 4 & 1.61\\
 \hline
-1 & M-2 & Attractiveness & 7 & 0.66\\
+1 & M-2 & Attractiveness & 7 & 0.48\\
 \hline
-1 & M-2 & Trustworthiness & 6 & 1.30\\
+1 & M-2 & Trustworthiness & 6 & 0.37\\
 \hline
-2 & M-1 & Symmetry & 5 & 1.58\\
+2 & M-1 & Symmetry & 5 & 1.21\\
 \hline
-2 & M-1 & Attractiveness & 2 & 0.63\\
+2 & M-1 & Attractiveness & 2 & 1.72\\
 \hline
-2 & M-1 & Trustworthiness & 1 & 1.12\\
+2 & M-1 & Trustworthiness & 1 & 2.64\\
 \hline
-2 & M-2 & Symmetry & 3 & 1.56\\
+2 & M-2 & Symmetry & 3 & 1.66\\
 \hline
-2 & M-2 & Attractiveness & 7 & 1.60\\
+2 & M-2 & Attractiveness & 7 & 0.35\\
 \hline
-2 & M-2 & Trustworthiness & 2 & 0.51\\
+2 & M-2 & Trustworthiness & 2 & 4.31\\
 \hline
 \end{tabular}
 
@@ -4932,29 +4937,29 @@ For \href{https://tidyr.tidyverse.org/reference/pivot_wider.html}{pivot\_wider},
 \hline
 Participant & Face & RT & Symmetry & Attractiveness & Trustworthiness\\
 \hline
-1 & M-1 & 1.48 & 6 & NA & NA\\
+1 & M-1 & 1.86 & 6 & NA & NA\\
 \hline
-1 & M-1 & 1.55 & NA & 4 & NA\\
+1 & M-1 & 1.43 & NA & 4 & NA\\
 \hline
-1 & M-1 & 1.18 & NA & NA & 3\\
+1 & M-1 & 1.38 & NA & NA & 3\\
 \hline
-1 & M-2 & 2.47 & 4 & NA & NA\\
+1 & M-2 & 1.61 & 4 & NA & NA\\
 \hline
-1 & M-2 & 0.66 & NA & 7 & NA\\
+1 & M-2 & 0.48 & NA & 7 & NA\\
 \hline
-1 & M-2 & 1.30 & NA & NA & 6\\
+1 & M-2 & 0.37 & NA & NA & 6\\
 \hline
-2 & M-1 & 1.58 & 5 & NA & NA\\
+2 & M-1 & 1.21 & 5 & NA & NA\\
 \hline
-2 & M-1 & 0.63 & NA & 2 & NA\\
+2 & M-1 & 1.72 & NA & 2 & NA\\
 \hline
-2 & M-1 & 1.12 & NA & NA & 1\\
+2 & M-1 & 2.64 & NA & NA & 1\\
 \hline
-2 & M-2 & 1.56 & 3 & NA & NA\\
+2 & M-2 & 1.66 & 3 & NA & NA\\
 \hline
-2 & M-2 & 1.60 & NA & 7 & NA\\
+2 & M-2 & 0.35 & NA & 7 & NA\\
 \hline
-2 & M-2 & 0.51 & NA & NA & 2\\
+2 & M-2 & 4.31 & NA & NA & 2\\
 \hline
 \end{tabular}
 
@@ -5066,7 +5071,7 @@ Do exercise 10.
 \hypertarget{controling-computation-flow}{%
 \chapter{Controling computation flow}\label{controling-computation-flow}}
 
-Grab the \href{notebooks/Seminar\%2010\%20-\%20repetition.Rmd}{exercise notebook} before we start.
+Grab the \href{notebooks/Seminar\%2009\%20-\%20control\%20flow.Rmd}{exercise notebook} before we start.
 
 One the most powerful features of R is that it is vector-based. Remember, everything is a vector (or a list). In the previous seminars you saw you can apply a function, a filter, or perform a computation on all values of a vector or all rows in a table in a single call. However, sometimes, you need to go over one value or row at a time explicitly. For example, if you working with a time-series, it might be easier to use an explicit \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html}{for} loop to compute current value based on previous state of the system. However, such instances are fairly rare, so the general rule for R is ``you probably do not need a loop''. Below, we will go through various tools that render explicit loops redundant.
 
@@ -5170,7 +5175,7 @@ male & left & FALSE\\
 \hline
 \end{tabular}
 
-\href{https://tidyr.tidyverse.org/reference/expand_grid.html}{expand\_grid()} works the same they but for the order in the values very within columns.
+\href{https://tidyr.tidyverse.org/reference/expand_grid.html}{expand\_grid()} works the same they but for the order in the values vary within columns.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5213,7 +5218,7 @@ Do exercise 2.
 \hypertarget{forloop}{%
 \section{For loop}\label{forloop}}
 
-You can loop (iterate) over elements of a vector or list via a \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html}{for} loop, which is very similar to for-loops in other programming languages. However, use of the \texttt{for} loop in R is fairly rare, because vectors are a fundamental building block of R and, therefore, it is inherently vectorized (you can do the same thing to all values, not to one value at a time). Thus, almost always, you can do the same thing but using simpler or more expressive tools. In a sense, \texttt{for} loop is very un-R, so if you find yourself using it, consider whether there is a simpler or more expressive way to do this. At the same time, if \texttt{for} loop \emph{is} the simplest or clearest way to write you code, by all means, use it!
+You can loop (iterate) over elements of a vector or list via a \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html}{for} loop, which is very similar to for-loops in other programming languages. However, use of the \texttt{for} loop in R is fairly rare, because vectors are a fundamental building block of R and, therefore, it is inherently vectorized (you can do the same thing to all values, not to one value at a time). In a sense, \texttt{for} loop is very un-R, so if you find yourself using it, consider whether there is a simpler or more expressive way to do this. At the same time, if \texttt{for} loop \emph{is} the simplest or clearest way to write you code, by all means, use it!
 
 The general format is
 
@@ -5221,12 +5226,13 @@ The general format is
 \begin{Highlighting}[]
 \ControlFlowTok{for}\NormalTok{(loop\_variable }\ControlFlowTok{in}\NormalTok{ vector\_or\_list)\{}
 \NormalTok{  ...some operations using loop\_variable that}
-\NormalTok{  changes its value on each iteration... }
+\NormalTok{  changes its value on each iteration using}
+\NormalTok{  values from the vector or list... }
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
 
-Note the curly brackets. We used them before to put the code inside a function. Here, we use them to put the code inside the loop. The loop is repeated as many times as the number of elements in a vector or a list with a loop variable\footnote{Just a reminder, the loop variable can have \emph{any} name. Often, you see people using \texttt{i} but I would strongly recommend going for a more meaningful name.} getting assigned each vector/list value on each iteration. Thus, to print each value of a vector we can do
+Note the curly brackets. We used them before to put the code inside a function. Here, we use them to put the code inside the loop. The loop (the code inside curly brackets) is repeated as many times as the number of elements in a vector or a list with a loop variable\footnote{Just a reminder, the loop variable can have \emph{any} name. Often, you see people using \texttt{i} but I would strongly recommend going for a more meaningful name.} getting assigned each vector/list value on each iteration. Thus, to print each value of a vector we can do
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5242,7 +5248,11 @@ Note the curly brackets. We used them before to put the code inside a function. 
 ## [1] 200
 \end{verbatim}
 
-A typical scenario is for the loop variable to be an \emph{index} that can be used to access element of a vector or a list. You can build a vector of indexes via \texttt{start:stop} sequence tool we used for \protect\hyperlink{vector-index-slicing}{slicing}. You can compute a length of an object via \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/length.html}{length()} function. For a \texttt{data.frame} or a \texttt{tibble}, you can figure out number of rows and columns via, respectively, \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/nrow.html}{nrow()} and \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/nrow.html}{ncol()} functions.
+Here, we have three elements in a vector, therefore the code inside curly brackets is repeated three times with the variable \texttt{a\_number} taking each value in turn. I.e., \texttt{a\_number} is equal to 1 on a first iteration, 5 on a second, 200 on the third.
+
+Do exercises 3 and 4.
+
+A typical scenario is for the loop variable to be an \emph{index} that can be used to access an element of a vector or a list. You can build a vector of indexes via \texttt{start:stop} sequence tool we used for \protect\hyperlink{vector-index-slicing}{slicing}. You can compute a length of an object via \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/length.html}{length()} function. For a \texttt{data.frame} or a \texttt{tibble}, you can figure out number of rows and columns via, respectively, \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/nrow.html}{nrow()} and \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/nrow.html}{ncol()} functions.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5259,9 +5269,9 @@ A typical scenario is for the loop variable to be an \emph{index} that can be us
 ## [1] 200
 \end{verbatim}
 
-Do exercise 3.
+Do exercise 5.
 
-You can also \emph{nest} loops (wondering what \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/cat.html}{cat()} does? Concatenates and ptings, so read the \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/cat.html}{manual}!).
+You can also \emph{nest} loops (wondering what \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/cat.html}{cat()} does? Concatenates and prints, so read the \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/cat.html}{manual}!).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5282,16 +5292,16 @@ You can also \emph{nest} loops (wondering what \href{https://stat.ethz.ch/R-manu
 ## C 2
 \end{verbatim}
 
-Do exercise 4.
+Do exercise 6.
 
-As I have noted above, loops are particularly useful when you current value depends on a previous one (or many previous values). In the next exercise, use \texttt{for} loop to create a random walk with an initial value of zero. For each next step, draw a random value from a normal distribution with zero mean and standard deviation computed as \texttt{exp(value\_on\_previous\_step)} (the function you are looking for is \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html}{rnorm()}). Generate a ten-step, that might look like this
+As I have noted above, loops are particularly useful when you current value depends on a previous one (or many previous values). In the next exercise, use \texttt{for} loop to create a random walk. It should start at zero (so, initial value for your variable should be zero). For each next step, draw a random value from a normal distribution with zero mean and standard deviation computed as \texttt{exp(value\_on\_previous\_step)} (the function you are looking for is \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html}{rnorm()}). Generate a ten-step random walk, that might look like this
 
 \begin{verbatim}
 ##  [1]  0.00000000 -0.56902925 -0.23326972  0.04788655 -0.26527382  0.05453601
 ##  [7]  0.21423641 -1.36139599 -0.27036963  0.76728873
 \end{verbatim}
 
-Do exercise 5.
+Do exercise 7.
 
 \hypertarget{conditional-statement}{%
 \section{Conditional statement}\label{conditional-statement}}
@@ -5308,7 +5318,7 @@ As for all other programming languages, you can control the flow of execution us
 \end{Highlighting}
 \end{Shaded}
 
-For example, we can define our condition using \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/Comparison.html}{mathematical comparisons}.
+The rules are the same as for \protect\hyperlink{logical-indexing}{logical indexing}, so we can define our condition using \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/Comparison.html}{mathematical comparisons}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5325,7 +5335,29 @@ For example, we can define our condition using \href{https://stat.ethz.ch/R-manu
 ## X is not greater than zero.
 \end{verbatim}
 
-You can combine several conditions using \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/Logic.html}{logical operators} such as \emph{and} \texttt{\&} or \emph{or} \texttt{\textbar{}}. For example, we can check whether x is smaller than zero but larger than -10.
+However, be aware that the \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html}{if} uses a \emph{single} logical value. If you have more than one value, it will use \emph{only the first one} but, at least, it will give you a warning.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{,  }\SpecialCharTok{{-}}\DecValTok{3}\NormalTok{)}
+\ControlFlowTok{if}\NormalTok{ (x }\SpecialCharTok{\textless{}} \DecValTok{0}\NormalTok{) \{}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"Bingo!"}\NormalTok{)}
+\NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"I don\textquotesingle{}t like this x."}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in if (x < 0) {: the condition has length > 1 and only the first element
+## will be used
+\end{verbatim}
+
+\begin{verbatim}
+## I don't like this x.
+\end{verbatim}
+
+As in \protect\hyperlink{logical-indexing}{logical indexing}, you can combine several conditions using \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/Logic.html}{logical operators} such as \emph{and} \texttt{\&} or \emph{or} \texttt{\textbar{}}. For example, we can check whether x is smaller than zero but larger than -10.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5342,29 +5374,7 @@ You can combine several conditions using \href{https://stat.ethz.ch/R-manual/R-d
 ## Bingo!
 \end{verbatim}
 
-Beware that the \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html}{if} requires a \emph{single} logical value to work. If you have more than one value, it will use \emph{only the first one} but it will give you a warning.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{,  }\SpecialCharTok{{-}}\DecValTok{3}\NormalTok{)}
-\ControlFlowTok{if}\NormalTok{ ((x }\SpecialCharTok{\textless{}} \DecValTok{0}\NormalTok{)) \{}
-  \FunctionTok{cat}\NormalTok{(}\StringTok{"Bingo!"}\NormalTok{)}
-\NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
-  \FunctionTok{cat}\NormalTok{(}\StringTok{"I don\textquotesingle{}t like this x."}\NormalTok{)}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## Warning in if ((x < 0)) {: the condition has length > 1 and only the first
-## element will be used
-\end{verbatim}
-
-\begin{verbatim}
-## I don't like this x.
-\end{verbatim}
-
-Also beware that R has both \texttt{\&}/\texttt{\textbar{}} and \texttt{\&\&}/\texttt{\textbar{}\textbar{}} versions of \emph{and} and \emph{or} logical operators (single versus double the number of symbols). Both perform logical operations on vectors but double-symbol ones return only the \emph{first} value. E.g., single-symbol returns \texttt{TRUE}/\texttt{FALSE} for each value of \texttt{x}
+However, be aware that R has both \texttt{\&}/\texttt{\textbar{}} and \texttt{\&\&}/\texttt{\textbar{}\textbar{}} versions of \emph{and} and \emph{or} logical operators (single versus double symbols). Both perform logical operations on vectors but double-symbol ones return only the \emph{first} value. E.g., single-symbol returns \texttt{TRUE}/\texttt{FALSE} for each value of \texttt{x}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5377,10 +5387,11 @@ Also beware that R has both \texttt{\&}/\texttt{\textbar{}} and \texttt{\&\&}/\t
 ## [1] FALSE  TRUE FALSE
 \end{verbatim}
 
-But double-symbol returns it only for the \emph{first} value.
+But double-symbol returns it only for the \emph{first} value \emph{without warning you about discarding the rest of the values}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{3}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{11}\NormalTok{)}
 \NormalTok{(x }\SpecialCharTok{\textless{}} \DecValTok{0}\NormalTok{) }\SpecialCharTok{\&\&}\NormalTok{ (x }\SpecialCharTok{\textgreater{}} \SpecialCharTok{{-}}\DecValTok{10}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -5389,7 +5400,7 @@ But double-symbol returns it only for the \emph{first} value.
 ## [1] FALSE
 \end{verbatim}
 
-I am sure there is a perfectly logical explanation for this bizarre implementation but I do not know it. I am bringing this up, just so that you would \emph{never} use double-symbol logical operators! Chances are, you will forget about this ``return-only-the-first-value'' behavior and expect them to act normally. They won't behave as you think they should, so simply stay away.
+I am sure there is a perfectly logical explanation for this bizarre implementation but I do not know it. I am bringing this up, just so that you would \emph{never} use double-symbol logical operators! Chances are, you will forget about this ``silently-return-only-the-first-value'' behavior and expect them to act normally. They won't behave as you think they should, so simply stay away.
 
 Let us combine \texttt{for} loop with \texttt{if-else} operator. Generate a vector of ten normally distributed values (again, \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html}{rnorm()} is the function). Loop over them in a \texttt{for} loop and \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/print.html}{print()} \texttt{"Positive"} if a value is larger than zero and \texttt{"Not\ positive"} if not. The results should look like this\footnote{Want exact same numbers as I do? Use \texttt{set.seed(164)}. This function, see \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html}{set.seed()} makes random generators start at a specific point, so that the you will get the \emph{same} sequence of \emph{random} numbers as I did.}
 
@@ -5411,12 +5422,12 @@ Let us combine \texttt{for} loop with \texttt{if-else} operator. Generate a vect
 ## [1] "Not positive"
 \end{verbatim}
 
-Do exercise 6. (NOT YET IMPLEMENTED!)
+Do exercise 8.
 
 \hypertarget{breaking-out-of-the-loop}{%
 \section{Breaking out of the loop}\label{breaking-out-of-the-loop}}
 
-The code inside the \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html}{for} loop is typically repeated for every value of the vector that you have supplied. However, there is a way to \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html}{break} out of it using a \texttt{break} statement. This stops execution of the code \emph{inside} of the loop immediately and continues with the code immediately after the loop.
+The code inside the \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html}{for} loop is typically repeated for every value of the vector that you have supplied. However, there is a way to \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html}{break} out of it using a \texttt{break} statement. This stops execution of the code \emph{inside} of the loop immediately and continues with the code immediately \emph{after} the loop.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5473,16 +5484,16 @@ For the ten values I've generated above, the output will be the following (``Don
 ## [1] "Done for today"
 \end{verbatim}
 
-Do exercise 7. (NOT YET IMPLEMENTED!)
+Do exercise 9.
 
 \hypertarget{using-for-loop-to-load-and-join-multiple-data-files}{%
 \section{Using for loop to load and join multiple data files}\label{using-for-loop-to-load-and-join-multiple-data-files}}
 
 Your analysis starts with loading the data. Quite often, data for individual participants is stored in different files but with identical structure, so you need code that figures out which files you need to load, loads them on at a time and then binds them to one final table. Using a \texttt{for} loop is not the most elegant way to implement this but it does the job and gives you another example of how loops can be useful. I will walk you through details and then you We will implement the code that loads and merges individual files for persistence study. Download the \href{data/persistence.zip}{persistence.zip} and unzip into \texttt{Persistence} subfolder (we do not want to create a mess in your main folder!).
 
-First, you need to have a character vector with relevant file names. Package you are looking for is \href{https://github.com/r-lib/fs}{fs} (for \textbf{f}ile \textbf{s}ystem). It has everything you need to work with the file system, including working with file names (dropping or adding path, extension, etc.), creating/moving/deleting files, checking whether file exists, and what not. One function that I use the most is \href{https://www.rdocumentation.org/packages/fs/versions/1.5.0/topics/dir_ls}{dir\_ls()} that list files in a specified folder. The two parameters you need are \texttt{path} to your folder (you can use relative path) and, optionally, \texttt{glob} filter string. The latter is a \href{https://en.wikipedia.org/wiki/Glob_(programming)}{globbing} wildcard pattern, where \texttt{*} stands for ``any sequence of characters'' and \texttt{?} stand for "one arbitrary character. For a csv file, this pattern would be \texttt{"*.csv"}. Test this single function call using appropriate \texttt{path} and \texttt{glob} parameters and make sure you get all the files in \emph{Persistence} folder.
+First, you need to have a character vector with relevant file names. Package you are looking for is \href{https://github.com/r-lib/fs}{fs} (for File System). It has everything you need to work with the file system, including working with file names (dropping or adding path, extension, etc.), creating/moving/deleting files, checking whether file exists, and what not. One function that I use the most is \href{https://www.rdocumentation.org/packages/fs/versions/1.5.0/topics/dir_ls}{dir\_ls()} that list files in a specified folder. The two parameters you need are \texttt{path} to your folder (you can and should use a relative path) and, optionally, \texttt{glob} filter string. The latter is a \href{https://en.wikipedia.org/wiki/Glob_(programming)}{globbing} wildcard pattern, where \texttt{*} stands for ``any sequence of characters'' and \texttt{?} stand for "one arbitrary character. For a csv file, this pattern would be \texttt{"*.csv"}. Test this single function call using appropriate \texttt{path} and \texttt{glob} parameters and make sure you get all the files in \emph{Persistence} folder.
 
-Next, you need to create a full table variable (I, typically, call it \texttt{results} or \texttt{reports}) and initialize it to an empty \texttt{data.frame()} (or an empty \texttt{tibble}). You loop over file names, \protect\hyperlink{readr}{read} one file at a time (don't forget to specify column types or you will get a lot of warnings), and then use \href{https://dplyr.tidyverse.org/reference/bind.html}{bind\_rows()} to combine the full table and the new table you loaded. Note that \href{https://dplyr.tidyverse.org/reference/bind.html}{bind\_rows()} returns a \emph{new} table, so you need to assign it back to the original full table variable. Once you are done, your table should have 5232 rows and twelve columns.
+Next, you need to create a full table variable (I, typically, call it \texttt{results} or \texttt{reports}) and initialize it to an empty \texttt{data.frame()} (or an empty \texttt{tibble}). You loop over file names, \protect\hyperlink{readr}{read} one file at a time (don't forget to specify column types), and then use \href{https://dplyr.tidyverse.org/reference/bind.html}{bind\_rows()} to combine the full table and the new table you loaded. Note that \href{https://dplyr.tidyverse.org/reference/bind.html}{bind\_rows()} returns a \emph{new} table, so you need to assign it back to the original full table variable. Once you are done, your table should have 5232 rows and twelve columns.
 
 \begin{tabular}{l|l|r|r|r|l|l|l|l|l|r|r}
 \hline
@@ -5502,7 +5513,7 @@ AKM1995M & 2019-06-12-14-07-17 & 0 & 5 & 0.6435367 & right & stripes-4 & stripes
 \hline
 \end{tabular}
 
-Do exercise 8.
+Do exercise 10.
 
 \hypertarget{apply}{%
 \section{Apply}\label{apply}}
@@ -5584,7 +5595,7 @@ Package \href{https://purrr.tidyverse.org/}{purrr} is part of the tidyverse. It 
 
 The basic \href{https://purrr.tidyverse.org/reference/map.html}{map()} function always returns a list but you can explicitly state that you expect function to return a number (\texttt{map\_dbl()}) and all outputs will be combined into a numeric vector. And, unlike \texttt{apply}, \texttt{map\_dbl()} will generate an error if outputs cannot be converted to numeric. Or, you can specify that you expect each output to be a \texttt{data.frame}. In this case, you can automatically bind them by rows via \texttt{map\_dfr()} or by columns via \texttt{map\_dfc()}. Again, if all outputs cannot be converted to a \texttt{data.frame}, either function will loudly complain (which is good!).
 
-The basic call is similar to \protect\hyperlink{apply}{apply} but is easier to use as you can explicitly address current value via \texttt{.} variable and you can write a ``normal'' function call, prefixing it with a \texttt{\textasciitilde{}}. Here is the example of computing the sinus again. First, same a \texttt{apply}
+The basic call is similar to \protect\hyperlink{apply}{apply} but is easier to use as you can explicitly address current value via \texttt{.} variable (as in other parts of Tidyverse) and you can write a ``normal'' function call, prefixing it with a \texttt{\textasciitilde{}}. Here is the example of computing the sinus again. First, same a \texttt{apply}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5608,9 +5619,9 @@ Now, we a magic tilde \texttt{\textasciitilde{}}. Note an explicit call to \text
 ## [1] 0.000000e+00 7.071068e-01 1.000000e+00 7.071068e-01 1.224606e-16
 \end{verbatim}
 
-Again, using \texttt{map\_dbl()} in this case looks as a complete overkill. So let us do something more relevant. Let us implement loading and merging of persistence study files. You already know how to get a vector with names of relevant files. Now you can use \texttt{map\_dfr()} function on this vector to combine them into a single table. When using \texttt{\textasciitilde{}} call notation, remember \texttt{.} would then correspond to a single value from the vector of file names. Again, you should get a single table with twelve columns and 5232 rows.
+Again, using \texttt{map\_dbl()} in this case looks as a complete overkill. So let us do something more relevant. Let us implement loading and merging of persistence study files. You already know how to get a vector with names of relevant files. Now you can use \texttt{map\_dfr()} function on this vector to combine them into a single table. When using \texttt{\textasciitilde{}} call notation, remember \texttt{.} would then correspond to a single value from the vector of file names (so, a single filename). Again, you should get a single table with twelve columns and 5232 rows.
 
-Do exercise 9.
+Do exercise 11.
 
 You have just \emph{mapped} inputs on outputs using \texttt{read\_csv()} but functional programming is particularly useful, if you program your own functions. Let us program a function that takes a filename, loads the file and returns total number of trials/rows (if you forgot how to compute number of rows in a table, see \protect\hyperlink{forloop}{above}). Once you have a function, use it with \texttt{map\_dbl} and a vector of persistence filenames. You should get a vector of ten values. Now we can easily see that there was something wrong with one of the files and we must pay attention to the amount of data that we have.
 
@@ -5618,7 +5629,7 @@ You have just \emph{mapped} inputs on outputs using \texttt{read\_csv()} but fun
 ##  [1] 528 528 480 528 528 528 528 528 528 528
 \end{verbatim}
 
-Do exercise 10.
+Do exercise 12.
 
   \bibliography{book.bib}
 
