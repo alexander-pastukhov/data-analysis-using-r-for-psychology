@@ -83,7 +83,6 @@
 \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{longtable,booktabs}
-\usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
 \usepackage{etoolbox}
 \makeatletter
@@ -132,7 +131,7 @@
 
 \title{Data analysis using R for Psychology and Social Science}
 \author{Alexander (Sasha) Pastukhov}
-\date{2021-12-13}
+\date{2021-12-14}
 
 \begin{document}
 \maketitle
@@ -1975,10 +1974,6 @@ You may feel that this a lot of extra work just to suppress an annoying but, ult
 ## Warning: The following named parsers don't match the column names: TheBlock
 \end{verbatim}
 
-\begin{verbatim}
-## Warning: One or more parsing issues, see `problems()` for details
-\end{verbatim}
-
 Personally, I would prefer for \texttt{read\_csv()} to loudly fail with an error in cases like these but having a nice red warning is already very helpful to quickly detect the problem with your data (and if your data is wrong, your whole analysis is meaningless). Thus, \emph{always} use \texttt{read\_} rather than \texttt{read.} functions and \emph{always} specify the table structure. The lazy, and my preferred, way to do it, is to first read the file without specifying the structure and copy-paste-edit the warning column-specification message into the code adjusting as necessary.
 
 Do exercise 8, you need \href{data/face_rank.csv}{face\_rank.csv} file for it. Download it and place it in the project folder. \emph{Warning}, if you use Chrome or any Chromium-based browsers like MS Edge, Opera, etc. they might, for some odd reason, automatically \emph{rename it} into \emph{face\_rank.xls} during the download. Just rename it back to \emph{face\_rank.csv}, because the file itself is not converted to an Excel, it is only the extension that gets changed (why? No idea, ask Google!).
@@ -2545,53 +2540,53 @@ You always need the first one. But you do not need to specify the other two, eve
 \hline
 Condition & Intensity & Response\\
 \hline
-A & 1 & 0.3333212\\
+A & 1 & 1.7516298\\
 \hline
-B & 1 & -1.9101747\\
+B & 1 & -1.9278857\\
 \hline
-C & 1 & -2.7932770\\
+C & 1 & -4.9813202\\
 \hline
-A & 2 & -0.3578376\\
+A & 2 & 2.2539910\\
 \hline
-B & 2 & -0.8096717\\
+B & 2 & -0.9930058\\
 \hline
-C & 2 & -2.5783352\\
+C & 2 & -3.9516230\\
 \hline
-A & 3 & 1.3777521\\
+A & 3 & 1.0472038\\
 \hline
-B & 3 & -0.7120198\\
+B & 3 & -0.3041480\\
 \hline
-C & 3 & -1.4387485\\
+C & 3 & -1.9860405\\
 \hline
-A & 4 & 3.0674511\\
+A & 4 & 2.5361472\\
 \hline
-B & 4 & 0.1548836\\
+B & 4 & 0.3629890\\
 \hline
-C & 4 & -1.4360799\\
+C & 4 & -1.8830268\\
 \hline
-A & 5 & 3.8664557\\
+A & 5 & 4.7577832\\
 \hline
-B & 5 & 2.4961840\\
+B & 5 & 0.4988250\\
 \hline
-C & 5 & -0.1108725\\
+C & 5 & -0.0289219\\
 \hline
-A & 6 & 5.9622744\\
+A & 6 & 5.2501143\\
 \hline
-B & 6 & 3.0730696\\
+B & 6 & 3.1792592\\
 \hline
-C & 6 & 1.8178355\\
+C & 6 & 1.7229062\\
 \hline
-A & 7 & 6.0179457\\
+A & 7 & 6.5118674\\
 \hline
-B & 7 & 3.4541803\\
+B & 7 & 4.9012505\\
 \hline
-C & 7 & 1.6195238\\
+C & 7 & 1.7225922\\
 \hline
-A & 8 & 6.3809706\\
+A & 8 & 7.6191077\\
 \hline
-B & 8 & 4.5723473\\
+B & 8 & 5.6919127\\
 \hline
-C & 8 & 3.0622937\\
+C & 8 & 2.0063772\\
 \hline
 \end{tabular}
 
@@ -4028,6 +4023,165 @@ A different study, which used same four objects, showed that a similar looking h
 
 Do exercise 8.
 
+\hypertarget{seminar08}{%
+\chapter{Glueing and sprintfing}\label{seminar08}}
+
+Let us practice more, utilizing knowledge and skill from previous seminars! Grab the \href{notebooks/Seminar\%2008.Rmd}{exercise notebook} and let's get started.
+
+\hypertarget{comparing-effect-between-two-studies}{%
+\section{Comparing effect between two studies}\label{comparing-effect-between-two-studies}}
+
+In the previous seminar, you analyzed how perceptual stability was influenced by change of object's shape for very brief interruptions (50 ms). For those brief interval, your perception is determined primarily by \emph{neural persistence}, a lingering neural activity of neurons that represented 3D rotation before the interruption. However, you can curtail it using \emph{a mask}, another object rotating around orthogonal axis. In this case, perception dominated by \emph{neural fatigue} (also known as habituation or adaptation) of previously active neurons. Here, the measurement is the same (but the an intervening mask) but the expectations about similarity of reports is opposite: The stronger is the influence of the previous object, the \emph{lower} is the probability of the same direction of rotation report (a tired neuron should be overwhelmed by competition that codes for the opposite direction of rotation). Long story short, if same groups of neurons are involved in both \emph{neural persistence} and \emph{neural fatigue}, we except negative correlation, so that higher proportion of same reports in persistence lead to lower proportion for fatigue and vice versa.
+
+Here is the outline of the analysis:
+
+\begin{itemize}
+\tightlist
+\item
+  Load and analyze \href{data/persistence.csv}{persistence.csv}. You can reuse your code from the previous seminar, however, I strongly recommend redoing it here from scratch. If it is easy, it won't take much time. If it is not, you definitely need to practice more, so do it! Compute the following in a single sequence using piping and store results in a variable \texttt{persistence}. The table must have only three columns \texttt{Prime}, \texttt{Probe} and column for average proportion of same responses, and 16 rows (four primes × four probes).
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    \protect\hyperlink{readr}{read} the data in a table.
+  \item
+    Compute a new variable \texttt{SameResponse} which is \texttt{TRUE} when \texttt{Response1} and \texttt{Response2} match each other (in the experiment, that means that an object was rotating in the same direction before and after the intervention).
+  \item
+    Convert \texttt{Prime} and \texttt{Probe} to factors and use labels ``sphere'' (for ``heavy poles sphere''), ``quad band'' (for ``stripes-8''), ``dual band'' (``stripes-4''), ``single band'' (for ``stripes-2'').
+  \item
+    For every combination of \texttt{Participant}, \texttt{Prime} and \texttt{Probe} compute proportion of same responses.
+  \item
+    For every combination of \texttt{Prime} and \texttt{Probe} compute \emph{average} proportion of same responses.
+  \end{enumerate}
+\item
+  Load and analyze \href{data/bands-adaptation.csv}{bands-adaptation.csv}. First, load the table and take a look at its contents or just open the file and text editor \emph{but not in Excel} (the latter might change it, if you accidentally agree to save the file). Again, implement all steps in a single sequence using piping and store results in a variable \texttt{adaptation}. The table must have only three columns \texttt{Prime}, \texttt{Probe} and column for average proportion of same responses, and 16 rows (four primes × four probes).
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    Convert \texttt{Prime} and \texttt{Probe} to factors and use same labels as for persistence. So ``sphere'' (for ``Sphere''), ``quad band'' (for ``Quadro''), ``dual band'' (``Dual''), ``single band'' (for ``Single'').
+  \item
+    Compute proportion of same responses per \texttt{Participant}, \texttt{Prime}, and \texttt{Probe} using number of same responses (\texttt{Nsame}) and the total number of trials (\texttt{Ntotal}).
+  \item
+    Compute average proportion of same responses per \texttt{Prime} and \texttt{Probe}.
+  \end{enumerate}
+\item
+  Merge two tables by \texttt{Prime} and \texttt{Probe}, store results in a new variable (the name is up to you). Note that each table has column with average proportion of same responses. You probably used the same name for this variable for both columns (if not, do use the same name, like \texttt{Pavg}). Joining functions are average of this possibility and use \emph{suffixes} to differentiate which table the original column came from. By defaults \texttt{suffix\ =\ c(".x",\ ".y")}, so that that column \texttt{Pavg} from the first (left) table will become \texttt{Pavg.x} and the other one \texttt{Pavg.y}. We can do better than \texttt{c(".x",\ ".y")}! Use suffix parameter but use meaningful suffixes. The table should have four columns and sixteen rows.
+\item
+  Plot average proportion of same responses for adaptation versus persistence. Use points for individual values and add linear regression line via \texttt{geom\_smooth()}. The final plot should look approximately like this:
+\end{itemize}
+
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-174-1} \end{center}
+
+Do exercise 1.
+
+\hypertarget{glue}{%
+\section{Gluing in correlation strength information.}\label{glue}}
+
+Let us be more precise about the strength of the correlation between the two variables. First, compute it via \href{https://stat.ethz.ch/R-manual/R-patched/library/stats/html/cor.html}{cor} function. Use function \href{https://stat.ethz.ch/R-manual/R-patched/library/base/html/Round.html}{round} to round it to just two decimal places. Then, use \href{https://glue.tidyverse.org/}{glue()} (see below) to make the title look nice and put it as a title or subtitle of the plot via \href{https://ggplot2.tidyverse.org/reference/labs.html}{labs}.
+
+Function \texttt{glue()} lives in the package of the same name that you will need to import separately (it is part of the tidyverse but is not imported automatically). It makes it simple to ``glue'' values directly into a string. You simply surround the R code by wiggle brackets and the result of the code execution is glued in. If you use just a variable, its value will be glued-in.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{answer }\OtherTok{\textless{}{-}} \DecValTok{42}
+\NormalTok{bad\_answer }\OtherTok{\textless{}{-}} \DecValTok{41}
+\FunctionTok{glue}\NormalTok{(}\StringTok{"The answer is \{answer\}, not \{bad\_answer\}"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## The answer is 42, not 41
+\end{verbatim}
+
+But, you can put \emph{any} code inside, although, the more code you put, the harder it will be to read and understand it.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{single\_package\_weight }\OtherTok{\textless{}{-}} \FloatTok{1.2}
+\FunctionTok{glue}\NormalTok{(}\StringTok{"Ten packages weight \{single\_package\_weight * 10\} kg"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Ten packages weight 12 kg
+\end{verbatim}
+
+So, compute the correlation, glue it into the text and put it as a title of the plot.
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-177-1.pdf}
+
+Do exercise 2.
+
+\hypertarget{sprintf}{%
+\section{sprintf}\label{sprintf}}
+
+Simplicity makes \href{https://glue.tidyverse.org/}{glue} a great tool to insert values into, because there isn't much more to know about. However, because it is so simple to use, it is not the most flexible way for formatting strings. Instead, you can use \href{https://stat.ethz.ch/R-manual/R-patched/library/base/html/sprintf.html}{sprintf} function that provides C-style string formatting (same as Python's original string formatting).
+
+The general function call is \texttt{sprintf("string\ with\ formatting",\ value1,\ value2,\ value)}, where values are are inserted into the string. In \texttt{"string\ with\ formatting"}, you specify where you want to put the value via \texttt{\%} symbol that is followed by an \emph{optional} formatting info and the \emph{required} symbol that defines the \textbf{type} of the value. The type symbols are
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{s} for string
+\item
+  \texttt{d} for an integer
+\item
+  \texttt{f} for a float value using a ``fixed point'' decimal notation
+\item
+  \texttt{e} for a float value usaing an exponential notation (e.g., \texttt{1e2}).
+\item
+  \texttt{g} for an ``optimally'' printed float value, so that exponential notation is used for large values (\emph{e.g.}, \texttt{10e5} instead of \texttt{100000}).
+\end{itemize}
+
+Here is an example of formatting a string using an integer:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"I had \%d pancakes for breakfast"}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "I had 10 pancakes for breakfast"
+\end{verbatim}
+
+You are not limited to a single value that you can put into a string. You can specify more locations via \texttt{\%} but you must make sure that you pass the right number of values. Before running it, can you figure out which call will actually work (and what will be the output ) and which will produce an error?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"I had \%d pancakes and either \%d  or \%d stakes for dinner"}\NormalTok{, }\DecValTok{2}\NormalTok{)}
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"I had \%d pancakes and \%d stakes for dinner"}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"I had \%d pancakes and \%d stakes for dinner"}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Do exercise 3.
+
+In case of real values you have two options: \texttt{\%f} and \texttt{\%g}. The latter uses scientific notation (e.g.~\texttt{1e10} for \texttt{10000000000}) to make a representation more compact. When formatting floating numbers, you can specify the number of decimal points to be displayed.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{e }\OtherTok{\textless{}{-}} \FloatTok{2.71828182845904523536028747135266249775724709369995}
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Euler\textquotesingle{}s number is roughly \%.4f"}\NormalTok{, e)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Euler's number is roughly 2.7183"
+\end{verbatim}
+
+Repeat exercise \#2 but use \texttt{sprintf()} in place of \texttt{glue()}.
+::: \{.infobox .practice\}
+Do exercise 4.
+:::
+
+\hypertarget{wrap-up-2}{%
+\section{Wrap up}\label{wrap-up-2}}
+
+That's it for today! See you after the Christmas break!
+
 \hypertarget{tyding}{%
 \chapter{Tidyng your data: joins and pivots}\label{tyding}}
 
@@ -4052,7 +4206,7 @@ Examples make joining operations much easier to understand, so let us create two
 \end{Shaded}
 
 \begin{table}
-\caption{\label{tab:unnamed-chunk-175}demographics (left) and report (right) tables}
+\caption{\label{tab:unnamed-chunk-183}demographics (left) and report (right) tables}
 
 \centering
 \begin{tabular}[t]{l|r}
@@ -4073,21 +4227,21 @@ D & 22\\
 \hline
 ID & Report\\
 \hline
-A & 4.552470\\
+A & 3.719993\\
 \hline
-A & 5.069592\\
+A & 3.171843\\
 \hline
-B & 5.590432\\
+B & 6.691370\\
 \hline
-B & 5.098795\\
+B & 5.142820\\
 \hline
-C & 5.862000\\
+C & 4.128087\\
 \hline
-C & 3.293651\\
+C & 1.893055\\
 \hline
-D & 1.254941\\
+D & 3.433498\\
 \hline
-D & 6.560998\\
+D & 2.419368\\
 \hline
 \end{tabular}
 \end{table}
@@ -4102,28 +4256,28 @@ To join two tables, you require ``key'' columns: columns that contain values tha
 \end{Shaded}
 
 \begin{table}
-\caption{\label{tab:unnamed-chunk-177}Joining/merging tables with fully matching keys via join (left) and merge (right). Note how a different order of tables results in a different order of columns.}
+\caption{\label{tab:unnamed-chunk-185}Joining/merging tables with fully matching keys via join (left) and merge (right). Note how a different order of tables results in a different order of columns.}
 
 \centering
 \begin{tabular}[t]{l|r|r}
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 4.552470\\
+A & 20 & 3.719993\\
 \hline
-A & 20 & 5.069592\\
+A & 20 & 3.171843\\
 \hline
-B & 19 & 5.590432\\
+B & 19 & 6.691370\\
 \hline
-B & 19 & 5.098795\\
+B & 19 & 5.142820\\
 \hline
-C & 30 & 5.862000\\
+C & 30 & 4.128087\\
 \hline
-C & 30 & 3.293651\\
+C & 30 & 1.893055\\
 \hline
-D & 22 & 1.254941\\
+D & 22 & 3.433498\\
 \hline
-D & 22 & 6.560998\\
+D & 22 & 2.419368\\
 \hline
 \end{tabular}
 \centering
@@ -4131,21 +4285,21 @@ D & 22 & 6.560998\\
 \hline
 ID & Report & Age\\
 \hline
-A & 4.552470 & 20\\
+A & 3.719993 & 20\\
 \hline
-A & 5.069592 & 20\\
+A & 3.171843 & 20\\
 \hline
-B & 5.590432 & 19\\
+B & 6.691370 & 19\\
 \hline
-B & 5.098795 & 19\\
+B & 5.142820 & 19\\
 \hline
-C & 5.862000 & 30\\
+C & 4.128087 & 30\\
 \hline
-C & 3.293651 & 30\\
+C & 1.893055 & 30\\
 \hline
-D & 1.254941 & 22\\
+D & 3.433498 & 22\\
 \hline
-D & 6.560998 & 22\\
+D & 2.419368 & 22\\
 \hline
 \end{tabular}
 \end{table}
@@ -4176,7 +4330,7 @@ To see each join in action, let us slightly modify the \texttt{reports} table to
 \end{Shaded}
 
 \begin{table}
-\caption{\label{tab:unnamed-chunk-179}Now demographics (left) and reports (right) table have unique keys ("D" for demographics, "E" for reports) without a match in the second table.}
+\caption{\label{tab:unnamed-chunk-187}Now demographics (left) and reports (right) table have unique keys ("D" for demographics, "E" for reports) without a match in the second table.}
 
 \centering
 \begin{tabular}[t]{l|r}
@@ -4197,21 +4351,21 @@ D & 22\\
 \hline
 ID & Report\\
 \hline
-A & 4.025461\\
+A & 3.482151\\
 \hline
-A & 3.584354\\
+A & 1.051506\\
 \hline
-B & 6.219907\\
+B & 6.068382\\
 \hline
-B & 3.765300\\
+B & 6.843066\\
 \hline
-C & 4.985474\\
+C & 1.406945\\
 \hline
-C & 2.855392\\
+C & 4.297865\\
 \hline
-E & 1.090241\\
+E & 6.580686\\
 \hline
-E & 1.260893\\
+E & 6.778709\\
 \hline
 \end{tabular}
 \end{table}
@@ -4227,23 +4381,23 @@ E & 1.260893\\
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-181}Inner join. Only rows for matching keys are merged}
+\caption{\label{tab:unnamed-chunk-189}Inner join. Only rows for matching keys are merged}
 \centering
 \begin{tabular}[t]{l|r|r}
 \hline
 ID & Report & Age\\
 \hline
-A & 4.025461 & 20\\
+A & 3.482151 & 20\\
 \hline
-A & 3.584354 & 20\\
+A & 1.051506 & 20\\
 \hline
-B & 6.219907 & 19\\
+B & 6.068382 & 19\\
 \hline
-B & 3.765300 & 19\\
+B & 6.843066 & 19\\
 \hline
-C & 4.985474 & 30\\
+C & 1.406945 & 30\\
 \hline
-C & 2.855392 & 30\\
+C & 4.297865 & 30\\
 \hline
 \end{tabular}
 \end{table}
@@ -4259,29 +4413,29 @@ In contrast, \textbf{full join} is the most liberal as it includes all rows from
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-183}Full join. All rows are merged, `NA` are used for missing values in rows from a complementary table}
+\caption{\label{tab:unnamed-chunk-191}Full join. All rows are merged, `NA` are used for missing values in rows from a complementary table}
 \centering
 \begin{tabular}[t]{l|r|r}
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 4.025461\\
+A & 20 & 3.482151\\
 \hline
-A & 20 & 3.584354\\
+A & 20 & 1.051506\\
 \hline
-B & 19 & 6.219907\\
+B & 19 & 6.068382\\
 \hline
-B & 19 & 3.765300\\
+B & 19 & 6.843066\\
 \hline
-C & 30 & 4.985474\\
+C & 30 & 1.406945\\
 \hline
-C & 30 & 2.855392\\
+C & 30 & 4.297865\\
 \hline
 D & 22 & NA\\
 \hline
-E & NA & 1.090241\\
+E & NA & 6.580686\\
 \hline
-E & NA & 1.260893\\
+E & NA & 6.778709\\
 \hline
 \end{tabular}
 \end{table}
@@ -4297,23 +4451,23 @@ E & NA & 1.260893\\
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-185}Left join. All rows from demographics tables are used and missing matching rows are filled with `NA`}
+\caption{\label{tab:unnamed-chunk-193}Left join. All rows from demographics tables are used and missing matching rows are filled with `NA`}
 \centering
 \begin{tabular}[t]{l|r|r}
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 4.025461\\
+A & 20 & 3.482151\\
 \hline
-A & 20 & 3.584354\\
+A & 20 & 1.051506\\
 \hline
-B & 19 & 6.219907\\
+B & 19 & 6.068382\\
 \hline
-B & 19 & 3.765300\\
+B & 19 & 6.843066\\
 \hline
-C & 30 & 4.985474\\
+C & 30 & 1.406945\\
 \hline
-C & 30 & 2.855392\\
+C & 30 & 4.297865\\
 \hline
 D & 22 & NA\\
 \hline
@@ -4331,27 +4485,27 @@ D & 22 & NA\\
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-187}Right join. All rows from reports tables are used and missing matching rows are filled with `NA`}
+\caption{\label{tab:unnamed-chunk-195}Right join. All rows from reports tables are used and missing matching rows are filled with `NA`}
 \centering
 \begin{tabular}[t]{l|r|r}
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 4.025461\\
+A & 20 & 3.482151\\
 \hline
-A & 20 & 3.584354\\
+A & 20 & 1.051506\\
 \hline
-B & 19 & 6.219907\\
+B & 19 & 6.068382\\
 \hline
-B & 19 & 3.765300\\
+B & 19 & 6.843066\\
 \hline
-C & 30 & 4.985474\\
+C & 30 & 1.406945\\
 \hline
-C & 30 & 2.855392\\
+C & 30 & 4.297865\\
 \hline
-E & NA & 1.090241\\
+E & NA & 6.580686\\
 \hline
-E & NA & 1.260893\\
+E & NA & 6.778709\\
 \hline
 \end{tabular}
 \end{table}
@@ -4370,7 +4524,7 @@ As noted above, you can also use more than one key.
 \end{Shaded}
 
 \begin{table}
-\caption{\label{tab:unnamed-chunk-189}Two identically named key columns: ID and Gender.}
+\caption{\label{tab:unnamed-chunk-197}Two identically named key columns: ID and Gender.}
 
 \centering
 \begin{tabular}[t]{l|l|r}
@@ -4391,13 +4545,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 2.867045\\
+A & M & 5.710133\\
 \hline
-B & F & 2.759981\\
+B & F & 5.673315\\
 \hline
-A & F & 1.238247\\
+A & F & 2.293083\\
 \hline
-B & M & 1.001560\\
+B & M & 1.753220\\
 \hline
 \end{tabular}
 \end{table}
@@ -4411,19 +4565,19 @@ B & M & 1.001560\\
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-191}Joining/merging two tables by ID and Gender.}
+\caption{\label{tab:unnamed-chunk-199}Joining/merging two tables by ID and Gender.}
 \centering
 \begin{tabular}[t]{l|l|r|r}
 \hline
 ID & Gender & Age & Report\\
 \hline
-A & M & 20 & 2.867045\\
+A & M & 20 & 5.710133\\
 \hline
-B & F & 19 & 2.759981\\
+B & F & 19 & 5.673315\\
 \hline
-A & F & 30 & 1.238247\\
+A & F & 30 & 2.293083\\
 \hline
-B & M & 22 & 1.001560\\
+B & M & 22 & 1.753220\\
 \hline
 \end{tabular}
 \end{table}
@@ -4443,7 +4597,7 @@ Finally, key columns can be named \emph{differently} in two tables. In this case
 \end{Shaded}
 
 \begin{table}
-\caption{\label{tab:unnamed-chunk-193}Differently named key columns. VPCode in demographics table corresponds to ID in reports; sex in demographics corresponds to Gender in reports}
+\caption{\label{tab:unnamed-chunk-201}Differently named key columns. VPCode in demographics table corresponds to ID in reports; sex in demographics corresponds to Gender in reports}
 
 \centering
 \begin{tabular}[t]{l|l|r}
@@ -4464,13 +4618,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 4.867500\\
+A & M & 2.328198\\
 \hline
-B & F & 2.741224\\
+B & F & 1.072300\\
 \hline
-A & F & 1.306175\\
+A & F & 5.961688\\
 \hline
-B & M & 3.077008\\
+B & M & 6.171258\\
 \hline
 \end{tabular}
 \end{table}
@@ -4484,19 +4638,19 @@ B & M & 3.077008\\
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-195}Joining tables by matching VPCode to ID and Sex to Gender.}
+\caption{\label{tab:unnamed-chunk-203}Joining tables by matching VPCode to ID and Sex to Gender.}
 \centering
 \begin{tabular}[t]{l|l|r|r}
 \hline
 VPCode & Sex & Age & Report\\
 \hline
-A & F & 30 & 1.306175\\
+A & F & 30 & 5.961688\\
 \hline
-A & M & 20 & 4.867500\\
+A & M & 20 & 2.328198\\
 \hline
-B & F & 19 & 2.741224\\
+B & F & 19 & 1.072300\\
 \hline
-B & M & 22 & 3.077008\\
+B & M & 22 & 6.171258\\
 \hline
 \end{tabular}
 \end{table}
@@ -4554,7 +4708,7 @@ And, also recall, that quite often data is stored in a wide format that is easie
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-198}Wide non-tidy table.}
+\caption{\label{tab:unnamed-chunk-206}Wide non-tidy table.}
 \centering
 \begin{tabular}[t]{c|c|c|c|c}
 \hline
@@ -4594,7 +4748,7 @@ I assume that table presented above is in \texttt{widish\_df} table defined abov
 
 \textbackslash begin\{table\}
 
-\textbackslash caption\{\label{tab:unnamed-chunk-200}Long version of widish\_df table with default names for new columns.\}
+\textbackslash caption\{\label{tab:unnamed-chunk-208}Long version of widish\_df table with default names for new columns.\}
 \centering
 
 \begin{tabular}[t]{r|l|l|r}
@@ -4642,7 +4796,7 @@ When you compare the two tables, you will see that original three columns × fou
 
 \textbackslash begin\{table\}
 
-\textbackslash caption\{\label{tab:unnamed-chunk-202}Long version of widish\_df table with \emph{custom} names for new columns.\}
+\textbackslash caption\{\label{tab:unnamed-chunk-210}Long version of widish\_df table with \emph{custom} names for new columns.\}
 \centering
 
 \begin{tabular}[t]{r|l|l|r}
@@ -4709,7 +4863,7 @@ If you want to stick to base R, you can pivot longer via \href{https://stat.ethz
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-204}Same table pivoted via reshape.}
+\caption{\label{tab:unnamed-chunk-212}Same table pivoted via reshape.}
 \centering
 \begin{tabular}[t]{l|r|l|l|r}
 \hline
@@ -4800,13 +4954,13 @@ Do exercise 5.
 
 Now you have a table that has median and MAD values for each combination and item. Plot them to compare them visually. Use median responses for y-value of points and median±MAD for error bars. Use facets and color to make it easier to identify the items and conditions. My take on the plot is below, do you think we should expect to find difference between the conditions?
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-207-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-215-1} \end{center}
 
 Do exercise 6.
 
 Perform similar analysis but do not group data and summarize the data. Instead, use box plots to show the variability. Which visualization do you prefer?
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-208-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-216-1} \end{center}
 
 Do exercise 7.
 
@@ -4837,7 +4991,7 @@ Or, using explicit \texttt{id\_cols}
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-211}Our table is wide again!}
+\caption{\label{tab:unnamed-chunk-219}Our table is wide again!}
 \centering
 \begin{tabular}[t]{r|l|r|r|r}
 \hline
@@ -4898,29 +5052,29 @@ Let us take a look at the importance of \texttt{id\_cols}. Imagine that we have 
 \hline
 Participant & Face & Scale & Response & RT\\
 \hline
-1 & M-1 & Symmetry & 6 & 1.86\\
+1 & M-1 & Symmetry & 6 & 0.73\\
 \hline
-1 & M-1 & Attractiveness & 4 & 1.43\\
+1 & M-1 & Attractiveness & 4 & 1.82\\
 \hline
-1 & M-1 & Trustworthiness & 3 & 1.38\\
+1 & M-1 & Trustworthiness & 3 & 1.64\\
 \hline
-1 & M-2 & Symmetry & 4 & 1.61\\
+1 & M-2 & Symmetry & 4 & 1.08\\
 \hline
-1 & M-2 & Attractiveness & 7 & 0.48\\
+1 & M-2 & Attractiveness & 7 & 1.13\\
 \hline
-1 & M-2 & Trustworthiness & 6 & 0.37\\
+1 & M-2 & Trustworthiness & 6 & 1.94\\
 \hline
-2 & M-1 & Symmetry & 5 & 1.21\\
+2 & M-1 & Symmetry & 5 & 1.73\\
 \hline
-2 & M-1 & Attractiveness & 2 & 1.72\\
+2 & M-1 & Attractiveness & 2 & 0.39\\
 \hline
-2 & M-1 & Trustworthiness & 1 & 2.64\\
+2 & M-1 & Trustworthiness & 1 & 1.00\\
 \hline
-2 & M-2 & Symmetry & 3 & 1.66\\
+2 & M-2 & Symmetry & 3 & 0.58\\
 \hline
-2 & M-2 & Attractiveness & 7 & 0.35\\
+2 & M-2 & Attractiveness & 7 & 0.17\\
 \hline
-2 & M-2 & Trustworthiness & 2 & 4.31\\
+2 & M-2 & Trustworthiness & 2 & 1.24\\
 \hline
 \end{tabular}
 
@@ -4937,29 +5091,29 @@ For \href{https://tidyr.tidyverse.org/reference/pivot_wider.html}{pivot\_wider},
 \hline
 Participant & Face & RT & Symmetry & Attractiveness & Trustworthiness\\
 \hline
-1 & M-1 & 1.86 & 6 & NA & NA\\
+1 & M-1 & 0.73 & 6 & NA & NA\\
 \hline
-1 & M-1 & 1.43 & NA & 4 & NA\\
+1 & M-1 & 1.82 & NA & 4 & NA\\
 \hline
-1 & M-1 & 1.38 & NA & NA & 3\\
+1 & M-1 & 1.64 & NA & NA & 3\\
 \hline
-1 & M-2 & 1.61 & 4 & NA & NA\\
+1 & M-2 & 1.08 & 4 & NA & NA\\
 \hline
-1 & M-2 & 0.48 & NA & 7 & NA\\
+1 & M-2 & 1.13 & NA & 7 & NA\\
 \hline
-1 & M-2 & 0.37 & NA & NA & 6\\
+1 & M-2 & 1.94 & NA & NA & 6\\
 \hline
-2 & M-1 & 1.21 & 5 & NA & NA\\
+2 & M-1 & 1.73 & 5 & NA & NA\\
 \hline
-2 & M-1 & 1.72 & NA & 2 & NA\\
+2 & M-1 & 0.39 & NA & 2 & NA\\
 \hline
-2 & M-1 & 2.64 & NA & NA & 1\\
+2 & M-1 & 1.00 & NA & NA & 1\\
 \hline
-2 & M-2 & 1.66 & 3 & NA & NA\\
+2 & M-2 & 0.58 & 3 & NA & NA\\
 \hline
-2 & M-2 & 0.35 & NA & 7 & NA\\
+2 & M-2 & 0.17 & NA & 7 & NA\\
 \hline
-2 & M-2 & 4.31 & NA & NA & 2\\
+2 & M-2 & 1.24 & NA & NA & 2\\
 \hline
 \end{tabular}
 
@@ -5630,6 +5784,1599 @@ You have just \emph{mapped} inputs on outputs using \texttt{read\_csv()} but fun
 \end{verbatim}
 
 Do exercise 12.
+
+\hypertarget{seminar11}{%
+\chapter{Statistical modeling}\label{seminar11}}
+
+I suspect that this is a seminar that you were waiting for the most as it finally tells you how to call statistical functions in R. However, from my perspective, it is the least useful seminar in the entire course because if you know statistics and you know which specific tool you need, figuring out how to use it in R is fairly trivial. Conversely, if your knowledge of statistics is approximate, knowing how to call functions will do you little good. The catch about statistical models is that they are very easy to run (even if you implement them by hand from scratch) but they are easy to misuse and very hard to interpret\footnote{In the Statistical Rethinking seminar we spend three seminars learning how to understand and interpret a simple linear multiple regression with just two predictors. And the conclusion is that even in this simple case, you are not guaranteed to fully understand it. And if you think that you can easily interpret an interaction term even for two continuous predictors\ldots{}}.
+
+To make things worse, computers and algorithms do not care. In absolute majority of cases, statistical models will happily accept any input you provide, even if it is completely unsuitable, and spit out numbers. Unfortunately, it is on you, not on the computer, to know what you are doing and whether results even make sense. The only solution to this problem: do not spare any effort to learn statistics. Having a solid understanding of a basic regression analysis will help you in figuring out which statistical tools are applicable and, even more importantly, which will definitely misguide you. This is why I will give an general overview with some examples simulations but I will not explain here when and why you should use a particular tool or how to interpret the outputs. Want to know more? Attend my \textbf{Statistical Rethinking} seminar or read an excellent \href{https://www.routledge.com/Statistical-Rethinking-A-Bayesian-Course-with-Examples-in-R-and-STAN/McElreath/p/book/9780367139919}{book} by Richard McElreath that the seminar is based on.
+
+\hypertarget{formula-notation}{%
+\section{Formula notation}\label{formula-notation}}
+
+Using statistical models in R is particularly easy because most packages make use of a \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html}{formula} to describe a model. Different functions and packages interpret the formula \emph{mostly} the same way with differences arising due to how random effects or additional parameters are described. Here is an example of a formula:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{y }\SpecialCharTok{\textasciitilde{}} \DecValTok{1} \SpecialCharTok{+}\NormalTok{ x1 }\SpecialCharTok{+}\NormalTok{ x2 }\SpecialCharTok{+}\NormalTok{ x1}\SpecialCharTok{:}\NormalTok{x2}
+\end{Highlighting}
+\end{Shaded}
+
+It says that the outcome variable \texttt{y} should be a modeled as a linear combination of an intercept \texttt{1} (can be omitted in a formula), predictor variables \texttt{x1} and \texttt{x2}, plus their interaction \texttt{x1:x2}. This also assume that all these variables are in a single table that you also supply to the function (typically called \texttt{data} parameter). Same formula can be shortened by using \texttt{*} which means ``all predictors and their interaction'', thus (omitting redundant intercept)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{y }\SpecialCharTok{\textasciitilde{}}\NormalTok{ x1}\SpecialCharTok{*}\NormalTok{x2}
+\end{Highlighting}
+\end{Shaded}
+
+You can also \emph{exclude} specific terms via \texttt{-}. So, if you insist that the intercept \emph{must} go through 0, you write ``exclude intercept term'' as \texttt{-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{y }\SpecialCharTok{\textasciitilde{}}\NormalTok{ x1}\SpecialCharTok{*}\NormalTok{x2 }\SpecialCharTok{{-}} \DecValTok{1}
+\end{Highlighting}
+\end{Shaded}
+
+Or you can exclude a specific term or an interaction. The two formulas below are equivalent with a main effect for \texttt{x2} and an interaction term but no main effect for \texttt{x1}. However, I would generally discourage you from using \texttt{-} as the first formula is much harder to understand (or, much easier to misunderstand).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{y }\SpecialCharTok{\textasciitilde{}}\NormalTok{ x1}\SpecialCharTok{*}\NormalTok{x2 }\SpecialCharTok{{-}}\NormalTok{ x1}
+\NormalTok{y }\SpecialCharTok{\textasciitilde{}}\NormalTok{ x2 }\SpecialCharTok{+}\NormalTok{ x1}\SpecialCharTok{:}\NormalTok{x2}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{correlation}{%
+\section{Correlation}\label{correlation}}
+
+To compute correlation, use function \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.html}{cor()}. You have a choice of \texttt{method}, either \texttt{"pearson"} (default, Pearson's product moment correlation coefficient), or rank-based \texttt{"kendall"} (Kendall's tau) or \texttt{"spearman"} (Spearman's rho).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df }\OtherTok{\textless{}{-}} 
+  \FunctionTok{tibble}\NormalTok{(}\AttributeTok{x =} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{y =} \FunctionTok{rnorm}\NormalTok{(}\FunctionTok{n}\NormalTok{(), x, }\FloatTok{0.5}\NormalTok{))}
+\FunctionTok{cor}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{x, df}\SpecialCharTok{$}\NormalTok{y, }\AttributeTok{method=}\StringTok{"pearson"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.9163366
+\end{verbatim}
+
+Alternatively, you can use \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.test.html}{cor.test()} that also computes test statistics and significance.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cor\_result }\OtherTok{\textless{}{-}} \FunctionTok{cor.test}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{x, df}\SpecialCharTok{$}\NormalTok{y, }\AttributeTok{method=}\StringTok{"pearson"}\NormalTok{)}
+\NormalTok{cor\_result}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pearson's product-moment correlation
+## 
+## data:  df$x and df$y
+## t = 22.655, df = 98, p-value < 2.2e-16
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  0.8779334 0.9430243
+## sample estimates:
+##       cor 
+## 0.9163366
+\end{verbatim}
+
+\texttt{cor.test} returns a list, so you can access its individual elements\footnote{Use (names()){[}\url{https://stat.ethz.ch/R-manual/R-devel/library/base/html/names.html}{]} function to get names of all elements.} via a double-bracket or \texttt{\$} notation.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cor\_result}\SpecialCharTok{$}\NormalTok{p.value}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 9.720871e-41
+\end{verbatim}
+
+Bayesian correlation with a posterior distribution for the correlation coefficient and Bayes Factor as a measure of significance, can be computed via \texttt{correlationBF()} function, which is part of \href{https://richarddmorey.github.io/BayesFactor}{BayesFactor} package.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(BayesFactor)}
+\FunctionTok{correlationBF}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{x, df}\SpecialCharTok{$}\NormalTok{y)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Bayes factor analysis
+## --------------
+## [1] Alt., r=0.333 : 1.049887e+36 ±0%
+## 
+## Against denominator:
+##   Null, rho = 0 
+## ---
+## Bayes factor type: BFcorrelation, Jeffreys-beta*
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cor\_bf }\OtherTok{\textless{}{-}} \FunctionTok{correlationBF}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{x, df}\SpecialCharTok{$}\NormalTok{y, }\AttributeTok{posterior =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{iterations=}\DecValTok{1000}\NormalTok{)}
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data=}\ConstantTok{NULL}\NormalTok{, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\FunctionTok{c}\NormalTok{(cor\_bf[, }\StringTok{"rho"}\NormalTok{]))) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{bins=}\DecValTok{50}\NormalTok{, ) }\SpecialCharTok{+} 
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Pearson\textquotesingle{}s rho"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-266-1.pdf}
+
+\hypertarget{pairwise-comparisons}{%
+\section{Pairwise comparisons}\label{pairwise-comparisons}}
+
+For pairwise comparisons for normally distributed data, you can use Student's t-Test via \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/t.test.html}{t.test()}. Here, I generate to \texttt{x} as a normally distributed normal variable and \texttt{y}, as a normally distributed variable random whose mean is \texttt{x+0.5}. I am using library \href{https://github.com/eclarke/ggbeeswarm}{ggbeeswarm} to generate the nicely looking cloud of dots.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{14454}\NormalTok{)}
+\NormalTok{df }\OtherTok{\textless{}{-}} 
+  \FunctionTok{tibble}\NormalTok{(}\AttributeTok{x =} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{, }\AttributeTok{mean =} \DecValTok{1}\NormalTok{, }\AttributeTok{sd =} \DecValTok{1}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{y =} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{, }\AttributeTok{mean =}\NormalTok{ x }\SpecialCharTok{+} \FloatTok{0.3}\NormalTok{, }\AttributeTok{sd =} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-268-1.pdf}
+
+You can perform \emph{t-test} assuming that samples in two variables are independent
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{t.test}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{x, df}\SpecialCharTok{$}\NormalTok{y, }\AttributeTok{paired =} \ConstantTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Welch Two Sample t-test
+## 
+## data:  df$x and df$y
+## t = -1.8603, df = 184.37, p-value = 0.06443
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.65829852  0.01933491
+## sample estimates:
+## mean of x mean of y 
+##  1.018298  1.337780
+\end{verbatim}
+
+Or, that they are paired, i.e., repeated-measures design (note the change in estimates, statistics, and significance).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{t.test}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{x, df}\SpecialCharTok{$}\NormalTok{y, }\AttributeTok{paired =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Paired t-test
+## 
+## data:  df$x and df$y
+## t = -3.3432, df = 99, p-value = 0.00117
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.5090948 -0.1298688
+## sample estimates:
+## mean of the differences 
+##              -0.3194818
+\end{verbatim}
+
+You can also use formula notation, if one variable describes grouping
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df\_group }\OtherTok{\textless{}{-}}
+  \FunctionTok{tibble}\NormalTok{(}\AttributeTok{x =} \FunctionTok{c}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{x, df}\SpecialCharTok{$}\NormalTok{y),}
+         \AttributeTok{group =} \FunctionTok{factor}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\StringTok{"A"}\NormalTok{, }\DecValTok{100}\NormalTok{), }\FunctionTok{rep}\NormalTok{(}\StringTok{"B"}\NormalTok{, }\DecValTok{100}\NormalTok{))))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{r|l}
+\hline
+x & group\\
+\hline
+1.3776580 & A\\
+\hline
+1.8338910 & A\\
+\hline
+-0.3034055 & A\\
+\hline
+1.3079381 & A\\
+\hline
+\end{tabular}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{t.test}\NormalTok{(x }\SpecialCharTok{\textasciitilde{}}\NormalTok{ group, }\AttributeTok{data=}\NormalTok{df\_group, }\AttributeTok{paired=}\ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Paired t-test
+## 
+## data:  x by group
+## t = -3.3432, df = 99, p-value = 0.00117
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.5090948 -0.1298688
+## sample estimates:
+## mean of the differences 
+##              -0.3194818
+\end{verbatim}
+
+A Bayesian version is provided via \texttt{ttestBF()} function, which is part of the \href{https://richarddmorey.github.io/BayesFactor}{BayesFactor} package.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(BayesFactor)}
+\FunctionTok{ttestBF}\NormalTok{(}\AttributeTok{x =}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{x, }\AttributeTok{y=}\NormalTok{df}\SpecialCharTok{$}\NormalTok{y, }\AttributeTok{paired=}\ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Bayes factor analysis
+## --------------
+## [1] Alt., r=0.707 : 19.27724 ±0%
+## 
+## Against denominator:
+##   Null, mu = 0 
+## ---
+## Bayes factor type: BFoneSample, JZS
+\end{verbatim}
+
+For a non-parametric pairwise test, you can use Wilcoxon Rank Sum and Signed Rank Tests \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/wilcox.test.html}{wilcox.test()}. Package \href{http://coin.r-forge.r-project.org/}{coin} implements many tests, including permutation tests, such as Two- and K-sample Fisher-Pitman permutation test via \texttt{oneway\_test()} that tests for the equality of the distributions in \emph{independent} groups, see \href{https://cran.r-project.org/web/packages/coin/vignettes/coin.pdf}{vignette} for details.
+
+\hypertarget{anova}{%
+\section{ANOVA}\label{anova}}
+
+\textbf{AN}alysis \textbf{O}f \textbf{VA}riance is probably the most widely used analysis in social sciences. However, I would strongly suggest considering \protect\hyperlink{GLMM}{generalized linear mixed models} instead. Unlike ANOVA they can work when residuals are not normally distributed (binomial, count, Likert-scale ordered categorical, proportions data, etc.), they can tolerate missing values, and they tend to overfit less (their results are likely to better generalize to future data) by assuming that individual participants are more average than they appear in the raw data (so-called shrinkage).
+
+First, let us simulate data for ten participants and their responses, assuming that condition \texttt{B} increases their responses by 2 (arbitrary) units and \texttt{C} by 3\footnote{\href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html}{set.seed()} function initializes random numbers generator to a specific state to get a reproducible but random (as in, sequentially uncorrelated) sequence of values.}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{519264}\NormalTok{)}
+\NormalTok{df\_anova }\OtherTok{\textless{}{-}}
+  \CommentTok{\# generate ten participants with five trials per condition}
+  \FunctionTok{expand\_grid}\NormalTok{(}\AttributeTok{Participant  =} \FunctionTok{factor}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{),}
+              \AttributeTok{Condition =} \FunctionTok{factor}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\StringTok{"A"}\NormalTok{, }\DecValTok{3}\NormalTok{), }\FunctionTok{rep}\NormalTok{(}\StringTok{"B"}\NormalTok{, }\DecValTok{3}\NormalTok{), }\FunctionTok{rep}\NormalTok{(}\StringTok{"C"}\NormalTok{, }\DecValTok{3}\NormalTok{)))) }\SpecialCharTok{\%\textgreater{}\%}
+  
+  \CommentTok{\# decide on a SINGLE baseline (intercept) for each participant}
+  \FunctionTok{group\_by}\NormalTok{(Participant) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Intercept =} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{5}\NormalTok{, }\FloatTok{2.5}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  
+  \CommentTok{\# simulate normally distributed responses, assuming that are 3 units higher for condition "B"}
+  \FunctionTok{ungroup}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Response =} \FunctionTok{rnorm}\NormalTok{(}\FunctionTok{n}\NormalTok{(), Intercept }\SpecialCharTok{+} \DecValTok{2} \SpecialCharTok{*} \FunctionTok{as.integer}\NormalTok{(Condition }\SpecialCharTok{==} \StringTok{"B"}\NormalTok{) }\SpecialCharTok{+} \DecValTok{3} \SpecialCharTok{*} \FunctionTok{as.integer}\NormalTok{(Condition }\SpecialCharTok{==} \StringTok{"C"}\NormalTok{), }\FloatTok{1.5}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{Intercept)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-276-1.pdf}
+The base R ANOVA function is called \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/aov.html}{aov()}, however, it does not support repeated measures. Instead, you can use function \texttt{anova\_test} from package \href{https://github.com/kassambara/rstatix}{rstatix}
+
+For the \emph{repeated-measures} ANOVA, we need to specify column with identity of participants via parameter \texttt{wid}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(rstatix)}
+\FunctionTok{anova\_test}\NormalTok{(}\AttributeTok{data=}\NormalTok{df\_anova, Response }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Condition, }\AttributeTok{wid=}\NormalTok{Participant)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## ANOVA Table (type II tests)
+## 
+##      Effect DFn DFd     F     p p<.05   ges
+## 1 Condition   2  87 7.418 0.001     * 0.146
+\end{verbatim}
+
+You can perform various pairwise post-hoc tests, e.g.~Tukey
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{tukey\_hsd}\NormalTok{(df\_anova, Response }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Condition)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{tukey\_hsd}\NormalTok{(df\_anova, Response }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Condition) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{l|l|l|r|r|r|r|r|l}
+\hline
+term & group1 & group2 & null.value & estimate & conf.low & conf.high & p.adj & p.adj.signif\\
+\hline
+Condition & A & B & 0 & 1.8015391 & 0.2763798 & 3.326698 & 0.01640 & *\\
+\hline
+Condition & A & C & 0 & 2.3560918 & 0.8309325 & 3.881251 & 0.00115 & **\\
+\hline
+Condition & B & C & 0 & 0.5545527 & -0.9706066 & 2.079712 & 0.66200 & ns\\
+\hline
+\end{tabular}
+
+A Bayesian ANOVA with posterior distributions for individual coefficients and significance via Bayes Factor can be performed
+via \texttt{anovaBF} function from \href{https://richarddmorey.github.io/BayesFactor}{BayesFactor} package.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{anovaBF}\NormalTok{(Response }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Condition }\SpecialCharTok{+}\NormalTok{ Participant, }\AttributeTok{whichRandom=}\StringTok{"Participant"}\NormalTok{, }\AttributeTok{data=}\FunctionTok{data.frame}\NormalTok{(df\_anova))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Bayes factor analysis
+## --------------
+## [1] Condition + Participant : 55450.04 ±0.85%
+## 
+## Against denominator:
+##   Response ~ Participant 
+## ---
+## Bayes factor type: BFlinearModel, JZS
+\end{verbatim}
+
+If you decide for repeated-measure ANOVA, I would suggest using and reporting results for both frequentist and Bayesian ANOVA, as it will demonstrate that they do not depend on the choice of the statistical approach.
+
+\hypertarget{GLMM}{%
+\section{(Generalized) Linear Models}\label{GLMM}}
+
+Base R provides function to perform linear regression \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/lm.html}{lm()} and generalized linear models \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/glm.html}{glm()} for binomial, count, and other types of data.
+
+Let us generate a simple linear dependence between two parameters and see how \texttt{lm()} will infer the dependence. Our formula will be
+\[ y = 20 + 4 * x + \epsilon\]
+where \(\epsilon\) is normally distributed noise.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df\_lm }\OtherTok{\textless{}{-}}
+  \FunctionTok{tibble}\NormalTok{(}\AttributeTok{x =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{100}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{y =} \FunctionTok{rnorm}\NormalTok{(}\FunctionTok{n}\NormalTok{(), }\DecValTok{20} \SpecialCharTok{+} \DecValTok{4} \SpecialCharTok{*}\NormalTok{ x, }\DecValTok{50}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-281-1.pdf}
+
+Now let us fit the linear model using formula \texttt{y\ \textasciitilde{}\ x} and use \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/summary.lm.html}{summary()} function to see the details.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lm\_fit }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(y }\SpecialCharTok{\textasciitilde{}}\NormalTok{ x, }\AttributeTok{data=}\NormalTok{df\_lm)}
+\FunctionTok{summary}\NormalTok{(lm\_fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = y ~ x, data = df_lm)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -157.448  -30.581   -0.077   33.018  109.173 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  16.4483     9.1389    1.80    0.075 .  
+## x             4.0701     0.1571   25.91   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 45.35 on 98 degrees of freedom
+## Multiple R-squared:  0.8726, Adjusted R-squared:  0.8713 
+## F-statistic: 671.1 on 1 and 98 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+As you can see, values for both intercept and the slope are very close to our original design. If you need to extract information about individual coefficients, I recommend \texttt{tidy()} function from \href{https://github.com/tidymodels/broom}{broom} package that returns information about the model in a ``tidy'' format:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(broom)}
+\FunctionTok{tidy}\NormalTok{(lm\_fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{l|r|r|r|r}
+\hline
+term & estimate & std.error & statistic & p.value\\
+\hline
+(Intercept) & 16.448278 & 9.1389367 & 1.799802 & 0.074969\\
+\hline
+x & 4.070054 & 0.1571132 & 25.905235 & 0.000000\\
+\hline
+\end{tabular}
+
+\hypertarget{generalized-linear-mixed-models}{%
+\section{(Generalized) Linear Mixed Models}\label{generalized-linear-mixed-models}}
+
+Generalized linear mixed models allow you to incorporate information about random factors into the model. One of the most popular packages in R is \href{https://github.com/lme4/lme4}{lme4}. Let us use LMM on data we generated for ANOVA. Here, we specify that we would like to have individual slopes for each participants via \texttt{(1\textbar{}Participant)} notation\footnote{Here, each participant must have their own intercept but they all share same single slope for \texttt{Condition}. You can also specify that they individual slopes that are either correlated or uncorrelated with their intercept.}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(lme4)}
+\NormalTok{lmer\_fit }\OtherTok{\textless{}{-}} \FunctionTok{lmer}\NormalTok{(Response }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Condition }\SpecialCharTok{+}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{|}\NormalTok{Participant), }\AttributeTok{data=}\NormalTok{df\_anova)}
+\FunctionTok{summary}\NormalTok{(lmer\_fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Linear mixed model fit by REML ['lmerMod']
+## Formula: Response ~ Condition + (1 | Participant)
+##    Data: df_anova
+## 
+## REML criterion at convergence: 359.6
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -2.3188 -0.7330 -0.1038  0.8131  2.0589 
+## 
+## Random effects:
+##  Groups      Name        Variance Std.Dev.
+##  Participant (Intercept) 3.966    1.991   
+##  Residual                2.444    1.563   
+## Number of obs: 90, groups:  Participant, 10
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)   4.5005     0.6914   6.509
+## ConditionB    1.8015     0.4037   4.463
+## ConditionC    2.3561     0.4037   5.836
+## 
+## Correlation of Fixed Effects:
+##            (Intr) CndtnB
+## ConditionB -0.292       
+## ConditionC -0.292  0.500
+\end{verbatim}
+
+To get tidy summary you need to use function \texttt{tidy} but from \href{https://github.com/bbolker/broom.mixed}{broom.mixed}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(broom.mixed)}
+\FunctionTok{tidy}\NormalTok{(lmer\_fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{l|l|l|r|r|r}
+\hline
+effect & group & term & estimate & std.error & statistic\\
+\hline
+fixed & NA & (Intercept) & 4.500512 & 0.6914189 & 6.509097\\
+\hline
+fixed & NA & ConditionB & 1.801539 & 0.4036827 & 4.462760\\
+\hline
+fixed & NA & ConditionC & 2.356092 & 0.4036827 & 5.836495\\
+\hline
+ran\_pars & Participant & sd\_\_(Intercept) & 1.991432 & NA & NA\\
+\hline
+ran\_pars & Residual & sd\_\_Observation & 1.563456 & NA & NA\\
+\hline
+\end{tabular}
+
+To also get information about formal statistical significance, you can use an extension package \href{https://github.com/runehaubo/lmerTestR}{lmerTest}\footnote{I use \texttt{lmerTest::} to tell R that I need function \texttt{lmer()} from package \texttt{lmerTest} and not from \texttt{lme4} as before}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(lmerTest)}
+\NormalTok{lmert\_fit }\OtherTok{\textless{}{-}}\NormalTok{ lmerTest}\SpecialCharTok{::}\FunctionTok{lmer}\NormalTok{(Response }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Condition }\SpecialCharTok{+}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{|}\NormalTok{Participant), }\AttributeTok{data=}\NormalTok{df\_anova)}
+\FunctionTok{summary}\NormalTok{(lmert\_fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+## lmerModLmerTest]
+## Formula: Response ~ Condition + (1 | Participant)
+##    Data: df_anova
+## 
+## REML criterion at convergence: 359.6
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -2.3188 -0.7330 -0.1038  0.8131  2.0589 
+## 
+## Random effects:
+##  Groups      Name        Variance Std.Dev.
+##  Participant (Intercept) 3.966    1.991   
+##  Residual                2.444    1.563   
+## Number of obs: 90, groups:  Participant, 10
+## 
+## Fixed effects:
+##             Estimate Std. Error      df t value Pr(>|t|)    
+## (Intercept)   4.5005     0.6914 11.4337   6.509 3.64e-05 ***
+## ConditionB    1.8015     0.4037 78.0000   4.463 2.69e-05 ***
+## ConditionC    2.3561     0.4037 78.0000   5.836 1.16e-07 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Correlation of Fixed Effects:
+##            (Intr) CndtnB
+## ConditionB -0.292       
+## ConditionC -0.292  0.500
+\end{verbatim}
+
+Again, we can use \texttt{tidy} to get coefficients information in a single table.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{tidy}\NormalTok{(lmert\_fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{l|l|l|r|r|r|r|r}
+\hline
+effect & group & term & estimate & std.error & statistic & df & p.value\\
+\hline
+fixed & NA & (Intercept) & 4.500512 & 0.6914189 & 6.509097 & 11.43367 & 3.64e-05\\
+\hline
+fixed & NA & ConditionB & 1.801539 & 0.4036827 & 4.462760 & 78.00000 & 2.69e-05\\
+\hline
+fixed & NA & ConditionC & 2.356092 & 0.4036827 & 5.836495 & 78.00000 & 1.00e-07\\
+\hline
+ran\_pars & Participant & sd\_\_(Intercept) & 1.991432 & NA & NA & NA & NA\\
+\hline
+ran\_pars & Residual & sd\_\_Observation & 1.563456 & NA & NA & NA & NA\\
+\hline
+\end{tabular}
+
+Note that \texttt{lmer()} functions provide information about difference of each condition to the baseline (condition \texttt{A}) not no ANOVA-style significance for the ``overall'' effect of condition. For this, you can use function \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/add1.html}{drop1}, which test for a variable significance by dropping it from a model and checking whether it performed significantly worse \emph{without} it.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{drop1}\NormalTok{(lmert\_fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Single term deletions using Satterthwaite's method:
+## 
+## Model:
+## Response ~ Condition + (1 | Participant)
+##           Sum Sq Mean Sq NumDF DenDF F value    Pr(>F)    
+## Condition 91.042  45.521     2    78  18.623 2.446e-07 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+You can also use Bayesian generalized linear modeling via \href{https://mc-stan.org/rstanarm/}{rstanarm} and \href{https://github.com/paul-buerkner/brms}{BRMS} packages. The former is somewhat faster, as it does not require model compilation (makes big difference when data is small but you test a lot of models), but is less flexible.
+
+\hypertarget{practice}{%
+\section{Practice}\label{practice}}
+
+For practice, we will use data from a gamification experiment. Participant performed the same challenging task setup as a typical (read, boring) experiment or styled as a game with trial score, combos, high score table, achievements, etc. The idea was to investigate whether this shallow gamification (there was no story and all elements were present only before or after each trial and provided no information on the task itself) would alter (hopefully, improve) their performance. We quantified it via proportion of correct responses, response time, and score achieved for each trial (that one, you will need to compute yourself). Below, we would like to understand effects of
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Experimental group coded in variable \texttt{Condition}, either \texttt{"experiment"} or \texttt{"game"}.
+\item
+  Task difficulty controller via cue-onset asynchrony. Participants could response while the stimulus was still on the scree (COA = -100 ms), shortly after it disappeared (COA=100 ms), or after a delay (COA = 1000 ms). We would expect that task is harder to longer COAs.
+\item
+  Perceptual learning. As participants do the task, the become better at it and are likely to become both faster and more accurate for later blocks. So we need to incorporate that improvement over different blocks into our model. The overall block index is coded in \texttt{Block} variable but we will need to create a new variable \texttt{COABlock} that will encode index of the block within each difficulty.
+\end{enumerate}
+
+You will need to load data, preprocess data, plot accuracy, response times, and score relative for each condition, difficulty, and difficulty block, perform formal statistical analysis to see whether any of the factor have an effect. So, first, download \href{data/gamification.zip}{gamification.zip} and unzip into your R-seminar project folder. You should get \emph{gamification} subfolder with all the files. There will be no template notebook, create it from scratch yourself and keep it organized, e.g., headings, comments, chunked code, etc.
+
+\hypertarget{read-files-and-preprocess-data}{%
+\subsection*{Read files and preprocess data}\label{read-files-and-preprocess-data}}
+\addcontentsline{toc}{subsection}{Read files and preprocess data}
+
+The two steps should be a single pipe.
+1. Read and merge all CSV files in \emph{gamification} folder into a single table. It is ``German Excel'' formatted with \texttt{:} as a delimiter and \texttt{,} as a decimal point. To perform it most cleanly, use \href{https://readr.tidyverse.org/reference/read_delim.html}{read\_delim}
+function that allows you to specify the delimiter via \texttt{delim} parameter and the decimal point via \texttt{locale} parameter. You will need to read on how to specify the \href{https://readr.tidyverse.org/reference/locale.html}{locale} first. My advice, debug reading on a single file and then add reading-and-merging either via for loop or purrr mapping.
+2. Compute whether response on each trial was correct (\texttt{Response} is equal to \texttt{Match} variable) and store it in \texttt{Correct} column. It is already present in the table but due to software glitch, some values are not correct. In general, it is not a bad idea to recompute such variables and compare them with table in the table, just to be on the safe side.
+3. Drop columns \texttt{SessionID}, \texttt{Color0}, \texttt{Color1}, \texttt{Color2}, \texttt{Color3}, \texttt{Which} and \texttt{FlipComplimentary}. They are not relevant for the analysis and it is easier to look at uncluttered data.
+
+\begin{tabular}{l|l|r|r|r|l|l|l|r|l|r}
+\hline
+Observer & Condition & Block & Trial & COA & Target & Match & Response & RT & Correct & OnsetDelay\\
+\hline
+AAF1997w & experiment & 1 & 1 & -100 & column & TRUE & FALSE & 0.9619999 & FALSE & 0.7110000\\
+\hline
+AAF1997w & experiment & 1 & 2 & -100 & column & FALSE & FALSE & 0.8230000 & TRUE & 0.7710001\\
+\hline
+AAF1997w & experiment & 1 & 3 & -100 & row & FALSE & FALSE & 0.9500000 & TRUE & 1.3230000\\
+\hline
+AAF1997w & experiment & 1 & 4 & -100 & column & TRUE & TRUE & 0.8500001 & TRUE & 0.8880000\\
+\hline
+\end{tabular}
+
+Now we need to compute block index per difficulty (and per participant and condition). We will spin it off as a separate table and then join it with the main one.
+1. Generate a summary table with a single row per \texttt{Observer}, \texttt{Condition}, \texttt{COA}, \texttt{Block}. Hint, you can use \texttt{summarise(.groups="drop")} with no additional arguments to get one row per group.
+
+\begin{tabular}{l|l|r|r}
+\hline
+Observer & Condition & COA & Block\\
+\hline
+AAF1997w & experiment & -100 & 1\\
+\hline
+AAF1997w & experiment & -100 & 6\\
+\hline
+AAF1997w & experiment & -100 & 7\\
+\hline
+AAF1997w & experiment & -100 & 10\\
+\hline
+\end{tabular}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Regroup the table by \texttt{Observer}, \texttt{Condition}, and \texttt{COA} and compute \texttt{COABLock} block index. It is simply a sequence from 1 till number of rows in the group, you can get the latter via \href{https://dplyr.tidyverse.org/reference/n.html}{n()} function.
+\end{enumerate}
+
+\begin{tabular}{l|l|r|r|r}
+\hline
+Observer & Condition & COA & Block & COABlock\\
+\hline
+AAF1997w & experiment & -100 & 1 & 1\\
+\hline
+AAF1997w & experiment & -100 & 6 & 2\\
+\hline
+AAF1997w & experiment & -100 & 7 & 3\\
+\hline
+AAF1997w & experiment & -100 & 10 & 4\\
+\hline
+AAF1997w & experiment & 100 & 2 & 1\\
+\hline
+AAF1997w & experiment & 100 & 4 & 2\\
+\hline
+\end{tabular}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Now we can add \texttt{COABlock} to the main table by joining the two. I would strongly recommend to name the new full table differently, e.g., the original could be \texttt{results\_raw} and the new one \texttt{results}. This is because if you join to table, overwriting one of them, and try to do joining again (you fixed it and now should work properly), you will get different column names as dplyr will enforce unique column names. It can get very confusing.
+\item
+  Filter out any rows where \texttt{COABlock} is more than 4. Some participants volunteered to do more but for the analysis we need to have full data for everyone.
+\end{enumerate}
+
+\begin{tabular}{l|l|r|r|r|l|l|l|r|l|r|r}
+\hline
+Observer & Condition & Block & Trial & COA & Target & Match & Response & RT & Correct & OnsetDelay & COABlock\\
+\hline
+AAF1997w & experiment & 1 & 1 & -100 & column & TRUE & FALSE & 0.9619999 & FALSE & 0.7110000 & 1\\
+\hline
+AAF1997w & experiment & 1 & 2 & -100 & column & FALSE & FALSE & 0.8230000 & TRUE & 0.7710001 & 1\\
+\hline
+AAF1997w & experiment & 1 & 3 & -100 & row & FALSE & FALSE & 0.9500000 & TRUE & 1.3230000 & 1\\
+\hline
+AAF1997w & experiment & 1 & 4 & -100 & column & TRUE & TRUE & 0.8500001 & TRUE & 0.8880000 & 1\\
+\hline
+\end{tabular}
+
+\hypertarget{accuracy}{%
+\subsection*{Accuracy}\label{accuracy}}
+\addcontentsline{toc}{subsection}{Accuracy}
+
+Let us analyze accuracy, the results should be stored in a new separate table.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Compute number of correct trials each \texttt{Observer}, \texttt{Condition}, \texttt{COA} and \texttt{COABlock} combination. Also, store total number of trials for each combination in a separate variable (again, take a look at \href{https://dplyr.tidyverse.org/reference/n.html}{n()} function). We need these two variables for the statistical analysis.
+\item
+  Compute proportion of correct responses. You can compute it directly from \texttt{Correct} or from the two variables you computed on the previous step. We need this variable for visualization.
+\end{enumerate}
+
+\begin{tabular}{l|l|r|r|r|r|r}
+\hline
+Observer & Condition & COA & COABlock & Ncorrect & Ntotal & Pcorrect\\
+\hline
+AAF1997w & experiment & -100 & 1 & 38 & 48 & 0.7916667\\
+\hline
+AAF1997w & experiment & -100 & 2 & 47 & 48 & 0.9791667\\
+\hline
+AAF1997w & experiment & -100 & 3 & 47 & 48 & 0.9791667\\
+\hline
+AAF1997w & experiment & -100 & 4 & 45 & 48 & 0.9375000\\
+\hline
+\end{tabular}
+
+Let us visualize the performance. Generate a similar looking plot
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-294-1.pdf}
+
+And an alternative visualization.
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-295-1.pdf}
+
+The first one, shows an effect of experience (note how performance gets higher for the later blocks), for second one makes it easier to compare between conditions. Here, \texttt{experiment} tends to produce higher accuracy. However, this is just eye-balling the data, we need some actual numbers. For this, we will use Generalized Linear Mixed Model. It is \emph{generalized} because out data is binomial (participants were successful in \texttt{Ncorrect} trials out of \texttt{Ntotal}). It is \emph{linear} because we assume a simple linear sum of individual effects. It is \emph{mixed}, because we will add \texttt{Observer} as a random factor\footnote{The magic machinery underneath will mix ordinary least squares (OLS) estimates for fixed effects with Best Linear Unbiased Predictions (BLUP) for random effects.}. We will also use \texttt{COA} as a factor variable to have a more direct comparison between individual \texttt{COA} levels. Read \href{https://www.rdocumentation.org/packages/lme4/versions/1.1-26/topics/glmer}{documentation} to figure out how you specify the formula and binomial family. You will need to use library \href{https://github.com/lme4/lme4}{lmer4} and I strongly suggest using \texttt{lmer4::glmer()} notation as we will later use \href{}{lmerTest} package, which redefines some functions and it can be hard to figure out function from which package was actually called.
+
+The summary output of the model should look like this.
+
+\begin{verbatim}
+## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [glmerMod]
+##  Family: binomial  ( logit )
+## Formula: cbind(Ncorrect, Ntotal) ~ Condition + as.factor(COA) + COABlock +  
+##     (1 | Observer)
+##    Data: accuracy
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##   1788.8   1811.7   -888.4   1776.8      330 
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -1.72915 -0.29164  0.02438  0.34443  1.09710 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  Observer (Intercept) 0.01044  0.1022  
+## Number of obs: 336, groups:  Observer, 28
+## 
+## Fixed effects:
+##                    Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)        -0.26288    0.04509  -5.830 5.55e-09 ***
+## Conditiongame      -0.05776    0.04539  -1.272  0.20323    
+## as.factor(COA)100  -0.05424    0.02905  -1.867  0.06191 .  
+## as.factor(COA)1000 -0.06163    0.02915  -2.115  0.03447 *  
+## COABlock            0.03216    0.01070   3.005  0.00265 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) Cndtng as.(COA)100 a.(COA)1000
+## Conditiongm -0.501                               
+## as.(COA)100 -0.320  0.002                        
+## a.(COA)1000 -0.323  0.002  0.491                 
+## COABlock    -0.600  0.000  0.003       0.010
+\end{verbatim}
+
+As you can see, experience definitely improves the accuracy (effect for \texttt{COABlock} is positive and significant), there seems to be some effect of difficulty at least between extreme cases of COA = -100 ms (baseline) and COA = 1000 ms. But, does not seem to be much of an effect of the condition. We can also confirm this ANOVA-style with a single significance value for each fixed factor via \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/add1.html}{drop1()} function, you will need to specify \texttt{test\ =\ "Chisq"} as a parameter to get significance values.
+
+\begin{verbatim}
+## Single term deletions
+## 
+## Model:
+## cbind(Ncorrect, Ntotal) ~ Condition + as.factor(COA) + COABlock + 
+##     (1 | Observer)
+##                npar    AIC    LRT  Pr(Chi)   
+## <none>              1788.8                   
+## Condition         1 1788.3 1.5749 0.209504   
+## as.factor(COA)    2 1790.1 5.3724 0.068141 . 
+## COABlock          1 1795.8 9.0345 0.002649 **
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\hypertarget{response-times}{%
+\subsection*{Response times}\label{response-times}}
+\addcontentsline{toc}{subsection}{Response times}
+
+What about response times? Repeat the analysis but with a few changes. First, we only need to compute \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/median.html}{median} response time instead of proportion of correct trials. Second, for the analysis, we use linear (not generalized) mixed models via \href{https://www.rdocumentation.org/packages/lmerTest/versions/2.0-36/topics/lmer}{lmer()} function from \href{https://github.com/runehaubo/lmerTestR}{lmerTest} package. Its advantage over the function with the same name from \texttt{lme4} package is in providing significance values. Again, use \texttt{lmerTest::lmer()} notation to use function from \texttt{lmerTest} and not the function of the same name in \texttt{lme4} package.
+
+\begin{tabular}{l|l|r|r|r}
+\hline
+Observer & Condition & COA & COABlock & MedianRT\\
+\hline
+AAF1997w & experiment & -100 & 1 & 0.8500000\\
+\hline
+AAF1997w & experiment & -100 & 2 & 0.8494999\\
+\hline
+AAF1997w & experiment & -100 & 3 & 0.7660000\\
+\hline
+AAF1997w & experiment & -100 & 4 & 0.7180001\\
+\hline
+\end{tabular}
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-299-1.pdf}
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-300-1.pdf}
+
+\begin{verbatim}
+## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+## lmerModLmerTest]
+## Formula: MedianRT ~ Condition + as.factor(COA) + COABlock + (1 | Observer)
+##    Data: rt
+## 
+## REML criterion at convergence: 376.6
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -4.6729 -0.4167 -0.0270  0.3736  6.0652 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  Observer (Intercept) 0.3913   0.6255  
+##  Residual             0.1275   0.3570  
+## Number of obs: 336, groups:  Observer, 28
+## 
+## Fixed effects:
+##                      Estimate Std. Error         df t value Pr(>|t|)    
+## (Intercept)          2.152089   0.177100  31.010542  12.152 2.50e-13 ***
+## Conditiongame       -0.201307   0.239619  25.999998  -0.840    0.409    
+## as.factor(COA)100   -0.009205   0.047713 305.000001  -0.193    0.847    
+## as.factor(COA)1000  -0.008772   0.047713 305.000001  -0.184    0.854    
+## COABlock            -0.142757   0.017422 305.000001  -8.194 7.05e-15 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) Cndtng as.(COA)100 a.(COA)1000
+## Conditiongm -0.677                               
+## as.(COA)100 -0.135  0.000                        
+## a.(COA)1000 -0.135  0.000  0.500                 
+## COABlock    -0.246  0.000  0.000       0.000
+\end{verbatim}
+
+\begin{verbatim}
+## Single term deletions using Satterthwaite's method:
+## 
+## Model:
+## MedianRT ~ Condition + as.factor(COA) + COABlock + (1 | Observer)
+##                Sum Sq Mean Sq NumDF DenDF F value    Pr(>F)    
+## Condition      0.0900  0.0900     1    26  0.7058    0.4085    
+## as.factor(COA) 0.0060  0.0030     2   305  0.0237    0.9766    
+## COABlock       8.5594  8.5594     1   305 67.1409 7.046e-15 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\hypertarget{computing-the-score}{%
+\subsection*{Computing the score}\label{computing-the-score}}
+\addcontentsline{toc}{subsection}{Computing the score}
+
+First, we need to compute score for each trial. The catch is, the score depends on both participants response on a \emph{current} trial (correct or not and how fast was the response) and on \emph{previous} trials (the score is multiplied by a combo: number of correct responses on a row + 1).
+
+We begin by computing a raw score for each trial using the following rules:
+
+\begin{itemize}
+\tightlist
+\item
+  If the response is incorrect, the raw score is \texttt{0}, otherwise
+\item
+  \(raw~score = ceiling(10 \cdot \frac{4-RT}{3})\) but it cannot be larger than 10 or smaller than 0.
+\end{itemize}
+
+Function \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/Round.html}{ceiling(x)} returns the smallest integers not less than the corresponding elements of x. There is no function that could ``clip'' a value between 0 and 10 in R, so you need to write it yourself. If should take three parameters
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Vector of values to be clipped.
+\item
+  Lower value limit.
+\item
+  Higher value limit.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{example\_vector }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\DecValTok{15}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{0}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{4}\NormalTok{)}
+\FunctionTok{clip}\NormalTok{(example\_vector, }\DecValTok{0}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  0 10  2 10  0  0
+\end{verbatim}
+
+Here is the head of the table with the computed raw score
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{results }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(RawScore}\SpecialCharTok{==}\DecValTok{2}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(Target, Match, Response, RT, COABlock, OnsetDelay)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{head}\NormalTok{(}\DecValTok{10}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{l|l|r|r|r|l|r}
+\hline
+Observer & Condition & Block & Trial & COA & Correct & RawScore\\
+\hline
+AKB1996w & experiment & 3 & 26 & 1000 & TRUE & 2\\
+\hline
+AKB1996w & experiment & 8 & 47 & 1000 & TRUE & 2\\
+\hline
+AKB1996w & experiment & 12 & 40 & 1000 & TRUE & 2\\
+\hline
+ARF1995w & game & 1 & 42 & -100 & TRUE & 2\\
+\hline
+ARF1995w & game & 1 & 44 & -100 & TRUE & 2\\
+\hline
+ARF1995w & game & 2 & 35 & 100 & TRUE & 2\\
+\hline
+ARF1995w & game & 3 & 4 & 1000 & TRUE & 2\\
+\hline
+ARF1995w & game & 3 & 8 & 1000 & TRUE & 2\\
+\hline
+ARF1995w & game & 3 & 14 & 1000 & TRUE & 2\\
+\hline
+ARF1995w & game & 3 & 19 & 1000 & TRUE & 2\\
+\hline
+\end{tabular}
+
+To compute combo multiplier (number of correct responses on the row), we will write another function that loops over a vector of \texttt{Correct} responses. Every correct response (\texttt{TRUE}) add \texttt{1} to the multiplier for the \emph{next} trial. Every incorrect response resets it to \texttt{1}, again, for the \emph{next} trial.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{correct }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\ConstantTok{TRUE}\NormalTok{, }\ConstantTok{TRUE}\NormalTok{, }\ConstantTok{TRUE}\NormalTok{, }\ConstantTok{FALSE}\NormalTok{, }\ConstantTok{FALSE}\NormalTok{, }\ConstantTok{TRUE}\NormalTok{, }\ConstantTok{TRUE}\NormalTok{, }\ConstantTok{FALSE}\NormalTok{, }\ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{compute\_combo}\NormalTok{(correct)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1 2 3 4 1 1 2 3 1
+\end{verbatim}
+
+Once you have the function and it work correctly, you can use to compute combo multiplier for the table. However, note that you need to do it per block, so you need to group data by \texttt{Observer}, \texttt{Condition}, \texttt{COA}, and \texttt{COABlock} first. Otherwise, your combo score won't be 1 at the beginning of each block.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{results }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{head}\NormalTok{(}\DecValTok{10}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(Target, Match, Response, RT, COABlock, OnsetDelay)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{l|l|r|r|r|l|r|r}
+\hline
+Observer & Condition & Block & Trial & COA & Correct & RawScore & Combo\\
+\hline
+AAF1997w & experiment & 1 & 1 & -100 & FALSE & 0 & 1\\
+\hline
+AAF1997w & experiment & 1 & 2 & -100 & TRUE & 10 & 1\\
+\hline
+AAF1997w & experiment & 1 & 3 & -100 & TRUE & 10 & 2\\
+\hline
+AAF1997w & experiment & 1 & 4 & -100 & TRUE & 10 & 3\\
+\hline
+AAF1997w & experiment & 1 & 5 & -100 & TRUE & 10 & 4\\
+\hline
+AAF1997w & experiment & 1 & 6 & -100 & TRUE & 10 & 5\\
+\hline
+AAF1997w & experiment & 1 & 7 & -100 & TRUE & 10 & 6\\
+\hline
+AAF1997w & experiment & 1 & 8 & -100 & TRUE & 10 & 7\\
+\hline
+AAF1997w & experiment & 1 & 9 & -100 & FALSE & 0 & 8\\
+\hline
+AAF1997w & experiment & 1 & 10 & -100 & TRUE & 10 & 1\\
+\hline
+\end{tabular}
+
+To get the actual score you just multiply raw score and multiplier
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{results }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{head}\NormalTok{(}\DecValTok{10}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(Target, Match, Response, RT, COABlock, OnsetDelay)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{l|l|r|r|r|l|r|r|r}
+\hline
+Observer & Condition & Block & Trial & COA & Correct & RawScore & Combo & Score\\
+\hline
+AAF1997w & experiment & 1 & 1 & -100 & FALSE & 0 & 1 & 0\\
+\hline
+AAF1997w & experiment & 1 & 2 & -100 & TRUE & 10 & 1 & 10\\
+\hline
+AAF1997w & experiment & 1 & 3 & -100 & TRUE & 10 & 2 & 20\\
+\hline
+AAF1997w & experiment & 1 & 4 & -100 & TRUE & 10 & 3 & 30\\
+\hline
+AAF1997w & experiment & 1 & 5 & -100 & TRUE & 10 & 4 & 40\\
+\hline
+AAF1997w & experiment & 1 & 6 & -100 & TRUE & 10 & 5 & 50\\
+\hline
+AAF1997w & experiment & 1 & 7 & -100 & TRUE & 10 & 6 & 60\\
+\hline
+AAF1997w & experiment & 1 & 8 & -100 & TRUE & 10 & 7 & 70\\
+\hline
+AAF1997w & experiment & 1 & 9 & -100 & FALSE & 0 & 8 & 0\\
+\hline
+AAF1997w & experiment & 1 & 10 & -100 & TRUE & 10 & 1 & 10\\
+\hline
+\end{tabular}
+
+Now that you have score per trial, perform analysis similar to response times but for each observer, condition, COA, and COA block compute a \emph{total} score for each block. Otherwise, plot and analyze it similar to response times.
+
+\begin{tabular}{l|l|r|r|r}
+\hline
+Observer & Condition & COA & COABlock & TotalScore\\
+\hline
+AAF1997w & experiment & -100 & 1 & 1429\\
+\hline
+AAF1997w & experiment & -100 & 2 & 10820\\
+\hline
+AAF1997w & experiment & -100 & 3 & 9960\\
+\hline
+AAF1997w & experiment & -100 & 4 & 5290\\
+\hline
+AAF1997w & experiment & 100 & 1 & 2796\\
+\hline
+AAF1997w & experiment & 100 & 2 & 3281\\
+\hline
+\end{tabular}
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-314-1.pdf}
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-315-1.pdf}
+
+\begin{verbatim}
+## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+## lmerModLmerTest]
+## Formula: TotalScore ~ Condition + as.factor(COA) + COABlock + (1 | Observer)
+##    Data: score
+## 
+## REML criterion at convergence: 5871.3
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -1.9447 -0.4973 -0.1420  0.2494  4.6969 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  Observer (Intercept) 1234010  1111    
+##  Residual             2349159  1533    
+## Number of obs: 336, groups:  Observer, 28
+## 
+## Fixed effects:
+##                    Estimate Std. Error       df t value Pr(>|t|)    
+## (Intercept)         1667.32     388.67    55.80   4.290 7.17e-05 ***
+## Conditiongame       -261.00     451.94    26.00  -0.578 0.568566    
+## as.factor(COA)100   -704.64     204.82   305.00  -3.440 0.000662 ***
+## as.factor(COA)1000 -1009.47     204.82   305.00  -4.929 1.36e-06 ***
+## COABlock             366.22      74.79   305.00   4.897 1.58e-06 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) Cndtng as.(COA)100 a.(COA)1000
+## Conditiongm -0.581                               
+## as.(COA)100 -0.263  0.000                        
+## a.(COA)1000 -0.263  0.000  0.500                 
+## COABlock    -0.481  0.000  0.000       0.000
+\end{verbatim}
+
+\begin{verbatim}
+## Single term deletions using Satterthwaite's method:
+## 
+## Model:
+## TotalScore ~ Condition + as.factor(COA) + COABlock + (1 | Observer)
+##                  Sum Sq  Mean Sq NumDF DenDF F value    Pr(>F)    
+## Condition        783474   783474     1    26  0.3335    0.5686    
+## as.factor(COA) 60049893 30024946     2   305 12.7811 4.673e-06 ***
+## COABlock       56330349 56330349     1   305 23.9789 1.582e-06 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\hypertarget{seminar12}{%
+\chapter{Practice}\label{seminar12}}
+
+Today we will practice tidying up and plotting an almost real data. The \emph{structure} of the table is real, I've used it precisely because it is a sort of messy, untidy data you often get. The \emph{actual values} are, however, fake. Well, not fake, simulated! But that means that you should not use this particular data to make any inferences about Stroop task, which is what the original experiment was about.
+
+Here is the back story. Once upon a time, an experiment with the \href{https://en.wikipedia.org/wiki/Stroop_effect}{Stroop task} was performed. There four different conditions, one control one, of course. And a continuous physiological signal (similar to skin conductance) was measured at five time points: 0) sometime before the task, 1) right before the task, 2) after first block, 3) after the second block, 4) 15 minutes after the task. What we would like to establish:
+
+\begin{itemize}
+\tightlist
+\item
+  Did the task work in principle? I.e., do we see more errors and longer response times for when color and word were incongruent?
+\item
+  Was there an effect of conditions on either the error count or response times?
+\item
+  Was out physiological signal different at different time-points? Particularly, if we compare it before the task and after a congruent or incongruent blocks?
+\end{itemize}
+
+Download \href{data/stroopsim.csv}{stroopsim.csv} the table, read it, and read on to understand what individual columns mean and how we need to transform the table before it becomes usable. Create a markdown notebook yourself, make sure it is clearly structured!
+
+\begin{tabular}{r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r}
+\hline
+sex & Condition & IncongruentFirst & @\#errorsCong & ReactiontimemeanCong & @\#errorsInco & ReactiontimemeanInco & S0A & S1A & S2A & S3A & S4A & Bs0 & Bs1 & Bs2 & Bs3 & Bs4\\
+\hline
+2 & 0 & 0 & 2 & 1.477454 & 12 & 3.247461 & NA & NA & NA & NA & NA & 6.490969 & 4.564023 & 6.354532 & 5.224722 & 12.339243\\
+\hline
+2 & 1 & 0 & 1 & 2.028072 & 18 & 2.408471 & NA & NA & NA & NA & NA & 4.864416 & 7.957840 & 6.587935 & 3.044139 & 2.909219\\
+\hline
+1 & 2 & 0 & 1 & 1.334083 & 7 & 2.676602 & NA & NA & NA & NA & NA & 10.071530 & 1.650143 & 1.562964 & 6.156831 & 8.045311\\
+\hline
+2 & 0 & 0 & 2 & 1.171517 & 4 & 2.471265 & NA & NA & NA & NA & NA & 12.162085 & 4.796817 & 2.649034 & 2.019965 & 5.061974\\
+\hline
+2 & 1 & 0 & 0 & 2.097203 & 20 & 2.255469 & NA & NA & NA & NA & NA & 3.265458 & 7.900660 & 4.254162 & 16.426251 & 6.177225\\
+\hline
+2 & 2 & 0 & 2 & 1.322103 & 6 & 2.626870 & NA & NA & NA & NA & NA & 5.478926 & 5.845528 & 6.175421 & 4.388986 & 2.740655\\
+\hline
+\end{tabular}
+
+\hypertarget{bad-names-to-good-names}{%
+\section{Bad names to good names}\label{bad-names-to-good-names}}
+
+We have a couple of columns that are not easy to use:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{@\#errorsCong} should be \texttt{errorsCongruent}
+\item
+  \texttt{@\#errorsInco} should be \texttt{errorsIncongruent}
+\end{itemize}
+
+\begin{tabular}{r|r|r|r}
+\hline
+sex & Condition & errorsCongruent & errorsIncongruent\\
+\hline
+2 & 0 & 2 & 12\\
+\hline
+2 & 1 & 1 & 18\\
+\hline
+1 & 2 & 1 & 7\\
+\hline
+2 & 0 & 2 & 4\\
+\hline
+2 & 1 & 0 & 20\\
+\hline
+2 & 2 & 2 & 6\\
+\hline
+\end{tabular}
+
+\hypertarget{participant-id}{%
+\section{Participant ID}\label{participant-id}}
+
+Currently, we have a \emph{wide} table with one row per participant. However, we will need to tidy it up, meaning that we need to keep track of which rows belong to which participants. For this, create a new column \texttt{HabitNr} which will simply have row index. To make things easier, use \href{https://dplyr.tidyverse.org/reference/relocate.html}{relocate()} verb to make it the \emph{first} column in the table.
+
+\begin{tabular}{r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r}
+\hline
+HabitNr & sex & Condition & IncongruentFirst & errorsCongruent & ReactiontimemeanCong & errorsIncongruent & ReactiontimemeanInco & S0A & S1A & S2A & S3A & S4A & Bs0 & Bs1 & Bs2 & Bs3 & Bs4\\
+\hline
+1 & 2 & 0 & 0 & 2 & 1.477454 & 12 & 3.247461 & NA & NA & NA & NA & NA & 6.490969 & 4.564023 & 6.354532 & 5.224722 & 12.339243\\
+\hline
+2 & 2 & 1 & 0 & 1 & 2.028072 & 18 & 2.408471 & NA & NA & NA & NA & NA & 4.864416 & 7.957840 & 6.587935 & 3.044139 & 2.909219\\
+\hline
+3 & 1 & 2 & 0 & 1 & 1.334083 & 7 & 2.676602 & NA & NA & NA & NA & NA & 10.071530 & 1.650143 & 1.562964 & 6.156831 & 8.045311\\
+\hline
+4 & 2 & 0 & 0 & 2 & 1.171517 & 4 & 2.471265 & NA & NA & NA & NA & NA & 12.162085 & 4.796817 & 2.649034 & 2.019965 & 5.061974\\
+\hline
+5 & 2 & 1 & 0 & 0 & 2.097203 & 20 & 2.255469 & NA & NA & NA & NA & NA & 3.265458 & 7.900660 & 4.254162 & 16.426251 & 6.177225\\
+\hline
+6 & 2 & 2 & 0 & 2 & 1.322103 & 6 & 2.626870 & NA & NA & NA & NA & NA & 5.478926 & 5.845528 & 6.175421 & 4.388986 & 2.740655\\
+\hline
+\end{tabular}
+
+\hypertarget{factors-1}{%
+\section{Factors}\label{factors-1}}
+
+First, let us do easy bits, converting several columns to factors and setting up labels.
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{sex}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    1 : \texttt{female}
+  \item
+    2 : \texttt{male}
+  \end{itemize}
+\item
+  \texttt{Condition}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    0 : \texttt{control}
+  \item
+    1 : \texttt{speed}
+  \item
+    2 : \texttt{size}
+  \item
+    3 : \texttt{random}
+  \end{itemize}
+\item
+  \texttt{IncongruentFirst}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    0 : \texttt{Congruent\ first}
+  \item
+    1 : \texttt{Incongruent\ first}
+  \end{itemize}
+\end{itemize}
+
+\begin{tabular}{r|l|l|l|r|r|r|r|r|r|r|r|r|r|r|r|r|r}
+\hline
+HabitNr & sex & Condition & IncongruentFirst & errorsCongruent & ReactiontimemeanCong & errorsIncongruent & ReactiontimemeanInco & S0A & S1A & S2A & S3A & S4A & Bs0 & Bs1 & Bs2 & Bs3 & Bs4\\
+\hline
+1 & male & control & Congruent first & 2 & 1.477454 & 12 & 3.247461 & NA & NA & NA & NA & NA & 6.490969 & 4.564023 & 6.354532 & 5.224722 & 12.339243\\
+\hline
+2 & male & speed & Congruent first & 1 & 2.028072 & 18 & 2.408471 & NA & NA & NA & NA & NA & 4.864416 & 7.957840 & 6.587935 & 3.044139 & 2.909219\\
+\hline
+3 & female & size & Congruent first & 1 & 1.334083 & 7 & 2.676602 & NA & NA & NA & NA & NA & 10.071530 & 1.650143 & 1.562964 & 6.156831 & 8.045311\\
+\hline
+4 & male & control & Congruent first & 2 & 1.171517 & 4 & 2.471265 & NA & NA & NA & NA & NA & 12.162085 & 4.796817 & 2.649034 & 2.019965 & 5.061974\\
+\hline
+5 & male & speed & Congruent first & 0 & 2.097203 & 20 & 2.255469 & NA & NA & NA & NA & NA & 3.265458 & 7.900660 & 4.254162 & 16.426251 & 6.177225\\
+\hline
+6 & male & size & Congruent first & 2 & 1.322103 & 6 & 2.626870 & NA & NA & NA & NA & NA & 5.478926 & 5.845528 & 6.175421 & 4.388986 & 2.740655\\
+\hline
+\end{tabular}
+
+\hypertarget{response-times-1}{%
+\section{Response times}\label{response-times-1}}
+
+Next, we need to ``spin-off'' a separate table that will contain information about response times per congruency manipulation. Thus we want a table where column \texttt{Congruency} indicates whether presentation was congruent, whereas two columns (\texttt{ReactiontimemeanCong} and \texttt{ReactiontimemeanInco}) for response times become two rows (we pivot table longer). Note that I have used better labels for congruent and incongruent conditions. You can first rename them pivot or pivot and relabel (choice is yours). At the moment, we do not need all other columns, see table below to see what I decided to keep.
+
+\begin{tabular}{r|l|l|l|r}
+\hline
+HabitNr & Condition & IncongruentFirst & Congruency & RT\\
+\hline
+1 & control & Congruent first & Congruent & 1.477454\\
+\hline
+1 & control & Congruent first & Incongruent & 3.247461\\
+\hline
+2 & speed & Congruent first & Congruent & 2.028072\\
+\hline
+2 & speed & Congruent first & Incongruent & 2.408471\\
+\hline
+3 & size & Congruent first & Congruent & 1.334083\\
+\hline
+3 & size & Congruent first & Incongruent & 2.676602\\
+\hline
+\end{tabular}
+
+Let us see how condition and incongruency-order presentation affects our response times.
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-324-1.pdf}
+
+Participants responses were clearly faster on trials when color and word were incongruent. But to better see the effect of condition, let us replot the data.
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-325-1.pdf}
+
+Now, we can that some conditions do appear to be different as well. Let us confirm this via statistics. We will use linear mixed models (thus, package \emph{lmerTest}) with \texttt{Condition}, \texttt{IncongruentFirst}, and \texttt{Congruency} as fixed effect and \texttt{HabitNr} (participant ID) as a random factor. We will not look at any interactions although they are most likely of interest for the follow up analysis.
+
+\begin{verbatim}
+## boundary (singular) fit: see ?isSingular
+\end{verbatim}
+
+\begin{verbatim}
+## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+## lmerModLmerTest]
+## Formula: RT ~ Condition + IncongruentFirst + Congruency + (1 | HabitNr)
+##    Data: rt
+## 
+## REML criterion at convergence: 84
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -1.7862 -0.7005 -0.1239  0.4302  3.5893 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  HabitNr  (Intercept) 0.00000  0.0000  
+##  Residual             0.09852  0.3139  
+## Number of obs: 128, groups:  HabitNr, 64
+## 
+## Fixed effects:
+##                                    Estimate Std. Error        df t value
+## (Intercept)                         1.51036    0.06423 122.00000  23.513
+## Conditionspeed                      0.05433    0.07929 122.00000   0.685
+## Conditionsize                       0.06613    0.07929 122.00000   0.834
+## Conditionrandom                     0.45794    0.08204 122.00000   5.582
+## IncongruentFirstIncongruent first   0.08994    0.06374 122.00000   1.411
+## CongruencyIncongruent               1.02108    0.05549 122.00000  18.402
+##                                   Pr(>|t|)    
+## (Intercept)                        < 2e-16 ***
+## Conditionspeed                       0.495    
+## Conditionsize                        0.406    
+## Conditionrandom                   1.46e-07 ***
+## IncongruentFirstIncongruent first    0.161    
+## CongruencyIncongruent              < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) Cndtnsp Cndtnsz Cndtnr IncFIf
+## Conditinspd -0.628                              
+## Conditionsz -0.628  0.539                       
+## Conditnrndm -0.603  0.525   0.525               
+## IncngrntFIf -0.132 -0.129  -0.129  -0.155       
+## CngrncyIncn -0.432  0.000   0.000   0.000  0.000
+## optimizer (nloptwrap) convergence code: 0 (OK)
+## boundary (singular) fit: see ?isSingular
+\end{verbatim}
+
+\begin{verbatim}
+## Single term deletions using Satterthwaite's method:
+## 
+## Model:
+## RT ~ Condition + IncongruentFirst + Congruency + (1 | HabitNr)
+##                  Sum Sq Mean Sq NumDF DenDF  F value    Pr(>F)    
+## Condition         4.012   1.337     3   122  13.5728 1.065e-07 ***
+## IncongruentFirst  0.196   0.196     1   122   1.9911    0.1608    
+## Congruency       33.363  33.363     1   122 338.6302 < 2.2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+In short, we a highly significant effect of color-word congruency (good news, otherwise out Stroop task wasn't very successful) and one condition (\emph{random}) is clear difference. However, the \emph{order} of block (first congruent then incongruent or vice versa) did not really matter.
+
+\hypertarget{accuracy-1}{%
+\section{Accuracy}\label{accuracy-1}}
+
+Now let us perform the same analysis but on correct response count. What you need to know is that there were 120 trials in total for each block. We have information about \emph{errors} not \emph{correct responses} but it makes no difference for analysis, only for model interpretation. Extract column and pivot table same way as you did with response times.
+
+\begin{tabular}{r|l|l|l|r}
+\hline
+HabitNr & Condition & IncongruentFirst & Congruency & Errors\\
+\hline
+1 & control & Congruent first & Congruent & 2\\
+\hline
+1 & control & Congruent first & Incongruent & 12\\
+\hline
+2 & speed & Congruent first & Congruent & 1\\
+\hline
+2 & speed & Congruent first & Incongruent & 18\\
+\hline
+3 & size & Congruent first & Congruent & 1\\
+\hline
+3 & size & Congruent first & Incongruent & 7\\
+\hline
+\end{tabular}
+
+Again, let us plot data both ways
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-329-1.pdf}
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-330-1.pdf}
+
+Plots are very similar to those for response times. So let us perform the statistical analysis. This is a binomial data, so many errors per 120 trials, so use \texttt{glmer()} function (generalized linear mixed model) from \texttt{lme4} package with binomial family.
+
+\begin{verbatim}
+## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [glmerMod]
+##  Family: binomial  ( logit )
+## Formula: cbind(Errors, 120) ~ Condition + IncongruentFirst + Congruency +  
+##     (1 | HabitNr)
+##    Data: errors
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##    608.9    628.9   -297.5    594.9      121 
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -2.1050 -0.8816 -0.1543  0.7427  3.5440 
+## 
+## Random effects:
+##  Groups  Name        Variance Std.Dev.
+##  HabitNr (Intercept) 0.02038  0.1428  
+## Number of obs: 128, groups:  HabitNr, 64
+## 
+## Fixed effects:
+##                                   Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)                       -4.64135    0.12575 -36.908  < 2e-16 ***
+## Conditionspeed                     0.63983    0.11812   5.417 6.07e-08 ***
+## Conditionsize                      0.07082    0.12845   0.551    0.581    
+## Conditionrandom                    0.65101    0.12174   5.348 8.91e-08 ***
+## IncongruentFirstIncongruent first  0.59263    0.08209   7.219 5.24e-13 ***
+## CongruencyIncongruent              1.82114    0.09439  19.295  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) Cndtnsp Cndtnsz Cndtnr IncFIf
+## Conditinspd -0.600                              
+## Conditionsz -0.542  0.615                       
+## Conditnrndm -0.575  0.651   0.615               
+## IncngrntFIf -0.120 -0.124  -0.154  -0.178       
+## CngrncyIncn -0.642  0.004   0.000   0.008  0.005
+\end{verbatim}
+
+\begin{verbatim}
+## Single term deletions
+## 
+## Model:
+## cbind(Errors, 120) ~ Condition + IncongruentFirst + Congruency + 
+##     (1 | HabitNr)
+##                  npar     AIC    LRT   Pr(Chi)    
+## <none>                 608.92                     
+## Condition           3  646.37  43.45 1.971e-09 ***
+## IncongruentFirst    1  643.42  36.50 1.524e-09 ***
+## Congruency          1 1132.52 525.60 < 2.2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+In comparison to response times, even the block order makes the difference with more errors if incongruent condition was presented first. For errors, \texttt{speed} condition was different from the \texttt{control} baseline. However, \texttt{size} conditions appears to be very boring, as we see no difference in neither error rate nor response times.
+
+\hypertarget{physiological-signal}{%
+\section{Physiological signal}\label{physiological-signal}}
+
+Now we come to the tricky part because information about physiological signal (I'll call is PS for short) is stored in columns \texttt{S0A} till \texttt{S4A} for some participant but in columns \texttt{Bs0} till \texttt{Bs4} for others. I.e., \texttt{S0A} codes the same information as \texttt{Bs0}, \texttt{S1A} same as \texttt{Bs1}, etc. The digit indicates the measurement time point. How can we fix this? Either using \texttt{ifelse()} or by splitting table by rows, converting each to a common long format and then merging them. For didactic purposes, we will do both!
+
+In case of \texttt{ifelse()} solution, let us store everything in first set of columns but overwrite their value only if they have \texttt{NA}. So, \texttt{S0A} is not \texttt{NA}, you leave it alone, otherwise you overwrite it with a value from \texttt{Bs0}. Here is the end-product (store data in a separate new table \texttt{clean\_results}, so you can work on the original later again).
+
+\begin{tabular}{r|r|r|r|r|r|r|r|r|r|r}
+\hline
+HabitNr & S0A & S1A & S2A & S3A & S4A & Bs0 & Bs1 & Bs2 & Bs3 & Bs4\\
+\hline
+1 & 6.490969 & 4.564023 & 6.354532 & 5.224722 & 12.339243 & 6.490969 & 4.564023 & 6.354532 & 5.224722 & 12.339243\\
+\hline
+2 & 4.864416 & 7.957840 & 6.587935 & 3.044139 & 2.909219 & 4.864416 & 7.957840 & 6.587935 & 3.044139 & 2.909219\\
+\hline
+3 & 10.071530 & 1.650143 & 1.562964 & 6.156831 & 8.045311 & 10.071530 & 1.650143 & 1.562964 & 6.156831 & 8.045311\\
+\hline
+4 & 12.162085 & 4.796817 & 2.649034 & 2.019965 & 5.061974 & 12.162085 & 4.796817 & 2.649034 & 2.019965 & 5.061974\\
+\hline
+5 & 3.265458 & 7.900660 & 4.254162 & 16.426251 & 6.177225 & 3.265458 & 7.900660 & 4.254162 & 16.426251 & 6.177225\\
+\hline
+6 & 5.478926 & 5.845528 & 6.175421 & 4.388986 & 2.740655 & 5.478926 & 5.845528 & 6.175421 & 4.388986 & 2.740655\\
+\hline
+\end{tabular}
+
+The alternative is more challenging but still fairly straightforward. First, let us spin-off two separate tables. One which has valid values for \texttt{S0A}:\texttt{S4A} dropping all the rows when they are \texttt{NA}. And, conversely, the other table that has valid values for columns \texttt{Bs0}:\texttt{Bs4}. Then, pivot each table longer (we need to do this anyhow) and recode labels to \texttt{t0} till \texttt{t4}. After that we can merge two tables by rows via \texttt{bind\_rows}.
+
+Here is the first table after filtering
+
+\begin{tabular}{r|l|l|l|r|r|r|r|r|r|r|r|r|r|r|r|r|r}
+\hline
+HabitNr & sex & Condition & IncongruentFirst & errorsCongruent & ReactiontimemeanCong & errorsIncongruent & ReactiontimemeanInco & S0A & S1A & S2A & S3A & S4A & Bs0 & Bs1 & Bs2 & Bs3 & Bs4\\
+\hline
+31 & female & control & Congruent first & 0 & 1.589768 & 3 & 3.237953 & 61.92695 & 130.667988 & 111.63928 & 82.540381 & 73.560757 & NA & NA & NA & NA & NA\\
+\hline
+32 & female & control & Incongruent first & 0 & 1.331935 & 10 & 2.728806 & 861.35340 & 4.222633 & 28.80748 & 2704.220725 & 7.598707 & NA & NA & NA & NA & NA\\
+\hline
+33 & male & size & Incongruent first & 3 & 1.331964 & 13 & 2.350008 & 386.32276 & 48.234614 & 385.51966 & 14.163667 & 105.036142 & NA & NA & NA & NA & NA\\
+\hline
+34 & male & speed & Incongruent first & 0 & 1.443712 & 19 & 2.847616 & 24.49781 & 11.798876 & 36.00568 & 5.717785 & 104.179406 & NA & NA & NA & NA & NA\\
+\hline
+35 & male & random & Congruent first & 3 & 2.052467 & 10 & 3.123355 & 18.13469 & 1.503134 & 13.92405 & 6.840379 & 18.698580 & NA & NA & NA & NA & NA\\
+\hline
+36 & male & size & Congruent first & 3 & 1.404922 & 5 & 2.465878 & 34.34912 & 237.770126 & 51.11720 & 201.287047 & 823.285426 & NA & NA & NA & NA & NA\\
+\hline
+\end{tabular}
+
+And here it is pivoted
+
+\begin{tabular}{r|l|l|l|r}
+\hline
+HabitNr & Condition & IncongruentFirst & Timepoint & Signal\\
+\hline
+31 & control & Congruent first & t0 & 61.92695\\
+\hline
+31 & control & Congruent first & t1 & 130.66799\\
+\hline
+31 & control & Congruent first & t2 & 111.63928\\
+\hline
+31 & control & Congruent first & t3 & 82.54038\\
+\hline
+31 & control & Congruent first & t4 & 73.56076\\
+\hline
+32 & control & Incongruent first & t0 & 861.35340\\
+\hline
+\end{tabular}
+
+Again, same procedure for rows with valid \texttt{Bs0}:\texttt{Bs4} columns
+
+\begin{tabular}{r|l|l|l|r}
+\hline
+HabitNr & Condition & IncongruentFirst & Timepoint & Signal\\
+\hline
+1 & control & Congruent first & t0 & 6.490969\\
+\hline
+1 & control & Congruent first & t1 & 4.564023\\
+\hline
+1 & control & Congruent first & t2 & 6.354532\\
+\hline
+1 & control & Congruent first & t3 & 5.224722\\
+\hline
+1 & control & Congruent first & t4 & 12.339243\\
+\hline
+2 & speed & Congruent first & t0 & 4.864416\\
+\hline
+\end{tabular}
+
+Once you merged two tables by rows (see \href{https://dplyr.tidyverse.org/reference/bind.html}{bind\_rows()}).
+
+, let us take a look at the results.
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-337-1.pdf}
+
+There seems to be clear outliers, so let us drop all values above 1000 (filter inside the ggplot call) and plot again
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-338-1.pdf}
+
+Well, certainly hard to tell, so no clear and consistent effect. Still, let us do stats via linear mixed models.
+
+\begin{verbatim}
+## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+## lmerModLmerTest]
+## Formula: Signal ~ Timepoint + Condition + IncongruentFirst + (1 | HabitNr)
+##    Data: signal
+## 
+## REML criterion at convergence: 4184.7
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -2.0989 -0.2701 -0.1293 -0.0072 12.6054 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  HabitNr  (Intercept)  3774     61.43  
+##  Residual             33352    182.63  
+## Number of obs: 320, groups:  HabitNr, 64
+## 
+## Fixed effects:
+##                                   Estimate Std. Error      df t value Pr(>|t|)
+## (Intercept)                         95.282     33.593 137.344   2.836  0.00525
+## Timepointt1                         10.906     32.284 252.000   0.338  0.73578
+## Timepointt2                        -11.969     32.284 252.000  -0.371  0.71113
+## Timepointt3                         25.524     32.284 252.000   0.791  0.42991
+## Timepointt4                         -6.173     32.284 252.000  -0.191  0.84851
+## Conditionspeed                     -71.414     36.510  59.000  -1.956  0.05520
+## Conditionsize                      -55.042     36.510  59.000  -1.508  0.13699
+## Conditionrandom                    -75.083     37.776  59.000  -1.988  0.05151
+## IncongruentFirstIncongruent first   88.443     29.349  59.000   3.013  0.00380
+##                                     
+## (Intercept)                       **
+## Timepointt1                         
+## Timepointt2                         
+## Timepointt3                         
+## Timepointt4                         
+## Conditionspeed                    . 
+## Conditionsize                       
+## Conditionrandom                   . 
+## IncongruentFirstIncongruent first **
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) Tmpnt1 Tmpnt2 Tmpnt3 Tmpnt4 Cndtnsp Cndtnsz Cndtnr
+## Timepointt1 -0.481                                                   
+## Timepointt2 -0.481  0.500                                            
+## Timepointt3 -0.481  0.500  0.500                                     
+## Timepointt4 -0.481  0.500  0.500  0.500                              
+## Conditinspd -0.553  0.000  0.000  0.000  0.000                       
+## Conditionsz -0.553  0.000  0.000  0.000  0.000  0.539                
+## Conditnrndm -0.531  0.000  0.000  0.000  0.000  0.525   0.525        
+## IncngrntFIf -0.116  0.000  0.000  0.000  0.000 -0.129  -0.129  -0.155
+\end{verbatim}
+
+\begin{verbatim}
+## Single term deletions using Satterthwaite's method:
+## 
+## Model:
+## Signal ~ Timepoint + Condition + IncongruentFirst + (1 | HabitNr)
+##                  Sum Sq Mean Sq NumDF DenDF F value   Pr(>F)   
+## Timepoint         56635   14159     4   252  0.4245 0.790883   
+## Condition        171033   57011     3    59  1.7094 0.174862   
+## IncongruentFirst 302871  302871     1    59  9.0810 0.003802 **
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\hypertarget{wrap-up-3}{%
+\section{Wrap up}\label{wrap-up-3}}
+
+That's it for today but realistically, this is still an oversimplified version of the analysis. The original study had many more predictors and even here, there is likely to be an interaction between time point and whether congruent or incongruent condition was presented first.
 
   \bibliography{book.bib}
 

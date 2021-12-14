@@ -86,7 +86,38 @@ for(a_number in c(1, 5, 200)){
   print(a_number)
 }
 ```
-Here, we have three elements in a vector, therefore the code inside curly brackets is repeated three times with the variable `a_number` taking each value in turn. I.e., `a_number` is equal to 1 on a first iteration, 5 on a second, 200 on the third.
+Here, we have three elements in a vector, therefore the code inside curly brackets is repeated three times with the variable `a_number` taking each value in turn. I.e., `a_number` is equal to 1 on a first iteration, 5 on a second, 200 on the third. Note that the code above is equivalent to just assigning one value at a time to `a_number` and calling `print()` function three times.
+```{r}
+a_number <- 1 
+print(a_number)
+a_number <- 5
+print(a_number)
+a_number <- 200
+print(a_number)
+```
+As you can see, it does not really matter _how_ you assign a value to a variable and repeat the code. However, the `for` loop approach is much more flexible, is easier to read and to maintain. I.e., imagine that you decided to alter the `print()` call with `cat()` instead. In the `for` loop version there is just one line to take care of. In the copy-paste version, there are three lines you need to alter. And imagine if you need to repeat the same code a hundred or thousand times, copy-paste is clearly not a viable solution.
+
+Also note that you might be interested in repeat the code inside the for loop given number of times but are not interested in a loop variable and values that it takes. For example, we might want to repeat `print("Ho!")` three times (because it is Christmas time and "Ho! Ho! Ho!" is what Santa Clause says). In this case, we still need a vector with three elements that we can loop over but we do not care what these three elements are.
+```{r}
+for(temp in 1:3){
+  print("Ho!")
+}
+```
+
+Note that we are not using variable `temp` inside of the loop and it has no effect on the code inside the curly brackets. Which is why we can use _any_ three values, as it is their total number that matters, not the values themselves.
+```{r}
+for(temp in c("A", "B", "C")){
+  print("Ho!")
+}
+```
+or
+```{r}
+for(temp in seq(100, 300, length.out=3)){
+  print("Ho!")
+}
+```
+
+In short, number of elements in the vector determines how many times the code inside the loop will be repeat. Vector elements are stored in the loop variable on each iteration and you can either use it (`a_number` example above) or ignore them ("Ho! Ho! Ho!") example.
 
 ::: {.infobox .practice}
 Do exercises 3 and 4.
