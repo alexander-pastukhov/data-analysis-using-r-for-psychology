@@ -218,7 +218,7 @@ long_tidy <- tidyr::pivot_longer(widish_df,
 ```
 
 ```{r echo=FALSE}
-kableExtra::kable(long_tidy, caption="Long version of widish_df table with default names for new columns.")
+knitr::kable(long_tidy) #, caption="Long version of widish_df table with default names for new columns.")
 ```
 
 When you compare the two tables, you will see that original three columns × four rows are now stretched into twelve rows and name-value pairs are consistent across the two tables^[By the way, this simple check may seem as a trivial point but this is a kind of simple sanity check that you should perform routinely. This way you _know_ rather than _hope_ that transformation did what it should. I also check value is a few rows to make sure that I didn't mess things up. Catching simple errors early saves you a lot of time!]. As noted above, we can improve on that by specifying proper names for new columns.
@@ -229,7 +229,7 @@ long_tidy <- tidyr::pivot_longer(widish_df,
                                values_to = "Response")
 ```
 ```{r echo=FALSE}
-kableExtra::kable(long_tidy, caption="Long version of widish_df table with _custom_ names for new columns.")
+knitr::kable(long_tidy) #, caption="Long version of widish_df table with _custom_ names for new columns.")
 ```
 
 If you want to stick to base R, you can pivot longer via [reshape()](https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html) function that can do both pivot to longer and wider tables. It is more flexible and, therefore, much more confusing (at least for me). Here are some parameters that we need to specify in order to emulate [pivot_longer()](https://tidyr.tidyverse.org/reference/pivot_longer.html) call above:
@@ -429,12 +429,14 @@ The overall procedure is fairly straightforward:
 4. Compute an average stability across all probes and put it into a new `Average` column. You can do it "by hand" but, instead, use [rowSums()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/colSums.html) to compute it. Here, use `.` to refer to the table inside the `mutate()` function and you will need to normalize it by the number of probes to get an average instead of the sum.
 5. Pipe it to the output, using [knitr::kable()](https://bookdown.org/yihui/rmarkdown-cookbook/kable.html).
 
-Use [pivot_wider()](https://tidyr.tidyverse.org/reference/pivot_wider.html) in exercise 8.  
+Use [pivot_wider()](https://tidyr.tidyverse.org/reference/pivot_wider.html) in exercise 8.
+
 ::: {.infobox .practice}
 Do exercise 8.
 :::
 
 Repeat the analysis but now using the [reshape()](https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html) function.
+
 ::: {.infobox .practice}
 Do exercise 9.
 :::
