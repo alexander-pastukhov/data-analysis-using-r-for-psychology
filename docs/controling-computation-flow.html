@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2021-12-13" />
+<meta name="date" content="2021-12-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="tyding.html"/>
-
+<link rel="next" href="christmas-special.html"/>
 <script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -59,6 +59,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -267,6 +268,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.6" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#using-for-loop-to-load-and-join-multiple-data-files"><i class="fa fa-check"></i><b>9.6</b> Using for loop to load and join multiple data files</a></li>
 <li class="chapter" data-level="9.7" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#apply"><i class="fa fa-check"></i><b>9.7</b> Apply</a></li>
 <li class="chapter" data-level="9.8" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#purrr"><i class="fa fa-check"></i><b>9.8</b> Purrr</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="christmas-special.html"><a href="christmas-special.html"><i class="fa fa-check"></i><b>10</b> Christmas special</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="christmas-special.html"><a href="christmas-special.html#left-side-of-the-tree"><i class="fa fa-check"></i><b>10.1</b> Left side of the tree</a></li>
+<li class="chapter" data-level="10.2" data-path="christmas-special.html"><a href="christmas-special.html#right-side-of-the-tree"><i class="fa fa-check"></i><b>10.2</b> Right side of the tree</a></li>
+<li class="chapter" data-level="10.3" data-path="christmas-special.html"><a href="christmas-special.html#the-whole-tree"><i class="fa fa-check"></i><b>10.3</b> The whole tree</a></li>
+<li class="chapter" data-level="10.4" data-path="christmas-special.html"><a href="christmas-special.html#filling-in-the-tree"><i class="fa fa-check"></i><b>10.4</b> Filling in the tree</a></li>
+<li class="chapter" data-level="10.5" data-path="christmas-special.html"><a href="christmas-special.html#adding-background-image"><i class="fa fa-check"></i><b>10.5</b> Adding background image</a></li>
+<li class="chapter" data-level="10.6" data-path="christmas-special.html"><a href="christmas-special.html#adding-decoration-a-boring-one"><i class="fa fa-check"></i><b>10.6</b> Adding decoration (a boring one)</a></li>
+<li class="chapter" data-level="10.7" data-path="christmas-special.html"><a href="christmas-special.html#adding-decoration-a-bit-more-fun-one"><i class="fa fa-check"></i><b>10.7</b> Adding decoration (a bit more fun one)</a></li>
+<li class="chapter" data-level="10.8" data-path="christmas-special.html"><a href="christmas-special.html#adding-decoration-the-fun-ones"><i class="fa fa-check"></i><b>10.8</b> Adding decoration (the fun ones)</a></li>
+<li class="chapter" data-level="10.9" data-path="christmas-special.html"><a href="christmas-special.html#a-star-on-top"><i class="fa fa-check"></i><b>10.9</b> A star on top</a></li>
+<li class="chapter" data-level="10.10" data-path="christmas-special.html"><a href="christmas-special.html#merry-christmas"><i class="fa fa-check"></i><b>10.10</b> Merry Christmas!</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://alexander-pastukhov.github.io/">Alexander (Sasha) Pastukhov</li>
@@ -682,7 +696,7 @@ For the ten values I’ve generated above, the output will be the following (“
 <div id="using-for-loop-to-load-and-join-multiple-data-files" class="section level2" number="9.6">
 <h2><span class="header-section-number">9.6</span> Using for loop to load and join multiple data files</h2>
 <p>Your analysis starts with loading the data. Quite often, data for individual participants is stored in different files but with identical structure, so you need code that figures out which files you need to load, loads them on at a time and then binds them to one final table. Using a <code>for</code> loop is not the most elegant way to implement this but it does the job and gives you another example of how loops can be useful. I will walk you through details and then you We will implement the code that loads and merges individual files for persistence study. Download the <a href="data/persistence.zip">persistence.zip</a> and unzip into <code>Persistence</code> subfolder (we do not want to create a mess in your main folder!).</p>
-<p>First, you need to have a character vector with relevant file names. Package you are looking for is <a href="https://github.com/r-lib/fs">fs</a> (for File System). It has everything you need to work with the file system, including working with file names (dropping or adding path, extension, etc.), creating/moving/deleting files, checking whether file exists, and what not. One function that I use the most is <a href="https://www.rdocumentation.org/packages/fs/versions/1.5.0/topics/dir_ls">dir_ls()</a> that list files in a specified folder. The two parameters you need are <code>path</code> to your folder (you can and should use a relative path) and, optionally, <code>glob</code> filter string. The latter is a <a href="https://en.wikipedia.org/wiki/Glob_(programming)">globbing</a> wildcard pattern, where <code>*</code> stands for “any sequence of characters” and <code>?</code> stand for "one arbitrary character. For a csv file, this pattern would be <code>"*.csv"</code>. Test this single function call using appropriate <code>path</code> and <code>glob</code> parameters and make sure you get all the files in <em>Persistence</em> folder.</p>
+<p>First, you need to have a character vector with relevant file names. Package you are looking for is <a href="https://github.com/r-lib/fs">fs</a> (for File System). It has everything you need to work with the file system, including working with file names (dropping or adding path, extension, etc.), creating/moving/deleting files, checking whether file exists, and what not. One function that I use the most is <a href="https://www.rdocumentation.org/packages/fs/versions/1.5.0/topics/dir_ls">dir_ls()</a> that list files in a specified folder. The two parameters you need are <code>path</code> to your folder (you can and should use a relative path) and, optionally, <code>glob</code> filter string. The latter is a <a href="https://en.wikipedia.org/wiki/Glob_(programming)">globbing</a> wildcard pattern, where <code>*</code> stands for “any sequence of characters” and <code>?</code> stand for “one arbitrary character. For a csv file, this pattern would be <code>"*.csv"</code>. Test this single function call using appropriate <code>path</code> and <code>glob</code> parameters and make sure you get all the files in <em>Persistence</em> folder.</p>
 Next, you need to create a full table variable (I, typically, call it <code>results</code> or <code>reports</code>) and initialize it to an empty <code>data.frame()</code> (or an empty <code>tibble</code>). You loop over file names, <a href="tables.html#readr">read</a> one file at a time (don’t forget to specify column types), and then use <a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows()</a> to combine the full table and the new table you loaded. Note that <a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows()</a> returns a <em>new</em> table, so you need to assign it back to the original full table variable. Once you are done, your table should have 5232 rows and twelve columns.
 <table>
 <thead>
@@ -1007,67 +1021,6 @@ right
 
 </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="footnotes">
 <hr />
 <ol start="54">
@@ -1081,8 +1034,8 @@ right
           </div>
         </div>
       </div>
-<a href="tyding.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="tyding.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="christmas-special.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

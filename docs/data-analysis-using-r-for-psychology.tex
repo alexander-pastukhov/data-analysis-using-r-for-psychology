@@ -4,14 +4,17 @@
 %
 \documentclass[
 ]{book}
+\title{Data analysis using R for Psychology and Social Science}
+\author{Alexander (Sasha) Pastukhov}
+\date{2021-12-21}
+
+\usepackage{amsmath,amssymb}
 \usepackage{lmodern}
-\usepackage{amsmath}
-\usepackage{ifxetex,ifluatex}
-\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+\usepackage{iftex}
+\ifPDFTeX
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
-  \usepackage{amssymb}
 \else % if luatex or xetex
   \usepackage{unicode-math}
   \defaultfontfeatures{Scale=MatchLowercase}
@@ -82,7 +85,7 @@
 \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
 \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\usepackage{longtable,booktabs}
+\usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
 \usepackage{etoolbox}
@@ -124,15 +127,11 @@
 \usepackage[normalem]{ulem}
 \usepackage{makecell}
 \usepackage{xcolor}
-\ifluatex
+\ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
 \usepackage[]{natbib}
 \bibliographystyle{apalike}
-
-\title{Data analysis using R for Psychology and Social Science}
-\author{Alexander (Sasha) Pastukhov}
-\date{2021-12-13}
 
 \begin{document}
 \maketitle
@@ -1047,7 +1046,7 @@ You can convert from one type to another and check whether a particular vector i
   \item
     from integer or real, zero (\texttt{0} or \texttt{0.0}) is \texttt{FALSE}, any other non-zero value is \texttt{TRUE}
   \item
-    from a string, it is \texttt{TRUE} for \texttt{"TRUE"}, "\texttt{True"}, \texttt{"true"}, or \texttt{"T"} but \texttt{NA} if \texttt{"t"} \texttt{"TRue"}, \texttt{"truE}, etc. Same goes for \texttt{FALSE}.
+    from a string, it is \texttt{TRUE} for \texttt{"TRUE"}, ``\texttt{True"}, \texttt{"true"}, or \texttt{"T"} but \texttt{NA} if \texttt{"t"} \texttt{"TRue"}, \texttt{"truE}, etc. Same goes for \texttt{FALSE}.
   \item
     from \texttt{NA} → \texttt{NA}
   \end{itemize}
@@ -1153,7 +1152,7 @@ Same is true for negative indexes, even though we are excluding two out of three
 \end{verbatim}
 
 And the zero index generates an error as well but the error message is different.
-ex "
+ex ''
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2545,53 +2544,53 @@ You always need the first one. But you do not need to specify the other two, eve
 \hline
 Condition & Intensity & Response\\
 \hline
-A & 1 & 0.3333212\\
+A & 1 & 0.4135671\\
 \hline
-B & 1 & -1.9101747\\
+B & 1 & -1.3667610\\
 \hline
-C & 1 & -2.7932770\\
+C & 1 & -4.1823983\\
 \hline
-A & 2 & -0.3578376\\
+A & 2 & -0.1927100\\
 \hline
-B & 2 & -0.8096717\\
+B & 2 & -1.9608549\\
 \hline
-C & 2 & -2.5783352\\
+C & 2 & -3.2356930\\
 \hline
-A & 3 & 1.3777521\\
+A & 3 & 1.7832299\\
 \hline
-B & 3 & -0.7120198\\
+B & 3 & 0.3458432\\
 \hline
-C & 3 & -1.4387485\\
+C & 3 & -1.2527446\\
 \hline
-A & 4 & 3.0674511\\
+A & 4 & 2.9448398\\
 \hline
-B & 4 & 0.1548836\\
+B & 4 & 0.3324121\\
 \hline
-C & 4 & -1.4360799\\
+C & 4 & -0.6766119\\
 \hline
-A & 5 & 3.8664557\\
+A & 5 & 4.0664154\\
 \hline
-B & 5 & 2.4961840\\
+B & 5 & 1.5344355\\
 \hline
-C & 5 & -0.1108725\\
+C & 5 & 0.7069736\\
 \hline
-A & 6 & 5.9622744\\
+A & 6 & 4.9886646\\
 \hline
-B & 6 & 3.0730696\\
+B & 6 & 2.7011843\\
 \hline
-C & 6 & 1.8178355\\
+C & 6 & 0.3941204\\
 \hline
-A & 7 & 6.0179457\\
+A & 7 & 4.9543774\\
 \hline
-B & 7 & 3.4541803\\
+B & 7 & 5.2143381\\
 \hline
-C & 7 & 1.6195238\\
+C & 7 & 1.1751677\\
 \hline
-A & 8 & 6.3809706\\
+A & 8 & 6.9389255\\
 \hline
-B & 8 & 4.5723473\\
+B & 8 & 5.6525285\\
 \hline
-C & 8 & 3.0622937\\
+C & 8 & 3.1103216\\
 \hline
 \end{tabular}
 
@@ -4073,21 +4072,21 @@ D & 22\\
 \hline
 ID & Report\\
 \hline
-A & 4.552470\\
+A & 2.149593\\
 \hline
-A & 5.069592\\
+A & 2.834297\\
 \hline
-B & 5.590432\\
+B & 5.812397\\
 \hline
-B & 5.098795\\
+B & 1.522085\\
 \hline
-C & 5.862000\\
+C & 4.601324\\
 \hline
-C & 3.293651\\
+C & 4.990051\\
 \hline
-D & 1.254941\\
+D & 2.721439\\
 \hline
-D & 6.560998\\
+D & 2.593625\\
 \hline
 \end{tabular}
 \end{table}
@@ -4109,21 +4108,21 @@ To join two tables, you require ``key'' columns: columns that contain values tha
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 4.552470\\
+A & 20 & 2.149593\\
 \hline
-A & 20 & 5.069592\\
+A & 20 & 2.834297\\
 \hline
-B & 19 & 5.590432\\
+B & 19 & 5.812397\\
 \hline
-B & 19 & 5.098795\\
+B & 19 & 1.522085\\
 \hline
-C & 30 & 5.862000\\
+C & 30 & 4.601324\\
 \hline
-C & 30 & 3.293651\\
+C & 30 & 4.990051\\
 \hline
-D & 22 & 1.254941\\
+D & 22 & 2.721439\\
 \hline
-D & 22 & 6.560998\\
+D & 22 & 2.593625\\
 \hline
 \end{tabular}
 \centering
@@ -4131,21 +4130,21 @@ D & 22 & 6.560998\\
 \hline
 ID & Report & Age\\
 \hline
-A & 4.552470 & 20\\
+A & 2.149593 & 20\\
 \hline
-A & 5.069592 & 20\\
+A & 2.834297 & 20\\
 \hline
-B & 5.590432 & 19\\
+B & 5.812397 & 19\\
 \hline
-B & 5.098795 & 19\\
+B & 1.522085 & 19\\
 \hline
-C & 5.862000 & 30\\
+C & 4.601324 & 30\\
 \hline
-C & 3.293651 & 30\\
+C & 4.990051 & 30\\
 \hline
-D & 1.254941 & 22\\
+D & 2.721439 & 22\\
 \hline
-D & 6.560998 & 22\\
+D & 2.593625 & 22\\
 \hline
 \end{tabular}
 \end{table}
@@ -4197,21 +4196,21 @@ D & 22\\
 \hline
 ID & Report\\
 \hline
-A & 4.025461\\
+A & 2.732771\\
 \hline
-A & 3.584354\\
+A & 5.744005\\
 \hline
-B & 6.219907\\
+B & 2.357657\\
 \hline
-B & 3.765300\\
+B & 3.208783\\
 \hline
-C & 4.985474\\
+C & 1.453330\\
 \hline
-C & 2.855392\\
+C & 5.181269\\
 \hline
-E & 1.090241\\
+E & 1.308940\\
 \hline
-E & 1.260893\\
+E & 3.401236\\
 \hline
 \end{tabular}
 \end{table}
@@ -4233,17 +4232,17 @@ E & 1.260893\\
 \hline
 ID & Report & Age\\
 \hline
-A & 4.025461 & 20\\
+A & 2.732771 & 20\\
 \hline
-A & 3.584354 & 20\\
+A & 5.744005 & 20\\
 \hline
-B & 6.219907 & 19\\
+B & 2.357657 & 19\\
 \hline
-B & 3.765300 & 19\\
+B & 3.208783 & 19\\
 \hline
-C & 4.985474 & 30\\
+C & 1.453330 & 30\\
 \hline
-C & 2.855392 & 30\\
+C & 5.181269 & 30\\
 \hline
 \end{tabular}
 \end{table}
@@ -4265,23 +4264,23 @@ In contrast, \textbf{full join} is the most liberal as it includes all rows from
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 4.025461\\
+A & 20 & 2.732771\\
 \hline
-A & 20 & 3.584354\\
+A & 20 & 5.744005\\
 \hline
-B & 19 & 6.219907\\
+B & 19 & 2.357657\\
 \hline
-B & 19 & 3.765300\\
+B & 19 & 3.208783\\
 \hline
-C & 30 & 4.985474\\
+C & 30 & 1.453330\\
 \hline
-C & 30 & 2.855392\\
+C & 30 & 5.181269\\
 \hline
 D & 22 & NA\\
 \hline
-E & NA & 1.090241\\
+E & NA & 1.308940\\
 \hline
-E & NA & 1.260893\\
+E & NA & 3.401236\\
 \hline
 \end{tabular}
 \end{table}
@@ -4303,17 +4302,17 @@ E & NA & 1.260893\\
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 4.025461\\
+A & 20 & 2.732771\\
 \hline
-A & 20 & 3.584354\\
+A & 20 & 5.744005\\
 \hline
-B & 19 & 6.219907\\
+B & 19 & 2.357657\\
 \hline
-B & 19 & 3.765300\\
+B & 19 & 3.208783\\
 \hline
-C & 30 & 4.985474\\
+C & 30 & 1.453330\\
 \hline
-C & 30 & 2.855392\\
+C & 30 & 5.181269\\
 \hline
 D & 22 & NA\\
 \hline
@@ -4337,21 +4336,21 @@ D & 22 & NA\\
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 4.025461\\
+A & 20 & 2.732771\\
 \hline
-A & 20 & 3.584354\\
+A & 20 & 5.744005\\
 \hline
-B & 19 & 6.219907\\
+B & 19 & 2.357657\\
 \hline
-B & 19 & 3.765300\\
+B & 19 & 3.208783\\
 \hline
-C & 30 & 4.985474\\
+C & 30 & 1.453330\\
 \hline
-C & 30 & 2.855392\\
+C & 30 & 5.181269\\
 \hline
-E & NA & 1.090241\\
+E & NA & 1.308940\\
 \hline
-E & NA & 1.260893\\
+E & NA & 3.401236\\
 \hline
 \end{tabular}
 \end{table}
@@ -4391,13 +4390,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 2.867045\\
+A & M & 1.563011\\
 \hline
-B & F & 2.759981\\
+B & F & 5.764423\\
 \hline
-A & F & 1.238247\\
+A & F & 1.536478\\
 \hline
-B & M & 1.001560\\
+B & M & 4.413206\\
 \hline
 \end{tabular}
 \end{table}
@@ -4417,13 +4416,13 @@ B & M & 1.001560\\
 \hline
 ID & Gender & Age & Report\\
 \hline
-A & M & 20 & 2.867045\\
+A & M & 20 & 1.563011\\
 \hline
-B & F & 19 & 2.759981\\
+B & F & 19 & 5.764423\\
 \hline
-A & F & 30 & 1.238247\\
+A & F & 30 & 1.536478\\
 \hline
-B & M & 22 & 1.001560\\
+B & M & 22 & 4.413206\\
 \hline
 \end{tabular}
 \end{table}
@@ -4464,13 +4463,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 4.867500\\
+A & M & 6.022859\\
 \hline
-B & F & 2.741224\\
+B & F & 4.000123\\
 \hline
-A & F & 1.306175\\
+A & F & 3.483468\\
 \hline
-B & M & 3.077008\\
+B & M & 1.583290\\
 \hline
 \end{tabular}
 \end{table}
@@ -4490,13 +4489,13 @@ B & M & 3.077008\\
 \hline
 VPCode & Sex & Age & Report\\
 \hline
-A & F & 30 & 1.306175\\
+A & F & 30 & 3.483468\\
 \hline
-A & M & 20 & 4.867500\\
+A & M & 20 & 6.022859\\
 \hline
-B & F & 19 & 2.741224\\
+B & F & 19 & 4.000123\\
 \hline
-B & M & 22 & 3.077008\\
+B & M & 22 & 1.583290\\
 \hline
 \end{tabular}
 \end{table}
@@ -4592,12 +4591,7 @@ I assume that table presented above is in \texttt{widish\_df} table defined abov
 \end{Highlighting}
 \end{Shaded}
 
-\textbackslash begin\{table\}
-
-\textbackslash caption\{\label{tab:unnamed-chunk-200}Long version of widish\_df table with default names for new columns.\}
-\centering
-
-\begin{tabular}[t]{r|l|l|r}
+\begin{tabular}{r|l|l|r}
 \hline
 Participant & Face & name & value\\
 \hline
@@ -4627,8 +4621,6 @@ Participant & Face & name & value\\
 \hline
 \end{tabular}
 
-\textbackslash end\{table\}
-
 When you compare the two tables, you will see that original three columns × four rows are now stretched into twelve rows and name-value pairs are consistent across the two tables\footnote{By the way, this simple check may seem as a trivial point but this is a kind of simple sanity check that you should perform routinely. This way you \emph{know} rather than \emph{hope} that transformation did what it should. I also check value is a few rows to make sure that I didn't mess things up. Catching simple errors early saves you a lot of time!}. As noted above, we can improve on that by specifying proper names for new columns.
 
 \begin{Shaded}
@@ -4640,12 +4632,7 @@ When you compare the two tables, you will see that original three columns × fou
 \end{Highlighting}
 \end{Shaded}
 
-\textbackslash begin\{table\}
-
-\textbackslash caption\{\label{tab:unnamed-chunk-202}Long version of widish\_df table with \emph{custom} names for new columns.\}
-\centering
-
-\begin{tabular}[t]{r|l|l|r}
+\begin{tabular}{r|l|l|r}
 \hline
 Participant & Face & Scale & Response\\
 \hline
@@ -4674,8 +4661,6 @@ Participant & Face & Scale & Response\\
 2 & M-2 & Trustworthiness & 2\\
 \hline
 \end{tabular}
-
-\textbackslash end\{table\}
 
 If you want to stick to base R, you can pivot longer via \href{https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html}{reshape()} function that can do both pivot to longer and wider tables. It is more flexible and, therefore, much more confusing (at least for me). Here are some parameters that we need to specify in order to emulate \href{https://tidyr.tidyverse.org/reference/pivot_longer.html}{pivot\_longer()} call above:
 
@@ -4898,29 +4883,29 @@ Let us take a look at the importance of \texttt{id\_cols}. Imagine that we have 
 \hline
 Participant & Face & Scale & Response & RT\\
 \hline
-1 & M-1 & Symmetry & 6 & 1.86\\
+1 & M-1 & Symmetry & 6 & 3.10\\
 \hline
-1 & M-1 & Attractiveness & 4 & 1.43\\
+1 & M-1 & Attractiveness & 4 & 1.23\\
 \hline
-1 & M-1 & Trustworthiness & 3 & 1.38\\
+1 & M-1 & Trustworthiness & 3 & 2.50\\
 \hline
-1 & M-2 & Symmetry & 4 & 1.61\\
+1 & M-2 & Symmetry & 4 & 2.04\\
 \hline
-1 & M-2 & Attractiveness & 7 & 0.48\\
+1 & M-2 & Attractiveness & 7 & 1.10\\
 \hline
-1 & M-2 & Trustworthiness & 6 & 0.37\\
+1 & M-2 & Trustworthiness & 6 & 1.63\\
 \hline
-2 & M-1 & Symmetry & 5 & 1.21\\
+2 & M-1 & Symmetry & 5 & 2.50\\
 \hline
-2 & M-1 & Attractiveness & 2 & 1.72\\
+2 & M-1 & Attractiveness & 2 & 2.72\\
 \hline
-2 & M-1 & Trustworthiness & 1 & 2.64\\
+2 & M-1 & Trustworthiness & 1 & 1.55\\
 \hline
-2 & M-2 & Symmetry & 3 & 1.66\\
+2 & M-2 & Symmetry & 3 & 1.90\\
 \hline
-2 & M-2 & Attractiveness & 7 & 0.35\\
+2 & M-2 & Attractiveness & 7 & 0.94\\
 \hline
-2 & M-2 & Trustworthiness & 2 & 4.31\\
+2 & M-2 & Trustworthiness & 2 & 2.01\\
 \hline
 \end{tabular}
 
@@ -4937,29 +4922,29 @@ For \href{https://tidyr.tidyverse.org/reference/pivot_wider.html}{pivot\_wider},
 \hline
 Participant & Face & RT & Symmetry & Attractiveness & Trustworthiness\\
 \hline
-1 & M-1 & 1.86 & 6 & NA & NA\\
+1 & M-1 & 3.10 & 6 & NA & NA\\
 \hline
-1 & M-1 & 1.43 & NA & 4 & NA\\
+1 & M-1 & 1.23 & NA & 4 & NA\\
 \hline
-1 & M-1 & 1.38 & NA & NA & 3\\
+1 & M-1 & 2.50 & NA & NA & 3\\
 \hline
-1 & M-2 & 1.61 & 4 & NA & NA\\
+1 & M-2 & 2.04 & 4 & NA & NA\\
 \hline
-1 & M-2 & 0.48 & NA & 7 & NA\\
+1 & M-2 & 1.10 & NA & 7 & NA\\
 \hline
-1 & M-2 & 0.37 & NA & NA & 6\\
+1 & M-2 & 1.63 & NA & NA & 6\\
 \hline
-2 & M-1 & 1.21 & 5 & NA & NA\\
+2 & M-1 & 2.50 & 5 & NA & NA\\
 \hline
-2 & M-1 & 1.72 & NA & 2 & NA\\
+2 & M-1 & 2.72 & NA & 2 & NA\\
 \hline
-2 & M-1 & 2.64 & NA & NA & 1\\
+2 & M-1 & 1.55 & NA & NA & 1\\
 \hline
-2 & M-2 & 1.66 & 3 & NA & NA\\
+2 & M-2 & 1.90 & 3 & NA & NA\\
 \hline
-2 & M-2 & 0.35 & NA & 7 & NA\\
+2 & M-2 & 0.94 & NA & 7 & NA\\
 \hline
-2 & M-2 & 4.31 & NA & NA & 2\\
+2 & M-2 & 2.01 & NA & NA & 2\\
 \hline
 \end{tabular}
 
@@ -5038,15 +5023,13 @@ The overall procedure is fairly straightforward:
   Pipe it to the output, using \href{https://bookdown.org/yihui/rmarkdown-cookbook/kable.html}{knitr::kable()}.
 \end{enumerate}
 
-Use \href{https://tidyr.tidyverse.org/reference/pivot_wider.html}{pivot\_wider()} in exercise 8.\\
-::: \{.infobox .practice\}
+Use \href{https://tidyr.tidyverse.org/reference/pivot_wider.html}{pivot\_wider()} in exercise 8.
+
 Do exercise 8.
-:::
 
 Repeat the analysis but now using the \href{https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html}{reshape()} function.
-::: \{.infobox .practice\}
+
 Do exercise 9.
-:::
 
 Let us practice more and create group average summary as a square 5×4 table with a single row per \emph{Prime} and four columns for \emph{Probe} plus a column that says which prime the row corresponds to. As a value for each cell, we want to code a \_median value. The table should look like this:
 
@@ -5491,7 +5474,7 @@ Do exercise 9.
 
 Your analysis starts with loading the data. Quite often, data for individual participants is stored in different files but with identical structure, so you need code that figures out which files you need to load, loads them on at a time and then binds them to one final table. Using a \texttt{for} loop is not the most elegant way to implement this but it does the job and gives you another example of how loops can be useful. I will walk you through details and then you We will implement the code that loads and merges individual files for persistence study. Download the \href{data/persistence.zip}{persistence.zip} and unzip into \texttt{Persistence} subfolder (we do not want to create a mess in your main folder!).
 
-First, you need to have a character vector with relevant file names. Package you are looking for is \href{https://github.com/r-lib/fs}{fs} (for File System). It has everything you need to work with the file system, including working with file names (dropping or adding path, extension, etc.), creating/moving/deleting files, checking whether file exists, and what not. One function that I use the most is \href{https://www.rdocumentation.org/packages/fs/versions/1.5.0/topics/dir_ls}{dir\_ls()} that list files in a specified folder. The two parameters you need are \texttt{path} to your folder (you can and should use a relative path) and, optionally, \texttt{glob} filter string. The latter is a \href{https://en.wikipedia.org/wiki/Glob_(programming)}{globbing} wildcard pattern, where \texttt{*} stands for ``any sequence of characters'' and \texttt{?} stand for "one arbitrary character. For a csv file, this pattern would be \texttt{"*.csv"}. Test this single function call using appropriate \texttt{path} and \texttt{glob} parameters and make sure you get all the files in \emph{Persistence} folder.
+First, you need to have a character vector with relevant file names. Package you are looking for is \href{https://github.com/r-lib/fs}{fs} (for File System). It has everything you need to work with the file system, including working with file names (dropping or adding path, extension, etc.), creating/moving/deleting files, checking whether file exists, and what not. One function that I use the most is \href{https://www.rdocumentation.org/packages/fs/versions/1.5.0/topics/dir_ls}{dir\_ls()} that list files in a specified folder. The two parameters you need are \texttt{path} to your folder (you can and should use a relative path) and, optionally, \texttt{glob} filter string. The latter is a \href{https://en.wikipedia.org/wiki/Glob_(programming)}{globbing} wildcard pattern, where \texttt{*} stands for ``any sequence of characters'' and \texttt{?} stand for ``one arbitrary character. For a csv file, this pattern would be \texttt{"*.csv"}. Test this single function call using appropriate \texttt{path} and \texttt{glob} parameters and make sure you get all the files in \emph{Persistence} folder.
 
 Next, you need to create a full table variable (I, typically, call it \texttt{results} or \texttt{reports}) and initialize it to an empty \texttt{data.frame()} (or an empty \texttt{tibble}). You loop over file names, \protect\hyperlink{readr}{read} one file at a time (don't forget to specify column types), and then use \href{https://dplyr.tidyverse.org/reference/bind.html}{bind\_rows()} to combine the full table and the new table you loaded. Note that \href{https://dplyr.tidyverse.org/reference/bind.html}{bind\_rows()} returns a \emph{new} table, so you need to assign it back to the original full table variable. Once you are done, your table should have 5232 rows and twelve columns.
 
@@ -5630,6 +5613,202 @@ You have just \emph{mapped} inputs on outputs using \texttt{read\_csv()} but fun
 \end{verbatim}
 
 Do exercise 12.
+
+\hypertarget{christmas-special}{%
+\chapter{Christmas special}\label{christmas-special}}
+
+Today we will work on our Christmas spirit, while practicing in generating data and plotting. Our end-product will be a Christmas tree plot that you see below. For this project you will need \href{https://cran.r-project.org/package=png}{png} library (you should have it already but check and install, if that is not the case) and a \href{images/christmas-background.png}{background image} created by \href{https://openclipart.org/artist/GDJ}{Gordon Dylan Johnson}. Grab the \href{notebooks/Seminar\%2010\%20-\%20Christmas\%20special.Rmd}{exercise notebook} as well!
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-255-1.pdf}
+
+\hypertarget{left-side-of-the-tree}{%
+\section{Left side of the tree}\label{left-side-of-the-tree}}
+
+First we need a tree. We will generate its shape using a function: \texttt{x\ =\ y\ -\ 0.3\ *\ floor(y)}, where \texttt{y} should vary between -3 and -0.3\footnote{You should definitely try different values for both y range and for the linear part itself to get a feeling of what it does to the shape you generate.} (you already know how to generate a \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/seq.html}{sequence}, so just decide on how many point you want your shape to have). This function describes a \emph{left} part of the tree, so create a table called \texttt{tree\_left} with corresponding \texttt{x} and \texttt{y} columns and plot it via \href{https://ggplot2.tidyverse.org/}{ggplot2}. Note that you need to use \href{https://ggplot2.tidyverse.org/reference/geom_path.html}{geom\_path()} rather than \texttt{geom\_line()}. The former connects points in the order they appear in the table, whereas the latter first sort all variables based on the x-axis variable (try it out to see what I mean). You should get a plot like the one below.
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-256-1.pdf}
+
+Do exercise 1.
+
+\hypertarget{right-side-of-the-tree}{%
+\section{Right side of the tree}\label{right-side-of-the-tree}}
+
+We could use an almost the same formula to generate the right side of the tree. Or, we can create it as a mirror copy of the \texttt{tree\_left}. In the latter case, we must flip the sign of the \texttt{x} (so negative \texttt{x} become positive). And, a more subtle point, we need to reverse the order of \emph{all} rows in the table, so that \texttt{y} goes from -0.3 to -3 (it is going from -3 to -0.3 in \texttt{tree\_left}, take a look yourself). You can rearrange table using subsetting or by \href{https://dplyr.tidyverse.org/reference/arrange.html}{arranging} the rows based on \href{https://dplyr.tidyverse.org/reference/desc.html?q=desc}{descending order} of either \texttt{y} or \href{https://dplyr.tidyverse.org/reference/ranking.html}{row\_number()} (here, it will effectively give you an index for each row). The right side should look just like the left side (but mirrored!).
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-257-1.pdf}
+
+Do exercise 2.
+
+\hypertarget{the-whole-tree}{%
+\section{The whole tree}\label{the-whole-tree}}
+
+Now let us draw the entire tree. We will do it in two ways, to practice. First, \href{https://dplyr.tidyverse.org/reference/bind.html}{bind} tables \texttt{tree\_left} and \texttt{tree\_right} by rows to create a new table (I called it \texttt{tree\_shape}) and then reuse the same code with a single \texttt{geom\_path()} call as before. Note that if you have an odd extra line going from bottom right to the top of the tree that means you did not reverse the \texttt{tree\_right} table (see above).
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-258-1.pdf}
+
+Do exercise 3.
+
+Alternatively, you can plot \texttt{tree\_left} and \texttt{tree\_right} separately by using two \texttt{geom\_path()} calls. Here, you use data from \emph{different} tables in a single plot, so you need to specify \texttt{data} parameter more than once. There are three ways to do it here. First, do not specify any data and aesthetics in the \texttt{ggplot()} call itself and use it explicitly in each \texttt{geom\_path()} call. Note that you need to use named parameters via \texttt{data=...}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+} 
+  \FunctionTok{geom\_path}\NormalTok{(}\AttributeTok{data=}\NormalTok{tree\_left, }\FunctionTok{aes}\NormalTok{(...), ...) }\SpecialCharTok{+}
+  \FunctionTok{geom\_path}\NormalTok{(}\AttributeTok{data=}\NormalTok{tree\_right, }\FunctionTok{aes}\NormalTok{(...), ...)}
+\end{Highlighting}
+\end{Shaded}
+
+Or, you can use \texttt{tree\_left} (or \texttt{tree\_right}) as a ``main'' data source and specify a different one only in one of the \texttt{geom\_path()} calls:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data=}\NormalTok{tree\_left, }\FunctionTok{aes}\NormalTok{(...), ...) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_path}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_path}\NormalTok{(}\AttributeTok{data=}\NormalTok{tree\_right)}
+\end{Highlighting}
+\end{Shaded}
+
+Here, I would suggest the first option of not specifying a ``main'' data source, as we will use even more different tables later on.
+
+Do exercise 4.
+
+\hypertarget{filling-in-the-tree}{%
+\section{Filling in the tree}\label{filling-in-the-tree}}
+
+Now, let us ``fill in'' the shape between the lines. For this, we will use \href{https://ggplot2.tidyverse.org/reference/geom_ribbon.html}{geom\_ribbon} that fills in a shape either between vertical limits (when you specify \texttt{ymin} and \texttt{ymax} aesthetics) or between the horizontal ones (\texttt{xmin} and \texttt{xmax}). The latter is our case but first we need to combine our left and right shape into a single table with three columns: \texttt{y} coordinate and \texttt{x\_left} and \texttt{x\_right} coordinates. Think how can you join these the two tables \texttt{tree\_left} and \texttt{tree\_right} to achieve this (pause and ponder before reading further).
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-259-1.pdf}
+
+Hint: use a \href{https://dplyr.tidyverse.org/reference/mutate-joins.html}{join} but pay attention to \texttt{suffix} parameter as it will be useful. Put the new table into the \texttt{tree} variable (we will use it later again). Take a look at the table you get before plotting it using \href{https://ggplot2.tidyverse.org/reference/geom_ribbon.html}{geom\_ribbon}.
+
+Do exercise 5.
+
+\hypertarget{adding-background-image}{%
+\section{Adding background image}\label{adding-background-image}}
+
+Our background is not very Christmasy. We should drop the grid altogether (which \href{https://ggplot2.tidyverse.org/reference/ggtheme.html}{theme} would be the best?) and replace it with a \href{images/christmas-background.png}{nice picture}. To use this picture, you need the \href{https://cran.r-project.org/package=png}{png} library (import it in the setup chunk, not here!) and then use \texttt{readPNG()} function (see \href{https://cran.r-project.org/web/packages/png/png.pdf}{official docs} or just type \texttt{?readPNG} in console). Once you read an image into a variable (I imaginatively called it \texttt{background}), you can add it to the plot in two ways. A simpler way is by using function \href{https://rpkgs.datanovia.com/ggpubr/reference/background_image.html}{background\_image()} from \href{https://rpkgs.datanovia.com/ggpubr/}{ggpubr} library. You add it to the plot just as you do with other geoms. However, this function is only a very thin wrapper for \href{https://ggplot2.tidyverse.org/reference/annotation_raster.html}{annotation\_raster()} call, so you could copy-paste it from the function body and use it directly:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# code from ggpubr github repository}
+\NormalTok{background\_image }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(raster.img)\{}
+  \FunctionTok{annotation\_raster}\NormalTok{(raster.img,}
+                    \AttributeTok{xmin =} \SpecialCharTok{{-}}\ConstantTok{Inf}\NormalTok{, }\AttributeTok{xmax =} \ConstantTok{Inf}\NormalTok{,}
+                    \AttributeTok{ymin =} \SpecialCharTok{{-}}\ConstantTok{Inf}\NormalTok{, }\AttributeTok{ymax =} \ConstantTok{Inf}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+You new plot should look like this:
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-261-1.pdf}
+
+Do exercise 6.
+
+\hypertarget{adding-decoration-a-boring-one}{%
+\section{Adding decoration (a boring one)}\label{adding-decoration-a-boring-one}}
+
+We need some decoration on our tree. Our task is to generate ``Christmas balls'' (\href{https://ggplot2.tidyverse.org/reference/geom_point.html}{geom\_point()}) at various locations \emph{within} the tree. For this, we need to first randomly select rows from our \texttt{tree} table that you created in exercise 5 and then generate a random location \emph{within} the tree limits for each sampled row. Let us deal with the first problem (randomly selecting riws, so, effectively, randomly selecting y coordinate) first.
+
+To randomly sample rows from a table, you can use \href{https://dplyr.tidyverse.org/reference/slice.html}{slice\_sample} function from \href{https://dplyr.tidyverse.org/index.html}{dplyr}. It takes a table and returns a new table with randomly sampled rows. You only need to specify a number of rows that you want to have in a new table either directly (parameter \texttt{n}) or as a proportion of number of rows in the original table (parameter \texttt{prop}). In our case, I used the latter and sampled half of the original tree table. You also need to decide on whether the same row can be sampled more than once (so-called sampling with replacement). I opted for this via \texttt{replace=TRUE} parameter. Finally, we want rows that describe the lower part of the tree to be sampled more often than the upper ones because we can put more decoration on them (the tree is wider). For this, we need to compute width of the tree for each row (a new column that I called \texttt{x\_range} but you can call it \texttt{width}) \emph{before} the sampling. Then, we can use that \texttt{x\_range} for the \texttt{weight\_by} parameter of the \href{https://dplyr.tidyverse.org/reference/slice.html}{slice\_sample}. Put a sampled table into a new variable (I called it \texttt{balls}) and add it to the plot via \href{https://ggplot2.tidyverse.org/reference/geom_point.html}{geom\_point()}. For the moment, use \texttt{x\_left} for x-coordinate. It will put all the balls on the left edge of the tree but we will fix this shortly.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{balls }\OtherTok{\textless{}{-}} 
+\NormalTok{  tree }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{x\_range =}\NormalTok{ x\_right }\SpecialCharTok{{-}}\NormalTok{ x\_left) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{slice\_sample}\NormalTok{(}\AttributeTok{prop =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{weight\_by =}\NormalTok{ x\_range, }\AttributeTok{replace=}\ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{x =} \FunctionTok{runif}\NormalTok{(}\FunctionTok{n}\NormalTok{(), x\_left, x\_right),}
+         \AttributeTok{size =} \FunctionTok{rnorm}\NormalTok{(}\FunctionTok{n}\NormalTok{(), }\DecValTok{5}\NormalTok{, }\DecValTok{1}\NormalTok{),}
+         \AttributeTok{icolor =} \FunctionTok{factor}\NormalTok{(}\FunctionTok{sample}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{, }\FunctionTok{n}\NormalTok{(), }\AttributeTok{replace=}\ConstantTok{TRUE}\NormalTok{)))}
+
+\FunctionTok{ggplot}\NormalTok{(tree\_left, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{x, }\AttributeTok{y=}\NormalTok{y)) }\SpecialCharTok{+} 
+  \FunctionTok{annotation\_raster}\NormalTok{(background,}
+                    \AttributeTok{xmin =} \SpecialCharTok{{-}}\ConstantTok{Inf}\NormalTok{, }\AttributeTok{xmax =} \ConstantTok{Inf}\NormalTok{,}
+                    \AttributeTok{ymin =} \SpecialCharTok{{-}}\ConstantTok{Inf}\NormalTok{, }\AttributeTok{ymax =} \ConstantTok{Inf}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_path}\NormalTok{(}\AttributeTok{color=}\StringTok{"darkgreen"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_ribbon}\NormalTok{(}\AttributeTok{data=}\NormalTok{tree, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{x\_left, }\AttributeTok{xmin=}\NormalTok{x\_left, }\AttributeTok{xmax=}\NormalTok{x\_right), }\AttributeTok{fill=}\StringTok{"darkgreen"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_path}\NormalTok{(}\AttributeTok{data=}\NormalTok{tree\_right, }\AttributeTok{color=}\StringTok{"darkgreen"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{data=}\NormalTok{balls, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{x\_left, }\AttributeTok{y=}\NormalTok{y)) }\SpecialCharTok{+}
+  \FunctionTok{theme\_void}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-262-1.pdf}
+
+Do exercise 7.
+
+\hypertarget{adding-decoration-a-bit-more-fun-one}{%
+\section{Adding decoration (a bit more fun one)}\label{adding-decoration-a-bit-more-fun-one}}
+
+We created the vertical location for each ball via random sampling. Now we need to generate a valid x-position somewhere in between \texttt{x\_left} and \texttt{x\_right} coordinates. Use \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Uniform.html}{runif()} function for using \texttt{x\_left} and \texttt{x\_right}. Note that you need to specify the number of random values to generate. That should be the number of rows in the table. If you do it within mutate, use function \href{https://dplyr.tidyverse.org/reference/context.html}{n()}. For base R, you can use \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/nrow.html}{nrow()}. Create a new column \texttt{x} and use it for plotting. Note how plot changes every time you re-run the sampling or randomization code.
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-263-1.pdf}
+
+Do exercise 8.
+
+\hypertarget{adding-decoration-the-fun-ones}{%
+\section{Adding decoration (the fun ones)}\label{adding-decoration-the-fun-ones}}
+
+Black tiny Christmas balls of the same size? That won't do! Generate a new column (I called it \texttt{size}) with random ball sizes drawn from a \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html}{normal distribution}. Decide on a reasonable mean and standard deviation but remember that you need to specify the number of random values that you want (just like for \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Uniform.html}{runif()} above).
+
+Second, let as specify color of individual balls as a factor variable. This way, we can use it for \texttt{color} aesthetics and ggplot2 will use it palettes to pick the colors for us. Just create a vector of some numbers (the number of unique entries will be your number of colors) and convert it to a factor (check what will happen, if you won't do this). Inside the \href{https://ggplot2.tidyverse.org/reference/geom_point.html}{geom\_point()} call, use \texttt{show.legend=FALSE} to suppress the legend (check what will happen, if you set it to \texttt{TRUE} or omit it).
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-264-1.pdf}
+
+Do exercise 9.
+
+\hypertarget{a-star-on-top}{%
+\section{A star on top}\label{a-star-on-top}}
+
+Our final touch will be a star on the top of the tree. We could use another \href{https://ggplot2.tidyverse.org/reference/geom_point.html}{geom\_point} but with a different \href{https://ggplot2.tidyverse.org/articles/ggplot2-specs.html\#sec:shape-spec}{shape} but instead we will draw it as a regular polygon with odd number of vertices, like the ones you see below. The numbers indicate the order in which vertices are created and drawn along the path. To make a closed contour, we very first (top) vertex needs to be also the last vertex, so you cannot see a label for \#1 (it is covered by \#6, \#8, and \#10 labels) but it is definitely where. Think how you can generate such a shape by walking around the circle with a given angular step and how you can compute x and y coordinates by knowing that angle and a radius (size) of the shape (here, I assumed radius to be 1).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{star\_plots }\OtherTok{\textless{}{-}}\NormalTok{ purrr}\SpecialCharTok{::}\FunctionTok{map}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{9}\NormalTok{),}
+                         \SpecialCharTok{\textasciitilde{}}\FunctionTok{tibble}\NormalTok{(}\AttributeTok{theta =}\NormalTok{ (}\DecValTok{0}\SpecialCharTok{:}\NormalTok{.) }\SpecialCharTok{*}\NormalTok{ (}\DecValTok{4} \SpecialCharTok{*}\NormalTok{ pi }\SpecialCharTok{/}\NormalTok{ .)) }\SpecialCharTok{\%\textgreater{}\%}
+                          \FunctionTok{mutate}\NormalTok{(}\AttributeTok{i =} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{n}\NormalTok{(),}
+                                 \AttributeTok{x =} \FunctionTok{sin}\NormalTok{(theta),}
+                                 \AttributeTok{y =} \FunctionTok{cos}\NormalTok{(theta)) }\SpecialCharTok{\%\textgreater{}\%}
+                          \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{x, }\AttributeTok{y=}\NormalTok{y)) }\SpecialCharTok{+} 
+                          \FunctionTok{geom\_path}\NormalTok{() }\SpecialCharTok{+}
+                          \FunctionTok{geom\_label}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{label=}\NormalTok{i)) }\SpecialCharTok{+}
+                          \FunctionTok{coord\_equal}\NormalTok{())}
+
+                      
+\NormalTok{star\_plots[[}\DecValTok{1}\NormalTok{]] }\SpecialCharTok{|}\NormalTok{ star\_plots[[}\DecValTok{2}\NormalTok{]] }\SpecialCharTok{|}\NormalTok{ star\_plots[[}\DecValTok{3}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-265-1.pdf}
+
+If you examine the plots above, you will see that you go around the circle in exactly N steps, where N is 5, 7, or 9. Thus you can compute an angular step between \emph{adjacent} vertices by diving the length of a circle in degrees or radians by the number of steps you need to make. However, for our star we are not connecting each vertex to a adjacent one but to the \emph{next} one. Think about what it means to the step size. Once you've figured out the step size, you can generate location of each vertex in term of a \emph{polar angle} starting at 0 (top position) using that step. Note that you need to have N+1 vertices to close the contour and that serves as a nice sanity check as the polar angle for the first and the last entry mast be the same (keeping in mind that 0 is the same angle as 360° and \(2\cdot\pi\)). Later on, we want radians as we will use the angle with trigonometric functions but I suggest that you first generate a vector of angles in degrees, as it makes checking values easier.
+
+To turn a polar angle into x/y coordinates, you need to recall \href{https://en.wikipedia.org/wiki/List_of_trigonometric_identities}{basic trigonometry} that is drawn below.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.5\linewidth]{images/cos_sin_on_unit_circle} 
+
+}
+
+\caption{Cosine and sine on the unit circle by Stephan Kulla (User:Stephan Kulla) - Own work, CC0, https://commons.wikimedia.org/w/index.php?curid=57551646.}\label{fig:unnamed-chunk-266}
+\end{figure}
+
+Pick the number of vertices that you like, generate polar angles, convert them to x and y coordinates, and plot the contour to check it visually. Try using \href{https://ggplot2.tidyverse.org/reference/geom_polygon.html}{geom\_polygon} with a fill color instead of \href{https://ggplot2.tidyverse.org/reference/geom_path.html}{geom\_path}.
+
+Do exercise 10.
+
+Our star is ready, we only need to add the \href{https://ggplot2.tidyverse.org/reference/geom_polygon.html}{geom\_polygon}. However, your ``default'' star will look way to big and will not be on the top of the tree, as in the figure below.
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-267-1.pdf}
+Think how you can adjust the size (radius of the star) to make it smaller and what adjustment to y-coordinate do you need to make.
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-268-1.pdf}
+
+Do exercise 11.
+
+\hypertarget{merry-christmas}{%
+\section{Merry Christmas!}\label{merry-christmas}}
+
+Although this assignment might look whimsical, it relies on techniques for parametrically generating data that are useful for real-life power analysis, prior predictive modelling, simulating data for model testing, etc.
 
   \bibliography{book.bib}
 

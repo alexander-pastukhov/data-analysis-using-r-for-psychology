@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2021-12-13" />
+<meta name="date" content="2021-12-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -59,6 +59,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -268,6 +269,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.7" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#apply"><i class="fa fa-check"></i><b>9.7</b> Apply</a></li>
 <li class="chapter" data-level="9.8" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#purrr"><i class="fa fa-check"></i><b>9.8</b> Purrr</a></li>
 </ul></li>
+<li class="chapter" data-level="10" data-path="christmas-special.html"><a href="christmas-special.html"><i class="fa fa-check"></i><b>10</b> Christmas special</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="christmas-special.html"><a href="christmas-special.html#left-side-of-the-tree"><i class="fa fa-check"></i><b>10.1</b> Left side of the tree</a></li>
+<li class="chapter" data-level="10.2" data-path="christmas-special.html"><a href="christmas-special.html#right-side-of-the-tree"><i class="fa fa-check"></i><b>10.2</b> Right side of the tree</a></li>
+<li class="chapter" data-level="10.3" data-path="christmas-special.html"><a href="christmas-special.html#the-whole-tree"><i class="fa fa-check"></i><b>10.3</b> The whole tree</a></li>
+<li class="chapter" data-level="10.4" data-path="christmas-special.html"><a href="christmas-special.html#filling-in-the-tree"><i class="fa fa-check"></i><b>10.4</b> Filling in the tree</a></li>
+<li class="chapter" data-level="10.5" data-path="christmas-special.html"><a href="christmas-special.html#adding-background-image"><i class="fa fa-check"></i><b>10.5</b> Adding background image</a></li>
+<li class="chapter" data-level="10.6" data-path="christmas-special.html"><a href="christmas-special.html#adding-decoration-a-boring-one"><i class="fa fa-check"></i><b>10.6</b> Adding decoration (a boring one)</a></li>
+<li class="chapter" data-level="10.7" data-path="christmas-special.html"><a href="christmas-special.html#adding-decoration-a-bit-more-fun-one"><i class="fa fa-check"></i><b>10.7</b> Adding decoration (a bit more fun one)</a></li>
+<li class="chapter" data-level="10.8" data-path="christmas-special.html"><a href="christmas-special.html#adding-decoration-the-fun-ones"><i class="fa fa-check"></i><b>10.8</b> Adding decoration (the fun ones)</a></li>
+<li class="chapter" data-level="10.9" data-path="christmas-special.html"><a href="christmas-special.html#a-star-on-top"><i class="fa fa-check"></i><b>10.9</b> A star on top</a></li>
+<li class="chapter" data-level="10.10" data-path="christmas-special.html"><a href="christmas-special.html#merry-christmas"><i class="fa fa-check"></i><b>10.10</b> Merry Christmas!</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://alexander-pastukhov.github.io/">Alexander (Sasha) Pastukhov</li>
 
@@ -318,7 +332,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>to logical <code>TRUE</code>/<code>FALSE</code> via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/logical.html">as.logical</a> and check a value via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/logical.html">is.logical()</a>.
 <ul>
 <li>from integer or real, zero (<code>0</code> or <code>0.0</code>) is <code>FALSE</code>, any other non-zero value is <code>TRUE</code></li>
-<li>from a string, it is <code>TRUE</code> for <code>"TRUE"</code>, "<code>True"</code>, <code>"true"</code>, or <code>"T"</code> but <code>NA</code> if <code>"t"</code> <code>"TRue"</code>, <code>"truE</code>, etc. Same goes for <code>FALSE</code>.</li>
+<li>from a string, it is <code>TRUE</code> for <code>"TRUE"</code>, “<code>True"</code>, <code>"true"</code>, or <code>"T"</code> but <code>NA</code> if <code>"t"</code> <code>"TRue"</code>, <code>"truE</code>, etc. Same goes for <code>FALSE</code>.</li>
 <li>from <code>NA</code> → <code>NA</code></li>
 </ul></li>
 <li>to a character string via <a href="(https://stat.ethz.ch/R-manual/R-devel/library/base/html/character.html)">as.character()</a> and check via <a href="(https://stat.ethz.ch/R-manual/R-devel/library/base/html/character.html)">is.character()</a><a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a>
@@ -368,7 +382,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="tables.html#cb93-1" aria-hidden="true" tabindex="-1"></a>x[[<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)]]</span></code></pre></div>
 <pre><code>## Error in x[[-(1:2)]]: attempt to select more than one element in vectorIndex</code></pre>
 <p>And the zero index generates an error as well but the error message is different.
-ex <real>"</p>
+ex <real>”</p>
 <div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="tables.html#cb95-1" aria-hidden="true" tabindex="-1"></a>x[[<span class="dv">0</span>]]</span></code></pre></div>
 <pre><code>## Error in x[[0]]: attempt to select less than one element in get1index &lt;real&gt;</code></pre>
 <p>Using of a non-existent name will generate an error for <em>simplifying</em> but not for <em>preserving</em> subsetting.</p>
