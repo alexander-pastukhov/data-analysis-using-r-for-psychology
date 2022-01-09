@@ -1,0 +1,90 @@
+---
+title: "Transforming data"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+```
+
+## Exercise 01.
+Create a table that has columns 
+
+* `ParticipantID` that should go from 1 to 10
+* `Condition` that should go from `A` to `C`
+* `Response` generated from a normal distribution with mu = 5 and sd = 0.5 but rounded to the nearest integer. (See `?rnomr` and `?round`). This gives you a distribution of Likert-scale-like responses centered at 5. Plot a histogram of responses to see how the data looks like.
+* `RT` that should be drawn from a log normal distribution (`?rlnorm`) with meanlog = log(8 - Response) and sdlog = 0.5. This produces a right-skewed distribution with smaller responses being associated with slower response times (hence, $8 - Response$). Use of log normal distribution ensure that response times are strictly positive and have a long right tail (just as the real RTs do). Plot the histogram of the data and also a scatter plot again `Response` variable to see how the data looks like. 
+
+Generate all combinations of `ParticipantID` and `Condition` first (recall `?expand.grid`) and then randomly generate `Response`. You can do this in a single pipe. Next, randomly drop 5 rows by hand (or using `?sample` to decide on which rows to drop), so that the data becomes incomplete. Complete it via `?complete` function, so that you get a full length table with explicit missing data.
+```{r exercise-01}
+```
+
+## Exercise 02.
+Use the same generated incomplete table, complete it but fill in -1 for missing `Response` variable. Reminder, we are doing this for exercise purposes. Imputing -1 is likely to be a bad idea for any real analysis. 
+
+```{r exercise-02}
+```
+
+## Exercise 03
+Repeat exercise 01 but use an extra table with all combinations of `Participant` and `Condition` to which you left_join the original table. Can you use another join operation for this?
+```{r exercise-03}
+```
+
+
+## Exercise 04
+Create a table with missing data (or reuse one from one of the previous exercises) and ensure that is has only complete cases via `na.omit()`
+
+```{r exercise-04-1}
+```
+
+and `drop_na()`
+```{r exercise-04-2}
+```
+
+## Exercise 05
+Create a table that has missing values in two columns but at different places. Use function `is.na()` and `filter` to exclude any rows that have `NA` is the first of these columns. E.g., you can generate all combinations of participants and condition as in exercises 1-3 and put `NA` at random places by hand or by picking index via `sample()` function. Or you can hardcode the table.
+
+```{r exercise-05}
+```
+
+## Exercise 06
+Repeat exercise 05 but use subsetting with logical indexing instead of filter.
+
+```{r exercise-06}
+```
+
+## Exercise 07
+Turn code from exercise 06 into a function that you can call by passing it a table that requires filtering and the name of the column that must be complete. It should return the same table with excluding the rows that have `NA` in the column specified by the second argument. 
+
+```{r exercise-07}
+```
+
+## Exercise 08
+Generate a table with a numeric column with values drawn randomly from a random distribution (`?rnorm`) but with some missing values at random places. Replace missing values with a mean of the column (check `na.rm` argument of `mean()` function, `?mean`).
+```{r exercise-08}
+```
+
+## Exercise 09
+Replace negative values with a mean of positive numbers only.
+```{r exercise-09}
+set.seed(42)
+v <- sample(-10:10, replace = TRUE)
+
+# your code goes here
+```
+
+## Exercise 10
+Read "adaptation_with_na.csv" table (specify column types) and then:
+
+* replace missing values for `Ntotal` with a median value _per participant_.
+* compute `Psame = Nsame / Ntotal`
+* replace missing values of `Psame` with a mean value _per participant_ (how can you group data per participant?).
+* replace missing values of `Nsame` by computing it from `Psame` and `Ntotal`, round the result to the closest integer. Do this only for missing data, do not replace original `Nsame` value as you may accidentally change it due to a rounding error. 
+
+Watch out for `na.rm` in both median and mean functions. Implement the computation as a SINGLE pipe from read till the last computation.
+
+```{r exercise-10}
+```
+
