@@ -1,0 +1,207 @@
+# Missing data
+
+```{r echo=FALSE, message = FALSE, warning = FALSE}
+library(tidyverse)
+```
+
+Grab an [exercise notebook](notebooks/Seminar 11 - missing data.Rmd) before we start!
+
+Sometimes data is missing. It can be missing _explicitly_ with `NA` standing for [Not Available / Missing](https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html) data. Or, it can be missing _implicitly_ when there is no entry for a particular condition. In the latter case, the strategy is to make missing values explicit first (discussed below). 
+
+Then (once) you have missing values, represented by `NA` in R, you must decide how to deal with them: you can use this information directly as missing data can be diagnostic in itself, you can impute values using either a sophisticated statistical methods or via a simple average/default value strategy, or you can exclude them from the analysis. Every option has pros and cons, so think carefully and do not use an option [whose effects you do not fully understand](https://www.reddit.com/r/AskStatistics/comments/rvw9ur/is_it_best_to_fill_in_missing_data_with_0s/) as it will compromise the rest of your analysis.
+
+## Making missing data explicit (completing data) {#complete}
+To make implicit missing data explicit, _tidyr_ provides a function [complete()](https://tidyr.tidyverse.org/reference/complete.html) that figures out all combinations of values for columns that you specified, finds missing combinations, and adds them using `NA` (or some other specified value) for other columns. Imagine a toy incomplete table (no data for Participant `2` and Face `M-2`).
+```{r echo=FALSE}
+widish_df <- 
+  tibble(Participant = c(1, 1, 2, 2),
+         Face = rep(c("M-1", "M-2"), 2), 
+         Symmetry = c(6, 4, 5, 3),
+         Attractiveness = c(4, 7, 2, 7),
+         Trustworthiness = c(3, 6, 1, 2))
+incomplete_df <- head(widish_df, 3)
+
+knitr::kable(incomplete_df, caption="Table with no data for Face M2 for Participant 2.")
+```
+
+We can [complete](https://tidyr.tidyverse.org/reference/complete.html) that table by specifying columns that define all required combinations.
+```{r}
+complete_df <- complete(incomplete_df, Participant, Face)
+```
+```{r echo=FALSE}
+knitr::kable(complete_df, caption="Completed table with explicit NAs")
+```
+
+For _non-factor_ variables (`Participant` is numeric and `Face` is character/string), [complete](https://tidyr.tidyverse.org/reference/complete.html) finds all [unique](https://stat.ethz.ch/R-manual/R-devel/library/base/html/unique.html) values for each column and finds all combinations of these elements. However, if a variable is a [factor](#factors), [complete](https://tidyr.tidyverse.org/reference/complete.html) uses it [levels](https://stat.ethz.ch/R-manual/R-devel/library/base/html/levels.html), even if not all levels are present in the data. E.g., we can use `Face` as a factor with three levels: "M-1", "M-2", and "F-1". In this case, information is missing for both participants (neither have responses on face "F-1") and should be filled with NAs. This approach is useful if you know all combinations that _should_ be present in the data and need to ensure the completeness.
+```{r}
+extended_df <-
+  incomplete_df %>%
+  # converting Face to factor with THREE levels (only TWO are present in the data)
+  mutate(Face = factor(Face, levels = c("M-1", "M-2", "F-1"))) %>%
+  # completing the table
+  complete(Participant, Face)
+```
+```{r echo=FALSE}
+knitr::kable(extended_df, caption="Completed missing data including F-1 face.")
+```
+
+::: {.infobox .practice}
+Do exercise 1.
+:::
+
+
+You can also supply default values via `fill` parameter that takes a [named](#names) [list](#lists), e.g., `list(column_name = default_value)`. However, I'd like to remind you again that you should only impute values that "make sense" given the rest of your analysis. Zeros here are for illustration only and, in a real-life scenario, would ruin your inferences either by artificially lowering symmetry and attractiveness of the second face or (if you are lucky) will break and stop the analysis that expects only values within 1-7 range (rmANOVA won't be bothered at that would be the first scenario),
+```{r}
+filled_df <- 
+  incomplete_df %>%
+  complete(Participant, Face, fill=list(Attractiveness=0, Symmetry=0))
+```
+```{r echo=FALSE}
+knitr::kable(filled_df, caption="Completed missing data with non-NA values.")
+```
+
+::: {.infobox .practice}
+Do exercise 2.
+:::
+
+The [complete()](https://tidyr.tidyverse.org/reference/complete.html) is easy to use convenience function that you can easily replicate yourself. To do this, you need to create a new table that lists all combinations of variables that you are interested in (you can use either [expand.grid()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/expand.grid.html) or [expand_grid()](https://tidyr.tidyverse.org/reference/expand_grid.html) for this) and then [left joining](#joins) the original table to it (why left join? Could you use another join for the same purpose?). The results is the same as with a [complete()](https://tidyr.tidyverse.org/reference/complete.html) itself.
+
+::: {.infobox .practice}
+Do exercise 3.
+:::
+
+## Dropping / omitting NAs {#na.omit}
+There are two approaches for excluding missing values. You can exclude all incomplete rows which have missing values in _any_ variable via [na.omit()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/na.fail.html) (base R function) or [drop_na()](https://tidyr.tidyverse.org/reference/drop_na.html) ([tidyr](https://tidyr.tidyverse.org/) package function). Or you can exclude rows only if they have `NA` in a specific columns by specifying their names.
+
+For a table you see below
+```{r echo=FALSE}
+widish_df_with_NA <-
+  tibble(Participant = c(1, 1, 2, 2),
+         Face = rep(c("M-1", "M-2"), 2),
+         Symmetry = c(6, NA, 5, 3),
+         Attractiveness = c(NA, 7, 2, 7),
+         Trustworthiness = c(3, NA, 1, 2))
+
+knitr::kable(widish_df_with_NA, caption = "Table with missing values.")
+```
+
+First, we can ensure only complete cases via [na.omit()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/na.fail.html)
+```r
+na.omit(widish_df_with_NA)
+```
+```{r echo=FALSE}
+knitr::kable(na.omit(widish_df_with_NA),
+             caption = "Complete cases via na.omit()")
+```
+
+or via [drop_na()](https://tidyr.tidyverse.org/reference/drop_na.html)
+```r
+widish_df_with_NA %>%
+  drop_na()
+```
+```{r echo=FALSE}
+knitr::kable(drop_na(widish_df_with_NA),
+             caption = "Complete cases via drop_na()")
+```
+
+Second, we drop rows only if `Attractiveness` data is missing.
+```r
+widish_df_with_NA %>%
+  drop_na(Attractiveness)
+```
+```{r echo=FALSE}
+widish_df_with_NA %>%
+  drop_na(Attractiveness) %>%
+  knitr::kable(caption = "Complete Attractiveness via drop_na()")
+```
+
+Practice time. Create you own table with missing values and exclude missing values using [na.omit()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/na.fail.html) and [drop_na()](https://tidyr.tidyverse.org/reference/drop_na.html).
+
+::: {.infobox .practice}
+Do exercise 4.
+:::
+
+[drop_na()](https://tidyr.tidyverse.org/reference/drop_na.html) is a very convenient function but you can replicate it functionality using [is.na()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html) in combination with [filter](https://dplyr.tidyverse.org/reference/filter.html) dplyr function or [logical indexing](logical-indexing). Implement code that excludes rows if they contain `NA` in a specific column using these two approaches.
+
+::: {.infobox .practice}
+Do exercises 5 and 6.
+:::
+
+Recall that you can write your own functions in R that you can use to create convenience wrappers like [drop_na()](https://tidyr.tidyverse.org/reference/drop_na.html). Implement code that uses logical indexing as a function that takes table (`data.frame`) as a first argument and name a of a single column as a second, filters out rows with `NA` in that column and returns the table back.
+
+::: {.infobox .practice}
+Do exercise 7.
+:::
+
+As noted above, you can also impute values. The simplest strategy is to use either a fixed or an average (mean, median, etc.) value. [tidyr](https://tidyr.tidyverse.org/) function that performs a simple substitution is [replace_na()](https://tidyr.tidyverse.org/reference/replace_na.html)^[There is also an inverse function [na_if()](https://dplyr.tidyverse.org/reference/na_if.html) that converts a specific value to an `NA`.] and, as a second parameter, it takes a named list of values `list(column_name = value_for_NA)`. For our toy table, we can replace missing `Attractiveness` and `Symmetry` values with some default value, e.g. `0` and `-1` (this is very arbitrary, just to demonstrate how it works, do not do things like these for real analysis unless you know what you are doing!)
+```{r}
+widish_df_with_NA %>%
+  replace_na(list(Attractiveness = 0, Symmetry = -1)) %>%
+  knitr::kable()
+```
+
+::: {.infobox .practice}
+Do exercise 8.
+:::
+
+Unfortunately, `replace_na()` works only with constant values and does not handle grouped tables very well^[At least I wasn't able to figure out how to do this.] So to replace an `NA` with a mean value of a _grouped_ data, we need to combine some of our old knowledge with an [ifelse(conditon, value_if_true, value_if_false)](https://stat.ethz.ch/R-manual/R-devel/library/base/html/ifelse.html) function. This function is a vectorized cousin of the [if-else](#if-else) that takes 1) a vector of logical values (`condition`), 2) a vector values that are returned if `condition` is true, 3) a vector of values that are returned if `condition` is false. Note that the usual rules of [vector length-matching](different-length-vectors) apply, so if the three vectors have different length, they will be automaticall (and silently) adjusted to match the length of `condition` vector. 
+
+Here is how it works to replace all negative values in a vector with a `0` and all non-negative with `1`:
+```{r}
+v <- c(-1, 3, 5, -2, 5)
+ifelse(v < 0, 0, 1)
+```
+
+It works _per element_, so each value is replaced by its counterpart in the appropriate vector
+```{r}
+v <- c(0, 0, 1, 0, 1)
+ifelse(v == 1,
+       c(1, 2, 3, 4, 5), 
+       c(-1, -2, -3, -4, -5))
+```
+
+As with all computations, you can use original values themselves. Here is how to replace only negative values but keep the positive ones:
+```{r}
+v <- c(-1, 3, 5, -2, 5)
+ifelse(v < 0, 0, v)
+```
+
+We, essentially, tell the function, "if the condition is false, use the original value". Now, your turn! Using the same vector and [ifelse()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/ifelse.html) function, replace negative values with a [mean](https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html) value of the positive values in the vector.
+
+::: {.infobox .practice}
+Do exercise 9.
+:::
+
+Now that you know how to use `ifelse()`, replacing `NA` with a mean will be (relatively) easy. Use [adaptation_with_na](data/adaptation_with_na.csv) table and replace missing information using participant-specific values. 
+
+```{r echo=FALSE}
+adapt_df <-
+  read_csv("data/adaptation_with_na.csv",
+           col_types = cols(
+              Participant = col_character(),
+              Prime = col_character(),
+              Probe = col_character(),
+              Nsame = col_double(),
+              Ntotal = col_double()
+            ))
+
+knitr::kable(head(adapt_df),
+             caption = "adaptation_with_na.csv with missing values")
+```
+
+Here is one way to approach this problem. We cannot know the number of trials for a specific Prime × Probe  combination, but we can replace missing values for `Ntotal` with a participant-specific [median](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/median.html) value (a "typical" and integer number of trials but do not forget about `na.rm` option, see manual for details). `Nsame` is trickier. For this, compute proportion of same response for each condition `Psame = Nsame / Ntotal`. This will produce missing values whenever `Nsame` is missing. Now, replace missing `Psame` values ([is.na()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html)) with a mean `Psame` _per participant_ (again, watch our for `na.rm`!) using [ifelse()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/ifelse.html) (you can use it inside `mutate()`). Finally, compute mising values for `Nsame` from `Psame` and `Ntotal` (do not forget to round them, so you end up with integer number of trials). This entire computation should be implemented as a single pipeline. You will end up with a following table.
+```{r echo=FALSE}
+adapt_df %>%
+  group_by(Participant) %>%
+  mutate(Ntotal = ifelse(is.na(Ntotal), median(Ntotal, na.rm = TRUE), Ntotal)) %>%
+  mutate(Psame = Nsame / Ntotal) %>%
+  mutate(Psame = ifelse(is.na(Psame), mean(Psame, na.rm = TRUE), Psame)) %>%
+  mutate(Nsame = ifelse(is.na(Nsame), round(Psame * Ntotal), Nsame)) %>%
+  head() %>%
+  knitr::kable(caption = "adaptation_with_na.csv with imputed values")
+```
+
+::: {.infobox .practice}
+Do exercise 10.
+:::
+
