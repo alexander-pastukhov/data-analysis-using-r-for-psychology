@@ -101,7 +101,7 @@ widish_df_with_NA %>%
 ```
 ```{r echo=FALSE}
 knitr::kable(drop_na(widish_df_with_NA),
-             caption = "Complete cases via drop_na()")
+             caption = "Complete cases via drop\\_na()")
 ```
 
 Second, we drop rows only if `Attractiveness` data is missing.
@@ -112,7 +112,7 @@ widish_df_with_NA %>%
 ```{r echo=FALSE}
 widish_df_with_NA %>%
   drop_na(Attractiveness) %>%
-  knitr::kable(caption = "Complete Attractiveness via drop_na()")
+  knitr::kable(caption = "Complete Attractiveness via drop\\_na()")
 ```
 
 Practice time. Create you own table with missing values and exclude missing values using [na.omit()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/na.fail.html) and [drop_na()](https://tidyr.tidyverse.org/reference/drop_na.html).
@@ -134,10 +134,15 @@ Do exercise 7.
 :::
 
 As noted above, you can also impute values. The simplest strategy is to use either a fixed or an average (mean, median, etc.) value. [tidyr](https://tidyr.tidyverse.org/) function that performs a simple substitution is [replace_na()](https://tidyr.tidyverse.org/reference/replace_na.html)^[There is also an inverse function [na_if()](https://dplyr.tidyverse.org/reference/na_if.html) that converts a specific value to an `NA`.] and, as a second parameter, it takes a named list of values `list(column_name = value_for_NA)`. For our toy table, we can replace missing `Attractiveness` and `Symmetry` values with some default value, e.g. `0` and `-1` (this is very arbitrary, just to demonstrate how it works, do not do things like these for real analysis unless you know what you are doing!)
-```{r}
+```{r eval=FALSE}
+widish_df_with_NA %>%
+  replace_na(list(Attractiveness = 0, Symmetry = -1)) 
+```
+
+```{r echo=FALSE}
 widish_df_with_NA %>%
   replace_na(list(Attractiveness = 0, Symmetry = -1)) %>%
-  knitr::kable()
+    knitr::kable(caption = "Missing values filled with 0 and -1")
 ```
 
 ::: {.infobox .practice}
@@ -186,7 +191,7 @@ adapt_df <-
             ))
 
 knitr::kable(head(adapt_df),
-             caption = "adaptation_with_na.csv with missing values")
+             caption = "adaptation\\_with\\_na.csv with missing values")
 ```
 
 Here is one way to approach this problem. We cannot know the number of trials for a specific Prime × Probe  combination, but we can replace missing values for `Ntotal` with a participant-specific [median](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/median.html) value (a "typical" and integer number of trials but do not forget about `na.rm` option, see manual for details). `Nsame` is trickier. For this, compute proportion of same response for each condition `Psame = Nsame / Ntotal`. This will produce missing values whenever `Nsame` is missing. Now, replace missing `Psame` values ([is.na()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html)) with a mean `Psame` _per participant_ (again, watch our for `na.rm`!) using [ifelse()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/ifelse.html) (you can use it inside `mutate()`). Finally, compute mising values for `Nsame` from `Psame` and `Ntotal` (do not forget to round them, so you end up with integer number of trials). This entire computation should be implemented as a single pipeline. You will end up with a following table.
@@ -198,10 +203,11 @@ adapt_df %>%
   mutate(Psame = ifelse(is.na(Psame), mean(Psame, na.rm = TRUE), Psame)) %>%
   mutate(Nsame = ifelse(is.na(Nsame), round(Psame * Ntotal), Nsame)) %>%
   head() %>%
-  knitr::kable(caption = "adaptation_with_na.csv with imputed values")
+  knitr::kable(caption = "adaptation\\_with\\_na.csv with imputed values")
 ```
 
 ::: {.infobox .practice}
 Do exercise 10.
 :::
 
+  

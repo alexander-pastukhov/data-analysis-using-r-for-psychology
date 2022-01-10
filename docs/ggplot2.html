@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2021-12-21" />
+<meta name="date" content="2022-01-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -263,7 +263,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.1" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#rep"><i class="fa fa-check"></i><b>9.1</b> <code>rep()</code></a></li>
 <li class="chapter" data-level="9.2" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#repeating-combinations"><i class="fa fa-check"></i><b>9.2</b> Repeating combinations</a></li>
 <li class="chapter" data-level="9.3" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#forloop"><i class="fa fa-check"></i><b>9.3</b> For loop</a></li>
-<li class="chapter" data-level="9.4" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#conditional-statement"><i class="fa fa-check"></i><b>9.4</b> Conditional statement</a></li>
+<li class="chapter" data-level="9.4" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#if-else"><i class="fa fa-check"></i><b>9.4</b> Conditional statement</a></li>
 <li class="chapter" data-level="9.5" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#breaking-out-of-the-loop"><i class="fa fa-check"></i><b>9.5</b> Breaking out of the loop</a></li>
 <li class="chapter" data-level="9.6" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#using-for-loop-to-load-and-join-multiple-data-files"><i class="fa fa-check"></i><b>9.6</b> Using for loop to load and join multiple data files</a></li>
 <li class="chapter" data-level="9.7" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#apply"><i class="fa fa-check"></i><b>9.7</b> Apply</a></li>
@@ -281,6 +281,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.8" data-path="christmas-special.html"><a href="christmas-special.html#adding-decoration-the-fun-ones"><i class="fa fa-check"></i><b>10.8</b> Adding decoration (the fun ones)</a></li>
 <li class="chapter" data-level="10.9" data-path="christmas-special.html"><a href="christmas-special.html#a-star-on-top"><i class="fa fa-check"></i><b>10.9</b> A star on top</a></li>
 <li class="chapter" data-level="10.10" data-path="christmas-special.html"><a href="christmas-special.html#merry-christmas"><i class="fa fa-check"></i><b>10.10</b> Merry Christmas!</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="missing-data.html"><a href="missing-data.html"><i class="fa fa-check"></i><b>11</b> Missing data</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="missing-data.html"><a href="missing-data.html#complete"><i class="fa fa-check"></i><b>11.1</b> Making missing data explicit (completing data)</a></li>
+<li class="chapter" data-level="11.2" data-path="missing-data.html"><a href="missing-data.html#na.omit"><i class="fa fa-check"></i><b>11.2</b> Dropping / omitting NAs</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://alexander-pastukhov.github.io/">Alexander (Sasha) Pastukhov</li>
@@ -511,122 +516,122 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">1</td>
-<td align="right">0.8516250</td>
+<td align="right">0.3265363</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">1</td>
-<td align="right">-2.3473351</td>
+<td align="right">-2.7978191</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">1</td>
-<td align="right">-4.6688062</td>
+<td align="right">-3.3707113</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">2</td>
-<td align="right">1.3798255</td>
+<td align="right">0.9433831</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">2</td>
-<td align="right">-1.4272670</td>
+<td align="right">-0.0087582</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">2</td>
-<td align="right">-2.7383935</td>
+<td align="right">-3.3624239</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">3</td>
-<td align="right">1.7920110</td>
+<td align="right">2.4351561</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">3</td>
-<td align="right">-0.4203052</td>
+<td align="right">1.4030463</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">3</td>
-<td align="right">-1.8358505</td>
+<td align="right">-2.0709404</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">4</td>
-<td align="right">3.5697081</td>
+<td align="right">2.2886485</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">4</td>
-<td align="right">1.6097499</td>
+<td align="right">0.3013042</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">4</td>
-<td align="right">-1.4210732</td>
+<td align="right">-0.6756065</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">5</td>
-<td align="right">3.7249712</td>
+<td align="right">3.4670677</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">5</td>
-<td align="right">1.3291342</td>
+<td align="right">1.9642010</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">5</td>
-<td align="right">-0.2956015</td>
+<td align="right">-0.9176510</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">6</td>
-<td align="right">4.2865592</td>
+<td align="right">4.6445996</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">6</td>
-<td align="right">2.5201244</td>
+<td align="right">3.6220268</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">6</td>
-<td align="right">1.2782939</td>
+<td align="right">1.9675856</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">7</td>
-<td align="right">6.6540855</td>
+<td align="right">6.0911377</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">7</td>
-<td align="right">2.7316800</td>
+<td align="right">4.3037747</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">7</td>
-<td align="right">1.9391373</td>
+<td align="right">1.6757238</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">8</td>
-<td align="right">6.8389125</td>
+<td align="right">6.7234914</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">8</td>
-<td align="right">5.2436354</td>
+<td align="right">5.5638840</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">8</td>
-<td align="right">3.6702634</td>
+<td align="right">3.2189768</td>
 </tr>
 </tbody>
 </table>

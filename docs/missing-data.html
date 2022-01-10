@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Seminar 11 Missing data | Data analysis using R for Psychology and Social Science</title>
+  <meta name="description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Seminar 11 Missing data | Data analysis using R for Psychology and Social Science" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Seminar 11 Missing data | Data analysis using R for Psychology and Social Science" />
+  
+  <meta name="twitter:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
+  
+
+<meta name="author" content="Alexander (Sasha) Pastukhov" />
+
+
+<meta name="date" content="2022-01-10" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="christmas-special.html"/>
+
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="font-awesome.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Data analysis using R for Psychology</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-r"><i class="fa fa-check"></i>Why R?</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-tidyverse"><i class="fa fa-check"></i>Why Tidyverse</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-seminar"><i class="fa fa-check"></i>About the seminar</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#thinking-like-a-computer"><i class="fa fa-check"></i>Thinking like a computer</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-material"><i class="fa fa-check"></i>About the material</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html"><i class="fa fa-check"></i>Software</a>
+<ul>
+<li class="chapter" data-level="0.1" data-path="software.html"><a href="software.html#install-r"><i class="fa fa-check"></i><b>0.1</b> Installing R</a></li>
+<li class="chapter" data-level="0.2" data-path="software.html"><a href="software.html#install-rstudio"><i class="fa fa-check"></i><b>0.2</b> Installing R-Studio</a></li>
+<li class="chapter" data-level="0.3" data-path="software.html"><a href="software.html#install-rtools"><i class="fa fa-check"></i><b>0.3</b> Installing RTools</a></li>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install.packages"><i class="fa fa-check"></i>Installing packages</a></li>
+<li class="chapter" data-level="0.4" data-path="software.html"><a href="software.html#minimal-set-of-packages"><i class="fa fa-check"></i><b>0.4</b> Minimal set of packages</a></li>
+<li class="chapter" data-level="0.5" data-path="software.html"><a href="software.html#installr"><i class="fa fa-check"></i><b>0.5</b> Keeping R and packages up-to-date</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="reproducable-research.html"><a href="reproducable-research.html"><i class="fa fa-check"></i><b>1</b> Reproducable Research: Projects and RMarkdown Notebooks</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="reproducable-research.html"><a href="reproducable-research.html#projects"><i class="fa fa-check"></i><b>1.1</b> Projects</a></li>
+<li class="chapter" data-level="1.2" data-path="reproducable-research.html"><a href="reproducable-research.html#rmarkdown"><i class="fa fa-check"></i><b>1.2</b> RMarkdown</a></li>
+<li class="chapter" data-level="1.3" data-path="reproducable-research.html"><a href="reproducable-research.html#exercise"><i class="fa fa-check"></i><b>1.3</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="vectors.html"><a href="vectors.html"><i class="fa fa-check"></i><b>2</b> Vectors! Vectors everywhere!</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="vectors.html"><a href="vectors.html#variables"><i class="fa fa-check"></i><b>2.1</b> Variables as boxes</a></li>
+<li class="chapter" data-level="2.2" data-path="vectors.html"><a href="vectors.html#assignment-statement"><i class="fa fa-check"></i><b>2.2</b> Assignment statement in detail</a></li>
+<li class="chapter" data-level="2.3" data-path="vectors.html"><a href="vectors.html#vectors-scalars"><i class="fa fa-check"></i><b>2.3</b> Vectors and singluar values (scalars, which are also vectors)</a></li>
+<li class="chapter" data-level="2.4" data-path="vectors.html"><a href="vectors.html#vector-index"><i class="fa fa-check"></i><b>2.4</b> Vector indexes (subsetting)</a></li>
+<li class="chapter" data-level="2.5" data-path="vectors.html"><a href="vectors.html#names"><i class="fa fa-check"></i><b>2.5</b> Names as an Index</a></li>
+<li class="chapter" data-level="2.6" data-path="vectors.html"><a href="vectors.html#vector-index-slicing"><i class="fa fa-check"></i><b>2.6</b> Slicing</a></li>
+<li class="chapter" data-level="2.7" data-path="vectors.html"><a href="vectors.html#colon-sequence"><i class="fa fa-check"></i><b>2.7</b> Colon Operator and Sequence Generation</a></li>
+<li class="chapter" data-level="2.8" data-path="vectors.html"><a href="vectors.html#working-with-two-vectors-of-equal-length"><i class="fa fa-check"></i><b>2.8</b> Working with two vectors of <em>equal</em> length</a></li>
+<li class="chapter" data-level="2.9" data-path="vectors.html"><a href="vectors.html#different-length-vectors"><i class="fa fa-check"></i><b>2.9</b> Working with two vectors of <em>different</em> length</a></li>
+<li class="chapter" data-level="2.10" data-path="vectors.html"><a href="vectors.html#applying-functions-to-a-vector"><i class="fa fa-check"></i><b>2.10</b> Applying functions to a vector</a></li>
+<li class="chapter" data-level="2.11" data-path="vectors.html"><a href="vectors.html#wrap-up"><i class="fa fa-check"></i><b>2.11</b> Wrap up</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="tables.html"><a href="tables.html"><i class="fa fa-check"></i><b>3</b> Tables and Tibbles (and Tribbles)</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tables.html"><a href="tables.html#primary-types"><i class="fa fa-check"></i><b>3.1</b> Primary data types</a></li>
+<li class="chapter" data-level="3.2" data-path="tables.html"><a href="tables.html#vectors-are-homogeneous"><i class="fa fa-check"></i><b>3.2</b> All vector values must be of the same type</a></li>
+<li class="chapter" data-level="3.3" data-path="tables.html"><a href="tables.html#lists"><i class="fa fa-check"></i><b>3.3</b> Lists</a></li>
+<li class="chapter" data-level="3.4" data-path="tables.html"><a href="tables.html#subsetting"><i class="fa fa-check"></i><b>3.4</b> Subsetting, a fuller version</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="tables.html"><a href="tables.html#subsetting-for-atomics-vectors"><i class="fa fa-check"></i><b>3.4.1</b> Subsetting for (atomics) vectors</a></li>
+<li class="chapter" data-level="3.4.2" data-path="tables.html"><a href="tables.html#subsetting-for-lists"><i class="fa fa-check"></i><b>3.4.2</b> Subsetting for lists</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="tables.html"><a href="tables.html#dollar-subsetting"><i class="fa fa-check"></i><b>3.5</b> Yet another subsetting via $</a></li>
+<li class="chapter" data-level="3.6" data-path="tables.html"><a href="tables.html#data.frame"><i class="fa fa-check"></i><b>3.6</b> Tables, a.k.a. data frames</a></li>
+<li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#table-subsetting"><i class="fa fa-check"></i><b>3.7</b> Subsetting tables</a></li>
+<li class="chapter" data-level="3.8" data-path="tables.html"><a href="tables.html#library"><i class="fa fa-check"></i><b>3.8</b> Using libraries</a></li>
+<li class="chapter" data-level="3.9" data-path="tables.html"><a href="tables.html#tibble"><i class="fa fa-check"></i><b>3.9</b> Tibble, a better data.frame</a></li>
+<li class="chapter" data-level="3.10" data-path="tables.html"><a href="tables.html#tribble"><i class="fa fa-check"></i><b>3.10</b> Tribble, table from text</a></li>
+<li class="chapter" data-level="3.11" data-path="tables.html"><a href="tables.html#data"><i class="fa fa-check"></i><b>3.11</b> Reading example tables</a></li>
+<li class="chapter" data-level="3.12" data-path="tables.html"><a href="tables.html#readr"><i class="fa fa-check"></i><b>3.12</b> Reading csv files</a></li>
+<li class="chapter" data-level="3.13" data-path="tables.html"><a href="tables.html#readxl"><i class="fa fa-check"></i><b>3.13</b> Reading Excel files</a></li>
+<li class="chapter" data-level="3.14" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.14</b> Reading files from other programs</a></li>
+<li class="chapter" data-level="3.15" data-path="tables.html"><a href="tables.html#rds"><i class="fa fa-check"></i><b>3.15</b> Writing and reading a single object</a></li>
+<li class="chapter" data-level="3.16" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.16</b> Wrap up</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>4</b> Functions! Functions everywhere!</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="functions.html"><a href="functions.html#functions-1"><i class="fa fa-check"></i><b>4.1</b> Functions</a></li>
+<li class="chapter" data-level="4.2" data-path="functions.html"><a href="functions.html#writing-a-function"><i class="fa fa-check"></i><b>4.2</b> Writing a function</a></li>
+<li class="chapter" data-level="4.3" data-path="functions.html"><a href="functions.html#scopes-global-versus-local-variables"><i class="fa fa-check"></i><b>4.3</b> Scopes: Global versus Local variables</a></li>
+<li class="chapter" data-level="4.4" data-path="functions.html"><a href="functions.html#function-with-two-parameters"><i class="fa fa-check"></i><b>4.4</b> Function with two parameters</a></li>
+<li class="chapter" data-level="4.5" data-path="functions.html"><a href="functions.html#table-as-a-parameter"><i class="fa fa-check"></i><b>4.5</b> Table as a parameter</a></li>
+<li class="chapter" data-level="4.6" data-path="functions.html"><a href="functions.html#named-versus-positional-arguments"><i class="fa fa-check"></i><b>4.6</b> Named versus positional arguments</a></li>
+<li class="chapter" data-level="4.7" data-path="functions.html"><a href="functions.html#default-values"><i class="fa fa-check"></i><b>4.7</b> Default values</a></li>
+<li class="chapter" data-level="4.8" data-path="functions.html"><a href="functions.html#nested-calls"><i class="fa fa-check"></i><b>4.8</b> Nested calls</a></li>
+<li class="chapter" data-level="4.9" data-path="functions.html"><a href="functions.html#pipe"><i class="fa fa-check"></i><b>4.9</b> Piping</a></li>
+<li class="chapter" data-level="4.10" data-path="functions.html"><a href="functions.html#function-is-just-a-code-stored-in-a-variable"><i class="fa fa-check"></i><b>4.10</b> Function is just a code stored in a variable</a></li>
+<li class="chapter" data-level="4.11" data-path="functions.html"><a href="functions.html#functions-functions-everywhere"><i class="fa fa-check"></i><b>4.11</b> Functions! Functions everywhere!</a></li>
+<li class="chapter" data-level="4.12" data-path="functions.html"><a href="functions.html#using-or-not-using-explicit-return-statement"><i class="fa fa-check"></i><b>4.12</b> Using (or not using) explicit return statement</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>5</b> Grammar of Graphics</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="ggplot2.html"><a href="ggplot2.html#tidydata"><i class="fa fa-check"></i><b>5.1</b> Tidy data</a></li>
+<li class="chapter" data-level="5.2" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-1"><i class="fa fa-check"></i><b>5.2</b> ggplot2</a></li>
+<li class="chapter" data-level="5.3" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-continuous-x-axis"><i class="fa fa-check"></i><b>5.3</b> Auto efficiency: continuous x-axis</a></li>
+<li class="chapter" data-level="5.4" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-discrete-x-axis"><i class="fa fa-check"></i><b>5.4</b> Auto efficiency: discrete x-axis</a></li>
+<li class="chapter" data-level="5.5" data-path="ggplot2.html"><a href="ggplot2.html#mammals-sleep-single-variable"><i class="fa fa-check"></i><b>5.5</b> Mammals sleep: single variable</a></li>
+<li class="chapter" data-level="5.6" data-path="ggplot2.html"><a href="ggplot2.html#mapping-for-all-visuals-versus-just-one-visual"><i class="fa fa-check"></i><b>5.6</b> Mapping for all visuals versus just one visual</a></li>
+<li class="chapter" data-level="5.7" data-path="ggplot2.html"><a href="ggplot2.html#mapping-on-variables-versus-constants"><i class="fa fa-check"></i><b>5.7</b> Mapping on variables versus constants</a></li>
+<li class="chapter" data-level="5.8" data-path="ggplot2.html"><a href="ggplot2.html#themes"><i class="fa fa-check"></i><b>5.8</b> Themes</a></li>
+<li class="chapter" data-level="5.9" data-path="ggplot2.html"><a href="ggplot2.html#you-aint-seen-nothing-yet"><i class="fa fa-check"></i><b>5.9</b> You ain’t seen nothing yet</a></li>
+<li class="chapter" data-level="5.10" data-path="ggplot2.html"><a href="ggplot2.html#further-reading"><i class="fa fa-check"></i><b>5.10</b> Further reading</a></li>
+<li class="chapter" data-level="5.11" data-path="ggplot2.html"><a href="ggplot2.html#extending-ggplot2"><i class="fa fa-check"></i><b>5.11</b> Extending ggplot2</a></li>
+<li class="chapter" data-level="5.12" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-cannot-do-everything"><i class="fa fa-check"></i><b>5.12</b> ggplot2 cannot do everything</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>6</b> Tidyverse: dplyr</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="dplyr.html"><a href="dplyr.html#tidyverse-philosophy"><i class="fa fa-check"></i><b>6.1</b> Tidyverse philosophy</a></li>
+<li class="chapter" data-level="6.2" data-path="dplyr.html"><a href="dplyr.html#select"><i class="fa fa-check"></i><b>6.2</b> <code>select()</code> columns by name</a></li>
+<li class="chapter" data-level="6.3" data-path="dplyr.html"><a href="dplyr.html#conditions"><i class="fa fa-check"></i><b>6.3</b> Conditions</a></li>
+<li class="chapter" data-level="6.4" data-path="dplyr.html"><a href="dplyr.html#logical-indexing"><i class="fa fa-check"></i><b>6.4</b> Logical indexing</a></li>
+<li class="chapter" data-level="6.5" data-path="dplyr.html"><a href="dplyr.html#filter-rows-by-values"><i class="fa fa-check"></i><b>6.5</b> <code>filter()</code> rows by values</a></li>
+<li class="chapter" data-level="6.6" data-path="dplyr.html"><a href="dplyr.html#arrange-rows-in-a-particular-order"><i class="fa fa-check"></i><b>6.6</b> <code>arrange()</code> rows in a particular order</a></li>
+<li class="chapter" data-level="6.7" data-path="dplyr.html"><a href="dplyr.html#mutate"><i class="fa fa-check"></i><b>6.7</b> <code>mutate()</code> columns</a></li>
+<li class="chapter" data-level="6.8" data-path="dplyr.html"><a href="dplyr.html#summarize"><i class="fa fa-check"></i><b>6.8</b> <code>summarize()</code> table by <code>groups</code></a></li>
+<li class="chapter" data-level="6.9" data-path="dplyr.html"><a href="dplyr.html#putting-it-all-together"><i class="fa fa-check"></i><b>6.9</b> Putting it all together</a></li>
+<li class="chapter" data-level="6.10" data-path="dplyr.html"><a href="dplyr.html#should-i-use-tidyverse"><i class="fa fa-check"></i><b>6.10</b> Should I use Tidyverse?</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="working-with-factors.html"><a href="working-with-factors.html"><i class="fa fa-check"></i><b>7</b> Working with Factors</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="working-with-factors.html"><a href="working-with-factors.html#how-to-write-code"><i class="fa fa-check"></i><b>7.1</b> How to write code</a></li>
+<li class="chapter" data-level="7.2" data-path="working-with-factors.html"><a href="working-with-factors.html#implementing-a-typical-analysis"><i class="fa fa-check"></i><b>7.2</b> Implementing a typical analysis</a></li>
+<li class="chapter" data-level="7.3" data-path="working-with-factors.html"><a href="working-with-factors.html#factors"><i class="fa fa-check"></i><b>7.3</b> Factors</a></li>
+<li class="chapter" data-level="7.4" data-path="working-with-factors.html"><a href="working-with-factors.html#forcats"><i class="fa fa-check"></i><b>7.4</b> Forcats</a></li>
+<li class="chapter" data-level="7.5" data-path="working-with-factors.html"><a href="working-with-factors.html#plotting-group-averages"><i class="fa fa-check"></i><b>7.5</b> Plotting group averages</a></li>
+<li class="chapter" data-level="7.6" data-path="working-with-factors.html"><a href="working-with-factors.html#plotting-our-confidence-in-group-averages-via-quantiles"><i class="fa fa-check"></i><b>7.6</b> Plotting our confidence in group averages via quantiles</a></li>
+<li class="chapter" data-level="7.7" data-path="working-with-factors.html"><a href="working-with-factors.html#looking-at-similarity"><i class="fa fa-check"></i><b>7.7</b> Looking at similarity</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tyding.html"><a href="tyding.html"><i class="fa fa-check"></i><b>8</b> Tidyng your data: joins and pivots</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="tyding.html"><a href="tyding.html#joins"><i class="fa fa-check"></i><b>8.1</b> Joining tables</a></li>
+<li class="chapter" data-level="8.2" data-path="tyding.html"><a href="tyding.html#pivoting"><i class="fa fa-check"></i><b>8.2</b> Pivoting</a></li>
+<li class="chapter" data-level="8.3" data-path="tyding.html"><a href="tyding.html#pivot-longer"><i class="fa fa-check"></i><b>8.3</b> Pivot longer</a></li>
+<li class="chapter" data-level="8.4" data-path="tyding.html"><a href="tyding.html#pivot-wider"><i class="fa fa-check"></i><b>8.4</b> Pivot wider</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html"><i class="fa fa-check"></i><b>9</b> Controling computation flow</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#rep"><i class="fa fa-check"></i><b>9.1</b> <code>rep()</code></a></li>
+<li class="chapter" data-level="9.2" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#repeating-combinations"><i class="fa fa-check"></i><b>9.2</b> Repeating combinations</a></li>
+<li class="chapter" data-level="9.3" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#forloop"><i class="fa fa-check"></i><b>9.3</b> For loop</a></li>
+<li class="chapter" data-level="9.4" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#if-else"><i class="fa fa-check"></i><b>9.4</b> Conditional statement</a></li>
+<li class="chapter" data-level="9.5" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#breaking-out-of-the-loop"><i class="fa fa-check"></i><b>9.5</b> Breaking out of the loop</a></li>
+<li class="chapter" data-level="9.6" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#using-for-loop-to-load-and-join-multiple-data-files"><i class="fa fa-check"></i><b>9.6</b> Using for loop to load and join multiple data files</a></li>
+<li class="chapter" data-level="9.7" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#apply"><i class="fa fa-check"></i><b>9.7</b> Apply</a></li>
+<li class="chapter" data-level="9.8" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#purrr"><i class="fa fa-check"></i><b>9.8</b> Purrr</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="christmas-special.html"><a href="christmas-special.html"><i class="fa fa-check"></i><b>10</b> Christmas special</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="christmas-special.html"><a href="christmas-special.html#left-side-of-the-tree"><i class="fa fa-check"></i><b>10.1</b> Left side of the tree</a></li>
+<li class="chapter" data-level="10.2" data-path="christmas-special.html"><a href="christmas-special.html#right-side-of-the-tree"><i class="fa fa-check"></i><b>10.2</b> Right side of the tree</a></li>
+<li class="chapter" data-level="10.3" data-path="christmas-special.html"><a href="christmas-special.html#the-whole-tree"><i class="fa fa-check"></i><b>10.3</b> The whole tree</a></li>
+<li class="chapter" data-level="10.4" data-path="christmas-special.html"><a href="christmas-special.html#filling-in-the-tree"><i class="fa fa-check"></i><b>10.4</b> Filling in the tree</a></li>
+<li class="chapter" data-level="10.5" data-path="christmas-special.html"><a href="christmas-special.html#adding-background-image"><i class="fa fa-check"></i><b>10.5</b> Adding background image</a></li>
+<li class="chapter" data-level="10.6" data-path="christmas-special.html"><a href="christmas-special.html#adding-decoration-a-boring-one"><i class="fa fa-check"></i><b>10.6</b> Adding decoration (a boring one)</a></li>
+<li class="chapter" data-level="10.7" data-path="christmas-special.html"><a href="christmas-special.html#adding-decoration-a-bit-more-fun-one"><i class="fa fa-check"></i><b>10.7</b> Adding decoration (a bit more fun one)</a></li>
+<li class="chapter" data-level="10.8" data-path="christmas-special.html"><a href="christmas-special.html#adding-decoration-the-fun-ones"><i class="fa fa-check"></i><b>10.8</b> Adding decoration (the fun ones)</a></li>
+<li class="chapter" data-level="10.9" data-path="christmas-special.html"><a href="christmas-special.html#a-star-on-top"><i class="fa fa-check"></i><b>10.9</b> A star on top</a></li>
+<li class="chapter" data-level="10.10" data-path="christmas-special.html"><a href="christmas-special.html#merry-christmas"><i class="fa fa-check"></i><b>10.10</b> Merry Christmas!</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="missing-data.html"><a href="missing-data.html"><i class="fa fa-check"></i><b>11</b> Missing data</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="missing-data.html"><a href="missing-data.html#complete"><i class="fa fa-check"></i><b>11.1</b> Making missing data explicit (completing data)</a></li>
+<li class="chapter" data-level="11.2" data-path="missing-data.html"><a href="missing-data.html#na.omit"><i class="fa fa-check"></i><b>11.2</b> Dropping / omitting NAs</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://alexander-pastukhov.github.io/">Alexander (Sasha) Pastukhov</li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data analysis using R for Psychology and Social Science</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="missing-data" class="section level1" number="11">
+<h1><span class="header-section-number">Seminar 11</span> Missing data</h1>
+<p>Grab an <a href="notebooks/Seminar%2011%20-%20missing%20data.Rmd">exercise notebook</a> before we start!</p>
+<p>Sometimes data is missing. It can be missing <em>explicitly</em> with <code>NA</code> standing for <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html">Not Available / Missing</a> data. Or, it can be missing <em>implicitly</em> when there is no entry for a particular condition. In the latter case, the strategy is to make missing values explicit first (discussed below).</p>
+<p>Then (once) you have missing values, represented by <code>NA</code> in R, you must decide how to deal with them: you can use this information directly as missing data can be diagnostic in itself, you can impute values using either a sophisticated statistical methods or via a simple average/default value strategy, or you can exclude them from the analysis. Every option has pros and cons, so think carefully and do not use an option <a href="https://www.reddit.com/r/AskStatistics/comments/rvw9ur/is_it_best_to_fill_in_missing_data_with_0s/">whose effects you do not fully understand</a> as it will compromise the rest of your analysis.</p>
+<div id="complete" class="section level2" number="11.1">
+<h2><span class="header-section-number">11.1</span> Making missing data explicit (completing data)</h2>
+To make implicit missing data explicit, <em>tidyr</em> provides a function <a href="https://tidyr.tidyverse.org/reference/complete.html">complete()</a> that figures out all combinations of values for columns that you specified, finds missing combinations, and adds them using <code>NA</code> (or some other specified value) for other columns. Imagine a toy incomplete table (no data for Participant <code>2</code> and Face <code>M-2</code>).
+<table>
+<caption>
+<span id="tab:unnamed-chunk-274">Table 11.1: </span>Table with no data for Face M2 for Participant 2.
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+Participant
+</th>
+<th style="text-align:left;">
+Face
+</th>
+<th style="text-align:right;">
+Symmetry
+</th>
+<th style="text-align:right;">
+Attractiveness
+</th>
+<th style="text-align:right;">
+Trustworthiness
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+</tbody>
+</table>
+<p>We can <a href="https://tidyr.tidyverse.org/reference/complete.html">complete</a> that table by specifying columns that define all required combinations.</p>
+<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="missing-data.html#cb415-1" aria-hidden="true" tabindex="-1"></a>complete_df <span class="ot">&lt;-</span> <span class="fu">complete</span>(incomplete_df, Participant, Face)</span></code></pre></div>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-276">Table 11.2: </span>Completed table with explicit NAs
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+Participant
+</th>
+<th style="text-align:left;">
+Face
+</th>
+<th style="text-align:right;">
+Symmetry
+</th>
+<th style="text-align:right;">
+Attractiveness
+</th>
+<th style="text-align:right;">
+Trustworthiness
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+</tbody>
+</table>
+<p>For <em>non-factor</em> variables (<code>Participant</code> is numeric and <code>Face</code> is character/string), <a href="https://tidyr.tidyverse.org/reference/complete.html">complete</a> finds all <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/unique.html">unique</a> values for each column and finds all combinations of these elements. However, if a variable is a <a href="working-with-factors.html#factors">factor</a>, <a href="https://tidyr.tidyverse.org/reference/complete.html">complete</a> uses it <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/levels.html">levels</a>, even if not all levels are present in the data. E.g., we can use <code>Face</code> as a factor with three levels: “M-1,” “M-2,” and “F-1.” In this case, information is missing for both participants (neither have responses on face “F-1”) and should be filled with NAs. This approach is useful if you know all combinations that <em>should</em> be present in the data and need to ensure the completeness.</p>
+<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb416-1"><a href="missing-data.html#cb416-1" aria-hidden="true" tabindex="-1"></a>extended_df <span class="ot">&lt;-</span></span>
+<span id="cb416-2"><a href="missing-data.html#cb416-2" aria-hidden="true" tabindex="-1"></a>  incomplete_df <span class="sc">%&gt;%</span></span>
+<span id="cb416-3"><a href="missing-data.html#cb416-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># converting Face to factor with THREE levels (only TWO are present in the data)</span></span>
+<span id="cb416-4"><a href="missing-data.html#cb416-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Face =</span> <span class="fu">factor</span>(Face, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;M-1&quot;</span>, <span class="st">&quot;M-2&quot;</span>, <span class="st">&quot;F-1&quot;</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb416-5"><a href="missing-data.html#cb416-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># completing the table</span></span>
+<span id="cb416-6"><a href="missing-data.html#cb416-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">complete</span>(Participant, Face)</span></code></pre></div>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-278">Table 11.3: </span>Completed missing data including F-1 face.
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+Participant
+</th>
+<th style="text-align:left;">
+Face
+</th>
+<th style="text-align:right;">
+Symmetry
+</th>
+<th style="text-align:right;">
+Attractiveness
+</th>
+<th style="text-align:right;">
+Trustworthiness
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+F-1
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+F-1
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+</tbody>
+</table>
+<div class="infobox practice">
+<p>Do exercise 1.</p>
+</div>
+<p>You can also supply default values via <code>fill</code> parameter that takes a <a href="vectors.html#names">named</a> <a href="tables.html#lists">list</a>, e.g., <code>list(column_name = default_value)</code>. However, I’d like to remind you again that you should only impute values that “make sense” given the rest of your analysis. Zeros here are for illustration only and, in a real-life scenario, would ruin your inferences either by artificially lowering symmetry and attractiveness of the second face or (if you are lucky) will break and stop the analysis that expects only values within 1-7 range (rmANOVA won’t be bothered at that would be the first scenario),</p>
+<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="missing-data.html#cb417-1" aria-hidden="true" tabindex="-1"></a>filled_df <span class="ot">&lt;-</span> </span>
+<span id="cb417-2"><a href="missing-data.html#cb417-2" aria-hidden="true" tabindex="-1"></a>  incomplete_df <span class="sc">%&gt;%</span></span>
+<span id="cb417-3"><a href="missing-data.html#cb417-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">complete</span>(Participant, Face, <span class="at">fill=</span><span class="fu">list</span>(<span class="at">Attractiveness=</span><span class="dv">0</span>, <span class="at">Symmetry=</span><span class="dv">0</span>))</span></code></pre></div>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-280">Table 11.4: </span>Completed missing data with non-NA values.
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+Participant
+</th>
+<th style="text-align:left;">
+Face
+</th>
+<th style="text-align:right;">
+Symmetry
+</th>
+<th style="text-align:right;">
+Attractiveness
+</th>
+<th style="text-align:right;">
+Trustworthiness
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+</tbody>
+</table>
+<div class="infobox practice">
+<p>Do exercise 2.</p>
+</div>
+<p>The <a href="https://tidyr.tidyverse.org/reference/complete.html">complete()</a> is easy to use convenience function that you can easily replicate yourself. To do this, you need to create a new table that lists all combinations of variables that you are interested in (you can use either <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/expand.grid.html">expand.grid()</a> or <a href="https://tidyr.tidyverse.org/reference/expand_grid.html">expand_grid()</a> for this) and then <a href="tyding.html#joins">left joining</a> the original table to it (why left join? Could you use another join for the same purpose?). The results is the same as with a <a href="https://tidyr.tidyverse.org/reference/complete.html">complete()</a> itself.</p>
+<div class="infobox practice">
+<p>Do exercise 3.</p>
+</div>
+</div>
+<div id="na.omit" class="section level2" number="11.2">
+<h2><span class="header-section-number">11.2</span> Dropping / omitting NAs</h2>
+<p>There are two approaches for excluding missing values. You can exclude all incomplete rows which have missing values in <em>any</em> variable via <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/na.fail.html">na.omit()</a> (base R function) or <a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na()</a> (<a href="https://tidyr.tidyverse.org/">tidyr</a> package function). Or you can exclude rows only if they have <code>NA</code> in a specific columns by specifying their names.</p>
+For a table you see below
+<table>
+<caption>
+<span id="tab:unnamed-chunk-281">Table 11.5: </span>Table with missing values.
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+Participant
+</th>
+<th style="text-align:left;">
+Face
+</th>
+<th style="text-align:right;">
+Symmetry
+</th>
+<th style="text-align:right;">
+Attractiveness
+</th>
+<th style="text-align:right;">
+Trustworthiness
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+</tbody>
+</table>
+<p>First, we can ensure only complete cases via <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/na.fail.html">na.omit()</a></p>
+<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb418-1"><a href="missing-data.html#cb418-1" aria-hidden="true" tabindex="-1"></a><span class="fu">na.omit</span>(widish_df_with_NA)</span></code></pre></div>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-282">Table 11.6: </span>Complete cases via na.omit()
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+Participant
+</th>
+<th style="text-align:left;">
+Face
+</th>
+<th style="text-align:right;">
+Symmetry
+</th>
+<th style="text-align:right;">
+Attractiveness
+</th>
+<th style="text-align:right;">
+Trustworthiness
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+</tbody>
+</table>
+<p>or via <a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na()</a></p>
+<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb419-1"><a href="missing-data.html#cb419-1" aria-hidden="true" tabindex="-1"></a>widish_df_with_NA <span class="sc">%&gt;%</span></span>
+<span id="cb419-2"><a href="missing-data.html#cb419-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span></code></pre></div>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-283">Table 11.7: </span>Complete cases via drop_na()
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+Participant
+</th>
+<th style="text-align:left;">
+Face
+</th>
+<th style="text-align:right;">
+Symmetry
+</th>
+<th style="text-align:right;">
+Attractiveness
+</th>
+<th style="text-align:right;">
+Trustworthiness
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+</tbody>
+</table>
+<p>Second, we drop rows only if <code>Attractiveness</code> data is missing.</p>
+<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb420-1"><a href="missing-data.html#cb420-1" aria-hidden="true" tabindex="-1"></a>widish_df_with_NA <span class="sc">%&gt;%</span></span>
+<span id="cb420-2"><a href="missing-data.html#cb420-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(Attractiveness)</span></code></pre></div>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-284">Table 11.8: </span>Complete Attractiveness via drop_na()
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+Participant
+</th>
+<th style="text-align:left;">
+Face
+</th>
+<th style="text-align:right;">
+Symmetry
+</th>
+<th style="text-align:right;">
+Attractiveness
+</th>
+<th style="text-align:right;">
+Trustworthiness
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+</tbody>
+</table>
+<p>Practice time. Create you own table with missing values and exclude missing values using <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/na.fail.html">na.omit()</a> and <a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na()</a>.</p>
+<div class="infobox practice">
+<p>Do exercise 4.</p>
+</div>
+<p><a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na()</a> is a very convenient function but you can replicate it functionality using <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html">is.na()</a> in combination with <a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a> dplyr function or <a href="logical-indexing">logical indexing</a>. Implement code that excludes rows if they contain <code>NA</code> in a specific column using these two approaches.</p>
+<div class="infobox practice">
+<p>Do exercises 5 and 6.</p>
+</div>
+<p>Recall that you can write your own functions in R that you can use to create convenience wrappers like <a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na()</a>. Implement code that uses logical indexing as a function that takes table (<code>data.frame</code>) as a first argument and name a of a single column as a second, filters out rows with <code>NA</code> in that column and returns the table back.</p>
+<div class="infobox practice">
+<p>Do exercise 7.</p>
+</div>
+<p>As noted above, you can also impute values. The simplest strategy is to use either a fixed or an average (mean, median, etc.) value. <a href="https://tidyr.tidyverse.org/">tidyr</a> function that performs a simple substitution is <a href="https://tidyr.tidyverse.org/reference/replace_na.html">replace_na()</a><a href="#fn58" class="footnote-ref" id="fnref58"><sup>58</sup></a> and, as a second parameter, it takes a named list of values <code>list(column_name = value_for_NA)</code>. For our toy table, we can replace missing <code>Attractiveness</code> and <code>Symmetry</code> values with some default value, e.g. <code>0</code> and <code>-1</code> (this is very arbitrary, just to demonstrate how it works, do not do things like these for real analysis unless you know what you are doing!)</p>
+<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="missing-data.html#cb421-1" aria-hidden="true" tabindex="-1"></a>widish_df_with_NA <span class="sc">%&gt;%</span></span>
+<span id="cb421-2"><a href="missing-data.html#cb421-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">replace_na</span>(<span class="fu">list</span>(<span class="at">Attractiveness =</span> <span class="dv">0</span>, <span class="at">Symmetry =</span> <span class="sc">-</span><span class="dv">1</span>)) </span></code></pre></div>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-286">Table 11.9: </span>Missing values filled with 0 and -1
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+Participant
+</th>
+<th style="text-align:left;">
+Face
+</th>
+<th style="text-align:right;">
+Symmetry
+</th>
+<th style="text-align:right;">
+Attractiveness
+</th>
+<th style="text-align:right;">
+Trustworthiness
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:right;">
+-1
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+</tbody>
+</table>
+<div class="infobox practice">
+<p>Do exercise 8.</p>
+</div>
+<p>Unfortunately, <code>replace_na()</code> works only with constant values and does not handle grouped tables very well<a href="#fn59" class="footnote-ref" id="fnref59"><sup>59</sup></a> So to replace an <code>NA</code> with a mean value of a <em>grouped</em> data, we need to combine some of our old knowledge with an <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/ifelse.html">ifelse(conditon, value_if_true, value_if_false)</a> function. This function is a vectorized cousin of the <a href="controling-computation-flow.html#if-else">if-else</a> that takes 1) a vector of logical values (<code>condition</code>), 2) a vector values that are returned if <code>condition</code> is true, 3) a vector of values that are returned if <code>condition</code> is false. Note that the usual rules of <a href="different-length-vectors">vector length-matching</a> apply, so if the three vectors have different length, they will be automaticall (and silently) adjusted to match the length of <code>condition</code> vector.</p>
+<p>Here is how it works to replace all negative values in a vector with a <code>0</code> and all non-negative with <code>1</code>:</p>
+<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="missing-data.html#cb422-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">5</span>)</span>
+<span id="cb422-2"><a href="missing-data.html#cb422-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ifelse</span>(v <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## [1] 0 1 1 0 1</code></pre>
+<p>It works <em>per element</em>, so each value is replaced by its counterpart in the appropriate vector</p>
+<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb424-1"><a href="missing-data.html#cb424-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb424-2"><a href="missing-data.html#cb424-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ifelse</span>(v <span class="sc">==</span> <span class="dv">1</span>,</span>
+<span id="cb424-3"><a href="missing-data.html#cb424-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>), </span>
+<span id="cb424-4"><a href="missing-data.html#cb424-4" aria-hidden="true" tabindex="-1"></a>       <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">3</span>, <span class="sc">-</span><span class="dv">4</span>, <span class="sc">-</span><span class="dv">5</span>))</span></code></pre></div>
+<pre><code>## [1] -1 -2  3 -4  5</code></pre>
+<p>As with all computations, you can use original values themselves. Here is how to replace only negative values but keep the positive ones:</p>
+<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="missing-data.html#cb426-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">5</span>)</span>
+<span id="cb426-2"><a href="missing-data.html#cb426-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ifelse</span>(v <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="dv">0</span>, v)</span></code></pre></div>
+<pre><code>## [1] 0 3 5 0 5</code></pre>
+<p>We, essentially, tell the function, “if the condition is false, use the original value.” Now, your turn! Using the same vector and <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/ifelse.html">ifelse()</a> function, replace negative values with a <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html">mean</a> value of the positive values in the vector.</p>
+<div class="infobox practice">
+<p>Do exercise 9.</p>
+</div>
+<p>Now that you know how to use <code>ifelse()</code>, replacing <code>NA</code> with a mean will be (relatively) easy. Use <a href="data/adaptation_with_na.csv">adaptation_with_na</a> table and replace missing information using participant-specific values.</p>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-290">Table 11.10: </span>adaptation_with_na.csv with missing values
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Participant
+</th>
+<th style="text-align:left;">
+Prime
+</th>
+<th style="text-align:left;">
+Probe
+</th>
+<th style="text-align:right;">
+Nsame
+</th>
+<th style="text-align:right;">
+Ntotal
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+ma2
+</td>
+<td style="text-align:left;">
+Sphere
+</td>
+<td style="text-align:left;">
+Sphere
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+119
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ma2
+</td>
+<td style="text-align:left;">
+Sphere
+</td>
+<td style="text-align:left;">
+Quadro
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ma2
+</td>
+<td style="text-align:left;">
+Sphere
+</td>
+<td style="text-align:left;">
+Dual
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+120
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ma2
+</td>
+<td style="text-align:left;">
+Sphere
+</td>
+<td style="text-align:left;">
+Single
+</td>
+<td style="text-align:right;">
+31
+</td>
+<td style="text-align:right;">
+115
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ma2
+</td>
+<td style="text-align:left;">
+Quadro
+</td>
+<td style="text-align:left;">
+Sphere
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+120
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ma2
+</td>
+<td style="text-align:left;">
+Quadro
+</td>
+<td style="text-align:left;">
+Quadro
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+120
+</td>
+</tr>
+</tbody>
+</table>
+Here is one way to approach this problem. We cannot know the number of trials for a specific Prime × Probe combination, but we can replace missing values for <code>Ntotal</code> with a participant-specific <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/median.html">median</a> value (a “typical” and integer number of trials but do not forget about <code>na.rm</code> option, see manual for details). <code>Nsame</code> is trickier. For this, compute proportion of same response for each condition <code>Psame = Nsame / Ntotal</code>. This will produce missing values whenever <code>Nsame</code> is missing. Now, replace missing <code>Psame</code> values (<a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html">is.na()</a>) with a mean <code>Psame</code> <em>per participant</em> (again, watch our for <code>na.rm</code>!) using <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/ifelse.html">ifelse()</a> (you can use it inside <code>mutate()</code>). Finally, compute mising values for <code>Nsame</code> from <code>Psame</code> and <code>Ntotal</code> (do not forget to round them, so you end up with integer number of trials). This entire computation should be implemented as a single pipeline. You will end up with a following table.
+<table>
+<caption>
+<span id="tab:unnamed-chunk-291">Table 11.11: </span>adaptation_with_na.csv with imputed values
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Participant
+</th>
+<th style="text-align:left;">
+Prime
+</th>
+<th style="text-align:left;">
+Probe
+</th>
+<th style="text-align:right;">
+Nsame
+</th>
+<th style="text-align:right;">
+Ntotal
+</th>
+<th style="text-align:right;">
+Psame
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+ma2
+</td>
+<td style="text-align:left;">
+Sphere
+</td>
+<td style="text-align:left;">
+Sphere
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+119
+</td>
+<td style="text-align:right;">
+0.2983741
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ma2
+</td>
+<td style="text-align:left;">
+Sphere
+</td>
+<td style="text-align:left;">
+Quadro
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:right;">
+120
+</td>
+<td style="text-align:right;">
+0.1916667
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ma2
+</td>
+<td style="text-align:left;">
+Sphere
+</td>
+<td style="text-align:left;">
+Dual
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+120
+</td>
+<td style="text-align:right;">
+0.2983741
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ma2
+</td>
+<td style="text-align:left;">
+Sphere
+</td>
+<td style="text-align:left;">
+Single
+</td>
+<td style="text-align:right;">
+31
+</td>
+<td style="text-align:right;">
+115
+</td>
+<td style="text-align:right;">
+0.2695652
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ma2
+</td>
+<td style="text-align:left;">
+Quadro
+</td>
+<td style="text-align:left;">
+Sphere
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+120
+</td>
+<td style="text-align:right;">
+0.2083333
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ma2
+</td>
+<td style="text-align:left;">
+Quadro
+</td>
+<td style="text-align:left;">
+Quadro
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+120
+</td>
+<td style="text-align:right;">
+0.2166667
+</td>
+</tr>
+</tbody>
+</table>
+<div class="infobox practice">
+<p>Do exercise 10.</p>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="footnotes">
+<hr />
+<ol start="58">
+<li id="fn58"><p>There is also an inverse function <a href="https://dplyr.tidyverse.org/reference/na_if.html">na_if()</a> that converts a specific value to an <code>NA</code>.<a href="missing-data.html#fnref58" class="footnote-back">↩︎</a></p></li>
+<li id="fn59"><p>At least I wasn’t able to figure out how to do this.<a href="missing-data.html#fnref59" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="christmas-special.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["data-analysis-using-r-for-psychology.pdf", "data-analysis-using-r-for-psychology.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
