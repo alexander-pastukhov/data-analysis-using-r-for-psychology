@@ -1,0 +1,368 @@
+# Working with strings {#strings}
+
+When working with strings, I strongly suggest consulting a manual and vignettes of the [stringr](https://stringr.tidyverse.org/index.html) package. It has many functions that cover most needs. 
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+library(tidyverse)
+```
+
+## Warming up
+Before we start working with strings, let us warm up by preprocessing [band-adaptation.csv](data/bands-adaptation.csv) that we will be working with. 
+
+1. Read it (try specifying the URL instead of the local filename).Do not forget to specify column types!
+2. compute proportion of "same" responses as a using `Nsame` (number of "same" responses) and `Ntotal` (total number of trials).
+3. Convert `Prime` and `Probe` column to factors with the order "Sphere", "Quadro", "Dual", "Single".
+4. Compute [median](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/median.html) and [median absolute deviation from the median](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/mad.html) for `Psame` for all combinations of `Prime` and `Probe`.
+
+Your table should look as follows:
+```{r echo=FALSE}
+bands_df <- read_csv("data/bands-adaptation.csv",
+                       col_types = cols(
+                          Participant = col_character(),
+                          Prime = col_character(),
+                          Probe = col_character(),
+                          Nsame = col_integer(),
+                          Ntotal = col_integer()
+                        )) %>%
+  mutate(Psame = Nsame / Ntotal,
+         Prime = factor(Prime, levels = c("Sphere", "Quadro", "Dual", "Single")),
+         Probe = factor(Probe, levels = c("Sphere", "Quadro", "Dual", "Single"))) %>%
+  group_by(Prime, Probe) %>%
+  summarise(Pmedian = round(median(Psame), 2),
+            Pmad = round(mad(Psame), 2),
+            .groups = "drop")
+knitr::kable(bands_df, caption="bands_df")
+```
+
+::: {.infobox .practice}
+Do exercise 1.
+:::
+
+## Creating strings via glue {#glue}
+The table above gives us information about _median_ probability of seeing the same rotation and about its absolute deviation from the median. However, it would be more convenient for a reader we would combine these two pieces of information into a single entry in form for of "<median> ± <MAD>". Plus, it would be easier to see the pattern in a square table with one `Prime` per row and one `Probe` per column. The table I have in mind look like this:
+```{r echo=FALSE}
+bands_df %>%
+  mutate(Pavg = glue::glue("{Pmedian} ± {Pmad}")) %>%
+  pivot_wider(id_cols = "Prime", names_from="Probe", values_from="Pavg") %>%
+  knitr::kable(align = "c", caption="Probability of persistence, median ± MAD")
+```
+
+You already know how to perform the second step (pivoting table wider to turn `Probe` factor levels into columns). For the first step, you need to combine two values into a string. There are different ways to construct this string via [sprintf()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/sprintf.html), [paste()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/paste.html), or via [glue](https://glue.tidyverse.org/) package. We will start with Tidyverse's [glue()](https://glue.tidyverse.org/reference/glue.html) and explore base R functions later.
+
+[glue](https://glue.tidyverse.org/) package is part of the Tidyverse, so it should be already installed. However, it is not part of _core_ tidyverse, so it does not get imported automatically via `library(tidyverse)` and you do need to import it separately or use `glue::` prefix. Function [glue()](https://glue.tidyverse.org/reference/glue.html) allows you to "glue" values and code directly into a string. You simply surround _any_ R code by wiggly brackets inside the string and the result of the code execution is glued in. If you use just a variable, its value will be glued-in. But you can put _any_ code inside, although, the more code you put, the harder it will be to read and understand it.
+
+```{r}
+answer <- 42
+bad_answer <- 41
+glue::glue("The answer is {answer}, not {abs(bad_answer / -4)}")
+```
+Use the table that you prepared during exercise 1 to compute a new column with "<median> ± <MAD>" (you will want to use [round()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Round.html) function to restrict values to just 2 digit after the decimal point). Think about _when_ you want to perform this computation (before or after pivoting?) and which column(s?) do you need to pivot wider.
+
+::: {.infobox .practice}
+Do exercise 2.
+:::
+
+## paste {#paste}
+Base R has functions [paste()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/paste.html) and [paste0()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/paste.html) that are conceptually very similar to [glue()](https://glue.tidyverse.org/reference/glue.html). The concatenate a vector a strings into a single string. If you recall, vector values can [only be of one (most flexible) type](#vectors-are-homogeneous). Therefore, if you have a vector that intersperses string with other values, they will be _first_ converted to strings anyhow. The difference between `paste()` and `paste0()` is that the former puts a separator string in-between each value (defaults to `' '` but you can define your own via `sep` argument), whereas `paste0()` uses no separator. We can replicate our [glue()](https://glue.tidyverse.org/reference/glue.html) example.
+```{r}
+answer <- 42
+bad_answer <- 41
+paste("The answer is ", answer, ", not ", abs(bad_answer / -4), sep="")
+paste0("The answer is ", answer, ", not ", abs(bad_answer / -4))
+```
+
+Redo exercise 2 but using one of the [paste](https://stat.ethz.ch/R-manual/R-devel/library/base/html/paste.html) functions instead of the [glue()](https://glue.tidyverse.org/reference/glue.html).
+::: {.infobox .practice}
+Do exercise 3.
+:::
+
+## sprintf {#sprintf}
+For detailed string formatting, base R has a [sprintf()](https://stat.ethz.ch/R-manual/R-patched/library/base/html/sprintf.html) function that provides a C-style string formatting (same as Python's original string formatting and a common way to format a string in many programming languages). The general function call is `sprintf("string with formatting", value1, value2, value)`, where values are are inserted into the string. In `"string with formatting"`, you specify where you want to put the value via `%` symbol that is followed by an _optional_ formatting info and the _required_ symbol that defines the **type** of the value. The type symbols are
+
+* `s` for string
+* `d` for an integer
+* `f` for a float value using a "fixed point" decimal notation
+* `e` for a float value using a scientific notation (e.g., `1e2`).
+* `g` for an "optimally" printed float value, so that scientific notation is used for very large or very small values (_e.g._, `1e+5` instead of `100000` and `1-e5` for `0.00001`).
+
+Here is an example of formatting a string using an integer:
+```{r}
+sprintf("I had %d pancakes for breakfast", 10)
+```
+
+You are not limited to a single value that you can put into a string. You can specify more locations via `%` but you must make sure that you pass the matching number of values. If there fewer parameters when you specified in the string, you will receive an _error_. If there are too many, only a _warning_^[Talk about consistency...]. Before running it, can you figure out which call will actually work (and what will be the output) and which will produce an error or a warning?
+
+```{r eval=FALSE}
+sprintf("I had %d pancakes and either %d  or %d stakes for dinner", 2)
+sprintf("I had %d pancakes and %d stakes for dinner", 7, 10)
+sprintf("I had %d pancake and %d stakes for dinner", 1, 7, 10)
+```
+
+In case of real values you have two options: `%f` and `%g`. The latter uses scientific notation (e.g. `1e10` for `10000000000`) to make a representation more compact. When formatting floating numbers, you can specify the number of decimal points to be displayed.
+```{r}
+e <- 2.71828182845904523536028747135266249775724709369995
+sprintf("Euler's number is roughly %.4f", e)
+```
+
+Note that as most functions in R, [sprintf()](https://stat.ethz.ch/R-manual/R-patched/library/base/html/sprintf.html) is vectorized so when you pass a vector of values it will generate a _vector_ of strings with one formatted string for a value.
+```{r}
+sprintf("The number is %d", c(2, 3))
+```
+
+This means that you can use [sprintf()](https://stat.ethz.ch/R-manual/R-patched/library/base/html/sprintf.html) to work on column both in base R and inside [mutate()](https://dplyr.tidyverse.org/reference/mutate.html) Tidyverse verb.
+
+```{r}
+tibble(Number = 1:3) %>%
+  mutate(Message = sprintf("The number is %d", Number)) %>%
+  knitr::kable()
+```
+
+Redo exercise #2 but use [sprintf()](https://stat.ethz.ch/R-manual/R-patched/library/base/html/sprintf.html) instead of [glue()](https://glue.tidyverse.org/reference/glue.html).
+
+::: {.infobox .practice}
+Do exercise 4.
+:::
+
+## Extracting information from a string
+Previous exercises dealt with combining various bits of information into a single string. Often, you also need to do the opposite: extract bits of information from a single string. For example, in the toy table on face perception, we have been working with, `Face` column code gender of the face `"M"` (table is short but you can easily assume that faces of both genders were used) and the second is its index (`1` and `2`). When we worked with [persistence](data/persistence.csv), `Participant` column encoded year of birth and gender, whereas `Session` contained detailed information about year, month, day, hour, minutes, and seconds all merged together. There are several ways to extract this information, either by extracting one piece at a time via [
+substr()](https://stat.ethz.ch/R-manual/R-patched/library/base/html/substr.html) or string processing library [stringr](https://stringr.tidyverse.org/). Alternatively, you can split a string column into several columns via [separate()](https://tidyr.tidyverse.org/reference/separate.html) or [extract()](https://tidyr.tidyverse.org/reference/extract.html) functions.
+
+## Separate
+Function [separate()](https://tidyr.tidyverse.org/reference/separate.html) is part of tidyverse and its use is very straightforward: you pass 1) the name of the column that you want to split, 2) names of the columns it needs to be split into, 3) a separator symbol or indexes of splitting positions. Examples using the face table should make it clear. Reminder, this is the original wide table and we want to separate `Face` into `FaceGender` and `FaceIndex`.
+
+```{r eacho=FALSE}
+widish_df <- 
+  tibble(Participant = c(1, 1, 2, 2),
+         Face = rep(c("M-1", "M-2"), 2), 
+         Symmetry = c(6, 4, 5, 3),
+         Attractiveness = c(4, 7, 2, 7),
+         Trustworthiness = c(3, 6, 1, 2))
+
+knitr::kable(widish_df)
+```
+
+As there is a very convenient "dash" between the two, we can use it for a separator symbol:
+```r
+widish_df %>%
+  separate(Face, into=c("FaceGender", "FaceIndex"), sep="-")
+```
+```{r echo=FALSE}
+widish_df %>%
+  separate(Face, into=c("FaceGender", "FaceIndex"), sep="-") %>%
+  knitr::kable(align = "c")
+```
+
+Note that the original `Face` column is gone. We can keep it via `remove=FALSE` option
+```r
+widish_df %>%
+  separate(Face, into=c("FaceGender", "FaceIndex"), sep="-", remove=FALSE)
+```
+```{r echo=FALSE}
+widish_df %>%
+  separate(Face, into=c("FaceGender", "FaceIndex"), sep="-", remove=FALSE) %>%
+  knitr::kable(align="c")
+```
+
+We also do not need to extract _all_ information. For example, we can extract only face gender or face index. To get only the gender, we only specify _one_ `into` column and add `extra="drop"` parameter, telling `separate()` to drop any extra piece it obtained:
+```r
+widish_df %>%
+  separate(Face, into=c("Gender"), sep="-", remove=FALSE, extra="drop")
+```
+```{r echo=FALSE}
+widish_df %>%
+  separate(Face, into=c("Gender"), sep="-", remove=FALSE, extra="drop") %>%
+  knitr::kable(align="c")
+```
+
+Alternatively, we can explicitly _ignore_ pieces by using `NA` for their column name:
+```r
+widish_df %>%
+  separate(Face, into=c("Gender", NA), sep="-", remove=FALSE)
+```
+```{r}
+widish_df %>%
+  separate(Face, into=c("Gender", NA), sep="-", remove=FALSE) %>%
+  knitr::kable()
+```
+
+What about keeping only the _second_ piece in a `FaceIndex` column? We ignore the first one via `NA`
+```r
+widish_df %>%
+  separate(Face, into=c(NA, "Index"), sep="-", remove=FALSE)
+```
+```{r}
+widish_df %>%
+  separate(Face, into=c(NA, "Index"), sep="-", remove=FALSE) %>%
+  knitr::kable(align = "c")
+```
+
+Let's practice. Use [separate()](https://tidyr.tidyverse.org/reference/separate.html) to preprocess [persistence](data/persistence.zip) data and create two new columns for hour and minutes from `Session` column. Do it in a single pipeline, starting with reading all files (use tidyverse [read_csv()](https://readr.tidyverse.org/reference/read_delim.html) and specify column types!) and renaming `Shape` (`Prime`) and `Shape2` (`Probe`) columns. You results should look like this, think about columns that you drop or keep (this is only first four rows, think of how you can limit your output the same way via [head()](https://stat.ethz.ch/R-manual/R-devel/library/utils/html/head.html) function):
+```{r echo=FALSE}
+results <-
+fs::dir_ls(path = "persistence/") %>%
+  purrr::map_dfr(~read_csv(.,
+                          col_types = cols(
+                            Participant = col_character(),
+                            Session = col_character(),
+                            Block = col_double(),
+                            Trial = col_double(),
+                            OnsetDelay = col_double(),
+                            Bias = col_character(),
+                            Shape1 = col_character(),
+                            Shape2 = col_character(),
+                            Response1 = col_character(),
+                            Response2 = col_character(),
+                            RT1 = col_double(),
+                            RT2 = col_double()))) %>%
+  rename(Prime = Shape1,
+         Probe = Shape2) %>%
+  separate(Session, into=c(NA, NA, NA, "Hour", "Minutes", NA), sep="-")
+
+results %>%
+  head(4) %>%
+  knitr::kable()
+```
+
+::: {.infobox .practice}
+Do exercise 5.
+:::
+
+As noted above, if position of individual pieces is fixed, you can specify it explicitly. Let us make out toy table a bit more explicit
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+widish_df <- 
+  tibble(Participant = c(1, 1, 2, 2),
+         Face = rep(c("M-01", "F-02"), 2), 
+         Symmetry = c(6, 4, 5, 3),
+         Attractiveness = c(4, 7, 2, 7),
+         Trustworthiness = c(3, 6, 1, 2))
+
+knitr::kable(widish_df, align="c")
+```
+
+
+For our toy faces table, the first piece is the gender and the last one is its index. Thus, we tell `separate()` starting position each pieces, starting with the _second_ one:
+```r
+widish_df %>%
+  separate(Face, into=c("FaceGender", "Dash", "FaceIndex"), sep=c(1, 2))
+```
+```{r}
+widish_df %>%
+  separate(Face, into=c("FaceGender", "Dash", "FaceIndex"), sep=c(1, 2), remove=FALSE) %>%
+  knitr::kable()
+```
+
+Here, I've create `Dash` column for the separator but, of course, I could have omitted it via `NA` column name.
+```r
+widish_df %>%
+  separate(Face, into=c("FaceGender", NA, "FaceIndex"), sep=c(1, 2))
+```
+```{r}
+widish_df %>%
+  separate(Face, into=c("FaceGender", NA, "FaceIndex"), sep=c(1, 2)) %>%
+  knitr::kable()
+```
+
+Practice time! Using same [persistence](data/persistence.csv) data extract birth year and gender of participants from `Participant` code (however, keep the code column). Put a nice extra touch by converting year to a number ([separate()](https://tidyr.tidyverse.org/reference/separate.html) splits a string into strings as well) and gender into a factor type with better labels. Here is how should look like:
+
+```{r echo=FALSE}
+results %>%
+  separate(Participant, into=c(NA, "BirthYear", "Gender"), sep=c(3, 7), remove = FALSE) %>%
+  mutate(BirthYear = as.integer(BirthYear),
+         Gender = factor(Gender, levels=c("F", "M"), labels=c("Male", "Female"))) %>%
+  head(4) %>%
+  knitr::kable()
+```
+
+::: {.infobox .practice}
+Do exercise 6.
+:::
+
+## Extracting a substring when you know its location
+Base R provides a function extract a substring (or many substrings) via [
+substr()](https://stat.ethz.ch/R-manual/R-patched/library/base/html/substr.html) function (you can also its alias `substring()`). It takes a string (or a vector of strings) and vectors with `start` and `stop` indexes of each substring. 
+
+```{r}
+face_img <- c("M01", "M02", "F01", "F02")
+substr(face_img, 2, 3)
+```
+
+Repeat exercise 6 but use [
+substr()](https://stat.ethz.ch/R-manual/R-patched/library/base/html/substr.html) to extract each column (`BirthYear` and `Gender`) from the participant code.  
+
+::: {.infobox .practice}
+Do exercise 7.
+:::
+
+Tidyverse has its own [stringr](https://stringr.tidyverse.org/) library for working with strings. Its uses a consistent naming scheme `str_<action>` for its function and covers virtually all tasks that are related to working with strings. [stringr](https://stringr.tidyverse.org/) equivalent of  [
+substr()](https://stat.ethz.ch/R-manual/R-patched/library/base/html/substr.html) is [str_sub()](https://stringr.tidyverse.org/reference/str_sub.html) that behaves similarly.
+
+```{r}
+face_img <- c("M01", "M02", "F01", "F02")
+str_sub(face_img, 2, 3)
+```
+
+Repeat exercise 7 but using [str_sub()](https://stringr.tidyverse.org/reference/str_sub.html) function.
+
+::: {.infobox .practice}
+Do exercise 8.
+:::
+
+## Detecting a substring using regular expressions
+> Some people, when confronted with a problem, think "I know, I'll use regular expressions." Now they have two problems.
+>
+> _Jamie Zawinsk_
+
+One of the most powerful ways to work with strings is via [regular expressions](https://en.wikipedia.org/wiki/Regular_expression) that allow you to code a flexible pattern that is matched to a substring within a string. For example, you can detect whether a string contains a number without knowing where it is located. Here a pattern `"\\d{3}"` means that we are looking for 3 (hence the `{3}`) digits (hence the `\\d`) 
+```{r}
+QandA <- c("What was the answer, 42, right?", "No idea! What could it be, 423?")
+grepl("\\d{3}", QandA)
+```
+Stringr library has it own version with a more obvious name [str_detect()](https://stringr.tidyverse.org/reference/str_detect.html)^[GREP stands for Global Regular Expression Print.]. Note, however, the reverse order of arguments, as `str_` function always take (a vector of) strings as a first parameter
+```{r}
+str_detect(QandA, "\\d{3}")
+```
+You can also look for 1 or more digits (which is `+`)
+```{r}
+str_detect(QandA, "\\d+")
+```
+
+Or for a specific word
+```{r}
+str_detect(QandA, "What")
+```
+
+Or for a specific word only at the beginning (`^`) of the string 
+```{r}
+str_detect(QandA, "^What")
+```
+
+When it comes to regular expressions, what I have shown you so far is not even a tip of an iceberg, it is a tip of a tip of an iceberg at best. They are very flexible, allowing you to code very complicated patterns but they are also hard to read and, therefore, hard to debug^[Hence, the quote at the beginning of the section.]. For example, this is a regular expression to check validity on an email address
+```
+(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])
+```
+
+Still, if you need to work with text they are indispensable, so your should remember about them. When facing an actual task grab a [cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/strings.pdf) and use an [online expression tester](https://spannbaueradam.shinyapps.io/r_regex_tester/) to debug the pattern. 
+
+In the next exercise, use a regular expression to [filter()](https://dplyr.tidyverse.org/reference/filter.html) out Primes and Probes that _end_ with a _single_ digit. I know that all of them end with a single digit, if digit is in them, so you can make a very simple expression that would do the job. But I want you to practice working with the [cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/strings.pdf), so it must specify that only one digit is allowed and that it must be the last symbol. When you pattern works, you should end up with a table where all Primes and Probes are `"heavy poles sphere"`.
+
+::: {.infobox .practice}
+Do exercise 9.
+:::
+
+Now let us practice extracting the relevant information via pattern matching. Use [str_extract()](https://stringr.tidyverse.org/reference/str_extract.html) to extract the participants unique code, the  letters of `Participant` column. Again, here you can simply use a [substr()](https://stat.ethz.ch/R-manual/R-patched/library/base/html/substr.html) but I want you write a pattern that matches one or more upper case letters at the beginning of the string.
+
+::: {.infobox .practice}
+Do exercise 10.
+:::
+
+Finally, let us practice in replacing part of a string via regular expressions. Use [str_replace()](https://stringr.tidyverse.org/reference/str_replace.html) to anonymize the birth year of our participants. You need to replace the four digits that represent their birth year with a single `"-"`.  The table should look as follows:
+```{r echo=FALSE}
+results %>%
+  mutate(Participant = str_replace(Participant, "\\d{4}", "-")) %>%
+  head(4) %>%
+  knitr::kable()
+```
+
+::: {.infobox .practice}
+Do exercise 11.
+:::
