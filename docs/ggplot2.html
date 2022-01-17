@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Seminar 5 Grammar of Graphics | Data analysis using R for Psychology and Social Science</title>
+  <title>Seminar 5 ggplot2: Grammar of Graphics | Data analysis using R for Psychology and Social Science</title>
   <meta name="description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Seminar 5 Grammar of Graphics | Data analysis using R for Psychology and Social Science" />
+  <meta property="og:title" content="Seminar 5 ggplot2: Grammar of Graphics | Data analysis using R for Psychology and Social Science" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Seminar 5 Grammar of Graphics | Data analysis using R for Psychology and Social Science" />
+  <meta name="twitter:title" content="Seminar 5 ggplot2: Grammar of Graphics | Data analysis using R for Psychology and Social Science" />
   
   <meta name="twitter:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
   
@@ -213,7 +213,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.11" data-path="functions.html"><a href="functions.html#functions-functions-everywhere"><i class="fa fa-check"></i><b>4.11</b> Functions! Functions everywhere!</a></li>
 <li class="chapter" data-level="4.12" data-path="functions.html"><a href="functions.html#using-or-not-using-explicit-return-statement"><i class="fa fa-check"></i><b>4.12</b> Using (or not using) explicit return statement</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>5</b> Grammar of Graphics</a>
+<li class="chapter" data-level="5" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>5</b> ggplot2: Grammar of Graphics</a>
 <ul>
 <li class="chapter" data-level="5.1" data-path="ggplot2.html"><a href="ggplot2.html#tidydata"><i class="fa fa-check"></i><b>5.1</b> Tidy data</a></li>
 <li class="chapter" data-level="5.2" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-1"><i class="fa fa-check"></i><b>5.2</b> ggplot2</a></li>
@@ -319,7 +319,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="ggplot2" class="section level1" number="5">
-<h1><span class="header-section-number">Seminar 5</span> Grammar of Graphics</h1>
+<h1><span class="header-section-number">Seminar 5</span> ggplot2: Grammar of Graphics</h1>
 <p>In previous chapters, you have learned about tables that are the main way of representing data in psychological research and in R. In the following ones, you will learn how to manipulate data in these tables: change it, aggregate or transform individual groups of data, use it for statistical analysis. But before that you need to understand how to store your data in the table in the optimal way. First, I will introduce the idea of <em>tidy data</em>, the concept that gave <a href="https://www.tidyverse.org/">Tidyverse</a> its name. Next, we will see how tidy data helps you visualize relationships between variables. Don’t forget to download the <a href="notebooks/Seminar%2005%20-%20ggplot2.Rmd">notebook</a>.</p>
 <div id="tidydata" class="section level2" number="5.1">
 <h2><span class="header-section-number">5.1</span> Tidy data</h2>
@@ -514,7 +514,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Other properties of the plot (scaling of axes, labels, annotations, etc.) that are <em>added</em> to the plot.</li>
 </ol>
 <p>You always need the first one. But you do not need to specify the other two, even though a plot without geometry in it looks very empty. Let us start with a very simple artificial example table below. I simulate a response as
-<span class="math display">\[Response = Normal(\mu=1, \sigma=0.2) - \\Normal(\mu=2*ConditionIndex, \sigma=0.4) + \\Normal(\mu=Intensity, \sigma=0.4)\]</span></p>
+<span class="math display">\[Response = Normal(\mu=1, \sigma=0.2) - \\
+Normal(\mu=2*ConditionIndex, \sigma=0.4) + \\ Normal(\mu=Intensity, \sigma=0.4)\]</span></p>
 <table>
 <thead>
 <tr class="header">
@@ -527,122 +528,122 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">1</td>
-<td align="right">-0.1863173</td>
+<td align="right">-0.4975972</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">1</td>
-<td align="right">-1.4002620</td>
+<td align="right">-1.7841545</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">1</td>
-<td align="right">-5.3411884</td>
+<td align="right">-4.8310236</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">2</td>
-<td align="right">0.8195629</td>
+<td align="right">1.3728014</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">2</td>
-<td align="right">-0.5174649</td>
+<td align="right">-0.4294678</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">2</td>
-<td align="right">-2.9021056</td>
+<td align="right">-3.9870370</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">3</td>
-<td align="right">1.8986598</td>
+<td align="right">0.5865422</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">3</td>
-<td align="right">1.1778877</td>
+<td align="right">0.6974930</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">3</td>
-<td align="right">-1.6308181</td>
+<td align="right">-1.6014459</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">4</td>
-<td align="right">4.1461489</td>
+<td align="right">2.8829385</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">4</td>
-<td align="right">0.3521645</td>
+<td align="right">1.0572379</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">4</td>
-<td align="right">-1.4645158</td>
+<td align="right">-0.3525203</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">5</td>
-<td align="right">3.9379607</td>
+<td align="right">4.1087988</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">5</td>
-<td align="right">1.9612289</td>
+<td align="right">2.5367595</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">5</td>
-<td align="right">0.0521996</td>
+<td align="right">0.8819847</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">6</td>
-<td align="right">5.2739384</td>
+<td align="right">3.5719599</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">6</td>
-<td align="right">3.5969108</td>
+<td align="right">2.5024309</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">6</td>
-<td align="right">1.8303286</td>
+<td align="right">0.9480381</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">7</td>
-<td align="right">5.8578714</td>
+<td align="right">5.1750282</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">7</td>
-<td align="right">3.3961561</td>
+<td align="right">3.7480376</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">7</td>
-<td align="right">2.0813487</td>
+<td align="right">2.0554089</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">8</td>
-<td align="right">7.4086875</td>
+<td align="right">6.0772619</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">8</td>
-<td align="right">3.7545466</td>
+<td align="right">5.2296981</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">8</td>
-<td align="right">2.5726701</td>
+<td align="right">3.8294497</td>
 </tr>
 </tbody>
 </table>

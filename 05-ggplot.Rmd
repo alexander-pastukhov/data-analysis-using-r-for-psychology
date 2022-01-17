@@ -1,4 +1,4 @@
-# Grammar of Graphics {#ggplot2}
+# ggplot2: Grammar of Graphics {#ggplot2}
 
 In previous chapters, you have learned about tables that are the main way of representing data in psychological research and in R. In the following ones, you will learn how to manipulate data in these tables: change it, aggregate or transform individual groups of data, use it for statistical analysis. But before that you need to understand how to store your data in the table in the optimal way. First, I will introduce the idea of _tidy data_, the concept that gave [Tidyverse](https://www.tidyverse.org/) its name. Next, we will see how tidy data helps you visualize relationships between variables. Don't forget to download the [notebook](notebooks/Seminar 05 - ggplot2.Rmd).
 
@@ -64,7 +64,8 @@ A plot in _ggplot2_ is described in three parts:
 3. Other properties of the plot (scaling of axes, labels, annotations, etc.) that are _added_ to the plot.
 
 You always need the first one. But you do not need to specify the other two, even though a plot without geometry in it looks very empty. Let us start with a very simple artificial example table below. I simulate a response as
-$$Response = Normal(\mu=1, \sigma=0.2) - \\Normal(\mu=2*ConditionIndex, \sigma=0.4) + \\Normal(\mu=Intensity, \sigma=0.4)$$
+$$Response = Normal(\mu=1, \sigma=0.2) - \\
+Normal(\mu=2*ConditionIndex, \sigma=0.4) + \\ Normal(\mu=Intensity, \sigma=0.4)$$
 ```{r echo=FALSE, message=FALSE, warning=FALSE,  fig.align="center"}
 library(tidyverse)
 simple_tidy_data <- 

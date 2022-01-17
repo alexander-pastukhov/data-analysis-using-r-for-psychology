@@ -2432,7 +2432,7 @@ In the code above I have always used the \href{https://stat.ethz.ch/R-manual/R-d
 The lack of \texttt{return} function in the final line is actually an \href{https://style.tidyverse.org/functions.html}{officially recommended style of Tidyverse} but I am wary of this approach because ``explicit is better than implicit''. This omission may be reasonable if it comes at the very end of a long pipe but, in general, I would recommend using \texttt{return()}.
 
 \hypertarget{ggplot2}{%
-\chapter{Grammar of Graphics}\label{ggplot2}}
+\chapter{ggplot2: Grammar of Graphics}\label{ggplot2}}
 
 In previous chapters, you have learned about tables that are the main way of representing data in psychological research and in R. In the following ones, you will learn how to manipulate data in these tables: change it, aggregate or transform individual groups of data, use it for statistical analysis. But before that you need to understand how to store your data in the table in the optimal way. First, I will introduce the idea of \emph{tidy data}, the concept that gave \href{https://www.tidyverse.org/}{Tidyverse} its name. Next, we will see how tidy data helps you visualize relationships between variables. Don't forget to download the \href{notebooks/Seminar\%2005\%20-\%20ggplot2.Rmd}{notebook}.
 
@@ -2538,59 +2538,60 @@ A plot in \emph{ggplot2} is described in three parts:
 \end{enumerate}
 
 You always need the first one. But you do not need to specify the other two, even though a plot without geometry in it looks very empty. Let us start with a very simple artificial example table below. I simulate a response as
-\[Response = Normal(\mu=1, \sigma=0.2) - \\Normal(\mu=2*ConditionIndex, \sigma=0.4) + \\Normal(\mu=Intensity, \sigma=0.4)\]
+\[Response = Normal(\mu=1, \sigma=0.2) - \\
+Normal(\mu=2*ConditionIndex, \sigma=0.4) + \\ Normal(\mu=Intensity, \sigma=0.4)\]
 
 \begin{tabular}{l|r|r}
 \hline
 Condition & Intensity & Response\\
 \hline
-A & 1 & 0.0981700\\
+A & 1 & 0.8596265\\
 \hline
-B & 1 & -2.3329663\\
+B & 1 & -1.7787296\\
 \hline
-C & 1 & -2.6649830\\
+C & 1 & -4.3760898\\
 \hline
-A & 2 & 0.1267547\\
+A & 2 & 1.6718866\\
 \hline
-B & 2 & -1.4565501\\
+B & 2 & -0.8589557\\
 \hline
-C & 2 & -3.7072168\\
+C & 2 & -3.7898688\\
 \hline
-A & 3 & 2.0500092\\
+A & 3 & 2.6955201\\
 \hline
-B & 3 & -0.9171582\\
+B & 3 & 0.1446666\\
 \hline
-C & 3 & -1.5290371\\
+C & 3 & -2.2995353\\
 \hline
-A & 4 & 1.9210685\\
+A & 4 & 2.2822740\\
 \hline
-B & 4 & 0.3583271\\
+B & 4 & 1.4731437\\
 \hline
-C & 4 & -1.0087298\\
+C & 4 & -1.0585259\\
 \hline
-A & 5 & 3.5548981\\
+A & 5 & 4.1987644\\
 \hline
-B & 5 & 2.6078655\\
+B & 5 & 2.9112593\\
 \hline
-C & 5 & -0.7271910\\
+C & 5 & -0.2428263\\
 \hline
-A & 6 & 4.8377562\\
+A & 6 & 6.6633229\\
 \hline
-B & 6 & 2.9955203\\
+B & 6 & 3.1660790\\
 \hline
-C & 6 & 1.1915447\\
+C & 6 & 1.3868717\\
 \hline
-A & 7 & 5.9962546\\
+A & 7 & 6.1647468\\
 \hline
-B & 7 & 3.9539004\\
+B & 7 & 4.1622096\\
 \hline
-C & 7 & 1.5514669\\
+C & 7 & 1.6852564\\
 \hline
-A & 8 & 5.1999130\\
+A & 8 & 8.4011780\\
 \hline
-B & 8 & 4.4308594\\
+B & 8 & 4.3443674\\
 \hline
-C & 8 & 2.7704612\\
+C & 8 & 4.3572383\\
 \hline
 \end{tabular}
 
@@ -4072,21 +4073,21 @@ D & 22\\
 \hline
 ID & Report\\
 \hline
-A & 3.372118\\
+A & 2.899499\\
 \hline
-A & 6.780399\\
+A & 6.269772\\
 \hline
-B & 5.102716\\
+B & 5.633876\\
 \hline
-B & 2.948661\\
+B & 1.316154\\
 \hline
-C & 6.294108\\
+C & 2.765680\\
 \hline
-C & 4.676714\\
+C & 4.300227\\
 \hline
-D & 6.980392\\
+D & 6.255614\\
 \hline
-D & 1.566890\\
+D & 4.328832\\
 \hline
 \end{tabular}
 \end{table}
@@ -4108,21 +4109,21 @@ To join two tables, you require ``key'' columns: columns that contain values tha
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 3.372118\\
+A & 20 & 2.899499\\
 \hline
-A & 20 & 6.780399\\
+A & 20 & 6.269772\\
 \hline
-B & 19 & 5.102716\\
+B & 19 & 5.633876\\
 \hline
-B & 19 & 2.948661\\
+B & 19 & 1.316154\\
 \hline
-C & 30 & 6.294108\\
+C & 30 & 2.765680\\
 \hline
-C & 30 & 4.676714\\
+C & 30 & 4.300227\\
 \hline
-D & 22 & 6.980392\\
+D & 22 & 6.255614\\
 \hline
-D & 22 & 1.566890\\
+D & 22 & 4.328832\\
 \hline
 \end{tabular}
 \centering
@@ -4130,21 +4131,21 @@ D & 22 & 1.566890\\
 \hline
 ID & Report & Age\\
 \hline
-A & 3.372118 & 20\\
+A & 2.899499 & 20\\
 \hline
-A & 6.780399 & 20\\
+A & 6.269772 & 20\\
 \hline
-B & 5.102716 & 19\\
+B & 5.633876 & 19\\
 \hline
-B & 2.948661 & 19\\
+B & 1.316154 & 19\\
 \hline
-C & 6.294108 & 30\\
+C & 2.765680 & 30\\
 \hline
-C & 4.676714 & 30\\
+C & 4.300227 & 30\\
 \hline
-D & 6.980392 & 22\\
+D & 6.255614 & 22\\
 \hline
-D & 1.566890 & 22\\
+D & 4.328832 & 22\\
 \hline
 \end{tabular}
 \end{table}
@@ -4196,21 +4197,21 @@ D & 22\\
 \hline
 ID & Report\\
 \hline
-A & 2.940563\\
+A & 2.304722\\
 \hline
-A & 2.873187\\
+A & 1.688255\\
 \hline
-B & 4.669175\\
+B & 3.356129\\
 \hline
-B & 6.034893\\
+B & 5.264611\\
 \hline
-C & 3.465196\\
+C & 3.897907\\
 \hline
-C & 4.307499\\
+C & 5.952492\\
 \hline
-E & 4.816216\\
+E & 1.705018\\
 \hline
-E & 2.866745\\
+E & 1.365044\\
 \hline
 \end{tabular}
 \end{table}
@@ -4232,17 +4233,17 @@ E & 2.866745\\
 \hline
 ID & Report & Age\\
 \hline
-A & 2.940563 & 20\\
+A & 2.304722 & 20\\
 \hline
-A & 2.873187 & 20\\
+A & 1.688255 & 20\\
 \hline
-B & 4.669175 & 19\\
+B & 3.356129 & 19\\
 \hline
-B & 6.034893 & 19\\
+B & 5.264611 & 19\\
 \hline
-C & 3.465196 & 30\\
+C & 3.897907 & 30\\
 \hline
-C & 4.307499 & 30\\
+C & 5.952492 & 30\\
 \hline
 \end{tabular}
 \end{table}
@@ -4264,23 +4265,23 @@ In contrast, \textbf{full join} is the most liberal as it includes all rows from
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 2.940563\\
+A & 20 & 2.304722\\
 \hline
-A & 20 & 2.873187\\
+A & 20 & 1.688255\\
 \hline
-B & 19 & 4.669175\\
+B & 19 & 3.356129\\
 \hline
-B & 19 & 6.034893\\
+B & 19 & 5.264611\\
 \hline
-C & 30 & 3.465196\\
+C & 30 & 3.897907\\
 \hline
-C & 30 & 4.307499\\
+C & 30 & 5.952492\\
 \hline
 D & 22 & NA\\
 \hline
-E & NA & 4.816216\\
+E & NA & 1.705018\\
 \hline
-E & NA & 2.866745\\
+E & NA & 1.365044\\
 \hline
 \end{tabular}
 \end{table}
@@ -4302,17 +4303,17 @@ E & NA & 2.866745\\
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 2.940563\\
+A & 20 & 2.304722\\
 \hline
-A & 20 & 2.873187\\
+A & 20 & 1.688255\\
 \hline
-B & 19 & 4.669175\\
+B & 19 & 3.356129\\
 \hline
-B & 19 & 6.034893\\
+B & 19 & 5.264611\\
 \hline
-C & 30 & 3.465196\\
+C & 30 & 3.897907\\
 \hline
-C & 30 & 4.307499\\
+C & 30 & 5.952492\\
 \hline
 D & 22 & NA\\
 \hline
@@ -4336,21 +4337,21 @@ D & 22 & NA\\
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 2.940563\\
+A & 20 & 2.304722\\
 \hline
-A & 20 & 2.873187\\
+A & 20 & 1.688255\\
 \hline
-B & 19 & 4.669175\\
+B & 19 & 3.356129\\
 \hline
-B & 19 & 6.034893\\
+B & 19 & 5.264611\\
 \hline
-C & 30 & 3.465196\\
+C & 30 & 3.897907\\
 \hline
-C & 30 & 4.307499\\
+C & 30 & 5.952492\\
 \hline
-E & NA & 4.816216\\
+E & NA & 1.705018\\
 \hline
-E & NA & 2.866745\\
+E & NA & 1.365044\\
 \hline
 \end{tabular}
 \end{table}
@@ -4390,13 +4391,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 4.958092\\
+A & M & 4.218435\\
 \hline
-B & F & 3.950184\\
+B & F & 1.987619\\
 \hline
-A & F & 6.052651\\
+A & F & 2.622459\\
 \hline
-B & M & 1.579942\\
+B & M & 4.759672\\
 \hline
 \end{tabular}
 \end{table}
@@ -4416,13 +4417,13 @@ B & M & 1.579942\\
 \hline
 ID & Gender & Age & Report\\
 \hline
-A & M & 20 & 4.958092\\
+A & M & 20 & 4.218435\\
 \hline
-B & F & 19 & 3.950184\\
+B & F & 19 & 1.987619\\
 \hline
-A & F & 30 & 6.052651\\
+A & F & 30 & 2.622459\\
 \hline
-B & M & 22 & 1.579942\\
+B & M & 22 & 4.759672\\
 \hline
 \end{tabular}
 \end{table}
@@ -4463,13 +4464,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 1.997623\\
+A & M & 3.532054\\
 \hline
-B & F & 2.473933\\
+B & F & 1.223566\\
 \hline
-A & F & 2.276211\\
+A & F & 3.622091\\
 \hline
-B & M & 5.742741\\
+B & M & 5.796223\\
 \hline
 \end{tabular}
 \end{table}
@@ -4489,13 +4490,13 @@ B & M & 5.742741\\
 \hline
 VPCode & Sex & Age & Report\\
 \hline
-A & F & 30 & 2.276211\\
+A & F & 30 & 3.622091\\
 \hline
-A & M & 20 & 1.997623\\
+A & M & 20 & 3.532054\\
 \hline
-B & F & 19 & 2.473933\\
+B & F & 19 & 1.223566\\
 \hline
-B & M & 22 & 5.742741\\
+B & M & 22 & 5.796223\\
 \hline
 \end{tabular}
 \end{table}
@@ -4883,29 +4884,29 @@ Let us take a look at the importance of \texttt{id\_cols}. Imagine that we have 
 \hline
 Participant & Face & Scale & Response & RT\\
 \hline
-1 & M-1 & Symmetry & 6 & 1.85\\
+1 & M-1 & Symmetry & 6 & 1.13\\
 \hline
-1 & M-1 & Attractiveness & 4 & 0.95\\
+1 & M-1 & Attractiveness & 4 & 2.22\\
 \hline
-1 & M-1 & Trustworthiness & 3 & 1.11\\
+1 & M-1 & Trustworthiness & 3 & 0.43\\
 \hline
-1 & M-2 & Symmetry & 4 & 1.10\\
+1 & M-2 & Symmetry & 4 & 0.84\\
 \hline
-1 & M-2 & Attractiveness & 7 & 0.60\\
+1 & M-2 & Attractiveness & 7 & 1.29\\
 \hline
-1 & M-2 & Trustworthiness & 6 & 3.78\\
+1 & M-2 & Trustworthiness & 6 & 2.11\\
 \hline
-2 & M-1 & Symmetry & 5 & 1.26\\
+2 & M-1 & Symmetry & 5 & 1.19\\
 \hline
-2 & M-1 & Attractiveness & 2 & 2.50\\
+2 & M-1 & Attractiveness & 2 & 2.90\\
 \hline
-2 & M-1 & Trustworthiness & 1 & 0.64\\
+2 & M-1 & Trustworthiness & 1 & 0.94\\
 \hline
-2 & M-2 & Symmetry & 3 & 0.61\\
+2 & M-2 & Symmetry & 3 & 1.36\\
 \hline
-2 & M-2 & Attractiveness & 7 & 0.73\\
+2 & M-2 & Attractiveness & 7 & 1.52\\
 \hline
-2 & M-2 & Trustworthiness & 2 & 2.49\\
+2 & M-2 & Trustworthiness & 2 & 1.16\\
 \hline
 \end{tabular}
 
@@ -4922,29 +4923,29 @@ For \href{https://tidyr.tidyverse.org/reference/pivot_wider.html}{pivot\_wider},
 \hline
 Participant & Face & RT & Symmetry & Attractiveness & Trustworthiness\\
 \hline
-1 & M-1 & 1.85 & 6 & NA & NA\\
+1 & M-1 & 1.13 & 6 & NA & NA\\
 \hline
-1 & M-1 & 0.95 & NA & 4 & NA\\
+1 & M-1 & 2.22 & NA & 4 & NA\\
 \hline
-1 & M-1 & 1.11 & NA & NA & 3\\
+1 & M-1 & 0.43 & NA & NA & 3\\
 \hline
-1 & M-2 & 1.10 & 4 & NA & NA\\
+1 & M-2 & 0.84 & 4 & NA & NA\\
 \hline
-1 & M-2 & 0.60 & NA & 7 & NA\\
+1 & M-2 & 1.29 & NA & 7 & NA\\
 \hline
-1 & M-2 & 3.78 & NA & NA & 6\\
+1 & M-2 & 2.11 & NA & NA & 6\\
 \hline
-2 & M-1 & 1.26 & 5 & NA & NA\\
+2 & M-1 & 1.19 & 5 & NA & NA\\
 \hline
-2 & M-1 & 2.50 & NA & 2 & NA\\
+2 & M-1 & 2.90 & NA & 2 & NA\\
 \hline
-2 & M-1 & 0.64 & NA & NA & 1\\
+2 & M-1 & 0.94 & NA & NA & 1\\
 \hline
-2 & M-2 & 0.61 & 3 & NA & NA\\
+2 & M-2 & 1.36 & 3 & NA & NA\\
 \hline
-2 & M-2 & 0.73 & NA & 7 & NA\\
+2 & M-2 & 1.52 & NA & 7 & NA\\
 \hline
-2 & M-2 & 2.49 & NA & NA & 2\\
+2 & M-2 & 1.16 & NA & NA & 2\\
 \hline
 \end{tabular}
 
