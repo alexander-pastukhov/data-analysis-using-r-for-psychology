@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2022-01-10" />
+<meta name="date" content="2022-01-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -287,6 +287,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.1" data-path="missing-data.html"><a href="missing-data.html#complete"><i class="fa fa-check"></i><b>11.1</b> Making missing data explicit (completing data)</a></li>
 <li class="chapter" data-level="11.2" data-path="missing-data.html"><a href="missing-data.html#na.omit"><i class="fa fa-check"></i><b>11.2</b> Dropping / omitting NAs</a></li>
 </ul></li>
+<li class="chapter" data-level="12" data-path="strings.html"><a href="strings.html"><i class="fa fa-check"></i><b>12</b> Working with strings</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="strings.html"><a href="strings.html#warming-up"><i class="fa fa-check"></i><b>12.1</b> Warming up</a></li>
+<li class="chapter" data-level="12.2" data-path="strings.html"><a href="strings.html#glue"><i class="fa fa-check"></i><b>12.2</b> Formatting strings via <code>glue()</code></a></li>
+<li class="chapter" data-level="12.3" data-path="strings.html"><a href="strings.html#paste"><i class="fa fa-check"></i><b>12.3</b> Formatting strings via <code>paste()</code></a></li>
+<li class="chapter" data-level="12.4" data-path="strings.html"><a href="strings.html#sprintf"><i class="fa fa-check"></i><b>12.4</b> Formatting strings via <code>sprintf()</code></a></li>
+<li class="chapter" data-level="12.5" data-path="strings.html"><a href="strings.html#extracting-information-from-a-string"><i class="fa fa-check"></i><b>12.5</b> Extracting information from a string</a></li>
+<li class="chapter" data-level="12.6" data-path="strings.html"><a href="strings.html#splitting-strings-via-separate"><i class="fa fa-check"></i><b>12.6</b> Splitting strings via <code>separate()</code></a></li>
+<li class="chapter" data-level="12.7" data-path="strings.html"><a href="strings.html#extracting-a-substring-when-you-know-its-location"><i class="fa fa-check"></i><b>12.7</b> Extracting a substring when you know its location</a></li>
+<li class="chapter" data-level="12.8" data-path="strings.html"><a href="strings.html#detecting-a-substring-using-regular-expressions"><i class="fa fa-check"></i><b>12.8</b> Detecting a substring using regular expressions</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://alexander-pastukhov.github.io/">Alexander (Sasha) Pastukhov</li>
 
@@ -516,122 +527,122 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">1</td>
-<td align="right">0.3265363</td>
+<td align="right">-0.1863173</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">1</td>
-<td align="right">-2.7978191</td>
+<td align="right">-1.4002620</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">1</td>
-<td align="right">-3.3707113</td>
+<td align="right">-5.3411884</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">2</td>
-<td align="right">0.9433831</td>
+<td align="right">0.8195629</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">2</td>
-<td align="right">-0.0087582</td>
+<td align="right">-0.5174649</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">2</td>
-<td align="right">-3.3624239</td>
+<td align="right">-2.9021056</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">3</td>
-<td align="right">2.4351561</td>
+<td align="right">1.8986598</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">3</td>
-<td align="right">1.4030463</td>
+<td align="right">1.1778877</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">3</td>
-<td align="right">-2.0709404</td>
+<td align="right">-1.6308181</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">4</td>
-<td align="right">2.2886485</td>
+<td align="right">4.1461489</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">4</td>
-<td align="right">0.3013042</td>
+<td align="right">0.3521645</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">4</td>
-<td align="right">-0.6756065</td>
+<td align="right">-1.4645158</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">5</td>
-<td align="right">3.4670677</td>
+<td align="right">3.9379607</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">5</td>
-<td align="right">1.9642010</td>
+<td align="right">1.9612289</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">5</td>
-<td align="right">-0.9176510</td>
+<td align="right">0.0521996</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">6</td>
-<td align="right">4.6445996</td>
+<td align="right">5.2739384</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">6</td>
-<td align="right">3.6220268</td>
+<td align="right">3.5969108</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">6</td>
-<td align="right">1.9675856</td>
+<td align="right">1.8303286</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">7</td>
-<td align="right">6.0911377</td>
+<td align="right">5.8578714</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">7</td>
-<td align="right">4.3037747</td>
+<td align="right">3.3961561</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">7</td>
-<td align="right">1.6757238</td>
+<td align="right">2.0813487</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">8</td>
-<td align="right">6.7234914</td>
+<td align="right">7.4086875</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">8</td>
-<td align="right">5.5638840</td>
+<td align="right">3.7545466</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">8</td>
-<td align="right">3.2189768</td>
+<td align="right">2.5726701</td>
 </tr>
 </tbody>
 </table>

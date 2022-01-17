@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2022-01-10" />
+<meta name="date" content="2022-01-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -287,6 +287,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.1" data-path="missing-data.html"><a href="missing-data.html#complete"><i class="fa fa-check"></i><b>11.1</b> Making missing data explicit (completing data)</a></li>
 <li class="chapter" data-level="11.2" data-path="missing-data.html"><a href="missing-data.html#na.omit"><i class="fa fa-check"></i><b>11.2</b> Dropping / omitting NAs</a></li>
 </ul></li>
+<li class="chapter" data-level="12" data-path="strings.html"><a href="strings.html"><i class="fa fa-check"></i><b>12</b> Working with strings</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="strings.html"><a href="strings.html#warming-up"><i class="fa fa-check"></i><b>12.1</b> Warming up</a></li>
+<li class="chapter" data-level="12.2" data-path="strings.html"><a href="strings.html#glue"><i class="fa fa-check"></i><b>12.2</b> Formatting strings via <code>glue()</code></a></li>
+<li class="chapter" data-level="12.3" data-path="strings.html"><a href="strings.html#paste"><i class="fa fa-check"></i><b>12.3</b> Formatting strings via <code>paste()</code></a></li>
+<li class="chapter" data-level="12.4" data-path="strings.html"><a href="strings.html#sprintf"><i class="fa fa-check"></i><b>12.4</b> Formatting strings via <code>sprintf()</code></a></li>
+<li class="chapter" data-level="12.5" data-path="strings.html"><a href="strings.html#extracting-information-from-a-string"><i class="fa fa-check"></i><b>12.5</b> Extracting information from a string</a></li>
+<li class="chapter" data-level="12.6" data-path="strings.html"><a href="strings.html#splitting-strings-via-separate"><i class="fa fa-check"></i><b>12.6</b> Splitting strings via <code>separate()</code></a></li>
+<li class="chapter" data-level="12.7" data-path="strings.html"><a href="strings.html#extracting-a-substring-when-you-know-its-location"><i class="fa fa-check"></i><b>12.7</b> Extracting a substring when you know its location</a></li>
+<li class="chapter" data-level="12.8" data-path="strings.html"><a href="strings.html#detecting-a-substring-using-regular-expressions"><i class="fa fa-check"></i><b>12.8</b> Detecting a substring using regular expressions</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://alexander-pastukhov.github.io/">Alexander (Sasha) Pastukhov</li>
 
@@ -392,7 +403,7 @@ Report
 A
 </td>
 <td style="text-align:right;">
-3.020931
+4.414336
 </td>
 </tr>
 <tr>
@@ -400,7 +411,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-5.741979
+5.853925
 </td>
 </tr>
 <tr>
@@ -408,7 +419,7 @@ A
 B
 </td>
 <td style="text-align:right;">
-1.562123
+5.570724
 </td>
 </tr>
 <tr>
@@ -416,7 +427,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-3.804966
+1.223782
 </td>
 </tr>
 <tr>
@@ -424,7 +435,7 @@ B
 C
 </td>
 <td style="text-align:right;">
-2.441023
+4.154766
 </td>
 </tr>
 <tr>
@@ -432,7 +443,7 @@ C
 C
 </td>
 <td style="text-align:right;">
-5.415127
+2.593254
 </td>
 </tr>
 <tr>
@@ -440,7 +451,7 @@ C
 D
 </td>
 <td style="text-align:right;">
-4.298739
+6.387168
 </td>
 </tr>
 <tr>
@@ -448,7 +459,7 @@ D
 D
 </td>
 <td style="text-align:right;">
-4.340408
+2.559985
 </td>
 </tr>
 </tbody>
@@ -490,7 +501,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-3.020931
+4.414336
 </td>
 </tr>
 <tr>
@@ -501,7 +512,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-5.741979
+5.853925
 </td>
 </tr>
 <tr>
@@ -512,7 +523,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-1.562123
+5.570724
 </td>
 </tr>
 <tr>
@@ -523,7 +534,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-3.804966
+1.223782
 </td>
 </tr>
 <tr>
@@ -534,7 +545,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-2.441023
+4.154766
 </td>
 </tr>
 <tr>
@@ -545,7 +556,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-5.415127
+2.593254
 </td>
 </tr>
 <tr>
@@ -556,7 +567,7 @@ D
 22
 </td>
 <td style="text-align:right;">
-4.298739
+6.387168
 </td>
 </tr>
 <tr>
@@ -567,7 +578,7 @@ D
 22
 </td>
 <td style="text-align:right;">
-4.340408
+2.559985
 </td>
 </tr>
 </tbody>
@@ -594,7 +605,7 @@ Age
 A
 </td>
 <td style="text-align:right;">
-3.020931
+4.414336
 </td>
 <td style="text-align:right;">
 20
@@ -605,7 +616,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-5.741979
+5.853925
 </td>
 <td style="text-align:right;">
 20
@@ -616,7 +627,7 @@ A
 B
 </td>
 <td style="text-align:right;">
-1.562123
+5.570724
 </td>
 <td style="text-align:right;">
 19
@@ -627,7 +638,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-3.804966
+1.223782
 </td>
 <td style="text-align:right;">
 19
@@ -638,7 +649,7 @@ B
 C
 </td>
 <td style="text-align:right;">
-2.441023
+4.154766
 </td>
 <td style="text-align:right;">
 30
@@ -649,7 +660,7 @@ C
 C
 </td>
 <td style="text-align:right;">
-5.415127
+2.593254
 </td>
 <td style="text-align:right;">
 30
@@ -660,7 +671,7 @@ C
 D
 </td>
 <td style="text-align:right;">
-4.298739
+6.387168
 </td>
 <td style="text-align:right;">
 22
@@ -671,7 +682,7 @@ D
 D
 </td>
 <td style="text-align:right;">
-4.340408
+2.559985
 </td>
 <td style="text-align:right;">
 22
@@ -767,7 +778,7 @@ Report
 A
 </td>
 <td style="text-align:right;">
-3.177414
+4.539246
 </td>
 </tr>
 <tr>
@@ -775,7 +786,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-6.518404
+6.202350
 </td>
 </tr>
 <tr>
@@ -783,7 +794,7 @@ A
 B
 </td>
 <td style="text-align:right;">
-4.217404
+6.920096
 </td>
 </tr>
 <tr>
@@ -791,7 +802,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-1.213716
+2.188366
 </td>
 </tr>
 <tr>
@@ -799,7 +810,7 @@ B
 C
 </td>
 <td style="text-align:right;">
-1.172501
+6.726340
 </td>
 </tr>
 <tr>
@@ -807,7 +818,7 @@ C
 C
 </td>
 <td style="text-align:right;">
-6.313919
+3.335367
 </td>
 </tr>
 <tr>
@@ -815,7 +826,7 @@ C
 E
 </td>
 <td style="text-align:right;">
-4.358184
+6.747193
 </td>
 </tr>
 <tr>
@@ -823,7 +834,7 @@ E
 E
 </td>
 <td style="text-align:right;">
-6.352011
+6.599605
 </td>
 </tr>
 </tbody>
@@ -858,7 +869,7 @@ Age
 A
 </td>
 <td style="text-align:right;">
-3.177414
+4.539246
 </td>
 <td style="text-align:right;">
 20
@@ -869,7 +880,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-6.518404
+6.202350
 </td>
 <td style="text-align:right;">
 20
@@ -880,7 +891,7 @@ A
 B
 </td>
 <td style="text-align:right;">
-4.217404
+6.920096
 </td>
 <td style="text-align:right;">
 19
@@ -891,7 +902,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-1.213716
+2.188366
 </td>
 <td style="text-align:right;">
 19
@@ -902,7 +913,7 @@ B
 C
 </td>
 <td style="text-align:right;">
-1.172501
+6.726340
 </td>
 <td style="text-align:right;">
 30
@@ -913,7 +924,7 @@ C
 C
 </td>
 <td style="text-align:right;">
-6.313919
+3.335367
 </td>
 <td style="text-align:right;">
 30
@@ -950,7 +961,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-3.177414
+4.539246
 </td>
 </tr>
 <tr>
@@ -961,7 +972,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-6.518404
+6.202350
 </td>
 </tr>
 <tr>
@@ -972,7 +983,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-4.217404
+6.920096
 </td>
 </tr>
 <tr>
@@ -983,7 +994,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-1.213716
+2.188366
 </td>
 </tr>
 <tr>
@@ -994,7 +1005,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-1.172501
+6.726340
 </td>
 </tr>
 <tr>
@@ -1005,7 +1016,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-6.313919
+3.335367
 </td>
 </tr>
 <tr>
@@ -1027,7 +1038,7 @@ E
 NA
 </td>
 <td style="text-align:right;">
-4.358184
+6.747193
 </td>
 </tr>
 <tr>
@@ -1038,7 +1049,7 @@ E
 NA
 </td>
 <td style="text-align:right;">
-6.352011
+6.599605
 </td>
 </tr>
 </tbody>
@@ -1072,7 +1083,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-3.177414
+4.539246
 </td>
 </tr>
 <tr>
@@ -1083,7 +1094,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-6.518404
+6.202350
 </td>
 </tr>
 <tr>
@@ -1094,7 +1105,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-4.217404
+6.920096
 </td>
 </tr>
 <tr>
@@ -1105,7 +1116,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-1.213716
+2.188366
 </td>
 </tr>
 <tr>
@@ -1116,7 +1127,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-1.172501
+6.726340
 </td>
 </tr>
 <tr>
@@ -1127,7 +1138,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-6.313919
+3.335367
 </td>
 </tr>
 <tr>
@@ -1172,7 +1183,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-3.177414
+4.539246
 </td>
 </tr>
 <tr>
@@ -1183,7 +1194,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-6.518404
+6.202350
 </td>
 </tr>
 <tr>
@@ -1194,7 +1205,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-4.217404
+6.920096
 </td>
 </tr>
 <tr>
@@ -1205,7 +1216,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-1.213716
+2.188366
 </td>
 </tr>
 <tr>
@@ -1216,7 +1227,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-1.172501
+6.726340
 </td>
 </tr>
 <tr>
@@ -1227,7 +1238,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-6.313919
+3.335367
 </td>
 </tr>
 <tr>
@@ -1238,7 +1249,7 @@ E
 NA
 </td>
 <td style="text-align:right;">
-4.358184
+6.747193
 </td>
 </tr>
 <tr>
@@ -1249,7 +1260,7 @@ E
 NA
 </td>
 <td style="text-align:right;">
-6.352011
+6.599605
 </td>
 </tr>
 </tbody>
@@ -1354,7 +1365,7 @@ A
 M
 </td>
 <td style="text-align:right;">
-5.676097
+4.360981
 </td>
 </tr>
 <tr>
@@ -1365,7 +1376,7 @@ B
 F
 </td>
 <td style="text-align:right;">
-3.341401
+3.146022
 </td>
 </tr>
 <tr>
@@ -1376,7 +1387,7 @@ A
 F
 </td>
 <td style="text-align:right;">
-5.447112
+3.457546
 </td>
 </tr>
 <tr>
@@ -1387,7 +1398,7 @@ B
 M
 </td>
 <td style="text-align:right;">
-4.944233
+4.606400
 </td>
 </tr>
 </tbody>
@@ -1430,7 +1441,7 @@ M
 20
 </td>
 <td style="text-align:right;">
-5.676097
+4.360981
 </td>
 </tr>
 <tr>
@@ -1444,7 +1455,7 @@ F
 19
 </td>
 <td style="text-align:right;">
-3.341401
+3.146022
 </td>
 </tr>
 <tr>
@@ -1458,7 +1469,7 @@ F
 30
 </td>
 <td style="text-align:right;">
-5.447112
+3.457546
 </td>
 </tr>
 <tr>
@@ -1472,7 +1483,7 @@ M
 22
 </td>
 <td style="text-align:right;">
-4.944233
+4.606400
 </td>
 </tr>
 </tbody>
@@ -1578,7 +1589,7 @@ A
 M
 </td>
 <td style="text-align:right;">
-5.858516
+5.818586
 </td>
 </tr>
 <tr>
@@ -1589,7 +1600,7 @@ B
 F
 </td>
 <td style="text-align:right;">
-5.313562
+4.773214
 </td>
 </tr>
 <tr>
@@ -1600,7 +1611,7 @@ A
 F
 </td>
 <td style="text-align:right;">
-5.167452
+1.689313
 </td>
 </tr>
 <tr>
@@ -1611,7 +1622,7 @@ B
 M
 </td>
 <td style="text-align:right;">
-5.448433
+1.816462
 </td>
 </tr>
 </tbody>
@@ -1654,7 +1665,7 @@ F
 30
 </td>
 <td style="text-align:right;">
-5.167452
+1.689313
 </td>
 </tr>
 <tr>
@@ -1668,7 +1679,7 @@ M
 20
 </td>
 <td style="text-align:right;">
-5.858516
+5.818586
 </td>
 </tr>
 <tr>
@@ -1682,7 +1693,7 @@ F
 19
 </td>
 <td style="text-align:right;">
-5.313562
+4.773214
 </td>
 </tr>
 <tr>
@@ -1696,7 +1707,7 @@ M
 22
 </td>
 <td style="text-align:right;">
-5.448433
+1.816462
 </td>
 </tr>
 </tbody>
@@ -3187,7 +3198,7 @@ Symmetry
 6
 </td>
 <td style="text-align:right;">
-1.25
+0.63
 </td>
 </tr>
 <tr>
@@ -3204,7 +3215,7 @@ Attractiveness
 4
 </td>
 <td style="text-align:right;">
-0.76
+1.67
 </td>
 </tr>
 <tr>
@@ -3221,7 +3232,7 @@ Trustworthiness
 3
 </td>
 <td style="text-align:right;">
-1.75
+1.17
 </td>
 </tr>
 <tr>
@@ -3238,7 +3249,7 @@ Symmetry
 4
 </td>
 <td style="text-align:right;">
-1.01
+1.70
 </td>
 </tr>
 <tr>
@@ -3255,7 +3266,7 @@ Attractiveness
 7
 </td>
 <td style="text-align:right;">
-0.52
+2.17
 </td>
 </tr>
 <tr>
@@ -3272,7 +3283,7 @@ Trustworthiness
 6
 </td>
 <td style="text-align:right;">
-1.15
+1.14
 </td>
 </tr>
 <tr>
@@ -3289,7 +3300,7 @@ Symmetry
 5
 </td>
 <td style="text-align:right;">
-2.03
+0.60
 </td>
 </tr>
 <tr>
@@ -3306,7 +3317,7 @@ Attractiveness
 2
 </td>
 <td style="text-align:right;">
-1.28
+0.79
 </td>
 </tr>
 <tr>
@@ -3323,7 +3334,7 @@ Trustworthiness
 1
 </td>
 <td style="text-align:right;">
-1.57
+0.70
 </td>
 </tr>
 <tr>
@@ -3340,7 +3351,7 @@ Symmetry
 3
 </td>
 <td style="text-align:right;">
-1.20
+1.66
 </td>
 </tr>
 <tr>
@@ -3357,7 +3368,7 @@ Attractiveness
 7
 </td>
 <td style="text-align:right;">
-0.53
+1.11
 </td>
 </tr>
 <tr>
@@ -3374,7 +3385,7 @@ Trustworthiness
 2
 </td>
 <td style="text-align:right;">
-1.38
+0.97
 </td>
 </tr>
 </tbody>
@@ -3414,7 +3425,7 @@ Trustworthiness
 M-1
 </td>
 <td style="text-align:right;">
-1.25
+0.63
 </td>
 <td style="text-align:right;">
 6
@@ -3434,7 +3445,7 @@ NA
 M-1
 </td>
 <td style="text-align:right;">
-0.76
+1.67
 </td>
 <td style="text-align:right;">
 NA
@@ -3454,7 +3465,7 @@ NA
 M-1
 </td>
 <td style="text-align:right;">
-1.75
+1.17
 </td>
 <td style="text-align:right;">
 NA
@@ -3474,7 +3485,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-1.01
+1.70
 </td>
 <td style="text-align:right;">
 4
@@ -3494,7 +3505,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-0.52
+2.17
 </td>
 <td style="text-align:right;">
 NA
@@ -3514,7 +3525,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-1.15
+1.14
 </td>
 <td style="text-align:right;">
 NA
@@ -3534,7 +3545,7 @@ NA
 M-1
 </td>
 <td style="text-align:right;">
-2.03
+0.60
 </td>
 <td style="text-align:right;">
 5
@@ -3554,7 +3565,7 @@ NA
 M-1
 </td>
 <td style="text-align:right;">
-1.28
+0.79
 </td>
 <td style="text-align:right;">
 NA
@@ -3574,7 +3585,7 @@ NA
 M-1
 </td>
 <td style="text-align:right;">
-1.57
+0.70
 </td>
 <td style="text-align:right;">
 NA
@@ -3594,7 +3605,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-1.20
+1.66
 </td>
 <td style="text-align:right;">
 3
@@ -3614,7 +3625,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-0.53
+1.11
 </td>
 <td style="text-align:right;">
 NA
@@ -3634,7 +3645,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-1.38
+0.97
 </td>
 <td style="text-align:right;">
 NA
@@ -3769,7 +3780,7 @@ Ntotal
 <tbody>
 <tr>
 <td style="text-align:left;">
-ma2
+LUH-1992-M
 </td>
 <td style="text-align:left;">
 Sphere
@@ -3786,7 +3797,7 @@ Sphere
 </tr>
 <tr>
 <td style="text-align:left;">
-ma2
+LUH-1992-M
 </td>
 <td style="text-align:left;">
 Sphere
@@ -3803,7 +3814,7 @@ Quadro
 </tr>
 <tr>
 <td style="text-align:left;">
-ma2
+LUH-1992-M
 </td>
 <td style="text-align:left;">
 Sphere
@@ -3820,7 +3831,7 @@ Dual
 </tr>
 <tr>
 <td style="text-align:left;">
-ma2
+LUH-1992-M
 </td>
 <td style="text-align:left;">
 Sphere
@@ -3867,7 +3878,7 @@ Average
 <tbody>
 <tr>
 <td style="text-align:left;">
-ma2
+LUH-1992-M
 </td>
 <td style="text-align:left;">
 Sphere
@@ -3890,7 +3901,7 @@ Sphere
 </tr>
 <tr>
 <td style="text-align:left;">
-ma2
+LUH-1992-M
 </td>
 <td style="text-align:left;">
 Quadro
@@ -3913,7 +3924,7 @@ Quadro
 </tr>
 <tr>
 <td style="text-align:left;">
-ma2
+LUH-1992-M
 </td>
 <td style="text-align:left;">
 Dual
@@ -3936,7 +3947,7 @@ Dual
 </tr>
 <tr>
 <td style="text-align:left;">
-ma2
+LUH-1992-M
 </td>
 <td style="text-align:left;">
 Single

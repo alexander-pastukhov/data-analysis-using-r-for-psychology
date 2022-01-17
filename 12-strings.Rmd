@@ -1,6 +1,6 @@
 # Working with strings {#strings}
 
-When working with strings, I strongly suggest consulting a manual and vignettes of the [stringr](https://stringr.tidyverse.org/index.html) package. It has many functions that cover most needs. 
+When working with strings, I strongly suggest consulting a manual and vignettes of the [stringr](https://stringr.tidyverse.org/index.html) package. It has many functions that cover most needs. Grab [exercise notebook](notebooks/Seminar 12 - strings.Rmd) before we start.
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 library(tidyverse)
@@ -31,14 +31,14 @@ bands_df <- read_csv("data/bands-adaptation.csv",
   summarise(Pmedian = round(median(Psame), 2),
             Pmad = round(mad(Psame), 2),
             .groups = "drop")
-knitr::kable(bands_df, caption="bands_df")
+knitr::kable(bands_df, caption="bands\\_df")
 ```
 
 ::: {.infobox .practice}
 Do exercise 1.
 :::
 
-## Creating strings via glue {#glue}
+## Formatting strings via `glue()` {#glue}
 The table above gives us information about _median_ probability of seeing the same rotation and about its absolute deviation from the median. However, it would be more convenient for a reader we would combine these two pieces of information into a single entry in form for of "<median> ± <MAD>". Plus, it would be easier to see the pattern in a square table with one `Prime` per row and one `Probe` per column. The table I have in mind look like this:
 ```{r echo=FALSE}
 bands_df %>%
@@ -62,7 +62,7 @@ Use the table that you prepared during exercise 1 to compute a new column with "
 Do exercise 2.
 :::
 
-## paste {#paste}
+## Formatting strings via `paste()` {#paste}
 Base R has functions [paste()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/paste.html) and [paste0()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/paste.html) that are conceptually very similar to [glue()](https://glue.tidyverse.org/reference/glue.html). The concatenate a vector a strings into a single string. If you recall, vector values can [only be of one (most flexible) type](#vectors-are-homogeneous). Therefore, if you have a vector that intersperses string with other values, they will be _first_ converted to strings anyhow. The difference between `paste()` and `paste0()` is that the former puts a separator string in-between each value (defaults to `' '` but you can define your own via `sep` argument), whereas `paste0()` uses no separator. We can replicate our [glue()](https://glue.tidyverse.org/reference/glue.html) example.
 ```{r}
 answer <- 42
@@ -72,11 +72,12 @@ paste0("The answer is ", answer, ", not ", abs(bad_answer / -4))
 ```
 
 Redo exercise 2 but using one of the [paste](https://stat.ethz.ch/R-manual/R-devel/library/base/html/paste.html) functions instead of the [glue()](https://glue.tidyverse.org/reference/glue.html).
+
 ::: {.infobox .practice}
 Do exercise 3.
 :::
 
-## sprintf {#sprintf}
+## Formatting strings via `sprintf()` {#sprintf}
 For detailed string formatting, base R has a [sprintf()](https://stat.ethz.ch/R-manual/R-patched/library/base/html/sprintf.html) function that provides a C-style string formatting (same as Python's original string formatting and a common way to format a string in many programming languages). The general function call is `sprintf("string with formatting", value1, value2, value)`, where values are are inserted into the string. In `"string with formatting"`, you specify where you want to put the value via `%` symbol that is followed by an _optional_ formatting info and the _required_ symbol that defines the **type** of the value. The type symbols are
 
 * `s` for string
@@ -127,7 +128,7 @@ Do exercise 4.
 Previous exercises dealt with combining various bits of information into a single string. Often, you also need to do the opposite: extract bits of information from a single string. For example, in the toy table on face perception, we have been working with, `Face` column code gender of the face `"M"` (table is short but you can easily assume that faces of both genders were used) and the second is its index (`1` and `2`). When we worked with [persistence](data/persistence.csv), `Participant` column encoded year of birth and gender, whereas `Session` contained detailed information about year, month, day, hour, minutes, and seconds all merged together. There are several ways to extract this information, either by extracting one piece at a time via [
 substr()](https://stat.ethz.ch/R-manual/R-patched/library/base/html/substr.html) or string processing library [stringr](https://stringr.tidyverse.org/). Alternatively, you can split a string column into several columns via [separate()](https://tidyr.tidyverse.org/reference/separate.html) or [extract()](https://tidyr.tidyverse.org/reference/extract.html) functions.
 
-## Separate
+## Splitting strings via `separate()`
 Function [separate()](https://tidyr.tidyverse.org/reference/separate.html) is part of tidyverse and its use is very straightforward: you pass 1) the name of the column that you want to split, 2) names of the columns it needs to be split into, 3) a separator symbol or indexes of splitting positions. Examples using the face table should make it clear. Reminder, this is the original wide table and we want to separate `Face` into `FaceGender` and `FaceIndex`.
 
 ```{r eacho=FALSE}
@@ -196,7 +197,7 @@ widish_df %>%
   knitr::kable(align = "c")
 ```
 
-Let's practice. Use [separate()](https://tidyr.tidyverse.org/reference/separate.html) to preprocess [persistence](data/persistence.zip) data and create two new columns for hour and minutes from `Session` column. Do it in a single pipeline, starting with reading all files (use tidyverse [read_csv()](https://readr.tidyverse.org/reference/read_delim.html) and specify column types!) and renaming `Shape` (`Prime`) and `Shape2` (`Probe`) columns. You results should look like this, think about columns that you drop or keep (this is only first four rows, think of how you can limit your output the same way via [head()](https://stat.ethz.ch/R-manual/R-devel/library/utils/html/head.html) function):
+Let's practice. Use [separate()](https://tidyr.tidyverse.org/reference/separate.html) to preprocess [persistence](data/persistence.zip) data and create two new columns for hour and minutes from `Session` column. Do it in a single pipeline, starting with reading all files (use tidyverse [read_csv()](https://readr.tidyverse.org/reference/read_delim.html) and specify column types!) and renaming `Shape1` (`Prime`) and `Shape2` (`Probe`) columns. You results should look like this, think about columns that you drop or keep (this is only first four rows, think of how you can limit your output the same way via [head()](https://stat.ethz.ch/R-manual/R-devel/library/utils/html/head.html) function):
 ```{r echo=FALSE}
 results <-
 fs::dir_ls(path = "persistence/") %>%
@@ -336,7 +337,7 @@ Or for a specific word only at the beginning (`^`) of the string
 str_detect(QandA, "^What")
 ```
 
-When it comes to regular expressions, what I have shown you so far is not even a tip of an iceberg, it is a tip of a tip of an iceberg at best. They are very flexible, allowing you to code very complicated patterns but they are also hard to read and, therefore, hard to debug^[Hence, the quote at the beginning of the section.]. For example, this is a regular expression to check validity on an email address
+When it comes to regular expressions, what I have shown you so far is not even a tip of an iceberg, it is a tip of a tip of an iceberg at best. They are very flexible, allowing you to code very complicated patterns but they are also hard to read and, therefore, hard to debug^[Hence, the quote at the beginning of the section.]. For example, this is a regular expression to check validity on an email address^[This an [official RCF 5322 standard](https://emailregex.com/) that should work on _almost_ all of the valid email addresses.]
 ```
 (?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])
 ```
@@ -349,13 +350,13 @@ In the next exercise, use a regular expression to [filter()](https://dplyr.tidyv
 Do exercise 9.
 :::
 
-Now let us practice extracting the relevant information via pattern matching. Use [str_extract()](https://stringr.tidyverse.org/reference/str_extract.html) to extract the participants unique code, the  letters of `Participant` column. Again, here you can simply use a [substr()](https://stat.ethz.ch/R-manual/R-patched/library/base/html/substr.html) but I want you write a pattern that matches one or more upper case letters at the beginning of the string.
+Now let us practice extracting the relevant information via pattern matching. Use [str_extract()](https://stringr.tidyverse.org/reference/str_extract.html) to extract the participants unique code, the first three letters of `Participant` column. Again, here you can simply use a [substr()](https://stat.ethz.ch/R-manual/R-patched/library/base/html/substr.html) but I want you write a pattern that matches 1) one or more 2) upper case letters 3) at the beginning of the string.
 
 ::: {.infobox .practice}
 Do exercise 10.
 :::
 
-Finally, let us practice in replacing part of a string via regular expressions. Use [str_replace()](https://stringr.tidyverse.org/reference/str_replace.html) to anonymize the birth year of our participants. You need to replace the four digits that represent their birth year with a single `"-"`.  The table should look as follows:
+Finally, let us practice in replacing part of a string via regular expressions. Use [str_replace()](https://stringr.tidyverse.org/reference/str_replace.html) to anonymize the birth year of our participants. You need to replace the four digits that represent their birth year with a _single_ `"-"`.  The table should look as follows:
 ```{r echo=FALSE}
 results %>%
   mutate(Participant = str_replace(Participant, "\\d{4}", "-")) %>%
