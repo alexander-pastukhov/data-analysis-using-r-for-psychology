@@ -1,0 +1,61 @@
+# Sampling and simulations
+An ability to simulate and sample data is important whenever you analyze your data. Simulating data by sampling from predefined distributions allows you develop your analysis routine and ensure that it can correctly recover the anticipated effects even before you have seen or collected the data. Or even before you designed your study as such simulations form a core of the power analysis. Sampling your data paves way for non-paramatric bootstrapping and permutation testing that helps you whenever assumptions of parametric tests are violated or when you require an estimate that is not easy to derive analytically.
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+library(glue)
+library(tidyverse)
+```
+
+## Estimating mean of a normal distribution via resampling
+Let us start very simple. Your task will be to generate samples from a normal distribution and then use resampling approach to estimate the original mean. Step one is simple, decide on mean and standard deviation of the normal distribution and generate 20 samples using [rnorm()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html) function (`r<distribution` functions generate random number based on distribution and its parameters). Check your results visually by plotting a histogram and adding a red [vertical line](https://ggplot2.tidyverse.org/reference/geom_abline.html) to indicate the true mean of the distribution. We also need to see the difference between the true mean and the sample mean. So include a blue vertical line to indicate the _sample_ mean. Run your code several times to appreciate variability of the data and, therefore, of the sample mean. 
+Your plot should look something like this.
+```{r echo=FALSE}
+set.seed(1745)
+true_mean <- 10
+true_sd <- 2
+samples <- rnorm(20, true_mean, true_sd)
+ggplot(data=NULL, aes(x=samples)) + 
+  geom_histogram(bins=10) +
+  geom_vline(xintercept = true_mean, color="red") +
+  geom_vline(xintercept = mean(samples), color="blue") +
+  xlab(glue("Samples from normal distribution with μ={true_mean} and σ={true_sd}"))
+```
+
+::: {.infobox .practice}
+Do exercise 1.
+:::
+
+In the real life, we do not know the true mean which is why we need to collect the data to begin with. We also know that our sample mean is different from the true mean and we would like to know how much can we trust that value. In other words, we would like to know how much the _sample mean_ would vary if we would draw some _other_ samples from the same distribution. Theoretically, you want to draw samples from that "true" distribution directly. Practically, you do not have access to it, apart from replicating your experiment or study many times. Instead, you can make either an educated guess about shape and parameters of this distribution. This is a parametric approach used to compute estimators analytically, e.g., from the [Student t Distribution](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/TDist.html). This is the way it is done in the [t.test()](
+https://stat.ethz.ch/R-manual/R-devel/library/stats/html/t.test).
+
+```{r}
+t.test(samples, mu = 10)
+```
+
+The other approach is to assume that your sample and, therefore, the data you collected is representative, so sampling from the data is just like sampling from the true distribution. This is obviously a strong assumption, particularly for small samples. However, this approach can work with any data, regardless of its distribution, and can be used to estimate statistic that is not easy to derive analytically. Thus, below we will use a brute force approach that relies on sheer computer power to compute the same confidence interval through resampling from the original data that you generated. 
+
+You will need three functions for this. First, the function that samples you data: [sample()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/sample). It takes the original data (first parameter `x`) and randomly samples `size` items from it either with or without replacement (controlled by `replace` parameter that defaults to `FALSE`, so no replacement). In our case we want to get a sample of the size as the original data and we want to sample _with_ replacement. Again, this way we pretend that we get another data sample, as if we would run the study again, and the probability of individual entries depends on how frequently they appear in the original data. For our purposes, we want to resample data and compute its mean. Write the code that does just that. Run the chunk several times to see how computed mean value changes due to resampling. As an exercise, set `replace=FALSE` and think what value do you expect and whether and how it would change when run the chunk again.
+
+::: {.infobox .practice}
+Do exercise 2.
+:::
+
+Our second step is to repeat out first step many times. Say, 1000 times. The function that helps you to do this is [replicate()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/lapply). That takes number of repetitions (first parameter `n`) and an arbitrary R code that returns a value (our step one). Once you run it, you will get a vector of 1000 means from resampled data. Plot the histogram, overlaying the true and sample means as a reference
+```{r echo=FALSE}
+replisamples <- replicate(1000, mean(sample(samples, replace=TRUE)))
+ggplot(data=NULL, aes(x=replisamples)) + 
+  geom_histogram(bins=10) +
+  geom_vline(xintercept = true_mean, color="red") +
+  geom_vline(xintercept = mean(samples), color="blue") +
+  xlab("Distribution of resampled means")
+```
+
+Our final step is to use [quantile()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile) function to compute 95% confidence interval. [quantile()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile) function takes a vector and computes a value that is greater than `probs` fraction of values in that vector. E.g., if `probs=c(0.25, 0.75)`, it will return a two values, so that 25% of values are smaller than the first one and 75% of them are smaller than the second. Or, to put it differently, 50% of all values are with `probs=c(0.25, 0.75)`. In our case, we want to compute 95% confidence interval, i.e., 95% of all values should be between the lower and upper confidence interval values. Once you run the code, you should see that 95% confidence interval from resampling is very similar to what the t-test reported (you want get the same values due to random sampling but they should also be close to the t-test's analytical estimate).
+```{r echo=FALSE}
+CI <- round(quantile(replisamples, c((1-0.95)/2, 1-(1-0.95)/2)), 6)
+glue("95% CI: {CI[1]} {CI[2]}")
+```
+::: {.infobox .practice}
+Do exercise 3.
+:::
+
