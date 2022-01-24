@@ -26,7 +26,7 @@ Do exercise 1.
 :::
 
 In the real life, we do not know the true mean which is why we need to collect the data to begin with. We also know that our sample mean is different from the true mean and we would like to know how much can we trust that value. In other words, we would like to know how much the _sample mean_ would vary if we would draw some _other_ samples from the same distribution. Theoretically, you want to draw samples from that "true" distribution directly. Practically, you do not have access to it, apart from replicating your experiment or study many times. Instead, you can make either an educated guess about shape and parameters of this distribution. This is a parametric approach used to compute estimators analytically, e.g., from the [Student t Distribution](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/TDist.html). This is the way it is done in the [t.test()](
-https://stat.ethz.ch/R-manual/R-devel/library/stats/html/t.test).
+https://stat.ethz.ch/R-manual/R-devel/library/stats/html/t.test.html).
 
 ```{r}
 t.test(samples, mu = 10)
@@ -34,13 +34,13 @@ t.test(samples, mu = 10)
 
 The other approach is to assume that your sample and, therefore, the data you collected is representative, so sampling from the data is just like sampling from the true distribution. This is obviously a strong assumption, particularly for small samples. However, this approach can work with any data, regardless of its distribution, and can be used to estimate statistic that is not easy to derive analytically. Thus, below we will use a brute force approach that relies on sheer computer power to compute the same confidence interval through resampling from the original data that you generated. 
 
-You will need three functions for this. First, the function that samples you data: [sample()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/sample). It takes the original data (first parameter `x`) and randomly samples `size` items from it either with or without replacement (controlled by `replace` parameter that defaults to `FALSE`, so no replacement). In our case we want to get a sample of the size as the original data and we want to sample _with_ replacement. Again, this way we pretend that we get another data sample, as if we would run the study again, and the probability of individual entries depends on how frequently they appear in the original data. For our purposes, we want to resample data and compute its mean. Write the code that does just that. Run the chunk several times to see how computed mean value changes due to resampling. As an exercise, set `replace=FALSE` and think what value do you expect and whether and how it would change when run the chunk again.
+You will need three functions for this. First, the function that samples you data: [sample()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/sample.html). It takes the original data (first parameter `x`) and randomly samples `size` items from it either with or without replacement (controlled by `replace` parameter that defaults to `FALSE`, so no replacement). In our case we want to get a sample of the size as the original data and we want to sample _with_ replacement. Again, this way we pretend that we get another data sample, as if we would run the study again, and the probability of individual entries depends on how frequently they appear in the original data. For our purposes, we want to resample data and compute its mean. Write the code that does just that. Run the chunk several times to see how computed mean value changes due to resampling. As an exercise, set `replace=FALSE` and think what value do you expect and whether and how it would change when run the chunk again.
 
 ::: {.infobox .practice}
 Do exercise 2.
 :::
 
-Our second step is to repeat out first step many times. Say, 1000 times. The function that helps you to do this is [replicate()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/lapply). That takes number of repetitions (first parameter `n`) and an arbitrary R code that returns a value (our step one). Once you run it, you will get a vector of 1000 means from resampled data. Plot the histogram, overlaying the true and sample means as a reference
+Our second step is to repeat out first step many times. Say, 1000 times. The function that helps you to do this is [replicate()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/lapply.html). That takes number of repetitions (first parameter `n`) and an arbitrary R code that returns a value (our step one). Once you run it, you will get a vector of 1000 means from resampled data. Plot the histogram, overlaying the true and sample means as a reference
 ```{r echo=FALSE}
 replisamples <- replicate(1000, mean(sample(samples, replace=TRUE)))
 ggplot(data=NULL, aes(x=replisamples)) + 
@@ -50,7 +50,7 @@ ggplot(data=NULL, aes(x=replisamples)) +
   xlab("Distribution of resampled means")
 ```
 
-Our final step is to use [quantile()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile) function to compute 95% confidence interval. [quantile()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile) function takes a vector and computes a value that is greater than `probs` fraction of values in that vector. E.g., if `probs=c(0.25, 0.75)`, it will return a two values, so that 25% of values are smaller than the first one and 75% of them are smaller than the second. Or, to put it differently, 50% of all values are with `probs=c(0.25, 0.75)`. In our case, we want to compute 95% confidence interval, i.e., 95% of all values should be between the lower and upper confidence interval values. Once you run the code, you should see that 95% confidence interval from resampling is very similar to what the t-test reported (you want get the same values due to random sampling but they should also be close to the t-test's analytical estimate).
+Our final step is to use [quantile()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile) function to compute 95% confidence interval. [quantile()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile) function takes a vector and computes a value that is greater than `probs` fraction of values in that vector. E.g., if `probs=c(0.25, 0.75)`, it will return a two values, so that 25% of values are smaller than the first one and 75% of them are smaller than the second. Or, to put it differently, 50% of all values are with `probs=c(0.25, 0.75)`. In our case, we want to compute 95% confidence interval, i.e., 95% of all values should be between the lower and upper confidence interval values. Once you run the code, you should see that 95% confidence interval from resampling is very similar to what the t-test reported (you want get the same values due to random sampling but they should also be close to the t-test's analytic estimate).
 ```{r echo=FALSE}
 CI <- round(quantile(replisamples, c((1-0.95)/2, 1-(1-0.95)/2)), 6)
 glue("95% CI: {CI[1]} {CI[2]}")
@@ -59,3 +59,64 @@ glue("95% CI: {CI[1]} {CI[2]}")
 Do exercise 3.
 :::
 
+## Bootstrapping via boot library
+The approach that we used is called ["bootstrapping"](https://en.wikipedia.org/wiki/Bootstrapping_(statistics)) and R conveniently has a [boot](https://cran.r-project.org/web/packages/boot/index.html) library to simplify and automate bootstrapping and the confidence interval computation. You do not need to install it (`boot` comes with base R) but you need to import it via `library(boot)`. 
+
+The key function is [boot()](https://stat.ethz.ch/R-manual/R-devel/library/boot/html/boot.html). It has plenty of parameters that allow you to fine tune its performance but the three key compulsory parameters are 
+
+* `data`: your original data you want to use for bootstrapping.
+* `statistic`: function(s) that compute desired statistic, such as mean in our case.
+* `R`: the number of bootstrap replicates (we used 1000 when we did this by hand).
+
+For non-parametric bootstraping, like the one we used above, you will need to write the `statistic` function yourself even if you want to compute a statistic for which functions already exist, like mean or standard deviation. This is because `statistic` function must take at least two arguments: 1) the data that you passed and 2) how it should be resampled. By default, the second parameter will contain indexes of elements in the data. Note that bootstrap resamples _with_ replacement, so the same index can appear more than once meaning that the same element was drawn more than once (just as we did above).
+
+Your statistic function should like as following, of course with a better name and an actual code inside.
+```r
+your_statistic_function <- function(data, indexes){
+  # here you compute desired statistic subsetting data using indexes
+}
+```
+
+Once you have this function, you can bootstrap samples via
+```r
+booted_samples <- boot(samples, statistic = your_statistic_function, R=1000)
+```
+
+Next, use function [boot.ci()](https://stat.ethz.ch/R-manual/R-devel/library/boot/html/boot.html) to compute the confidence interval. It takes your bootstrapped samples as a first parameter. You can also specify the confidence interval you are interested in (`conf`, defaults to 0.95) and `type` of the confidence interval. The one we computed above is called percentile (`type="perc"`), so this is the type you should specify. Once you run the code the output should be similar to that below.
+ 
+```{r echo=FALSE}
+library(boot)
+custom_mean <- function(data, indexes){
+  mean(data[indexes])
+}
+
+booted_samples <- boot(samples, statistic = custom_mean, R=1000)
+boot.ci(booted_samples, type="perc")
+```
+As you can see, we very similar results as above (but for variation due to sampling). Thus, either approach will work but, in most cases, `boot` is more flexible solution (but do read on bootstrapping before using advanced options).
+
+::: {.infobox .practice}
+Do exercise 4.
+:::
+ 
+## More samples give you more confidence
+In the exercises above, we computed confidence intervals for the mean based on 20 original samples. However, this was an arbitrary number I came up with. For the real study, you would like to know how the number of samples (participants, trials per condition, etc.) affects the width of the confidence interval. For example, assuming that our data comes from a normal distribution centered at 0.5 with a standard deviation of 2, how many samples do we need to be certain that mean is not a zero (confidence interval does not overlap with zero)?
+
+The solution is to simulate this situation using different number of samples. We will need to package the simulation into function to make it simpler to work with it but let us start with plain script code first. Assume that variable (our future parameter) `n_samples` holds number of samples that you need to generate (set it to some arbitrary value, e.g., 10). You code should
+
+* draw `n_samples` random samples from a normal distribution with mean of 0.5 and standard deviation of 2.
+* bootstrap 1000 estimates of the mean.
+* compute percentile 95% confidence interval. 
+* store it into a tibble along with number of samples.
+
+The only tricky part is extracting the confidence interval values from the object that [boot.ci()](https://stat.ethz.ch/R-manual/R-devel/library/boot/html/boot.html) function returns. Assuming that you computed percentile CI and stored the value in variable `CI`, the lower limit is `CI$percent[4]` and the upper is in `CI$percent[5]`. Your final tibble should look as follows (`lowerCI` and `upperCI` will be different for you because of random sampling).
+```{r echo=FALSE}
+n_samples <- 10
+data <- rnorm(n_samples, 0.5, 2)
+booted_samples <- boot(data, statistic = custom_mean, R=1000)
+CI <- boot.ci(booted_samples, type="perc")
+tibble(n_samples=n_samples,
+       lowerCI = CI$percent[4],
+       upperCI = CI$percent[5]) %>%
+  knitr::kable()
+```
