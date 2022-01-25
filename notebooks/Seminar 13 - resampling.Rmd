@@ -1,0 +1,65 @@
+---
+title: "Simulations and resampling"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# add libraries that you require here
+```
+
+## Exercise 01
+Generate 20 samples from a normal distribution, choose mean and standard deviation yourself. Plot histogram and adding a red vertical line to indicate the true mean of the distribution and a blue one for the sample mean.
+
+```{r exercise-01}
+```
+
+## Exercise 02
+Use `sample()` to resample data from exercise 01 with replacement.
+
+```{r exercise-02}
+```
+
+## Exercise 03
+Use `replicate()` and `sample()` to compute mean for 1000 resampled values. Plot the distribution of _means_ and compute percentile 95% confidence inteval via `quantile()`.
+
+```{r exercise-03}
+```
+
+## Exercise 04
+Repeat exercise 03 but using `boot` library.
+
+```{r exercise-04}
+```
+
+## Exercise 05
+Using `boot` library, create a function that takes number of samples as the only parameter, draws data from a normal distribution, bootstraps mean 1000 times, computes percential 95% confidence interval and returns it as a tibble.
+```{r exercise-05}
+```
+
+## Exercise 06
+Use `group_modify()` and your function from exercise 05 to create a table with `n_samples` (go from 10 to 100), `lowerCI`, and `upperCI`
+```{r exercise-06}
+```
+
+## Exercise 07
+Use `geom_ribbon()` and `geom_hline()` to plot results of exercise 06
+```{r exercise-07}
+```
+
+## Exercise 08
+Extend exercise 06 to repeat computation of CI 100 times for each number of samples. Compute average lower and upper CI limits and plot them.
+```{r exercise-08}
+```
+
+## Exercise 09
+Modify exercise 08 to include average sample mean.
+```{r exercise-09}
+```
+
+## Exercise 10
+Simulate effect of number of samples and probability of success using binomial distribution.
+```{r exercise-10}
+```

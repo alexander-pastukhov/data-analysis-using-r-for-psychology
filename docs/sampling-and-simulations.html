@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Data analysis using R for Psychology and Social Science</title>
+  <title>Seminar 13 Sampling and simulations | Data analysis using R for Psychology and Social Science</title>
   <meta name="description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Data analysis using R for Psychology and Social Science" />
+  <meta property="og:title" content="Seminar 13 Sampling and simulations | Data analysis using R for Psychology and Social Science" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Data analysis using R for Psychology and Social Science" />
+  <meta name="twitter:title" content="Seminar 13 Sampling and simulations | Data analysis using R for Psychology and Social Science" />
   
   <meta name="twitter:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
+<link rel="prev" href="strings.html"/>
 
-<link rel="next" href="software.html"/>
 <script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -327,58 +327,557 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Data analysis using R for Psychology and Social Science</h1>
-<p class="author"><em>Alexander (Sasha) Pastukhov</em></p>
-<p class="date"><em>2022-01-25</em></p>
+<div id="sampling-and-simulations" class="section level1" number="13">
+<h1><span class="header-section-number">Seminar 13</span> Sampling and simulations</h1>
+<p>An ability to simulate and sample data is important whenever you analyze your data. Simulating data by sampling from predefined distributions allows you develop your analysis routine and ensure that it can correctly recover the anticipated effects even before you have seen or collected the data. Or even before you designed your study as such simulations form a core of the power analysis. Sampling your data paves way for non-paramatric bootstrapping and permutation testing that helps you whenever assumptions of parametric tests are violated or when you require an estimate that is not easy to derive analytically.</p>
+<p>Grab <a href="notebooks/Seminar%2013%20-%20resampling.Rmd">exercise notebook</a> before reading on.</p>
+<div id="estimating-mean-of-a-normal-distribution-via-resampling" class="section level2" number="13.1">
+<h2><span class="header-section-number">13.1</span> Estimating mean of a normal distribution via resampling</h2>
+<p>Let us start very simple. Your task will be to generate samples from a normal distribution and then use resampling approach to estimate the original mean. Step one is simple, decide on mean and standard deviation of the normal distribution and generate 20 samples using <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html">rnorm()</a> function (<code>r&lt;distribution</code> functions generate random number based on distribution and its parameters). Check your results visually by plotting a histogram and adding a red <a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">vertical line</a> to indicate the true mean of the distribution. We also need to see the difference between the true mean and the sample mean. So include a blue vertical line to indicate the <em>sample</em> mean. Run your code several times to appreciate variability of the data and, therefore, of the sample mean.
+Your plot should look something like this.
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-322-1.png" width="672" /></p>
+<div class="infobox practice">
+<p>Do exercise 1.</p>
 </div>
-<div id="introduction" class="section level1 unnumbered">
-<h1>Introduction</h1>
-<p>This book will (try to) teach you how to perform typical data analysis tasks: reading data, transforming and cleaning it up so you can visualize it and perform a statistical analysis of your choice. It covers most topics that you need to get you started but it cannot cover them all. One advantage of R is a sheer size of its ecosystem with new incredible libraries appearing very much on a daily basis. Covering them all is beyond the scope of any book, so instead I will concentrate on (trying to) building a solid understanding of things that you need to extend your R knowledge. Because of that some early chapters (e.g., on <a href="vectors.html#vectors">vectors</a>, <a href="tables.html#tables">tables</a>, or <a href="##functions">functions</a>) might feel boring and too technical making you wonder why didn’t we start with some exciting and useful analysis, working our way down to finer details. I have tried that<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> but, unfortunately, philosophy of R is about have many almost identical ways of achieving the same end. If you do not learn these finer details, you waste time wondering why seemingly the same code works in one case but fails in mysterious ways in the other one<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>. Therefore, please bear with me and struggle through vectors (which are everywhere), oddities and inconsistencies of subsetting, and learning how to write a function before you even started to use them properly. I can only promise that, from my personal experience, this is definitely worth the effort.</p>
-<p>An important note: this book will <em>not</em> teach you statistics or machine learning. I will mention some widely used packages and functions for performing statistical analysis but I will not go into the details of how they work or how to interpret their output. If you know (enough of) statistics, you will have little trouble understanding how to work with these packages and functions. If you do not, no amount of reading of manuals will make it clearer.</p>
-<div id="why-r" class="section level2 unnumbered">
-<h2>Why R?</h2>
-<p>There are many software tools that allow you preprocess, plot, and analyze your data. Some cost money (SPSS, Matlab), some are free just like R (Python, Julia). Moreover, you can replicate all analysis that we will perform using Python in combination with <a href="https://jupyter.org/">Jupyter notebooks</a> (for reproducible analysis), <a href="https://pandas.pydata.org/">Pandas</a> (for Excel-style table), and <a href="https://www.statsmodels.org/stable/index.html">statmodels</a> (for statistical analysis). R is hardly perfect. For example, its subsetting system is confusing and appears to follow “convenience over safety” approach that does not sit particularly well with me. However, R in combination with piping and <a href="https://www.tidyverse.org/">Tidyverse</a> family of packages makes it incredibly easy to write simple, powerful and expressive code, which is very easy to understand (a huge plus, as you will discover). I will run circles around myself trying to replicate the same analysis in Python or Matlab. In addition, R is loved by mathematicians and statisticians, so it tends to have implementations for all cutting edge methods (my impression is that even Python is lagging behind it in that respect).</p>
+<p>In the real life, we do not know the true mean which is why we need to collect the data to begin with. We also know that our sample mean is different from the true mean and we would like to know how much can we trust that value. In other words, we would like to know how much the <em>sample mean</em> would vary if we would draw some <em>other</em> samples from the same distribution. Theoretically, you want to draw samples from that “true” distribution directly. Practically, you do not have access to it, apart from replicating your experiment or study many times. Instead, you can make either an educated guess about shape and parameters of this distribution. This is a parametric approach used to compute estimators analytically, e.g., from the <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/TDist.html">Student t Distribution</a>. This is the way it is done in the <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/t.test.html">t.test()</a>.</p>
+<div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb469-1"><a href="sampling-and-simulations.html#cb469-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(samples, <span class="at">mu =</span> <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  samples
+## t = -1.1076, df = 19, p-value = 0.2819
+## alternative hypothesis: true mean is not equal to 10
+## 95 percent confidence interval:
+##   8.911319 10.335209
+## sample estimates:
+## mean of x 
+##  9.623264</code></pre>
+<p>The other approach is to assume that your sample and, therefore, the data you collected is representative, so sampling from the data is just like sampling from the true distribution. This is obviously a strong assumption, particularly for small samples. However, this approach can work with any data, regardless of its distribution, and can be used to estimate statistic that is not easy to derive analytically. Thus, below we will use a brute force approach that relies on sheer computer power to compute the same confidence interval through resampling from the original data that you generated.</p>
+<p>You will need three functions for this. First, the function that samples you data: <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/sample.html">sample()</a>. It takes the original data (first parameter <code>x</code>) and randomly samples <code>size</code> items from it either with or without replacement (controlled by <code>replace</code> parameter that defaults to <code>FALSE</code>, so no replacement). In our case we want to get a sample of the size as the original data and we want to sample <em>with</em> replacement. Again, this way we pretend that we get another data sample, as if we would run the study again, and the probability of individual entries depends on how frequently they appear in the original data. For our purposes, we want to resample data and compute its mean. Write the code that does just that. Run the chunk several times to see how computed mean value changes due to resampling. As an exercise, set <code>replace=FALSE</code> and think what value do you expect and whether and how it would change when run the chunk again.</p>
+<div class="infobox practice">
+<p>Do exercise 2.</p>
 </div>
-<div id="why-tidyverse" class="section level2 unnumbered">
-<h2>Why Tidyverse</h2>
-<p>The material is heavily skewed towards using <a href="https://www.tidyverse.org/">Tidyverse</a> family of packages. It looks different enough from base R to the point that one might call it a “dialect” of R<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>. Learning Tidyverse means that you have twice as many things to learn: I will always introduce both base R and Tidyverse version. <a href="https://www.tidyverse.org/">Tidyverse</a> is the main reason I use R (rather than Python or Julia) as it makes data analysis a breeze and makes your life so much easier. This is why I want you to learn its ways. At the same time, there is plenty of useful code that uses base R, so you need to know and understand it as well.</p>
-<p>As a matter of fact, R is so rich and flexible that there many dialects and, therefore, plenty of opinion differences.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> For example, <a href="https://github.com/Rdatatable/data.table">data.table</a> package re-implements the same functionality as base R and Tidyverse in very compact way. I does not fit my style but it might be something that feels natural to you. There are also other packages to handle things like layout out your figures or working with summary tables that might suit you better. Point is, these material barely scratches the surfaces in terms of tools and approaches that you can use. View it as a starting point for your exploration not the complete map.</p>
-<p>Another thing to keep in mind is that Tidyverse is under very active development. This means that parts of this material could be outdated by the time you read it. E.g., <em>dplyr</em> <a href="https://dplyr.tidyverse.org/reference/do.html">do()</a> verb was superseded by an overpowered <a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise()</a> function, a warning generated by <a href="https://readr.tidyverse.org/">readr</a> package was adapted for humans but now require an extra step to be used for column specification, etc. None of the changes are breaking and deprecation process is deliberately slow (e.g., <a href="https://dplyr.tidyverse.org/reference/do.html">do()</a> still works), so even when outdated the code in the book should still work for quite some time. However, you should keep in mind that things <em>might</em> have changed, so it is a good idea to check an official manual from time to time.</p>
+<p>Our second step is to repeat out first step many times. Say, 1000 times. The function that helps you to do this is <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/lapply.html">replicate()</a>. That takes number of repetitions (first parameter <code>n</code>) and an arbitrary R code that returns a value (our step one). Once you run it, you will get a vector of 1000 means from resampled data. Plot the histogram, overlaying the true and sample means as a reference
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-324-1.png" width="672" /></p>
+<p>Our final step is to use <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile">quantile()</a> function to compute 95% confidence interval. <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile">quantile()</a> function takes a vector and computes a value that is greater than <code>probs</code> fraction of values in that vector. E.g., if <code>probs=c(0.25, 0.75)</code>, it will return a two values, so that 25% of values are smaller than the first one and 75% of them are smaller than the second. Or, to put it differently, 50% of all values are with <code>probs=c(0.25, 0.75)</code>. In our case, we want to compute 95% confidence interval, i.e., 95% of all values should be between the lower and upper confidence interval values. Once you run the code, you should see that 95% confidence interval from resampling is very similar to what the t-test reported (you want get the same values due to random sampling but they should also be close to the t-test’s analytic estimate).</p>
+<pre><code>## 95% CI: 8.940554 10.316821</code></pre>
+<div class="infobox practice">
+<p>Do exercise 3.</p>
 </div>
-<div id="about-the-seminar" class="section level2 unnumbered">
-<h2>About the seminar</h2>
-<p>This is a material for <em>Applied data analysis for psychology using the open-source software R</em> seminar as taught at <a href="https://www.uni-bamberg.de/psychologie/">Institute of Psychology</a> at University of Bamberg. Each chapter covers a single seminar, introducing necessary ideas and is accompanied by a notebook with exercises, which you need to complete and submit. To pass the seminar, you will need to complete all assignments. You do not need to complete or provide correct solutions for <em>all</em> the exercises to pass the course and information on how the points for exercises will be converted to an actual grade (if you need one) or “pass” will be available during the seminar.</p>
-<p>The material assumes no foreknowledge of R or programming in general from a reader. Its purpose is to gradually build up your knowledge and introduce to a typical analysis pipeline. It is based on a data that is typical for the field (repeated measures, appearance, accuracy and response time measurements, Likert scale reports, etc.) and you are welcome to suggest your own data set for analysis. Even if you already performed the analysis using some other program, it would still be insightful to compare the different ways and, perhaps, you might gain a new insight. Plus, it is more engaging to work on your data.</p>
-<p>Remember that throughout the seminar you can and should(!) always ask me whenever something is unclear, you do not understand a concept or logic behind certain code, or you simply got stuck. Do not hesitate to write me in the team or (better) directly to me in the chat (in the latter case, the notifications are harder miss and we don’t spam others with our conversation).</p>
 </div>
-<div id="thinking-like-a-computer" class="section level2 unnumbered">
-<h2>Thinking like a computer</h2>
-<p>In some exercises your will not be writing code but reading and understanding it. Your job in this case is “to think like a computer.” Your advantage is that computers are very dumb, so instructions for them must be written in a very simple, clear, and unambiguous way. This means that, with practice, reading code is easy for a human (well, reading a well-written code is easy, you will eventually encounter “spaghetti-code” which is easier to rewrite from scratch than to understand). In each case, you simply go through the code line-by-line, doing all computations by hand and writing down values stored in the variables (if there are too many to keep track of). Once you go through the code in this manner, it should be completely transparent for you. No mysteries should remain, you should have no doubts or uncertainty about any(!) line. Moreover, you then can run the code and check that the values you are getting from computer match yours. Any difference means you made a mistake and code is working differently from how you think it does. In any case, <strong>if you not 100% sure about any line of code, ask me, so we can go through it together!</strong></p>
-<p>In a sense, this is the most important programming skill. It is impossible to learn how to write, if you cannot read the code first! Moreover, when programming you will probably spend more time reading the code and making sure that it works correctly than writing the new code. Thus, use this opportunity to practice and never use the code that you do not understand completely. Thus, there is nothing wrong in using <a href="https://stackoverflow.com/">stackoverflow</a> but <strong>never</strong> use the code you do not understand (do not blindly copy-paste)!</p>
+<div id="bootstrapping-via-boot-library" class="section level2" number="13.2">
+<h2><span class="header-section-number">13.2</span> Bootstrapping via boot library</h2>
+<p>The approach that we used is called <a href="https://en.wikipedia.org/wiki/Bootstrapping_(statistics)">“bootstrapping”</a> and R conveniently has a <a href="https://cran.r-project.org/web/packages/boot/index.html">boot</a> library to simplify and automate bootstrapping and the confidence interval computation. You do not need to install it (<code>boot</code> comes with base R) but you need to import it via <code>library(boot)</code>.</p>
+<p>The key function is <a href="https://stat.ethz.ch/R-manual/R-devel/library/boot/html/boot.html">boot()</a>. It has plenty of parameters that allow you to fine tune its performance but the three key compulsory parameters are</p>
+<ul>
+<li><code>data</code>: your original data you want to use for bootstrapping.</li>
+<li><code>statistic</code>: function(s) that compute desired statistic, such as mean in our case.</li>
+<li><code>R</code>: the number of bootstrap replicates (we used 1000 when we did this by hand).</li>
+</ul>
+<p>For non-parametric bootstraping, like the one we used above, you will need to write the <code>statistic</code> function yourself even if you want to compute a statistic for which functions already exist, like mean or standard deviation. This is because <code>statistic</code> function must take at least two arguments: 1) the data that you passed and 2) how it should be resampled. By default, the second parameter will contain indexes of elements in the data. Note that bootstrap resamples <em>with</em> replacement, so the same index can appear more than once meaning that the same element was drawn more than once (just as we did above).</p>
+<p>Your statistic function should like as following, of course with a better name and an actual code inside.</p>
+<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb472-1"><a href="sampling-and-simulations.html#cb472-1" aria-hidden="true" tabindex="-1"></a>your_statistic_function <span class="ot">&lt;-</span> <span class="cf">function</span>(data, indexes){</span>
+<span id="cb472-2"><a href="sampling-and-simulations.html#cb472-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># here you compute desired statistic subsetting data using indexes</span></span>
+<span id="cb472-3"><a href="sampling-and-simulations.html#cb472-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Once you have this function, you can bootstrap samples via</p>
+<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb473-1"><a href="sampling-and-simulations.html#cb473-1" aria-hidden="true" tabindex="-1"></a>booted_samples <span class="ot">&lt;-</span> <span class="fu">boot</span>(samples, <span class="at">statistic =</span> your_statistic_function, <span class="at">R=</span><span class="dv">1000</span>)</span></code></pre></div>
+<p>Next, use function <a href="https://stat.ethz.ch/R-manual/R-devel/library/boot/html/boot.html">boot.ci()</a> to compute the confidence interval. It takes your bootstrapped samples as a first parameter. You can also specify the confidence interval you are interested in (<code>conf</code>, defaults to 0.95) and <code>type</code> of the confidence interval. The one we computed above is called percentile (<code>type="perc"</code>), so this is the type you should specify. Once you run the code the output should be similar to that below.</p>
+<pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 1000 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = booted_samples, type = &quot;perc&quot;)
+## 
+## Intervals : 
+## Level     Percentile     
+## 95%   ( 8.939, 10.242 )  
+## Calculations and Intervals on Original Scale</code></pre>
+<p>As you can see, we very similar results as above (but for variation due to sampling). Thus, either approach will work but, in most cases, <code>boot</code> is more flexible solution (but do read on bootstrapping before using advanced options).</p>
+<div class="infobox practice">
+<p>Do exercise 4.</p>
 </div>
-<div id="about-the-material" class="section level2 unnumbered">
-<h2>About the material</h2>
-<p>The material is <strong>free to use</strong> and is licensed under the <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives V4.0 International License</a>.</p>
+</div>
+<div id="more-samples-give-you-more-confidence" class="section level2" number="13.3">
+<h2><span class="header-section-number">13.3</span> More samples give you more confidence</h2>
+<p>In the exercises above, we computed confidence intervals for the mean based on 20 original samples. However, this was an arbitrary number I came up with. For the real study, you would like to know how the number of samples (participants, trials per condition, etc.) affects the width of the confidence interval. For example, assuming that our data comes from a normal distribution centered at 0.5 with a standard deviation of 2, how many samples do we need to be certain that mean is not a zero (confidence interval does not overlap with zero)?</p>
+<p>The solution is to simulate this situation using different number of samples. We will need to package the simulation into function to make it simpler to work with it but let us start with plain script code first. Assume that variable (our future parameter) <code>n_samples</code> holds number of samples that you need to generate (set it to some arbitrary value, e.g., 10). You code should</p>
+<ul>
+<li>draw <code>n_samples</code> random samples from a normal distribution with mean of 0.5 and standard deviation of 2.</li>
+<li>bootstrap 1000 estimates of the mean.</li>
+<li>compute percentile 95% confidence interval.</li>
+<li>store it into a tibble along with number of samples.</li>
+</ul>
+The only tricky part is extracting the confidence interval values from the object that <a href="https://stat.ethz.ch/R-manual/R-devel/library/boot/html/boot.html">boot.ci()</a> function returns. Assuming that you computed percentile CI and stored the value in variable <code>CI</code>, the lower limit is <code>CI$percent[4]</code> and the upper is in <code>CI$percent[5]</code>. Your final tibble should look as follows (<code>lowerCI</code> and <code>upperCI</code> will be different for you because of random sampling).
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+lowerCI
+</th>
+<th style="text-align:right;">
+upperCI
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0.0859532
+</td>
+<td style="text-align:right;">
+1.940723
+</td>
+</tr>
+</tbody>
+</table>
+<p>Once you code is working, turn it into a function (I called it <code>CI_for_sim</code>) that takes <code>n_samples</code> as a parameter. Test it by calling it with <code>n_samples = 10</code>, the result should be exactly the same as before.</p>
+<div class="infobox practice">
+<p>Do exercise 5.</p>
+</div>
+Next, we need to run this function for different number of samples and we want to end up with a table, like the one below.
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+n_samples
+</th>
+<th style="text-align:right;">
+lowerCI
+</th>
+<th style="text-align:right;">
+upperCI
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+-1.0085864
+</td>
+<td style="text-align:right;">
+1.5596448
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+0.4958008
+</td>
+<td style="text-align:right;">
+1.6589707
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+-0.3982136
+</td>
+<td style="text-align:right;">
+1.9194213
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+-0.5672158
+</td>
+<td style="text-align:right;">
+2.0918783
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+-1.2831007
+</td>
+<td style="text-align:right;">
+0.7664541
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+0.4524685
+</td>
+<td style="text-align:right;">
+2.0642302
+</td>
+</tr>
+</tbody>
+</table>
+<p>There are different ways to do this but we will use this as an opportunity to learn about <a href="https://dplyr.tidyverse.org/reference/group_map.html">group_modify()</a>, a function that allows you to apply a function to each group in your table. The only condition for such function is that it must return a table. All tables are bind together by row so you end up with a single table. A table that function returns can be of any length and have as many columns as required. Thus, <a href="https://dplyr.tidyverse.org/reference/group_map.html">group_modify()</a> is a powerful way to compute many columns at the same time, expand, modify, or summarize the group. Here is an example of how you use it.</p>
+<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="sampling-and-simulations.html#cb475-1" aria-hidden="true" tabindex="-1"></a>avg_mpg_per_cylinder <span class="ot">&lt;-</span> <span class="cf">function</span>(mpg_values, cylinders_n) {</span>
+<span id="cb475-2"><a href="sampling-and-simulations.html#cb475-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">AvgMpgPerCylinder =</span> <span class="fu">mean</span>(mpg_values) <span class="sc">/</span> cylinders_n,</span>
+<span id="cb475-3"><a href="sampling-and-simulations.html#cb475-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">Variance =</span> <span class="fu">var</span>(mpg_values) <span class="sc">/</span> cylinders_n)</span>
+<span id="cb475-4"><a href="sampling-and-simulations.html#cb475-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb475-5"><a href="sampling-and-simulations.html#cb475-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb475-6"><a href="sampling-and-simulations.html#cb475-6" aria-hidden="true" tabindex="-1"></a>mpg <span class="sc">%&gt;%</span></span>
+<span id="cb475-7"><a href="sampling-and-simulations.html#cb475-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cyl, year) <span class="sc">%&gt;%</span></span>
+<span id="cb475-8"><a href="sampling-and-simulations.html#cb475-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_modify</span>(<span class="sc">~</span><span class="fu">avg_mpg_per_cylinder</span>(.x<span class="sc">$</span>cty, .y<span class="sc">$</span>cyl)) <span class="sc">%&gt;%</span></span>
+<span id="cb475-9"><a href="sampling-and-simulations.html#cb475-9" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+cyl
+</th>
+<th style="text-align:right;">
+year
+</th>
+<th style="text-align:right;">
+AvgMpgPerCylinder
+</th>
+<th style="text-align:right;">
+Variance
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:right;">
+5.211111
+</td>
+<td style="text-align:right;">
+4.4994949
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+2008
+</td>
+<td style="text-align:right;">
+5.305556
+</td>
+<td style="text-align:right;">
+1.3158730
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+2008
+</td>
+<td style="text-align:right;">
+4.100000
+</td>
+<td style="text-align:right;">
+0.0666667
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:right;">
+2.677778
+</td>
+<td style="text-align:right;">
+0.4651515
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+2008
+</td>
+<td style="text-align:right;">
+2.735294
+</td>
+<td style="text-align:right;">
+0.6072490
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:right;">
+1.527778
+</td>
+<td style="text-align:right;">
+0.3397436
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+2008
+</td>
+<td style="text-align:right;">
+1.598837
+</td>
+<td style="text-align:right;">
+0.4437984
+</td>
+</tr>
+</tbody>
+</table>
+<p>The function takes a vector of values on fuel efficiency (<code>mpg_values</code>) and a number of cylinders (<code>cylinders_n</code>) and returns a table with mean and variance of fuel efficiency per cylinder. When calling this function inside the <a href="https://dplyr.tidyverse.org/reference/group_map.html">group_modify()</a>, you need to use <code>~</code> before the function call (tells Tidyverse that you want to execute the code as is) and use <code>.y$</code> for variables that define the group (would be <code>cyl</code> and <code>year</code> in our case) and <code>.x$</code> for other columns.</p>
+<p>Let us use <a href="https://dplyr.tidyverse.org/reference/group_map.html">group_modify()</a> to simulate CIs for different number of samples. In a single pipe,</p>
+<ol style="list-style-type: decimal">
+<li>create a <a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a> with a single column <code>n_samples</code> and assign some reasonable range of values to it (I went from 10 to 100)</li>
+<li>group data by the number of samples</li>
+<li>simulate data and compute CI by calling your <code>CI_for_sim()</code> function inside the <a href="https://dplyr.tidyverse.org/reference/group_map.html">group_modify()</a>.</li>
+</ol>
+Once you are done, your table should look something like this.
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+n_samples
+</th>
+<th style="text-align:right;">
+avg
+</th>
+<th style="text-align:right;">
+lowerCI
+</th>
+<th style="text-align:right;">
+upperCI
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+0.2716089
+</td>
+<td style="text-align:right;">
+-1.0085864
+</td>
+<td style="text-align:right;">
+1.5596448
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+1.0479285
+</td>
+<td style="text-align:right;">
+0.4958008
+</td>
+<td style="text-align:right;">
+1.6589707
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+0.7077041
+</td>
+<td style="text-align:right;">
+-0.3982136
+</td>
+<td style="text-align:right;">
+1.9194213
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+0.7223447
+</td>
+<td style="text-align:right;">
+-0.5672158
+</td>
+<td style="text-align:right;">
+2.0918783
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+-0.2562594
+</td>
+<td style="text-align:right;">
+-1.2831007
+</td>
+<td style="text-align:right;">
+0.7664541
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+1.2952590
+</td>
+<td style="text-align:right;">
+0.4524685
+</td>
+<td style="text-align:right;">
+2.0642302
+</td>
+</tr>
+</tbody>
+</table>
+<div class="infobox practice">
+<p>Do exercise 6.</p>
+</div>
+<p>It is much easier to understand the data once we visualize it. Plot the results using <a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_ribbon()</a> (note that you will need to set <code>y</code> aesthetics to some variable or value even though it is not used) and <a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline()</a>. The plot should look similar to the one below.
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-331-1.png" width="672" /></p>
+<div class="infobox practice">
+<p>Do exercise 7.</p>
+</div>
+<p>As you can see in the plot above, confidence intervals vary a lot, so it is hard to be certain about the number of samples we require. Thus, we need to sample the bootstrap as well. Redo the analysis but now create a tibble with two columns — <code>n_samples</code> (go 10 to 100) and <code>iteration</code> (go 1 to 100) — and fill the table with all combinations of these values (you should get 9100 rows). Next, simulate and compute CI for each combination of <code>n_samples</code> and <code>iteration</code> and then compute <em>average</em> lower and upper interval for each <code>n_samples</code> value. Plot these averages as we did above and you should see a much smoother plot that makes it easier to decide on the required number of samples (probably around 75). Note, if your simulations takes too long, reduce the number of iterations or use a larger step between <code>n_samples</code> (not 1 as we did before but 2 or 5).
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-332-1.png" width="672" /></p>
+<div class="infobox practice">
+<p>Do exercise 8.</p>
+</div>
+</div>
+<div id="adding-average-sample-mean" class="section level2" number="13.4">
+<h2><span class="header-section-number">13.4</span> Adding average sample mean</h2>
+<p>Let us redo the computation but add average sample mean to the plot. For this, you need to modify your <code>CI_for_sim()</code> function to include sample mean to the tibble that it return and average over mean for different iterations. Your final plot should resemble this. Note how estimated mean remains stable (unbiased) for different number of samples. It is our certainty about the value, as expressed by the confidence interval, that changes.</p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-333-1.png" width="672" /></p>
+<div class="infobox practice">
+<p>Do exercise 9.</p>
+</div>
+</div>
+<div id="practice-makes-perfect" class="section level2" number="13.5">
+<h2><span class="header-section-number">13.5</span> Practice makes perfect</h2>
+<p>Our simulations above used normally distributed data. In psychological research, you often use binomial responses (yes/no, correct/mistake). Here, with of a confidence intervals depends both number of samples but also the probability of success (“yes” or “correct” response). Repeat the analysis using four assumed probabilities of success: 0.6, 0.7, 0.8, and 0.9. The logic is the same but you need to use <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Binomial.html">rbinom()</a> to generate random responses. Here, the <code>size</code> parameter is the number of samples that we draw, whereas <code>n</code> is how many times we draw these samples. It return a random number of successes out of <code>size</code> number of trials. E.g., here is how to generate number of successful trials assuming total of 20 trials and probability of success being 0.8.</p>
+<div class="sourceCode" id="cb476"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb476-1"><a href="sampling-and-simulations.html#cb476-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="at">n=</span><span class="dv">1</span>, <span class="at">size=</span><span class="dv">20</span>, <span class="at">prob=</span><span class="fl">0.8</span>)</span></code></pre></div>
+<pre><code>## [1] 18</code></pre>
+<p>Note that you can use <code>n</code> parameter to create many (iterations of) draws.</p>
+<div class="sourceCode" id="cb478"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb478-1"><a href="sampling-and-simulations.html#cb478-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="at">n=</span><span class="dv">10</span>, <span class="at">size=</span><span class="dv">20</span>, <span class="at">prob=</span><span class="fl">0.8</span>)</span></code></pre></div>
+<pre><code>##  [1] 17 18 16 15 12 18 17 14 15 14</code></pre>
+<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb480-1"><a href="sampling-and-simulations.html#cb480-1" aria-hidden="true" tabindex="-1"></a><span class="co"># same as</span></span>
+<span id="cb480-2"><a href="sampling-and-simulations.html#cb480-2" aria-hidden="true" tabindex="-1"></a><span class="fu">replicate</span>(<span class="dv">10</span>, <span class="fu">rbinom</span>(<span class="at">n=</span><span class="dv">1</span>, <span class="at">size=</span><span class="dv">20</span>, <span class="at">prob=</span><span class="fl">0.8</span>))</span></code></pre></div>
+<pre><code>##  [1] 16 17 17 16 16 18 18 17 18 16</code></pre>
+<p>Here, I did not use <code>boot</code> library. Instead, I have utilized <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Binomial.html">rbinom()</a> to generate many draws of a given size and <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile">quantile()</a> to compute percentile confidence interval. The final plot should look similar to this (but for quantitative differences due to sampling). As you can see, you need many trials when probability of success is closer to 0.5.
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-336-1.png" width="672" /></p>
+<div class="infobox practice">
+<p>Do exercise 10.</p>
+</div>
+</div>
+<div id="starting-with-basics" class="section level2" number="13.6">
+<h2><span class="header-section-number">13.6</span> Starting with basics</h2>
+<p>What we covered today are basics of simulations and resampling approach. However, once expanded they allow you to explore your models even before you have collected the data and perform power analysis to evalute their expected performance.</p>
 
 </div>
 </div>
-<div class="footnotes">
-<hr />
-<ol start="1">
-<li id="fn1"><p>As a matter of fact, this was my approach when learning R.<a href="index.html#fnref1" class="footnote-back">↩︎</a></p></li>
-<li id="fn2"><p>Talking from a personal experience here.<a href="index.html#fnref2" class="footnote-back">↩︎</a></p></li>
-<li id="fn3"><p>R is extremely flexible, making it possible to redefine its own syntax.<a href="index.html#fnref3" class="footnote-back">↩︎</a></p></li>
-<li id="fn4"><p>Just ask about “base R vs. Tidyverse” on Twitter and see the thread set itself on fire<a href="index.html#fnref4" class="footnote-back">↩︎</a></p></li>
-</ol>
-</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             </section>
 
           </div>
         </div>
       </div>
+<a href="strings.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
-<a href="software.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

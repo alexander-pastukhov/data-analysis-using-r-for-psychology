@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2022-01-17" />
+<meta name="date" content="2022-01-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -298,6 +298,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12.7" data-path="strings.html"><a href="strings.html#extracting-a-substring-when-you-know-its-location"><i class="fa fa-check"></i><b>12.7</b> Extracting a substring when you know its location</a></li>
 <li class="chapter" data-level="12.8" data-path="strings.html"><a href="strings.html#detecting-a-substring-using-regular-expressions"><i class="fa fa-check"></i><b>12.8</b> Detecting a substring using regular expressions</a></li>
 </ul></li>
+<li class="chapter" data-level="13" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html"><i class="fa fa-check"></i><b>13</b> Sampling and simulations</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#estimating-mean-of-a-normal-distribution-via-resampling"><i class="fa fa-check"></i><b>13.1</b> Estimating mean of a normal distribution via resampling</a></li>
+<li class="chapter" data-level="13.2" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#bootstrapping-via-boot-library"><i class="fa fa-check"></i><b>13.2</b> Bootstrapping via boot library</a></li>
+<li class="chapter" data-level="13.3" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#more-samples-give-you-more-confidence"><i class="fa fa-check"></i><b>13.3</b> More samples give you more confidence</a></li>
+<li class="chapter" data-level="13.4" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#adding-average-sample-mean"><i class="fa fa-check"></i><b>13.4</b> Adding average sample mean</a></li>
+<li class="chapter" data-level="13.5" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#practice-makes-perfect"><i class="fa fa-check"></i><b>13.5</b> Practice makes perfect</a></li>
+<li class="chapter" data-level="13.6" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#starting-with-basics"><i class="fa fa-check"></i><b>13.6</b> Starting with basics</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://alexander-pastukhov.github.io/">Alexander (Sasha) Pastukhov</li>
 
@@ -403,7 +412,7 @@ Report
 A
 </td>
 <td style="text-align:right;">
-6.492715
+1.532755
 </td>
 </tr>
 <tr>
@@ -411,7 +420,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-6.167674
+6.762213
 </td>
 </tr>
 <tr>
@@ -419,7 +428,7 @@ A
 B
 </td>
 <td style="text-align:right;">
-3.280401
+1.938498
 </td>
 </tr>
 <tr>
@@ -427,7 +436,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-2.449532
+5.520077
 </td>
 </tr>
 <tr>
@@ -435,7 +444,7 @@ B
 C
 </td>
 <td style="text-align:right;">
-2.373317
+3.048730
 </td>
 </tr>
 <tr>
@@ -443,7 +452,7 @@ C
 C
 </td>
 <td style="text-align:right;">
-2.645052
+6.516786
 </td>
 </tr>
 <tr>
@@ -451,7 +460,7 @@ C
 D
 </td>
 <td style="text-align:right;">
-1.065591
+1.368669
 </td>
 </tr>
 <tr>
@@ -459,7 +468,7 @@ D
 D
 </td>
 <td style="text-align:right;">
-5.360473
+5.923923
 </td>
 </tr>
 </tbody>
@@ -501,7 +510,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-6.492715
+1.532755
 </td>
 </tr>
 <tr>
@@ -512,7 +521,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-6.167674
+6.762213
 </td>
 </tr>
 <tr>
@@ -523,7 +532,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-3.280401
+1.938498
 </td>
 </tr>
 <tr>
@@ -534,7 +543,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-2.449532
+5.520077
 </td>
 </tr>
 <tr>
@@ -545,7 +554,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-2.373317
+3.048730
 </td>
 </tr>
 <tr>
@@ -556,7 +565,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-2.645052
+6.516786
 </td>
 </tr>
 <tr>
@@ -567,7 +576,7 @@ D
 22
 </td>
 <td style="text-align:right;">
-1.065591
+1.368669
 </td>
 </tr>
 <tr>
@@ -578,7 +587,7 @@ D
 22
 </td>
 <td style="text-align:right;">
-5.360473
+5.923923
 </td>
 </tr>
 </tbody>
@@ -605,7 +614,7 @@ Age
 A
 </td>
 <td style="text-align:right;">
-6.492715
+1.532755
 </td>
 <td style="text-align:right;">
 20
@@ -616,7 +625,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-6.167674
+6.762213
 </td>
 <td style="text-align:right;">
 20
@@ -627,7 +636,7 @@ A
 B
 </td>
 <td style="text-align:right;">
-3.280401
+1.938498
 </td>
 <td style="text-align:right;">
 19
@@ -638,7 +647,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-2.449532
+5.520077
 </td>
 <td style="text-align:right;">
 19
@@ -649,7 +658,7 @@ B
 C
 </td>
 <td style="text-align:right;">
-2.373317
+3.048730
 </td>
 <td style="text-align:right;">
 30
@@ -660,7 +669,7 @@ C
 C
 </td>
 <td style="text-align:right;">
-2.645052
+6.516786
 </td>
 <td style="text-align:right;">
 30
@@ -671,7 +680,7 @@ C
 D
 </td>
 <td style="text-align:right;">
-1.065591
+1.368669
 </td>
 <td style="text-align:right;">
 22
@@ -682,7 +691,7 @@ D
 D
 </td>
 <td style="text-align:right;">
-5.360473
+5.923923
 </td>
 <td style="text-align:right;">
 22
@@ -778,7 +787,7 @@ Report
 A
 </td>
 <td style="text-align:right;">
-2.013539
+4.221734
 </td>
 </tr>
 <tr>
@@ -786,7 +795,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-1.834442
+3.956276
 </td>
 </tr>
 <tr>
@@ -794,7 +803,7 @@ A
 B
 </td>
 <td style="text-align:right;">
-1.865864
+5.052254
 </td>
 </tr>
 <tr>
@@ -802,7 +811,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-2.996311
+4.535067
 </td>
 </tr>
 <tr>
@@ -810,7 +819,7 @@ B
 C
 </td>
 <td style="text-align:right;">
-1.943579
+6.136050
 </td>
 </tr>
 <tr>
@@ -818,7 +827,7 @@ C
 C
 </td>
 <td style="text-align:right;">
-6.641555
+6.150326
 </td>
 </tr>
 <tr>
@@ -826,7 +835,7 @@ C
 E
 </td>
 <td style="text-align:right;">
-4.088644
+1.975582
 </td>
 </tr>
 <tr>
@@ -834,7 +843,7 @@ E
 E
 </td>
 <td style="text-align:right;">
-1.278664
+5.091013
 </td>
 </tr>
 </tbody>
@@ -869,7 +878,7 @@ Age
 A
 </td>
 <td style="text-align:right;">
-2.013539
+4.221734
 </td>
 <td style="text-align:right;">
 20
@@ -880,7 +889,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-1.834442
+3.956276
 </td>
 <td style="text-align:right;">
 20
@@ -891,7 +900,7 @@ A
 B
 </td>
 <td style="text-align:right;">
-1.865864
+5.052254
 </td>
 <td style="text-align:right;">
 19
@@ -902,7 +911,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-2.996311
+4.535067
 </td>
 <td style="text-align:right;">
 19
@@ -913,7 +922,7 @@ B
 C
 </td>
 <td style="text-align:right;">
-1.943579
+6.136050
 </td>
 <td style="text-align:right;">
 30
@@ -924,7 +933,7 @@ C
 C
 </td>
 <td style="text-align:right;">
-6.641555
+6.150326
 </td>
 <td style="text-align:right;">
 30
@@ -961,7 +970,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-2.013539
+4.221734
 </td>
 </tr>
 <tr>
@@ -972,7 +981,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-1.834442
+3.956276
 </td>
 </tr>
 <tr>
@@ -983,7 +992,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-1.865864
+5.052254
 </td>
 </tr>
 <tr>
@@ -994,7 +1003,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-2.996311
+4.535067
 </td>
 </tr>
 <tr>
@@ -1005,7 +1014,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-1.943579
+6.136050
 </td>
 </tr>
 <tr>
@@ -1016,7 +1025,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-6.641555
+6.150326
 </td>
 </tr>
 <tr>
@@ -1038,7 +1047,7 @@ E
 NA
 </td>
 <td style="text-align:right;">
-4.088644
+1.975582
 </td>
 </tr>
 <tr>
@@ -1049,7 +1058,7 @@ E
 NA
 </td>
 <td style="text-align:right;">
-1.278664
+5.091013
 </td>
 </tr>
 </tbody>
@@ -1083,7 +1092,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-2.013539
+4.221734
 </td>
 </tr>
 <tr>
@@ -1094,7 +1103,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-1.834442
+3.956276
 </td>
 </tr>
 <tr>
@@ -1105,7 +1114,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-1.865864
+5.052254
 </td>
 </tr>
 <tr>
@@ -1116,7 +1125,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-2.996311
+4.535067
 </td>
 </tr>
 <tr>
@@ -1127,7 +1136,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-1.943579
+6.136050
 </td>
 </tr>
 <tr>
@@ -1138,7 +1147,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-6.641555
+6.150326
 </td>
 </tr>
 <tr>
@@ -1183,7 +1192,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-2.013539
+4.221734
 </td>
 </tr>
 <tr>
@@ -1194,7 +1203,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-1.834442
+3.956276
 </td>
 </tr>
 <tr>
@@ -1205,7 +1214,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-1.865864
+5.052254
 </td>
 </tr>
 <tr>
@@ -1216,7 +1225,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-2.996311
+4.535067
 </td>
 </tr>
 <tr>
@@ -1227,7 +1236,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-1.943579
+6.136050
 </td>
 </tr>
 <tr>
@@ -1238,7 +1247,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-6.641555
+6.150326
 </td>
 </tr>
 <tr>
@@ -1249,7 +1258,7 @@ E
 NA
 </td>
 <td style="text-align:right;">
-4.088644
+1.975582
 </td>
 </tr>
 <tr>
@@ -1260,7 +1269,7 @@ E
 NA
 </td>
 <td style="text-align:right;">
-1.278664
+5.091013
 </td>
 </tr>
 </tbody>
@@ -1365,7 +1374,7 @@ A
 M
 </td>
 <td style="text-align:right;">
-4.163731
+4.984703
 </td>
 </tr>
 <tr>
@@ -1376,7 +1385,7 @@ B
 F
 </td>
 <td style="text-align:right;">
-3.796493
+2.665238
 </td>
 </tr>
 <tr>
@@ -1387,7 +1396,7 @@ A
 F
 </td>
 <td style="text-align:right;">
-6.739010
+6.317606
 </td>
 </tr>
 <tr>
@@ -1398,7 +1407,7 @@ B
 M
 </td>
 <td style="text-align:right;">
-5.326351
+3.453064
 </td>
 </tr>
 </tbody>
@@ -1441,7 +1450,7 @@ M
 20
 </td>
 <td style="text-align:right;">
-4.163731
+4.984703
 </td>
 </tr>
 <tr>
@@ -1455,7 +1464,7 @@ F
 19
 </td>
 <td style="text-align:right;">
-3.796493
+2.665238
 </td>
 </tr>
 <tr>
@@ -1469,7 +1478,7 @@ F
 30
 </td>
 <td style="text-align:right;">
-6.739010
+6.317606
 </td>
 </tr>
 <tr>
@@ -1483,7 +1492,7 @@ M
 22
 </td>
 <td style="text-align:right;">
-5.326351
+3.453064
 </td>
 </tr>
 </tbody>
@@ -1589,7 +1598,7 @@ A
 M
 </td>
 <td style="text-align:right;">
-2.938330
+3.485170
 </td>
 </tr>
 <tr>
@@ -1600,7 +1609,7 @@ B
 F
 </td>
 <td style="text-align:right;">
-2.540353
+4.772915
 </td>
 </tr>
 <tr>
@@ -1611,7 +1620,7 @@ A
 F
 </td>
 <td style="text-align:right;">
-2.642786
+5.581679
 </td>
 </tr>
 <tr>
@@ -1622,7 +1631,7 @@ B
 M
 </td>
 <td style="text-align:right;">
-5.896984
+1.536253
 </td>
 </tr>
 </tbody>
@@ -1665,7 +1674,7 @@ F
 30
 </td>
 <td style="text-align:right;">
-2.642786
+5.581679
 </td>
 </tr>
 <tr>
@@ -1679,7 +1688,7 @@ M
 20
 </td>
 <td style="text-align:right;">
-2.938330
+3.485170
 </td>
 </tr>
 <tr>
@@ -1693,7 +1702,7 @@ F
 19
 </td>
 <td style="text-align:right;">
-2.540353
+4.772915
 </td>
 </tr>
 <tr>
@@ -1707,7 +1716,7 @@ M
 22
 </td>
 <td style="text-align:right;">
-5.896984
+1.536253
 </td>
 </tr>
 </tbody>
@@ -3198,7 +3207,7 @@ Symmetry
 6
 </td>
 <td style="text-align:right;">
-1.06
+1.55
 </td>
 </tr>
 <tr>
@@ -3215,7 +3224,7 @@ Attractiveness
 4
 </td>
 <td style="text-align:right;">
-0.61
+1.09
 </td>
 </tr>
 <tr>
@@ -3232,7 +3241,7 @@ Trustworthiness
 3
 </td>
 <td style="text-align:right;">
-0.91
+1.00
 </td>
 </tr>
 <tr>
@@ -3249,7 +3258,7 @@ Symmetry
 4
 </td>
 <td style="text-align:right;">
-1.33
+0.55
 </td>
 </tr>
 <tr>
@@ -3266,7 +3275,7 @@ Attractiveness
 7
 </td>
 <td style="text-align:right;">
-0.99
+0.95
 </td>
 </tr>
 <tr>
@@ -3283,7 +3292,7 @@ Trustworthiness
 6
 </td>
 <td style="text-align:right;">
-1.18
+1.11
 </td>
 </tr>
 <tr>
@@ -3300,7 +3309,7 @@ Symmetry
 5
 </td>
 <td style="text-align:right;">
-1.22
+1.59
 </td>
 </tr>
 <tr>
@@ -3317,7 +3326,7 @@ Attractiveness
 2
 </td>
 <td style="text-align:right;">
-1.25
+0.88
 </td>
 </tr>
 <tr>
@@ -3334,7 +3343,7 @@ Trustworthiness
 1
 </td>
 <td style="text-align:right;">
-0.50
+1.36
 </td>
 </tr>
 <tr>
@@ -3351,7 +3360,7 @@ Symmetry
 3
 </td>
 <td style="text-align:right;">
-1.79
+1.32
 </td>
 </tr>
 <tr>
@@ -3368,7 +3377,7 @@ Attractiveness
 7
 </td>
 <td style="text-align:right;">
-2.34
+0.64
 </td>
 </tr>
 <tr>
@@ -3385,7 +3394,7 @@ Trustworthiness
 2
 </td>
 <td style="text-align:right;">
-3.63
+0.64
 </td>
 </tr>
 </tbody>
@@ -3425,7 +3434,7 @@ Trustworthiness
 M-1
 </td>
 <td style="text-align:right;">
-1.06
+1.55
 </td>
 <td style="text-align:right;">
 6
@@ -3445,7 +3454,7 @@ NA
 M-1
 </td>
 <td style="text-align:right;">
-0.61
+1.09
 </td>
 <td style="text-align:right;">
 NA
@@ -3465,7 +3474,7 @@ NA
 M-1
 </td>
 <td style="text-align:right;">
-0.91
+1.00
 </td>
 <td style="text-align:right;">
 NA
@@ -3485,7 +3494,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-1.33
+0.55
 </td>
 <td style="text-align:right;">
 4
@@ -3505,7 +3514,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-0.99
+0.95
 </td>
 <td style="text-align:right;">
 NA
@@ -3525,7 +3534,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-1.18
+1.11
 </td>
 <td style="text-align:right;">
 NA
@@ -3545,7 +3554,7 @@ NA
 M-1
 </td>
 <td style="text-align:right;">
-1.22
+1.59
 </td>
 <td style="text-align:right;">
 5
@@ -3565,7 +3574,7 @@ NA
 M-1
 </td>
 <td style="text-align:right;">
-1.25
+0.88
 </td>
 <td style="text-align:right;">
 NA
@@ -3585,7 +3594,7 @@ NA
 M-1
 </td>
 <td style="text-align:right;">
-0.50
+1.36
 </td>
 <td style="text-align:right;">
 NA
@@ -3605,7 +3614,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-1.79
+1.32
 </td>
 <td style="text-align:right;">
 3
@@ -3625,33 +3634,13 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-2.34
+0.64
 </td>
 <td style="text-align:right;">
 NA
 </td>
 <td style="text-align:right;">
 7
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-3.63
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
 </td>
 <td style="text-align:right;">
 2

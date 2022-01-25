@@ -24,7 +24,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2022-01-17" />
+<meta name="date" content="2022-01-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -298,6 +298,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12.7" data-path="strings.html"><a href="strings.html#extracting-a-substring-when-you-know-its-location"><i class="fa fa-check"></i><b>12.7</b> Extracting a substring when you know its location</a></li>
 <li class="chapter" data-level="12.8" data-path="strings.html"><a href="strings.html#detecting-a-substring-using-regular-expressions"><i class="fa fa-check"></i><b>12.8</b> Detecting a substring using regular expressions</a></li>
 </ul></li>
+<li class="chapter" data-level="13" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html"><i class="fa fa-check"></i><b>13</b> Sampling and simulations</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#estimating-mean-of-a-normal-distribution-via-resampling"><i class="fa fa-check"></i><b>13.1</b> Estimating mean of a normal distribution via resampling</a></li>
+<li class="chapter" data-level="13.2" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#bootstrapping-via-boot-library"><i class="fa fa-check"></i><b>13.2</b> Bootstrapping via boot library</a></li>
+<li class="chapter" data-level="13.3" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#more-samples-give-you-more-confidence"><i class="fa fa-check"></i><b>13.3</b> More samples give you more confidence</a></li>
+<li class="chapter" data-level="13.4" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#adding-average-sample-mean"><i class="fa fa-check"></i><b>13.4</b> Adding average sample mean</a></li>
+<li class="chapter" data-level="13.5" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#practice-makes-perfect"><i class="fa fa-check"></i><b>13.5</b> Practice makes perfect</a></li>
+<li class="chapter" data-level="13.6" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#starting-with-basics"><i class="fa fa-check"></i><b>13.6</b> Starting with basics</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://alexander-pastukhov.github.io/">Alexander (Sasha) Pastukhov</li>
 
@@ -528,122 +537,122 @@ Normal(\mu=2*ConditionIndex, \sigma=0.4) + \\ Normal(\mu=Intensity, \sigma=0.4)\
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">1</td>
-<td align="right">-0.4975972</td>
+<td align="right">-0.7644208</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">1</td>
-<td align="right">-1.7841545</td>
+<td align="right">-1.5609064</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">1</td>
-<td align="right">-4.8310236</td>
+<td align="right">-4.2057603</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">2</td>
-<td align="right">1.3728014</td>
+<td align="right">0.7063273</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">2</td>
-<td align="right">-0.4294678</td>
+<td align="right">-0.4465796</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">2</td>
-<td align="right">-3.9870370</td>
+<td align="right">-3.4775867</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">3</td>
-<td align="right">0.5865422</td>
+<td align="right">2.8894762</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">3</td>
-<td align="right">0.6974930</td>
+<td align="right">0.1704890</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">3</td>
-<td align="right">-1.6014459</td>
+<td align="right">-1.2466584</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">4</td>
-<td align="right">2.8829385</td>
+<td align="right">2.7558450</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">4</td>
-<td align="right">1.0572379</td>
+<td align="right">1.6158147</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">4</td>
-<td align="right">-0.3525203</td>
+<td align="right">-1.1367475</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">5</td>
-<td align="right">4.1087988</td>
+<td align="right">4.6159001</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">5</td>
-<td align="right">2.5367595</td>
+<td align="right">2.2141980</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">5</td>
-<td align="right">0.8819847</td>
+<td align="right">-0.6236968</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">6</td>
-<td align="right">3.5719599</td>
+<td align="right">5.8701303</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">6</td>
-<td align="right">2.5024309</td>
+<td align="right">3.3925814</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">6</td>
-<td align="right">0.9480381</td>
+<td align="right">0.2091189</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">7</td>
-<td align="right">5.1750282</td>
+<td align="right">7.3171184</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">7</td>
-<td align="right">3.7480376</td>
+<td align="right">3.9465347</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">7</td>
-<td align="right">2.0554089</td>
+<td align="right">2.1854752</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">8</td>
-<td align="right">6.0772619</td>
+<td align="right">7.7412934</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">8</td>
-<td align="right">5.2296981</td>
+<td align="right">5.1577229</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">8</td>
-<td align="right">3.8294497</td>
+<td align="right">2.7269247</td>
 </tr>
 </tbody>
 </table>
