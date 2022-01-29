@@ -4,7 +4,7 @@ library(tidyverse)
 ```
 I suspect that this is a seminar that you were waiting for the most as it finally tells you how to call statistical functions in R. However, from my perspective, it is the least useful seminar in the entire course because if you know statistics and you know which specific tool you need, figuring out how to use it in R is fairly trivial. Conversely, if your knowledge of statistics is approximate, knowing how to call functions will do you little good. The catch about statistical models is that they are very easy to run (even if you implement them by hand from scratch) but they are easy to misuse and very hard to interpret^[In the Statistical Rethinking seminar we spend three seminars learning how to understand and interpret a simple linear multiple regression with just two predictors. And the conclusion is that even in this simple case, you are not guaranteed to fully understand it. And if you think that you can easily interpret an interaction term even for two continuous predictors...].
 
-To make things worse, computers and algorithms do not care. In absolute majority of cases, statistical models will happily accept any input you provide, even if it is completely unsuitable, and spit out numbers. Unfortunately, it is on you, not on the computer, to know what you are doing and whether results even make sense. The only solution to this problem: do not spare any effort to learn statistics. Having a solid understanding of a basic regression analysis will help you in figuring out which statistical tools are applicable and, even more importantly, which will definitely misguide you. This is why I will give an general overview with some examples simulations but I will not explain here when and why you should use a particular tool or how to interpret the outputs. Want to know more? Attend my **Statistical Rethinking** seminar or read an excellent [book](https://www.routledge.com/Statistical-Rethinking-A-Bayesian-Course-with-Examples-in-R-and-STAN/McElreath/p/book/9780367139919) by Richard McElreath that the seminar is based on.
+To make things worse, computers and algorithms do not care. In absolute majority of cases, statistical models will happily accept any input you provide, even if it is completely unsuitable, and spit out numbers. Unfortunately, it is on you, not on the computer, to know what you are doing and whether results even make sense. The only solution to this problem: do not spare any effort to learn statistics. Having a solid understanding of a basic regression analysis will help you in figuring out which statistical tools are applicable and, even more importantly, which will definitely misguide you. This is why I will give an general overview with some examples simulations but I will not explain here when and why you should use a particular tool or how to interpret the outputs. Want to know more? Attend my _Bayesian Statistics_ seminar or read an excellent [Statistical Rethinking](https://www.routledge.com/Statistical-Rethinking-A-Bayesian-Course-with-Examples-in-R-and-STAN/McElreath/p/book/9780367139919) by Richard McElreath that the seminar is based on.
 
 ## Formula notation
 Using statistical models in R is particularly easy because most packages make use of a [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) to describe a model. Different functions and packages interpret the formula _mostly_ the same way with differences arising due to how random effects or additional parameters are described. Here is an example of a formula:
@@ -12,7 +12,7 @@ Using statistical models in R is particularly easy because most packages make us
 y ~ 1 + x1 + x2 + x1:x2
 ```
 
-It says that the outcome variable `y` should be a modeled as a linear combination of an intercept `1` (can be omitted in a formula), predictor variables `x1` and `x2`, plus their interaction `x1:x2`. This also assume that all these variables are in a single table that you also supply to the function (typically called `data` parameter). Same formula can be shortened by using `*` which means "all predictors and their interaction", thus (omitting redundant intercept)
+It says that the outcome variable `y` should be a modeled as a linear combination of an intercept `1` (can be omitted in a formula), predictor variables `x1` and `x2`, plus their interaction `x1:x2`. This also assumes that all these variables are in a single table that you also supply to the function (that parameter is typically called `data`). Same formula can be shortened by using `*` which means "both predictors and their interaction" and omitting redundant intercept (it is always used unless you explicitly exclude it)
 ```r
 y ~ x1*x2
 ```
@@ -22,14 +22,14 @@ You can also _exclude_ specific terms via `-`. So, if you insist that the interc
 y ~ x1*x2 - 1
 ```
 
-Or you can exclude a specific term or an interaction. The two formulas below are equivalent with a main effect for `x2` and an interaction term but no main effect for `x1`. However, I would generally discourage you from using `-` as the first formula is much harder to understand (or, much easier to misunderstand).
+Or you can exclude a specific term or an interaction. The two formulas below are equivalent with a main effect for `x2` and an interaction term but no main effect for `x1`. However, I would generally discourage you from using `-` as the first formula is much harder to understand (or, conversely, much easier to misunderstand).
 ```r
 y ~ x1*x2 - x1
 y ~ x2 + x1:x2
 ```
 
 ## Correlation
-To compute correlation, use function [cor()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.html). You have a choice of `method`, either `"pearson"` (default, Pearson's product moment correlation coefficient), or rank-based `"kendall"` (Kendall's tau) or `"spearman"` (Spearman's rho).
+In base, you can use function [cor()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.html) to compute correlation. You have a choice of `method`, either `"pearson"` (default, [Pearson's product moment correlation coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient), $\rho$), or rank-based `"kendall"` ([Kendall's  rank correlation coefficient](https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient), $\tau$) or `"spearman"` ([Spearman's rank correlation coefficient](https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient), $\rho$).
 
 ```{r}
 df <- 
@@ -37,18 +37,19 @@ df <-
   mutate(y = rnorm(n(), x, 0.5))
 cor(df$x, df$y, method="pearson")
 ```
+
 Alternatively, you can use [cor.test()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.test.html) that also computes test statistics and significance.
 ```{r}
 cor_result <- cor.test(df$x, df$y, method="pearson")
 cor_result
 ```
 
-`cor.test` returns a list, so you can access its individual elements^[Use (names())[https://stat.ethz.ch/R-manual/R-devel/library/base/html/names.html] function to get names of all elements.] via a double-bracket or `$` notation.
+`cor.test` returns a list, so you can access its individual elements^[Use [names()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/names.html) function to get names of all elements.] via a double-bracket or `$` notation.
 ```{r}
 cor_result$p.value
 ```
 
-Bayesian correlation with a posterior distribution for the correlation coefficient and Bayes Factor as a measure of significance, can be computed via `correlationBF()` function, which is part of [BayesFactor](https://richarddmorey.github.io/BayesFactor) package.
+Bayesian correlation with a full posterior distribution for the correlation coefficient and Bayes Factor as a measure of significance, can be computed via `correlationBF()` function, which is part of [BayesFactor](https://richarddmorey.github.io/BayesFactor) package.
 ```{r message=FALSE, warning=FALSE}
 library(BayesFactor)
 correlationBF(df$x, df$y)
@@ -57,6 +58,34 @@ ggplot(data=NULL, aes(x=c(cor_bf[, "rho"]))) +
   geom_histogram(bins=50, ) + 
   xlab("Pearson's rho")
 ```
+
+## Correlation in practice
+Let us practice computing and understanding the correlation using randomly generating data. First, let us see how noise in `y` (second variable) affect it strength. The approach  will be very similar to how we explored with dependence between number of samples and our (un)certainty about the mean in the previous seminar.
+
+```{r echo=FALSE, cache=TRUE}
+simulate_correlation <- function(sigma, N){
+  x <- rnorm(N, 0, 1)
+  cor(x, rnorm(N, x, sigma))
+}
+
+expand_grid(sigma_noise = seq(0, 10, length.out=1000),
+            iteration = 1:100) %>%
+  group_by(sigma_noise, iteration) %>%
+  mutate(rho = simulate_correlation(sigma_noise, 30)) %>%
+  group_by(sigma_noise) %>%
+  summarise(avgRho = mean(rho),
+            lowerCI = quantile(rho, (1-0.89)/2.0),
+            upperCI = quantile(rho, 1- (1-0.89)/2.0)) %>%
+  ggplot(aes(x=sigma_noise, y=avgRho)) + 
+  geom_ribbon(aes(ymin=lowerCI, ymax=upperCI), alpha=0.25) +
+  geom_line() +
+  geom_hline(yintercept = 0, color = "red") +
+  ylab("ρ, average + 89% CI") + 
+  xlab("Standard deviation of noise")
+```
+
+
+
 
 ## Pairwise comparisons
 For pairwise comparisons for normally distributed data, you can use Student's t-Test via [t.test()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/t.test.html). Here, I generate to `x` as a normally distributed normal variable and `y`, as a normally distributed variable random whose mean is `x+0.5`. I am using library [ggbeeswarm](https://github.com/eclarke/ggbeeswarm) to generate the nicely looking cloud of dots.
@@ -260,7 +289,7 @@ function that allows you to specify the delimiter via `delim` parameter and the 
 
 ```{r echo=FALSE}
 raw_results <-
-  fs::dir_ls(path="gamification/", glob="*.csv") %>%
+  fs::dir_ls(path="data/gamification/", glob="*.csv") %>%
   purrr::map_dfr(~read_delim(., delim = ";",  locale=locale(decimal_mark = ","), col_types = cols(
     Observer = col_character(),
     Condition = col_character(),
