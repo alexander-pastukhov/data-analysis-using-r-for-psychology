@@ -181,7 +181,90 @@ t.test(x, y, paired = TRUE)
 Do exercise 5.
 :::
 
+Let us use resampling approach to replicate analytically derived confidence interval of difference between the means and the p-value. We start with the 95% confidence interval for the difference. The idea is the same as before when we computed the confidence interval for correlation: We sample both variables _pairwise_, compute the average difference, store it, repeat this 1000 times. Once we have 1000 resampled average distances, compute a percentile interval and compare it to one reported by [t.test()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/t.test.html).
 
+```{r echo=FALSE}
+x <- rnorm(100, mean = 1, sd = 1)
+y <- rnorm(100, mean = x + 0.3, sd = 1)
+
+compute_resampled_difference <- function(x, y) {
+  index = sample(1:length(x), replace = TRUE)
+  mean(x[index] - y[index])
+}
+xy_diff <- replicate(1000, compute_resampled_difference(x, y))
+
+cat(glue::glue("resampled 95% percentile confidence interval: {quantile(xy_diff, (1-0.95)/2)}..{quantile(xy_diff, 1-(1-0.95)/2)}\n\n"))
+t.test(x, y, paired = TRUE)
+```
+
+::: {.infobox .practice}
+Do exercise 6.
+:::
+
+Next comes the statistical significance testing via a _permutation test_. Here, we compute the t-statistic for the sample (you already know how to do that). Then, we pool values from both `x` and `y` into a single vector, shuffle that single vector and  divide it back into permuted x (first half of the pooled vector) and permuted y (second half of the pooled vector). Then we compute the t-statistics for the difference between permuted vectors. We repeat this 10000 times to obtain a distribution of t-statistics that we would observe when pairing between `x` and `y` was random.  Finally, we compute the proportion of values that are more extreme (smaller than, in our case) than the original value. This, effectively, is the probably of observing such extreme t-statistic by pure chance and is interpreted the same way as the p-value. Compare this to the output of the paired t-test using `alternative = "less"`:
+
+```{r echo}
+x <- rnorm(100, mean = 1, sd = 1)
+y <- rnorm(100, mean = x + 0.1, sd = 1)
+
+t_statistic <- function(x, y){
+  mean(x-y) / (sd(x-y) / sqrt(length(x)))
+}
+
+shuffle_and_t <- function(x, y){
+  xy <- sample(c(x, y))
+  x <- xy[1:length(x)]
+  y <- xy[(length(x)+1) : (length(x) + length(y))]
+  t_statistic(x, y)
+}
+
+t_original <- t_statistic(x, y)
+t_permuted <- replicate(10000, shuffle_and_t(x, y))
+
+
+ggplot() + 
+  geom_histogram(aes(x=t_permuted), bins=100) +
+  geom_vline(xintercept = t_original, color="red")
+
+cat(glue::glue("Proportion of t-statisic for permuted pairs < t-stat for original: {mean(t_permuted < t_original)}\n\n"))
+
+t.test(x, y, paired = TRUE, alternative = "less")
+```
+
+::: {.infobox .practice}
+Do exercise 7.
+:::
+
+## Fisher exact test
+
+
+```{r}
+x_total <- 70
+x <- rbinom(1, x_total, 0.7)
+y_total <- 50
+y <- rbinom(1, y_total, 0.5)
+xy <- rbind(c(x, x_total - x), c(y, y_total - y))
+
+odds_ratio <- function(x, x_total, y, y_total) {
+  (x * (y_total - y)) / (y * (x_total - x))
+}
+
+
+
+fisher.test(xy)
+odds_ratio(x, x_total, y, y_total)
+
+
+shuffle_and_odds_ratio <- function(x, x_total, y, y_total){
+  outcome <- sample(c(rep(1, x+y), rep(0, (x_total - x) + (y_total - y))))
+  new_x <- sum(outcome[1:x_total])
+  new_y <- sum(outcome[(x_total+1):(x_total+y_total)])
+  odds_ratio(new_x, x_total, new_y, y_total)
+}
+
+odds <- replicate(10000, shuffle_and_odds_ratio(x, x_total, y, y_total))
+cat(glue("Probability of higher odds ratio by chance: {mean(odds > odds_ratio(x, x_total, y, y_total))}"))
+```
 
 ## Formula notation
 Using statistical models in R is particularly easy because most packages make use of a [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) to describe a model. Different functions and packages interpret the formula _mostly_ the same way with differences arising due to how random effects or additional parameters are described. Here is an example of a formula:
