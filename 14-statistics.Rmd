@@ -7,28 +7,6 @@ I suspect that this is a seminar that you were waiting for the most as it finall
 
 To make things worse, computers and algorithms do not care. In absolute majority of cases, statistical models will happily accept any input you provide, even if it is completely unsuitable, and spit out numbers. Unfortunately, it is on you, not on the computer, to know what you are doing and whether results even make sense. The only solution to this problem: do not spare any effort to learn statistics. Having a solid understanding of a basic regression analysis will help you in figuring out which statistical tools are applicable and, even more importantly, which will definitely misguide you. This is why I will give an general overview with some examples simulations but I will not explain here when and why you should use a particular tool or how to interpret the outputs. Want to know more? Attend my _Bayesian Statistics_ seminar or read an excellent [Statistical Rethinking](https://www.routledge.com/Statistical-Rethinking-A-Bayesian-Course-with-Examples-in-R-and-STAN/McElreath/p/book/9780367139919) by Richard McElreath that the seminar is based on.
 
-## Formula notation
-Using statistical models in R is particularly easy because most packages make use of a [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) to describe a model. Different functions and packages interpret the formula _mostly_ the same way with differences arising due to how random effects or additional parameters are described. Here is an example of a formula:
-```r
-y ~ 1 + x1 + x2 + x1:x2
-```
-
-It says that the outcome variable `y` should be a modeled as a linear combination of an intercept `1` (can be omitted in a formula), predictor variables `x1` and `x2`, plus their interaction `x1:x2`. This also assumes that all these variables are in a single table that you also supply to the function (that parameter is typically called `data`). Same formula can be shortened by using `*` which means "both predictors and their interaction" and omitting redundant intercept (it is always used unless you explicitly exclude it)
-```r
-y ~ x1*x2
-```
-
-You can also _exclude_ specific terms via `-`. So, if you insist that the intercept _must_ go through 0, you write "exclude intercept term" as `-1`
-```r
-y ~ x1*x2 - 1
-```
-
-Or you can exclude a specific term or an interaction. The two formulas below are equivalent with a main effect for `x2` and an interaction term but no main effect for `x1`. However, I would generally discourage you from using `-` as the first formula is much harder to understand (or, conversely, much easier to misunderstand).
-```r
-y ~ x1*x2 - x1
-y ~ x2 + x1:x2
-```
-
 ## Correlation
 In base, you can use function [cor()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.html) to compute correlation. You have a choice of `method`, either `"pearson"` (default, [Pearson's product moment correlation coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient), $\rho$), or rank-based `"kendall"` ([Kendall's  rank correlation coefficient](https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient), $\tau$) or `"spearman"` ([Spearman's rank correlation coefficient](https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient), $\rho$).
 
@@ -147,9 +125,8 @@ expand_grid(n_samples = 10:100,
 Do exercise 4.
 :::
 
-
 ## Pairwise comparisons
-For pairwise comparisons for normally distributed data, you can use Student's t-Test via [t.test()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/t.test.html). Here, I generate to `x` as a normally distributed normal variable and `y`, as a normally distributed variable random whose mean is `x+0.5`. I am using library [ggbeeswarm](https://github.com/eclarke/ggbeeswarm) to generate the nicely looking cloud of dots.
+For pairwise comparisons for normally distributed data, you can use Student's t-Test via [t.test()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/t.test.html). Here, I generate to `x` as a normally distributed normal variable and `y`, as a normally distributed variable random whose mean is `x + 0.5`. I am using library [ggbeeswarm](https://github.com/eclarke/ggbeeswarm) to generate the nicely looking cloud of dots.
 
 ```{r}
 set.seed(14454)
@@ -170,11 +147,49 @@ You can perform _t-test_ assuming that samples in two variables are independent
 ```{r}
 t.test(df$x, df$y, paired = FALSE)
 ```
-Or, that they are paired, i.e., repeated-measures design (note the change in estimates, statistics, and significance).
+
+Or, that they are paired (this matches how I generated the data), i.e., repeated-measures design (note the change in estimates, statistics, and significance).
 ```{r}
 t.test(df$x, df$y, paired = TRUE)
 ```
 
+A Bayesian version is provided via `ttestBF()` function, which is part of the [BayesFactor](https://richarddmorey.github.io/BayesFactor) package.
+```{r}
+library(BayesFactor)
+ttestBF(x = df$x, y=df$y, paired=TRUE)
+```
+
+For a non-parametric pairwise test, you can use Wilcoxon Rank Sum and Signed Rank Tests [wilcox.test()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/wilcox.test.html). Package [coin](http://coin.r-forge.r-project.org/) implements many tests, including permutation tests, such as Two- and K-sample Fisher-Pitman permutation test via `oneway_test()` that tests for the equality of the distributions in _independent_ groups, see [vignette](https://cran.r-project.org/web/packages/coin/vignettes/coin.pdf) for details.
+
+## T-tests in practice
+As with the correlation coefficient, let us generate data and compute the t-statistics by hand. The formula is
+$$t = \frac{\bar{X} - \mu_0}{s_D / \sqrt{n}}$$
+
+where $\bar{X}$ and $s_D$ are the average and standard deviation of _difference_ between all pairs, $n$ is the number of pairs, and $\mu_0$ is the null hypothesis for difference. In our case, we would like to know whether the difference is different from zero, thus, $\mu_0 = 0$. 
+
+## Formula notation
+Using statistical models in R is particularly easy because most packages make use of a [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) to describe a model. Different functions and packages interpret the formula _mostly_ the same way with differences arising due to how random effects or additional parameters are described. Here is an example of a formula:
+```r
+y ~ 1 + x1 + x2 + x1:x2
+```
+
+It says that the outcome variable `y` should be a modeled as a linear combination of an intercept `1` (can be omitted in a formula), predictor variables `x1` and `x2`, plus their interaction `x1:x2`. This also assumes that all these variables are in a single table that you also supply to the function (that parameter is typically called `data`). Same formula can be shortened by using `*` which means "both predictors and their interaction" and omitting redundant intercept (it is always used unless you explicitly exclude it)
+```r
+y ~ x1*x2
+```
+
+You can also _exclude_ specific terms via `-`. So, if you insist that the intercept _must_ go through 0, you write "exclude intercept term" as `-1`
+```r
+y ~ x1*x2 - 1
+```
+
+Or you can exclude a specific term or an interaction. The two formulas below are equivalent with a main effect for `x2` and an interaction term but no main effect for `x1`. However, I would generally discourage you from using `-` as the first formula is much harder to understand (or, conversely, much easier to misunderstand).
+```r
+y ~ x1*x2 - x1
+y ~ x2 + x1:x2
+```
+
+## Using t.test with formula
 You can also use formula notation, if one variable describes grouping
 ```{r}
 df_group <-
@@ -190,13 +205,6 @@ df_group %>%
 t.test(x ~ group, data=df_group, paired=TRUE)
 ```
 
-A Bayesian version is provided via `ttestBF()` function, which is part of the [BayesFactor](https://richarddmorey.github.io/BayesFactor) package.
-```{r}
-library(BayesFactor)
-ttestBF(x = df$x, y=df$y, paired=TRUE)
-```
-
-For a non-parametric pairwise test, you can use Wilcoxon Rank Sum and Signed Rank Tests [wilcox.test()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/wilcox.test.html). Package [coin](http://coin.r-forge.r-project.org/) implements many tests, including permutation tests, such as Two- and K-sample Fisher-Pitman permutation test via `oneway_test()` that tests for the equality of the distributions in _independent_ groups, see [vignette](https://cran.r-project.org/web/packages/coin/vignettes/coin.pdf) for details.
 
 ## ANOVA
 **AN**alysis **O**f **VA**riance is probably the most widely used analysis in social sciences. However, I would strongly suggest considering [generalized linear mixed models](#GLMM) instead. Unlike ANOVA they can work when residuals are not normally distributed (binomial, count, Likert-scale ordered categorical, proportions data, etc.), they can tolerate missing values, and they tend to overfit less (their results are likely to better generalize to future data) by assuming that individual participants are more average than they appear in the raw data (so-called shrinkage).
