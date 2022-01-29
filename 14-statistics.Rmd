@@ -126,7 +126,7 @@ Do exercise 4.
 :::
 
 ## Pairwise comparisons
-For pairwise comparisons for normally distributed data, you can use Student's t-Test via [t.test()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/t.test.html). Here, I generate to `x` as a normally distributed normal variable and `y`, as a normally distributed variable random whose mean is `x + 0.5`. I am using library [ggbeeswarm](https://github.com/eclarke/ggbeeswarm) to generate the nicely looking cloud of dots.
+For pairwise comparisons for normally distributed data, you can use Student's t-Test via [t.test()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/t.test.html). Here, I generate to `x` as a normally distributed normal variable and `y`, as a normally distributed variable random whose mean is `x + 0.3`. I am using library [ggbeeswarm](https://github.com/eclarke/ggbeeswarm) to generate the nicely looking cloud of dots.
 
 ```{r}
 set.seed(14454)
@@ -165,7 +165,23 @@ For a non-parametric pairwise test, you can use Wilcoxon Rank Sum and Signed Ran
 As with the correlation coefficient, let us generate data and compute the t-statistics by hand. The formula is
 $$t = \frac{\bar{X} - \mu_0}{s_D / \sqrt{n}}$$
 
-where $\bar{X}$ and $s_D$ are the average and standard deviation of _difference_ between all pairs, $n$ is the number of pairs, and $\mu_0$ is the null hypothesis for difference. In our case, we would like to know whether the difference is different from zero, thus, $\mu_0 = 0$. 
+where $\bar{X}$ and $s_D$ are the average and standard deviation of _difference_ between all pairs, $n$ is the number of pairs, and $\mu_0$ is the null hypothesis for difference. In our case, we would like to know whether the difference is different from zero, thus, $\mu_0 = 0$.
+
+Generate random data similarly to how I did it in the example above. Compute t-statistic and compare it to the output of a _paired_ [t.test()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/t.test.html).
+
+```{r echo=FALSE}
+x <- rnorm(100, mean = 1, sd = 1)
+y <- rnorm(100, mean = x + 0.3, sd = 1)
+t <- mean(x-y) / (sd(x-y) / sqrt(length(x)))
+cat(glue("t-statistic: {t}\n\n"))
+t.test(x, y, paired = TRUE)
+```
+
+::: {.infobox .practice}
+Do exercise 5.
+:::
+
+
 
 ## Formula notation
 Using statistical models in R is particularly easy because most packages make use of a [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) to describe a model. Different functions and packages interpret the formula _mostly_ the same way with differences arising due to how random effects or additional parameters are described. Here is an example of a formula:
