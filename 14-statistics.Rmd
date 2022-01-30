@@ -417,6 +417,9 @@ Do exercise 8.
 Next stop, statistical significance. Here, we want to shuffle one of the variables before fitting the model. Once we have our 1000 samples, we can compute confidence intervals on `statistic` and compute the proportion of values
 
 ```{r echo=FALSE, cache=TRUE}
+
+lm(y ~ x, df_lm %>% mutate(x = sample(x)))
+
 permuted_stats <- purrr::map_dfr(1:2000, ~tidy(lm(y ~ x, df_lm %>% mutate(x = sample(x)))))
 
 
