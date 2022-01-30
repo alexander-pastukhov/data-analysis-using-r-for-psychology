@@ -389,7 +389,7 @@ Generate a table with data with 30 values for `x` drawn from a normal distributi
 ```{r echo=FALSE}
 df_lm <-
   tibble(x = rnorm(30, 0, 20)) %>%
-  mutate(y = rnorm(n(), 20 + x, 50))
+  mutate(y = rnorm(n(), 20 + 2* x, 50))
 
 ggplot(df_lm, aes(x=x, y=y)) + 
   geom_point()
