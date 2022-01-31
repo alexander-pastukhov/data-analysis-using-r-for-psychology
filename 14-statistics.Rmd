@@ -1,5 +1,6 @@
 # Statistical modeling {#seminar11}
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(broom)
 library(glue)
 library(tidyverse)
 ```
@@ -7,8 +8,10 @@ I suspect that this is a seminar that you were waiting for the most as it finall
 
 To make things worse, computers and algorithms do not care. In absolute majority of cases, statistical models will happily accept any input you provide, even if it is completely unsuitable, and spit out numbers. Unfortunately, it is on you, not on the computer, to know what you are doing and whether results even make sense. The only solution to this problem: do not spare any effort to learn statistics. Having a solid understanding of a basic regression analysis will help you in figuring out which statistical tools are applicable and, even more importantly, which will definitely misguide you. This is why I will give an general overview with some examples simulations but I will not explain here when and why you should use a particular tool or how to interpret the outputs. Want to know more? Attend my _Bayesian Statistics_ seminar or read an excellent [Statistical Rethinking](https://www.routledge.com/Statistical-Rethinking-A-Bayesian-Course-with-Examples-in-R-and-STAN/McElreath/p/book/9780367139919) by Richard McElreath that the seminar is based on.
 
+Below, we will go through a number statistical analysis approaches and, for some, you will learn how to use resampling and permutation to obtain confidence intervals and p values, replicating the ones that parametric models produce. Hopefully, this should give you an intuition about where these values come from (the ones you see in the output are analytically derived solutions for when you would perform resampling and permutation for infinitely many iterations but the core idea is the same) and how you can compute them for simulations, power analysis, or when analytic estimates are not readily available. Grab the [notebook](notebooks/Seminar 14 - statistics.Rmd).
+
 ## Correlation
-In base, you can use function [cor()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.html) to compute correlation. You have a choice of `method`, either `"pearson"` (default, [Pearson's product moment correlation coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient), $\rho$), or rank-based `"kendall"` ([Kendall's  rank correlation coefficient](https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient), $\tau$) or `"spearman"` ([Spearman's rank correlation coefficient](https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient), $\rho$).
+In base R, you can use function [cor()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.html) to compute correlation. You have a choice of `method`, either `"pearson"` (default, [Pearson's product moment correlation coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient), $\rho$), or rank-based `"kendall"` ([Kendall's  rank correlation coefficient](https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient), $\tau$) or `"spearman"` ([Spearman's rank correlation coefficient](https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient), $\rho$).
 
 ```{r}
 df <- 
@@ -39,7 +42,7 @@ ggplot(data=NULL, aes(x=c(cor_bf[, "rho"]))) +
 ```
 
 ## Correlation in practice
-Let us practice computing and understanding the correlation using randomly generating data. First, let us compute Pearson's correlation coefficient by hand. The formulat is
+Let us practice computing and understanding the correlation using randomly generating data. First, let us compute Pearson's correlation coefficient by hand. The formula is
 $$
 r_{xy} = \frac{\sum_{i=1}^{n}(x_i-\hat{x})(y_i-\hat{y})}{\sqrt{\sum_{i=1}^{n}(x_i-\hat{x})^2}\sqrt{\sum_{i=1}^{n}(y_i-\hat{y})^2}}
 $$
@@ -56,7 +59,7 @@ cat(glue::glue("cor(x, y) = {cor(x, y)}, rxy = {rxy}\n"))
 Do exercise 1.
 :::
 
-When interpreting correlation between two variables, your are interested not only the estimate itself but also about your confidence about it. The [cor.test()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.test.html) function helps you in this by returning a 95% confidence interval. Let us replicate this via resampling approach you have learned about the last time. Generate `x` and `y` as in exercise 1 and compute a percentile 95% confidence interval. For this, you will need to sample _pairs_ of values with replacement. In other words, you need to sample _index_ of elements. You can do it yourself or rely on [boot()](https://stat.ethz.ch/R-manual/R-devel/library/boot/html/boot.html)). Once you computed correlation coefficients for 1000 samples drawn from original variables, compute and compare the 95% confidence interval with one reported by [cor.test()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.test.html).
+When interpreting correlation between two variables, your are interested not only in the estimate itself but also about your confidence about it. The [cor.test()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.test.html) function helps you in this by returning a 95% confidence interval. Let us [replicate](https://stat.ethz.ch/R-manual/R-devel/library/base/html/lapply.html) this via resampling approach you have learned about the last time. Recall the idea is to draw more samples from the distribution but, since we do cannot do this, we resample the data we have with replacement by assuming that our original sample is representative. Generate `x` and `y` as in exercise 1 and compute a percentile 95% confidence interval. For this, you will need to sample _pairs_ of values with replacement. In other words, you need to sample _index_ of elements. You can do it yourself or rely on [boot()](https://stat.ethz.ch/R-manual/R-devel/library/boot/html/boot.html)). Once you computed correlation coefficients for 1000 samples drawn from original variables, compute and compare the 95% confidence interval with one reported by [cor.test()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.test.html).
 
 ```{r echo=FALSE}
 x <- rnorm(100)
@@ -94,7 +97,7 @@ expand_grid(sigma_noise = seq(0, 10, length.out=100),
   geom_ribbon(aes(ymin=lowerCI, ymax=upperCI), alpha=0.25) +
   geom_line() +
   geom_hline(yintercept = 0, color = "red") +
-  ylab("ρ, average + 89% CI") + 
+  ylab("rho, average + 89% CI") + 
   xlab("Standard deviation of noise")
 ```
 
@@ -102,7 +105,7 @@ expand_grid(sigma_noise = seq(0, 10, length.out=100),
 Do exercise 3.
 :::
 
-The analysis above explored how increased noise masks correlation between two samples of a _fixed_ size. However, when you design a study you are more likely to be interested in an opposite questions: what is your confidence about a _fixed strength_ correlation given an increasing number of samples. This is the same logic that we applied to our confidence about mean. I have used $\sigma_{noise} = 5.0$ for the plot below.
+The analysis above explored how increased noise masks correlation between two samples of a _fixed_ size. However, when you design a study you are more likely to be interested in an opposite question: what is your confidence about a _fixed strength_ correlation (you figure out its value from the literature) given an increasing number of samples. This is the same logic that we applied to our confidence about mean. I have used $\sigma_{noise} = 5.0$ for the plot below.
 
 ```{r echo=FALSE}
 expand_grid(n_samples = 10:100,
@@ -117,8 +120,8 @@ expand_grid(n_samples = 10:100,
   geom_ribbon(aes(ymin=lowerCI, ymax=upperCI), alpha=0.25) +
   geom_line() +
   geom_hline(yintercept = 0, color = "red") +
-  ylab("ρ, average + 89% CI") + 
-  xlab("Standard deviation of noise")
+  ylab("rho, average + 89% CI") + 
+  xlab("Number of samples")
 ```
 
 ::: {.infobox .practice}
@@ -203,7 +206,7 @@ Do exercise 6.
 
 Next comes the statistical significance testing via a _permutation test_. Here, we compute the t-statistic for the sample (you already know how to do that). Then, we pool values from both `x` and `y` into a single vector, shuffle that single vector and  divide it back into permuted x (first half of the pooled vector) and permuted y (second half of the pooled vector). Then we compute the t-statistics for the difference between permuted vectors. We repeat this 10000 times to obtain a distribution of t-statistics that we would observe when pairing between `x` and `y` was random.  Finally, we compute the proportion of values that are more extreme (smaller than, in our case) than the original value. This, effectively, is the probably of observing such extreme t-statistic by pure chance and is interpreted the same way as the p-value. Compare this to the output of the paired t-test using `alternative = "less"`:
 
-```{r echo}
+```{r echo=FALSE}
 x <- rnorm(100, mean = 1, sd = 1)
 y <- rnorm(100, mean = x + 0.1, sd = 1)
 
@@ -387,9 +390,10 @@ same rules still apply when We perform linear regression explicitly as linear re
 
 Generate a table with data with 30 values for `x` drawn from a normal distribution with zero mean and standard deviation of 10. $y = 20 +3 \cdot x + \epsilon$, where $\epsilon ~ Normal(0, 50)$, i.e., noise comes from a normal distribution centered at zero with standard deviation of 50.
 ```{r echo=FALSE}
+set.seed(1852452)
 df_lm <-
   tibble(x = rnorm(30, 0, 20)) %>%
-  mutate(y = rnorm(n(), 20 + 2* x, 50))
+  mutate(y = rnorm(n(), 20 + 0.5 * x, 50))
 
 ggplot(df_lm, aes(x=x, y=y)) + 
   geom_point()
@@ -397,7 +401,7 @@ ggplot(df_lm, aes(x=x, y=y)) +
 summary(lm(y~x, df_lm))
 ```
 
-Our first task is to resample `x` and `y` pairwise ([slice_sample()](https://dplyr.tidyverse.org/reference/slice.html) is one way to do this), fit lenear model to the resampled data, and extract coefficients via [tidy()](https://broom.tidymodels.org/reference/tidy.lm.html). Repeat that 1000 times to obtain a table with parameters and their estimates. There are different ways you can implement this. I have opted repeat it 1000 times via [map_dfr()](https://purrr.tidyverse.org/reference/map.html) that combines all tidy coefficient tables into a single table by row. Note that there was no need from me to write a separate function, as I have simply nested calls to [tidy()](https://broom.tidymodels.org/reference/tidy.lm.html), [lm()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/lm.html), and [slice_sample())]((https://dplyr.tidyverse.org/reference/slice.html)). Once you have samples it is a simple task to compute confidence interval for `estimate` of each parameter. 
+Our first task is to resample `x` and `y` pairwise ([slice_sample()](https://dplyr.tidyverse.org/reference/slice.html) is one way to do this), fit lenear model to the resampled data, and extract coefficients via [tidy()](https://broom.tidymodels.org/reference/tidy.lm.html). Repeat that 1000 times to obtain a table with parameters and their estimates. There are different ways you can implement this. I have opted repeat it 1000 times via [map_dfr()](https://purrr.tidyverse.org/reference/map.html) that combines all tidy coefficient tables into a single table by row. Note that there was no need from me to write a separate function, as I have simply nested calls to [tidy()](https://broom.tidymodels.org/reference/tidy.lm.html), [lm()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/lm.html), and [slice_sample())]((https://dplyr.tidyverse.org/reference/slice.html)). Once you have samples it is a simple task to compute confidence interval for `estimate` of each parameter (grouping data is easy, right?). To compare this to analytically estimated 95% confidence intervals that you can compute from a fitted linear model via [confint()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/confint.html) function.
 
 ```{r echo=FALSE, cache=TRUE}
 resampled_est <- purrr::map_dfr(1:1000, ~tidy(lm(y ~ x, slice_sample(df_lm, replace=TRUE, prop=1))))
@@ -408,34 +412,44 @@ resampled_est %>%
             `Upper 95% CI` = quantile(estimate, 1-(1-0.95)/2),
             .groups="drop") %>%
   knitr::kable()
+
+confint(lm(y~x, df_lm))
 ```
 
 ::: {.infobox .practice}
 Do exercise 8.
 :::
 
-Next stop, statistical significance. Here, we want to shuffle one of the variables before fitting the model. Once we have our 1000 samples, we can compute confidence intervals on `statistic` and compute the proportion of values
+Next stop, statistical significance for `x`. Our null hypothesis is that pairing of `x` and `y` in our data is accidental and the statistic (that characterizes the strength of the dependence) that we observed happened just by chance. We test this idea by permuting the `x` which results in different `x`×`y` pairs, fit the model and record statistic _for x_ for that random pairing. Once we repeat this process 1000 times we have our distribution of statistic assuming that pairing between `x` and `y` is accidental. Next we only need to compute the proportion of [absolute](https://stat.ethz.ch/R-manual/R-devel/library/base/html/MathFun.html)) statistic values that are more extreme than the absolute value of the original statistic. Note that as we permute `x`, our inference are applicable _only_ to `x`. Thus, here we only need to record t value (statistic) for `x` and it could be more convenient to put them into a single vector. Extracting this information in R is a bit cumbersome. First, you need to get a [summary()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/summary.lm.html), then get a `$coef` attribute with a table of coefficients, and then get the _t value_ for `x`. Here's how you do this step by step.
+
+This gives you the summary:
+```{r}
+summary(lm(y ~ x, df_lm))
+```
+
+This, only the coefficients table:
+```{r}
+summary(lm(y ~ x, df_lm))$coef
+```
+
+This, a single value _t value_ for `x`:
+```{r}
+summary(lm(y ~ x, df_lm))$coef["x", "t value"]
+```
+
+This way, you can use [replicate()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/lapply.html), combining all _t values_ from permuted-and-fitted models into a single vector. I have used 2000 replications to get a more accurate probability (but this does take more time, of course).
 
 ```{r echo=FALSE, cache=TRUE}
+permuted_t <- replicate(2000, summary(lm(y ~ x, df_lm %>% mutate(x = sample(x))))$coef["x", "t value"])
+original_t <- summary(lm(y ~ x, df_lm))$coef["x", "t value"]
 
-lm(y ~ x, df_lm %>% mutate(x = sample(x)))
-
-permuted_stats <- purrr::map_dfr(1:2000, ~tidy(lm(y ~ x, df_lm %>% mutate(x = sample(x)))))
-
-
-original_stats <-
-  tidy(lm(y~x, df_lm)) %>%
-  rename(original_statistic = statistic) %>%
-  select(term, original_statistic)
-
-left_join(permuted_stats, original_stats, by="term") %>%
-  group_by(term) %>%
-  summarize(p = mean(abs(statistic) > abs(original_statistic)), .groups="drop")
-
-ggplot(permuted_stats, aes(x=statistic)) +
-  geom_histogram(bins=50) +
-  facet_wrap(.~term, scales="free")
+cat(glue("Probability to observe more extreme t value by chance: {mean(abs(permuted_t) > abs(original_t))}"))
+summary(lm(y ~ x, df_lm))$coef["x", ]
 ```
+
+::: {.infobox .practice}
+Do exercise 9.
+:::
 
 ## (Generalized) Linear Mixed Models
 Generalized linear mixed models allow you to incorporate information about random factors into the model. One of the most popular packages in R is [lme4](https://github.com/lme4/lme4). Let us use LMM on data we generated for ANOVA. Here, we specify that we would like to have individual slopes for each participants via `(1|Participant)` notation^[Here, each participant must have their own intercept but they all share same single slope for `Condition`. You can also specify that they individual slopes that are either correlated or uncorrelated with their intercept.].
@@ -446,7 +460,7 @@ lmer_fit <- lmer(Response ~ Condition + (1|Participant), data=df_anova)
 summary(lmer_fit)
 ```
 
-To get tidy summary you need to use function `tidy` but from [broom.mixed](https://github.com/bbolker/broom.mixed)
+To get tidy summary you need to use function `tidy` but from [broom.mixed](https://github.com/bbolker/broom.mixed) library
 ```r
 library(broom.mixed)
 tidy(lmer_fit)
@@ -480,3 +494,5 @@ drop1(lmert_fit)
 
 You can also use Bayesian generalized linear modeling via [rstanarm](https://mc-stan.org/rstanarm/) and [BRMS](https://github.com/paul-buerkner/brms) packages. The former is somewhat faster, as it does not require model compilation (makes big difference when data is small but you test a lot of models), but is less flexible.
 
+## Disclaimer, repeated
+The material above gives an _overview_ of how to carry out statistical analysis in R but it is by no means exhaustive, nor deep enough to master it. I can only encourage you to again to learn a particular statistical analysis first, building an intuition of how it works and when it is valid, and only then to figure our which package and function in R can be used to run it.
