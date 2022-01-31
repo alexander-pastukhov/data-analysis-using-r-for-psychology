@@ -1,5 +1,6 @@
-# Practice {#seminar12}
+# Practice
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(kableExtra)
 library(tidyverse)
 ```
 
@@ -19,11 +20,12 @@ results <-
            col_types = cols(.default = col_double()))
 
 head(results) %>%
-  knitr::kable()
+  kableExtra::kable() %>%
+  scroll_box(width = "100%")
 ```
 
 ## Bad names to good names
-We have a couple of columns that are not easy to use:
+We have a couple of columns that are not easy to use in R:
 
 * `@#errorsCong` should be `errorsCongruent`
 * `@#errorsInco` should be `errorsIncongruent`
@@ -36,7 +38,8 @@ results <-
 
 head(results) %>%
   select(sex, Condition, errorsCongruent, errorsIncongruent) %>% 
-  knitr::kable()
+  kableExtra::kable() %>%
+  scroll_box(width = "100%")
 ```
 
 ## Participant ID
@@ -49,11 +52,12 @@ results <-
   relocate(HabitNr)
 
 head(results) %>%
-  knitr::kable()
+  kableExtra::kable() %>%
+  scroll_box(width = "100%")
 ```
 
 ## Factors
-First, let us do easy bits, converting several columns to factors and setting up labels.
+Convert following columns to factors setting up useful labels.
 
 * `sex` 
   * 1 : `female` 
@@ -77,7 +81,8 @@ results <-
                                    labels = c("Congruent first", "Incongruent first")))
 
 head(results) %>%
-  knitr::kable()
+  kableExtra::kable() %>%
+  scroll_box(width = "100%")
 ```
 
 ##  Response times
@@ -94,11 +99,11 @@ rt <-
                              labels = c("Congruent", "Incongruent")))
 
 head(rt) %>%
-  knitr::kable()
+  kableExtra::kable() %>%
+  scroll_box(width = "100%")
 ```
 
 Let us see how condition and incongruency-order presentation affects our response times.
-
 ```{r echo=FALSE}
 ggplot(rt, aes(x = Congruency, y=RT, color=Congruency)) + 
   geom_boxplot() +
@@ -107,23 +112,18 @@ ggplot(rt, aes(x = Congruency, y=RT, color=Congruency)) +
 ```
 
 Participants responses were clearly faster on trials when color and word were incongruent. But to better see the effect of condition, let us replot the data.
-
 ```{r echo=FALSE}
 ggplot(rt, aes(x = Condition, y=RT, color=Congruency)) + 
   geom_boxplot() +
   facet_grid(. ~ IncongruentFirst)
-
 ```
 
-Now, we can that some conditions do appear to be different as well. Let us confirm this via statistics. We will use linear mixed models (thus, package _lmerTest_) with `Condition`, `IncongruentFirst`, and `Congruency` as fixed effect and `HabitNr` (participant ID) as a random factor. We will not look at any interactions although they are most likely of interest for the follow up analysis.
+Now, we can that some conditions do appear to be different as well. Let us confirm this via statistics. We will use linear mixed models (thus, package _lmerTest_) with `Condition`, `IncongruentFirst`, and `Congruency` as fixed effect, `HabitNr` (participant ID) as a random factor, and logarithm of RT as an outcome variable (using logarithm transformation on right skewed data as response times makes more symmetric). We will not look at any interactions although they are most likely of interest for the follow up analysis.
 
 ```{r echo=FALSE}
 rt_fit <- lmerTest::lmer(RT ~ Condition + IncongruentFirst + Congruency + (1|HabitNr),
                          data = rt)
 summary(rt_fit)
-```
-
-```{r echo=FALSE}
 drop1(rt_fit)
 ```
 
@@ -145,11 +145,11 @@ errors <-
                              labels = c("Congruent", "Incongruent")))
 
 head(errors) %>%
-  knitr::kable()
+  kableExtra::kable() %>%
+  scroll_box(width = "100%")
 ```
 
 Again, let us plot data both ways
-
 ```{r echo=FALSE}
 ggplot(errors, aes(x = Congruency, y=Errors, color=Congruency)) + 
   geom_boxplot() +
@@ -170,9 +170,6 @@ errors_fit <- lme4::glmer(cbind(Errors, 120) ~ Condition + IncongruentFirst + Co
                           family = "binomial",
                           data = errors)
 summary(errors_fit)
-```
-
-```{r echo=FALSE}
 drop1(errors_fit, test = c("Chisq"))
 ```
 
@@ -181,7 +178,7 @@ In comparison to response times, even the block order makes the difference with 
 ## Physiological signal
 Now we come to the tricky part because information about physiological signal (I'll call is PS for short) is stored in columns `S0A` till `S4A` for some participant but in columns `Bs0` till `Bs4` for others. I.e., `S0A` codes the same information as `Bs0`, `S1A` same as `Bs1`, etc. The digit indicates the measurement time point. How can we fix this? Either using `ifelse()` or by splitting table by rows, converting each to a common long format and then merging them. For didactic purposes, we will do both!
 
-In case of `ifelse()` solution, let us store everything in first set of columns but overwrite their value only if they have `NA`. So, `S0A` is not `NA`, you leave it alone, otherwise you overwrite it with a value from `Bs0`. Here is the end-product (store data in a separate new table `clean_results`, so you can work on the original later again).
+In case of [ifelse()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/ifelse.html) solution, let us store everything in first set of columns but overwrite their value only if they have `NA`. So, `S0A` is not `NA`, you leave it alone, otherwise you overwrite it with a value from `Bs0`. Here is the end-product (store data in a separate new table `clean_results`, so you can work on the original later again).
 ```{r echo=FALSE}
 clean_results <-
   results %>%
@@ -193,7 +190,8 @@ clean_results <-
 
 head(clean_results) %>%
   select(HabitNr, S0A:S4A, Bs0:Bs4) %>%
-  knitr::kable() 
+  kableExtra::kable() %>%
+  scroll_box(width = "100%")
 ``` 
 
 The alternative is more challenging but still fairly straightforward. First, let us spin-off two separate tables. One which has valid values for `S0A`:`S4A` dropping all the rows when they are `NA`. And, conversely, the other table that has valid values for columns `Bs0`:`Bs4`. Then, pivot each table longer (we need to do this anyhow) and recode labels to `t0` till `t4`. After that we can merge two tables by rows via `bind_rows`.
@@ -205,7 +203,8 @@ t1 <-
   drop_na(S0A)
 
 head(t1) %>%
-  knitr::kable()
+  kableExtra::kable() %>%
+  scroll_box(width = "100%")
 ```
 
 And here it is pivoted
@@ -218,7 +217,8 @@ t1 <-
                             levels = c("S0A", "S1A", "S2A", "S3A", "S4A"),
                             labels = c("t0", "t1", "t2", "t3", "t4")))
 head(t1) %>%
-  knitr::kable()
+  kableExtra::kable() %>%
+  scroll_box(width = "100%")
 ```
 
 Again, same procedure for rows with valid `Bs0`:`Bs4` columns
@@ -233,13 +233,14 @@ t2 <-
                             labels = c("t0", "t1", "t2", "t3", "t4")))
 
 head(t2) %>%
-  knitr::kable()
+  kableExtra::kable() %>%
+  scroll_box(width = "100%")
 ```
 
 Once you merged two tables by rows (see [bind_rows()](https://dplyr.tidyverse.org/reference/bind.html)).
 
 
-, let us take a look at the results.
+let us take a look at the results.
 
 ```{r echo=FALSE}
 signal <- bind_rows(t1, t2)
@@ -264,9 +265,6 @@ Well, certainly hard to tell, so no clear and consistent effect. Still, let us d
 signal_fit <- lmerTest::lmer(Signal ~ Timepoint + Condition + IncongruentFirst + (1|HabitNr),
                           data = signal)
 summary(signal_fit)
-```
-
-```{r echo=FALSE}
 drop1(signal_fit)
 ```
 

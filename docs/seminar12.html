@@ -1,0 +1,3181 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Seminar 15 Practice | Data analysis using R for Psychology and Social Science</title>
+  <meta name="description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Seminar 15 Practice | Data analysis using R for Psychology and Social Science" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Seminar 15 Practice | Data analysis using R for Psychology and Social Science" />
+  
+  <meta name="twitter:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
+  
+
+<meta name="author" content="Alexander (Sasha) Pastukhov" />
+
+
+<meta name="date" content="2022-01-31" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="statistical-modeling.html"/>
+
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="font-awesome.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Data analysis using R for Psychology</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-r"><i class="fa fa-check"></i>Why R?</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-tidyverse"><i class="fa fa-check"></i>Why Tidyverse</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-seminar"><i class="fa fa-check"></i>About the seminar</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#thinking-like-a-computer"><i class="fa fa-check"></i>Thinking like a computer</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-material"><i class="fa fa-check"></i>About the material</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html"><i class="fa fa-check"></i>Software</a>
+<ul>
+<li class="chapter" data-level="0.1" data-path="software.html"><a href="software.html#install-r"><i class="fa fa-check"></i><b>0.1</b> Installing R</a></li>
+<li class="chapter" data-level="0.2" data-path="software.html"><a href="software.html#install-rstudio"><i class="fa fa-check"></i><b>0.2</b> Installing R-Studio</a></li>
+<li class="chapter" data-level="0.3" data-path="software.html"><a href="software.html#install-rtools"><i class="fa fa-check"></i><b>0.3</b> Installing RTools</a></li>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install.packages"><i class="fa fa-check"></i>Installing packages</a></li>
+<li class="chapter" data-level="0.4" data-path="software.html"><a href="software.html#minimal-set-of-packages"><i class="fa fa-check"></i><b>0.4</b> Minimal set of packages</a></li>
+<li class="chapter" data-level="0.5" data-path="software.html"><a href="software.html#installr"><i class="fa fa-check"></i><b>0.5</b> Keeping R and packages up-to-date</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="reproducable-research.html"><a href="reproducable-research.html"><i class="fa fa-check"></i><b>1</b> Reproducable Research: Projects and RMarkdown Notebooks</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="reproducable-research.html"><a href="reproducable-research.html#projects"><i class="fa fa-check"></i><b>1.1</b> Projects</a></li>
+<li class="chapter" data-level="1.2" data-path="reproducable-research.html"><a href="reproducable-research.html#rmarkdown"><i class="fa fa-check"></i><b>1.2</b> RMarkdown</a></li>
+<li class="chapter" data-level="1.3" data-path="reproducable-research.html"><a href="reproducable-research.html#exercise"><i class="fa fa-check"></i><b>1.3</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="vectors.html"><a href="vectors.html"><i class="fa fa-check"></i><b>2</b> Vectors! Vectors everywhere!</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="vectors.html"><a href="vectors.html#variables"><i class="fa fa-check"></i><b>2.1</b> Variables as boxes</a></li>
+<li class="chapter" data-level="2.2" data-path="vectors.html"><a href="vectors.html#assignment-statement"><i class="fa fa-check"></i><b>2.2</b> Assignment statement in detail</a></li>
+<li class="chapter" data-level="2.3" data-path="vectors.html"><a href="vectors.html#vectors-scalars"><i class="fa fa-check"></i><b>2.3</b> Vectors and singluar values (scalars, which are also vectors)</a></li>
+<li class="chapter" data-level="2.4" data-path="vectors.html"><a href="vectors.html#vector-index"><i class="fa fa-check"></i><b>2.4</b> Vector indexes (subsetting)</a></li>
+<li class="chapter" data-level="2.5" data-path="vectors.html"><a href="vectors.html#names"><i class="fa fa-check"></i><b>2.5</b> Names as an Index</a></li>
+<li class="chapter" data-level="2.6" data-path="vectors.html"><a href="vectors.html#vector-index-slicing"><i class="fa fa-check"></i><b>2.6</b> Slicing</a></li>
+<li class="chapter" data-level="2.7" data-path="vectors.html"><a href="vectors.html#colon-sequence"><i class="fa fa-check"></i><b>2.7</b> Colon Operator and Sequence Generation</a></li>
+<li class="chapter" data-level="2.8" data-path="vectors.html"><a href="vectors.html#working-with-two-vectors-of-equal-length"><i class="fa fa-check"></i><b>2.8</b> Working with two vectors of <em>equal</em> length</a></li>
+<li class="chapter" data-level="2.9" data-path="vectors.html"><a href="vectors.html#different-length-vectors"><i class="fa fa-check"></i><b>2.9</b> Working with two vectors of <em>different</em> length</a></li>
+<li class="chapter" data-level="2.10" data-path="vectors.html"><a href="vectors.html#applying-functions-to-a-vector"><i class="fa fa-check"></i><b>2.10</b> Applying functions to a vector</a></li>
+<li class="chapter" data-level="2.11" data-path="vectors.html"><a href="vectors.html#wrap-up"><i class="fa fa-check"></i><b>2.11</b> Wrap up</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="tables.html"><a href="tables.html"><i class="fa fa-check"></i><b>3</b> Tables and Tibbles (and Tribbles)</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tables.html"><a href="tables.html#primary-types"><i class="fa fa-check"></i><b>3.1</b> Primary data types</a></li>
+<li class="chapter" data-level="3.2" data-path="tables.html"><a href="tables.html#vectors-are-homogeneous"><i class="fa fa-check"></i><b>3.2</b> All vector values must be of the same type</a></li>
+<li class="chapter" data-level="3.3" data-path="tables.html"><a href="tables.html#lists"><i class="fa fa-check"></i><b>3.3</b> Lists</a></li>
+<li class="chapter" data-level="3.4" data-path="tables.html"><a href="tables.html#subsetting"><i class="fa fa-check"></i><b>3.4</b> Subsetting, a fuller version</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="tables.html"><a href="tables.html#subsetting-for-atomics-vectors"><i class="fa fa-check"></i><b>3.4.1</b> Subsetting for (atomics) vectors</a></li>
+<li class="chapter" data-level="3.4.2" data-path="tables.html"><a href="tables.html#subsetting-for-lists"><i class="fa fa-check"></i><b>3.4.2</b> Subsetting for lists</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="tables.html"><a href="tables.html#dollar-subsetting"><i class="fa fa-check"></i><b>3.5</b> Yet another subsetting via $</a></li>
+<li class="chapter" data-level="3.6" data-path="tables.html"><a href="tables.html#data.frame"><i class="fa fa-check"></i><b>3.6</b> Tables, a.k.a. data frames</a></li>
+<li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#table-subsetting"><i class="fa fa-check"></i><b>3.7</b> Subsetting tables</a></li>
+<li class="chapter" data-level="3.8" data-path="tables.html"><a href="tables.html#library"><i class="fa fa-check"></i><b>3.8</b> Using libraries</a></li>
+<li class="chapter" data-level="3.9" data-path="tables.html"><a href="tables.html#tibble"><i class="fa fa-check"></i><b>3.9</b> Tibble, a better data.frame</a></li>
+<li class="chapter" data-level="3.10" data-path="tables.html"><a href="tables.html#tribble"><i class="fa fa-check"></i><b>3.10</b> Tribble, table from text</a></li>
+<li class="chapter" data-level="3.11" data-path="tables.html"><a href="tables.html#data"><i class="fa fa-check"></i><b>3.11</b> Reading example tables</a></li>
+<li class="chapter" data-level="3.12" data-path="tables.html"><a href="tables.html#readr"><i class="fa fa-check"></i><b>3.12</b> Reading csv files</a></li>
+<li class="chapter" data-level="3.13" data-path="tables.html"><a href="tables.html#readxl"><i class="fa fa-check"></i><b>3.13</b> Reading Excel files</a></li>
+<li class="chapter" data-level="3.14" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.14</b> Reading files from other programs</a></li>
+<li class="chapter" data-level="3.15" data-path="tables.html"><a href="tables.html#rds"><i class="fa fa-check"></i><b>3.15</b> Writing and reading a single object</a></li>
+<li class="chapter" data-level="3.16" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.16</b> Wrap up</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>4</b> Functions! Functions everywhere!</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="functions.html"><a href="functions.html#functions-1"><i class="fa fa-check"></i><b>4.1</b> Functions</a></li>
+<li class="chapter" data-level="4.2" data-path="functions.html"><a href="functions.html#writing-a-function"><i class="fa fa-check"></i><b>4.2</b> Writing a function</a></li>
+<li class="chapter" data-level="4.3" data-path="functions.html"><a href="functions.html#scopes-global-versus-local-variables"><i class="fa fa-check"></i><b>4.3</b> Scopes: Global versus Local variables</a></li>
+<li class="chapter" data-level="4.4" data-path="functions.html"><a href="functions.html#function-with-two-parameters"><i class="fa fa-check"></i><b>4.4</b> Function with two parameters</a></li>
+<li class="chapter" data-level="4.5" data-path="functions.html"><a href="functions.html#table-as-a-parameter"><i class="fa fa-check"></i><b>4.5</b> Table as a parameter</a></li>
+<li class="chapter" data-level="4.6" data-path="functions.html"><a href="functions.html#named-versus-positional-arguments"><i class="fa fa-check"></i><b>4.6</b> Named versus positional arguments</a></li>
+<li class="chapter" data-level="4.7" data-path="functions.html"><a href="functions.html#default-values"><i class="fa fa-check"></i><b>4.7</b> Default values</a></li>
+<li class="chapter" data-level="4.8" data-path="functions.html"><a href="functions.html#nested-calls"><i class="fa fa-check"></i><b>4.8</b> Nested calls</a></li>
+<li class="chapter" data-level="4.9" data-path="functions.html"><a href="functions.html#pipe"><i class="fa fa-check"></i><b>4.9</b> Piping</a></li>
+<li class="chapter" data-level="4.10" data-path="functions.html"><a href="functions.html#function-is-just-a-code-stored-in-a-variable"><i class="fa fa-check"></i><b>4.10</b> Function is just a code stored in a variable</a></li>
+<li class="chapter" data-level="4.11" data-path="functions.html"><a href="functions.html#functions-functions-everywhere"><i class="fa fa-check"></i><b>4.11</b> Functions! Functions everywhere!</a></li>
+<li class="chapter" data-level="4.12" data-path="functions.html"><a href="functions.html#using-or-not-using-explicit-return-statement"><i class="fa fa-check"></i><b>4.12</b> Using (or not using) explicit return statement</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>5</b> ggplot2: Grammar of Graphics</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="ggplot2.html"><a href="ggplot2.html#tidydata"><i class="fa fa-check"></i><b>5.1</b> Tidy data</a></li>
+<li class="chapter" data-level="5.2" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-1"><i class="fa fa-check"></i><b>5.2</b> ggplot2</a></li>
+<li class="chapter" data-level="5.3" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-continuous-x-axis"><i class="fa fa-check"></i><b>5.3</b> Auto efficiency: continuous x-axis</a></li>
+<li class="chapter" data-level="5.4" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-discrete-x-axis"><i class="fa fa-check"></i><b>5.4</b> Auto efficiency: discrete x-axis</a></li>
+<li class="chapter" data-level="5.5" data-path="ggplot2.html"><a href="ggplot2.html#mammals-sleep-single-variable"><i class="fa fa-check"></i><b>5.5</b> Mammals sleep: single variable</a></li>
+<li class="chapter" data-level="5.6" data-path="ggplot2.html"><a href="ggplot2.html#mapping-for-all-visuals-versus-just-one-visual"><i class="fa fa-check"></i><b>5.6</b> Mapping for all visuals versus just one visual</a></li>
+<li class="chapter" data-level="5.7" data-path="ggplot2.html"><a href="ggplot2.html#mapping-on-variables-versus-constants"><i class="fa fa-check"></i><b>5.7</b> Mapping on variables versus constants</a></li>
+<li class="chapter" data-level="5.8" data-path="ggplot2.html"><a href="ggplot2.html#themes"><i class="fa fa-check"></i><b>5.8</b> Themes</a></li>
+<li class="chapter" data-level="5.9" data-path="ggplot2.html"><a href="ggplot2.html#you-aint-seen-nothing-yet"><i class="fa fa-check"></i><b>5.9</b> You ain’t seen nothing yet</a></li>
+<li class="chapter" data-level="5.10" data-path="ggplot2.html"><a href="ggplot2.html#further-reading"><i class="fa fa-check"></i><b>5.10</b> Further reading</a></li>
+<li class="chapter" data-level="5.11" data-path="ggplot2.html"><a href="ggplot2.html#extending-ggplot2"><i class="fa fa-check"></i><b>5.11</b> Extending ggplot2</a></li>
+<li class="chapter" data-level="5.12" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-cannot-do-everything"><i class="fa fa-check"></i><b>5.12</b> ggplot2 cannot do everything</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>6</b> Tidyverse: dplyr</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="dplyr.html"><a href="dplyr.html#tidyverse-philosophy"><i class="fa fa-check"></i><b>6.1</b> Tidyverse philosophy</a></li>
+<li class="chapter" data-level="6.2" data-path="dplyr.html"><a href="dplyr.html#select"><i class="fa fa-check"></i><b>6.2</b> <code>select()</code> columns by name</a></li>
+<li class="chapter" data-level="6.3" data-path="dplyr.html"><a href="dplyr.html#conditions"><i class="fa fa-check"></i><b>6.3</b> Conditions</a></li>
+<li class="chapter" data-level="6.4" data-path="dplyr.html"><a href="dplyr.html#logical-indexing"><i class="fa fa-check"></i><b>6.4</b> Logical indexing</a></li>
+<li class="chapter" data-level="6.5" data-path="dplyr.html"><a href="dplyr.html#filter-rows-by-values"><i class="fa fa-check"></i><b>6.5</b> <code>filter()</code> rows by values</a></li>
+<li class="chapter" data-level="6.6" data-path="dplyr.html"><a href="dplyr.html#arrange-rows-in-a-particular-order"><i class="fa fa-check"></i><b>6.6</b> <code>arrange()</code> rows in a particular order</a></li>
+<li class="chapter" data-level="6.7" data-path="dplyr.html"><a href="dplyr.html#mutate"><i class="fa fa-check"></i><b>6.7</b> <code>mutate()</code> columns</a></li>
+<li class="chapter" data-level="6.8" data-path="dplyr.html"><a href="dplyr.html#summarize"><i class="fa fa-check"></i><b>6.8</b> <code>summarize()</code> table by <code>groups</code></a></li>
+<li class="chapter" data-level="6.9" data-path="dplyr.html"><a href="dplyr.html#putting-it-all-together"><i class="fa fa-check"></i><b>6.9</b> Putting it all together</a></li>
+<li class="chapter" data-level="6.10" data-path="dplyr.html"><a href="dplyr.html#should-i-use-tidyverse"><i class="fa fa-check"></i><b>6.10</b> Should I use Tidyverse?</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="working-with-factors.html"><a href="working-with-factors.html"><i class="fa fa-check"></i><b>7</b> Working with Factors</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="working-with-factors.html"><a href="working-with-factors.html#how-to-write-code"><i class="fa fa-check"></i><b>7.1</b> How to write code</a></li>
+<li class="chapter" data-level="7.2" data-path="working-with-factors.html"><a href="working-with-factors.html#implementing-a-typical-analysis"><i class="fa fa-check"></i><b>7.2</b> Implementing a typical analysis</a></li>
+<li class="chapter" data-level="7.3" data-path="working-with-factors.html"><a href="working-with-factors.html#factors"><i class="fa fa-check"></i><b>7.3</b> Factors</a></li>
+<li class="chapter" data-level="7.4" data-path="working-with-factors.html"><a href="working-with-factors.html#forcats"><i class="fa fa-check"></i><b>7.4</b> Forcats</a></li>
+<li class="chapter" data-level="7.5" data-path="working-with-factors.html"><a href="working-with-factors.html#plotting-group-averages"><i class="fa fa-check"></i><b>7.5</b> Plotting group averages</a></li>
+<li class="chapter" data-level="7.6" data-path="working-with-factors.html"><a href="working-with-factors.html#plotting-our-confidence-in-group-averages-via-quantiles"><i class="fa fa-check"></i><b>7.6</b> Plotting our confidence in group averages via quantiles</a></li>
+<li class="chapter" data-level="7.7" data-path="working-with-factors.html"><a href="working-with-factors.html#looking-at-similarity"><i class="fa fa-check"></i><b>7.7</b> Looking at similarity</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tyding.html"><a href="tyding.html"><i class="fa fa-check"></i><b>8</b> Tidyng your data: joins and pivots</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="tyding.html"><a href="tyding.html#joins"><i class="fa fa-check"></i><b>8.1</b> Joining tables</a></li>
+<li class="chapter" data-level="8.2" data-path="tyding.html"><a href="tyding.html#pivoting"><i class="fa fa-check"></i><b>8.2</b> Pivoting</a></li>
+<li class="chapter" data-level="8.3" data-path="tyding.html"><a href="tyding.html#pivot-longer"><i class="fa fa-check"></i><b>8.3</b> Pivot longer</a></li>
+<li class="chapter" data-level="8.4" data-path="tyding.html"><a href="tyding.html#pivot-wider"><i class="fa fa-check"></i><b>8.4</b> Pivot wider</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html"><i class="fa fa-check"></i><b>9</b> Controling computation flow</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#rep"><i class="fa fa-check"></i><b>9.1</b> <code>rep()</code></a></li>
+<li class="chapter" data-level="9.2" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#repeating-combinations"><i class="fa fa-check"></i><b>9.2</b> Repeating combinations</a></li>
+<li class="chapter" data-level="9.3" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#forloop"><i class="fa fa-check"></i><b>9.3</b> For loop</a></li>
+<li class="chapter" data-level="9.4" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#if-else"><i class="fa fa-check"></i><b>9.4</b> Conditional statement</a></li>
+<li class="chapter" data-level="9.5" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#breaking-out-of-the-loop"><i class="fa fa-check"></i><b>9.5</b> Breaking out of the loop</a></li>
+<li class="chapter" data-level="9.6" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#using-for-loop-to-load-and-join-multiple-data-files"><i class="fa fa-check"></i><b>9.6</b> Using for loop to load and join multiple data files</a></li>
+<li class="chapter" data-level="9.7" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#apply"><i class="fa fa-check"></i><b>9.7</b> Apply</a></li>
+<li class="chapter" data-level="9.8" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#purrr"><i class="fa fa-check"></i><b>9.8</b> Purrr</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="christmas-special.html"><a href="christmas-special.html"><i class="fa fa-check"></i><b>10</b> Christmas special</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="christmas-special.html"><a href="christmas-special.html#left-side-of-the-tree"><i class="fa fa-check"></i><b>10.1</b> Left side of the tree</a></li>
+<li class="chapter" data-level="10.2" data-path="christmas-special.html"><a href="christmas-special.html#right-side-of-the-tree"><i class="fa fa-check"></i><b>10.2</b> Right side of the tree</a></li>
+<li class="chapter" data-level="10.3" data-path="christmas-special.html"><a href="christmas-special.html#the-whole-tree"><i class="fa fa-check"></i><b>10.3</b> The whole tree</a></li>
+<li class="chapter" data-level="10.4" data-path="christmas-special.html"><a href="christmas-special.html#filling-in-the-tree"><i class="fa fa-check"></i><b>10.4</b> Filling in the tree</a></li>
+<li class="chapter" data-level="10.5" data-path="christmas-special.html"><a href="christmas-special.html#adding-background-image"><i class="fa fa-check"></i><b>10.5</b> Adding background image</a></li>
+<li class="chapter" data-level="10.6" data-path="christmas-special.html"><a href="christmas-special.html#adding-decoration-a-boring-one"><i class="fa fa-check"></i><b>10.6</b> Adding decoration (a boring one)</a></li>
+<li class="chapter" data-level="10.7" data-path="christmas-special.html"><a href="christmas-special.html#adding-decoration-a-bit-more-fun-one"><i class="fa fa-check"></i><b>10.7</b> Adding decoration (a bit more fun one)</a></li>
+<li class="chapter" data-level="10.8" data-path="christmas-special.html"><a href="christmas-special.html#adding-decoration-the-fun-ones"><i class="fa fa-check"></i><b>10.8</b> Adding decoration (the fun ones)</a></li>
+<li class="chapter" data-level="10.9" data-path="christmas-special.html"><a href="christmas-special.html#a-star-on-top"><i class="fa fa-check"></i><b>10.9</b> A star on top</a></li>
+<li class="chapter" data-level="10.10" data-path="christmas-special.html"><a href="christmas-special.html#merry-christmas"><i class="fa fa-check"></i><b>10.10</b> Merry Christmas!</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="missing-data.html"><a href="missing-data.html"><i class="fa fa-check"></i><b>11</b> Missing data</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="missing-data.html"><a href="missing-data.html#complete"><i class="fa fa-check"></i><b>11.1</b> Making missing data explicit (completing data)</a></li>
+<li class="chapter" data-level="11.2" data-path="missing-data.html"><a href="missing-data.html#na.omit"><i class="fa fa-check"></i><b>11.2</b> Dropping / omitting NAs</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="strings.html"><a href="strings.html"><i class="fa fa-check"></i><b>12</b> Working with strings</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="strings.html"><a href="strings.html#warming-up"><i class="fa fa-check"></i><b>12.1</b> Warming up</a></li>
+<li class="chapter" data-level="12.2" data-path="strings.html"><a href="strings.html#glue"><i class="fa fa-check"></i><b>12.2</b> Formatting strings via <code>glue()</code></a></li>
+<li class="chapter" data-level="12.3" data-path="strings.html"><a href="strings.html#paste"><i class="fa fa-check"></i><b>12.3</b> Formatting strings via <code>paste()</code></a></li>
+<li class="chapter" data-level="12.4" data-path="strings.html"><a href="strings.html#sprintf"><i class="fa fa-check"></i><b>12.4</b> Formatting strings via <code>sprintf()</code></a></li>
+<li class="chapter" data-level="12.5" data-path="strings.html"><a href="strings.html#extracting-information-from-a-string"><i class="fa fa-check"></i><b>12.5</b> Extracting information from a string</a></li>
+<li class="chapter" data-level="12.6" data-path="strings.html"><a href="strings.html#splitting-strings-via-separate"><i class="fa fa-check"></i><b>12.6</b> Splitting strings via <code>separate()</code></a></li>
+<li class="chapter" data-level="12.7" data-path="strings.html"><a href="strings.html#extracting-a-substring-when-you-know-its-location"><i class="fa fa-check"></i><b>12.7</b> Extracting a substring when you know its location</a></li>
+<li class="chapter" data-level="12.8" data-path="strings.html"><a href="strings.html#detecting-a-substring-using-regular-expressions"><i class="fa fa-check"></i><b>12.8</b> Detecting a substring using regular expressions</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html"><i class="fa fa-check"></i><b>13</b> Sampling and simulations</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#estimating-mean-of-a-normal-distribution-via-resampling"><i class="fa fa-check"></i><b>13.1</b> Estimating mean of a normal distribution via resampling</a></li>
+<li class="chapter" data-level="13.2" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#bootstrapping-via-boot-library"><i class="fa fa-check"></i><b>13.2</b> Bootstrapping via boot library</a></li>
+<li class="chapter" data-level="13.3" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#more-samples-give-you-more-confidence"><i class="fa fa-check"></i><b>13.3</b> More samples give you more confidence</a></li>
+<li class="chapter" data-level="13.4" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#adding-average-sample-mean"><i class="fa fa-check"></i><b>13.4</b> Adding average sample mean</a></li>
+<li class="chapter" data-level="13.5" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#practice-makes-perfect"><i class="fa fa-check"></i><b>13.5</b> Practice makes perfect</a></li>
+<li class="chapter" data-level="13.6" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#starting-with-basics"><i class="fa fa-check"></i><b>13.6</b> Starting with basics</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="statistical-modeling.html"><a href="statistical-modeling.html"><i class="fa fa-check"></i><b>14</b> Statistical modeling</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="statistical-modeling.html"><a href="statistical-modeling.html#correlation"><i class="fa fa-check"></i><b>14.1</b> Correlation</a></li>
+<li class="chapter" data-level="14.2" data-path="statistical-modeling.html"><a href="statistical-modeling.html#correlation-in-practice"><i class="fa fa-check"></i><b>14.2</b> Correlation in practice</a></li>
+<li class="chapter" data-level="14.3" data-path="statistical-modeling.html"><a href="statistical-modeling.html#pairwise-comparisons"><i class="fa fa-check"></i><b>14.3</b> Pairwise comparisons</a></li>
+<li class="chapter" data-level="14.4" data-path="statistical-modeling.html"><a href="statistical-modeling.html#t-tests-in-practice"><i class="fa fa-check"></i><b>14.4</b> T-tests in practice</a></li>
+<li class="chapter" data-level="14.5" data-path="statistical-modeling.html"><a href="statistical-modeling.html#formula-notation"><i class="fa fa-check"></i><b>14.5</b> Formula notation</a></li>
+<li class="chapter" data-level="14.6" data-path="statistical-modeling.html"><a href="statistical-modeling.html#using-t-test-via-formula"><i class="fa fa-check"></i><b>14.6</b> Using t-test via formula</a></li>
+<li class="chapter" data-level="14.7" data-path="statistical-modeling.html"><a href="statistical-modeling.html#anova"><i class="fa fa-check"></i><b>14.7</b> ANOVA</a></li>
+<li class="chapter" data-level="14.8" data-path="statistical-modeling.html"><a href="statistical-modeling.html#almost-everything-is-a-linear-regression-model"><i class="fa fa-check"></i><b>14.8</b> (Almost) everything is a linear regression model</a></li>
+<li class="chapter" data-level="14.9" data-path="statistical-modeling.html"><a href="statistical-modeling.html#GLMM"><i class="fa fa-check"></i><b>14.9</b> (Generalized) Linear Models</a></li>
+<li class="chapter" data-level="14.10" data-path="statistical-modeling.html"><a href="statistical-modeling.html#resampling-a-linear-model"><i class="fa fa-check"></i><b>14.10</b> Resampling a linear model</a></li>
+<li class="chapter" data-level="14.11" data-path="statistical-modeling.html"><a href="statistical-modeling.html#generalized-linear-mixed-models"><i class="fa fa-check"></i><b>14.11</b> (Generalized) Linear Mixed Models</a></li>
+<li class="chapter" data-level="14.12" data-path="statistical-modeling.html"><a href="statistical-modeling.html#disclaimer-repeated"><i class="fa fa-check"></i><b>14.12</b> Disclaimer, repeated</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="seminar12.html"><a href="seminar12.html"><i class="fa fa-check"></i><b>15</b> Practice</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="seminar12.html"><a href="seminar12.html#bad-names-to-good-names"><i class="fa fa-check"></i><b>15.1</b> Bad names to good names</a></li>
+<li class="chapter" data-level="15.2" data-path="seminar12.html"><a href="seminar12.html#participant-id"><i class="fa fa-check"></i><b>15.2</b> Participant ID</a></li>
+<li class="chapter" data-level="15.3" data-path="seminar12.html"><a href="seminar12.html#factors-1"><i class="fa fa-check"></i><b>15.3</b> Factors</a></li>
+<li class="chapter" data-level="15.4" data-path="seminar12.html"><a href="seminar12.html#response-times"><i class="fa fa-check"></i><b>15.4</b> Response times</a></li>
+<li class="chapter" data-level="15.5" data-path="seminar12.html"><a href="seminar12.html#accuracy"><i class="fa fa-check"></i><b>15.5</b> Accuracy</a></li>
+<li class="chapter" data-level="15.6" data-path="seminar12.html"><a href="seminar12.html#physiological-signal"><i class="fa fa-check"></i><b>15.6</b> Physiological signal</a></li>
+<li class="chapter" data-level="15.7" data-path="seminar12.html"><a href="seminar12.html#wrap-up-2"><i class="fa fa-check"></i><b>15.7</b> Wrap up</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://alexander-pastukhov.github.io/">Alexander (Sasha) Pastukhov</li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data analysis using R for Psychology and Social Science</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="seminar12" class="section level1" number="15">
+<h1><span class="header-section-number">Seminar 15</span> Practice</h1>
+<p>Today we will practice tidying up and plotting an almost real data. The <em>structure</em> of the table is real, I’ve used it precisely because it is a sort of messy, untidy data you often get. The <em>actual values</em> are, however, fake. Well, not fake, simulated! But that means that you should not use this particular data to make any inferences about Stroop task, which is what the original experiment was about.</p>
+<p>Here is the back story. Once upon a time, an experiment with the <a href="https://en.wikipedia.org/wiki/Stroop_effect">Stroop task</a> was performed. There four different conditions, one control one, of course. And a continuous physiological signal (similar to skin conductance) was measured at five time points: 0) sometime before the task, 1) right before the task, 2) after first block, 3) after the second block, 4) 15 minutes after the task. What we would like to establish:</p>
+<ul>
+<li>Did the task work in principle? I.e., do we see more errors and longer response times for when color and word were incongruent?</li>
+<li>Was there an effect of conditions on either the error count or response times?</li>
+<li>Was out physiological signal different at different time-points? Particularly, if we compare it before the task and after a congruent or incongruent blocks?</li>
+</ul>
+<p>Download <a href="data/stroopsim.csv">stroopsim.csv</a> the table, read it, and read on to understand what individual columns mean and how we need to transform the table before it becomes usable. Create a markdown notebook yourself, make sure it is clearly structured!</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+sex
+</th>
+<th style="text-align:right;">
+Condition
+</th>
+<th style="text-align:right;">
+IncongruentFirst
+</th>
+<th style="text-align:right;">
+@#errorsCong
+</th>
+<th style="text-align:right;">
+ReactiontimemeanCong
+</th>
+<th style="text-align:right;">
+@#errorsInco
+</th>
+<th style="text-align:right;">
+ReactiontimemeanInco
+</th>
+<th style="text-align:right;">
+S0A
+</th>
+<th style="text-align:right;">
+S1A
+</th>
+<th style="text-align:right;">
+S2A
+</th>
+<th style="text-align:right;">
+S3A
+</th>
+<th style="text-align:right;">
+S4A
+</th>
+<th style="text-align:right;">
+Bs0
+</th>
+<th style="text-align:right;">
+Bs1
+</th>
+<th style="text-align:right;">
+Bs2
+</th>
+<th style="text-align:right;">
+Bs3
+</th>
+<th style="text-align:right;">
+Bs4
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1.477454
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+3.247461
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+6.490969
+</td>
+<td style="text-align:right;">
+4.564023
+</td>
+<td style="text-align:right;">
+6.354532
+</td>
+<td style="text-align:right;">
+5.224722
+</td>
+<td style="text-align:right;">
+12.339243
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2.028072
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+2.408471
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4.864416
+</td>
+<td style="text-align:right;">
+7.957840
+</td>
+<td style="text-align:right;">
+6.587935
+</td>
+<td style="text-align:right;">
+3.044139
+</td>
+<td style="text-align:right;">
+2.909219
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1.334083
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+2.676602
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+10.071530
+</td>
+<td style="text-align:right;">
+1.650143
+</td>
+<td style="text-align:right;">
+1.562964
+</td>
+<td style="text-align:right;">
+6.156831
+</td>
+<td style="text-align:right;">
+8.045311
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1.171517
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+2.471265
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+12.162085
+</td>
+<td style="text-align:right;">
+4.796817
+</td>
+<td style="text-align:right;">
+2.649034
+</td>
+<td style="text-align:right;">
+2.019965
+</td>
+<td style="text-align:right;">
+5.061974
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2.097203
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+2.255469
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+3.265458
+</td>
+<td style="text-align:right;">
+7.900660
+</td>
+<td style="text-align:right;">
+4.254162
+</td>
+<td style="text-align:right;">
+16.426251
+</td>
+<td style="text-align:right;">
+6.177225
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1.322103
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+2.626870
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+5.478926
+</td>
+<td style="text-align:right;">
+5.845528
+</td>
+<td style="text-align:right;">
+6.175421
+</td>
+<td style="text-align:right;">
+4.388986
+</td>
+<td style="text-align:right;">
+2.740655
+</td>
+</tr>
+</tbody>
+</table>
+<div id="bad-names-to-good-names" class="section level2" number="15.1">
+<h2><span class="header-section-number">15.1</span> Bad names to good names</h2>
+<p>We have a couple of columns that are not easy to use:</p>
+<ul>
+<li><code>@#errorsCong</code> should be <code>errorsCongruent</code></li>
+<li><code>@#errorsInco</code> should be <code>errorsIncongruent</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+sex
+</th>
+<th style="text-align:right;">
+Condition
+</th>
+<th style="text-align:right;">
+errorsCongruent
+</th>
+<th style="text-align:right;">
+errorsIncongruent
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+18
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+20
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="participant-id" class="section level2" number="15.2">
+<h2><span class="header-section-number">15.2</span> Participant ID</h2>
+<p>Currently, we have a <em>wide</em> table with one row per participant. However, we will need to tidy it up, meaning that we need to keep track of which rows belong to which participants. For this, create a new column <code>HabitNr</code> which will simply have row index. To make things easier, use <a href="https://dplyr.tidyverse.org/reference/relocate.html">relocate()</a> verb to make it the <em>first</em> column in the table.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+HabitNr
+</th>
+<th style="text-align:right;">
+sex
+</th>
+<th style="text-align:right;">
+Condition
+</th>
+<th style="text-align:right;">
+IncongruentFirst
+</th>
+<th style="text-align:right;">
+errorsCongruent
+</th>
+<th style="text-align:right;">
+ReactiontimemeanCong
+</th>
+<th style="text-align:right;">
+errorsIncongruent
+</th>
+<th style="text-align:right;">
+ReactiontimemeanInco
+</th>
+<th style="text-align:right;">
+S0A
+</th>
+<th style="text-align:right;">
+S1A
+</th>
+<th style="text-align:right;">
+S2A
+</th>
+<th style="text-align:right;">
+S3A
+</th>
+<th style="text-align:right;">
+S4A
+</th>
+<th style="text-align:right;">
+Bs0
+</th>
+<th style="text-align:right;">
+Bs1
+</th>
+<th style="text-align:right;">
+Bs2
+</th>
+<th style="text-align:right;">
+Bs3
+</th>
+<th style="text-align:right;">
+Bs4
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1.477454
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+3.247461
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+6.490969
+</td>
+<td style="text-align:right;">
+4.564023
+</td>
+<td style="text-align:right;">
+6.354532
+</td>
+<td style="text-align:right;">
+5.224722
+</td>
+<td style="text-align:right;">
+12.339243
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2.028072
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+2.408471
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4.864416
+</td>
+<td style="text-align:right;">
+7.957840
+</td>
+<td style="text-align:right;">
+6.587935
+</td>
+<td style="text-align:right;">
+3.044139
+</td>
+<td style="text-align:right;">
+2.909219
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1.334083
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+2.676602
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+10.071530
+</td>
+<td style="text-align:right;">
+1.650143
+</td>
+<td style="text-align:right;">
+1.562964
+</td>
+<td style="text-align:right;">
+6.156831
+</td>
+<td style="text-align:right;">
+8.045311
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1.171517
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+2.471265
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+12.162085
+</td>
+<td style="text-align:right;">
+4.796817
+</td>
+<td style="text-align:right;">
+2.649034
+</td>
+<td style="text-align:right;">
+2.019965
+</td>
+<td style="text-align:right;">
+5.061974
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2.097203
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+2.255469
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+3.265458
+</td>
+<td style="text-align:right;">
+7.900660
+</td>
+<td style="text-align:right;">
+4.254162
+</td>
+<td style="text-align:right;">
+16.426251
+</td>
+<td style="text-align:right;">
+6.177225
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1.322103
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+2.626870
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+5.478926
+</td>
+<td style="text-align:right;">
+5.845528
+</td>
+<td style="text-align:right;">
+6.175421
+</td>
+<td style="text-align:right;">
+4.388986
+</td>
+<td style="text-align:right;">
+2.740655
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="factors-1" class="section level2" number="15.3">
+<h2><span class="header-section-number">15.3</span> Factors</h2>
+<p>First, let us do easy bits, converting several columns to factors and setting up labels.</p>
+<ul>
+<li><code>sex</code>
+<ul>
+<li>1 : <code>female</code></li>
+<li>2 : <code>male</code></li>
+</ul></li>
+<li><code>Condition</code>:
+<ul>
+<li>0 : <code>control</code></li>
+<li>1 : <code>speed</code></li>
+<li>2 : <code>size</code></li>
+<li>3 : <code>random</code></li>
+</ul></li>
+<li><code>IncongruentFirst</code>
+<ul>
+<li>0 : <code>Congruent first</code></li>
+<li>1 : <code>Incongruent first</code></li>
+</ul></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+HabitNr
+</th>
+<th style="text-align:left;">
+sex
+</th>
+<th style="text-align:left;">
+Condition
+</th>
+<th style="text-align:left;">
+IncongruentFirst
+</th>
+<th style="text-align:right;">
+errorsCongruent
+</th>
+<th style="text-align:right;">
+ReactiontimemeanCong
+</th>
+<th style="text-align:right;">
+errorsIncongruent
+</th>
+<th style="text-align:right;">
+ReactiontimemeanInco
+</th>
+<th style="text-align:right;">
+S0A
+</th>
+<th style="text-align:right;">
+S1A
+</th>
+<th style="text-align:right;">
+S2A
+</th>
+<th style="text-align:right;">
+S3A
+</th>
+<th style="text-align:right;">
+S4A
+</th>
+<th style="text-align:right;">
+Bs0
+</th>
+<th style="text-align:right;">
+Bs1
+</th>
+<th style="text-align:right;">
+Bs2
+</th>
+<th style="text-align:right;">
+Bs3
+</th>
+<th style="text-align:right;">
+Bs4
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1.477454
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+3.247461
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+6.490969
+</td>
+<td style="text-align:right;">
+4.564023
+</td>
+<td style="text-align:right;">
+6.354532
+</td>
+<td style="text-align:right;">
+5.224722
+</td>
+<td style="text-align:right;">
+12.339243
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+speed
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2.028072
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+2.408471
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4.864416
+</td>
+<td style="text-align:right;">
+7.957840
+</td>
+<td style="text-align:right;">
+6.587935
+</td>
+<td style="text-align:right;">
+3.044139
+</td>
+<td style="text-align:right;">
+2.909219
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+size
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1.334083
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+2.676602
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+10.071530
+</td>
+<td style="text-align:right;">
+1.650143
+</td>
+<td style="text-align:right;">
+1.562964
+</td>
+<td style="text-align:right;">
+6.156831
+</td>
+<td style="text-align:right;">
+8.045311
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1.171517
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+2.471265
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+12.162085
+</td>
+<td style="text-align:right;">
+4.796817
+</td>
+<td style="text-align:right;">
+2.649034
+</td>
+<td style="text-align:right;">
+2.019965
+</td>
+<td style="text-align:right;">
+5.061974
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+speed
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2.097203
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+2.255469
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+3.265458
+</td>
+<td style="text-align:right;">
+7.900660
+</td>
+<td style="text-align:right;">
+4.254162
+</td>
+<td style="text-align:right;">
+16.426251
+</td>
+<td style="text-align:right;">
+6.177225
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+size
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1.322103
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+2.626870
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+5.478926
+</td>
+<td style="text-align:right;">
+5.845528
+</td>
+<td style="text-align:right;">
+6.175421
+</td>
+<td style="text-align:right;">
+4.388986
+</td>
+<td style="text-align:right;">
+2.740655
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="response-times" class="section level2" number="15.4">
+<h2><span class="header-section-number">15.4</span> Response times</h2>
+Next, we need to “spin-off” a separate table that will contain information about response times per congruency manipulation. Thus we want a table where column <code>Congruency</code> indicates whether presentation was congruent, whereas two columns (<code>ReactiontimemeanCong</code> and <code>ReactiontimemeanInco</code>) for response times become two rows (we pivot table longer). Note that I have used better labels for congruent and incongruent conditions. You can first rename them pivot or pivot and relabel (choice is yours). At the moment, we do not need all other columns, see table below to see what I decided to keep.
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+HabitNr
+</th>
+<th style="text-align:left;">
+Condition
+</th>
+<th style="text-align:left;">
+IncongruentFirst
+</th>
+<th style="text-align:left;">
+Congruency
+</th>
+<th style="text-align:right;">
+RT
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:left;">
+Congruent
+</td>
+<td style="text-align:right;">
+1.477454
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:left;">
+Incongruent
+</td>
+<td style="text-align:right;">
+3.247461
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+speed
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:left;">
+Congruent
+</td>
+<td style="text-align:right;">
+2.028072
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+speed
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:left;">
+Incongruent
+</td>
+<td style="text-align:right;">
+2.408471
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+size
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:left;">
+Congruent
+</td>
+<td style="text-align:right;">
+1.334083
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+size
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:left;">
+Incongruent
+</td>
+<td style="text-align:right;">
+2.676602
+</td>
+</tr>
+</tbody>
+</table>
+<p>Let us see how condition and incongruency-order presentation affects our response times.</p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-385-1.png" width="672" /></p>
+<p>Participants responses were clearly faster on trials when color and word were incongruent. But to better see the effect of condition, let us replot the data.</p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-386-1.png" width="672" /></p>
+<p>Now, we can that some conditions do appear to be different as well. Let us confirm this via statistics. We will use linear mixed models (thus, package <em>lmerTest</em>) with <code>Condition</code>, <code>IncongruentFirst</code>, and <code>Congruency</code> as fixed effect and <code>HabitNr</code> (participant ID) as a random factor. We will not look at any interactions although they are most likely of interest for the follow up analysis.</p>
+<pre><code>## boundary (singular) fit: see ?isSingular</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: RT ~ Condition + IncongruentFirst + Congruency + (1 | HabitNr)
+##    Data: rt
+## 
+## REML criterion at convergence: 84
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -1.7862 -0.7005 -0.1239  0.4302  3.5893 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  HabitNr  (Intercept) 0.00000  0.0000  
+##  Residual             0.09852  0.3139  
+## Number of obs: 128, groups:  HabitNr, 64
+## 
+## Fixed effects:
+##                                    Estimate Std. Error        df t value
+## (Intercept)                         1.51036    0.06423 122.00000  23.513
+## Conditionspeed                      0.05433    0.07929 122.00000   0.685
+## Conditionsize                       0.06613    0.07929 122.00000   0.834
+## Conditionrandom                     0.45794    0.08204 122.00000   5.582
+## IncongruentFirstIncongruent first   0.08994    0.06374 122.00000   1.411
+## CongruencyIncongruent               1.02108    0.05549 122.00000  18.402
+##                                   Pr(&gt;|t|)    
+## (Intercept)                        &lt; 2e-16 ***
+## Conditionspeed                       0.495    
+## Conditionsize                        0.406    
+## Conditionrandom                   1.46e-07 ***
+## IncongruentFirstIncongruent first    0.161    
+## CongruencyIncongruent              &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) Cndtnsp Cndtnsz Cndtnr IncFIf
+## Conditinspd -0.628                              
+## Conditionsz -0.628  0.539                       
+## Conditnrndm -0.603  0.525   0.525               
+## IncngrntFIf -0.132 -0.129  -0.129  -0.155       
+## CngrncyIncn -0.432  0.000   0.000   0.000  0.000
+## optimizer (nloptwrap) convergence code: 0 (OK)
+## boundary (singular) fit: see ?isSingular</code></pre>
+<pre><code>## Single term deletions using Satterthwaite&#39;s method:
+## 
+## Model:
+## RT ~ Condition + IncongruentFirst + Congruency + (1 | HabitNr)
+##                  Sum Sq Mean Sq NumDF DenDF  F value    Pr(&gt;F)    
+## Condition         4.012   1.337     3   122  13.5728 1.065e-07 ***
+## IncongruentFirst  0.196   0.196     1   122   1.9911    0.1608    
+## Congruency       33.363  33.363     1   122 338.6302 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>In short, we a highly significant effect of color-word congruency (good news, otherwise out Stroop task wasn’t very successful) and one condition (<em>random</em>) is clear difference. However, the <em>order</em> of block (first congruent then incongruent or vice versa) did not really matter.</p>
+</div>
+<div id="accuracy" class="section level2" number="15.5">
+<h2><span class="header-section-number">15.5</span> Accuracy</h2>
+<p>Now let us perform the same analysis but on correct response count. What you need to know is that there were 120 trials in total for each block. We have information about <em>errors</em> not <em>correct responses</em> but it makes no difference for analysis, only for model interpretation. Extract column and pivot table same way as you did with response times.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+HabitNr
+</th>
+<th style="text-align:left;">
+Condition
+</th>
+<th style="text-align:left;">
+IncongruentFirst
+</th>
+<th style="text-align:left;">
+Congruency
+</th>
+<th style="text-align:right;">
+Errors
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:left;">
+Congruent
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:left;">
+Incongruent
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+speed
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:left;">
+Congruent
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+speed
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:left;">
+Incongruent
+</td>
+<td style="text-align:right;">
+18
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+size
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:left;">
+Congruent
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+size
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:left;">
+Incongruent
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+</tbody>
+</table>
+<p>Again, let us plot data both ways</p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-390-1.png" width="672" /></p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-391-1.png" width="672" /></p>
+<p>Plots are very similar to those for response times. So let us perform the statistical analysis. This is a binomial data, so many errors per 120 trials, so use <code>glmer()</code> function (generalized linear mixed model) from <code>lme4</code> package with binomial family.</p>
+<pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [glmerMod]
+##  Family: binomial  ( logit )
+## Formula: cbind(Errors, 120) ~ Condition + IncongruentFirst + Congruency +  
+##     (1 | HabitNr)
+##    Data: errors
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##    608.9    628.9   -297.5    594.9      121 
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -2.1050 -0.8816 -0.1543  0.7427  3.5440 
+## 
+## Random effects:
+##  Groups  Name        Variance Std.Dev.
+##  HabitNr (Intercept) 0.02038  0.1428  
+## Number of obs: 128, groups:  HabitNr, 64
+## 
+## Fixed effects:
+##                                   Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)                       -4.64135    0.12575 -36.908  &lt; 2e-16 ***
+## Conditionspeed                     0.63983    0.11812   5.417 6.07e-08 ***
+## Conditionsize                      0.07082    0.12845   0.551    0.581    
+## Conditionrandom                    0.65101    0.12174   5.348 8.91e-08 ***
+## IncongruentFirstIncongruent first  0.59263    0.08209   7.219 5.24e-13 ***
+## CongruencyIncongruent              1.82114    0.09439  19.295  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) Cndtnsp Cndtnsz Cndtnr IncFIf
+## Conditinspd -0.600                              
+## Conditionsz -0.542  0.615                       
+## Conditnrndm -0.575  0.651   0.615               
+## IncngrntFIf -0.120 -0.124  -0.154  -0.178       
+## CngrncyIncn -0.642  0.004   0.000   0.008  0.005</code></pre>
+<pre><code>## Single term deletions
+## 
+## Model:
+## cbind(Errors, 120) ~ Condition + IncongruentFirst + Congruency + 
+##     (1 | HabitNr)
+##                  npar     AIC    LRT   Pr(Chi)    
+## &lt;none&gt;                 608.92                     
+## Condition           3  646.37  43.45 1.971e-09 ***
+## IncongruentFirst    1  643.42  36.50 1.524e-09 ***
+## Congruency          1 1132.52 525.60 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>In comparison to response times, even the block order makes the difference with more errors if incongruent condition was presented first. For errors, <code>speed</code> condition was different from the <code>control</code> baseline. However, <code>size</code> conditions appears to be very boring, as we see no difference in neither error rate nor response times.</p>
+</div>
+<div id="physiological-signal" class="section level2" number="15.6">
+<h2><span class="header-section-number">15.6</span> Physiological signal</h2>
+<p>Now we come to the tricky part because information about physiological signal (I’ll call is PS for short) is stored in columns <code>S0A</code> till <code>S4A</code> for some participant but in columns <code>Bs0</code> till <code>Bs4</code> for others. I.e., <code>S0A</code> codes the same information as <code>Bs0</code>, <code>S1A</code> same as <code>Bs1</code>, etc. The digit indicates the measurement time point. How can we fix this? Either using <code>ifelse()</code> or by splitting table by rows, converting each to a common long format and then merging them. For didactic purposes, we will do both!</p>
+In case of <code>ifelse()</code> solution, let us store everything in first set of columns but overwrite their value only if they have <code>NA</code>. So, <code>S0A</code> is not <code>NA</code>, you leave it alone, otherwise you overwrite it with a value from <code>Bs0</code>. Here is the end-product (store data in a separate new table <code>clean_results</code>, so you can work on the original later again).
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+HabitNr
+</th>
+<th style="text-align:right;">
+S0A
+</th>
+<th style="text-align:right;">
+S1A
+</th>
+<th style="text-align:right;">
+S2A
+</th>
+<th style="text-align:right;">
+S3A
+</th>
+<th style="text-align:right;">
+S4A
+</th>
+<th style="text-align:right;">
+Bs0
+</th>
+<th style="text-align:right;">
+Bs1
+</th>
+<th style="text-align:right;">
+Bs2
+</th>
+<th style="text-align:right;">
+Bs3
+</th>
+<th style="text-align:right;">
+Bs4
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+6.490969
+</td>
+<td style="text-align:right;">
+4.564023
+</td>
+<td style="text-align:right;">
+6.354532
+</td>
+<td style="text-align:right;">
+5.224722
+</td>
+<td style="text-align:right;">
+12.339243
+</td>
+<td style="text-align:right;">
+6.490969
+</td>
+<td style="text-align:right;">
+4.564023
+</td>
+<td style="text-align:right;">
+6.354532
+</td>
+<td style="text-align:right;">
+5.224722
+</td>
+<td style="text-align:right;">
+12.339243
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+4.864416
+</td>
+<td style="text-align:right;">
+7.957840
+</td>
+<td style="text-align:right;">
+6.587935
+</td>
+<td style="text-align:right;">
+3.044139
+</td>
+<td style="text-align:right;">
+2.909219
+</td>
+<td style="text-align:right;">
+4.864416
+</td>
+<td style="text-align:right;">
+7.957840
+</td>
+<td style="text-align:right;">
+6.587935
+</td>
+<td style="text-align:right;">
+3.044139
+</td>
+<td style="text-align:right;">
+2.909219
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+10.071530
+</td>
+<td style="text-align:right;">
+1.650143
+</td>
+<td style="text-align:right;">
+1.562964
+</td>
+<td style="text-align:right;">
+6.156831
+</td>
+<td style="text-align:right;">
+8.045311
+</td>
+<td style="text-align:right;">
+10.071530
+</td>
+<td style="text-align:right;">
+1.650143
+</td>
+<td style="text-align:right;">
+1.562964
+</td>
+<td style="text-align:right;">
+6.156831
+</td>
+<td style="text-align:right;">
+8.045311
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+12.162085
+</td>
+<td style="text-align:right;">
+4.796817
+</td>
+<td style="text-align:right;">
+2.649034
+</td>
+<td style="text-align:right;">
+2.019965
+</td>
+<td style="text-align:right;">
+5.061974
+</td>
+<td style="text-align:right;">
+12.162085
+</td>
+<td style="text-align:right;">
+4.796817
+</td>
+<td style="text-align:right;">
+2.649034
+</td>
+<td style="text-align:right;">
+2.019965
+</td>
+<td style="text-align:right;">
+5.061974
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+3.265458
+</td>
+<td style="text-align:right;">
+7.900660
+</td>
+<td style="text-align:right;">
+4.254162
+</td>
+<td style="text-align:right;">
+16.426251
+</td>
+<td style="text-align:right;">
+6.177225
+</td>
+<td style="text-align:right;">
+3.265458
+</td>
+<td style="text-align:right;">
+7.900660
+</td>
+<td style="text-align:right;">
+4.254162
+</td>
+<td style="text-align:right;">
+16.426251
+</td>
+<td style="text-align:right;">
+6.177225
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+5.478926
+</td>
+<td style="text-align:right;">
+5.845528
+</td>
+<td style="text-align:right;">
+6.175421
+</td>
+<td style="text-align:right;">
+4.388986
+</td>
+<td style="text-align:right;">
+2.740655
+</td>
+<td style="text-align:right;">
+5.478926
+</td>
+<td style="text-align:right;">
+5.845528
+</td>
+<td style="text-align:right;">
+6.175421
+</td>
+<td style="text-align:right;">
+4.388986
+</td>
+<td style="text-align:right;">
+2.740655
+</td>
+</tr>
+</tbody>
+</table>
+<p>The alternative is more challenging but still fairly straightforward. First, let us spin-off two separate tables. One which has valid values for <code>S0A</code>:<code>S4A</code> dropping all the rows when they are <code>NA</code>. And, conversely, the other table that has valid values for columns <code>Bs0</code>:<code>Bs4</code>. Then, pivot each table longer (we need to do this anyhow) and recode labels to <code>t0</code> till <code>t4</code>. After that we can merge two tables by rows via <code>bind_rows</code>.</p>
+Here is the first table after filtering
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+HabitNr
+</th>
+<th style="text-align:left;">
+sex
+</th>
+<th style="text-align:left;">
+Condition
+</th>
+<th style="text-align:left;">
+IncongruentFirst
+</th>
+<th style="text-align:right;">
+errorsCongruent
+</th>
+<th style="text-align:right;">
+ReactiontimemeanCong
+</th>
+<th style="text-align:right;">
+errorsIncongruent
+</th>
+<th style="text-align:right;">
+ReactiontimemeanInco
+</th>
+<th style="text-align:right;">
+S0A
+</th>
+<th style="text-align:right;">
+S1A
+</th>
+<th style="text-align:right;">
+S2A
+</th>
+<th style="text-align:right;">
+S3A
+</th>
+<th style="text-align:right;">
+S4A
+</th>
+<th style="text-align:right;">
+Bs0
+</th>
+<th style="text-align:right;">
+Bs1
+</th>
+<th style="text-align:right;">
+Bs2
+</th>
+<th style="text-align:right;">
+Bs3
+</th>
+<th style="text-align:right;">
+Bs4
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+31
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1.589768
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+3.237953
+</td>
+<td style="text-align:right;">
+61.92695
+</td>
+<td style="text-align:right;">
+130.667988
+</td>
+<td style="text-align:right;">
+111.63928
+</td>
+<td style="text-align:right;">
+82.540381
+</td>
+<td style="text-align:right;">
+73.560757
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+32
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+Incongruent first
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1.331935
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+2.728806
+</td>
+<td style="text-align:right;">
+861.35340
+</td>
+<td style="text-align:right;">
+4.222633
+</td>
+<td style="text-align:right;">
+28.80748
+</td>
+<td style="text-align:right;">
+2704.220725
+</td>
+<td style="text-align:right;">
+7.598707
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+33
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+size
+</td>
+<td style="text-align:left;">
+Incongruent first
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+1.331964
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+2.350008
+</td>
+<td style="text-align:right;">
+386.32276
+</td>
+<td style="text-align:right;">
+48.234614
+</td>
+<td style="text-align:right;">
+385.51966
+</td>
+<td style="text-align:right;">
+14.163667
+</td>
+<td style="text-align:right;">
+105.036142
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+34
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+speed
+</td>
+<td style="text-align:left;">
+Incongruent first
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1.443712
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+2.847616
+</td>
+<td style="text-align:right;">
+24.49781
+</td>
+<td style="text-align:right;">
+11.798876
+</td>
+<td style="text-align:right;">
+36.00568
+</td>
+<td style="text-align:right;">
+5.717785
+</td>
+<td style="text-align:right;">
+104.179406
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+35
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+random
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+2.052467
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+3.123355
+</td>
+<td style="text-align:right;">
+18.13469
+</td>
+<td style="text-align:right;">
+1.503134
+</td>
+<td style="text-align:right;">
+13.92405
+</td>
+<td style="text-align:right;">
+6.840379
+</td>
+<td style="text-align:right;">
+18.698580
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+size
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+1.404922
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+2.465878
+</td>
+<td style="text-align:right;">
+34.34912
+</td>
+<td style="text-align:right;">
+237.770126
+</td>
+<td style="text-align:right;">
+51.11720
+</td>
+<td style="text-align:right;">
+201.287047
+</td>
+<td style="text-align:right;">
+823.285426
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+</tbody>
+</table>
+And here it is pivoted
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+HabitNr
+</th>
+<th style="text-align:left;">
+Condition
+</th>
+<th style="text-align:left;">
+IncongruentFirst
+</th>
+<th style="text-align:left;">
+Timepoint
+</th>
+<th style="text-align:right;">
+Signal
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+31
+</td>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:left;">
+t0
+</td>
+<td style="text-align:right;">
+61.92695
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+31
+</td>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:left;">
+t1
+</td>
+<td style="text-align:right;">
+130.66799
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+31
+</td>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:left;">
+t2
+</td>
+<td style="text-align:right;">
+111.63928
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+31
+</td>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:left;">
+t3
+</td>
+<td style="text-align:right;">
+82.54038
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+31
+</td>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:left;">
+t4
+</td>
+<td style="text-align:right;">
+73.56076
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+32
+</td>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+Incongruent first
+</td>
+<td style="text-align:left;">
+t0
+</td>
+<td style="text-align:right;">
+861.35340
+</td>
+</tr>
+</tbody>
+</table>
+Again, same procedure for rows with valid <code>Bs0</code>:<code>Bs4</code> columns
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+HabitNr
+</th>
+<th style="text-align:left;">
+Condition
+</th>
+<th style="text-align:left;">
+IncongruentFirst
+</th>
+<th style="text-align:left;">
+Timepoint
+</th>
+<th style="text-align:right;">
+Signal
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:left;">
+t0
+</td>
+<td style="text-align:right;">
+6.490969
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:left;">
+t1
+</td>
+<td style="text-align:right;">
+4.564023
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:left;">
+t2
+</td>
+<td style="text-align:right;">
+6.354532
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:left;">
+t3
+</td>
+<td style="text-align:right;">
+5.224722
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:left;">
+t4
+</td>
+<td style="text-align:right;">
+12.339243
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+speed
+</td>
+<td style="text-align:left;">
+Congruent first
+</td>
+<td style="text-align:left;">
+t0
+</td>
+<td style="text-align:right;">
+4.864416
+</td>
+</tr>
+</tbody>
+</table>
+<p>Once you merged two tables by rows (see <a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows()</a>).</p>
+<p>, let us take a look at the results.</p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-398-1.png" width="672" /></p>
+<p>There seems to be clear outliers, so let us drop all values above 1000 (filter inside the ggplot call) and plot again</p>
+<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-399-1.png" width="672" /></p>
+<p>Well, certainly hard to tell, so no clear and consistent effect. Still, let us do stats via linear mixed models.</p>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: Signal ~ Timepoint + Condition + IncongruentFirst + (1 | HabitNr)
+##    Data: signal
+## 
+## REML criterion at convergence: 4184.7
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -2.0989 -0.2701 -0.1293 -0.0072 12.6054 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  HabitNr  (Intercept)  3774     61.43  
+##  Residual             33352    182.63  
+## Number of obs: 320, groups:  HabitNr, 64
+## 
+## Fixed effects:
+##                                   Estimate Std. Error      df t value Pr(&gt;|t|)
+## (Intercept)                         95.282     33.593 137.344   2.836  0.00525
+## Timepointt1                         10.906     32.284 252.000   0.338  0.73578
+## Timepointt2                        -11.969     32.284 252.000  -0.371  0.71113
+## Timepointt3                         25.524     32.284 252.000   0.791  0.42991
+## Timepointt4                         -6.173     32.284 252.000  -0.191  0.84851
+## Conditionspeed                     -71.414     36.510  59.000  -1.956  0.05520
+## Conditionsize                      -55.042     36.510  59.000  -1.508  0.13699
+## Conditionrandom                    -75.083     37.776  59.000  -1.988  0.05151
+## IncongruentFirstIncongruent first   88.443     29.349  59.000   3.013  0.00380
+##                                     
+## (Intercept)                       **
+## Timepointt1                         
+## Timepointt2                         
+## Timepointt3                         
+## Timepointt4                         
+## Conditionspeed                    . 
+## Conditionsize                       
+## Conditionrandom                   . 
+## IncongruentFirstIncongruent first **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) Tmpnt1 Tmpnt2 Tmpnt3 Tmpnt4 Cndtnsp Cndtnsz Cndtnr
+## Timepointt1 -0.481                                                   
+## Timepointt2 -0.481  0.500                                            
+## Timepointt3 -0.481  0.500  0.500                                     
+## Timepointt4 -0.481  0.500  0.500  0.500                              
+## Conditinspd -0.553  0.000  0.000  0.000  0.000                       
+## Conditionsz -0.553  0.000  0.000  0.000  0.000  0.539                
+## Conditnrndm -0.531  0.000  0.000  0.000  0.000  0.525   0.525        
+## IncngrntFIf -0.116  0.000  0.000  0.000  0.000 -0.129  -0.129  -0.155</code></pre>
+<pre><code>## Single term deletions using Satterthwaite&#39;s method:
+## 
+## Model:
+## Signal ~ Timepoint + Condition + IncongruentFirst + (1 | HabitNr)
+##                  Sum Sq Mean Sq NumDF DenDF F value   Pr(&gt;F)   
+## Timepoint         56635   14159     4   252  0.4245 0.790883   
+## Condition        171033   57011     3    59  1.7094 0.174862   
+## IncongruentFirst 302871  302871     1    59  9.0810 0.003802 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="wrap-up-2" class="section level2" number="15.7">
+<h2><span class="header-section-number">15.7</span> Wrap up</h2>
+<p>That’s it for today but realistically, this is still an oversimplified version of the analysis. The original study had many more predictors and even here, there is likely to be an interaction between time point and whether congruent or incongruent condition was presented first.</p>
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="statistical-modeling.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["data-analysis-using-r-for-psychology.pdf", "data-analysis-using-r-for-psychology.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
