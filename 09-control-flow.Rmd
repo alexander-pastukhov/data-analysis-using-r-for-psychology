@@ -184,8 +184,8 @@ if (x > 0) {
 }
 ```
 
-However, be aware that the [if](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html) uses a _single_ logical value. If you have more than one value, it will use _only the first one_ but, at least, it will give you a warning.
-```{r}
+However, be aware that the [if](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html) uses a _single_ logical value. If you have more than one value, it stops with an error^[If you use an older R-version, it will use _only the first one_ but, at least, it will give you a warning. Point bein that it is generally a good idea to use the latest R distribution.].
+```{r error=TRUE}
 x <- c(10,  -3)
 if (x < 0) {
   cat("Bingo!")
@@ -362,5 +362,3 @@ results %>%
 ::: {.infobox .practice}
 Do exercise 12.
 :::
-
-

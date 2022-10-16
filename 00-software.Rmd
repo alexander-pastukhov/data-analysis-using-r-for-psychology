@@ -1,19 +1,19 @@
 # Software {#software -}
 
-## Installing R {#install-r}
+## Installing R {- #install-r}
 
-Go to [r-project.org](https://cloud.r-project.org/) and download a current stable version of R for your platform. Run the installer, accepting all defaults. The installer will ask you whether you also want a 32-bit version to be installed alongside 64-bit. You probably won't need 32-bit, so if space is at premium you can skip it. Otherwise, it will make very little difference.
+Go to [r-project.org](https://cloud.r-project.org/) and download a current stable version of R for your platform. Run the installer, accepting all defaults.
 
-## Installing R-Studio {#install-rstudio}
+## Installing R-Studio {- #install-rstudio}
 Go to [rstudio.com](https://rstudio.com/products/rstudio/download/) and download _RStudio Desktop Free_ edition for your platform. Install it using defaults. The _R-Studio_ is an integrated development environment for R but you need to install R separately first! The R-Studio will automatically detect latest R that you have and, in case you have several versions of R installed, you will be able to alter that choice via _Tools / Global Options..._ menu.
 
 I will explain the necessary details on using R-Studio throughout the seminar but the [official cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/rstudio-ide.pdf) is an excellent, compact, and up-to-date source of information. In fact, R Studio has numerous [cheatsheets](https://rstudio.com/resources/cheatsheets/) that describe individual packages in a compact form.
 
-## Installing RTools {#install-rtools}
+## Installing RTools {- #install-rtools}
 If you are using Windows, you might need [Rtools](https://cran.r-project.org/bin/windows/Rtools/) for building and running some packages. You do not need to install it at the beginning, but when we will need it later, just following the link above, download the latest _Rtools_ version, run the installer using the defaults and follow the instructions on that page to put Rtools on the PATH!
 
 ## Installing packages {- #install.packages}
-The real power of R lies in a vast community-driven family of packages suitable for any occasion. The default repository used by R and R-Studio is [The Comprehensive R Archive Network](https://cran.r-project.org/) (a.k.a. _CRAN_). It has very strict requirements for submitted packages, which makes it very annoying for the authors but ensures high quality for you. We will use CRAN as a sole source of packages, but there are alternatives, such as [Bioconductor](http://www.bioconductor.org/) that might have a package that is missing at CRAN. The Bioconductor relies on its own package manager, so you will need to consult the latest manual on their website.
+The real power of R lies in a vast community-driven family of packages suitable for any occasion. The default repository used by R and R-Studio is [The Comprehensive R Archive Network](https://cran.r-project.org/) (a.k.a. _CRAN_). It has very strict requirements for submitted packages, which makes it very annoying for the authors but ensures high quality for you. We will use CRAN as a sole source of packages, but there are alternatives, such as [Bioconductor](http://www.bioconductor.org/) that might have a package that is missing on CRAN. The Bioconductor relies on its own package manager, so you will need to consult the latest manual on their website.
 
 To install a CRAN package you have two alternatives: via command line function or via R-Studio package manager interface (which will call the function for you). In the former case, go to _Console_ tab and type `install.packages("package-name")`, for example `install.packages("tidyverse")`, and press **Enter**.
 
@@ -29,14 +29,14 @@ knitr::include_graphics("images/install-packages-gui.png")
 
 Sometimes, R will ask whether you want to install packages from source. In this case, it will grab the source code and compile the package, which takes time and requires [RTools](#install-rtools). In most cases, you can say "No" to install a pre-build binary version. The binary version will be slightly outdated but the emphasis is on _slightly_.
 
-On other occasions, R-Studio will suggest restarting R Session as packages that need to be updated in use. You can do that but, in my experience, this could a repetetive experience if one of the packages is used R Studio itself (so it starts it in a new session, realizes that it is in use, suggests to restart the session, etc.) My solution is to close _all_ R Studio windows and use R directly. For Windows, you can find it the Start Menu, just make sure that you are using the correct version (also make sure it is _x64_). Then, I use `install.packages()` to install and update everything I need.
+On other occasions, R-Studio will suggest restarting R Session as packages that need to be updated in use. You can do that but, in my experience, this could become a repetitive experience if one of the packages is used R Studio itself (so it starts it in a new session, realizes that it is in use, suggests to restart the session, etc.) My solution is to close _all_ R Studio windows and use R directly. For Windows, you can find it the Start Menu, just make sure that you are using the correct version. Then, I use `install.packages()` to install and update everything I need.
 
-## Minimal set of packages
+## Minimal set of packages {-}
 Please install the following packages:
 
 * `tidyverse` : includes packages from data creation (`tibble`), reading (`readr`), wrangling (`dplyr`, `tidyr`), plotting (`ggplot2`). Plus type specific packages (`stringr` for strings, `forcats` for factors) and functional programming (`purrr`).
 * `rmarkdown` : package for working with RMarkdown notebooks, which will we use to create reproducible analysis.
 * `fs` : file system utilities.
 
-## Keeping R and packages up-to-date {#installr}
+## Keeping R and packages up-to-date {- #installr}
 R and packages are getting constantly improved, so it is a good idea to regularly update them. For packages, you can use _Tools / Check for Packages Updates..._ menu in R-Studio. To update R and, optionally, packages, you can use [installr](https://www.r-project.org/nosvn/pandoc/installr.html) package that can install newest R (but it keeps old version!) optionally copying your entire library of packages, updating packages, etc. It is easy to use even in R itself, as it creates an extra menu to make your life easier. For R-Studio itself, use _Help / Check for Updates_ menu and install a newer version, if it is available (it is generally a good idea to keep your R-Studio in the newest state).
