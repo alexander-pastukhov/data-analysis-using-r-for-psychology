@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Seminar 9 Controling computation flow | Data analysis using R for Psychology and Social Science</title>
   <meta name="description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Seminar 9 Controling computation flow | Data analysis using R for Psychology and Social Science" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
   
@@ -24,7 +23,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2022-01-31" />
+<meta name="date" content="2022-10-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +32,6 @@
   
 <link rel="prev" href="tyding.html"/>
 <link rel="next" href="christmas-special.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -51,8 +49,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
@@ -144,23 +143,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-r"><i class="fa fa-check"></i>Why R?</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-tidyverse"><i class="fa fa-check"></i>Why Tidyverse</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-seminar"><i class="fa fa-check"></i>About the seminar</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-seminar-itself"><i class="fa fa-check"></i>About the seminar itself</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#thinking-like-a-computer"><i class="fa fa-check"></i>Thinking like a computer</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-material"><i class="fa fa-check"></i>About the material</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="software.html"><a href="software.html"><i class="fa fa-check"></i>Software</a>
 <ul>
-<li class="chapter" data-level="0.1" data-path="software.html"><a href="software.html#install-r"><i class="fa fa-check"></i><b>0.1</b> Installing R</a></li>
-<li class="chapter" data-level="0.2" data-path="software.html"><a href="software.html#install-rstudio"><i class="fa fa-check"></i><b>0.2</b> Installing R-Studio</a></li>
-<li class="chapter" data-level="0.3" data-path="software.html"><a href="software.html#install-rtools"><i class="fa fa-check"></i><b>0.3</b> Installing RTools</a></li>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install-r"><i class="fa fa-check"></i>Installing R</a></li>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install-rstudio"><i class="fa fa-check"></i>Installing R-Studio</a></li>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install-rtools"><i class="fa fa-check"></i>Installing RTools</a></li>
 <li class="chapter" data-level="" data-path="software.html"><a href="software.html#install.packages"><i class="fa fa-check"></i>Installing packages</a></li>
-<li class="chapter" data-level="0.4" data-path="software.html"><a href="software.html#minimal-set-of-packages"><i class="fa fa-check"></i><b>0.4</b> Minimal set of packages</a></li>
-<li class="chapter" data-level="0.5" data-path="software.html"><a href="software.html#installr"><i class="fa fa-check"></i><b>0.5</b> Keeping R and packages up-to-date</a></li>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html#minimal-set-of-packages"><i class="fa fa-check"></i>Minimal set of packages</a></li>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html#installr"><i class="fa fa-check"></i>Keeping R and packages up-to-date</a></li>
 </ul></li>
-<li class="chapter" data-level="1" data-path="reproducable-research.html"><a href="reproducable-research.html"><i class="fa fa-check"></i><b>1</b> Reproducable Research: Projects and RMarkdown Notebooks</a>
+<li class="chapter" data-level="1" data-path="reproducable-research.html"><a href="reproducable-research.html"><i class="fa fa-check"></i><b>1</b> Reproducable Research: Projects and Markdown Notebooks</a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="reproducable-research.html"><a href="reproducable-research.html#projects"><i class="fa fa-check"></i><b>1.1</b> Projects</a></li>
-<li class="chapter" data-level="1.2" data-path="reproducable-research.html"><a href="reproducable-research.html#rmarkdown"><i class="fa fa-check"></i><b>1.2</b> RMarkdown</a></li>
+<li class="chapter" data-level="1.2" data-path="reproducable-research.html"><a href="reproducable-research.html#rmarkdown"><i class="fa fa-check"></i><b>1.2</b> Quattro and RMarkdown notebooks</a></li>
 <li class="chapter" data-level="1.3" data-path="reproducable-research.html"><a href="reproducable-research.html#exercise"><i class="fa fa-check"></i><b>1.3</b> Exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="vectors.html"><a href="vectors.html"><i class="fa fa-check"></i><b>2</b> Vectors! Vectors everywhere!</a>
@@ -354,36 +353,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="controling-computation-flow" class="section level1" number="9">
-<h1><span class="header-section-number">Seminar 9</span> Controling computation flow</h1>
+<div id="controling-computation-flow" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">Seminar 9</span> Controling computation flow<a href="controling-computation-flow.html#controling-computation-flow" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Grab the <a href="notebooks/Seminar%2009%20-%20control%20flow.Rmd">exercise notebook</a> before we start.</p>
-<p>One the most powerful features of R is that it is vector-based. Remember, everything is a vector (or a list). In the previous seminars you saw you can apply a function, a filter, or perform a computation on all values of a vector or all rows in a table in a single call. However, sometimes, you need to go over one value or row at a time explicitly. For example, if you working with a time-series, it might be easier to use an explicit <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html">for</a> loop to compute current value based on previous state of the system. However, such instances are fairly rare, so the general rule for R is “you probably do not need a loop.” Below, we will go through various tools that render explicit loops redundant.</p>
-<div id="rep" class="section level2" number="9.1">
-<h2><span class="header-section-number">9.1</span> <code>rep()</code></h2>
+<p>One the most powerful features of R is that it is vector-based. Remember, everything is a vector (or a list). In the previous seminars you saw you can apply a function, a filter, or perform a computation on all values of a vector or all rows in a table in a single call. However, sometimes, you need to go over one value or row at a time explicitly. For example, if you working with a time-series, it might be easier to use an explicit <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html">for</a> loop to compute current value based on previous state of the system. However, such instances are fairly rare, so the general rule for R is “you probably do not need a loop”. Below, we will go through various tools that render explicit loops redundant.</p>
+<div id="rep" class="section level2 hasAnchor" number="9.1">
+<h2><span class="header-section-number">9.1</span> <code>rep()</code><a href="controling-computation-flow.html#rep" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The most basic repetition mechanism in R is <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/rep.html">rep()</a> function. It takes a vector and repeats it specified number of <em>times</em>.</p>
-<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="controling-computation-flow.html#cb340-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">times=</span><span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="controling-computation-flow.html#cb338-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">times=</span><span class="dv">4</span>)</span></code></pre></div>
 <pre><code>##  [1] 1 2 3 1 2 3 1 2 3 1 2 3</code></pre>
 <p>Alternatively, you can repeat each element specified number of times before repeating the next one via <code>each</code> parameter. The difference between options lies only in the <em>order</em> of elements in the new vector. As you can see both vectors have the same length and each individual value is repeated four times.</p>
-<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="controling-computation-flow.html#cb342-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">each=</span><span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="controling-computation-flow.html#cb340-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">each=</span><span class="dv">4</span>)</span></code></pre></div>
 <pre><code>##  [1] 1 1 1 1 2 2 2 2 3 3 3 3</code></pre>
 <p>You can specify length of the output vector via <code>length.out</code>. When combined with <code>times</code> it can be useful for producing truncated vectors. E.g., when we repeat a three element vector but we want to get ten values. Using <code>times</code> only, we can get either nine (<code>times=3</code>) or twelve (<code>times=4</code>), not ten. <code>length.out=10</code> makes it happen.</p>
-<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="controling-computation-flow.html#cb344-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">times=</span><span class="dv">4</span>, <span class="at">length.out =</span> <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="controling-computation-flow.html#cb342-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">times=</span><span class="dv">4</span>, <span class="at">length.out =</span> <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##  [1] 1 2 3 1 2 3 1 2 3 1</code></pre>
 <p>However, you can also use subsetting of a new vector to achieve the same end.</p>
-<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="controling-computation-flow.html#cb346-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">times=</span><span class="dv">4</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="controling-computation-flow.html#cb344-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">times=</span><span class="dv">4</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code></pre></div>
 <pre><code>##  [1] 1 2 3 1 2 3 1 2 3 1</code></pre>
 <p>You should be more careful when combining <code>length.out</code> with <code>each</code>, as each value is repeated <code>each</code> times and, if <code>length.out</code> is longer, the same sequence is repeated again. Could be confusing and you might get a very unbalanced repeated sequence.</p>
-<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="controling-computation-flow.html#cb348-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">each=</span><span class="dv">8</span>, <span class="at">length.out =</span> <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="controling-computation-flow.html#cb346-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">each=</span><span class="dv">8</span>, <span class="at">length.out =</span> <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##  [1] 1 1 1 1 1 1 1 1 2 2</code></pre>
 <div class="infobox practice">
 <p>Do exercise 1.</p>
 </div>
 </div>
-<div id="repeating-combinations" class="section level2" number="9.2">
-<h2><span class="header-section-number">9.2</span> Repeating combinations</h2>
+<div id="repeating-combinations" class="section level2 hasAnchor" number="9.2">
+<h2><span class="header-section-number">9.2</span> Repeating combinations<a href="controling-computation-flow.html#repeating-combinations" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>To create a table with all combinations of values, you can use either base R <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/expand.grid.html">expand.grid()</a> or tidyr’s implementation <a href="https://tidyr.tidyverse.org/reference/expand_grid.html">expand_grid()</a>. The latter is a bit more robust and can expand even tables and matrices (but see the documentation for subtle differences in implementation and output).</p>
 <p>The usage is very straightforward, you provide column names and values and you get all combinations of their values.</p>
-<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="controling-computation-flow.html#cb350-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(grid_base)</span></code></pre></div>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="controling-computation-flow.html#cb348-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(grid_base)</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -490,10 +489,10 @@ FALSE
 </tbody>
 </table>
 <p><a href="https://tidyr.tidyverse.org/reference/expand_grid.html">expand_grid()</a> works the same they but for the order in the values vary within columns.</p>
-<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="controling-computation-flow.html#cb351-1" aria-hidden="true" tabindex="-1"></a><span class="fu">expand_grid</span>(<span class="at">gender=</span><span class="fu">c</span>(<span class="st">&quot;female&quot;</span>, <span class="st">&quot;male&quot;</span>), </span>
-<span id="cb351-2"><a href="controling-computation-flow.html#cb351-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">handidness=</span><span class="fu">c</span>(<span class="st">&quot;right&quot;</span>, <span class="st">&quot;left&quot;</span>),</span>
-<span id="cb351-3"><a href="controling-computation-flow.html#cb351-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">colorblindness=</span><span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="controling-computation-flow.html#cb352-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(grid_tidyr)</span></code></pre></div>
+<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="controling-computation-flow.html#cb349-1" aria-hidden="true" tabindex="-1"></a><span class="fu">expand_grid</span>(<span class="at">gender=</span><span class="fu">c</span>(<span class="st">&quot;female&quot;</span>, <span class="st">&quot;male&quot;</span>), </span>
+<span id="cb349-2"><a href="controling-computation-flow.html#cb349-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">handidness=</span><span class="fu">c</span>(<span class="st">&quot;right&quot;</span>, <span class="st">&quot;left&quot;</span>),</span>
+<span id="cb349-3"><a href="controling-computation-flow.html#cb349-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">colorblindness=</span><span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="controling-computation-flow.html#cb350-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(grid_tidyr)</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -603,51 +602,51 @@ FALSE
 <p>Do exercise 2.</p>
 </div>
 </div>
-<div id="forloop" class="section level2" number="9.3">
-<h2><span class="header-section-number">9.3</span> For loop</h2>
+<div id="forloop" class="section level2 hasAnchor" number="9.3">
+<h2><span class="header-section-number">9.3</span> For loop<a href="controling-computation-flow.html#forloop" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>You can loop (iterate) over elements of a vector or list via a <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html">for</a> loop, which is very similar to for-loops in other programming languages. However, use of the <code>for</code> loop in R is fairly rare, because vectors are a fundamental building block of R and, therefore, it is inherently vectorized (you can do the same thing to all values, not to one value at a time). In a sense, <code>for</code> loop is very un-R, so if you find yourself using it, consider whether there is a simpler or more expressive way to do this. At the same time, if <code>for</code> loop <em>is</em> the simplest or clearest way to write you code, by all means, use it!</p>
 <p>The general format is</p>
-<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="controling-computation-flow.html#cb353-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(loop_variable <span class="cf">in</span> vector_or_list){</span>
-<span id="cb353-2"><a href="controling-computation-flow.html#cb353-2" aria-hidden="true" tabindex="-1"></a>  ...some operations using loop_variable that</span>
-<span id="cb353-3"><a href="controling-computation-flow.html#cb353-3" aria-hidden="true" tabindex="-1"></a>  changes its value on each iteration using</span>
-<span id="cb353-4"><a href="controling-computation-flow.html#cb353-4" aria-hidden="true" tabindex="-1"></a>  values from the vector or list... </span>
-<span id="cb353-5"><a href="controling-computation-flow.html#cb353-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="controling-computation-flow.html#cb351-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(loop_variable <span class="cf">in</span> vector_or_list){</span>
+<span id="cb351-2"><a href="controling-computation-flow.html#cb351-2" aria-hidden="true" tabindex="-1"></a>  ...some operations using loop_variable that</span>
+<span id="cb351-3"><a href="controling-computation-flow.html#cb351-3" aria-hidden="true" tabindex="-1"></a>  changes its value on each iteration using</span>
+<span id="cb351-4"><a href="controling-computation-flow.html#cb351-4" aria-hidden="true" tabindex="-1"></a>  values from the vector or list... </span>
+<span id="cb351-5"><a href="controling-computation-flow.html#cb351-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Note the curly brackets. We used them before to put the code inside a function. Here, we use them to put the code inside the loop. The loop (the code inside curly brackets) is repeated as many times as the number of elements in a vector or a list with a loop variable<a href="#fn54" class="footnote-ref" id="fnref54"><sup>54</sup></a> getting assigned each vector/list value on each iteration. Thus, to print each value of a vector we can do</p>
-<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="controling-computation-flow.html#cb354-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(a_number <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">200</span>)){</span>
-<span id="cb354-2"><a href="controling-computation-flow.html#cb354-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(a_number)</span>
-<span id="cb354-3"><a href="controling-computation-flow.html#cb354-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="controling-computation-flow.html#cb352-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(a_number <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">200</span>)){</span>
+<span id="cb352-2"><a href="controling-computation-flow.html#cb352-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(a_number)</span>
+<span id="cb352-3"><a href="controling-computation-flow.html#cb352-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## [1] 1
 ## [1] 5
 ## [1] 200</code></pre>
 <p>Here, we have three elements in a vector, therefore the code inside curly brackets is repeated three times with the variable <code>a_number</code> taking each value in turn. I.e., <code>a_number</code> is equal to 1 on a first iteration, 5 on a second, 200 on the third. Note that the code above is equivalent to just assigning one value at a time to <code>a_number</code> and calling <code>print()</code> function three times.</p>
-<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="controling-computation-flow.html#cb356-1" aria-hidden="true" tabindex="-1"></a>a_number <span class="ot">&lt;-</span> <span class="dv">1</span> </span>
-<span id="cb356-2"><a href="controling-computation-flow.html#cb356-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(a_number)</span></code></pre></div>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="controling-computation-flow.html#cb354-1" aria-hidden="true" tabindex="-1"></a>a_number <span class="ot">&lt;-</span> <span class="dv">1</span> </span>
+<span id="cb354-2"><a href="controling-computation-flow.html#cb354-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(a_number)</span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
-<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="controling-computation-flow.html#cb358-1" aria-hidden="true" tabindex="-1"></a>a_number <span class="ot">&lt;-</span> <span class="dv">5</span></span>
-<span id="cb358-2"><a href="controling-computation-flow.html#cb358-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(a_number)</span></code></pre></div>
+<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="controling-computation-flow.html#cb356-1" aria-hidden="true" tabindex="-1"></a>a_number <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb356-2"><a href="controling-computation-flow.html#cb356-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(a_number)</span></code></pre></div>
 <pre><code>## [1] 5</code></pre>
-<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="controling-computation-flow.html#cb360-1" aria-hidden="true" tabindex="-1"></a>a_number <span class="ot">&lt;-</span> <span class="dv">200</span></span>
-<span id="cb360-2"><a href="controling-computation-flow.html#cb360-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(a_number)</span></code></pre></div>
+<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="controling-computation-flow.html#cb358-1" aria-hidden="true" tabindex="-1"></a>a_number <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb358-2"><a href="controling-computation-flow.html#cb358-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(a_number)</span></code></pre></div>
 <pre><code>## [1] 200</code></pre>
 <p>As you can see, it does not really matter <em>how</em> you assign a value to a variable and repeat the code. However, the <code>for</code> loop approach is much more flexible, is easier to read and to maintain. I.e., imagine that you decided to alter the <code>print()</code> call with <code>cat()</code> instead. In the <code>for</code> loop version there is just one line to take care of. In the copy-paste version, there are three lines you need to alter. And imagine if you need to repeat the same code a hundred or thousand times, copy-paste is clearly not a viable solution.</p>
 <p>Also note that you might be interested in repeat the code inside the for loop given number of times but are not interested in a loop variable and values that it takes. For example, we might want to repeat <code>print("Ho!")</code> three times (because it is Christmas time and “Ho! Ho! Ho!” is what Santa Clause says). In this case, we still need a vector with three elements that we can loop over but we do not care what these three elements are.</p>
-<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="controling-computation-flow.html#cb362-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(temp <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>){</span>
+<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="controling-computation-flow.html#cb360-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(temp <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>){</span>
+<span id="cb360-2"><a href="controling-computation-flow.html#cb360-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&quot;Ho!&quot;</span>)</span>
+<span id="cb360-3"><a href="controling-computation-flow.html#cb360-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## [1] &quot;Ho!&quot;
+## [1] &quot;Ho!&quot;
+## [1] &quot;Ho!&quot;</code></pre>
+<p>Note that we are not using variable <code>temp</code> inside of the loop and it has no effect on the code inside the curly brackets. Which is why we can use <em>any</em> three values, as it is their total number that matters, not the values themselves.</p>
+<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="controling-computation-flow.html#cb362-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(temp <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>)){</span>
 <span id="cb362-2"><a href="controling-computation-flow.html#cb362-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&quot;Ho!&quot;</span>)</span>
 <span id="cb362-3"><a href="controling-computation-flow.html#cb362-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## [1] &quot;Ho!&quot;
 ## [1] &quot;Ho!&quot;
 ## [1] &quot;Ho!&quot;</code></pre>
-<p>Note that we are not using variable <code>temp</code> inside of the loop and it has no effect on the code inside the curly brackets. Which is why we can use <em>any</em> three values, as it is their total number that matters, not the values themselves.</p>
-<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="controling-computation-flow.html#cb364-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(temp <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>)){</span>
+<p>or</p>
+<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="controling-computation-flow.html#cb364-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(temp <span class="cf">in</span> <span class="fu">seq</span>(<span class="dv">100</span>, <span class="dv">300</span>, <span class="at">length.out=</span><span class="dv">3</span>)){</span>
 <span id="cb364-2"><a href="controling-computation-flow.html#cb364-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&quot;Ho!&quot;</span>)</span>
 <span id="cb364-3"><a href="controling-computation-flow.html#cb364-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<pre><code>## [1] &quot;Ho!&quot;
-## [1] &quot;Ho!&quot;
-## [1] &quot;Ho!&quot;</code></pre>
-<p>or</p>
-<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="controling-computation-flow.html#cb366-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(temp <span class="cf">in</span> <span class="fu">seq</span>(<span class="dv">100</span>, <span class="dv">300</span>, <span class="at">length.out=</span><span class="dv">3</span>)){</span>
-<span id="cb366-2"><a href="controling-computation-flow.html#cb366-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&quot;Ho!&quot;</span>)</span>
-<span id="cb366-3"><a href="controling-computation-flow.html#cb366-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## [1] &quot;Ho!&quot;
 ## [1] &quot;Ho!&quot;
 ## [1] &quot;Ho!&quot;</code></pre>
@@ -656,10 +655,10 @@ FALSE
 <p>Do exercises 3 and 4.</p>
 </div>
 <p>A typical scenario is for the loop variable to be an <em>index</em> that can be used to access an element of a vector or a list. You can build a vector of indexes via <code>start:stop</code> sequence tool we used for <a href="vectors.html#vector-index-slicing">slicing</a>. You can compute a length of an object via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/length.html">length()</a> function. For a <code>data.frame</code> or a <code>tibble</code>, you can figure out number of rows and columns via, respectively, <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/nrow.html">nrow()</a> and <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/nrow.html">ncol()</a> functions.</p>
-<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="controling-computation-flow.html#cb368-1" aria-hidden="true" tabindex="-1"></a>vector_of_some_numbers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">200</span>)</span>
-<span id="cb368-2"><a href="controling-computation-flow.html#cb368-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(index <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(vector_of_some_numbers)){</span>
-<span id="cb368-3"><a href="controling-computation-flow.html#cb368-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(vector_of_some_numbers[index])</span>
-<span id="cb368-4"><a href="controling-computation-flow.html#cb368-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="controling-computation-flow.html#cb366-1" aria-hidden="true" tabindex="-1"></a>vector_of_some_numbers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">200</span>)</span>
+<span id="cb366-2"><a href="controling-computation-flow.html#cb366-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(index <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(vector_of_some_numbers)){</span>
+<span id="cb366-3"><a href="controling-computation-flow.html#cb366-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(vector_of_some_numbers[index])</span>
+<span id="cb366-4"><a href="controling-computation-flow.html#cb366-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## [1] 1
 ## [1] 5
 ## [1] 200</code></pre>
@@ -667,11 +666,11 @@ FALSE
 <p>Do exercise 5.</p>
 </div>
 <p>You can also <em>nest</em> loops (wondering what <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/cat.html">cat()</a> does? Concatenates and prints, so read the <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/cat.html">manual</a>!).</p>
-<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="controling-computation-flow.html#cb370-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(letter <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>)){</span>
-<span id="cb370-2"><a href="controling-computation-flow.html#cb370-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(number <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>){</span>
-<span id="cb370-3"><a href="controling-computation-flow.html#cb370-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(letter, number, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb370-4"><a href="controling-computation-flow.html#cb370-4" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb370-5"><a href="controling-computation-flow.html#cb370-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="controling-computation-flow.html#cb368-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(letter <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>)){</span>
+<span id="cb368-2"><a href="controling-computation-flow.html#cb368-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(number <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>){</span>
+<span id="cb368-3"><a href="controling-computation-flow.html#cb368-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(letter, number, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb368-4"><a href="controling-computation-flow.html#cb368-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb368-5"><a href="controling-computation-flow.html#cb368-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## A 1 
 ## A 2 
 ## B 1 
@@ -688,50 +687,49 @@ FALSE
 <p>Do exercise 7.</p>
 </div>
 </div>
-<div id="if-else" class="section level2" number="9.4">
-<h2><span class="header-section-number">9.4</span> Conditional statement</h2>
+<div id="if-else" class="section level2 hasAnchor" number="9.4">
+<h2><span class="header-section-number">9.4</span> Conditional statement<a href="controling-computation-flow.html#if-else" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>As for all other programming languages, you can control the flow of execution using <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html">if-else</a> statements. The general usage is as follows.</p>
-<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="controling-computation-flow.html#cb373-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (some_condition) {</span>
-<span id="cb373-2"><a href="controling-computation-flow.html#cb373-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># code runs if some_condition is TRUE</span></span>
-<span id="cb373-3"><a href="controling-computation-flow.html#cb373-3" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb373-4"><a href="controling-computation-flow.html#cb373-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># code runs if some_condition is FALSE</span></span>
-<span id="cb373-5"><a href="controling-computation-flow.html#cb373-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="controling-computation-flow.html#cb371-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (some_condition) {</span>
+<span id="cb371-2"><a href="controling-computation-flow.html#cb371-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># code runs if some_condition is TRUE</span></span>
+<span id="cb371-3"><a href="controling-computation-flow.html#cb371-3" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb371-4"><a href="controling-computation-flow.html#cb371-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># code runs if some_condition is FALSE</span></span>
+<span id="cb371-5"><a href="controling-computation-flow.html#cb371-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>The rules are the same as for <a href="dplyr.html#logical-indexing">logical indexing</a>, so we can define our condition using <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Comparison.html">mathematical comparisons</a>.</p>
-<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="controling-computation-flow.html#cb374-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">3</span></span>
-<span id="cb374-2"><a href="controling-computation-flow.html#cb374-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (x <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
-<span id="cb374-3"><a href="controling-computation-flow.html#cb374-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;X is definitely greater than  zero&quot;</span>)</span>
-<span id="cb374-4"><a href="controling-computation-flow.html#cb374-4" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb374-5"><a href="controling-computation-flow.html#cb374-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;X is not greater than zero.&quot;</span>)</span>
-<span id="cb374-6"><a href="controling-computation-flow.html#cb374-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="controling-computation-flow.html#cb372-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">3</span></span>
+<span id="cb372-2"><a href="controling-computation-flow.html#cb372-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (x <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb372-3"><a href="controling-computation-flow.html#cb372-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;X is definitely greater than  zero&quot;</span>)</span>
+<span id="cb372-4"><a href="controling-computation-flow.html#cb372-4" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb372-5"><a href="controling-computation-flow.html#cb372-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;X is not greater than zero.&quot;</span>)</span>
+<span id="cb372-6"><a href="controling-computation-flow.html#cb372-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## X is not greater than zero.</code></pre>
-<p>However, be aware that the <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html">if</a> uses a <em>single</em> logical value. If you have more than one value, it will use <em>only the first one</em> but, at least, it will give you a warning.</p>
-<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="controling-computation-flow.html#cb376-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>,  <span class="sc">-</span><span class="dv">3</span>)</span>
-<span id="cb376-2"><a href="controling-computation-flow.html#cb376-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (x <span class="sc">&lt;</span> <span class="dv">0</span>) {</span>
+<p>However, be aware that the <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html">if</a> uses a <em>single</em> logical value. If you have more than one value, it stops with an error<a href="#fn55" class="footnote-ref" id="fnref55"><sup>55</sup></a>.</p>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="controling-computation-flow.html#cb374-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>,  <span class="sc">-</span><span class="dv">3</span>)</span>
+<span id="cb374-2"><a href="controling-computation-flow.html#cb374-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (x <span class="sc">&lt;</span> <span class="dv">0</span>) {</span>
+<span id="cb374-3"><a href="controling-computation-flow.html#cb374-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Bingo!&quot;</span>)</span>
+<span id="cb374-4"><a href="controling-computation-flow.html#cb374-4" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb374-5"><a href="controling-computation-flow.html#cb374-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;I don&#39;t like this x.&quot;</span>)</span>
+<span id="cb374-6"><a href="controling-computation-flow.html#cb374-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## Error in if (x &lt; 0) {: the condition has length &gt; 1</code></pre>
+<p>As in <a href="dplyr.html#logical-indexing">logical indexing</a>, you can combine several conditions using <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Logic.html">logical operators</a> such as <em>and</em> <code>&amp;</code> or <em>or</em> <code>|</code>. For example, we can check whether x is smaller than zero but larger than -10.</p>
+<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="controling-computation-flow.html#cb376-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">3</span></span>
+<span id="cb376-2"><a href="controling-computation-flow.html#cb376-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> ((x <span class="sc">&lt;</span> <span class="dv">0</span>) <span class="sc">&amp;</span> (x <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">10</span>)) {</span>
 <span id="cb376-3"><a href="controling-computation-flow.html#cb376-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Bingo!&quot;</span>)</span>
 <span id="cb376-4"><a href="controling-computation-flow.html#cb376-4" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
 <span id="cb376-5"><a href="controling-computation-flow.html#cb376-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;I don&#39;t like this x.&quot;</span>)</span>
 <span id="cb376-6"><a href="controling-computation-flow.html#cb376-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<pre><code>## Warning in if (x &lt; 0) {: the condition has length &gt; 1 and only the first element
-## will be used</code></pre>
-<pre><code>## I don&#39;t like this x.</code></pre>
-<p>As in <a href="dplyr.html#logical-indexing">logical indexing</a>, you can combine several conditions using <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Logic.html">logical operators</a> such as <em>and</em> <code>&amp;</code> or <em>or</em> <code>|</code>. For example, we can check whether x is smaller than zero but larger than -10.</p>
-<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="controling-computation-flow.html#cb379-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">3</span></span>
-<span id="cb379-2"><a href="controling-computation-flow.html#cb379-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> ((x <span class="sc">&lt;</span> <span class="dv">0</span>) <span class="sc">&amp;</span> (x <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">10</span>)) {</span>
-<span id="cb379-3"><a href="controling-computation-flow.html#cb379-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Bingo!&quot;</span>)</span>
-<span id="cb379-4"><a href="controling-computation-flow.html#cb379-4" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb379-5"><a href="controling-computation-flow.html#cb379-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;I don&#39;t like this x.&quot;</span>)</span>
-<span id="cb379-6"><a href="controling-computation-flow.html#cb379-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## Bingo!</code></pre>
 <p>However, be aware that R has both <code>&amp;</code>/<code>|</code> and <code>&amp;&amp;</code>/<code>||</code> versions of <em>and</em> and <em>or</em> logical operators (single versus double symbols). Both perform logical operations on vectors but double-symbol ones return only the <em>first</em> value. E.g., single-symbol returns <code>TRUE</code>/<code>FALSE</code> for each value of <code>x</code></p>
-<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="controling-computation-flow.html#cb381-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="sc">-</span><span class="dv">3</span>, <span class="sc">-</span><span class="dv">11</span>)</span>
-<span id="cb381-2"><a href="controling-computation-flow.html#cb381-2" aria-hidden="true" tabindex="-1"></a>(x <span class="sc">&lt;</span> <span class="dv">0</span>) <span class="sc">&amp;</span> (x <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="controling-computation-flow.html#cb378-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="sc">-</span><span class="dv">3</span>, <span class="sc">-</span><span class="dv">11</span>)</span>
+<span id="cb378-2"><a href="controling-computation-flow.html#cb378-2" aria-hidden="true" tabindex="-1"></a>(x <span class="sc">&lt;</span> <span class="dv">0</span>) <span class="sc">&amp;</span> (x <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## [1] FALSE  TRUE FALSE</code></pre>
 <p>But double-symbol returns it only for the <em>first</em> value <em>without warning you about discarding the rest of the values</em>.</p>
-<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="controling-computation-flow.html#cb383-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="sc">-</span><span class="dv">3</span>, <span class="sc">-</span><span class="dv">11</span>)</span>
-<span id="cb383-2"><a href="controling-computation-flow.html#cb383-2" aria-hidden="true" tabindex="-1"></a>(x <span class="sc">&lt;</span> <span class="dv">0</span>) <span class="sc">&amp;&amp;</span> (x <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="controling-computation-flow.html#cb380-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="sc">-</span><span class="dv">3</span>, <span class="sc">-</span><span class="dv">11</span>)</span>
+<span id="cb380-2"><a href="controling-computation-flow.html#cb380-2" aria-hidden="true" tabindex="-1"></a>(x <span class="sc">&lt;</span> <span class="dv">0</span>) <span class="sc">&amp;&amp;</span> (x <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## Warning in (x &lt; 0) &amp;&amp; (x &gt; -10): &#39;length(x) = 3 &gt; 1&#39; in coercion to &#39;logical(1)&#39;</code></pre>
 <pre><code>## [1] FALSE</code></pre>
 <p>I am sure there is a perfectly logical explanation for this bizarre implementation but I do not know it. I am bringing this up, just so that you would <em>never</em> use double-symbol logical operators! Chances are, you will forget about this “silently-return-only-the-first-value” behavior and expect them to act normally. They won’t behave as you think they should, so simply stay away.</p>
-<p>Let us combine <code>for</code> loop with <code>if-else</code> operator. Generate a vector of ten normally distributed values (again, <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html">rnorm()</a> is the function). Loop over them in a <code>for</code> loop and <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/print.html">print()</a> <code>"Positive"</code> if a value is larger than zero and <code>"Not positive"</code> if not. The results should look like this<a href="#fn55" class="footnote-ref" id="fnref55"><sup>55</sup></a></p>
+<p>Let us combine <code>for</code> loop with <code>if-else</code> operator. Generate a vector of ten normally distributed values (again, <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html">rnorm()</a> is the function). Loop over them in a <code>for</code> loop and <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/print.html">print()</a> <code>"Positive"</code> if a value is larger than zero and <code>"Not positive"</code> if not. The results should look like this<a href="#fn56" class="footnote-ref" id="fnref56"><sup>56</sup></a></p>
 <pre><code>##  [1]  0.03003683  1.22390943  1.71573769 -0.89994016  0.55507190  0.42319195
 ##  [7]  0.82993426 -1.28614375  1.21511589 -0.05815403</code></pre>
 <pre><code>## [1] &quot;Positive&quot;
@@ -748,37 +746,37 @@ FALSE
 <p>Do exercise 8.</p>
 </div>
 </div>
-<div id="breaking-out-of-the-loop" class="section level2" number="9.5">
-<h2><span class="header-section-number">9.5</span> Breaking out of the loop</h2>
+<div id="breaking-out-of-the-loop" class="section level2 hasAnchor" number="9.5">
+<h2><span class="header-section-number">9.5</span> Breaking out of the loop<a href="controling-computation-flow.html#breaking-out-of-the-loop" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The code inside the <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html">for</a> loop is typically repeated for every value of the vector that you have supplied. However, there is a way to <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html">break</a> out of it using a <code>break</code> statement. This stops execution of the code <em>inside</em> of the loop immediately and continues with the code immediately <em>after</em> the loop.</p>
-<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="controling-computation-flow.html#cb387-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(y <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)){</span>
-<span id="cb387-2"><a href="controling-computation-flow.html#cb387-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&quot;This will be exected&quot;</span>)</span>
-<span id="cb387-3"><a href="controling-computation-flow.html#cb387-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">break</span></span>
-<span id="cb387-4"><a href="controling-computation-flow.html#cb387-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&quot;But this won&#39;t be&quot;</span>)</span>
-<span id="cb387-5"><a href="controling-computation-flow.html#cb387-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="controling-computation-flow.html#cb385-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(y <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)){</span>
+<span id="cb385-2"><a href="controling-computation-flow.html#cb385-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&quot;This will be exected&quot;</span>)</span>
+<span id="cb385-3"><a href="controling-computation-flow.html#cb385-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">break</span></span>
+<span id="cb385-4"><a href="controling-computation-flow.html#cb385-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&quot;But this won&#39;t be&quot;</span>)</span>
+<span id="cb385-5"><a href="controling-computation-flow.html#cb385-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## [1] &quot;This will be exected&quot;</code></pre>
-<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="controling-computation-flow.html#cb389-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;Now to the code AFTER the loop&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="controling-computation-flow.html#cb387-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;Now to the code AFTER the loop&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;Now to the code AFTER the loop&quot;</code></pre>
 <p>Note that in this case, the code was executed (incompletely!) only once. Typically, <code>break</code> is used in combination with the <code>if-else</code> statement to break out of the loop, if a certain condition is met. Let us practice. Again, generate ten normally distributed numbers, loop over them and print each one. However, <code>break</code> after the <em>fifth</em> value. For this, you need to loop over indexes of values (that go from 1 to the <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/length.html">length()</a> of your vector). Thus, you loop variable will contain an index of each element of x (because of that I called it <code>ix</code>) and you need to use it to get a value at this position within the vector. If that index is equal to 5, break out of the loop.
 For the ten values I’ve generated above, the output will be the following (“Done for today” is printed after the loop).</p>
-<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="controling-computation-flow.html#cb391-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">164</span>)</span>
-<span id="cb391-2"><a href="controling-computation-flow.html#cb391-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)</span>
-<span id="cb391-3"><a href="controling-computation-flow.html#cb391-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(ix <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(x)){</span>
-<span id="cb391-4"><a href="controling-computation-flow.html#cb391-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (ix <span class="sc">==</span> <span class="dv">5</span>)  <span class="cf">break</span></span>
-<span id="cb391-5"><a href="controling-computation-flow.html#cb391-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(x[ix])</span>
-<span id="cb391-6"><a href="controling-computation-flow.html#cb391-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="controling-computation-flow.html#cb389-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">164</span>)</span>
+<span id="cb389-2"><a href="controling-computation-flow.html#cb389-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)</span>
+<span id="cb389-3"><a href="controling-computation-flow.html#cb389-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(ix <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(x)){</span>
+<span id="cb389-4"><a href="controling-computation-flow.html#cb389-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (ix <span class="sc">==</span> <span class="dv">5</span>)  <span class="cf">break</span></span>
+<span id="cb389-5"><a href="controling-computation-flow.html#cb389-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(x[ix])</span>
+<span id="cb389-6"><a href="controling-computation-flow.html#cb389-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## [1] 0.03003683
 ## [1] 1.223909
 ## [1] 1.715738
 ## [1] -0.8999402</code></pre>
-<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="controling-computation-flow.html#cb393-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;Done for today&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="controling-computation-flow.html#cb391-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;Done for today&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;Done for today&quot;</code></pre>
 <div class="infobox practice">
 <p>Do exercise 9.</p>
 </div>
 </div>
-<div id="using-for-loop-to-load-and-join-multiple-data-files" class="section level2" number="9.6">
-<h2><span class="header-section-number">9.6</span> Using for loop to load and join multiple data files</h2>
+<div id="using-for-loop-to-load-and-join-multiple-data-files" class="section level2 hasAnchor" number="9.6">
+<h2><span class="header-section-number">9.6</span> Using for loop to load and join multiple data files<a href="controling-computation-flow.html#using-for-loop-to-load-and-join-multiple-data-files" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Your analysis starts with loading the data. Quite often, data for individual participants is stored in different files but with identical structure, so you need code that figures out which files you need to load, loads them on at a time and then binds them to one final table. Using a <code>for</code> loop is not the most elegant way to implement this but it does the job and gives you another example of how loops can be useful. I will walk you through details and then you We will implement the code that loads and merges individual files for persistence study. Download the <a href="data/persistence.zip">persistence.zip</a> and unzip into <code>Persistence</code> subfolder (we do not want to create a mess in your main folder!).</p>
 <p>First, you need to have a character vector with relevant file names. Package you are looking for is <a href="https://github.com/r-lib/fs">fs</a> (for File System). It has everything you need to work with the file system, including working with file names (dropping or adding path, extension, etc.), creating/moving/deleting files, checking whether file exists, and what not. One function that I use the most is <a href="https://www.rdocumentation.org/packages/fs/versions/1.5.0/topics/dir_ls">dir_ls()</a> that list files in a specified folder. The two parameters you need are <code>path</code> to your folder (you can and should use a relative path) and, optionally, <code>glob</code> filter string. The latter is a <a href="https://en.wikipedia.org/wiki/Glob_(programming)">globbing</a> wildcard pattern, where <code>*</code> stands for “any sequence of characters” and <code>?</code> stand for “one arbitrary character. For a csv file, this pattern would be <code>"*.csv"</code>. Test this single function call using appropriate <code>path</code> and <code>glob</code> parameters and make sure you get all the files in <em>Persistence</em> folder.</p>
 Next, you need to create a full table variable (I, typically, call it <code>results</code> or <code>reports</code>) and initialize it to an empty <code>data.frame()</code> (or an empty <code>tibble</code>). You loop over file names, <a href="tables.html#readr">read</a> one file at a time (don’t forget to specify column types), and then use <a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows()</a> to combine the full table and the new table you loaded. Note that <a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows()</a> returns a <em>new</em> table, so you need to assign it back to the original full table variable. Once you are done, your table should have 5232 rows and twelve columns.
@@ -1058,40 +1056,40 @@ right
 <p>Do exercise 10.</p>
 </div>
 </div>
-<div id="apply" class="section level2" number="9.7">
-<h2><span class="header-section-number">9.7</span> Apply</h2>
+<div id="apply" class="section level2 hasAnchor" number="9.7">
+<h2><span class="header-section-number">9.7</span> Apply<a href="controling-computation-flow.html#apply" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>As noted above, <code>for</code> loops do the job by might not be the most elegant way of doing things. In R, you can <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/apply.html">apply</a> a function to each row or column of a matrix. In addition, there are more case-specific versions of it, such <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/lapply.html">lapply</a>.</p>
 <p>The function is called <code>apply</code> because you <em>apply</em> it to values of a vector. In a sense, you have been applying functions the whole time by calling them. For example, we might compute a sinus of a sequence of numbers as</p>
-<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="controling-computation-flow.html#cb395-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sin</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="controling-computation-flow.html#cb393-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sin</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>))</span></code></pre></div>
 <pre><code>## [1] 0.000000e+00 7.071068e-01 1.000000e+00 7.071068e-01 1.224606e-16</code></pre>
 <p>Or, we can <em>apply</em> sinus function to a number sequence (note that I pass the name of the function alone <code>sin</code> but do not call it, so no round brackets!)</p>
-<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="controling-computation-flow.html#cb397-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>), sin)</span></code></pre></div>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="controling-computation-flow.html#cb395-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>), sin)</span></code></pre></div>
 <pre><code>## [1] 0.000000e+00 7.071068e-01 1.000000e+00 7.071068e-01 1.224606e-16</code></pre>
 <p>You might ask, what is then the point to use <code>apply</code>? Not much for simple vector cases like this, but it is very useful when you have two dimensional data, as you can apply a function along horizontal (rows) or vertical (columns) margin. For example, imagine you need to compute an average (or median, or any other quantile) of each row or column in a matrix (something you might do fairly often for posterior samples in Bayesian statistics).</p>
 <p>Let us create a simple 3 by 4 matrix of normally distributed random numbers.</p>
-<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="controling-computation-flow.html#cb399-1" aria-hidden="true" tabindex="-1"></a>a_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">12</span>), <span class="at">nrow =</span> <span class="dv">3</span>)</span>
-<span id="cb399-2"><a href="controling-computation-flow.html#cb399-2" aria-hidden="true" tabindex="-1"></a>a_matrix</span></code></pre></div>
+<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="controling-computation-flow.html#cb397-1" aria-hidden="true" tabindex="-1"></a>a_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">12</span>), <span class="at">nrow =</span> <span class="dv">3</span>)</span>
+<span id="cb397-2"><a href="controling-computation-flow.html#cb397-2" aria-hidden="true" tabindex="-1"></a>a_matrix</span></code></pre></div>
 <pre><code>##               [,1]       [,2]       [,3]       [,4]
 ## [1,] -1.306076e-05 -0.9815949  0.3981706 -0.1809577
 ## [2,]  1.880631e-02 -0.4210554 -1.2544423 -0.2319481
 ## [3,]  2.429102e+00 -1.1964317  0.2265607  0.5361628</code></pre>
 <p>We would expect median value of any row or column to be 0 but because we have so few data points, they will be close but not exactly zero. Computing median for each row (we should get <em>three</em> numbers)</p>
-<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="controling-computation-flow.html#cb401-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a_matrix, <span class="dv">1</span>, median)</span></code></pre></div>
+<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="controling-computation-flow.html#cb399-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a_matrix, <span class="dv">1</span>, median)</span></code></pre></div>
 <pre><code>## [1] -0.0904854 -0.3265017  0.3813618</code></pre>
 <p>Similarly for a column (here, it should be <em>four</em> numbers)</p>
-<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb403-1"><a href="controling-computation-flow.html#cb403-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a_matrix, <span class="dv">2</span>, median)</span></code></pre></div>
+<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="controling-computation-flow.html#cb401-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a_matrix, <span class="dv">2</span>, median)</span></code></pre></div>
 <pre><code>## [1]  0.01880631 -0.98159487  0.22656072 -0.18095773</code></pre>
 <p>I will not go into any further details on these functions, concentrating on similar functionality by <a href="controling-computation-flow.html#purrr">purrr</a> package. However, if you find yourself working with matrices or needing to apply a function to rows of a data frame, <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/apply.html">apply</a> might be a simpler solution. Keep this option in mind, if you feel that either looping or purrring looks inadequate.</p>
 </div>
-<div id="purrr" class="section level2" number="9.8">
-<h2><span class="header-section-number">9.8</span> Purrr</h2>
-<p>Package <a href="https://purrr.tidyverse.org/">purrr</a> is part of the tidyverse. It provides functional programming approach similar to <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/apply.html">apply</a> but it easier to use (IMHO) and it has a more explicit and consistent way to describe and combine the output. Language-wise, you do not <em>apply</em> a function, you use it to <a href="https://purrr.tidyverse.org/reference/map.html">map</a> inputs on outputs<a href="#fn56" class="footnote-ref" id="fnref56"><sup>56</sup></a></p>
+<div id="purrr" class="section level2 hasAnchor" number="9.8">
+<h2><span class="header-section-number">9.8</span> Purrr<a href="controling-computation-flow.html#purrr" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Package <a href="https://purrr.tidyverse.org/">purrr</a> is part of the tidyverse. It provides functional programming approach similar to <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/apply.html">apply</a> but it easier to use (IMHO) and it has a more explicit and consistent way to describe and combine the output. Language-wise, you do not <em>apply</em> a function, you use it to <a href="https://purrr.tidyverse.org/reference/map.html">map</a> inputs on outputs<a href="#fn57" class="footnote-ref" id="fnref57"><sup>57</sup></a></p>
 <p>The basic <a href="https://purrr.tidyverse.org/reference/map.html">map()</a> function always returns a list but you can explicitly state that you expect function to return a number (<code>map_dbl()</code>) and all outputs will be combined into a numeric vector. And, unlike <code>apply</code>, <code>map_dbl()</code> will generate an error if outputs cannot be converted to numeric. Or, you can specify that you expect each output to be a <code>data.frame</code>. In this case, you can automatically bind them by rows via <code>map_dfr()</code> or by columns via <code>map_dfc()</code>. Again, if all outputs cannot be converted to a <code>data.frame</code>, either function will loudly complain (which is good!).</p>
 <p>The basic call is similar to <a href="controling-computation-flow.html#apply">apply</a> but is easier to use as you can explicitly address current value via <code>.</code> variable (as in other parts of Tidyverse) and you can write a “normal” function call, prefixing it with a <code>~</code>. Here is the example of computing the sinus again. First, same a <code>apply</code></p>
-<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb405-1"><a href="controling-computation-flow.html#cb405-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>), sin)</span></code></pre></div>
+<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb403-1"><a href="controling-computation-flow.html#cb403-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>), sin)</span></code></pre></div>
 <pre><code>## [1] 0.000000e+00 7.071068e-01 1.000000e+00 7.071068e-01 1.224606e-16</code></pre>
 <p>Now, we a magic tilde <code>~</code>. Note an explicit call to <code>sin()</code> function with <code>.</code> as an argument.</p>
-<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="controling-computation-flow.html#cb407-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>), <span class="sc">~</span><span class="fu">sin</span>(.))</span></code></pre></div>
+<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb405-1"><a href="controling-computation-flow.html#cb405-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="fu">seq</span>(<span class="dv">0</span>, pi, <span class="at">length.out =</span> <span class="dv">5</span>), <span class="sc">~</span><span class="fu">sin</span>(.))</span></code></pre></div>
 <pre><code>## [1] 0.000000e+00 7.071068e-01 1.000000e+00 7.071068e-01 1.224606e-16</code></pre>
 <p>Again, using <code>map_dbl()</code> in this case looks as a complete overkill. So let us do something more relevant. Let us implement loading and merging of persistence study files. You already know how to get a vector with names of relevant files. Now you can use <code>map_dfr()</code> function on this vector to combine them into a single table. When using <code>~</code> call notation, remember <code>.</code> would then correspond to a single value from the vector of file names (so, a single filename). Again, you should get a single table with twelve columns and 5232 rows.</p>
 <div class="infobox practice">
@@ -1109,8 +1107,9 @@ right
 <hr />
 <ol start="54">
 <li id="fn54"><p>Just a reminder, the loop variable can have <em>any</em> name. Often, you see people using <code>i</code> but I would strongly recommend going for a more meaningful name.<a href="controling-computation-flow.html#fnref54" class="footnote-back">↩︎</a></p></li>
-<li id="fn55"><p>Want exact same numbers as I do? Use <code>set.seed(164)</code>. This function, see <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html">set.seed()</a> makes random generators start at a specific point, so that the you will get the <em>same</em> sequence of <em>random</em> numbers as I did.<a href="controling-computation-flow.html#fnref55" class="footnote-back">↩︎</a></p></li>
-<li id="fn56"><p>Means the same thing but this is a linear algebra way of expressing of what a function does.<a href="controling-computation-flow.html#fnref56" class="footnote-back">↩︎</a></p></li>
+<li id="fn55"><p>If you use an older R-version, it will use <em>only the first one</em> but, at least, it will give you a warning. Point bein that it is generally a good idea to use the latest R distribution.<a href="controling-computation-flow.html#fnref55" class="footnote-back">↩︎</a></p></li>
+<li id="fn56"><p>Want exact same numbers as I do? Use <code>set.seed(164)</code>. This function, see <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html">set.seed()</a> makes random generators start at a specific point, so that the you will get the <em>same</em> sequence of <em>random</em> numbers as I did.<a href="controling-computation-flow.html#fnref56" class="footnote-back">↩︎</a></p></li>
+<li id="fn57"><p>Means the same thing but this is a linear algebra way of expressing of what a function does.<a href="controling-computation-flow.html#fnref57" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
@@ -1179,7 +1178,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

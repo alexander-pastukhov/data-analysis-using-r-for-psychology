@@ -4,10 +4,6 @@
 %
 \documentclass[
 ]{book}
-\title{Data analysis using R for Psychology and Social Science}
-\author{Alexander (Sasha) Pastukhov}
-\date{2022-01-31}
-
 \usepackage{amsmath,amssymb}
 \usepackage{lmodern}
 \usepackage{iftex}
@@ -37,14 +33,6 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
-\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
-\hypersetup{
-  pdftitle={Data analysis using R for Psychology and Social Science},
-  pdfauthor={Alexander (Sasha) Pastukhov},
-  hidelinks,
-  pdfcreator={LaTeX via pandoc}}
-\urlstyle{same} % disable monospaced font for URLs
 \usepackage{color}
 \usepackage{fancyvrb}
 \newcommand{\VerbBar}{|}
@@ -132,6 +120,18 @@
 \fi
 \usepackage[]{natbib}
 \bibliographystyle{apalike}
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Data analysis using R for Psychology and Social Science},
+  pdfauthor={Alexander (Sasha) Pastukhov},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Data analysis using R for Psychology and Social Science}
+\author{Alexander (Sasha) Pastukhov}
+\date{2022-10-16}
 
 \begin{document}
 \maketitle
@@ -144,15 +144,15 @@
 \chapter*{Introduction}\label{introduction}}
 \addcontentsline{toc}{chapter}{Introduction}
 
-This book will (try to) teach you how to perform typical data analysis tasks: reading data, transforming and cleaning it up so you can visualize it and perform a statistical analysis of your choice. It covers most topics that you need to get you started but it cannot cover them all. One advantage of R is a sheer size of its ecosystem with new incredible libraries appearing very much on a daily basis. Covering them all is beyond the scope of any book, so instead I will concentrate on (trying to) building a solid understanding of things that you need to extend your R knowledge. Because of that some early chapters (e.g., on \protect\hyperlink{vectors}{vectors}, \protect\hyperlink{tables}{tables}, or \protect\hyperlink{ux5cux23functions}{functions}) might feel boring and too technical making you wonder why didn't we start with some exciting and useful analysis, working our way down to finer details. I have tried that\footnote{As a matter of fact, this was my approach when learning R.} but, unfortunately, philosophy of R is about have many almost identical ways of achieving the same end. If you do not learn these finer details, you waste time wondering why seemingly the same code works in one case but fails in mysterious ways in the other one\footnote{Talking from a personal experience here.}. Therefore, please bear with me and struggle through vectors (which are everywhere), oddities and inconsistencies of subsetting, and learning how to write a function before you even started to use them properly. I can only promise that, from my personal experience, this is definitely worth the effort.
+This book will (try to) teach you how to perform typical data analysis tasks: reading data, transforming and cleaning it up so you can visualize it and perform a statistical analysis of your choice. It covers most topics that you need to get you started but it cannot cover them all. One advantage of R is a sheer size of its ecosystem with new incredible libraries appearing very much on a daily basis. Covering them all is beyond the scope of any book, so instead I will concentrate on (trying to) building a solid understanding of things that you need to extend your R knowledge. Because of that some early chapters (e.g., on \protect\hyperlink{vectors}{vectors}, \protect\hyperlink{tables}{tables}, or \protect\hyperlink{ux5cux23functions}{functions}) might feel boring and too technical making you wonder why didn't we start with some exciting and useful analysis, working our way down to finer details. I have tried that\footnote{As a matter of fact, this was my approach when learning R.} but, unfortunately, philosophy of R is about having many almost identical ways of achieving the same end. If you do not learn these finer details, you waste time wondering why seemingly the same code works in one case but fails in mysterious ways in the other one\footnote{Talking from a personal experience here.}. Therefore, please bear with me and struggle through vectors (which are everywhere), oddities and inconsistencies of subsetting, and learning how to write a function before you even started to use them properly. I can only promise that, from my personal experience, this is definitely worth the effort.
 
-An important note: this book will \emph{not} teach you statistics or machine learning. I will mention some widely used packages and functions for performing statistical analysis but I will not go into the details of how they work or how to interpret their output. If you know (enough of) statistics, you will have little trouble understanding how to work with these packages and functions. If you do not, no amount of reading of manuals will make it clearer.
+An important note: this book will \emph{not} teach you statistics or machine learning beyond several examples at the very end. The reason for this is that it teaches data preparation and both statistics and machine learning are 90\% about data preparation. This is most obvious in machine learning where data acquisition, cleaning, feature engineering, etc. to make it suitable for analysis take most of your time. The actual machine learning part boils down to trying various (all!) standard machine learning methods on it and picking one that gives best out-of-sample performance. That last part is so automated by now that it requires little knowledge beyond details of a specific package. Knowing how methods work is obviously beneficial but, and I hate to write this, not \emph{that} critical for machine learning (not so for statistics or deep learning!). Same is true for statistical methods, although where time is split between preparing data for statistical analysis and interpreting and comparing models. As with machine learning, running statistical models itself is easy and automatic. If you know (enough of) statistics, you will have little trouble understanding how to work with these packages and functions. If you do not, no amount of reading of manuals will make it clearer.
 
 \hypertarget{why-r}{%
 \section*{Why R?}\label{why-r}}
 \addcontentsline{toc}{section}{Why R?}
 
-There are many software tools that allow you preprocess, plot, and analyze your data. Some cost money (SPSS, Matlab), some are free just like R (Python, Julia). Moreover, you can replicate all analysis that we will perform using Python in combination with \href{https://jupyter.org/}{Jupyter notebooks} (for reproducible analysis), \href{https://pandas.pydata.org/}{Pandas} (for Excel-style table), and \href{https://www.statsmodels.org/stable/index.html}{statmodels} (for statistical analysis). R is hardly perfect. For example, its subsetting system is confusing and appears to follow ``convenience over safety'' approach that does not sit particularly well with me. However, R in combination with piping and \href{https://www.tidyverse.org/}{Tidyverse} family of packages makes it incredibly easy to write simple, powerful and expressive code, which is very easy to understand (a huge plus, as you will discover). I will run circles around myself trying to replicate the same analysis in Python or Matlab. In addition, R is loved by mathematicians and statisticians, so it tends to have implementations for all cutting edge methods (my impression is that even Python is lagging behind it in that respect).
+There are many software tools that allow you preprocess, plot, and analyze your data. Some cost money (SPSS, Matlab), some are free just like R (Python, Julia). Moreover, you can replicate all analyses that we will perform using Python in combination with \href{https://jupyter.org/}{Jupyter notebooks} (for reproducible analysis), \href{https://pandas.pydata.org/}{Pandas} (for Excel-style table), and \href{https://www.statsmodels.org/stable/index.html}{statmodels} (for statistical analysis). R is \href{https://github.com/ReeceGoding/Frustration-One-Year-With-R}{hardly perfect}. For example, its subsetting system is confusing and appears to follow ``convenience over safety'' approach that does not sit particularly well with me. However, R in combination with piping and \href{https://www.tidyverse.org/}{Tidyverse} family of packages makes it incredibly easy to write simple, powerful and expressive code, which is very easy to understand (a huge plus, as you will discover). I will run circles around myself trying to replicate the same analysis in Python or Matlab. In addition, R is loved by mathematicians and statisticians, so it tends to have implementations for all cutting edge statistical methods (but Python is your go to for machine and deep learning).
 
 \hypertarget{why-tidyverse}{%
 \section*{Why Tidyverse}\label{why-tidyverse}}
@@ -160,13 +160,13 @@ There are many software tools that allow you preprocess, plot, and analyze your 
 
 The material is heavily skewed towards using \href{https://www.tidyverse.org/}{Tidyverse} family of packages. It looks different enough from base R to the point that one might call it a ``dialect'' of R\footnote{R is extremely flexible, making it possible to redefine its own syntax.}. Learning Tidyverse means that you have twice as many things to learn: I will always introduce both base R and Tidyverse version. \href{https://www.tidyverse.org/}{Tidyverse} is the main reason I use R (rather than Python or Julia) as it makes data analysis a breeze and makes your life so much easier. This is why I want you to learn its ways. At the same time, there is plenty of useful code that uses base R, so you need to know and understand it as well.
 
-As a matter of fact, R is so rich and flexible that there many dialects and, therefore, plenty of opinion differences \footnote{Just ask about ``base R vs.~Tidyverse'' on Twitter and see the thread set itself on fire}. For example, \href{https://github.com/Rdatatable/data.table}{data.table} package re-implements the same functionality as base R and Tidyverse in very compact way. I does not fit my style but it might be something that feels natural to you. There are also other packages to handle things like layout out your figures or working with summary tables that might suit you better. Point is, these material barely scratches the surfaces in terms of tools and approaches that you can use. View it as a starting point for your exploration not the complete map.
+As a matter of fact, R is so rich and flexible that there many dialects and, therefore, plenty of opinion differences \footnote{Just ask about ``base R vs.~Tidyverse'' on Twitter and see the thread set itself on fire}. For example, \href{https://github.com/Rdatatable/data.table}{data.table} package re-implements the same functionality as base R and Tidyverse in very compact way. I does not fit my style but it might be something that feels natural to you, so I encourage you to take a look. There are also other packages to handle things like layout out your figures or working with summary tables that might suit you better. Point is, these material barely scratches the surfaces in terms of tools and approaches that you can use. View it as a starting point for your exploration not the complete map.
 
-Another thing to keep in mind is that Tidyverse is under very active development. This means that parts of this material could be outdated by the time you read it. E.g., \emph{dplyr} \href{https://dplyr.tidyverse.org/reference/do.html}{do()} verb was superseded by an overpowered \href{https://dplyr.tidyverse.org/reference/summarise.html}{summarise()} function, a warning generated by \href{https://readr.tidyverse.org/}{readr} package was adapted for humans but now require an extra step to be used for column specification, etc. None of the changes are breaking and deprecation process is deliberately slow (e.g., \href{https://dplyr.tidyverse.org/reference/do.html}{do()} still works), so even when outdated the code in the book should still work for quite some time. However, you should keep in mind that things \emph{might} have changed, so it is a good idea to check an official manual from time to time.
+Another thing to keep in mind is that Tidyverse is under very active development. This means that parts of this material could be outdated by the time you read it. E.g., \emph{dplyr} \href{https://dplyr.tidyverse.org/reference/do.html}{do()} verb was superseded by a \href{https://dplyr.tidyverse.org/reference/group_map.html}{group\_modify()} function, a warning generated by \href{https://readr.tidyverse.org/}{readr} package was adapted for humans but now require an extra step to be used for column specification, we are now on the \emph{third} set of pivoting functions, etc. None of the changes are breaking and deprecation process is deliberately slow (e.g., \href{https://dplyr.tidyverse.org/reference/do.html}{do()} still works), so even when outdated the code in the book should still work for quite some time. However, you should keep in mind that things \emph{might} have changed, so it is a good idea to check an official manual from time to time.
 
-\hypertarget{about-the-seminar}{%
-\section*{About the seminar}\label{about-the-seminar}}
-\addcontentsline{toc}{section}{About the seminar}
+\hypertarget{about-the-seminar-itself}{%
+\section*{About the seminar itself}\label{about-the-seminar-itself}}
+\addcontentsline{toc}{section}{About the seminar itself}
 
 This is a material for \emph{Applied data analysis for psychology using the open-source software R} seminar as taught at \href{https://www.uni-bamberg.de/psychologie/}{Institute of Psychology} at University of Bamberg. Each chapter covers a single seminar, introducing necessary ideas and is accompanied by a notebook with exercises, which you need to complete and submit. To pass the seminar, you will need to complete all assignments. You do not need to complete or provide correct solutions for \emph{all} the exercises to pass the course and information on how the points for exercises will be converted to an actual grade (if you need one) or ``pass'' will be available during the seminar.
 
@@ -193,19 +193,22 @@ The material is \textbf{free to use} and is licensed under the \href{https://cre
 \addcontentsline{toc}{chapter}{Software}
 
 \hypertarget{install-r}{%
-\section{Installing R}\label{install-r}}
+\section*{Installing R}\label{install-r}}
+\addcontentsline{toc}{section}{Installing R}
 
-Go to \href{https://cloud.r-project.org/}{r-project.org} and download a current stable version of R for your platform. Run the installer, accepting all defaults. The installer will ask you whether you also want a 32-bit version to be installed alongside 64-bit. You probably won't need 32-bit, so if space is at premium you can skip it. Otherwise, it will make very little difference.
+Go to \href{https://cloud.r-project.org/}{r-project.org} and download a current stable version of R for your platform. Run the installer, accepting all defaults.
 
 \hypertarget{install-rstudio}{%
-\section{Installing R-Studio}\label{install-rstudio}}
+\section*{Installing R-Studio}\label{install-rstudio}}
+\addcontentsline{toc}{section}{Installing R-Studio}
 
 Go to \href{https://rstudio.com/products/rstudio/download/}{rstudio.com} and download \emph{RStudio Desktop Free} edition for your platform. Install it using defaults. The \emph{R-Studio} is an integrated development environment for R but you need to install R separately first! The R-Studio will automatically detect latest R that you have and, in case you have several versions of R installed, you will be able to alter that choice via \emph{Tools / Global Options\ldots{}} menu.
 
 I will explain the necessary details on using R-Studio throughout the seminar but the \href{https://github.com/rstudio/cheatsheets/raw/master/rstudio-ide.pdf}{official cheatsheet} is an excellent, compact, and up-to-date source of information. In fact, R Studio has numerous \href{https://rstudio.com/resources/cheatsheets/}{cheatsheets} that describe individual packages in a compact form.
 
 \hypertarget{install-rtools}{%
-\section{Installing RTools}\label{install-rtools}}
+\section*{Installing RTools}\label{install-rtools}}
+\addcontentsline{toc}{section}{Installing RTools}
 
 If you are using Windows, you might need \href{https://cran.r-project.org/bin/windows/Rtools/}{Rtools} for building and running some packages. You do not need to install it at the beginning, but when we will need it later, just following the link above, download the latest \emph{Rtools} version, run the installer using the defaults and follow the instructions on that page to put Rtools on the PATH!
 
@@ -213,7 +216,7 @@ If you are using Windows, you might need \href{https://cran.r-project.org/bin/wi
 \section*{Installing packages}\label{install.packages}}
 \addcontentsline{toc}{section}{Installing packages}
 
-The real power of R lies in a vast community-driven family of packages suitable for any occasion. The default repository used by R and R-Studio is \href{https://cran.r-project.org/}{The Comprehensive R Archive Network} (a.k.a. \emph{CRAN}). It has very strict requirements for submitted packages, which makes it very annoying for the authors but ensures high quality for you. We will use CRAN as a sole source of packages, but there are alternatives, such as \href{http://www.bioconductor.org/}{Bioconductor} that might have a package that is missing at CRAN. The Bioconductor relies on its own package manager, so you will need to consult the latest manual on their website.
+The real power of R lies in a vast community-driven family of packages suitable for any occasion. The default repository used by R and R-Studio is \href{https://cran.r-project.org/}{The Comprehensive R Archive Network} (a.k.a. \emph{CRAN}). It has very strict requirements for submitted packages, which makes it very annoying for the authors but ensures high quality for you. We will use CRAN as a sole source of packages, but there are alternatives, such as \href{http://www.bioconductor.org/}{Bioconductor} that might have a package that is missing on CRAN. The Bioconductor relies on its own package manager, so you will need to consult the latest manual on their website.
 
 To install a CRAN package you have two alternatives: via command line function or via R-Studio package manager interface (which will call the function for you). In the former case, go to \emph{Console} tab and type \texttt{install.packages("package-name")}, for example \texttt{install.packages("tidyverse")}, and press \textbf{Enter}.
 
@@ -225,10 +228,11 @@ Alternatively, go to \emph{Packages} tab, click on \emph{Install} button, enter 
 
 Sometimes, R will ask whether you want to install packages from source. In this case, it will grab the source code and compile the package, which takes time and requires \protect\hyperlink{install-rtools}{RTools}. In most cases, you can say ``No'' to install a pre-build binary version. The binary version will be slightly outdated but the emphasis is on \emph{slightly}.
 
-On other occasions, R-Studio will suggest restarting R Session as packages that need to be updated in use. You can do that but, in my experience, this could a repetetive experience if one of the packages is used R Studio itself (so it starts it in a new session, realizes that it is in use, suggests to restart the session, etc.) My solution is to close \emph{all} R Studio windows and use R directly. For Windows, you can find it the Start Menu, just make sure that you are using the correct version (also make sure it is \emph{x64}). Then, I use \texttt{install.packages()} to install and update everything I need.
+On other occasions, R-Studio will suggest restarting R Session as packages that need to be updated in use. You can do that but, in my experience, this could become a repetitive experience if one of the packages is used R Studio itself (so it starts it in a new session, realizes that it is in use, suggests to restart the session, etc.) My solution is to close \emph{all} R Studio windows and use R directly. For Windows, you can find it the Start Menu, just make sure that you are using the correct version. Then, I use \texttt{install.packages()} to install and update everything I need.
 
 \hypertarget{minimal-set-of-packages}{%
-\section{Minimal set of packages}\label{minimal-set-of-packages}}
+\section*{Minimal set of packages}\label{minimal-set-of-packages}}
+\addcontentsline{toc}{section}{Minimal set of packages}
 
 Please install the following packages:
 
@@ -243,42 +247,45 @@ Please install the following packages:
 \end{itemize}
 
 \hypertarget{installr}{%
-\section{Keeping R and packages up-to-date}\label{installr}}
+\section*{Keeping R and packages up-to-date}\label{installr}}
+\addcontentsline{toc}{section}{Keeping R and packages up-to-date}
 
 R and packages are getting constantly improved, so it is a good idea to regularly update them. For packages, you can use \emph{Tools / Check for Packages Updates\ldots{}} menu in R-Studio. To update R and, optionally, packages, you can use \href{https://www.r-project.org/nosvn/pandoc/installr.html}{installr} package that can install newest R (but it keeps old version!) optionally copying your entire library of packages, updating packages, etc. It is easy to use even in R itself, as it creates an extra menu to make your life easier. For R-Studio itself, use \emph{Help / Check for Updates} menu and install a newer version, if it is available (it is generally a good idea to keep your R-Studio in the newest state).
 
 \hypertarget{reproducable-research}{%
-\chapter{Reproducable Research: Projects and RMarkdown Notebooks}\label{reproducable-research}}
+\chapter{Reproducable Research: Projects and Markdown Notebooks}\label{reproducable-research}}
 
 Our aim is to create reproducible research and analysis. It is a crucial component of the open science movement but is even more important for your own research or study projects. You want to create a self-contained well-documented easy-to-understand reproducible analysis. A complete self-sufficient code that others and, most importantly, future-you can easily understand saves you time and gives you a deeper insight into the results (less mystery is better in cases like these). It also makes it easier to communicate your results to other researchers or fellow students.
 
-You should also \emph{always} consider posting your results and analysis online at public repositories such as \href{https://osf.io/}{OSF}, \href{https://www.scidb.cn/en}{Science Data Bank}, or \href{https://github.com/}{GitHub}. This not only help others but forces you into making such data + analysis archive more thoroughly. That, in turns, makes it easier for future-you to return to the data and the analysis.
+You should also \emph{always} consider posting your results and analysis online at public repositories such as \href{https://osf.io/}{OSF}, \href{https://www.scidb.cn/en}{Science Data Bank}, or \href{https://github.com/}{GitHub}. This not only help others but forces you into making such data + analysis archive more thoroughly. That, in turns, makes it easier for future-you to return to the data and the analysis. Using a \href{https://github.com/}{GitHub} (private) repository is a good idea even if you are not planning to collaborate with others as it gives you a version-controlled code in a cloud and makes synchronizing it between different machines easy.
 
 \hypertarget{projects}{%
 \section{Projects}\label{projects}}
 
-One of the most annoying features of R is that looks for files and folders only relative to its ``working directory'', which is set via \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/getwd}{setwd(dir)} function. What makes it particularly confusing is that your currently open file may be in some \emph{other} folder. If you simply use \emph{File / Open}, navigate to that file and open it, it does not change your working directory. Similarly, in R-Studio you can navigate through file system using \emph{Files} tab and open some folder you are interested in but that \textbf{does not make it a working directory}. You need to click on \emph{More} and \emph{Set As Working Directory} to make this work (that trick won't work for an opened file).
+One of the most annoying features of R is that it looks for files and folders only relative to its ``working directory'', which is set via \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/getwd.html}{setwd(dir)} function. What makes it particularly confusing is that your currently open file may be in some \emph{other} folder. If you simply use \emph{File / Open}, navigate to that file and open it, it does not change your working directory. Similarly, in R-Studio you can navigate through file system using \emph{Files} tab and open some folder you are interested in but that \textbf{does not make it a working directory}. You need to click on \emph{More} and \emph{Set As Working Directory} to make this work (that trick won't work for an opened file).
 
 \begin{center}\includegraphics[width=1\linewidth]{images/setwd-gui} \end{center}
 
-In short, it may \emph{look} that you are working in a particular folder but R will have its own opinion about this. Whenever this happens, it is really confusing and involves a lot of cursing as R cannot find files that you can clearly see with your own eyes. To avoid this you should organize any program, project or seminar as an \emph{R Project}, which assumes that all necessary files are in the project folder, which is also the working directory. R Studio has some nice project-based touches as well, like keeping tracking of which files you have open, providing version control, etc. Bottom line, \textbf{always} create a new R-project to organize yourself, even if it involves just a single file to try something out. Remember, ``Nothing is more permanent than a temporary solution!'' Which is why you should \textbf{always} write your code, as if it is for a long term project (good style, comprehensible variable names, comments, etc.), otherwise your temporary solution grows into permanent incomprehensible spaghetti code.
+In short, it may \emph{look} that you are working in a particular folder but R will have its own opinion about this. Whenever this happens, it is really confusing and involves a lot of cursing as R cannot find files that you can clearly see with your own eyes. To avoid this, you should organize any program, project or seminar as an \emph{R Project}, which assumes that all necessary files are in the project folder, which is also the working directory. R Studio has some nice project-based touches as well, like keeping tracking of which files you have open, providing version control, etc. Bottom line, \textbf{always} create a new R-project to organize yourself, even if it involves just a single file to try something out. Remember, ``Nothing is more permanent than a temporary solution!'' Which is why you should \textbf{always} write your code, as if it is for a long term project (good style, comprehensible variable names, comments, etc.), otherwise your temporary solution grows into permanent incomprehensible spaghetti code.
 
-Let us create a new project for this seminar. Use \emph{File / New Project\ldots{}}, which will give you options of creating it in a new directory (you get to come up with a name), using an existing directory (project will be named after that directory), or check it out from remote repository (something we won't talk about just yet). You can do it either way. This will be a project folder for this seminar and you will need to put all notebooks and external data files into that folder. Next time you need to open it, you can use \emph{File / Recent Projects} menu, \emph{File / Open Project\ldots{}}\texttt{\_\ menu,\ or\ simply\ open\ the}.Rproj` file in that folder.
+Let us create a new project for this seminar. Use \emph{File / New Project\ldots{}}, which will give you options of creating it in a new directory (you get to come up with a name), using an existing directory (project will be named after that directory), or check it out from remote repository (if you know git, this is very convenient). You can do it either way. This will be a project folder for this seminar and you will need to put all notebooks and external data files into that folder. Next time you need to open it, you can use \emph{File / Recent Projects} menu, \emph{File / Open Project\ldots{}}\texttt{\_\ menu,\ or\ simply\ open\ the}.Rproj` file in that folder.
 
 \hypertarget{rmarkdown}{%
-\section{RMarkdown}\label{rmarkdown}}
+\section{Quattro and RMarkdown notebooks}\label{rmarkdown}}
 
-\href{https://rmarkdown.rstudio.com/}{RMarkdown notebooks} combine formatted text, figures, references (via \href{http://www.bibtex.org/}{bibtex}) and cross-references with code\footnote{This material was prepared using RMarkdown, \href{(https://yihui.org/knitr/)}{knitr}, and \href{https://bookdown.org/}{bookdown}}. When a notebook is \href{https://yihui.org/knitr/}{knitted}, all the code is ran and its output, such as tables and figures, is inserted into the final document. This allows you to combine the narrative (the background, the methodology, comments, discussion, conclusions, etc.) with the actual code that implements what you described.
+There are two very similar notebook formats in R: an older \href{https://rmarkdown.rstudio.com/}{R Markdown} and a new \href{https://quarto.org/}{Quatro}. On the one hand, the latter is the future, so it would make sense to use Quatro notebooks. On the other hand, there is little practical difference for you, as from a R-only end-user point of view, they differ mostly in how they specify chunk options (more on that later).
+
+Both RMarkdown and Quattro rely on a \href{https://rmarkdown.rstudio.com/}{markdown} language to combine formatted text, figures, references (via \href{http://www.bibtex.org/}{bibtex}) and cross-references with code\footnote{This material was prepared using RMarkdown, \href{(https://yihui.org/knitr/)}{knitr}, and \href{https://bookdown.org/}{bookdown}}. When a notebook is \href{https://yihui.org/knitr/}{knitted}, all the code is ran and its output, such as tables and figures, is inserted into the final document. This allows you to combine the narrative (the background, the methodology, comments, discussion, conclusions, etc.) with the actual code that implements what you described. And, you can be sure that the figures and numbers are the latest correct version.
 
 Notebooks can be knitted into a variety of formats including HTML, PDF, Word document, EPUB book, etc. Thus, instead of creating plots and tables to save them into separate files so you can copy-paste them into your Word file (and then redoing this, if something changed, and trying to find the correct code that you used the last time, and wondering why it does not run anymore\ldots), you simply ``knit'' the notebook and get the current and complete research report, semester work, presentation, etc. Even more importantly, same goes for others, as they also can knit your notebook and generate its latest version in format they need. All exercises will involve using RMarkdown notebooks, so you need to familiarize yourself with them.
 
-We will start by learning the markdown, which is a family of human-oriented markup languages. Markup is a plain text that includes formatting syntax and can be translated into visually formatted text. For example, HTML and LaTeX are markup languages. The advantage of markup is that you do not need a special program to edit it, any plain text editor will suffice. However, you do need a special program to turn this plain text into the document. For example, you need Latex to compile a PDF or a browser to view HTML properly. However, anyone can read your original file even if they do not have Latex, PDF reader, or a browser installed (you do need Word to read a Word file!). \textbf{Markdown} markup language was design to make formatting simple and unobtrusive, so the plain document is easier to read (you can read HTML but it is hardly fun!). It is not as feature-rich as HTML or LaTeX but covers most of your usual needs and is very easy to learn!
+We will start by learning the markdown, which is a family of human-oriented markup languages. Markup is a plain text that includes formatting syntax and can be translated into visually formatted text. For example, HTML and LaTeX are markup languages. The advantage of markup is that you do not need a special program to edit it, any plain text editor will suffice. However, you do need a special program to turn this plain text into the document. For example, you need Latex to compile a PDF or a browser to view HTML properly. However, anyone can read your original file even if they do not have Latex, PDF reader, or a browser installed (you do need Word to read a Word file!). \textbf{Markdown} markup language was designed to make formatting simple and unobtrusive, so the plain document is easier to read (you can read HTML but it is hardly fun!). It is not as feature-rich as HTML or LaTeX but covers most of your usual needs and is very easy to learn!
 
-Create a new markdown file via \emph{File / New File / R Markdown\ldots{}} menu. Use \texttt{Seminar\ 1} for its title and HTML as default output format. Then you need to save the file (press \textbf{Ctrl + S} or use \emph{File/Save} menu) and call the file \texttt{seminar-01} (R Studio will add \texttt{.Rmd} extension automatically). The file you created is not empty, as R Studio is kind enough to provide an example for you. Knit the notebook by clicking on \emph{Knit} button or pressing \textbf{Ctrl+Shift+K} to see how the properly typeset text will look (it will appear in a \emph{Viewer} tab).
+Create a new markdown file via \emph{File / New File / Quatro Document\ldots{}} or \emph{File / New File / R Markdown\ldots{}} menu. Use \texttt{Seminar\ 1} for its title and HTML as default output format. Then you need to save the file (press \textbf{Ctrl + S} or use \emph{File/Save} menu) and call the file \texttt{seminar-01} (R Studio will add \texttt{.qmd} or \texttt{.Rmd} extension automatically). The file you created is not empty, as R Studio is kind enough to provide an example for you. Knit the notebook by clicking on \emph{Knit} button or pressing \textbf{Ctrl+Shift+K} to see how the properly typeset text will look (it will appear in a \emph{Viewer} tab).
 
 \begin{center}\includegraphics[width=1\linewidth]{images/default-notebook} \end{center}
 
-Let us go through the default notebook that R Studio created for us.
+Let us go through the default RMarkdown notebook that R Studio created for us (it has more content than a default Quatro document).
 
 \begin{center}\includegraphics[width=1\linewidth]{images/notebook-header} \end{center}
 
@@ -307,10 +314,12 @@ Finally, you run \textbf{all} the code in the chunk by clicking on \emph{Run cur
 
 \begin{center}\includegraphics[width=1\linewidth]{images/notebook-run-chunk} \end{center}
 
+Working with Quatro notebook is very similar but certain YAML header options are different (e.g., \texttt{format:\ html} instead of \texttt{output:\ html\_document}) and chunk settings are inside the chunk instead of being inside curly brackets. These become important when you go in deeper and want to build a website or write a book using Quatro but won't matter much for this seminar.
+
 \hypertarget{exercise}{%
 \section{Exercise}\label{exercise}}
 
-For the today's exercise, I want you to familiarize yourself with markdown. Go to \href{https://www.markdownguide.org/}{markdownguide.org} and look at basic and extended syntax (their cheat sheet is also very good). Write any text you want that uses all the formatting and submit the file to MS Teams.
+For the today's exercise, I want you to familiarize yourself with markdown. Create a RMarkdown (not Quatro!) notebook for this. Go to \href{https://www.markdownguide.org/}{markdownguide.org} and look at basic and extended syntax (their cheat sheet is also very good). Write any text you want that uses all the formatting and submit the \texttt{.Rmd} file to MS Teams. Please note that if you use an external image, you must submit it (zip everything into a single file) and the path that you use must be \emph{relative}. Remember, if your file path is ``c:/Documents/R-seminar/funny.png'' chances are I do not have that file and that set of folders on my computer and your markdown won't render for me.
 
 \hypertarget{vectors}{%
 \chapter{Vectors! Vectors everywhere!}\label{vectors}}
@@ -1883,17 +1892,11 @@ You can use \texttt{read\_csv()} the same way and it will work the same way but 
 
 \begin{verbatim}
 ## Rows: 3 Columns: 5
-\end{verbatim}
-
-\begin{verbatim}
 ## -- Column specification --------------------------------------------------------
 ## Delimiter: ","
 ## chr (1): Participant
 ## dbl (3): Block, Trial, Contrast
 ## lgl (1): Correct
-\end{verbatim}
-
-\begin{verbatim}
 ## 
 ## i Use `spec()` to retrieve the full column specification for this data.
 ## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
@@ -1975,7 +1978,10 @@ You may feel that this a lot of extra work just to suppress an annoying but, ult
 \end{verbatim}
 
 \begin{verbatim}
-## Warning: One or more parsing issues, see `problems()` for details
+## Warning: One or more parsing issues, call `problems()` on your data frame for details,
+## e.g.:
+##   dat <- vroom(...)
+##   problems(dat)
 \end{verbatim}
 
 Personally, I would prefer for \texttt{read\_csv()} to loudly fail with an error in cases like these but having a nice red warning is already very helpful to quickly detect the problem with your data (and if your data is wrong, your whole analysis is meaningless). Thus, \emph{always} use \texttt{read\_} rather than \texttt{read.} functions and \emph{always} specify the table structure. The lazy, and my preferred, way to do it, is to first read the file without specifying the structure and copy-paste-edit the warning column-specification message into the code adjusting as necessary.
@@ -2016,7 +2022,7 @@ In this chapter you will learn about \emph{functions} in R, as they are the seco
 
 In the previous chapters, you have learned that you can store information in variables --- ``boxes with slots'' --- as \protect\hyperlink{vectors}{vectors} or as \protect\hyperlink{tables}{tables} (bundles of vectors of equal length). To use these stored values for computation you need functions. In programming, function is an \emph{isolated} code that receives some input, performs some action on it, and, optionally, returns a value\footnote{Function that does not return a value, probably, generates its output to a console, external file, etc. There is little point in running a function that does not affect the world.}. The concept of functions comes from mathematics, so it might be easier to understand them using R implementation of mathematical functions. For example, you may remember a sinus function from trigonometry. It is typically abbreviated as \texttt{sin}, it takes a numeric value of angle (in radians) as its \emph{input} and returns (this is its \emph{output}) a corresponding value between -1 and 1: \(sin(0) = 0\), \(sin(\pi/2) = 1\), etc.
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-100-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-101-1} \end{center}
 
 In R, you write a function using the following template
 
@@ -2545,53 +2551,53 @@ Normal(\mu=2*ConditionIndex, \sigma=0.4) + \\ Normal(\mu=Intensity, \sigma=0.4)\
 \hline
 Condition & Intensity & Response\\
 \hline
-A & 1 & 0.8562119\\
+A & 1 & 0.2926766\\
 \hline
-B & 1 & -2.2946926\\
+B & 1 & -2.1678032\\
 \hline
-C & 1 & -4.1113252\\
+C & 1 & -4.5360439\\
 \hline
-A & 2 & 0.9073690\\
+A & 2 & 0.1238678\\
 \hline
-B & 2 & -0.5087937\\
+B & 2 & -1.2228574\\
 \hline
-C & 2 & -4.2563895\\
+C & 2 & -4.1779069\\
 \hline
-A & 3 & 2.4470135\\
+A & 3 & 1.5456157\\
 \hline
-B & 3 & 0.3694365\\
+B & 3 & 0.7961713\\
 \hline
-C & 3 & -2.3015766\\
+C & 3 & -1.5886649\\
 \hline
-A & 4 & 2.5443995\\
+A & 4 & 2.9493296\\
 \hline
-B & 4 & 0.3752162\\
+B & 4 & 0.4482508\\
 \hline
-C & 4 & -1.5983257\\
+C & 4 & -1.0675410\\
 \hline
-A & 5 & 3.5120442\\
+A & 5 & 4.8214176\\
 \hline
-B & 5 & 1.8795193\\
+B & 5 & 2.4342622\\
 \hline
-C & 5 & -0.1177578\\
+C & 5 & 0.8210775\\
 \hline
-A & 6 & 5.9331644\\
+A & 6 & 5.7994380\\
 \hline
-B & 6 & 3.4639641\\
+B & 6 & 2.8626488\\
 \hline
-C & 6 & 1.4438178\\
+C & 6 & 0.4845590\\
 \hline
-A & 7 & 5.5949229\\
+A & 7 & 5.9824213\\
 \hline
-B & 7 & 3.4564875\\
+B & 7 & 3.6409195\\
 \hline
-C & 7 & 1.8094992\\
+C & 7 & 1.5092717\\
 \hline
-A & 8 & 6.8423020\\
+A & 8 & 7.5672920\\
 \hline
-B & 8 & 5.1692277\\
+B & 8 & 4.3475228\\
 \hline
-C & 8 & 1.6482167\\
+C & 8 & 3.7979678\\
 \hline
 \end{tabular}
 
@@ -2604,7 +2610,7 @@ We plot this data by 1) \emph{defining aesthetics} (mapping \texttt{Intensity} o
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-116-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-117-1.pdf}
 
 As I already wrote, technically, the only thing you need to define is aesthetics, so let us not add anything to the plot (we drop the \texttt{+geom\_line()}).
 
@@ -2614,7 +2620,7 @@ As I already wrote, technically, the only thing you need to define is aesthetics
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-117-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-118-1} \end{center}
 
 Told you it will look empty and yet you can already see \emph{ggplot2} in action. Notice that axes are labeled and their limits are set. You cannot see the legend (they are not plotted without corresponding geometry) but it is also ready behind the scenes. This is because our initial call specified the most important part: how individual variables map on various properties even before we tell \emph{ggplot2} which visuals we will use to plot the data. When we specified that x-axis will represent the \texttt{Intensity}, ggplot2 figured out the range of values, so it knows \emph{where} it is going to plot whatever we decide to plot. Points, lines, bars, error bars and what not will span only that range. Same goes for other properties such as color. We wanted \emph{color} to represent the condition. Again, we may not know what exactly we will be plotting (points, lines?) or even how many different visuals we will be adding to the plot (just lines? points + lines? points + lines + linear fit?) but we do know that whatever visual we add, if it can have color, its color \emph{must} represent condition for that data point. The beauty of \emph{ggplot2} is that it analyses your data and figures out how many colors you need and is ready to apply them \emph{consistently} to all visuals you will add later. It will ensure that all points, bars, lines, etc. will have consistent coordinates scaling, color, size, fill mapping that are the same across the entire plot. This may sound trivial but typically (e.g., Matlab, Matplotlib), it is \emph{your} job to make sure that all these properties match and that they represent the same value across all visual elements. And this is a pretty tedious job, particularly when you decide to change your mappings and have to redo all individual components by hand. In \emph{ggplot2}, this dissociation between mapping and visuals means you can tinker with one of them at a time. E.g. keep the visuals but change grouping or see if effect of condition is easier to see via line type, size or shape of the point? Or you can keep the mapping and see whether adding another visual will make the plot easier to understand. Note that some mapping also \emph{groups} your data, so when you use group-based visual information (e.g., a linear regression line) it will know what data belongs together and so will perform this computation per group.
 
@@ -2628,7 +2634,7 @@ Let us see how you can keep the relationship mapping but add more visuals. Let u
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-118-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-119-1} \end{center}
 
 In the plot above, we \emph{kept} the relationship between variables and properties but said ``Oh, and throw in some points please''. And ggplot2 knows how to add the points so that they appear at proper location and in proper color. But we want more!
 
@@ -2642,7 +2648,7 @@ In the plot above, we \emph{kept} the relationship between variables and propert
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-119-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-120-1} \end{center}
 
 Now we added a linear regression line that helps us to better see the relationship between \texttt{Intensity} and \texttt{Response}. Again, we simply wished for another visual to be added (\texttt{method="lm"} means that we wanted to average data via linear regression with \texttt{formula\ =\ y\ \textasciitilde{}\ x} meaning that we regress y-axis on x-axis with no further covariates, \texttt{se=FALSE} means no standard error stripe, \texttt{linetype="dashed"} just makes it easier to distinguish linar fit from the solid data line).
 
@@ -2657,7 +2663,7 @@ Or, we can keep the \emph{visuals} but see whether changing \emph{mapping} would
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-120-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-121-1} \end{center}
 
 Or, we can check whether splitting into several plots helps.
 
@@ -2671,7 +2677,7 @@ Or, we can check whether splitting into several plots helps.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-121-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-122-1} \end{center}
 
 Again, note that all three plots live on the same scale for x- and y-axis, making them easy to compare (you fully appreciate this magic if you ever struggled with ensuring optimal and consistent scaling by hand in Matlab). I went through so many examples to stress how ggplot allows you to think about the aesthetics of variable mapping \emph{independently} of the actual visual representation (and vice versa).
 
@@ -3696,7 +3702,7 @@ In the first exercise, I want you to implement the actual analysis performed in 
 
 Your final plot should look something like this
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-152-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-153-1} \end{center}
 
 Do exercise 1.
 
@@ -3827,7 +3833,7 @@ However, be careful when level labels are numbers. In the example below, you mig
 
 For the next exercise, copy-paste the code from exercise \#1 and alter it so the labels are \texttt{"sphere"} (for \texttt{"heavy\ poles\ sphere"}), \texttt{"quad\ band"} (for \texttt{"stripes-8"}), \texttt{"dual\ band"} (\texttt{"stripes-4"}), \texttt{"single\ band"} (for \texttt{"stripes-2"}) and levels are in that order. Your plot should look something like this.
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-159-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-160-1} \end{center}
 
 Do exercise 2.
 
@@ -3976,13 +3982,13 @@ Do exercise 4.
 
 Then, plot the results. Use \href{https://ggplot2.tidyverse.org/reference/geom_point.html}{geom\_point()} plus \href{https://ggplot2.tidyverse.org/reference/geom_path.html}{geom\_line()} to plot the mean response The plot should like like this (hint, drop color mapping and map \texttt{Prime} to \texttt{group} property).
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-167-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-168-1} \end{center}
 
 Do exercise 5.
 
 Tweak code from exercise 4 to plot all lines on the same plot and use color property to distinguish between different primes.
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-168-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-169-1} \end{center}
 
 Do exercise 6.
 
@@ -3997,7 +4003,7 @@ In our case the outcome variable is a \emph{proportion} limited to 0 to 1 range.
 
 To compute this quantiles-based interval, you need to compute its lower and upper limits separately via \href{https://en.wikipedia.org/wiki/Quantile}{quantiles}. A quantile for 0.1 (10\%) returns a value, so that 10\% of all values in the vector are below it, the quantile of 0.9 (90\%) means that only 10\% of values are above it (or 90\% are below). So, an 80\% confidence intervals includes values that are between 10\% and 90\% or, alternatively, between 0.1 and 0.9 quantiles.
 
-\begin{center}\includegraphics[width=1\linewidth]{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-169-1} \end{center}
+\begin{center}\includegraphics[width=1\linewidth]{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-170-1} \end{center}
 
 To compute this, R has function \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html}{quantile()}.
 
@@ -4015,7 +4021,7 @@ To compute this, R has function \href{https://stat.ethz.ch/R-manual/R-devel/libr
 
 Modify code from from exercise \#5 to compute two additional variables/columns for lower and upper limits of the \emph{89\%}\footnote{Why 89\%? Because it is a prime number! If you think that it sounds arbitrary, you are perfectly correct. But so is using 95\% and for that one you do not even have the ``prime number'' excuse!} interval (think about what these limits are for 89\% interval). Then, use \href{https://ggplot2.tidyverse.org/reference/geom_linerange.html}{geom\_errorbar()} to plot 89\% interval (you will need to map the two variable you computed to \texttt{ymin} and \texttt{ymax} properties). The plot should look like this (hint, drop color mapping and map \texttt{Prime} to \texttt{group} property).
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-171-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-172-1} \end{center}
 
 Do exercise 7.
 
@@ -4024,7 +4030,7 @@ Do exercise 7.
 
 A different study, which used same four objects, showed that a similar looking history effect but for longer interruptions (1000 ms rather than 50 ms) was modulated by objects similarity. Let us check that hypothesis by computing a rough difference measure. It will assume that their difference is proportional to the absolute ``distance'' between them on x-axis in the above plot\footnote{This measure assumes metric distance, which is a very strong assumption.}. E.g., distance between a sphere and a sphere is 0, but between sphere and quad-band or single-band and dual-band is 1. Difference between sphere and dual-band is 2, etc. You can compute it by converting \emph{factor} variables \texttt{Prime} and \texttt{Probe} to integers (this assumes that levels are in the correct order). Then, you can compute the \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/MathFun.html}{absolute difference} between those indexes and store it as a new column (e.g.~\texttt{Difference}). Next, group by \texttt{Difference} and \texttt{Participant} to compute average probability of the same response. Your plot should look like this (you will need to map \texttt{Difference} on \texttt{group} to get four box plots rather than one).
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-172-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-173-1} \end{center}
 
 Do exercise 8.
 
@@ -4052,7 +4058,7 @@ Examples make joining operations much easier to understand, so let us create two
 \end{Shaded}
 
 \begin{table}
-\caption{\label{tab:unnamed-chunk-175}demographics (left) and report (right) tables}
+\caption{\label{tab:unnamed-chunk-176}demographics (left) and report (right) tables}
 
 \centering
 \begin{tabular}[t]{l|r}
@@ -4073,21 +4079,21 @@ D & 22\\
 \hline
 ID & Report\\
 \hline
-A & 2.111071\\
+A & 1.344897\\
 \hline
-A & 2.564684\\
+A & 4.816083\\
 \hline
-B & 3.269598\\
+B & 2.527649\\
 \hline
-B & 6.424114\\
+B & 6.792016\\
 \hline
-C & 2.099578\\
+C & 2.156135\\
 \hline
-C & 6.371541\\
+C & 1.753247\\
 \hline
-D & 3.428514\\
+D & 5.754798\\
 \hline
-D & 5.287840\\
+D & 5.269061\\
 \hline
 \end{tabular}
 \end{table}
@@ -4102,28 +4108,28 @@ To join two tables, you require ``key'' columns: columns that contain values tha
 \end{Shaded}
 
 \begin{table}
-\caption{\label{tab:unnamed-chunk-177}Joining/merging tables with fully matching keys via join (left) and merge (right). Note how a different order of tables results in a different order of columns.}
+\caption{\label{tab:unnamed-chunk-178}Joining/merging tables with fully matching keys via join (left) and merge (right). Note how a different order of tables results in a different order of columns.}
 
 \centering
 \begin{tabular}[t]{l|r|r}
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 2.111071\\
+A & 20 & 1.344897\\
 \hline
-A & 20 & 2.564684\\
+A & 20 & 4.816083\\
 \hline
-B & 19 & 3.269598\\
+B & 19 & 2.527649\\
 \hline
-B & 19 & 6.424114\\
+B & 19 & 6.792016\\
 \hline
-C & 30 & 2.099578\\
+C & 30 & 2.156135\\
 \hline
-C & 30 & 6.371541\\
+C & 30 & 1.753247\\
 \hline
-D & 22 & 3.428514\\
+D & 22 & 5.754798\\
 \hline
-D & 22 & 5.287840\\
+D & 22 & 5.269061\\
 \hline
 \end{tabular}
 \centering
@@ -4131,21 +4137,21 @@ D & 22 & 5.287840\\
 \hline
 ID & Report & Age\\
 \hline
-A & 2.111071 & 20\\
+A & 1.344897 & 20\\
 \hline
-A & 2.564684 & 20\\
+A & 4.816083 & 20\\
 \hline
-B & 3.269598 & 19\\
+B & 2.527649 & 19\\
 \hline
-B & 6.424114 & 19\\
+B & 6.792016 & 19\\
 \hline
-C & 2.099578 & 30\\
+C & 2.156135 & 30\\
 \hline
-C & 6.371541 & 30\\
+C & 1.753247 & 30\\
 \hline
-D & 3.428514 & 22\\
+D & 5.754798 & 22\\
 \hline
-D & 5.287840 & 22\\
+D & 5.269061 & 22\\
 \hline
 \end{tabular}
 \end{table}
@@ -4176,7 +4182,7 @@ To see each join in action, let us slightly modify the \texttt{reports} table to
 \end{Shaded}
 
 \begin{table}
-\caption{\label{tab:unnamed-chunk-179}Now demographics (left) and reports (right) table have unique keys ("D" for demographics, "E" for reports) without a match in the second table.}
+\caption{\label{tab:unnamed-chunk-180}Now demographics (left) and reports (right) table have unique keys ("D" for demographics, "E" for reports) without a match in the second table.}
 
 \centering
 \begin{tabular}[t]{l|r}
@@ -4197,21 +4203,21 @@ D & 22\\
 \hline
 ID & Report\\
 \hline
-A & 4.067210\\
+A & 4.060560\\
 \hline
-A & 5.734844\\
+A & 6.659319\\
 \hline
-B & 1.269464\\
+B & 1.958113\\
 \hline
-B & 2.119045\\
+B & 6.592248\\
 \hline
-C & 1.180758\\
+C & 1.042310\\
 \hline
-C & 6.091102\\
+C & 3.464990\\
 \hline
-E & 3.744488\\
+E & 4.114685\\
 \hline
-E & 1.319101\\
+E & 6.679348\\
 \hline
 \end{tabular}
 \end{table}
@@ -4227,23 +4233,23 @@ E & 1.319101\\
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-181}Inner join. Only rows for matching keys are merged}
+\caption{\label{tab:unnamed-chunk-182}Inner join. Only rows for matching keys are merged}
 \centering
 \begin{tabular}[t]{l|r|r}
 \hline
 ID & Report & Age\\
 \hline
-A & 4.067210 & 20\\
+A & 4.060560 & 20\\
 \hline
-A & 5.734844 & 20\\
+A & 6.659319 & 20\\
 \hline
-B & 1.269464 & 19\\
+B & 1.958113 & 19\\
 \hline
-B & 2.119045 & 19\\
+B & 6.592248 & 19\\
 \hline
-C & 1.180758 & 30\\
+C & 1.042310 & 30\\
 \hline
-C & 6.091102 & 30\\
+C & 3.464990 & 30\\
 \hline
 \end{tabular}
 \end{table}
@@ -4259,29 +4265,29 @@ In contrast, \textbf{full join} is the most liberal as it includes all rows from
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-183}Full join. All rows are merged, `NA` are used for missing values in rows from a complementary table}
+\caption{\label{tab:unnamed-chunk-184}Full join. All rows are merged, `NA` are used for missing values in rows from a complementary table}
 \centering
 \begin{tabular}[t]{l|r|r}
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 4.067210\\
+A & 20 & 4.060560\\
 \hline
-A & 20 & 5.734844\\
+A & 20 & 6.659319\\
 \hline
-B & 19 & 1.269464\\
+B & 19 & 1.958113\\
 \hline
-B & 19 & 2.119045\\
+B & 19 & 6.592248\\
 \hline
-C & 30 & 1.180758\\
+C & 30 & 1.042310\\
 \hline
-C & 30 & 6.091102\\
+C & 30 & 3.464990\\
 \hline
 D & 22 & NA\\
 \hline
-E & NA & 3.744488\\
+E & NA & 4.114685\\
 \hline
-E & NA & 1.319101\\
+E & NA & 6.679348\\
 \hline
 \end{tabular}
 \end{table}
@@ -4297,23 +4303,23 @@ E & NA & 1.319101\\
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-185}Left join. All rows from demographics tables are used and missing matching rows are filled with `NA`}
+\caption{\label{tab:unnamed-chunk-186}Left join. All rows from demographics tables are used and missing matching rows are filled with `NA`}
 \centering
 \begin{tabular}[t]{l|r|r}
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 4.067210\\
+A & 20 & 4.060560\\
 \hline
-A & 20 & 5.734844\\
+A & 20 & 6.659319\\
 \hline
-B & 19 & 1.269464\\
+B & 19 & 1.958113\\
 \hline
-B & 19 & 2.119045\\
+B & 19 & 6.592248\\
 \hline
-C & 30 & 1.180758\\
+C & 30 & 1.042310\\
 \hline
-C & 30 & 6.091102\\
+C & 30 & 3.464990\\
 \hline
 D & 22 & NA\\
 \hline
@@ -4331,27 +4337,27 @@ D & 22 & NA\\
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-187}Right join. All rows from reports tables are used and missing matching rows are filled with `NA`}
+\caption{\label{tab:unnamed-chunk-188}Right join. All rows from reports tables are used and missing matching rows are filled with `NA`}
 \centering
 \begin{tabular}[t]{l|r|r}
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 4.067210\\
+A & 20 & 4.060560\\
 \hline
-A & 20 & 5.734844\\
+A & 20 & 6.659319\\
 \hline
-B & 19 & 1.269464\\
+B & 19 & 1.958113\\
 \hline
-B & 19 & 2.119045\\
+B & 19 & 6.592248\\
 \hline
-C & 30 & 1.180758\\
+C & 30 & 1.042310\\
 \hline
-C & 30 & 6.091102\\
+C & 30 & 3.464990\\
 \hline
-E & NA & 3.744488\\
+E & NA & 4.114685\\
 \hline
-E & NA & 1.319101\\
+E & NA & 6.679348\\
 \hline
 \end{tabular}
 \end{table}
@@ -4370,7 +4376,7 @@ As noted above, you can also use more than one key.
 \end{Shaded}
 
 \begin{table}
-\caption{\label{tab:unnamed-chunk-189}Two identically named key columns: ID and Gender.}
+\caption{\label{tab:unnamed-chunk-190}Two identically named key columns: ID and Gender.}
 
 \centering
 \begin{tabular}[t]{l|l|r}
@@ -4391,13 +4397,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 5.285534\\
+A & M & 6.656919\\
 \hline
-B & F & 2.979899\\
+B & F & 3.018823\\
 \hline
-A & F & 6.052062\\
+A & F & 2.745487\\
 \hline
-B & M & 1.736539\\
+B & M & 3.956588\\
 \hline
 \end{tabular}
 \end{table}
@@ -4411,19 +4417,19 @@ B & M & 1.736539\\
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-191}Joining/merging two tables by ID and Gender.}
+\caption{\label{tab:unnamed-chunk-192}Joining/merging two tables by ID and Gender.}
 \centering
 \begin{tabular}[t]{l|l|r|r}
 \hline
 ID & Gender & Age & Report\\
 \hline
-A & M & 20 & 5.285534\\
+A & M & 20 & 6.656919\\
 \hline
-B & F & 19 & 2.979899\\
+B & F & 19 & 3.018823\\
 \hline
-A & F & 30 & 6.052062\\
+A & F & 30 & 2.745487\\
 \hline
-B & M & 22 & 1.736539\\
+B & M & 22 & 3.956588\\
 \hline
 \end{tabular}
 \end{table}
@@ -4443,7 +4449,7 @@ Finally, key columns can be named \emph{differently} in two tables. In this case
 \end{Shaded}
 
 \begin{table}
-\caption{\label{tab:unnamed-chunk-193}Differently named key columns. VPCode in demographics table corresponds to ID in reports; sex in demographics corresponds to Gender in reports}
+\caption{\label{tab:unnamed-chunk-194}Differently named key columns. VPCode in demographics table corresponds to ID in reports; sex in demographics corresponds to Gender in reports}
 
 \centering
 \begin{tabular}[t]{l|l|r}
@@ -4464,13 +4470,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 2.078000\\
+A & M & 3.177419\\
 \hline
-B & F & 5.243708\\
+B & F & 3.808132\\
 \hline
-A & F & 1.187608\\
+A & F & 5.342651\\
 \hline
-B & M & 2.111884\\
+B & M & 5.822614\\
 \hline
 \end{tabular}
 \end{table}
@@ -4484,19 +4490,19 @@ B & M & 2.111884\\
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-195}Joining tables by matching VPCode to ID and Sex to Gender.}
+\caption{\label{tab:unnamed-chunk-196}Joining tables by matching VPCode to ID and Sex to Gender.}
 \centering
 \begin{tabular}[t]{l|l|r|r}
 \hline
 VPCode & Sex & Age & Report\\
 \hline
-A & F & 30 & 1.187608\\
+A & F & 30 & 5.342651\\
 \hline
-A & M & 20 & 2.078000\\
+A & M & 20 & 3.177419\\
 \hline
-B & F & 19 & 5.243708\\
+B & F & 19 & 3.808132\\
 \hline
-B & M & 22 & 2.111884\\
+B & M & 22 & 5.822614\\
 \hline
 \end{tabular}
 \end{table}
@@ -4554,7 +4560,7 @@ And, also recall, that quite often data is stored in a wide format that is easie
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-198}Wide non-tidy table.}
+\caption{\label{tab:unnamed-chunk-199}Wide non-tidy table.}
 \centering
 \begin{tabular}[t]{c|c|c|c|c}
 \hline
@@ -4695,35 +4701,35 @@ If you want to stick to base R, you can pivot longer via \href{https://stat.ethz
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-204}Same table pivoted via reshape.}
+\caption{\label{tab:unnamed-chunk-205}Same table pivoted via reshape.}
 \centering
-\begin{tabular}[t]{l|r|l|l|r}
+\begin{tabular}[t]{r|l|l|r}
 \hline
-  & Participant & Face & Scale & Response\\
+Participant & Face & Scale & Response\\
 \hline
-1.M-1.Symmetry & 1 & M-1 & Symmetry & 6\\
+1 & M-1 & Symmetry & 6\\
 \hline
-1.M-2.Symmetry & 1 & M-2 & Symmetry & 4\\
+1 & M-2 & Symmetry & 4\\
 \hline
-2.M-1.Symmetry & 2 & M-1 & Symmetry & 5\\
+2 & M-1 & Symmetry & 5\\
 \hline
-2.M-2.Symmetry & 2 & M-2 & Symmetry & 3\\
+2 & M-2 & Symmetry & 3\\
 \hline
-1.M-1.Attractiveness & 1 & M-1 & Attractiveness & 4\\
+1 & M-1 & Attractiveness & 4\\
 \hline
-1.M-2.Attractiveness & 1 & M-2 & Attractiveness & 7\\
+1 & M-2 & Attractiveness & 7\\
 \hline
-2.M-1.Attractiveness & 2 & M-1 & Attractiveness & 2\\
+2 & M-1 & Attractiveness & 2\\
 \hline
-2.M-2.Attractiveness & 2 & M-2 & Attractiveness & 7\\
+2 & M-2 & Attractiveness & 7\\
 \hline
-1.M-1.Trustworthiness & 1 & M-1 & Trustworthiness & 3\\
+1 & M-1 & Trustworthiness & 3\\
 \hline
-1.M-2.Trustworthiness & 1 & M-2 & Trustworthiness & 6\\
+1 & M-2 & Trustworthiness & 6\\
 \hline
-2.M-1.Trustworthiness & 2 & M-1 & Trustworthiness & 1\\
+2 & M-1 & Trustworthiness & 1\\
 \hline
-2.M-2.Trustworthiness & 2 & M-2 & Trustworthiness & 2\\
+2 & M-2 & Trustworthiness & 2\\
 \hline
 \end{tabular}
 \end{table}
@@ -4786,13 +4792,13 @@ Do exercise 5.
 
 Now you have a table that has median and MAD values for each combination and item. Plot them to compare them visually. Use median responses for y-value of points and median±MAD for error bars. Use facets and color to make it easier to identify the items and conditions. My take on the plot is below, do you think we should expect to find difference between the conditions?
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-207-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-208-1} \end{center}
 
 Do exercise 6.
 
 Perform similar analysis but do not group data and summarize the data. Instead, use box plots to show the variability. Which visualization do you prefer?
 
-\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-208-1} \end{center}
+\begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-209-1} \end{center}
 
 Do exercise 7.
 
@@ -4823,7 +4829,7 @@ Or, using explicit \texttt{id\_cols}
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-211}Our table is wide again!}
+\caption{\label{tab:unnamed-chunk-212}Our table is wide again!}
 \centering
 \begin{tabular}[t]{r|l|r|r|r}
 \hline
@@ -4884,29 +4890,29 @@ Let us take a look at the importance of \texttt{id\_cols}. Imagine that we have 
 \hline
 Participant & Face & Scale & Response & RT\\
 \hline
-1 & M-1 & Symmetry & 6 & 1.45\\
+1 & M-1 & Symmetry & 6 & 0.84\\
 \hline
-1 & M-1 & Attractiveness & 4 & 1.84\\
+1 & M-1 & Attractiveness & 4 & 0.69\\
 \hline
-1 & M-1 & Trustworthiness & 3 & 1.51\\
+1 & M-1 & Trustworthiness & 3 & 1.02\\
 \hline
-1 & M-2 & Symmetry & 4 & 1.73\\
+1 & M-2 & Symmetry & 4 & 1.04\\
 \hline
-1 & M-2 & Attractiveness & 7 & 1.58\\
+1 & M-2 & Attractiveness & 7 & 1.50\\
 \hline
-1 & M-2 & Trustworthiness & 6 & 1.14\\
+1 & M-2 & Trustworthiness & 6 & 1.01\\
 \hline
-2 & M-1 & Symmetry & 5 & 2.67\\
+2 & M-1 & Symmetry & 5 & 0.49\\
 \hline
-2 & M-1 & Attractiveness & 2 & 1.11\\
+2 & M-1 & Attractiveness & 2 & 1.26\\
 \hline
-2 & M-1 & Trustworthiness & 1 & 0.43\\
+2 & M-1 & Trustworthiness & 1 & 0.71\\
 \hline
-2 & M-2 & Symmetry & 3 & 0.78\\
+2 & M-2 & Symmetry & 3 & 1.42\\
 \hline
-2 & M-2 & Attractiveness & 7 & 0.71\\
+2 & M-2 & Attractiveness & 7 & 0.45\\
 \hline
-2 & M-2 & Trustworthiness & 2 & 1.75\\
+2 & M-2 & Trustworthiness & 2 & 1.12\\
 \hline
 \end{tabular}
 
@@ -4923,29 +4929,29 @@ For \href{https://tidyr.tidyverse.org/reference/pivot_wider.html}{pivot\_wider},
 \hline
 Participant & Face & RT & Symmetry & Attractiveness & Trustworthiness\\
 \hline
-1 & M-1 & 1.45 & 6 & NA & NA\\
+1 & M-1 & 0.84 & 6 & NA & NA\\
 \hline
-1 & M-1 & 1.84 & NA & 4 & NA\\
+1 & M-1 & 0.69 & NA & 4 & NA\\
 \hline
-1 & M-1 & 1.51 & NA & NA & 3\\
+1 & M-1 & 1.02 & NA & NA & 3\\
 \hline
-1 & M-2 & 1.73 & 4 & NA & NA\\
+1 & M-2 & 1.04 & 4 & NA & NA\\
 \hline
-1 & M-2 & 1.58 & NA & 7 & NA\\
+1 & M-2 & 1.50 & NA & 7 & NA\\
 \hline
-1 & M-2 & 1.14 & NA & NA & 6\\
+1 & M-2 & 1.01 & NA & NA & 6\\
 \hline
-2 & M-1 & 2.67 & 5 & NA & NA\\
+2 & M-1 & 0.49 & 5 & NA & NA\\
 \hline
-2 & M-1 & 1.11 & NA & 2 & NA\\
+2 & M-1 & 1.26 & NA & 2 & NA\\
 \hline
-2 & M-1 & 0.43 & NA & NA & 1\\
+2 & M-1 & 0.71 & NA & NA & 1\\
 \hline
-2 & M-2 & 0.78 & 3 & NA & NA\\
+2 & M-2 & 1.42 & 3 & NA & NA\\
 \hline
-2 & M-2 & 0.71 & NA & 7 & NA\\
+2 & M-2 & 0.45 & NA & 7 & NA\\
 \hline
-2 & M-2 & 1.75 & NA & NA & 2\\
+2 & M-2 & 1.12 & NA & NA & 2\\
 \hline
 \end{tabular}
 
@@ -5404,7 +5410,7 @@ The rules are the same as for \protect\hyperlink{logical-indexing}{logical index
 ## X is not greater than zero.
 \end{verbatim}
 
-However, be aware that the \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html}{if} uses a \emph{single} logical value. If you have more than one value, it will use \emph{only the first one} but, at least, it will give you a warning.
+However, be aware that the \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html}{if} uses a \emph{single} logical value. If you have more than one value, it stops with an error\footnote{If you use an older R-version, it will use \emph{only the first one} but, at least, it will give you a warning. Point bein that it is generally a good idea to use the latest R distribution.}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5418,12 +5424,7 @@ However, be aware that the \href{https://stat.ethz.ch/R-manual/R-devel/library/b
 \end{Shaded}
 
 \begin{verbatim}
-## Warning in if (x < 0) {: the condition has length > 1 and only the first element
-## will be used
-\end{verbatim}
-
-\begin{verbatim}
-## I don't like this x.
+## Error in if (x < 0) {: the condition has length > 1
 \end{verbatim}
 
 As in \protect\hyperlink{logical-indexing}{logical indexing}, you can combine several conditions using \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/Logic.html}{logical operators} such as \emph{and} \texttt{\&} or \emph{or} \texttt{\textbar{}}. For example, we can check whether x is smaller than zero but larger than -10.
@@ -5464,6 +5465,10 @@ But double-symbol returns it only for the \emph{first} value \emph{without warni
 \NormalTok{(x }\SpecialCharTok{\textless{}} \DecValTok{0}\NormalTok{) }\SpecialCharTok{\&\&}\NormalTok{ (x }\SpecialCharTok{\textgreater{}} \SpecialCharTok{{-}}\DecValTok{10}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+## Warning in (x < 0) && (x > -10): 'length(x) = 3 > 1' in coercion to 'logical(1)'
+\end{verbatim}
 
 \begin{verbatim}
 ## [1] FALSE
@@ -5705,14 +5710,14 @@ Do exercise 12.
 
 Today we will work on our Christmas spirit, while practicing in generating data and plotting. Our end-product will be a Christmas tree plot that you see below. For this project you will need \href{https://cran.r-project.org/package=png}{png} library (you should have it already but check and install, if that is not the case) and a \href{images/christmas-background.png}{background image} created by \href{https://openclipart.org/artist/GDJ}{Gordon Dylan Johnson}. Grab the \href{notebooks/Seminar\%2010\%20-\%20Christmas\%20special.Rmd}{exercise notebook} as well!
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-259-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-260-1.pdf}
 
 \hypertarget{left-side-of-the-tree}{%
 \section{Left side of the tree}\label{left-side-of-the-tree}}
 
 First we need a tree. We will generate its shape using a function: \texttt{x\ =\ y\ -\ 0.3\ *\ floor(y)}, where \texttt{y} should vary between -3 and -0.3\footnote{You should definitely try different values for both y range and for the linear part itself to get a feeling of what it does to the shape you generate.} (you already know how to generate a \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/seq.html}{sequence}, so just decide on how many point you want your shape to have). This function describes a \emph{left} part of the tree, so create a table called \texttt{tree\_left} with corresponding \texttt{x} and \texttt{y} columns and plot it via \href{https://ggplot2.tidyverse.org/}{ggplot2}. Note that you need to use \href{https://ggplot2.tidyverse.org/reference/geom_path.html}{geom\_path()} rather than \texttt{geom\_line()}. The former connects points in the order they appear in the table, whereas the latter first sort all variables based on the x-axis variable (try it out to see what I mean). You should get a plot like the one below.
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-260-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-261-1.pdf}
 
 Do exercise 1.
 
@@ -5721,7 +5726,7 @@ Do exercise 1.
 
 We could use an almost the same formula to generate the right side of the tree. Or, we can create it as a mirror copy of the \texttt{tree\_left}. In the latter case, we must flip the sign of the \texttt{x} (so negative \texttt{x} become positive). And, a more subtle point, we need to reverse the order of \emph{all} rows in the table, so that \texttt{y} goes from -0.3 to -3 (it is going from -3 to -0.3 in \texttt{tree\_left}, take a look yourself). You can rearrange table using subsetting or by \href{https://dplyr.tidyverse.org/reference/arrange.html}{arranging} the rows based on \href{https://dplyr.tidyverse.org/reference/desc.html?q=desc}{descending order} of either \texttt{y} or \href{https://dplyr.tidyverse.org/reference/ranking.html}{row\_number()} (here, it will effectively give you an index for each row). The right side should look just like the left side (but mirrored!).
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-261-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-262-1.pdf}
 
 Do exercise 2.
 
@@ -5730,7 +5735,7 @@ Do exercise 2.
 
 Now let us draw the entire tree. We will do it in two ways, to practice. First, \href{https://dplyr.tidyverse.org/reference/bind.html}{bind} tables \texttt{tree\_left} and \texttt{tree\_right} by rows to create a new table (I called it \texttt{tree\_shape}) and then reuse the same code with a single \texttt{geom\_path()} call as before. Note that if you have an odd extra line going from bottom right to the top of the tree that means you did not reverse the \texttt{tree\_right} table (see above).
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-262-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-263-1.pdf}
 
 Do exercise 3.
 
@@ -5763,7 +5768,7 @@ Do exercise 4.
 
 Now, let us ``fill in'' the shape between the lines. For this, we will use \href{https://ggplot2.tidyverse.org/reference/geom_ribbon.html}{geom\_ribbon} that fills in a shape either between vertical limits (when you specify \texttt{ymin} and \texttt{ymax} aesthetics) or between the horizontal ones (\texttt{xmin} and \texttt{xmax}). The latter is our case but first we need to combine our left and right shape into a single table with three columns: \texttt{y} coordinate and \texttt{x\_left} and \texttt{x\_right} coordinates. Think how can you join these the two tables \texttt{tree\_left} and \texttt{tree\_right} to achieve this (pause and ponder before reading further).
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-263-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-264-1.pdf}
 
 Hint: use a \href{https://dplyr.tidyverse.org/reference/mutate-joins.html}{join} but pay attention to \texttt{suffix} parameter as it will be useful. Put the new table into the \texttt{tree} variable (we will use it later again). Take a look at the table you get before plotting it using \href{https://ggplot2.tidyverse.org/reference/geom_ribbon.html}{geom\_ribbon}.
 
@@ -5786,7 +5791,7 @@ Our background is not very Christmasy. We should drop the grid altogether (which
 \end{Shaded}
 
 You new plot should look like this:
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-265-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-266-1.pdf}
 
 Do exercise 6.
 
@@ -5819,7 +5824,7 @@ To randomly sample rows from a table, you can use \href{https://dplyr.tidyverse.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-266-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-267-1.pdf}
 
 Do exercise 7.
 
@@ -5828,7 +5833,7 @@ Do exercise 7.
 
 We created the vertical location for each ball via random sampling. Now we need to generate a valid x-position somewhere in between \texttt{x\_left} and \texttt{x\_right} coordinates. Use \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Uniform.html}{runif()} function for using \texttt{x\_left} and \texttt{x\_right}. Note that you need to specify the number of random values to generate. That should be the number of rows in the table. If you do it within mutate, use function \href{https://dplyr.tidyverse.org/reference/context.html}{n()}. For base R, you can use \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/nrow.html}{nrow()}. Create a new column \texttt{x} and use it for plotting. Note how plot changes every time you re-run the sampling or randomization code.
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-267-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-268-1.pdf}
 
 Do exercise 8.
 
@@ -5839,7 +5844,7 @@ Black tiny Christmas balls of the same size? That won't do! Generate a new colum
 
 Second, let as specify color of individual balls as a factor variable. This way, we can use it for \texttt{color} aesthetics and ggplot2 will use it palettes to pick the colors for us. Just create a vector of some numbers (the number of unique entries will be your number of colors) and convert it to a factor (check what will happen, if you won't do this). Inside the \href{https://ggplot2.tidyverse.org/reference/geom_point.html}{geom\_point()} call, use \texttt{show.legend=FALSE} to suppress the legend (check what will happen, if you set it to \texttt{TRUE} or omit it).
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-268-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-269-1.pdf}
 
 Do exercise 9.
 
@@ -5865,7 +5870,7 @@ Our final touch will be a star on the top of the tree. We could use another \hre
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-269-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-270-1.pdf}
 
 If you examine the plots above, you will see that you go around the circle in exactly N steps, where N is 5, 7, or 9. Thus you can compute an angular step between \emph{adjacent} vertices by diving the length of a circle in degrees or radians by the number of steps you need to make. However, for our star we are not connecting each vertex to a adjacent one but to the \emph{next} one. Think about what it means to the step size. Once you've figured out the step size, you can generate location of each vertex in term of a \emph{polar angle} starting at 0 (top position) using that step. Note that you need to have N+1 vertices to close the contour and that serves as a nice sanity check as the polar angle for the first and the last entry mast be the same (keeping in mind that 0 is the same angle as 360° and \(2\cdot\pi\)). Later on, we want radians as we will use the angle with trigonometric functions but I suggest that you first generate a vector of angles in degrees, as it makes checking values easier.
 
@@ -5877,7 +5882,7 @@ To turn a polar angle into x/y coordinates, you need to recall \href{https://en.
 
 }
 
-\caption{Cosine and sine on the unit circle by Stephan Kulla (User:Stephan Kulla) - Own work, CC0, https://commons.wikimedia.org/w/index.php?curid=57551646.}\label{fig:unnamed-chunk-270}
+\caption{Cosine and sine on the unit circle by Stephan Kulla (User:Stephan Kulla) - Own work, CC0, https://commons.wikimedia.org/w/index.php?curid=57551646.}\label{fig:unnamed-chunk-271}
 \end{figure}
 
 Pick the number of vertices that you like, generate polar angles, convert them to x and y coordinates, and plot the contour to check it visually. Try using \href{https://ggplot2.tidyverse.org/reference/geom_polygon.html}{geom\_polygon} with a fill color instead of \href{https://ggplot2.tidyverse.org/reference/geom_path.html}{geom\_path}.
@@ -5885,9 +5890,9 @@ Pick the number of vertices that you like, generate polar angles, convert them t
 Do exercise 10.
 
 Our star is ready, we only need to add the \href{https://ggplot2.tidyverse.org/reference/geom_polygon.html}{geom\_polygon}. However, your ``default'' star will look way to big and will not be on the top of the tree, as in the figure below.
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-271-1.pdf}
-Think how you can adjust the size (radius of the star) to make it smaller and what adjustment to y-coordinate do you need to make.
 \includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-272-1.pdf}
+Think how you can adjust the size (radius of the star) to make it smaller and what adjustment to y-coordinate do you need to make.
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-273-1.pdf}
 
 Do exercise 11.
 
@@ -5912,7 +5917,7 @@ To make implicit missing data explicit, \emph{tidyr} provides a function \href{h
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-274}Table with no data for Face M2 for Participant 2.}
+\caption{\label{tab:unnamed-chunk-275}Table with no data for Face M2 for Participant 2.}
 \centering
 \begin{tabular}[t]{r|l|r|r|r}
 \hline
@@ -5937,7 +5942,7 @@ We can \href{https://tidyr.tidyverse.org/reference/complete.html}{complete} that
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-276}Completed table with explicit NAs}
+\caption{\label{tab:unnamed-chunk-277}Completed table with explicit NAs}
 \centering
 \begin{tabular}[t]{r|l|r|r|r}
 \hline
@@ -5969,7 +5974,7 @@ For \emph{non-factor} variables (\texttt{Participant} is numeric and \texttt{Fac
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-278}Completed missing data including F-1 face.}
+\caption{\label{tab:unnamed-chunk-279}Completed missing data including F-1 face.}
 \centering
 \begin{tabular}[t]{r|l|r|r|r}
 \hline
@@ -6004,7 +6009,7 @@ You can also supply default values via \texttt{fill} parameter that takes a \pro
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-280}Completed missing data with non-NA values.}
+\caption{\label{tab:unnamed-chunk-281}Completed missing data with non-NA values.}
 \centering
 \begin{tabular}[t]{r|l|r|r|r}
 \hline
@@ -6036,7 +6041,7 @@ For a table you see below
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-281}Table with missing values.}
+\caption{\label{tab:unnamed-chunk-282}Table with missing values.}
 \centering
 \begin{tabular}[t]{r|l|r|r|r}
 \hline
@@ -6063,7 +6068,7 @@ First, we can ensure only complete cases via \href{https://stat.ethz.ch/R-manual
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-282}Complete cases via na.omit()}
+\caption{\label{tab:unnamed-chunk-283}Complete cases via na.omit()}
 \centering
 \begin{tabular}[t]{r|l|r|r|r}
 \hline
@@ -6087,7 +6092,7 @@ or via \href{https://tidyr.tidyverse.org/reference/drop_na.html}{drop\_na()}
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-283}Complete cases via drop\_na()}
+\caption{\label{tab:unnamed-chunk-284}Complete cases via drop\_na()}
 \centering
 \begin{tabular}[t]{r|l|r|r|r}
 \hline
@@ -6111,7 +6116,7 @@ Second, we drop rows only if \texttt{Attractiveness} data is missing.
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-284}Complete Attractiveness via drop\_na()}
+\caption{\label{tab:unnamed-chunk-285}Complete Attractiveness via drop\_na()}
 \centering
 \begin{tabular}[t]{r|l|r|r|r}
 \hline
@@ -6149,7 +6154,7 @@ As noted above, you can also impute values. The simplest strategy is to use eith
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-286}Missing values filled with 0 and -1}
+\caption{\label{tab:unnamed-chunk-287}Missing values filled with 0 and -1}
 \centering
 \begin{tabular}[t]{r|l|r|r|r}
 \hline
@@ -6219,7 +6224,7 @@ Now that you know how to use \texttt{ifelse()}, replacing \texttt{NA} with a mea
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-290}adaptation\_with\_na.csv with missing values}
+\caption{\label{tab:unnamed-chunk-291}adaptation\_with\_na.csv with missing values}
 \centering
 \begin{tabular}[t]{l|l|l|r|r}
 \hline
@@ -6244,7 +6249,7 @@ Here is one way to approach this problem. We cannot know the number of trials fo
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-291}adaptation\_with\_na.csv with imputed values}
+\caption{\label{tab:unnamed-chunk-292}adaptation\_with\_na.csv with imputed values}
 \centering
 \begin{tabular}[t]{l|l|l|r|r|r}
 \hline
@@ -6294,7 +6299,7 @@ Your table should look as follows:
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-293}bands\_df}
+\caption{\label{tab:unnamed-chunk-294}bands\_df}
 \centering
 \begin{tabular}[t]{l|l|r|r}
 \hline
@@ -6344,7 +6349,7 @@ The table above gives us information about \emph{median} probability of seeing t
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-294}Probability of persistence, median ± MAD}
+\caption{\label{tab:unnamed-chunk-295}Probability of persistence, median ± MAD}
 \centering
 \begin{tabular}[t]{c|c|c|c|c}
 \hline
@@ -6939,7 +6944,7 @@ Grab \href{notebooks/Seminar\%2013\%20-\%20resampling.Rmd}{exercise notebook} be
 
 Let us start very simple. Your task will be to generate samples from a normal distribution and then use resampling approach to estimate the original mean. Step one is simple, decide on mean and standard deviation of the normal distribution and generate 20 samples using \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html}{rnorm()} function (\texttt{r\textless{}distribution} functions generate random number based on distribution and its parameters). Check your results visually by plotting a histogram and adding a red \href{https://ggplot2.tidyverse.org/reference/geom_abline.html}{vertical line} to indicate the true mean of the distribution. We also need to see the difference between the true mean and the sample mean. So include a blue vertical line to indicate the \emph{sample} mean. Run your code several times to appreciate variability of the data and, therefore, of the sample mean.
 Your plot should look something like this.
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-322-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-323-1.pdf}
 
 Do exercise 1.
 
@@ -6972,7 +6977,7 @@ You will need three functions for this. First, the function that samples you dat
 Do exercise 2.
 
 Our second step is to repeat out first step many times. Say, 1000 times. The function that helps you to do this is \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/lapply.html}{replicate()}. That takes number of repetitions (first parameter \texttt{n}) and an arbitrary R code that returns a value (our step one). Once you run it, you will get a vector of 1000 means from resampled data. Plot the histogram, overlaying the true and sample means as a reference
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-324-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-325-1.pdf}
 
 Our final step is to use \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile}{quantile()} function to compute 95\% confidence interval. \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile}{quantile()} function takes a vector and computes a value that is greater than \texttt{probs} fraction of values in that vector. E.g., if \texttt{probs=c(0.25,\ 0.75)}, it will return a two values, so that 25\% of values are smaller than the first one and 75\% of them are smaller than the second. Or, to put it differently, 50\% of all values are with \texttt{probs=c(0.25,\ 0.75)}. In our case, we want to compute 95\% confidence interval, i.e., 95\% of all values should be between the lower and upper confidence interval values. Once you run the code, you should see that 95\% confidence interval from resampling is very similar to what the t-test reported (you want get the same values due to random sampling but they should also be close to the t-test's analytic estimate).
 
@@ -7165,12 +7170,12 @@ n\_samples & avg & lowerCI & upperCI\\
 Do exercise 6.
 
 It is much easier to understand the data once we visualize it. Plot the results using \href{https://ggplot2.tidyverse.org/reference/geom_ribbon.html}{geom\_ribbon()} (note that you will need to set \texttt{y} aesthetics to some variable or value even though it is not used) and \href{https://ggplot2.tidyverse.org/reference/geom_abline.html}{geom\_hline()}. The plot should look similar to the one below.
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-331-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-332-1.pdf}
 
 Do exercise 7.
 
 As you can see in the plot above, confidence intervals vary a lot, so it is hard to be certain about the number of samples we require. Thus, we need to sample the bootstrap as well. Redo the analysis but now create a tibble with two columns --- \texttt{n\_samples} (go 10 to 100) and \texttt{iteration} (go 1 to 100) --- and fill the table with all combinations of these values (you should get 9100 rows). Next, simulate and compute CI for each combination of \texttt{n\_samples} and \texttt{iteration} and then compute \emph{average} lower and upper interval for each \texttt{n\_samples} value. Plot these averages as we did above and you should see a much smoother plot that makes it easier to decide on the required number of samples (probably around 75). Note, if your simulations takes too long, reduce the number of iterations or use a larger step between \texttt{n\_samples} (not 1 as we did before but 2 or 5).
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-332-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-333-1.pdf}
 
 Do exercise 8.
 
@@ -7179,7 +7184,7 @@ Do exercise 8.
 
 Let us redo the computation but add average sample mean to the plot. For this, you need to modify your \texttt{CI\_for\_sim()} function to include sample mean to the tibble that it return and average over mean for different iterations. Your final plot should resemble this. Note how estimated mean remains stable (unbiased) for different number of samples. It is our certainty about the value, as expressed by the confidence interval, that changes.
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-333-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-334-1.pdf}
 
 Do exercise 9.
 
@@ -7222,7 +7227,7 @@ Note that you can use \texttt{n} parameter to create many (iterations of) draws.
 \end{verbatim}
 
 Here, I did not use \texttt{boot} library. Instead, I have utilized \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Binomial.html}{rbinom()} to generate many draws of a given size and \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile}{quantile()} to compute percentile confidence interval. The final plot should look similar to this (but for quantitative differences due to sampling). As you can see, you need many trials when probability of success is closer to 0.5.
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-336-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-337-1.pdf}
 
 Do exercise 10.
 
@@ -7322,7 +7327,7 @@ Bayesian correlation with a full posterior distribution for the correlation coef
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-341-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-342-1.pdf}
 
 \hypertarget{correlation-in-practice}{%
 \section{Correlation in practice}\label{correlation-in-practice}}
@@ -7362,13 +7367,13 @@ When interpreting correlation between two variables, your are interested not onl
 Do exercise 2.
 
 Next, let us see how noise in \texttt{y} (second variable) affect it strength. The approach will be very similar to how we explored with dependence between number of samples and our (un)certainty about the mean in the previous seminar. Write a function that will take two parameters: 1) number of samples and 2) standard deviation of noise. Generate variable \texttt{x} and \texttt{y} the same way as in exercise 1 but use the function parameter for \(\sigma\) when generating \texttt{y}. Return the correlation coefficient. Next, create a tibble with various levels of standard deviation of noise with 1000 iterations (rows) per level. Compute correlation coefficient for every row (I have used \texttt{Nsamples\ =\ 30}) and then mean and 89\%\footnote{Why 89\%? Because 89 is a prime number.} confidence interval for each level of noise. Plot it, so it looks similar to the plot below.
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-344-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-345-1.pdf}
 
 Do exercise 3.
 
 The analysis above explored how increased noise masks correlation between two samples of a \emph{fixed} size. However, when you design a study you are more likely to be interested in an opposite question: what is your confidence about a \emph{fixed strength} correlation (you figure out its value from the literature) given an increasing number of samples. This is the same logic that we applied to our confidence about mean. I have used \(\sigma_{noise} = 5.0\) for the plot below.
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-345-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-346-1.pdf}
 
 Do exercise 4.
 
@@ -7386,7 +7391,7 @@ For pairwise comparisons for normally distributed data, you can use Student's t-
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-347-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-348-1.pdf}
 
 You can perform \emph{t-test} assuming that samples in two variables are independent
 
@@ -7424,12 +7429,12 @@ Or, that they are paired (this matches how I generated the data), i.e., repeated
 ## 
 ## data:  df$x and df$y
 ## t = -3.3432, df = 99, p-value = 0.00117
-## alternative hypothesis: true difference in means is not equal to 0
+## alternative hypothesis: true mean difference is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.5090948 -0.1298688
 ## sample estimates:
-## mean of the differences 
-##              -0.3194818
+## mean difference 
+##      -0.3194818
 \end{verbatim}
 
 A Bayesian version is provided via \texttt{ttestBF()} function, which is part of the \href{https://richarddmorey.github.io/BayesFactor}{BayesFactor} package.
@@ -7474,12 +7479,12 @@ Generate random data similarly to how I did it in the example above. Compute t-s
 ## 
 ## data:  x and y
 ## t = -2.3539, df = 99, p-value = 0.02055
-## alternative hypothesis: true difference in means is not equal to 0
+## alternative hypothesis: true mean difference is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.42255491 -0.03601326
 ## sample estimates:
-## mean of the differences 
-##              -0.2292841
+## mean difference 
+##      -0.2292841
 \end{verbatim}
 
 Do exercise 5.
@@ -7496,19 +7501,19 @@ Let us use resampling approach to replicate analytically derived confidence inte
 ## 
 ## data:  x and y
 ## t = -3.0788, df = 99, p-value = 0.00269
-## alternative hypothesis: true difference in means is not equal to 0
+## alternative hypothesis: true mean difference is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.5329613 -0.1152214
 ## sample estimates:
-## mean of the differences 
-##              -0.3240913
+## mean difference 
+##      -0.3240913
 \end{verbatim}
 
 Do exercise 6.
 
 Next comes the statistical significance testing via a \emph{permutation test}. Here, we compute the t-statistic for the sample (you already know how to do that). Then, we pool values from both \texttt{x} and \texttt{y} into a single vector, shuffle that single vector and divide it back into permuted x (first half of the pooled vector) and permuted y (second half of the pooled vector). Then we compute the t-statistics for the difference between permuted vectors. We repeat this 10000 times to obtain a distribution of t-statistics that we would observe when pairing between \texttt{x} and \texttt{y} was random. Finally, we compute the proportion of values that are more extreme (smaller than, in our case) than the original value. This, effectively, is the probably of observing such extreme t-statistic by pure chance and is interpreted the same way as the p-value. Compare this to the output of the paired t-test using \texttt{alternative\ =\ "less"}:
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-353-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-354-1.pdf}
 
 \begin{verbatim}
 ## Proportion of t-statisic for permuted pairs < t-stat for original: 0.2573
@@ -7520,12 +7525,12 @@ Next comes the statistical significance testing via a \emph{permutation test}. H
 ## 
 ## data:  x and y
 ## t = -0.65575, df = 99, p-value = 0.2568
-## alternative hypothesis: true difference in means is less than 0
+## alternative hypothesis: true mean difference is less than 0
 ## 95 percent confidence interval:
 ##      -Inf 0.100426
 ## sample estimates:
-## mean of the differences 
-##             -0.06555021
+## mean difference 
+##     -0.06555021
 \end{verbatim}
 
 Do exercise 7.
@@ -7607,12 +7612,12 @@ y & group\\
 ## 
 ## data:  y by group
 ## t = -0.32625, df = 99, p-value = 0.7449
-## alternative hypothesis: true difference in means is not equal to 0
+## alternative hypothesis: true mean difference is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.2185310  0.1568153
 ## sample estimates:
-## mean of the differences 
-##             -0.03085788
+## mean difference 
+##     -0.03085788
 \end{verbatim}
 
 \hypertarget{anova}{%
@@ -7641,7 +7646,7 @@ First, let us simulate data for ten participants and their responses, assuming t
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-358-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-359-1.pdf}
 The base R ANOVA function is called \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/aov.html}{aov()}, however, it does not support repeated measures. Instead, you can use function \texttt{anova\_test} from package \href{https://github.com/kassambara/rstatix}{rstatix}
 
 For the \emph{repeated-measures} ANOVA, we need to specify column with identity of participants via parameter \texttt{wid}
@@ -7799,7 +7804,7 @@ where \(\epsilon\) is normally distributed noise.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-365-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-366-1.pdf}
 
 Now let us fit the linear model using formula \texttt{y\ \textasciitilde{}\ x} and use \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/summary.lm.html}{summary()} function to see the details.
 
@@ -7856,7 +7861,7 @@ x & 4.124118 & 0.1803059 & 22.872893 & 0.0000000\\
 same rules still apply when We perform linear regression explicitly as linear regression (and not packaged as some statistical test): We are not interested in estimates alone but in our confidence (uncertainty) about them and about probability of a null hypothesis (e.g., an actual parameter value is zero). \href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/lm.html}{lm()} function produces analytically derived estimates based on the same idea of drawing (infinitely) more samples from the ``true'' distribution. Let us repeat the same resampling (for confidence interval) and permutation (for statistical significance) tricks.
 
 Generate a table with data with 30 values for \texttt{x} drawn from a normal distribution with zero mean and standard deviation of 10. \(y = 20 +3 \cdot x + \epsilon\), where \(\epsilon ~ Normal(0, 50)\), i.e., noise comes from a normal distribution centered at zero with standard deviation of 50.
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-368-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-369-1.pdf}
 
 \begin{verbatim}
 ## 
@@ -8304,15 +8309,15 @@ HabitNr & Condition & IncongruentFirst & Congruency & RT\\
 \end{tabular}
 
 Let us see how condition and incongruency-order presentation affects our response times.
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-385-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-386-1.pdf}
 
 Participants responses were clearly faster on trials when color and word were incongruent. But to better see the effect of condition, let us replot the data.
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-386-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-387-1.pdf}
 
 Now, we can that some conditions do appear to be different as well. Let us confirm this via statistics. We will use linear mixed models (thus, package \emph{lmerTest}) with \texttt{Condition}, \texttt{IncongruentFirst}, and \texttt{Congruency} as fixed effect, \texttt{HabitNr} (participant ID) as a random factor, and logarithm of RT as an outcome variable (using logarithm transformation on right skewed data as response times makes more symmetric). We will not look at any interactions although they are most likely of interest for the follow up analysis.
 
 \begin{verbatim}
-## boundary (singular) fit: see ?isSingular
+## boundary (singular) fit: see help('isSingular')
 \end{verbatim}
 
 \begin{verbatim}
@@ -8359,7 +8364,7 @@ Now, we can that some conditions do appear to be different as well. Let us confi
 ## IncngrntFIf -0.132 -0.129  -0.129  -0.155       
 ## CngrncyIncn -0.432  0.000   0.000   0.000  0.000
 ## optimizer (nloptwrap) convergence code: 0 (OK)
-## boundary (singular) fit: see ?isSingular
+## boundary (singular) fit: see help('isSingular')
 \end{verbatim}
 
 \begin{verbatim}
@@ -8401,9 +8406,9 @@ HabitNr & Condition & IncongruentFirst & Congruency & Errors\\
 \end{tabular}
 
 Again, let us plot data both ways
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-389-1.pdf}
-
 \includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-390-1.pdf}
+
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-391-1.pdf}
 
 Plots are very similar to those for response times. So let us perform the statistical analysis. This is a binomial data, so many errors per 120 trials, so use \texttt{glmer()} function (generalized linear mixed model) from \texttt{lme4} package with binomial family.
 
@@ -8555,11 +8560,11 @@ Once you merged two tables by rows (see \href{https://dplyr.tidyverse.org/refere
 
 let us take a look at the results.
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-396-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-397-1.pdf}
 
 There seems to be clear outliers, so let us drop all values above 1000 (filter inside the ggplot call) and plot again
 
-\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-397-1.pdf}
+\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-398-1.pdf}
 
 Well, certainly hard to tell, so no clear and consistent effect. Still, let us do stats via linear mixed models.
 

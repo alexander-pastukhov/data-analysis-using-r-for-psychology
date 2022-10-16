@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Seminar 12 Working with strings | Data analysis using R for Psychology and Social Science</title>
   <meta name="description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Seminar 12 Working with strings | Data analysis using R for Psychology and Social Science" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
   
@@ -24,7 +23,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2022-01-31" />
+<meta name="date" content="2022-10-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +32,6 @@
   
 <link rel="prev" href="missing-data.html"/>
 <link rel="next" href="sampling-and-simulations.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -51,8 +49,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
@@ -144,23 +143,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-r"><i class="fa fa-check"></i>Why R?</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-tidyverse"><i class="fa fa-check"></i>Why Tidyverse</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-seminar"><i class="fa fa-check"></i>About the seminar</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-seminar-itself"><i class="fa fa-check"></i>About the seminar itself</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#thinking-like-a-computer"><i class="fa fa-check"></i>Thinking like a computer</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-material"><i class="fa fa-check"></i>About the material</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="software.html"><a href="software.html"><i class="fa fa-check"></i>Software</a>
 <ul>
-<li class="chapter" data-level="0.1" data-path="software.html"><a href="software.html#install-r"><i class="fa fa-check"></i><b>0.1</b> Installing R</a></li>
-<li class="chapter" data-level="0.2" data-path="software.html"><a href="software.html#install-rstudio"><i class="fa fa-check"></i><b>0.2</b> Installing R-Studio</a></li>
-<li class="chapter" data-level="0.3" data-path="software.html"><a href="software.html#install-rtools"><i class="fa fa-check"></i><b>0.3</b> Installing RTools</a></li>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install-r"><i class="fa fa-check"></i>Installing R</a></li>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install-rstudio"><i class="fa fa-check"></i>Installing R-Studio</a></li>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install-rtools"><i class="fa fa-check"></i>Installing RTools</a></li>
 <li class="chapter" data-level="" data-path="software.html"><a href="software.html#install.packages"><i class="fa fa-check"></i>Installing packages</a></li>
-<li class="chapter" data-level="0.4" data-path="software.html"><a href="software.html#minimal-set-of-packages"><i class="fa fa-check"></i><b>0.4</b> Minimal set of packages</a></li>
-<li class="chapter" data-level="0.5" data-path="software.html"><a href="software.html#installr"><i class="fa fa-check"></i><b>0.5</b> Keeping R and packages up-to-date</a></li>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html#minimal-set-of-packages"><i class="fa fa-check"></i>Minimal set of packages</a></li>
+<li class="chapter" data-level="" data-path="software.html"><a href="software.html#installr"><i class="fa fa-check"></i>Keeping R and packages up-to-date</a></li>
 </ul></li>
-<li class="chapter" data-level="1" data-path="reproducable-research.html"><a href="reproducable-research.html"><i class="fa fa-check"></i><b>1</b> Reproducable Research: Projects and RMarkdown Notebooks</a>
+<li class="chapter" data-level="1" data-path="reproducable-research.html"><a href="reproducable-research.html"><i class="fa fa-check"></i><b>1</b> Reproducable Research: Projects and Markdown Notebooks</a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="reproducable-research.html"><a href="reproducable-research.html#projects"><i class="fa fa-check"></i><b>1.1</b> Projects</a></li>
-<li class="chapter" data-level="1.2" data-path="reproducable-research.html"><a href="reproducable-research.html#rmarkdown"><i class="fa fa-check"></i><b>1.2</b> RMarkdown</a></li>
+<li class="chapter" data-level="1.2" data-path="reproducable-research.html"><a href="reproducable-research.html#rmarkdown"><i class="fa fa-check"></i><b>1.2</b> Quattro and RMarkdown notebooks</a></li>
 <li class="chapter" data-level="1.3" data-path="reproducable-research.html"><a href="reproducable-research.html#exercise"><i class="fa fa-check"></i><b>1.3</b> Exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="vectors.html"><a href="vectors.html"><i class="fa fa-check"></i><b>2</b> Vectors! Vectors everywhere!</a>
@@ -354,22 +353,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="strings" class="section level1" number="12">
-<h1><span class="header-section-number">Seminar 12</span> Working with strings</h1>
+<div id="strings" class="section level1 hasAnchor" number="12">
+<h1><span class="header-section-number">Seminar 12</span> Working with strings<a href="strings.html#strings" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>When working with strings, I strongly suggest consulting a manual and vignettes of the <a href="https://stringr.tidyverse.org/index.html">stringr</a> package. It has many functions that cover most needs. Grab <a href="notebooks/Seminar%2012%20-%20strings.Rmd">exercise notebook</a> before we start.</p>
-<div id="warming-up" class="section level2" number="12.1">
-<h2><span class="header-section-number">12.1</span> Warming up</h2>
+<div id="warming-up" class="section level2 hasAnchor" number="12.1">
+<h2><span class="header-section-number">12.1</span> Warming up<a href="strings.html#warming-up" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Before we start working with strings, let us warm up by preprocessing <a href="data/bands-adaptation.csv">band-adaptation.csv</a> that we will be working with.</p>
 <ol style="list-style-type: decimal">
 <li>Read it (try specifying the URL instead of the local filename).Do not forget to specify column types!</li>
 <li>compute proportion of “same” responses as a using <code>Nsame</code> (number of “same” responses) and <code>Ntotal</code> (total number of trials).</li>
-<li>Convert <code>Prime</code> and <code>Probe</code> column to factors with the order “Sphere,” “Quadro,” “Dual,” “Single.”</li>
+<li>Convert <code>Prime</code> and <code>Probe</code> column to factors with the order “Sphere”, “Quadro”, “Dual”, “Single”.</li>
 <li>Compute <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/median.html">median</a> and <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/mad.html">median absolute deviation from the median</a> for <code>Psame</code> for all combinations of <code>Prime</code> and <code>Probe</code>.</li>
 </ol>
 Your table should look as follows:
 <table>
 <caption>
-<span id="tab:unnamed-chunk-293">Table 12.1: </span>bands_df
+<span id="tab:unnamed-chunk-294">Table 12.1: </span>bands_df
 </caption>
 <thead>
 <tr>
@@ -618,12 +617,12 @@ Single
 <p>Do exercise 1.</p>
 </div>
 </div>
-<div id="glue" class="section level2" number="12.2">
-<h2><span class="header-section-number">12.2</span> Formatting strings via <code>glue()</code></h2>
-The table above gives us information about <em>median</em> probability of seeing the same rotation and about its absolute deviation from the median. However, it would be more convenient for a reader we would combine these two pieces of information into a single entry in form for of “<median> ± <MAD>.” Plus, it would be easier to see the pattern in a square table with one <code>Prime</code> per row and one <code>Probe</code> per column. The table I have in mind look like this:
+<div id="glue" class="section level2 hasAnchor" number="12.2">
+<h2><span class="header-section-number">12.2</span> Formatting strings via <code>glue()</code><a href="strings.html#glue" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+The table above gives us information about <em>median</em> probability of seeing the same rotation and about its absolute deviation from the median. However, it would be more convenient for a reader we would combine these two pieces of information into a single entry in form for of “<median> ± <MAD>”. Plus, it would be easier to see the pattern in a square table with one <code>Prime</code> per row and one <code>Probe</code> per column. The table I have in mind look like this:
 <table>
 <caption>
-<span id="tab:unnamed-chunk-294">Table 12.2: </span>Probability of persistence, median ± MAD
+<span id="tab:unnamed-chunk-295">Table 12.2: </span>Probability of persistence, median ± MAD
 </caption>
 <thead>
 <tr>
@@ -717,31 +716,31 @@ Single
 </table>
 <p>You already know how to perform the second step (pivoting table wider to turn <code>Probe</code> factor levels into columns). For the first step, you need to combine two values into a string. There are different ways to construct this string via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/sprintf.html">sprintf()</a>, <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/paste.html">paste()</a>, or via <a href="https://glue.tidyverse.org/">glue</a> package. We will start with Tidyverse’s <a href="https://glue.tidyverse.org/reference/glue.html">glue()</a> and explore base R functions later.</p>
 <p><a href="https://glue.tidyverse.org/">glue</a> package is part of the Tidyverse, so it should be already installed. However, it is not part of <em>core</em> tidyverse, so it does not get imported automatically via <code>library(tidyverse)</code> and you do need to import it separately or use <code>glue::</code> prefix. Function <a href="https://glue.tidyverse.org/reference/glue.html">glue()</a> allows you to “glue” values and code directly into a string. You simply surround <em>any</em> R code by wiggly brackets inside the string and the result of the code execution is glued in. If you use just a variable, its value will be glued-in. But you can put <em>any</em> code inside, although, the more code you put, the harder it will be to read and understand it.</p>
-<div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb428-1"><a href="strings.html#cb428-1" aria-hidden="true" tabindex="-1"></a>answer <span class="ot">&lt;-</span> <span class="dv">42</span></span>
-<span id="cb428-2"><a href="strings.html#cb428-2" aria-hidden="true" tabindex="-1"></a>bad_answer <span class="ot">&lt;-</span> <span class="dv">41</span></span>
-<span id="cb428-3"><a href="strings.html#cb428-3" aria-hidden="true" tabindex="-1"></a>glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">&quot;The answer is {answer}, not {abs(bad_answer / -4)}&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="strings.html#cb426-1" aria-hidden="true" tabindex="-1"></a>answer <span class="ot">&lt;-</span> <span class="dv">42</span></span>
+<span id="cb426-2"><a href="strings.html#cb426-2" aria-hidden="true" tabindex="-1"></a>bad_answer <span class="ot">&lt;-</span> <span class="dv">41</span></span>
+<span id="cb426-3"><a href="strings.html#cb426-3" aria-hidden="true" tabindex="-1"></a>glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">&quot;The answer is {answer}, not {abs(bad_answer / -4)}&quot;</span>)</span></code></pre></div>
 <pre><code>## The answer is 42, not 10.25</code></pre>
 <p>Use the table that you prepared during exercise 1 to compute a new column with “<median> ± <MAD>” (you will want to use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Round.html">round()</a> function to restrict values to just 2 digit after the decimal point). Think about <em>when</em> you want to perform this computation (before or after pivoting?) and which column(s?) do you need to pivot wider.</p>
 <div class="infobox practice">
 <p>Do exercise 2.</p>
 </div>
 </div>
-<div id="paste" class="section level2" number="12.3">
-<h2><span class="header-section-number">12.3</span> Formatting strings via <code>paste()</code></h2>
+<div id="paste" class="section level2 hasAnchor" number="12.3">
+<h2><span class="header-section-number">12.3</span> Formatting strings via <code>paste()</code><a href="strings.html#paste" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Base R has functions <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/paste.html">paste()</a> and <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/paste.html">paste0()</a> that are conceptually very similar to <a href="https://glue.tidyverse.org/reference/glue.html">glue()</a>. The concatenate a vector a strings into a single string. If you recall, vector values can <a href="tables.html#vectors-are-homogeneous">only be of one (most flexible) type</a>. Therefore, if you have a vector that intersperses string with other values, they will be <em>first</em> converted to strings anyhow. The difference between <code>paste()</code> and <code>paste0()</code> is that the former puts a separator string in-between each value (defaults to <code>' '</code> but you can define your own via <code>sep</code> argument), whereas <code>paste0()</code> uses no separator. We can replicate our <a href="https://glue.tidyverse.org/reference/glue.html">glue()</a> example.</p>
-<div class="sourceCode" id="cb430"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb430-1"><a href="strings.html#cb430-1" aria-hidden="true" tabindex="-1"></a>answer <span class="ot">&lt;-</span> <span class="dv">42</span></span>
-<span id="cb430-2"><a href="strings.html#cb430-2" aria-hidden="true" tabindex="-1"></a>bad_answer <span class="ot">&lt;-</span> <span class="dv">41</span></span>
-<span id="cb430-3"><a href="strings.html#cb430-3" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(<span class="st">&quot;The answer is &quot;</span>, answer, <span class="st">&quot;, not &quot;</span>, <span class="fu">abs</span>(bad_answer <span class="sc">/</span> <span class="sc">-</span><span class="dv">4</span>), <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb428-1"><a href="strings.html#cb428-1" aria-hidden="true" tabindex="-1"></a>answer <span class="ot">&lt;-</span> <span class="dv">42</span></span>
+<span id="cb428-2"><a href="strings.html#cb428-2" aria-hidden="true" tabindex="-1"></a>bad_answer <span class="ot">&lt;-</span> <span class="dv">41</span></span>
+<span id="cb428-3"><a href="strings.html#cb428-3" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(<span class="st">&quot;The answer is &quot;</span>, answer, <span class="st">&quot;, not &quot;</span>, <span class="fu">abs</span>(bad_answer <span class="sc">/</span> <span class="sc">-</span><span class="dv">4</span>), <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;The answer is 42, not 10.25&quot;</code></pre>
-<div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb432-1"><a href="strings.html#cb432-1" aria-hidden="true" tabindex="-1"></a><span class="fu">paste0</span>(<span class="st">&quot;The answer is &quot;</span>, answer, <span class="st">&quot;, not &quot;</span>, <span class="fu">abs</span>(bad_answer <span class="sc">/</span> <span class="sc">-</span><span class="dv">4</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb430"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb430-1"><a href="strings.html#cb430-1" aria-hidden="true" tabindex="-1"></a><span class="fu">paste0</span>(<span class="st">&quot;The answer is &quot;</span>, answer, <span class="st">&quot;, not &quot;</span>, <span class="fu">abs</span>(bad_answer <span class="sc">/</span> <span class="sc">-</span><span class="dv">4</span>))</span></code></pre></div>
 <pre><code>## [1] &quot;The answer is 42, not 10.25&quot;</code></pre>
 <p>Redo exercise 2 but using one of the <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/paste.html">paste</a> functions instead of the <a href="https://glue.tidyverse.org/reference/glue.html">glue()</a>.</p>
 <div class="infobox practice">
 <p>Do exercise 3.</p>
 </div>
 </div>
-<div id="sprintf" class="section level2" number="12.4">
-<h2><span class="header-section-number">12.4</span> Formatting strings via <code>sprintf()</code></h2>
+<div id="sprintf" class="section level2 hasAnchor" number="12.4">
+<h2><span class="header-section-number">12.4</span> Formatting strings via <code>sprintf()</code><a href="strings.html#sprintf" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>For detailed string formatting, base R has a <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/sprintf.html">sprintf()</a> function that provides a C-style string formatting (same as Python’s original string formatting and a common way to format a string in many programming languages). The general function call is <code>sprintf("string with formatting", value1, value2, value)</code>, where values are are inserted into the string. In <code>"string with formatting"</code>, you specify where you want to put the value via <code>%</code> symbol that is followed by an <em>optional</em> formatting info and the <em>required</em> symbol that defines the <strong>type</strong> of the value. The type symbols are</p>
 <ul>
 <li><code>s</code> for string</li>
@@ -751,23 +750,23 @@ Single
 <li><code>g</code> for an “optimally” printed float value, so that scientific notation is used for very large or very small values (<em>e.g.</em>, <code>1e+5</code> instead of <code>100000</code> and <code>1-e5</code> for <code>0.00001</code>).</li>
 </ul>
 <p>Here is an example of formatting a string using an integer:</p>
-<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb434-1"><a href="strings.html#cb434-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes for breakfast&quot;</span>, <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb432-1"><a href="strings.html#cb432-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes for breakfast&quot;</span>, <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;I had 10 pancakes for breakfast&quot;</code></pre>
-<p>You are not limited to a single value that you can put into a string. You can specify more locations via <code>%</code> but you must make sure that you pass the matching number of values. If there fewer parameters when you specified in the string, you will receive an <em>error</em>. If there are too many, only a <em>warning</em><a href="#fn60" class="footnote-ref" id="fnref60"><sup>60</sup></a>. Before running it, can you figure out which call will actually work (and what will be the output) and which will produce an error or a warning?</p>
-<div class="sourceCode" id="cb436"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb436-1"><a href="strings.html#cb436-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes and either %d  or %d stakes for dinner&quot;</span>, <span class="dv">2</span>)</span>
-<span id="cb436-2"><a href="strings.html#cb436-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes and %d stakes for dinner&quot;</span>, <span class="dv">7</span>, <span class="dv">10</span>)</span>
-<span id="cb436-3"><a href="strings.html#cb436-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancake and %d stakes for dinner&quot;</span>, <span class="dv">1</span>, <span class="dv">7</span>, <span class="dv">10</span>)</span></code></pre></div>
+<p>You are not limited to a single value that you can put into a string. You can specify more locations via <code>%</code> but you must make sure that you pass the matching number of values. If there fewer parameters when you specified in the string, you will receive an <em>error</em>. If there are too many, only a <em>warning</em><a href="#fn61" class="footnote-ref" id="fnref61"><sup>61</sup></a>. Before running it, can you figure out which call will actually work (and what will be the output) and which will produce an error or a warning?</p>
+<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb434-1"><a href="strings.html#cb434-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes and either %d  or %d stakes for dinner&quot;</span>, <span class="dv">2</span>)</span>
+<span id="cb434-2"><a href="strings.html#cb434-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes and %d stakes for dinner&quot;</span>, <span class="dv">7</span>, <span class="dv">10</span>)</span>
+<span id="cb434-3"><a href="strings.html#cb434-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancake and %d stakes for dinner&quot;</span>, <span class="dv">1</span>, <span class="dv">7</span>, <span class="dv">10</span>)</span></code></pre></div>
 <p>In case of real values you have two options: <code>%f</code> and <code>%g</code>. The latter uses scientific notation (e.g. <code>1e10</code> for <code>10000000000</code>) to make a representation more compact. When formatting floating numbers, you can specify the number of decimal points to be displayed.</p>
-<div class="sourceCode" id="cb437"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb437-1"><a href="strings.html#cb437-1" aria-hidden="true" tabindex="-1"></a>e <span class="ot">&lt;-</span> <span class="fl">2.71828182845904523536028747135266249775724709369995</span></span>
-<span id="cb437-2"><a href="strings.html#cb437-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;Euler&#39;s number is roughly %.4f&quot;</span>, e)</span></code></pre></div>
+<div class="sourceCode" id="cb435"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb435-1"><a href="strings.html#cb435-1" aria-hidden="true" tabindex="-1"></a>e <span class="ot">&lt;-</span> <span class="fl">2.71828182845904523536028747135266249775724709369995</span></span>
+<span id="cb435-2"><a href="strings.html#cb435-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;Euler&#39;s number is roughly %.4f&quot;</span>, e)</span></code></pre></div>
 <pre><code>## [1] &quot;Euler&#39;s number is roughly 2.7183&quot;</code></pre>
 <p>Note that as most functions in R, <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/sprintf.html">sprintf()</a> is vectorized so when you pass a vector of values it will generate a <em>vector</em> of strings with one formatted string for a value.</p>
-<div class="sourceCode" id="cb439"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb439-1"><a href="strings.html#cb439-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;The number is %d&quot;</span>, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb437"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb437-1"><a href="strings.html#cb437-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;The number is %d&quot;</span>, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>))</span></code></pre></div>
 <pre><code>## [1] &quot;The number is 2&quot; &quot;The number is 3&quot;</code></pre>
 <p>This means that you can use <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/sprintf.html">sprintf()</a> to work on column both in base R and inside <a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a> Tidyverse verb.</p>
-<div class="sourceCode" id="cb441"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb441-1"><a href="strings.html#cb441-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">Number =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb441-2"><a href="strings.html#cb441-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Message =</span> <span class="fu">sprintf</span>(<span class="st">&quot;The number is %d&quot;</span>, Number)) <span class="sc">%&gt;%</span></span>
-<span id="cb441-3"><a href="strings.html#cb441-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb439"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb439-1"><a href="strings.html#cb439-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">Number =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb439-2"><a href="strings.html#cb439-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Message =</span> <span class="fu">sprintf</span>(<span class="st">&quot;The number is %d&quot;</span>, Number)) <span class="sc">%&gt;%</span></span>
+<span id="cb439-3"><a href="strings.html#cb439-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -811,21 +810,21 @@ The number is 3
 <p>Do exercise 4.</p>
 </div>
 </div>
-<div id="extracting-information-from-a-string" class="section level2" number="12.5">
-<h2><span class="header-section-number">12.5</span> Extracting information from a string</h2>
+<div id="extracting-information-from-a-string" class="section level2 hasAnchor" number="12.5">
+<h2><span class="header-section-number">12.5</span> Extracting information from a string<a href="strings.html#extracting-information-from-a-string" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Previous exercises dealt with combining various bits of information into a single string. Often, you also need to do the opposite: extract bits of information from a single string. For example, in the toy table on face perception, we have been working with, <code>Face</code> column code gender of the face <code>"M"</code> (table is short but you can easily assume that faces of both genders were used) and the second is its index (<code>1</code> and <code>2</code>). When we worked with <a href="data/persistence.csv">persistence</a>, <code>Participant</code> column encoded year of birth and gender, whereas <code>Session</code> contained detailed information about year, month, day, hour, minutes, and seconds all merged together. There are several ways to extract this information, either by extracting one piece at a time via <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/substr.html">substr()</a> or string processing library <a href="https://stringr.tidyverse.org/">stringr</a>. Alternatively, you can split a string column into several columns via <a href="https://tidyr.tidyverse.org/reference/separate.html">separate()</a> or <a href="https://tidyr.tidyverse.org/reference/extract.html">extract()</a> functions.</p>
 </div>
-<div id="splitting-strings-via-separate" class="section level2" number="12.6">
-<h2><span class="header-section-number">12.6</span> Splitting strings via <code>separate()</code></h2>
+<div id="splitting-strings-via-separate" class="section level2 hasAnchor" number="12.6">
+<h2><span class="header-section-number">12.6</span> Splitting strings via <code>separate()</code><a href="strings.html#splitting-strings-via-separate" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Function <a href="https://tidyr.tidyverse.org/reference/separate.html">separate()</a> is part of tidyverse and its use is very straightforward: you pass 1) the name of the column that you want to split, 2) names of the columns it needs to be split into, 3) a separator symbol or indexes of splitting positions. Examples using the face table should make it clear. Reminder, this is the original wide table and we want to separate <code>Face</code> into <code>FaceGender</code> and <code>FaceIndex</code>.</p>
-<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb442-1"><a href="strings.html#cb442-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="ot">&lt;-</span> </span>
-<span id="cb442-2"><a href="strings.html#cb442-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">Participant =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>),</span>
-<span id="cb442-3"><a href="strings.html#cb442-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">Face =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;M-1&quot;</span>, <span class="st">&quot;M-2&quot;</span>), <span class="dv">2</span>), </span>
-<span id="cb442-4"><a href="strings.html#cb442-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">Symmetry =</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">3</span>),</span>
-<span id="cb442-5"><a href="strings.html#cb442-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">Attractiveness =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">7</span>, <span class="dv">2</span>, <span class="dv">7</span>),</span>
-<span id="cb442-6"><a href="strings.html#cb442-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">Trustworthiness =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb442-7"><a href="strings.html#cb442-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb442-8"><a href="strings.html#cb442-8" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(widish_df)</span></code></pre></div>
+<div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb440-1"><a href="strings.html#cb440-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="ot">&lt;-</span> </span>
+<span id="cb440-2"><a href="strings.html#cb440-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">Participant =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>),</span>
+<span id="cb440-3"><a href="strings.html#cb440-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">Face =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;M-1&quot;</span>, <span class="st">&quot;M-2&quot;</span>), <span class="dv">2</span>), </span>
+<span id="cb440-4"><a href="strings.html#cb440-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">Symmetry =</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">3</span>),</span>
+<span id="cb440-5"><a href="strings.html#cb440-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">Attractiveness =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">7</span>, <span class="dv">2</span>, <span class="dv">7</span>),</span>
+<span id="cb440-6"><a href="strings.html#cb440-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">Trustworthiness =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb440-7"><a href="strings.html#cb440-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb440-8"><a href="strings.html#cb440-8" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(widish_df)</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -918,8 +917,8 @@ M-2
 </tbody>
 </table>
 <p>As there is a very convenient “dash” between the two, we can use it for a separator symbol:</p>
-<div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb443-1"><a href="strings.html#cb443-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
-<span id="cb443-2"><a href="strings.html#cb443-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;FaceGender&quot;</span>, <span class="st">&quot;FaceIndex&quot;</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb441"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb441-1"><a href="strings.html#cb441-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
+<span id="cb441-2"><a href="strings.html#cb441-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;FaceGender&quot;</span>, <span class="st">&quot;FaceIndex&quot;</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>)</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -1027,8 +1026,8 @@ M
 </tbody>
 </table>
 <p>Note that the original <code>Face</code> column is gone. We can keep it via <code>remove=FALSE</code> option</p>
-<div class="sourceCode" id="cb444"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb444-1"><a href="strings.html#cb444-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
-<span id="cb444-2"><a href="strings.html#cb444-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;FaceGender&quot;</span>, <span class="st">&quot;FaceIndex&quot;</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>, <span class="at">remove=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb442-1"><a href="strings.html#cb442-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
+<span id="cb442-2"><a href="strings.html#cb442-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;FaceGender&quot;</span>, <span class="st">&quot;FaceIndex&quot;</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>, <span class="at">remove=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -1151,8 +1150,8 @@ M
 </tbody>
 </table>
 <p>We also do not need to extract <em>all</em> information. For example, we can extract only face gender or face index. To get only the gender, we only specify <em>one</em> <code>into</code> column and add <code>extra="drop"</code> parameter, telling <code>separate()</code> to drop any extra piece it obtained:</p>
-<div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb445-1"><a href="strings.html#cb445-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
-<span id="cb445-2"><a href="strings.html#cb445-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;Gender&quot;</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>, <span class="at">remove=</span><span class="cn">FALSE</span>, <span class="at">extra=</span><span class="st">&quot;drop&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb443-1"><a href="strings.html#cb443-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
+<span id="cb443-2"><a href="strings.html#cb443-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;Gender&quot;</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>, <span class="at">remove=</span><span class="cn">FALSE</span>, <span class="at">extra=</span><span class="st">&quot;drop&quot;</span>)</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -1260,11 +1259,11 @@ M
 </tbody>
 </table>
 <p>Alternatively, we can explicitly <em>ignore</em> pieces by using <code>NA</code> for their column name:</p>
-<div class="sourceCode" id="cb446"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb446-1"><a href="strings.html#cb446-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
-<span id="cb446-2"><a href="strings.html#cb446-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;Gender&quot;</span>, <span class="cn">NA</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>, <span class="at">remove=</span><span class="cn">FALSE</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb447-1"><a href="strings.html#cb447-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
-<span id="cb447-2"><a href="strings.html#cb447-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;Gender&quot;</span>, <span class="cn">NA</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>, <span class="at">remove=</span><span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb447-3"><a href="strings.html#cb447-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb444"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb444-1"><a href="strings.html#cb444-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
+<span id="cb444-2"><a href="strings.html#cb444-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;Gender&quot;</span>, <span class="cn">NA</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>, <span class="at">remove=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb445-1"><a href="strings.html#cb445-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
+<span id="cb445-2"><a href="strings.html#cb445-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;Gender&quot;</span>, <span class="cn">NA</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>, <span class="at">remove=</span><span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb445-3"><a href="strings.html#cb445-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -1372,11 +1371,11 @@ M
 </tbody>
 </table>
 <p>What about keeping only the <em>second</em> piece in a <code>FaceIndex</code> column? We ignore the first one via <code>NA</code></p>
-<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb448-1"><a href="strings.html#cb448-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
-<span id="cb448-2"><a href="strings.html#cb448-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="cn">NA</span>, <span class="st">&quot;Index&quot;</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>, <span class="at">remove=</span><span class="cn">FALSE</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb449-1"><a href="strings.html#cb449-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
-<span id="cb449-2"><a href="strings.html#cb449-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="cn">NA</span>, <span class="st">&quot;Index&quot;</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>, <span class="at">remove=</span><span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb449-3"><a href="strings.html#cb449-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">align =</span> <span class="st">&quot;c&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb446"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb446-1"><a href="strings.html#cb446-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
+<span id="cb446-2"><a href="strings.html#cb446-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="cn">NA</span>, <span class="st">&quot;Index&quot;</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>, <span class="at">remove=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb447-1"><a href="strings.html#cb447-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
+<span id="cb447-2"><a href="strings.html#cb447-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="cn">NA</span>, <span class="st">&quot;Index&quot;</span>), <span class="at">sep=</span><span class="st">&quot;-&quot;</span>, <span class="at">remove=</span><span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb447-3"><a href="strings.html#cb447-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">align =</span> <span class="st">&quot;c&quot;</span>)</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -1791,11 +1790,11 @@ F-02
 </tbody>
 </table>
 <p>For our toy faces table, the first piece is the gender and the last one is its index. Thus, we tell <code>separate()</code> starting position each pieces, starting with the <em>second</em> one:</p>
-<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb450-1"><a href="strings.html#cb450-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
-<span id="cb450-2"><a href="strings.html#cb450-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;FaceGender&quot;</span>, <span class="st">&quot;Dash&quot;</span>, <span class="st">&quot;FaceIndex&quot;</span>), <span class="at">sep=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb451"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb451-1"><a href="strings.html#cb451-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
-<span id="cb451-2"><a href="strings.html#cb451-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;FaceGender&quot;</span>, <span class="st">&quot;Dash&quot;</span>, <span class="st">&quot;FaceIndex&quot;</span>), <span class="at">sep=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">remove=</span><span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb451-3"><a href="strings.html#cb451-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb448-1"><a href="strings.html#cb448-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
+<span id="cb448-2"><a href="strings.html#cb448-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;FaceGender&quot;</span>, <span class="st">&quot;Dash&quot;</span>, <span class="st">&quot;FaceIndex&quot;</span>), <span class="at">sep=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb449-1"><a href="strings.html#cb449-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
+<span id="cb449-2"><a href="strings.html#cb449-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;FaceGender&quot;</span>, <span class="st">&quot;Dash&quot;</span>, <span class="st">&quot;FaceIndex&quot;</span>), <span class="at">sep=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">remove=</span><span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb449-3"><a href="strings.html#cb449-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -1937,11 +1936,11 @@ F
 </ul></li>
 </ul>
 <p>Here, I’ve create <code>Dash</code> column for the separator but, of course, I could have omitted it via <code>NA</code> column name.</p>
-<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="strings.html#cb452-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
-<span id="cb452-2"><a href="strings.html#cb452-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;FaceGender&quot;</span>, <span class="cn">NA</span>, <span class="st">&quot;FaceIndex&quot;</span>), <span class="at">sep=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb453"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb453-1"><a href="strings.html#cb453-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
-<span id="cb453-2"><a href="strings.html#cb453-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;FaceGender&quot;</span>, <span class="cn">NA</span>, <span class="st">&quot;FaceIndex&quot;</span>), <span class="at">sep=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb453-3"><a href="strings.html#cb453-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb450-1"><a href="strings.html#cb450-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
+<span id="cb450-2"><a href="strings.html#cb450-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;FaceGender&quot;</span>, <span class="cn">NA</span>, <span class="st">&quot;FaceIndex&quot;</span>), <span class="at">sep=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb451"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb451-1"><a href="strings.html#cb451-1" aria-hidden="true" tabindex="-1"></a>widish_df <span class="sc">%&gt;%</span></span>
+<span id="cb451-2"><a href="strings.html#cb451-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(Face, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;FaceGender&quot;</span>, <span class="cn">NA</span>, <span class="st">&quot;FaceIndex&quot;</span>), <span class="at">sep=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb451-3"><a href="strings.html#cb451-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -2294,48 +2293,48 @@ right
 <p>Do exercise 6.</p>
 </div>
 </div>
-<div id="extracting-a-substring-when-you-know-its-location" class="section level2" number="12.7">
-<h2><span class="header-section-number">12.7</span> Extracting a substring when you know its location</h2>
+<div id="extracting-a-substring-when-you-know-its-location" class="section level2 hasAnchor" number="12.7">
+<h2><span class="header-section-number">12.7</span> Extracting a substring when you know its location<a href="strings.html#extracting-a-substring-when-you-know-its-location" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Base R provides a function extract a substring (or many substrings) via <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/substr.html">substr()</a> function (you can also its alias <code>substring()</code>). It takes a string (or a vector of strings) and vectors with <code>start</code> and <code>stop</code> indexes of each substring.</p>
-<div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb454-1"><a href="strings.html#cb454-1" aria-hidden="true" tabindex="-1"></a>face_img <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;M01&quot;</span>, <span class="st">&quot;M02&quot;</span>, <span class="st">&quot;F01&quot;</span>, <span class="st">&quot;F02&quot;</span>)</span>
-<span id="cb454-2"><a href="strings.html#cb454-2" aria-hidden="true" tabindex="-1"></a><span class="fu">substr</span>(face_img, <span class="dv">2</span>, <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="strings.html#cb452-1" aria-hidden="true" tabindex="-1"></a>face_img <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;M01&quot;</span>, <span class="st">&quot;M02&quot;</span>, <span class="st">&quot;F01&quot;</span>, <span class="st">&quot;F02&quot;</span>)</span>
+<span id="cb452-2"><a href="strings.html#cb452-2" aria-hidden="true" tabindex="-1"></a><span class="fu">substr</span>(face_img, <span class="dv">2</span>, <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;01&quot; &quot;02&quot; &quot;01&quot; &quot;02&quot;</code></pre>
 <p>Repeat exercise 6 but use <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/substr.html">substr()</a> to extract each column (<code>BirthYear</code> and <code>Gender</code>) from the participant code.</p>
 <div class="infobox practice">
 <p>Do exercise 7.</p>
 </div>
 <p>Tidyverse has its own <a href="https://stringr.tidyverse.org/">stringr</a> library for working with strings. Its uses a consistent naming scheme <code>str_&lt;action&gt;</code> for its function and covers virtually all tasks that are related to working with strings. <a href="https://stringr.tidyverse.org/">stringr</a> equivalent of <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/substr.html">substr()</a> is <a href="https://stringr.tidyverse.org/reference/str_sub.html">str_sub()</a> that behaves similarly.</p>
-<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb456-1"><a href="strings.html#cb456-1" aria-hidden="true" tabindex="-1"></a>face_img <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;M01&quot;</span>, <span class="st">&quot;M02&quot;</span>, <span class="st">&quot;F01&quot;</span>, <span class="st">&quot;F02&quot;</span>)</span>
-<span id="cb456-2"><a href="strings.html#cb456-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_sub</span>(face_img, <span class="dv">2</span>, <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb454-1"><a href="strings.html#cb454-1" aria-hidden="true" tabindex="-1"></a>face_img <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;M01&quot;</span>, <span class="st">&quot;M02&quot;</span>, <span class="st">&quot;F01&quot;</span>, <span class="st">&quot;F02&quot;</span>)</span>
+<span id="cb454-2"><a href="strings.html#cb454-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_sub</span>(face_img, <span class="dv">2</span>, <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;01&quot; &quot;02&quot; &quot;01&quot; &quot;02&quot;</code></pre>
 <p>Repeat exercise 7 but using <a href="https://stringr.tidyverse.org/reference/str_sub.html">str_sub()</a> function.</p>
 <div class="infobox practice">
 <p>Do exercise 8.</p>
 </div>
 </div>
-<div id="detecting-a-substring-using-regular-expressions" class="section level2" number="12.8">
-<h2><span class="header-section-number">12.8</span> Detecting a substring using regular expressions</h2>
+<div id="detecting-a-substring-using-regular-expressions" class="section level2 hasAnchor" number="12.8">
+<h2><span class="header-section-number">12.8</span> Detecting a substring using regular expressions<a href="strings.html#detecting-a-substring-using-regular-expressions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <blockquote>
 <p>Some people, when confronted with a problem, think “I know, I’ll use regular expressions.” Now they have two problems.</p>
 <p><em>Jamie Zawinsk</em></p>
 </blockquote>
 <p>One of the most powerful ways to work with strings is via <a href="https://en.wikipedia.org/wiki/Regular_expression">regular expressions</a> that allow you to code a flexible pattern that is matched to a substring within a string. For example, you can detect whether a string contains a number without knowing where it is located. Here a pattern <code>"\\d{3}"</code> means that we are looking for 3 (hence the <code>{3}</code>) digits (hence the <code>\\d</code>)</p>
-<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb458-1"><a href="strings.html#cb458-1" aria-hidden="true" tabindex="-1"></a>QandA <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;What was the answer, 42, right?&quot;</span>, <span class="st">&quot;No idea! What could it be, 423?&quot;</span>)</span>
-<span id="cb458-2"><a href="strings.html#cb458-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grepl</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">d{3}&quot;</span>, QandA)</span></code></pre></div>
+<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb456-1"><a href="strings.html#cb456-1" aria-hidden="true" tabindex="-1"></a>QandA <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;What was the answer, 42, right?&quot;</span>, <span class="st">&quot;No idea! What could it be, 423?&quot;</span>)</span>
+<span id="cb456-2"><a href="strings.html#cb456-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grepl</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">d{3}&quot;</span>, QandA)</span></code></pre></div>
 <pre><code>## [1] FALSE  TRUE</code></pre>
-<p>Stringr library has it own version with a more obvious name <a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect()</a><a href="#fn61" class="footnote-ref" id="fnref61"><sup>61</sup></a>. Note, however, the reverse order of arguments, as <code>str_</code> function always take (a vector of) strings as a first parameter</p>
-<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb460-1"><a href="strings.html#cb460-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_detect</span>(QandA, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">d{3}&quot;</span>)</span></code></pre></div>
+<p>Stringr library has it own version with a more obvious name <a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect()</a><a href="#fn62" class="footnote-ref" id="fnref62"><sup>62</sup></a>. Note, however, the reverse order of arguments, as <code>str_</code> function always take (a vector of) strings as a first parameter</p>
+<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb458-1"><a href="strings.html#cb458-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_detect</span>(QandA, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">d{3}&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] FALSE  TRUE</code></pre>
 <p>You can also look for 1 or more digits (which is <code>+</code>)</p>
-<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb462-1"><a href="strings.html#cb462-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_detect</span>(QandA, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">d+&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb460-1"><a href="strings.html#cb460-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_detect</span>(QandA, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">d+&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] TRUE TRUE</code></pre>
 <p>Or for a specific word</p>
-<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="strings.html#cb464-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_detect</span>(QandA, <span class="st">&quot;What&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb462-1"><a href="strings.html#cb462-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_detect</span>(QandA, <span class="st">&quot;What&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] TRUE TRUE</code></pre>
 <p>Or for a specific word only at the beginning (<code>^</code>) of the string</p>
-<div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb466-1"><a href="strings.html#cb466-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_detect</span>(QandA, <span class="st">&quot;^What&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="strings.html#cb464-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_detect</span>(QandA, <span class="st">&quot;^What&quot;</span>)</span></code></pre></div>
 <pre><code>## [1]  TRUE FALSE</code></pre>
-<p>When it comes to regular expressions, what I have shown you so far is not even a tip of an iceberg, it is a tip of a tip of an iceberg at best. They are very flexible, allowing you to code very complicated patterns but they are also hard to read and, therefore, hard to debug<a href="#fn62" class="footnote-ref" id="fnref62"><sup>62</sup></a>. For example, this is a regular expression to check validity on an email address<a href="#fn63" class="footnote-ref" id="fnref63"><sup>63</sup></a></p>
+<p>When it comes to regular expressions, what I have shown you so far is not even a tip of an iceberg, it is a tip of a tip of an iceberg at best. They are very flexible, allowing you to code very complicated patterns but they are also hard to read and, therefore, hard to debug<a href="#fn63" class="footnote-ref" id="fnref63"><sup>63</sup></a>. For example, this is a regular expression to check validity on an email address<a href="#fn64" class="footnote-ref" id="fnref64"><sup>64</sup></a></p>
 <pre><code>(?:[a-z0-9!#$%&amp;&#39;*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;&#39;*+/=?^_`{|}~-]+)*|&quot;(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*&quot;)@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])</code></pre>
 <p>Still, if you need to work with text they are indispensable, so your should remember about them. When facing an actual task grab a <a href="https://raw.githubusercontent.com/rstudio/cheatsheets/main/strings.pdf">cheatsheet</a> and use an <a href="https://spannbaueradam.shinyapps.io/r_regex_tester/">online expression tester</a> to debug the pattern.</p>
 <p>In the next exercise, use a regular expression to <a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a> out Primes and Probes that <em>end</em> with a <em>single</em> digit. I know that all of them end with a single digit, if digit is in them, so you can make a very simple expression that would do the job. But I want you to practice working with the <a href="https://raw.githubusercontent.com/rstudio/cheatsheets/main/strings.pdf">cheatsheet</a>, so it must specify that only one digit is allowed and that it must be the last symbol. When you pattern works, you should end up with a table where all Primes and Probes are <code>"heavy poles sphere"</code>.</p>
@@ -2566,11 +2565,11 @@ right
 </div>
 <div class="footnotes">
 <hr />
-<ol start="60">
-<li id="fn60"><p>Talk about consistency…<a href="strings.html#fnref60" class="footnote-back">↩︎</a></p></li>
-<li id="fn61"><p>GREP stands for Global Regular Expression Print.<a href="strings.html#fnref61" class="footnote-back">↩︎</a></p></li>
-<li id="fn62"><p>Hence, the quote at the beginning of the section.<a href="strings.html#fnref62" class="footnote-back">↩︎</a></p></li>
-<li id="fn63"><p>This an <a href="https://emailregex.com/">official RCF 5322 standard</a> that should work on <em>almost</em> all of the valid email addresses.<a href="strings.html#fnref63" class="footnote-back">↩︎</a></p></li>
+<ol start="61">
+<li id="fn61"><p>Talk about consistency…<a href="strings.html#fnref61" class="footnote-back">↩︎</a></p></li>
+<li id="fn62"><p>GREP stands for Global Regular Expression Print.<a href="strings.html#fnref62" class="footnote-back">↩︎</a></p></li>
+<li id="fn63"><p>Hence, the quote at the beginning of the section.<a href="strings.html#fnref63" class="footnote-back">↩︎</a></p></li>
+<li id="fn64"><p>This an <a href="https://emailregex.com/">official RCF 5322 standard</a> that should work on <em>almost</em> all of the valid email addresses.<a href="strings.html#fnref64" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
@@ -2639,7 +2638,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');
