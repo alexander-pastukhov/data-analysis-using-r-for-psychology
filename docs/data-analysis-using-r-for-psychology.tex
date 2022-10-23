@@ -131,7 +131,7 @@
 
 \title{Data analysis using R for Psychology and Social Science}
 \author{Alexander (Sasha) Pastukhov}
-\date{2022-10-16}
+\date{2022-10-23}
 
 \begin{document}
 \maketitle
@@ -721,7 +721,7 @@ Do exercise 7.
 \hypertarget{vector-index-slicing}{%
 \section{Slicing}\label{vector-index-slicing}}
 
-So far we were reading or modifying either the whole vector or just one of its elements. However, the index you pass in square brackets (you've guess it!) is also a vector! Which means that you can construct a vector of indexes the same way you construct a vector of any values (the only restriction is that index values must integers and that you cannot mix negative and positive indexes).
+So far we were reading or modifying either the whole vector or just one of its elements. However, the index you pass in square brackets (you've guessed it) is also a vector! Which means that you can construct a vector of indexes the same way you construct a vector of any values (the only restriction is that index values must integers and that you cannot mix negative and positive indexes).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -894,7 +894,9 @@ Do exercise 9.
 \hypertarget{different-length-vectors}{%
 \section{\texorpdfstring{Working with two vectors of \emph{different} length}{Working with two vectors of different length}}\label{different-length-vectors}}
 
-What if vectors are of \emph{different} length? If the length of the longer vector is a \emph{multiple} of the shorter vector length, the shorter vector is repeated N-times (where \(N = length(longer~vector) / length(shorter~vector)\)) and this length-matched vector is then used for the mathematical operation. Take a look at the results of the following computation
+What if vectors are of \emph{different} length? If the length of the longer vector is a \emph{multiple} of the shorter vector length, the shorter vector is ``recycled'' , i.e., repeated N-times (where \(N = length(longer~vector) / length(shorter~vector)\)) and this length-matched vector is then used for the mathematical operation. Please note that this generate neither an error, nor a warning! This is another example of ``convenience over safety'' approach in R, so you should be very careful and \emph{always} double-check length of your vectors. Otherwise, your code will work incorrectly and, \emph{if you are lucky}, you might notice this.
+
+To see how recycling works, take a look at the results of the following computation
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2551,53 +2553,53 @@ Normal(\mu=2*ConditionIndex, \sigma=0.4) + \\ Normal(\mu=Intensity, \sigma=0.4)\
 \hline
 Condition & Intensity & Response\\
 \hline
-A & 1 & 0.2926766\\
+A & 1 & 0.5783551\\
 \hline
-B & 1 & -2.1678032\\
+B & 1 & -2.7804605\\
 \hline
-C & 1 & -4.5360439\\
+C & 1 & -4.2615750\\
 \hline
-A & 2 & 0.1238678\\
+A & 2 & 1.5323335\\
 \hline
-B & 2 & -1.2228574\\
+B & 2 & -0.8334506\\
 \hline
-C & 2 & -4.1779069\\
+C & 2 & -3.4533741\\
 \hline
-A & 3 & 1.5456157\\
+A & 3 & 1.4938345\\
 \hline
-B & 3 & 0.7961713\\
+B & 3 & 0.6279660\\
 \hline
-C & 3 & -1.5886649\\
+C & 3 & -2.5325707\\
 \hline
-A & 4 & 2.9493296\\
+A & 4 & 2.4749491\\
 \hline
-B & 4 & 0.4482508\\
+B & 4 & 0.8221286\\
 \hline
-C & 4 & -1.0675410\\
+C & 4 & 0.4055695\\
 \hline
-A & 5 & 4.8214176\\
+A & 5 & 3.7927514\\
 \hline
-B & 5 & 2.4342622\\
+B & 5 & 3.1032269\\
 \hline
-C & 5 & 0.8210775\\
+C & 5 & -0.3972403\\
 \hline
-A & 6 & 5.7994380\\
+A & 6 & 4.5655680\\
 \hline
-B & 6 & 2.8626488\\
+B & 6 & 3.2982033\\
 \hline
-C & 6 & 0.4845590\\
+C & 6 & -0.0394683\\
 \hline
-A & 7 & 5.9824213\\
+A & 7 & 5.8464515\\
 \hline
-B & 7 & 3.6409195\\
+B & 7 & 4.4655994\\
 \hline
-C & 7 & 1.5092717\\
+C & 7 & 2.3743067\\
 \hline
-A & 8 & 7.5672920\\
+A & 8 & 6.1481585\\
 \hline
-B & 8 & 4.3475228\\
+B & 8 & 4.9511480\\
 \hline
-C & 8 & 3.7979678\\
+C & 8 & 2.7657502\\
 \hline
 \end{tabular}
 
@@ -4079,21 +4081,21 @@ D & 22\\
 \hline
 ID & Report\\
 \hline
-A & 1.344897\\
+A & 1.287292\\
 \hline
-A & 4.816083\\
+A & 3.621985\\
 \hline
-B & 2.527649\\
+B & 2.784028\\
 \hline
-B & 6.792016\\
+B & 1.794792\\
 \hline
-C & 2.156135\\
+C & 1.116062\\
 \hline
-C & 1.753247\\
+C & 5.818359\\
 \hline
-D & 5.754798\\
+D & 2.450741\\
 \hline
-D & 5.269061\\
+D & 5.627742\\
 \hline
 \end{tabular}
 \end{table}
@@ -4115,21 +4117,21 @@ To join two tables, you require ``key'' columns: columns that contain values tha
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 1.344897\\
+A & 20 & 1.287292\\
 \hline
-A & 20 & 4.816083\\
+A & 20 & 3.621985\\
 \hline
-B & 19 & 2.527649\\
+B & 19 & 2.784028\\
 \hline
-B & 19 & 6.792016\\
+B & 19 & 1.794792\\
 \hline
-C & 30 & 2.156135\\
+C & 30 & 1.116062\\
 \hline
-C & 30 & 1.753247\\
+C & 30 & 5.818359\\
 \hline
-D & 22 & 5.754798\\
+D & 22 & 2.450741\\
 \hline
-D & 22 & 5.269061\\
+D & 22 & 5.627742\\
 \hline
 \end{tabular}
 \centering
@@ -4137,21 +4139,21 @@ D & 22 & 5.269061\\
 \hline
 ID & Report & Age\\
 \hline
-A & 1.344897 & 20\\
+A & 1.287292 & 20\\
 \hline
-A & 4.816083 & 20\\
+A & 3.621985 & 20\\
 \hline
-B & 2.527649 & 19\\
+B & 2.784028 & 19\\
 \hline
-B & 6.792016 & 19\\
+B & 1.794792 & 19\\
 \hline
-C & 2.156135 & 30\\
+C & 1.116062 & 30\\
 \hline
-C & 1.753247 & 30\\
+C & 5.818359 & 30\\
 \hline
-D & 5.754798 & 22\\
+D & 2.450741 & 22\\
 \hline
-D & 5.269061 & 22\\
+D & 5.627742 & 22\\
 \hline
 \end{tabular}
 \end{table}
@@ -4203,21 +4205,21 @@ D & 22\\
 \hline
 ID & Report\\
 \hline
-A & 4.060560\\
+A & 4.007961\\
 \hline
-A & 6.659319\\
+A & 1.876093\\
 \hline
-B & 1.958113\\
+B & 4.786708\\
 \hline
-B & 6.592248\\
+B & 3.043772\\
 \hline
-C & 1.042310\\
+C & 2.439911\\
 \hline
-C & 3.464990\\
+C & 6.828435\\
 \hline
-E & 4.114685\\
+E & 4.786998\\
 \hline
-E & 6.679348\\
+E & 2.862245\\
 \hline
 \end{tabular}
 \end{table}
@@ -4239,17 +4241,17 @@ E & 6.679348\\
 \hline
 ID & Report & Age\\
 \hline
-A & 4.060560 & 20\\
+A & 4.007961 & 20\\
 \hline
-A & 6.659319 & 20\\
+A & 1.876093 & 20\\
 \hline
-B & 1.958113 & 19\\
+B & 4.786708 & 19\\
 \hline
-B & 6.592248 & 19\\
+B & 3.043772 & 19\\
 \hline
-C & 1.042310 & 30\\
+C & 2.439911 & 30\\
 \hline
-C & 3.464990 & 30\\
+C & 6.828435 & 30\\
 \hline
 \end{tabular}
 \end{table}
@@ -4271,23 +4273,23 @@ In contrast, \textbf{full join} is the most liberal as it includes all rows from
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 4.060560\\
+A & 20 & 4.007961\\
 \hline
-A & 20 & 6.659319\\
+A & 20 & 1.876093\\
 \hline
-B & 19 & 1.958113\\
+B & 19 & 4.786708\\
 \hline
-B & 19 & 6.592248\\
+B & 19 & 3.043772\\
 \hline
-C & 30 & 1.042310\\
+C & 30 & 2.439911\\
 \hline
-C & 30 & 3.464990\\
+C & 30 & 6.828435\\
 \hline
 D & 22 & NA\\
 \hline
-E & NA & 4.114685\\
+E & NA & 4.786998\\
 \hline
-E & NA & 6.679348\\
+E & NA & 2.862245\\
 \hline
 \end{tabular}
 \end{table}
@@ -4309,17 +4311,17 @@ E & NA & 6.679348\\
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 4.060560\\
+A & 20 & 4.007961\\
 \hline
-A & 20 & 6.659319\\
+A & 20 & 1.876093\\
 \hline
-B & 19 & 1.958113\\
+B & 19 & 4.786708\\
 \hline
-B & 19 & 6.592248\\
+B & 19 & 3.043772\\
 \hline
-C & 30 & 1.042310\\
+C & 30 & 2.439911\\
 \hline
-C & 30 & 3.464990\\
+C & 30 & 6.828435\\
 \hline
 D & 22 & NA\\
 \hline
@@ -4343,21 +4345,21 @@ D & 22 & NA\\
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 4.060560\\
+A & 20 & 4.007961\\
 \hline
-A & 20 & 6.659319\\
+A & 20 & 1.876093\\
 \hline
-B & 19 & 1.958113\\
+B & 19 & 4.786708\\
 \hline
-B & 19 & 6.592248\\
+B & 19 & 3.043772\\
 \hline
-C & 30 & 1.042310\\
+C & 30 & 2.439911\\
 \hline
-C & 30 & 3.464990\\
+C & 30 & 6.828435\\
 \hline
-E & NA & 4.114685\\
+E & NA & 4.786998\\
 \hline
-E & NA & 6.679348\\
+E & NA & 2.862245\\
 \hline
 \end{tabular}
 \end{table}
@@ -4397,13 +4399,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 6.656919\\
+A & M & 5.298628\\
 \hline
-B & F & 3.018823\\
+B & F & 2.506368\\
 \hline
-A & F & 2.745487\\
+A & F & 3.935723\\
 \hline
-B & M & 3.956588\\
+B & M & 1.282726\\
 \hline
 \end{tabular}
 \end{table}
@@ -4423,13 +4425,13 @@ B & M & 3.956588\\
 \hline
 ID & Gender & Age & Report\\
 \hline
-A & M & 20 & 6.656919\\
+A & M & 20 & 5.298628\\
 \hline
-B & F & 19 & 3.018823\\
+B & F & 19 & 2.506368\\
 \hline
-A & F & 30 & 2.745487\\
+A & F & 30 & 3.935723\\
 \hline
-B & M & 22 & 3.956588\\
+B & M & 22 & 1.282726\\
 \hline
 \end{tabular}
 \end{table}
@@ -4470,13 +4472,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 3.177419\\
+A & M & 5.537801\\
 \hline
-B & F & 3.808132\\
+B & F & 1.174364\\
 \hline
-A & F & 5.342651\\
+A & F & 5.719942\\
 \hline
-B & M & 5.822614\\
+B & M & 4.046442\\
 \hline
 \end{tabular}
 \end{table}
@@ -4496,13 +4498,13 @@ B & M & 5.822614\\
 \hline
 VPCode & Sex & Age & Report\\
 \hline
-A & F & 30 & 5.342651\\
+A & F & 30 & 5.719942\\
 \hline
-A & M & 20 & 3.177419\\
+A & M & 20 & 5.537801\\
 \hline
-B & F & 19 & 3.808132\\
+B & F & 19 & 1.174364\\
 \hline
-B & M & 22 & 5.822614\\
+B & M & 22 & 4.046442\\
 \hline
 \end{tabular}
 \end{table}
@@ -4890,29 +4892,29 @@ Let us take a look at the importance of \texttt{id\_cols}. Imagine that we have 
 \hline
 Participant & Face & Scale & Response & RT\\
 \hline
-1 & M-1 & Symmetry & 6 & 0.84\\
+1 & M-1 & Symmetry & 6 & 1.06\\
 \hline
-1 & M-1 & Attractiveness & 4 & 0.69\\
+1 & M-1 & Attractiveness & 4 & 2.83\\
 \hline
-1 & M-1 & Trustworthiness & 3 & 1.02\\
+1 & M-1 & Trustworthiness & 3 & 1.62\\
 \hline
-1 & M-2 & Symmetry & 4 & 1.04\\
+1 & M-2 & Symmetry & 4 & 2.11\\
 \hline
-1 & M-2 & Attractiveness & 7 & 1.50\\
+1 & M-2 & Attractiveness & 7 & 1.35\\
 \hline
-1 & M-2 & Trustworthiness & 6 & 1.01\\
+1 & M-2 & Trustworthiness & 6 & 1.29\\
 \hline
-2 & M-1 & Symmetry & 5 & 0.49\\
+2 & M-1 & Symmetry & 5 & 1.85\\
 \hline
-2 & M-1 & Attractiveness & 2 & 1.26\\
+2 & M-1 & Attractiveness & 2 & 0.81\\
 \hline
-2 & M-1 & Trustworthiness & 1 & 0.71\\
+2 & M-1 & Trustworthiness & 1 & 1.27\\
 \hline
-2 & M-2 & Symmetry & 3 & 1.42\\
+2 & M-2 & Symmetry & 3 & 1.69\\
 \hline
-2 & M-2 & Attractiveness & 7 & 0.45\\
+2 & M-2 & Attractiveness & 7 & 1.17\\
 \hline
-2 & M-2 & Trustworthiness & 2 & 1.12\\
+2 & M-2 & Trustworthiness & 2 & 1.32\\
 \hline
 \end{tabular}
 
@@ -4929,29 +4931,29 @@ For \href{https://tidyr.tidyverse.org/reference/pivot_wider.html}{pivot\_wider},
 \hline
 Participant & Face & RT & Symmetry & Attractiveness & Trustworthiness\\
 \hline
-1 & M-1 & 0.84 & 6 & NA & NA\\
+1 & M-1 & 1.06 & 6 & NA & NA\\
 \hline
-1 & M-1 & 0.69 & NA & 4 & NA\\
+1 & M-1 & 2.83 & NA & 4 & NA\\
 \hline
-1 & M-1 & 1.02 & NA & NA & 3\\
+1 & M-1 & 1.62 & NA & NA & 3\\
 \hline
-1 & M-2 & 1.04 & 4 & NA & NA\\
+1 & M-2 & 2.11 & 4 & NA & NA\\
 \hline
-1 & M-2 & 1.50 & NA & 7 & NA\\
+1 & M-2 & 1.35 & NA & 7 & NA\\
 \hline
-1 & M-2 & 1.01 & NA & NA & 6\\
+1 & M-2 & 1.29 & NA & NA & 6\\
 \hline
-2 & M-1 & 0.49 & 5 & NA & NA\\
+2 & M-1 & 1.85 & 5 & NA & NA\\
 \hline
-2 & M-1 & 1.26 & NA & 2 & NA\\
+2 & M-1 & 0.81 & NA & 2 & NA\\
 \hline
-2 & M-1 & 0.71 & NA & NA & 1\\
+2 & M-1 & 1.27 & NA & NA & 1\\
 \hline
-2 & M-2 & 1.42 & 3 & NA & NA\\
+2 & M-2 & 1.69 & 3 & NA & NA\\
 \hline
-2 & M-2 & 0.45 & NA & 7 & NA\\
+2 & M-2 & 1.17 & NA & 7 & NA\\
 \hline
-2 & M-2 & 1.12 & NA & NA & 2\\
+2 & M-2 & 1.32 & NA & NA & 2\\
 \hline
 \end{tabular}
 
