@@ -223,7 +223,7 @@ Do exercise 7.
 :::
 
 ## Slicing  {#vector-index-slicing}
-So far we were reading or modifying either the whole vector or just one of its elements. However, the index you pass in square brackets (you've guess it!) is also a vector! Which means that you can construct a vector of indexes the same way you construct a vector of any values (the only restriction is that index values must integers and that you cannot mix negative and positive indexes).
+So far we were reading or modifying either the whole vector or just one of its elements. However, the index you pass in square brackets (you've guessed it) is also a vector! Which means that you can construct a vector of indexes the same way you construct a vector of any values (the only restriction is that index values must integers and that you cannot mix negative and positive indexes).
  
 ```{r}
 x <- c(10, 20, 30, 40, 50)
@@ -315,7 +315,9 @@ Do exercise 9.
 
 ## Working with two vectors of _different_ length {#different-length-vectors}
 
-What if vectors are of _different_ length? If the length of the longer vector is a _multiple_ of the shorter vector length, the shorter vector is repeated N-times (where $N = length(longer~vector) / length(shorter~vector)$) and this length-matched vector is then used for the mathematical operation. Take a look at the results of the following computation
+What if vectors are of _different_ length? If the length of the longer vector is a _multiple_ of the shorter vector length, the shorter vector is "recycled" , i.e., repeated N-times (where $N = length(longer~vector) / length(shorter~vector)$) and this length-matched vector is then used for the mathematical operation. Please note that this generate neither an error, nor a warning! This is another example of "convenience over safety" approach in R, so you should be very careful and _always_ double-check length of your vectors. Otherwise, your code will work incorrectly and, _if you are lucky_, you might notice this.
+
+To see how recycling works, take a look at the results of the following computation
 ```{r}
 x <- 1:6
 y <- c(2, 3)
