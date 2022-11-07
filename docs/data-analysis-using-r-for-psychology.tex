@@ -2034,7 +2034,7 @@ In R, you write a function using the following template
 \begin{Highlighting}[]
 \NormalTok{name\_of\_the\_function }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(parameter1, parameter2, parameter3, ...)\{}
 \NormalTok{  ...some code that computes the value...}
-  \FunctionTok{return}\NormalTok{(value);}
+  \FunctionTok{return}\NormalTok{(value)}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -2045,7 +2045,7 @@ A \texttt{sin} function with a single parameter \texttt{angle} would look someth
 \begin{Highlighting}[]
 \NormalTok{sin }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(angle)\{}
 \NormalTok{  ...some math that actually computes sinus of angle using value of angle parameter ...}
-  \FunctionTok{return}\NormalTok{(sin\_of\_angle);}
+  \FunctionTok{return}\NormalTok{(sin\_of\_angle)}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -2132,10 +2132,10 @@ By now you have your formal function definition (exercise 2.1) and the actual co
 \begin{verbatim}
 # 1) first store in a local variable, then return it
   result <- ...some computation you perform...
-  return(result);
+  return(result)
 
 # 2) returning results of computation directly
-  return(...some computation you perform...);
+  return(...some computation you perform...)
 \end{verbatim}
 
 Do it \emph{both} ways in exercises 2.3 and 2.4. Call the function using different inputs to test that it works.
@@ -2151,7 +2151,7 @@ Do exercise 3
 \hypertarget{scopes-global-versus-local-variables}{%
 \section{Scopes: Global versus Local variables}\label{scopes-global-versus-local-variables}}
 
-I suggested that you use a variable to store the results of double-it-up computation before returning it. But why did I call it \emph{local?} This is because each function has it own \emph{scope} (environment with variables and functions) that is (mostly) independent from the scope of the global script. Unfortunately, environment scopes in R are different and more complicated than those in other programming languages, such Python, C/C++, or Java, so always pay attention and be careful in the future.
+I suggested that you use a variable to store the results of double-it-up computation before returning it. But why did I call it \emph{local?} This is because each function has it own \emph{scope} (environment with variables and functions) that is (mostly) independent from the scope of the global script. Unfortunately, environment scopes in R are different and more complicated than those in other programming languages, such as Python, C/C++, or Java, so always pay attention and be careful in the future.
 
 The \emph{global} scope/environment is the environment for the code \emph{outside} of functions. All \emph{global} variables and functions, the ones that you define in the code \emph{outside} of functions (typing in the console, running scripts, running chunks of code in notebooks, etc.), live where. You can see what you have in the global scope at any time by looking at \emph{Environment} tab (note the \emph{Global Environment} tag).
 
@@ -2257,9 +2257,9 @@ Do exercise 8.
 \hypertarget{default-values}{%
 \section{Default values}\label{default-values}}
 
-When you write a function, you can combine simplicity of its use with flexibility via \emph{default values}. I.e., \emph{some} parameters can have sensible or commonly used values but, if desired, a user can specify their own values to modify functions behavior. For example, function \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html}{mean} has \emph{three} parameters. You always need to specify the first one (\texttt{x}, a vector of values you are computing the mean of). But you can also specify trimming via \texttt{trim} and whether it should ignore \texttt{NA} via \texttt{na.rm}\footnote{If you do not ignore \texttt{NA} then the mean of a vector with at least one \texttt{NA} in it is \texttt{NA} as well}. By default, you do not trim (\texttt{trim\ =\ 0}) and do not ignore \texttt{NA} (\texttt{na.rm\ =\ FALSE}). These defaults are sensible as they produce a most typically expected behavior. At the same time their existence means that you can fine-tune your mean computation the way you require.
+When you write a function, you can combine simplicity of its use with flexibility via \emph{default values}. I.e., \emph{some} parameters can have sensible or commonly used values but, if desired, a user can specify their own values to modify functions behavior. For example, function \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html}{mean} has \emph{three} parameters. You always need to specify the first one (\texttt{x}, a vector of values you are computing the mean of). But you can also specify trimming via \texttt{trim} and whether it should ignore \texttt{NA} via \texttt{na.rm}\footnote{If you do not ignore \texttt{NA} then the mean of a vector with at least one \texttt{NA} in it is \texttt{NA} as well}. By default, you do not trim (\texttt{trim\ =\ 0}) and do not ignore \texttt{NA} (\texttt{na.rm\ =\ FALSE}). These defaults are sensible as they produce a typically expected behavior. At the same time their existence means that you can fine-tune your mean computation the way you require.
 
-When writing you own function, you simply specify the default values when you define an argument. E.g., here, the second parameter \texttt{r}, the radius, has a default value of 1, so you can only specify the direction of the vector to compute (x, y) coordinates for a (default) \emph{unit} vector.
+When writing your own function, you specify the default values when you define an argument. E.g., here, the second parameter \texttt{r}, the radius, has a default value of 1, so you can only specify the direction of the vector to compute (x, y) coordinates for a (default) \emph{unit} vector.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2298,7 +2298,7 @@ Do exercise 10.
 \hypertarget{pipe}{%
 \section{Piping}\label{pipe}}
 
-Although nesting is better than having tons of intermediate variables, lots of nesting can be mightily confusing. Tidyverse has an alternative way to chain or, in Tidyverse-speak, \href{https://magrittr.tidyverse.org/reference/pipe.html}{pipe} a computation through a series of function calls. The magic operator is \texttt{\%\textgreater{}\%} (that's the pipe) and here is how it transforms our nested call
+Although nesting is better than having tons of intermediate variables, lots of nesting can be mightily confusing. Tidyverse has an alternative way to chain or, in Tidyverse-speak, \href{https://magrittr.tidyverse.org/reference/pipe.html}{pipe} a computation through a series of function calls. The magic operator is \texttt{\%\textgreater{}\%} (that's the pipe)\footnote{Starting with R version 4.1.0 there is now also a ``native'' pipe operator \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/pipeOp.html}{\textbar\textgreater{}} that works \emph{similar} to magritt's pipe. This is a future of R piping but we will stick with \texttt{\%\textgreater{}\%} for now.} and here is how it transforms our nested call
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2312,7 +2312,7 @@ Although nesting is better than having tons of intermediate variables, lots of n
 
 Do exercise 11.
 
-All functions you used in the exercise had only one parameter because \texttt{single-output\ \%\textgreater{}\%\ single-input} piping is very straightforward. But what if one of the functions takes more than one parameter? By default, \texttt{\%\textgreater{}\%} puts the piped value into the \emph{first} parameter. Thus \texttt{4\ \%\textgreater{}\%\ radius(3)} is equivalent to \texttt{radius(4,\ 3)}. Although this default is very useful (the entire Tidyverse is build around this idea of piping a value into the \emph{first} parameter to streamline your experience), sometimes you need that value as some \emph{other} parameter (e.g., when you are pre-processing the data before piping it into a statistical test, the latter typically takes \texttt{formula} as the first parameter and \texttt{data} as second). For this, you can use a special dot variable: \texttt{.}, which is a hidden\footnote{As in: It won't show up in your Global Environment tab.} temporary variable that holds the value you are piping through via \texttt{\%\textgreater{}\%}\footnote{Yes, it is the same variable that you use over-and-over again but \href{https://magrittr.tidyverse.org/articles/magrittr.html}{magrittr} package makes sure to clean it up after each call, so you are not in danger of incidentally using a value from a previous call.}. Thus,
+All functions you used in the exercise had only one parameter because \texttt{single-output\ \%\textgreater{}\%\ single-input} piping is very straightforward. But what if one of the functions takes more than one parameter? By default, \texttt{\%\textgreater{}\%} puts the piped value into the \emph{first} parameter. Thus \texttt{4\ \%\textgreater{}\%\ radius(3)} is equivalent to \texttt{radius(4,\ 3)}. Although this default is very useful (the entire Tidyverse is build around this idea of piping a value into the \emph{first} parameter to streamline your experience), sometimes you need that value as some \emph{other} parameter (e.g., when you are pre-processing the data before piping it into a statistical test, the latter typically takes \texttt{formula} as the first parameter and \texttt{data} as second). For this, you can use a special dot variable: \texttt{.}\footnote{It is \texttt{\_} for the \texttt{\textbar{}\textgreater{}} pipe.}, which is a hidden\footnote{As in: It won't show up in your Global Environment tab.} temporary variable that holds the value you are piping through via \texttt{\%\textgreater{}\%}\footnote{Yes, it is the same variable that you use over-and-over again but \href{https://magrittr.tidyverse.org/articles/magrittr.html}{magrittr} package makes sure to clean it up after each call, so you are not in danger of incidentally using a value from a previous call.}. Thus,
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2555,53 +2555,53 @@ Normal(\mu=2*ConditionIndex, \sigma=0.4) + \\ Normal(\mu=Intensity, \sigma=0.4)\
 \hline
 Condition & Intensity & Response\\
 \hline
-A & 1 & 0.2012155\\
+A & 1 & -0.3941165\\
 \hline
-B & 1 & -2.5453599\\
+B & 1 & -2.3569170\\
 \hline
-C & 1 & -4.7460305\\
+C & 1 & -4.3355756\\
 \hline
-A & 2 & 1.2877014\\
+A & 2 & 0.3083759\\
 \hline
-B & 2 & -1.2456565\\
+B & 2 & -0.6553649\\
 \hline
-C & 2 & -3.3040554\\
+C & 2 & -3.1653605\\
 \hline
-A & 3 & 2.1191570\\
+A & 3 & 2.3251789\\
 \hline
-B & 3 & -0.0581652\\
+B & 3 & -0.5241260\\
 \hline
-C & 3 & -2.1708478\\
+C & 3 & -2.6241035\\
 \hline
-A & 4 & 3.6498102\\
+A & 4 & 2.7600366\\
 \hline
-B & 4 & 0.8388765\\
+B & 4 & 1.0786012\\
 \hline
-C & 4 & -2.4154568\\
+C & 4 & -1.7769648\\
 \hline
-A & 5 & 3.6882664\\
+A & 5 & 5.2519198\\
 \hline
-B & 5 & 1.3035066\\
+B & 5 & 2.1442990\\
 \hline
-C & 5 & -0.3297493\\
+C & 5 & 0.5783779\\
 \hline
-A & 6 & 5.6292633\\
+A & 6 & 4.5870479\\
 \hline
-B & 6 & 3.7374677\\
+B & 6 & 3.7475242\\
 \hline
-C & 6 & -0.2817219\\
+C & 6 & 0.0189858\\
 \hline
-A & 7 & 6.1195403\\
+A & 7 & 6.2393785\\
 \hline
-B & 7 & 3.0384060\\
+B & 7 & 3.6292589\\
 \hline
-C & 7 & 1.3070730\\
+C & 7 & 2.3854403\\
 \hline
-A & 8 & 7.1898769\\
+A & 8 & 7.6274901\\
 \hline
-B & 8 & 5.9223243\\
+B & 8 & 4.1691738\\
 \hline
-C & 8 & 3.7307582\\
+C & 8 & 4.3311562\\
 \hline
 \end{tabular}
 
@@ -4083,21 +4083,21 @@ D & 22\\
 \hline
 ID & Report\\
 \hline
-A & 1.934067\\
+A & 4.577031\\
 \hline
-A & 4.549297\\
+A & 6.427745\\
 \hline
-B & 4.243014\\
+B & 5.267120\\
 \hline
-B & 4.010652\\
+B & 3.816742\\
 \hline
-C & 5.036318\\
+C & 3.152527\\
 \hline
-C & 3.323330\\
+C & 5.650791\\
 \hline
-D & 1.219693\\
+D & 3.521926\\
 \hline
-D & 6.916044\\
+D & 3.388860\\
 \hline
 \end{tabular}
 \end{table}
@@ -4119,21 +4119,21 @@ To join two tables, you require ``key'' columns: columns that contain values tha
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 1.934067\\
+A & 20 & 4.577031\\
 \hline
-A & 20 & 4.549297\\
+A & 20 & 6.427745\\
 \hline
-B & 19 & 4.243014\\
+B & 19 & 5.267120\\
 \hline
-B & 19 & 4.010652\\
+B & 19 & 3.816742\\
 \hline
-C & 30 & 5.036318\\
+C & 30 & 3.152527\\
 \hline
-C & 30 & 3.323330\\
+C & 30 & 5.650791\\
 \hline
-D & 22 & 1.219693\\
+D & 22 & 3.521926\\
 \hline
-D & 22 & 6.916044\\
+D & 22 & 3.388860\\
 \hline
 \end{tabular}
 \centering
@@ -4141,21 +4141,21 @@ D & 22 & 6.916044\\
 \hline
 ID & Report & Age\\
 \hline
-A & 1.934067 & 20\\
+A & 4.577031 & 20\\
 \hline
-A & 4.549297 & 20\\
+A & 6.427745 & 20\\
 \hline
-B & 4.243014 & 19\\
+B & 5.267120 & 19\\
 \hline
-B & 4.010652 & 19\\
+B & 3.816742 & 19\\
 \hline
-C & 5.036318 & 30\\
+C & 3.152527 & 30\\
 \hline
-C & 3.323330 & 30\\
+C & 5.650791 & 30\\
 \hline
-D & 1.219693 & 22\\
+D & 3.521926 & 22\\
 \hline
-D & 6.916044 & 22\\
+D & 3.388860 & 22\\
 \hline
 \end{tabular}
 \end{table}
@@ -4207,21 +4207,21 @@ D & 22\\
 \hline
 ID & Report\\
 \hline
-A & 6.095636\\
+A & 3.314145\\
 \hline
-A & 6.844594\\
+A & 1.887727\\
 \hline
-B & 1.701054\\
+B & 2.510888\\
 \hline
-B & 4.348452\\
+B & 1.834510\\
 \hline
-C & 6.373509\\
+C & 5.392972\\
 \hline
-C & 4.602199\\
+C & 6.448728\\
 \hline
-E & 5.958426\\
+E & 2.164366\\
 \hline
-E & 4.453494\\
+E & 1.604730\\
 \hline
 \end{tabular}
 \end{table}
@@ -4243,17 +4243,17 @@ E & 4.453494\\
 \hline
 ID & Report & Age\\
 \hline
-A & 6.095636 & 20\\
+A & 3.314145 & 20\\
 \hline
-A & 6.844594 & 20\\
+A & 1.887727 & 20\\
 \hline
-B & 1.701054 & 19\\
+B & 2.510888 & 19\\
 \hline
-B & 4.348452 & 19\\
+B & 1.834510 & 19\\
 \hline
-C & 6.373509 & 30\\
+C & 5.392972 & 30\\
 \hline
-C & 4.602199 & 30\\
+C & 6.448728 & 30\\
 \hline
 \end{tabular}
 \end{table}
@@ -4275,23 +4275,23 @@ In contrast, \textbf{full join} is the most liberal as it includes all rows from
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 6.095636\\
+A & 20 & 3.314145\\
 \hline
-A & 20 & 6.844594\\
+A & 20 & 1.887727\\
 \hline
-B & 19 & 1.701054\\
+B & 19 & 2.510888\\
 \hline
-B & 19 & 4.348452\\
+B & 19 & 1.834510\\
 \hline
-C & 30 & 6.373509\\
+C & 30 & 5.392972\\
 \hline
-C & 30 & 4.602199\\
+C & 30 & 6.448728\\
 \hline
 D & 22 & NA\\
 \hline
-E & NA & 5.958426\\
+E & NA & 2.164366\\
 \hline
-E & NA & 4.453494\\
+E & NA & 1.604730\\
 \hline
 \end{tabular}
 \end{table}
@@ -4313,17 +4313,17 @@ E & NA & 4.453494\\
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 6.095636\\
+A & 20 & 3.314145\\
 \hline
-A & 20 & 6.844594\\
+A & 20 & 1.887727\\
 \hline
-B & 19 & 1.701054\\
+B & 19 & 2.510888\\
 \hline
-B & 19 & 4.348452\\
+B & 19 & 1.834510\\
 \hline
-C & 30 & 6.373509\\
+C & 30 & 5.392972\\
 \hline
-C & 30 & 4.602199\\
+C & 30 & 6.448728\\
 \hline
 D & 22 & NA\\
 \hline
@@ -4347,21 +4347,21 @@ D & 22 & NA\\
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 6.095636\\
+A & 20 & 3.314145\\
 \hline
-A & 20 & 6.844594\\
+A & 20 & 1.887727\\
 \hline
-B & 19 & 1.701054\\
+B & 19 & 2.510888\\
 \hline
-B & 19 & 4.348452\\
+B & 19 & 1.834510\\
 \hline
-C & 30 & 6.373509\\
+C & 30 & 5.392972\\
 \hline
-C & 30 & 4.602199\\
+C & 30 & 6.448728\\
 \hline
-E & NA & 5.958426\\
+E & NA & 2.164366\\
 \hline
-E & NA & 4.453494\\
+E & NA & 1.604730\\
 \hline
 \end{tabular}
 \end{table}
@@ -4401,13 +4401,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 2.669681\\
+A & M & 6.361287\\
 \hline
-B & F & 5.260692\\
+B & F & 2.127766\\
 \hline
-A & F & 3.961241\\
+A & F & 2.736973\\
 \hline
-B & M & 3.223790\\
+B & M & 1.288939\\
 \hline
 \end{tabular}
 \end{table}
@@ -4427,13 +4427,13 @@ B & M & 3.223790\\
 \hline
 ID & Gender & Age & Report\\
 \hline
-A & M & 20 & 2.669681\\
+A & M & 20 & 6.361287\\
 \hline
-B & F & 19 & 5.260692\\
+B & F & 19 & 2.127766\\
 \hline
-A & F & 30 & 3.961241\\
+A & F & 30 & 2.736973\\
 \hline
-B & M & 22 & 3.223790\\
+B & M & 22 & 1.288939\\
 \hline
 \end{tabular}
 \end{table}
@@ -4474,13 +4474,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 4.679354\\
+A & M & 6.958555\\
 \hline
-B & F & 1.087633\\
+B & F & 1.583676\\
 \hline
-A & F & 3.095190\\
+A & F & 3.782942\\
 \hline
-B & M & 3.956795\\
+B & M & 4.311466\\
 \hline
 \end{tabular}
 \end{table}
@@ -4500,13 +4500,13 @@ B & M & 3.956795\\
 \hline
 VPCode & Sex & Age & Report\\
 \hline
-A & F & 30 & 3.095190\\
+A & F & 30 & 3.782942\\
 \hline
-A & M & 20 & 4.679354\\
+A & M & 20 & 6.958555\\
 \hline
-B & F & 19 & 1.087633\\
+B & F & 19 & 1.583676\\
 \hline
-B & M & 22 & 3.956795\\
+B & M & 22 & 4.311466\\
 \hline
 \end{tabular}
 \end{table}
@@ -4894,29 +4894,29 @@ Let us take a look at the importance of \texttt{id\_cols}. Imagine that we have 
 \hline
 Participant & Face & Scale & Response & RT\\
 \hline
-1 & M-1 & Symmetry & 6 & 1.19\\
+1 & M-1 & Symmetry & 6 & 1.26\\
 \hline
-1 & M-1 & Attractiveness & 4 & 1.14\\
+1 & M-1 & Attractiveness & 4 & 0.45\\
 \hline
-1 & M-1 & Trustworthiness & 3 & 1.88\\
+1 & M-1 & Trustworthiness & 3 & 0.69\\
 \hline
-1 & M-2 & Symmetry & 4 & 0.55\\
+1 & M-2 & Symmetry & 4 & 1.29\\
 \hline
-1 & M-2 & Attractiveness & 7 & 1.49\\
+1 & M-2 & Attractiveness & 7 & 2.97\\
 \hline
-1 & M-2 & Trustworthiness & 6 & 0.80\\
+1 & M-2 & Trustworthiness & 6 & 1.38\\
 \hline
-2 & M-1 & Symmetry & 5 & 1.17\\
+2 & M-1 & Symmetry & 5 & 1.02\\
 \hline
-2 & M-1 & Attractiveness & 2 & 1.25\\
+2 & M-1 & Attractiveness & 2 & 1.17\\
 \hline
-2 & M-1 & Trustworthiness & 1 & 1.86\\
+2 & M-1 & Trustworthiness & 1 & 1.08\\
 \hline
-2 & M-2 & Symmetry & 3 & 0.51\\
+2 & M-2 & Symmetry & 3 & 1.49\\
 \hline
-2 & M-2 & Attractiveness & 7 & 1.10\\
+2 & M-2 & Attractiveness & 7 & 0.62\\
 \hline
-2 & M-2 & Trustworthiness & 2 & 1.16\\
+2 & M-2 & Trustworthiness & 2 & 0.74\\
 \hline
 \end{tabular}
 
@@ -4933,29 +4933,29 @@ For \href{https://tidyr.tidyverse.org/reference/pivot_wider.html}{pivot\_wider},
 \hline
 Participant & Face & RT & Symmetry & Attractiveness & Trustworthiness\\
 \hline
-1 & M-1 & 1.19 & 6 & NA & NA\\
+1 & M-1 & 1.26 & 6 & NA & NA\\
 \hline
-1 & M-1 & 1.14 & NA & 4 & NA\\
+1 & M-1 & 0.45 & NA & 4 & NA\\
 \hline
-1 & M-1 & 1.88 & NA & NA & 3\\
+1 & M-1 & 0.69 & NA & NA & 3\\
 \hline
-1 & M-2 & 0.55 & 4 & NA & NA\\
+1 & M-2 & 1.29 & 4 & NA & NA\\
 \hline
-1 & M-2 & 1.49 & NA & 7 & NA\\
+1 & M-2 & 2.97 & NA & 7 & NA\\
 \hline
-1 & M-2 & 0.80 & NA & NA & 6\\
+1 & M-2 & 1.38 & NA & NA & 6\\
 \hline
-2 & M-1 & 1.17 & 5 & NA & NA\\
+2 & M-1 & 1.02 & 5 & NA & NA\\
 \hline
-2 & M-1 & 1.25 & NA & 2 & NA\\
+2 & M-1 & 1.17 & NA & 2 & NA\\
 \hline
-2 & M-1 & 1.86 & NA & NA & 1\\
+2 & M-1 & 1.08 & NA & NA & 1\\
 \hline
-2 & M-2 & 0.51 & 3 & NA & NA\\
+2 & M-2 & 1.49 & 3 & NA & NA\\
 \hline
-2 & M-2 & 1.10 & NA & 7 & NA\\
+2 & M-2 & 0.62 & NA & 7 & NA\\
 \hline
-2 & M-2 & 1.16 & NA & NA & 2\\
+2 & M-2 & 0.74 & NA & NA & 2\\
 \hline
 \end{tabular}
 

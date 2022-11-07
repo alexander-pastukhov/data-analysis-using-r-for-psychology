@@ -24,14 +24,14 @@ In R, you write a function using the following template
 ```r
 name_of_the_function <- function(parameter1, parameter2, parameter3, ...){
   ...some code that computes the value...
-  return(value);
+  return(value)
 }
 ```
 A `sin` function with a single parameter `angle` would look something like this
 ```r
 sin <- function(angle){
   ...some math that actually computes sinus of angle using value of angle parameter ...
-  return(sin_of_angle);
+  return(sin_of_angle)
 }
 ```
 
@@ -86,10 +86,10 @@ By now you have your formal function definition (exercise 2.1) and the actual co
 ```
 # 1) first store in a local variable, then return it
   result <- ...some computation you perform...
-  return(result);
+  return(result)
 
 # 2) returning results of computation directly
-  return(...some computation you perform...);
+  return(...some computation you perform...)
 ```
 Do it _both_ ways in exercises 2.3 and 2.4. Call the function using different inputs to test that it works.
 
@@ -106,7 +106,7 @@ Do exercise 3
 :::
 
 ## Scopes: Global versus Local variables
-I suggested that you use a variable to store the results of double-it-up computation before returning it. But why did I call it _local?_ This is because each function has it own _scope_ (environment with variables and functions) that is (mostly) independent from the scope of the global script. Unfortunately, environment scopes in R are different and more complicated than those in other programming languages, such Python, C/C++, or Java, so always pay attention and be careful in the future.
+I suggested that you use a variable to store the results of double-it-up computation before returning it. But why did I call it _local?_ This is because each function has it own _scope_ (environment with variables and functions) that is (mostly) independent from the scope of the global script. Unfortunately, environment scopes in R are different and more complicated than those in other programming languages, such as Python, C/C++, or Java, so always pay attention and be careful in the future.
 
 The _global_ scope/environment is the environment for the code _outside_ of functions. All _global_ variables and functions, the ones that you define in the code _outside_ of functions (typing in the console, running scripts, running chunks of code in notebooks, etc.), live where. You can see what you have in the global scope at any time by looking at _Environment_ tab (note the _Global Environment_ tag).
 ```{r echo=FALSE, out.width = "70%", fig.align = 'center'}
@@ -187,9 +187,9 @@ Do exercise 8.
 
 
 ## Default values
-When you write a function, you can combine simplicity of its use with flexibility via _default values_. I.e., _some_ parameters can have sensible or commonly used values but, if desired, a user can specify their own values to modify functions behavior. For example, function  [mean](https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html) has _three_ parameters. You always need to specify the first one (`x`, a vector of values you are computing the mean of). But you can also specify trimming via `trim` and whether it should ignore `NA` via `na.rm`^[If you do not ignore `NA` then the mean of a vector with at least one `NA` in it is `NA` as well]. By default, you do not trim (`trim = 0`) and do not ignore `NA` (`na.rm = FALSE`). These defaults are sensible as they produce a most typically expected behavior. At the same time their existence means that you can fine-tune your mean computation the way you require.
+When you write a function, you can combine simplicity of its use with flexibility via _default values_. I.e., _some_ parameters can have sensible or commonly used values but, if desired, a user can specify their own values to modify functions behavior. For example, function  [mean](https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html) has _three_ parameters. You always need to specify the first one (`x`, a vector of values you are computing the mean of). But you can also specify trimming via `trim` and whether it should ignore `NA` via `na.rm`^[If you do not ignore `NA` then the mean of a vector with at least one `NA` in it is `NA` as well]. By default, you do not trim (`trim = 0`) and do not ignore `NA` (`na.rm = FALSE`). These defaults are sensible as they produce a  typically expected behavior. At the same time their existence means that you can fine-tune your mean computation the way you require.
 
-When writing you own function, you simply specify the default values when you define an argument. E.g., here, the second parameter `r`, the radius, has a default value of 1, so you can only specify the direction of the vector to compute (x, y)  coordinates for a (default) _unit_ vector.
+When writing your own function, you specify the default values when you define an argument. E.g., here, the second parameter `r`, the radius, has a default value of 1, so you can only specify the direction of the vector to compute (x, y)  coordinates for a (default) _unit_ vector.
 ```{r eval=FALSE}
 polar_to_cartesian <- function(angle, r=1) {
   # ...
@@ -219,7 +219,7 @@ Do exercise 10.
 :::
 
 ## Piping {#pipe}
-Although nesting is better than having tons of intermediate variables, lots of nesting can be mightily confusing. Tidyverse has an alternative way to chain or, in Tidyverse-speak, [pipe](https://magrittr.tidyverse.org/reference/pipe.html) a computation through a series of function calls. The magic operator is `%>%` (that's the pipe) and here is how it transforms our nested call
+Although nesting is better than having tons of intermediate variables, lots of nesting can be mightily confusing. Tidyverse has an alternative way to chain or, in Tidyverse-speak, [pipe](https://magrittr.tidyverse.org/reference/pipe.html) a computation through a series of function calls. The magic operator is `%>%` (that's the pipe)^[Starting with R version 4.1.0 there is now also a "native" pipe operator [|>](https://stat.ethz.ch/R-manual/R-devel/library/base/html/pipeOp.html) that works _similar_ to magritt's pipe. This is a future of R piping but we will stick with `%>%` for now.] and here is how it transforms our nested call
 ```r
 sin(deg2rad(90)) # returns 1
 
@@ -232,7 +232,7 @@ deg2rad(90) %>% sin() # also return 1
 Do exercise 11.
 :::
 
-All functions you used in the exercise had only one parameter because `single-output %>% single-input` piping is very straightforward. But what if one of the functions takes more than one parameter? By default, `%>%` puts the piped value into the _first_ parameter. Thus `4 %>% radius(3)` is equivalent to `radius(4, 3)`. Although this default is very useful (the entire Tidyverse is build around this idea of piping a value into the _first_ parameter to streamline your experience), sometimes you need that value as some _other_ parameter (e.g., when you are pre-processing the data before piping it into a statistical test, the latter typically takes `formula` as the first parameter and `data` as second). For this, you can use a special dot variable: `.`, which is a hidden^[As in: It won't show up in your Global Environment tab.] temporary variable that holds the value you are piping through via `%>%`^[Yes, it is the same variable that you use over-and-over again but [magrittr](https://magrittr.tidyverse.org/articles/magrittr.html) package makes sure to clean it up after each call, so you are not in danger of incidentally using a value from a previous call.]. Thus,
+All functions you used in the exercise had only one parameter because `single-output %>% single-input` piping is very straightforward. But what if one of the functions takes more than one parameter? By default, `%>%` puts the piped value into the _first_ parameter. Thus `4 %>% radius(3)` is equivalent to `radius(4, 3)`. Although this default is very useful (the entire Tidyverse is build around this idea of piping a value into the _first_ parameter to streamline your experience), sometimes you need that value as some _other_ parameter (e.g., when you are pre-processing the data before piping it into a statistical test, the latter typically takes `formula` as the first parameter and `data` as second). For this, you can use a special dot variable: `.`^[It is `_` for the `|>` pipe.], which is a hidden^[As in: It won't show up in your Global Environment tab.] temporary variable that holds the value you are piping through via `%>%`^[Yes, it is the same variable that you use over-and-over again but [magrittr](https://magrittr.tidyverse.org/articles/magrittr.html) package makes sure to clean it up after each call, so you are not in danger of incidentally using a value from a previous call.]. Thus,
 ```r
 z <- 4
 w <- 3

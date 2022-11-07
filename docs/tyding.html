@@ -438,7 +438,7 @@ Report
 A
 </td>
 <td style="text-align:right;">
-1.833099
+3.493357
 </td>
 </tr>
 <tr>
@@ -446,7 +446,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-2.555963
+5.839278
 </td>
 </tr>
 <tr>
@@ -454,7 +454,7 @@ A
 B
 </td>
 <td style="text-align:right;">
-4.690311
+3.286056
 </td>
 </tr>
 <tr>
@@ -462,7 +462,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-5.167825
+2.267725
 </td>
 </tr>
 <tr>
@@ -470,7 +470,7 @@ B
 C
 </td>
 <td style="text-align:right;">
-6.627944
+5.862482
 </td>
 </tr>
 <tr>
@@ -478,7 +478,7 @@ C
 C
 </td>
 <td style="text-align:right;">
-1.737248
+2.938798
 </td>
 </tr>
 <tr>
@@ -486,7 +486,7 @@ C
 D
 </td>
 <td style="text-align:right;">
-3.684277
+6.395542
 </td>
 </tr>
 <tr>
@@ -494,7 +494,7 @@ D
 D
 </td>
 <td style="text-align:right;">
-4.075205
+5.289002
 </td>
 </tr>
 </tbody>
@@ -503,7 +503,7 @@ D
 </tr>
 </tbody>
 </table>
-<p>To join two tables, you require “key” columns: columns that contain values that will be used to identify matching rows in the two tables. You can use multiple and differently named columns for that purpose but we will start with a simplest case: a single column with same name <code>"ID"</code>. A <a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">join</a> function (<code>inner_join()</code> here, see below for details on different joins) takes a first row in <code>demographics</code> table that has <code>"A"</code> in <code>ID</code> column and will look for all rows in table <code>reports</code> that has <code>ID == "A"</code>. Then, it will do the same for all remaining rows for <code>demographics</code> table, one row at a time. It takes three parameters: table <code>x</code> (first table), table <code>y</code> (second table), and <code>by</code> - a vector with key column names argument<a href="#fn52" class="footnote-ref" id="fnref52"><sup>52</sup></a>. A call to <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a> function is very similar and produces identical results. Note how column order has changed for <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a>, because I used a different order of tables, but the content itself is the same.</p>
+<p>To join two tables, you require “key” columns: columns that contain values that will be used to identify matching rows in the two tables. You can use multiple and differently named columns for that purpose but we will start with a simplest case: a single column with same name <code>"ID"</code>. A <a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">join</a> function (<code>inner_join()</code> here, see below for details on different joins) takes a first row in <code>demographics</code> table that has <code>"A"</code> in <code>ID</code> column and will look for all rows in table <code>reports</code> that has <code>ID == "A"</code>. Then, it will do the same for all remaining rows for <code>demographics</code> table, one row at a time. It takes three parameters: table <code>x</code> (first table), table <code>y</code> (second table), and <code>by</code> - a vector with key column names argument<a href="#fn54" class="footnote-ref" id="fnref54"><sup>54</sup></a>. A call to <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a> function is very similar and produces identical results. Note how column order has changed for <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a>, because I used a different order of tables, but the content itself is the same.</p>
 <div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="tyding.html#cb319-1" aria-hidden="true" tabindex="-1"></a>via_join <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>)</span>
 <span id="cb319-2"><a href="tyding.html#cb319-2" aria-hidden="true" tabindex="-1"></a>via_merge <span class="ot">&lt;-</span> <span class="fu">merge</span>(reports, demographics, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>)</span></code></pre></div>
 <table class="kable_wrapper">
@@ -536,7 +536,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-1.833099
+3.493357
 </td>
 </tr>
 <tr>
@@ -547,7 +547,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-2.555963
+5.839278
 </td>
 </tr>
 <tr>
@@ -558,7 +558,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-4.690311
+3.286056
 </td>
 </tr>
 <tr>
@@ -569,7 +569,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-5.167825
+2.267725
 </td>
 </tr>
 <tr>
@@ -580,7 +580,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-6.627944
+5.862482
 </td>
 </tr>
 <tr>
@@ -591,7 +591,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-1.737248
+2.938798
 </td>
 </tr>
 <tr>
@@ -602,7 +602,7 @@ D
 22
 </td>
 <td style="text-align:right;">
-3.684277
+6.395542
 </td>
 </tr>
 <tr>
@@ -613,7 +613,7 @@ D
 22
 </td>
 <td style="text-align:right;">
-4.075205
+5.289002
 </td>
 </tr>
 </tbody>
@@ -640,7 +640,7 @@ Age
 A
 </td>
 <td style="text-align:right;">
-1.833099
+3.493357
 </td>
 <td style="text-align:right;">
 20
@@ -651,7 +651,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-2.555963
+5.839278
 </td>
 <td style="text-align:right;">
 20
@@ -662,7 +662,7 @@ A
 B
 </td>
 <td style="text-align:right;">
-4.690311
+3.286056
 </td>
 <td style="text-align:right;">
 19
@@ -673,7 +673,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-5.167825
+2.267725
 </td>
 <td style="text-align:right;">
 19
@@ -684,7 +684,7 @@ B
 C
 </td>
 <td style="text-align:right;">
-6.627944
+5.862482
 </td>
 <td style="text-align:right;">
 30
@@ -695,7 +695,7 @@ C
 C
 </td>
 <td style="text-align:right;">
-1.737248
+2.938798
 </td>
 <td style="text-align:right;">
 30
@@ -706,7 +706,7 @@ C
 D
 </td>
 <td style="text-align:right;">
-3.684277
+6.395542
 </td>
 <td style="text-align:right;">
 22
@@ -717,7 +717,7 @@ D
 D
 </td>
 <td style="text-align:right;">
-4.075205
+5.289002
 </td>
 <td style="text-align:right;">
 22
@@ -813,7 +813,7 @@ Report
 A
 </td>
 <td style="text-align:right;">
-5.256070
+1.216858
 </td>
 </tr>
 <tr>
@@ -821,7 +821,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-3.061217
+6.258339
 </td>
 </tr>
 <tr>
@@ -829,7 +829,7 @@ A
 B
 </td>
 <td style="text-align:right;">
-5.927130
+3.650027
 </td>
 </tr>
 <tr>
@@ -837,7 +837,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-5.454521
+3.069708
 </td>
 </tr>
 <tr>
@@ -845,7 +845,7 @@ B
 C
 </td>
 <td style="text-align:right;">
-3.815022
+4.524667
 </td>
 </tr>
 <tr>
@@ -853,7 +853,7 @@ C
 C
 </td>
 <td style="text-align:right;">
-3.823009
+1.283848
 </td>
 </tr>
 <tr>
@@ -861,7 +861,7 @@ C
 E
 </td>
 <td style="text-align:right;">
-1.522137
+6.594507
 </td>
 </tr>
 <tr>
@@ -869,7 +869,7 @@ E
 E
 </td>
 <td style="text-align:right;">
-4.135431
+1.492540
 </td>
 </tr>
 </tbody>
@@ -904,7 +904,7 @@ Age
 A
 </td>
 <td style="text-align:right;">
-5.256070
+1.216858
 </td>
 <td style="text-align:right;">
 20
@@ -915,7 +915,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-3.061217
+6.258339
 </td>
 <td style="text-align:right;">
 20
@@ -926,7 +926,7 @@ A
 B
 </td>
 <td style="text-align:right;">
-5.927130
+3.650027
 </td>
 <td style="text-align:right;">
 19
@@ -937,7 +937,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-5.454521
+3.069708
 </td>
 <td style="text-align:right;">
 19
@@ -948,7 +948,7 @@ B
 C
 </td>
 <td style="text-align:right;">
-3.815022
+4.524667
 </td>
 <td style="text-align:right;">
 30
@@ -959,7 +959,7 @@ C
 C
 </td>
 <td style="text-align:right;">
-3.823009
+1.283848
 </td>
 <td style="text-align:right;">
 30
@@ -996,7 +996,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-5.256070
+1.216858
 </td>
 </tr>
 <tr>
@@ -1007,7 +1007,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-3.061217
+6.258339
 </td>
 </tr>
 <tr>
@@ -1018,7 +1018,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-5.927130
+3.650027
 </td>
 </tr>
 <tr>
@@ -1029,7 +1029,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-5.454521
+3.069708
 </td>
 </tr>
 <tr>
@@ -1040,7 +1040,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-3.815022
+4.524667
 </td>
 </tr>
 <tr>
@@ -1051,7 +1051,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-3.823009
+1.283848
 </td>
 </tr>
 <tr>
@@ -1073,7 +1073,7 @@ E
 NA
 </td>
 <td style="text-align:right;">
-1.522137
+6.594507
 </td>
 </tr>
 <tr>
@@ -1084,7 +1084,7 @@ E
 NA
 </td>
 <td style="text-align:right;">
-4.135431
+1.492540
 </td>
 </tr>
 </tbody>
@@ -1118,7 +1118,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-5.256070
+1.216858
 </td>
 </tr>
 <tr>
@@ -1129,7 +1129,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-3.061217
+6.258339
 </td>
 </tr>
 <tr>
@@ -1140,7 +1140,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-5.927130
+3.650027
 </td>
 </tr>
 <tr>
@@ -1151,7 +1151,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-5.454521
+3.069708
 </td>
 </tr>
 <tr>
@@ -1162,7 +1162,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-3.815022
+4.524667
 </td>
 </tr>
 <tr>
@@ -1173,7 +1173,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-3.823009
+1.283848
 </td>
 </tr>
 <tr>
@@ -1218,7 +1218,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-5.256070
+1.216858
 </td>
 </tr>
 <tr>
@@ -1229,7 +1229,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-3.061217
+6.258339
 </td>
 </tr>
 <tr>
@@ -1240,7 +1240,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-5.927130
+3.650027
 </td>
 </tr>
 <tr>
@@ -1251,7 +1251,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-5.454521
+3.069708
 </td>
 </tr>
 <tr>
@@ -1262,7 +1262,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-3.815022
+4.524667
 </td>
 </tr>
 <tr>
@@ -1273,7 +1273,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-3.823009
+1.283848
 </td>
 </tr>
 <tr>
@@ -1284,7 +1284,7 @@ E
 NA
 </td>
 <td style="text-align:right;">
-1.522137
+6.594507
 </td>
 </tr>
 <tr>
@@ -1295,7 +1295,7 @@ E
 NA
 </td>
 <td style="text-align:right;">
-4.135431
+1.492540
 </td>
 </tr>
 </tbody>
@@ -1400,7 +1400,7 @@ A
 M
 </td>
 <td style="text-align:right;">
-1.962874
+3.166399
 </td>
 </tr>
 <tr>
@@ -1411,7 +1411,7 @@ B
 F
 </td>
 <td style="text-align:right;">
-6.264780
+2.227900
 </td>
 </tr>
 <tr>
@@ -1422,7 +1422,7 @@ A
 F
 </td>
 <td style="text-align:right;">
-2.669152
+1.879950
 </td>
 </tr>
 <tr>
@@ -1433,7 +1433,7 @@ B
 M
 </td>
 <td style="text-align:right;">
-5.395101
+1.234205
 </td>
 </tr>
 </tbody>
@@ -1476,7 +1476,7 @@ M
 20
 </td>
 <td style="text-align:right;">
-1.962874
+3.166399
 </td>
 </tr>
 <tr>
@@ -1490,7 +1490,7 @@ F
 19
 </td>
 <td style="text-align:right;">
-6.264780
+2.227900
 </td>
 </tr>
 <tr>
@@ -1504,7 +1504,7 @@ F
 30
 </td>
 <td style="text-align:right;">
-2.669152
+1.879950
 </td>
 </tr>
 <tr>
@@ -1518,7 +1518,7 @@ M
 22
 </td>
 <td style="text-align:right;">
-5.395101
+1.234205
 </td>
 </tr>
 </tbody>
@@ -1624,7 +1624,7 @@ A
 M
 </td>
 <td style="text-align:right;">
-1.155867
+4.222682
 </td>
 </tr>
 <tr>
@@ -1635,7 +1635,7 @@ B
 F
 </td>
 <td style="text-align:right;">
-6.525167
+3.437748
 </td>
 </tr>
 <tr>
@@ -1646,7 +1646,7 @@ A
 F
 </td>
 <td style="text-align:right;">
-2.911088
+5.554446
 </td>
 </tr>
 <tr>
@@ -1657,7 +1657,7 @@ B
 M
 </td>
 <td style="text-align:right;">
-5.387670
+4.200112
 </td>
 </tr>
 </tbody>
@@ -1700,7 +1700,7 @@ F
 30
 </td>
 <td style="text-align:right;">
-2.911088
+5.554446
 </td>
 </tr>
 <tr>
@@ -1714,7 +1714,7 @@ M
 20
 </td>
 <td style="text-align:right;">
-1.155867
+4.222682
 </td>
 </tr>
 <tr>
@@ -1728,7 +1728,7 @@ F
 19
 </td>
 <td style="text-align:right;">
-6.525167
+3.437748
 </td>
 </tr>
 <tr>
@@ -1742,13 +1742,13 @@ M
 22
 </td>
 <td style="text-align:right;">
-5.387670
+4.200112
 </td>
 </tr>
 </tbody>
 </table>
 <p>As you saw from examples above, <a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">dplyr joins</a> and <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a> produce identical results. However, I would recommend to use the former, simply because function names make it explicit which kind of join you perform (something you can figure out only by checking additional parameters of <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a>).</p>
-<p>Download files <a href="data/IM.csv">IM.csv</a> and <a href="data/GP.csv">GP.csv</a> that you will need for exercise #1<a href="#fn53" class="footnote-ref" id="fnref53"><sup>53</sup></a>. These are participants responses on two questionnaires with each participant identified by their ID (<code>Participant</code> in <em>IM.csv</em> and <code>Respondent</code> in <em>GP.csv</em>), <code>Condition</code> (which experimental group they belong to), and their <code>Gender</code>. Read both tables and join them so that there no missing values in the table (some participants are missing in <code>GP.csv</code>, so there are <em>three</em> joins that can do this, which one will you pick?). Then, turn <code>Condition</code> and <code>Gender</code> into factors, so that for <code>Condition</code> levels are <code>"control"</code> (<code>2</code>) and <code>"game"</code> (<code>1</code>) and for <code>Gender</code> levels are <code>"female"</code> (<code>1</code>) and <code>"male"</code> (<code>2</code>). Your final table should look as follows (I’ve dropped most of the columns for <code>IM.csv</code>, so they would fit to the page):</p>
+<p>Download files <a href="data/IM.csv">IM.csv</a> and <a href="data/GP.csv">GP.csv</a> that you will need for exercise #1<a href="#fn55" class="footnote-ref" id="fnref55"><sup>55</sup></a>. These are participants responses on two questionnaires with each participant identified by their ID (<code>Participant</code> in <em>IM.csv</em> and <code>Respondent</code> in <em>GP.csv</em>), <code>Condition</code> (which experimental group they belong to), and their <code>Gender</code>. Read both tables and join them so that there no missing values in the table (some participants are missing in <code>GP.csv</code>, so there are <em>three</em> joins that can do this, which one will you pick?). Then, turn <code>Condition</code> and <code>Gender</code> into factors, so that for <code>Condition</code> levels are <code>"control"</code> (<code>2</code>) and <code>"game"</code> (<code>1</code>) and for <code>Gender</code> levels are <code>"female"</code> (<code>1</code>) and <code>"male"</code> (<code>2</code>). Your final table should look as follows (I’ve dropped most of the columns for <code>IM.csv</code>, so they would fit to the page):</p>
 <table>
 <thead>
 <tr>
@@ -2242,7 +2242,7 @@ M-2
 </tbody>
 </table>
 <p>Here, <code>Symmetry</code>, <code>Attractiveness</code>, <code>Trustworthiness</code> are different face properties participants responded on, whereas values are <code>Response</code> they gave. You can work with a table like that but it is often more convenient to have a column <code>Scale</code> that will code which face property participants respond on and a column <code>Response</code> to hold values. Then, you can easily split or group your data by property while performing the same analysis on all of them.</p>
-<p>You can do pivoting using base R <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape()</a> function. But pivoting is a fairly confusing business, so Tidyverse alone offers three different solutions starting with <a href="https://cran.r-project.org/package=reshape2">reshape2</a> package <a href="#fn54" class="footnote-ref" id="fnref54"><sup>54</sup></a>, and continuing with original <a href="https://tidyr.tidyverse.org/reference/gather.html">gather()</a> and <a href="https://tidyr.tidyverse.org/reference/spread.html">spread()</a>
+<p>You can do pivoting using base R <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape()</a> function. But pivoting is a fairly confusing business, so Tidyverse alone offers three different solutions starting with <a href="https://cran.r-project.org/package=reshape2">reshape2</a> package <a href="#fn56" class="footnote-ref" id="fnref56"><sup>56</sup></a>, and continuing with original <a href="https://tidyr.tidyverse.org/reference/gather.html">gather()</a> and <a href="https://tidyr.tidyverse.org/reference/spread.html">spread()</a>
 functions in <a href="https://tidyr.tidyverse.org/index.html">tidyr</a> to modern <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a> and <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a> functions in the same package.</p>
 </div>
 <div id="pivot-longer" class="section level2 hasAnchor" number="8.3">
@@ -2440,7 +2440,7 @@ Trustworthiness
 </tr>
 </tbody>
 </table>
-<p>When you compare the two tables, you will see that original three columns × four rows are now stretched into twelve rows and name-value pairs are consistent across the two tables<a href="#fn55" class="footnote-ref" id="fnref55"><sup>55</sup></a>. As noted above, we can improve on that by specifying proper names for new columns.</p>
+<p>When you compare the two tables, you will see that original three columns × four rows are now stretched into twelve rows and name-value pairs are consistent across the two tables<a href="#fn57" class="footnote-ref" id="fnref57"><sup>57</sup></a>. As noted above, we can improve on that by specifying proper names for new columns.</p>
 <div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="tyding.html#cb330-1" aria-hidden="true" tabindex="-1"></a>long_tidy <span class="ot">&lt;-</span> tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(widish_df, </span>
 <span id="cb330-2"><a href="tyding.html#cb330-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">cols=</span><span class="fu">c</span>(<span class="st">&quot;Symmetry&quot;</span>, <span class="st">&quot;Attractiveness&quot;</span>, <span class="st">&quot;Trustworthiness&quot;</span>),</span>
 <span id="cb330-3"><a href="tyding.html#cb330-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">names_to =</span> <span class="st">&quot;Scale&quot;</span>,</span>
@@ -3038,7 +3038,7 @@ Do exercise 5.
 <div id="pivot-wider" class="section level2 hasAnchor" number="8.4">
 <h2><span class="header-section-number">8.4</span> Pivot wider<a href="tyding.html#pivot-wider" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>You can also always go from a long to a wide representation via <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a> or <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape</a> functions. The logic is reverse, you need to specify which columns <em>identify</em> different rows that belong together, which columns contain column names, and which contain their values. For our example table the names of the columns are in the column <code>Scale</code> and values are in <code>Response</code>. But what about columns that identify the rows that belong together? In our case, these are <code>Participant</code> and <code>Face</code>, so all rows from a <em>long</em> table that have same combination of <code>Participant</code> and <code>Face</code> values should be merged together into a single row. If you do not explicitly specify <code>id_cols</code>, then by default, <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a> will use <em>all other remaining columns</em> to identify which rows belong together. This is irrelevant in this toy example, as <code>Participant</code> and <code>Face</code> is all we have left anyhow but below I will show you how things can get confusing and how to overcome this.</p>
-<p>Let us undo our previous wide-to-long transformation and get our original wide table back!<a href="#fn56" class="footnote-ref" id="fnref56"><sup>56</sup></a></p>
+<p>Let us undo our previous wide-to-long transformation and get our original wide table back!<a href="#fn58" class="footnote-ref" id="fnref58"><sup>58</sup></a></p>
 <div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="tyding.html#cb332-1" aria-hidden="true" tabindex="-1"></a>wide_again_tidy <span class="ot">&lt;-</span></span>
 <span id="cb332-2"><a href="tyding.html#cb332-2" aria-hidden="true" tabindex="-1"></a>  long_tidy <span class="sc">%&gt;%</span></span>
 <span id="cb332-3"><a href="tyding.html#cb332-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">&quot;Scale&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Response&quot;</span>)</span></code></pre></div>
@@ -3195,7 +3195,7 @@ Symmetry
 6
 </td>
 <td style="text-align:right;">
-1.02
+1.18
 </td>
 </tr>
 <tr>
@@ -3212,7 +3212,7 @@ Attractiveness
 4
 </td>
 <td style="text-align:right;">
-1.30
+0.45
 </td>
 </tr>
 <tr>
@@ -3229,7 +3229,7 @@ Trustworthiness
 3
 </td>
 <td style="text-align:right;">
-1.95
+0.71
 </td>
 </tr>
 <tr>
@@ -3246,7 +3246,7 @@ Symmetry
 4
 </td>
 <td style="text-align:right;">
-0.89
+0.46
 </td>
 </tr>
 <tr>
@@ -3263,7 +3263,7 @@ Attractiveness
 7
 </td>
 <td style="text-align:right;">
-1.94
+1.76
 </td>
 </tr>
 <tr>
@@ -3280,7 +3280,7 @@ Trustworthiness
 6
 </td>
 <td style="text-align:right;">
-1.72
+1.23
 </td>
 </tr>
 <tr>
@@ -3297,7 +3297,7 @@ Symmetry
 5
 </td>
 <td style="text-align:right;">
-1.24
+1.56
 </td>
 </tr>
 <tr>
@@ -3314,7 +3314,7 @@ Attractiveness
 2
 </td>
 <td style="text-align:right;">
-2.40
+0.91
 </td>
 </tr>
 <tr>
@@ -3331,7 +3331,7 @@ Trustworthiness
 1
 </td>
 <td style="text-align:right;">
-2.23
+0.38
 </td>
 </tr>
 <tr>
@@ -3348,7 +3348,7 @@ Symmetry
 3
 </td>
 <td style="text-align:right;">
-0.81
+1.84
 </td>
 </tr>
 <tr>
@@ -3365,7 +3365,7 @@ Attractiveness
 7
 </td>
 <td style="text-align:right;">
-0.71
+3.30
 </td>
 </tr>
 <tr>
@@ -3382,7 +3382,7 @@ Trustworthiness
 2
 </td>
 <td style="text-align:right;">
-1.57
+1.46
 </td>
 </tr>
 </tbody>
@@ -3422,7 +3422,7 @@ Trustworthiness
 M-1
 </td>
 <td style="text-align:right;">
-1.02
+1.18
 </td>
 <td style="text-align:right;">
 6
@@ -3442,7 +3442,7 @@ NA
 M-1
 </td>
 <td style="text-align:right;">
-1.30
+0.45
 </td>
 <td style="text-align:right;">
 NA
@@ -3462,7 +3462,7 @@ NA
 M-1
 </td>
 <td style="text-align:right;">
-1.95
+0.71
 </td>
 <td style="text-align:right;">
 NA
@@ -3482,7 +3482,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-0.89
+0.46
 </td>
 <td style="text-align:right;">
 4
@@ -3502,7 +3502,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-1.94
+1.76
 </td>
 <td style="text-align:right;">
 NA
@@ -3522,7 +3522,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-1.72
+1.23
 </td>
 <td style="text-align:right;">
 NA
@@ -3542,7 +3542,7 @@ NA
 M-1
 </td>
 <td style="text-align:right;">
-1.24
+1.56
 </td>
 <td style="text-align:right;">
 5
@@ -3562,7 +3562,7 @@ NA
 M-1
 </td>
 <td style="text-align:right;">
-2.40
+0.91
 </td>
 <td style="text-align:right;">
 NA
@@ -3582,7 +3582,7 @@ NA
 M-1
 </td>
 <td style="text-align:right;">
-2.23
+0.38
 </td>
 <td style="text-align:right;">
 NA
@@ -3602,7 +3602,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-0.81
+1.84
 </td>
 <td style="text-align:right;">
 3
@@ -3622,7 +3622,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-0.71
+3.30
 </td>
 <td style="text-align:right;">
 NA
@@ -3642,7 +3642,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-1.57
+1.46
 </td>
 <td style="text-align:right;">
 NA
@@ -4084,12 +4084,12 @@ Single
 </div>
 <div class="footnotes">
 <hr />
-<ol start="52">
-<li id="fn52"><p>Theoretically, you can skip it and <em>dplyr</em> will do its best to find matching columns. However, this is a dangerous thing to leave out, as your intuition and <em>dlpyr’s</em> matching rules may lead to different results. I strongly recommend to always specify key columns.<a href="tyding.html#fnref52" class="footnote-back">↩︎</a></p></li>
-<li id="fn53"><p>Remember, if you end up with <code>.xls</code> extension, just rename to <code>.csv</code>.<a href="tyding.html#fnref53" class="footnote-back">↩︎</a></p></li>
-<li id="fn54"><p>It uses <code>melt</code> and <code>cast</code> functions for this.<a href="tyding.html#fnref54" class="footnote-back">↩︎</a></p></li>
-<li id="fn55"><p>By the way, this simple check may seem as a trivial point but this is a kind of simple sanity check that you should perform routinely. This way you <em>know</em> rather than <em>hope</em> that transformation did what it should. I also check value is a few rows to make sure that I didn’t mess things up. Catching simple errors early saves you a lot of time!<a href="tyding.html#fnref55" class="footnote-back">↩︎</a></p></li>
-<li id="fn56"><p>I used table as an explicit first argument for <code>pivot_longer()</code> but piped it to <code>pivot_wider()</code>, why? To remind you that these two ways are the interchangeable and that both put the table as a parameter into the function.<a href="tyding.html#fnref56" class="footnote-back">↩︎</a></p></li>
+<ol start="54">
+<li id="fn54"><p>Theoretically, you can skip it and <em>dplyr</em> will do its best to find matching columns. However, this is a dangerous thing to leave out, as your intuition and <em>dlpyr’s</em> matching rules may lead to different results. I strongly recommend to always specify key columns.<a href="tyding.html#fnref54" class="footnote-back">↩︎</a></p></li>
+<li id="fn55"><p>Remember, if you end up with <code>.xls</code> extension, just rename to <code>.csv</code>.<a href="tyding.html#fnref55" class="footnote-back">↩︎</a></p></li>
+<li id="fn56"><p>It uses <code>melt</code> and <code>cast</code> functions for this.<a href="tyding.html#fnref56" class="footnote-back">↩︎</a></p></li>
+<li id="fn57"><p>By the way, this simple check may seem as a trivial point but this is a kind of simple sanity check that you should perform routinely. This way you <em>know</em> rather than <em>hope</em> that transformation did what it should. I also check value is a few rows to make sure that I didn’t mess things up. Catching simple errors early saves you a lot of time!<a href="tyding.html#fnref57" class="footnote-back">↩︎</a></p></li>
+<li id="fn58"><p>I used table as an explicit first argument for <code>pivot_longer()</code> but piped it to <code>pivot_wider()</code>, why? To remind you that these two ways are the interchangeable and that both put the table as a parameter into the function.<a href="tyding.html#fnref58" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
