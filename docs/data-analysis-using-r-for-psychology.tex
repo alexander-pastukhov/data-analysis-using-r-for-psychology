@@ -131,7 +131,7 @@
 
 \title{Data analysis using R for Psychology and Social Science}
 \author{Alexander (Sasha) Pastukhov}
-\date{2022-10-23}
+\date{2022-11-07}
 
 \begin{document}
 \maketitle
@@ -1010,7 +1010,7 @@ Last time we talked about the fact that everything\footnote{Terms and conditions
 \begin{itemize}
 \tightlist
 \item
-  Real numbers (double precision floating point numbers) that can be written in decimal notation with or without a decimal point (\texttt{123.4} or \texttt{42}) or in a scientific notation (\texttt{3.14e10}). There are two special values specific to the real numbers: \texttt{Inf} (\href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/is.finite.html}{infinity}) and \texttt{NaN} (\href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/is.finite.html}{not a number}). The latter looks similar \texttt{NA} (\href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html}{Not Available / Missing Value}) but is a different special case (see \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/is.finite.html}{R documentation} for details.
+  Real numbers (double precision floating point numbers) that can be written in decimal notation with or without a decimal point (\texttt{123.4} or \texttt{42}) or in a scientific notation (\texttt{3.14e10}). There are two special values specific to the real numbers: \texttt{Inf} (\href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/is.finite.html}{infinity}) and \texttt{NaN} (\href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/is.finite.html}{not a number}). The latter looks similar to \texttt{NA} (\href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html}{Not Available / Missing Value}) but is a different special case (see \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/is.finite.html}{R documentation} for details.
 \item
   Integer numbers that can be specified by adding \texttt{L} to the end of an integer number \texttt{5L}. Without that \texttt{L} a \emph{real} value will be created (\texttt{5} would be stored as \texttt{5.0}).
 \item
@@ -1087,7 +1087,7 @@ Do exercise 2.
 \hypertarget{lists}{%
 \section{Lists}\label{lists}}
 
-(Atomic) vectors are (homogeneous){[}\#vectors-are-homogeneous{]} lists of \protect\hyperlink{primary-types}{primary types} items, whereas \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/list.html}{lists} are lists that can contain \emph{any} item including vectors of different primary type data, other lists, or other objects\footnote{If you are familiar with Python, you can think of R lists as Python lists and dictionaries mixed together.}. Otherwise, (well, almost, see below) you work with them the same way is with vectors. You create a \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/list.html}{list} via \texttt{list()} function and then you can concatenate lists via the same \href{(https://stat.ethz.ch/R-manual/R-devel/library/base/html/c.html)}{c()} function, access individual elements via \protect\hyperlink{vector-index}{numeric index} or \protect\hyperlink{names}{names}, use \protect\hyperlink{vector-index-slicing}{slicing}, etc.
+(Atomic) vectors are \protect\hyperlink{vectors-are-homogeneous}{homogeneous} lists of \protect\hyperlink{primary-types}{primary types} items, whereas \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/list.html}{lists} are lists that can contain \emph{any} item including vectors of different primary type data, other lists, or other objects\footnote{If you are familiar with Python, you can think of R lists as Python lists and dictionaries mixed together.}. Otherwise, (well, almost, see below) you work with them the same way is with vectors. You create a \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/list.html}{list} via \texttt{list()} function and then you can concatenate lists via the same \href{(https://stat.ethz.ch/R-manual/R-devel/library/base/html/c.html)}{c()} function, access individual elements via \protect\hyperlink{vector-index}{numeric index} or \protect\hyperlink{names}{names}, use \protect\hyperlink{vector-index-slicing}{slicing}, etc.
 
 \hypertarget{subsetting}{%
 \section{Subsetting, a fuller version}\label{subsetting}}
@@ -1100,7 +1100,7 @@ In addition, you can use \emph{double} square brackets: \texttt{x{[}{[}1{]}{]}}.
 
 Note that the simplifying notation allows you to extract content of only \emph{one} item. Therefore, you cannot use it with \protect\hyperlink{vector-index-slicing}{slicing} (extracting content of many items), negative indexes (even if you will end up with just one index), or zero index. The good news is that R will actually generate an error message instead of failing silently, although error messages will be both mysterious and \emph{different} depending on exact circumstances. To deepen your feeling of arbitrariness of R design: using a non-existent \emph{name} index will generate an error for vectors but not for lists (you get \texttt{NULL})\footnote{Insert a hair-pulling picture of your preference here.}.
 
-Confusing? Let us go through some examples, so you can see a difference these two kinds of brackets make for vectors and lists.
+Confusing? Let us go through some examples, so you can see the difference these two kinds of brackets make for vectors and lists.
 
 \hypertarget{subsetting-for-atomics-vectors}{%
 \subsection{Subsetting for (atomics) vectors}\label{subsetting-for-atomics-vectors}}
@@ -1163,7 +1163,6 @@ Same is true for negative indexes, even though we are excluding two out of three
 \end{verbatim}
 
 And the zero index generates an error as well but the error message is different.
-ex ''
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1363,7 +1362,7 @@ Using a non-existent name index for lists with preserving subsetting (\texttt{{[
 
 \textbf{General rule:} use \texttt{{[}{[}{]}{]}} if you are interested in list or table content, e.g., you need a column from the table. Use \texttt{{[}{]}} if you interested in using a smaller (part of the original) list or table.
 
-If this is the point when you want to start running around screaming or bang your head against the screen, please tell me, cause I would definitely join you. Let us do some exercises that might help to build some intuition. However, as you probably noticed already, subsetting in R is fairly haphazard, so you probably will still end up being confused or have a code the does not work for seemingly mysterious reasons.
+If this is the point when you want to start running around screaming or bang your head against the screen, please tell me, cause I would definitely join you. Let us do some exercises that might help to build some intuition. However, as you probably noticed already, subsetting in R is fairly haphazard, so you probably will still end up being confused or have a code that does not work for seemingly mysterious reasons.
 
 Do exercise 3.
 
@@ -1405,7 +1404,7 @@ The good news is that it won't autocomplete ambiguous cases. The bad news that i
 ## NULL
 \end{verbatim}
 
-My advice would be to stick to \texttt{{[}{[}{]}{]}} notation despite the ubiquitous use of \texttt{\$} out where. It is slightly more strict and more universal: You can hard code a column/item name or put it into a variable for indexing. Only hard-coding works for \texttt{\$}.
+My advice would be to stick to \texttt{{[}{[}{]}{]}} notation despite the ubiquitous use of \texttt{\$} out where. \texttt{{[}{[}{]}{]}} is slightly more strict and more universal: You can hard code a column/item name or put it into a variable for indexing. Only hard-coding works for \texttt{\$}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1590,7 +1589,8 @@ The only new thing is that, because tables are two-dimensionsional, you can use 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# getting ALL rows for the FIRST column {-}\textgreater{} this gives you a VECTOR}
+\CommentTok{\# getting ALL rows for the FIRST column {-}\textgreater{} confusingly this gives you a VECTOR, }
+\CommentTok{\# so even though you used [] they work as simplifying subsetting}
 \NormalTok{our\_first\_table[, }\DecValTok{1}\NormalTok{]}
 \end{Highlighting}
 \end{Shaded}
@@ -1654,7 +1654,7 @@ Do exercise 6.
 \hypertarget{library}{%
 \section{Using libraries}\label{library}}
 
-There is a better way to construct a table but to use it, we need to first import a library that implements it. As with most modern programming languages, the real power of R is not in what comes bundled with it (very little, as a matter of fact) but in community developed libraries that extend it. We already discussed how you \protect\hyperlink{install.packages}{install libraries}. For that you use \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/library}{library()} function (it has a sister function \texttt{require()} but it should be used inside functions and packages not in scripts or notebooks). So, to use \emph{tidyverse} library that you already installed, you simply write
+There is a better way to construct a table but to use it, we need to first import a library that implements it. As with most modern programming languages, the real power of R is not in what comes bundled with it (very little, as a matter of fact) but in community developed libraries that extend it. We already discussed how you \protect\hyperlink{install.packages}{install libraries}.To use a library in your code, you use \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/library}{library()} function\footnote{It has a sister function \texttt{require()} but it should be used inside functions and packages not in scripts or notebooks}. So, to use \emph{tidyverse} library that you already installed, you simply write
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1744,7 +1744,7 @@ Thus, keep that in mind or, better still, explicitly mention which package the f
 ## 1     1
 \end{verbatim}
 
-When using a notebook (so, in our case, always) put the libraries into \emph{setup} chunk of the notebook. This ensures that your libraries are always initialized, even if you first run some other chunk. Word of advice, keep you library list in alphabetical order. Libraries are very specialized, so you will need quite a few of them for a typical analysis. Keeping them alphabetically organized makes it easier to see whether you imported the required library and whether you need to install a new one.
+When using a notebook (so, in our case, always) put the libraries into the first chunk of the notebook. In case of Rmarkdown notebooks, this is a \emph{setup} chunk and this ensures that your libraries are always initialized, even if you first run some other chunk. Word of advice, keep you library list in alphabetical order. Libraries are very specialized, so you will need quite a few of them for a typical analysis. Keeping them alphabetically organized makes it easier to see whether you imported the required library and whether you need to install a new one.
 
 \hypertarget{tibble}{%
 \section{Tibble, a better data.frame}\label{tibble}}
@@ -1997,7 +1997,7 @@ There are several libraries that allow you to read Excel files directly. My pers
 
 Do exercise 9, you need \href{data/face_rank.xlsx}{face\_rank.xlsx} file for it.
 
-You can read about further options at the package's website but I would generally discourage you from using Excel for your work and, definitely, for your data analysis. Because, you see, Excel is very smart and it can figure out the \emph{true} meaning and type of columns by itself. The fact that you might disagree is your problem. Excel knows what is best for you. The easiest way to screw a CSV file up (at least in Germany) is to open it in Excel and immediately save it. The file name will remain the same but Excel will ``adjust'' the content as it feels is better for you (you don't need to be consulted with). If you think I am exaggerating, read this \href{https://www.theverge.com/2020/8/6/21355674/human-genes-rename-microsoft-excel-misreading-dates}{article} at The Verge on how Excel messed up thousands of human genome data tables by turning some values into dates (because why not?). So now the entire community is \emph{renaming} some genes because it is easier to waste literally thousands of man-hours on that than to fix Excel. In short, friends don't let friends use Excel.
+You can read about further options at the package's website but I would generally discourage you from using Excel for your work and, definitely, for your data analysis. Because, you see, Excel is very smart and it can figure out the \emph{true} meaning and type of columns by itself. The fact that you might disagree is your problem. Excel knows what is best for you. The easiest way to screw a CSV file up (at least in Germany) is to open it in Excel and immediately save it. The file name will remain the same but Excel will ``adjust'' the content as it feels is better for you (you don't need to be consulted with). If you think I am exaggerating, read this \href{https://www.theverge.com/2020/8/6/21355674/human-genes-rename-microsoft-excel-misreading-dates}{article} at The Verge on how Excel messed up thousands of human genome data tables by turning some values into dates because why not\footnote{Best joke on that that I've heard so far is: Optimist thinks that the glass is half full, pessimist thinks it is half empty, Excel thinks is it second of February.}? So now the entire community is \emph{renaming} some genes because it is easier to waste literally thousands of man-hours on that than to fix Excel. In short, friends don't let friends use Excel.
 
 \hypertarget{reading-files-from-other-programs}{%
 \section{Reading files from other programs}\label{reading-files-from-other-programs}}
@@ -2008,6 +2008,8 @@ However, sometimes you have a file but you do not have the program (Matlab, SPSS
 
 \hypertarget{rds}{%
 \section{Writing and reading a single object}\label{rds}}
+
+There is another option for saving and reading data in R via \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/readRDS.html}{saveRDS()} and \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/readRDS.html}{readRDS} functions\footnote{This is another example of odd inconsistencies in R. Why \texttt{readRDS()} instead of \texttt{loadRDS()}? Or \texttt{writeRDS()} if you read it.}. \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/readRDS.html}{saveRDS()} saves an arbitrary object (vector, list, table, model fit, etc.), whereas \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/readRDS.html}{readRDS} reads it back. This is useful, if your table is very large, so using CSV is inefficient, or if you want to save something that is not a table, again, something like a model fit for later use. You probably will not use this frequently but it is a good option to keep in mind.
 
 \hypertarget{wrap-up-1}{%
 \section{Wrap up}\label{wrap-up-1}}
@@ -2553,53 +2555,53 @@ Normal(\mu=2*ConditionIndex, \sigma=0.4) + \\ Normal(\mu=Intensity, \sigma=0.4)\
 \hline
 Condition & Intensity & Response\\
 \hline
-A & 1 & 0.5783551\\
+A & 1 & 0.2012155\\
 \hline
-B & 1 & -2.7804605\\
+B & 1 & -2.5453599\\
 \hline
-C & 1 & -4.2615750\\
+C & 1 & -4.7460305\\
 \hline
-A & 2 & 1.5323335\\
+A & 2 & 1.2877014\\
 \hline
-B & 2 & -0.8334506\\
+B & 2 & -1.2456565\\
 \hline
-C & 2 & -3.4533741\\
+C & 2 & -3.3040554\\
 \hline
-A & 3 & 1.4938345\\
+A & 3 & 2.1191570\\
 \hline
-B & 3 & 0.6279660\\
+B & 3 & -0.0581652\\
 \hline
-C & 3 & -2.5325707\\
+C & 3 & -2.1708478\\
 \hline
-A & 4 & 2.4749491\\
+A & 4 & 3.6498102\\
 \hline
-B & 4 & 0.8221286\\
+B & 4 & 0.8388765\\
 \hline
-C & 4 & 0.4055695\\
+C & 4 & -2.4154568\\
 \hline
-A & 5 & 3.7927514\\
+A & 5 & 3.6882664\\
 \hline
-B & 5 & 3.1032269\\
+B & 5 & 1.3035066\\
 \hline
-C & 5 & -0.3972403\\
+C & 5 & -0.3297493\\
 \hline
-A & 6 & 4.5655680\\
+A & 6 & 5.6292633\\
 \hline
-B & 6 & 3.2982033\\
+B & 6 & 3.7374677\\
 \hline
-C & 6 & -0.0394683\\
+C & 6 & -0.2817219\\
 \hline
-A & 7 & 5.8464515\\
+A & 7 & 6.1195403\\
 \hline
-B & 7 & 4.4655994\\
+B & 7 & 3.0384060\\
 \hline
-C & 7 & 2.3743067\\
+C & 7 & 1.3070730\\
 \hline
-A & 8 & 6.1481585\\
+A & 8 & 7.1898769\\
 \hline
-B & 8 & 4.9511480\\
+B & 8 & 5.9223243\\
 \hline
-C & 8 & 2.7657502\\
+C & 8 & 3.7307582\\
 \hline
 \end{tabular}
 
@@ -4081,21 +4083,21 @@ D & 22\\
 \hline
 ID & Report\\
 \hline
-A & 1.287292\\
+A & 1.934067\\
 \hline
-A & 3.621985\\
+A & 4.549297\\
 \hline
-B & 2.784028\\
+B & 4.243014\\
 \hline
-B & 1.794792\\
+B & 4.010652\\
 \hline
-C & 1.116062\\
+C & 5.036318\\
 \hline
-C & 5.818359\\
+C & 3.323330\\
 \hline
-D & 2.450741\\
+D & 1.219693\\
 \hline
-D & 5.627742\\
+D & 6.916044\\
 \hline
 \end{tabular}
 \end{table}
@@ -4117,21 +4119,21 @@ To join two tables, you require ``key'' columns: columns that contain values tha
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 1.287292\\
+A & 20 & 1.934067\\
 \hline
-A & 20 & 3.621985\\
+A & 20 & 4.549297\\
 \hline
-B & 19 & 2.784028\\
+B & 19 & 4.243014\\
 \hline
-B & 19 & 1.794792\\
+B & 19 & 4.010652\\
 \hline
-C & 30 & 1.116062\\
+C & 30 & 5.036318\\
 \hline
-C & 30 & 5.818359\\
+C & 30 & 3.323330\\
 \hline
-D & 22 & 2.450741\\
+D & 22 & 1.219693\\
 \hline
-D & 22 & 5.627742\\
+D & 22 & 6.916044\\
 \hline
 \end{tabular}
 \centering
@@ -4139,21 +4141,21 @@ D & 22 & 5.627742\\
 \hline
 ID & Report & Age\\
 \hline
-A & 1.287292 & 20\\
+A & 1.934067 & 20\\
 \hline
-A & 3.621985 & 20\\
+A & 4.549297 & 20\\
 \hline
-B & 2.784028 & 19\\
+B & 4.243014 & 19\\
 \hline
-B & 1.794792 & 19\\
+B & 4.010652 & 19\\
 \hline
-C & 1.116062 & 30\\
+C & 5.036318 & 30\\
 \hline
-C & 5.818359 & 30\\
+C & 3.323330 & 30\\
 \hline
-D & 2.450741 & 22\\
+D & 1.219693 & 22\\
 \hline
-D & 5.627742 & 22\\
+D & 6.916044 & 22\\
 \hline
 \end{tabular}
 \end{table}
@@ -4205,21 +4207,21 @@ D & 22\\
 \hline
 ID & Report\\
 \hline
-A & 4.007961\\
+A & 6.095636\\
 \hline
-A & 1.876093\\
+A & 6.844594\\
 \hline
-B & 4.786708\\
+B & 1.701054\\
 \hline
-B & 3.043772\\
+B & 4.348452\\
 \hline
-C & 2.439911\\
+C & 6.373509\\
 \hline
-C & 6.828435\\
+C & 4.602199\\
 \hline
-E & 4.786998\\
+E & 5.958426\\
 \hline
-E & 2.862245\\
+E & 4.453494\\
 \hline
 \end{tabular}
 \end{table}
@@ -4241,17 +4243,17 @@ E & 2.862245\\
 \hline
 ID & Report & Age\\
 \hline
-A & 4.007961 & 20\\
+A & 6.095636 & 20\\
 \hline
-A & 1.876093 & 20\\
+A & 6.844594 & 20\\
 \hline
-B & 4.786708 & 19\\
+B & 1.701054 & 19\\
 \hline
-B & 3.043772 & 19\\
+B & 4.348452 & 19\\
 \hline
-C & 2.439911 & 30\\
+C & 6.373509 & 30\\
 \hline
-C & 6.828435 & 30\\
+C & 4.602199 & 30\\
 \hline
 \end{tabular}
 \end{table}
@@ -4273,23 +4275,23 @@ In contrast, \textbf{full join} is the most liberal as it includes all rows from
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 4.007961\\
+A & 20 & 6.095636\\
 \hline
-A & 20 & 1.876093\\
+A & 20 & 6.844594\\
 \hline
-B & 19 & 4.786708\\
+B & 19 & 1.701054\\
 \hline
-B & 19 & 3.043772\\
+B & 19 & 4.348452\\
 \hline
-C & 30 & 2.439911\\
+C & 30 & 6.373509\\
 \hline
-C & 30 & 6.828435\\
+C & 30 & 4.602199\\
 \hline
 D & 22 & NA\\
 \hline
-E & NA & 4.786998\\
+E & NA & 5.958426\\
 \hline
-E & NA & 2.862245\\
+E & NA & 4.453494\\
 \hline
 \end{tabular}
 \end{table}
@@ -4311,17 +4313,17 @@ E & NA & 2.862245\\
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 4.007961\\
+A & 20 & 6.095636\\
 \hline
-A & 20 & 1.876093\\
+A & 20 & 6.844594\\
 \hline
-B & 19 & 4.786708\\
+B & 19 & 1.701054\\
 \hline
-B & 19 & 3.043772\\
+B & 19 & 4.348452\\
 \hline
-C & 30 & 2.439911\\
+C & 30 & 6.373509\\
 \hline
-C & 30 & 6.828435\\
+C & 30 & 4.602199\\
 \hline
 D & 22 & NA\\
 \hline
@@ -4345,21 +4347,21 @@ D & 22 & NA\\
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 4.007961\\
+A & 20 & 6.095636\\
 \hline
-A & 20 & 1.876093\\
+A & 20 & 6.844594\\
 \hline
-B & 19 & 4.786708\\
+B & 19 & 1.701054\\
 \hline
-B & 19 & 3.043772\\
+B & 19 & 4.348452\\
 \hline
-C & 30 & 2.439911\\
+C & 30 & 6.373509\\
 \hline
-C & 30 & 6.828435\\
+C & 30 & 4.602199\\
 \hline
-E & NA & 4.786998\\
+E & NA & 5.958426\\
 \hline
-E & NA & 2.862245\\
+E & NA & 4.453494\\
 \hline
 \end{tabular}
 \end{table}
@@ -4399,13 +4401,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 5.298628\\
+A & M & 2.669681\\
 \hline
-B & F & 2.506368\\
+B & F & 5.260692\\
 \hline
-A & F & 3.935723\\
+A & F & 3.961241\\
 \hline
-B & M & 1.282726\\
+B & M & 3.223790\\
 \hline
 \end{tabular}
 \end{table}
@@ -4425,13 +4427,13 @@ B & M & 1.282726\\
 \hline
 ID & Gender & Age & Report\\
 \hline
-A & M & 20 & 5.298628\\
+A & M & 20 & 2.669681\\
 \hline
-B & F & 19 & 2.506368\\
+B & F & 19 & 5.260692\\
 \hline
-A & F & 30 & 3.935723\\
+A & F & 30 & 3.961241\\
 \hline
-B & M & 22 & 1.282726\\
+B & M & 22 & 3.223790\\
 \hline
 \end{tabular}
 \end{table}
@@ -4472,13 +4474,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 5.537801\\
+A & M & 4.679354\\
 \hline
-B & F & 1.174364\\
+B & F & 1.087633\\
 \hline
-A & F & 5.719942\\
+A & F & 3.095190\\
 \hline
-B & M & 4.046442\\
+B & M & 3.956795\\
 \hline
 \end{tabular}
 \end{table}
@@ -4498,13 +4500,13 @@ B & M & 4.046442\\
 \hline
 VPCode & Sex & Age & Report\\
 \hline
-A & F & 30 & 5.719942\\
+A & F & 30 & 3.095190\\
 \hline
-A & M & 20 & 5.537801\\
+A & M & 20 & 4.679354\\
 \hline
-B & F & 19 & 1.174364\\
+B & F & 19 & 1.087633\\
 \hline
-B & M & 22 & 4.046442\\
+B & M & 22 & 3.956795\\
 \hline
 \end{tabular}
 \end{table}
@@ -4892,29 +4894,29 @@ Let us take a look at the importance of \texttt{id\_cols}. Imagine that we have 
 \hline
 Participant & Face & Scale & Response & RT\\
 \hline
-1 & M-1 & Symmetry & 6 & 1.06\\
+1 & M-1 & Symmetry & 6 & 1.19\\
 \hline
-1 & M-1 & Attractiveness & 4 & 2.83\\
+1 & M-1 & Attractiveness & 4 & 1.14\\
 \hline
-1 & M-1 & Trustworthiness & 3 & 1.62\\
+1 & M-1 & Trustworthiness & 3 & 1.88\\
 \hline
-1 & M-2 & Symmetry & 4 & 2.11\\
+1 & M-2 & Symmetry & 4 & 0.55\\
 \hline
-1 & M-2 & Attractiveness & 7 & 1.35\\
+1 & M-2 & Attractiveness & 7 & 1.49\\
 \hline
-1 & M-2 & Trustworthiness & 6 & 1.29\\
+1 & M-2 & Trustworthiness & 6 & 0.80\\
 \hline
-2 & M-1 & Symmetry & 5 & 1.85\\
+2 & M-1 & Symmetry & 5 & 1.17\\
 \hline
-2 & M-1 & Attractiveness & 2 & 0.81\\
+2 & M-1 & Attractiveness & 2 & 1.25\\
 \hline
-2 & M-1 & Trustworthiness & 1 & 1.27\\
+2 & M-1 & Trustworthiness & 1 & 1.86\\
 \hline
-2 & M-2 & Symmetry & 3 & 1.69\\
+2 & M-2 & Symmetry & 3 & 0.51\\
 \hline
-2 & M-2 & Attractiveness & 7 & 1.17\\
+2 & M-2 & Attractiveness & 7 & 1.10\\
 \hline
-2 & M-2 & Trustworthiness & 2 & 1.32\\
+2 & M-2 & Trustworthiness & 2 & 1.16\\
 \hline
 \end{tabular}
 
@@ -4931,29 +4933,29 @@ For \href{https://tidyr.tidyverse.org/reference/pivot_wider.html}{pivot\_wider},
 \hline
 Participant & Face & RT & Symmetry & Attractiveness & Trustworthiness\\
 \hline
-1 & M-1 & 1.06 & 6 & NA & NA\\
+1 & M-1 & 1.19 & 6 & NA & NA\\
 \hline
-1 & M-1 & 2.83 & NA & 4 & NA\\
+1 & M-1 & 1.14 & NA & 4 & NA\\
 \hline
-1 & M-1 & 1.62 & NA & NA & 3\\
+1 & M-1 & 1.88 & NA & NA & 3\\
 \hline
-1 & M-2 & 2.11 & 4 & NA & NA\\
+1 & M-2 & 0.55 & 4 & NA & NA\\
 \hline
-1 & M-2 & 1.35 & NA & 7 & NA\\
+1 & M-2 & 1.49 & NA & 7 & NA\\
 \hline
-1 & M-2 & 1.29 & NA & NA & 6\\
+1 & M-2 & 0.80 & NA & NA & 6\\
 \hline
-2 & M-1 & 1.85 & 5 & NA & NA\\
+2 & M-1 & 1.17 & 5 & NA & NA\\
 \hline
-2 & M-1 & 0.81 & NA & 2 & NA\\
+2 & M-1 & 1.25 & NA & 2 & NA\\
 \hline
-2 & M-1 & 1.27 & NA & NA & 1\\
+2 & M-1 & 1.86 & NA & NA & 1\\
 \hline
-2 & M-2 & 1.69 & 3 & NA & NA\\
+2 & M-2 & 0.51 & 3 & NA & NA\\
 \hline
-2 & M-2 & 1.17 & NA & 7 & NA\\
+2 & M-2 & 1.10 & NA & 7 & NA\\
 \hline
-2 & M-2 & 1.32 & NA & NA & 2\\
+2 & M-2 & 1.16 & NA & NA & 2\\
 \hline
 \end{tabular}
 

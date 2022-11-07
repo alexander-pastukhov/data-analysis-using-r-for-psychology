@@ -23,7 +23,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2022-10-23" />
+<meta name="date" content="2022-11-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -752,7 +752,7 @@ Single
 <p>Here is an example of formatting a string using an integer:</p>
 <div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb432-1"><a href="strings.html#cb432-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes for breakfast&quot;</span>, <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;I had 10 pancakes for breakfast&quot;</code></pre>
-<p>You are not limited to a single value that you can put into a string. You can specify more locations via <code>%</code> but you must make sure that you pass the matching number of values. If there fewer parameters when you specified in the string, you will receive an <em>error</em>. If there are too many, only a <em>warning</em><a href="#fn61" class="footnote-ref" id="fnref61"><sup>61</sup></a>. Before running it, can you figure out which call will actually work (and what will be the output) and which will produce an error or a warning?</p>
+<p>You are not limited to a single value that you can put into a string. You can specify more locations via <code>%</code> but you must make sure that you pass the matching number of values. If there fewer parameters when you specified in the string, you will receive an <em>error</em>. If there are too many, only a <em>warning</em><a href="#fn64" class="footnote-ref" id="fnref64"><sup>64</sup></a>. Before running it, can you figure out which call will actually work (and what will be the output) and which will produce an error or a warning?</p>
 <div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb434-1"><a href="strings.html#cb434-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes and either %d  or %d stakes for dinner&quot;</span>, <span class="dv">2</span>)</span>
 <span id="cb434-2"><a href="strings.html#cb434-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancakes and %d stakes for dinner&quot;</span>, <span class="dv">7</span>, <span class="dv">10</span>)</span>
 <span id="cb434-3"><a href="strings.html#cb434-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;I had %d pancake and %d stakes for dinner&quot;</span>, <span class="dv">1</span>, <span class="dv">7</span>, <span class="dv">10</span>)</span></code></pre></div>
@@ -2322,7 +2322,7 @@ right
 <div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb456-1"><a href="strings.html#cb456-1" aria-hidden="true" tabindex="-1"></a>QandA <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;What was the answer, 42, right?&quot;</span>, <span class="st">&quot;No idea! What could it be, 423?&quot;</span>)</span>
 <span id="cb456-2"><a href="strings.html#cb456-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grepl</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">d{3}&quot;</span>, QandA)</span></code></pre></div>
 <pre><code>## [1] FALSE  TRUE</code></pre>
-<p>Stringr library has it own version with a more obvious name <a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect()</a><a href="#fn62" class="footnote-ref" id="fnref62"><sup>62</sup></a>. Note, however, the reverse order of arguments, as <code>str_</code> function always take (a vector of) strings as a first parameter</p>
+<p>Stringr library has it own version with a more obvious name <a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect()</a><a href="#fn65" class="footnote-ref" id="fnref65"><sup>65</sup></a>. Note, however, the reverse order of arguments, as <code>str_</code> function always take (a vector of) strings as a first parameter</p>
 <div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb458-1"><a href="strings.html#cb458-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_detect</span>(QandA, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">d{3}&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] FALSE  TRUE</code></pre>
 <p>You can also look for 1 or more digits (which is <code>+</code>)</p>
@@ -2334,7 +2334,7 @@ right
 <p>Or for a specific word only at the beginning (<code>^</code>) of the string</p>
 <div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="strings.html#cb464-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_detect</span>(QandA, <span class="st">&quot;^What&quot;</span>)</span></code></pre></div>
 <pre><code>## [1]  TRUE FALSE</code></pre>
-<p>When it comes to regular expressions, what I have shown you so far is not even a tip of an iceberg, it is a tip of a tip of an iceberg at best. They are very flexible, allowing you to code very complicated patterns but they are also hard to read and, therefore, hard to debug<a href="#fn63" class="footnote-ref" id="fnref63"><sup>63</sup></a>. For example, this is a regular expression to check validity on an email address<a href="#fn64" class="footnote-ref" id="fnref64"><sup>64</sup></a></p>
+<p>When it comes to regular expressions, what I have shown you so far is not even a tip of an iceberg, it is a tip of a tip of an iceberg at best. They are very flexible, allowing you to code very complicated patterns but they are also hard to read and, therefore, hard to debug<a href="#fn66" class="footnote-ref" id="fnref66"><sup>66</sup></a>. For example, this is a regular expression to check validity on an email address<a href="#fn67" class="footnote-ref" id="fnref67"><sup>67</sup></a></p>
 <pre><code>(?:[a-z0-9!#$%&amp;&#39;*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;&#39;*+/=?^_`{|}~-]+)*|&quot;(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*&quot;)@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])</code></pre>
 <p>Still, if you need to work with text they are indispensable, so your should remember about them. When facing an actual task grab a <a href="https://raw.githubusercontent.com/rstudio/cheatsheets/main/strings.pdf">cheatsheet</a> and use an <a href="https://spannbaueradam.shinyapps.io/r_regex_tester/">online expression tester</a> to debug the pattern.</p>
 <p>In the next exercise, use a regular expression to <a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a> out Primes and Probes that <em>end</em> with a <em>single</em> digit. I know that all of them end with a single digit, if digit is in them, so you can make a very simple expression that would do the job. But I want you to practice working with the <a href="https://raw.githubusercontent.com/rstudio/cheatsheets/main/strings.pdf">cheatsheet</a>, so it must specify that only one digit is allowed and that it must be the last symbol. When you pattern works, you should end up with a table where all Primes and Probes are <code>"heavy poles sphere"</code>.</p>
@@ -2565,11 +2565,11 @@ right
 </div>
 <div class="footnotes">
 <hr />
-<ol start="61">
-<li id="fn61"><p>Talk about consistency…<a href="strings.html#fnref61" class="footnote-back">↩︎</a></p></li>
-<li id="fn62"><p>GREP stands for Global Regular Expression Print.<a href="strings.html#fnref62" class="footnote-back">↩︎</a></p></li>
-<li id="fn63"><p>Hence, the quote at the beginning of the section.<a href="strings.html#fnref63" class="footnote-back">↩︎</a></p></li>
-<li id="fn64"><p>This an <a href="https://emailregex.com/">official RCF 5322 standard</a> that should work on <em>almost</em> all of the valid email addresses.<a href="strings.html#fnref64" class="footnote-back">↩︎</a></p></li>
+<ol start="64">
+<li id="fn64"><p>Talk about consistency…<a href="strings.html#fnref64" class="footnote-back">↩︎</a></p></li>
+<li id="fn65"><p>GREP stands for Global Regular Expression Print.<a href="strings.html#fnref65" class="footnote-back">↩︎</a></p></li>
+<li id="fn66"><p>Hence, the quote at the beginning of the section.<a href="strings.html#fnref66" class="footnote-back">↩︎</a></p></li>
+<li id="fn67"><p>This an <a href="https://emailregex.com/">official RCF 5322 standard</a> that should work on <em>almost</em> all of the valid email addresses.<a href="strings.html#fnref67" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

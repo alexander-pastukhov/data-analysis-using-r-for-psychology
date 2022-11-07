@@ -23,7 +23,7 @@
 <meta name="author" content="Alexander (Sasha) Pastukhov" />
 
 
-<meta name="date" content="2022-10-23" />
+<meta name="date" content="2022-11-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -1093,7 +1093,7 @@ M-2
 <div class="infobox practice">
 <p>Do exercise 7.</p>
 </div>
-<p>As noted above, you can also impute values. The simplest strategy is to use either a fixed or an average (mean, median, etc.) value. <a href="https://tidyr.tidyverse.org/">tidyr</a> function that performs a simple substitution is <a href="https://tidyr.tidyverse.org/reference/replace_na.html">replace_na()</a><a href="#fn59" class="footnote-ref" id="fnref59"><sup>59</sup></a> and, as a second parameter, it takes a named list of values <code>list(column_name = value_for_NA)</code>. For our toy table, we can replace missing <code>Attractiveness</code> and <code>Symmetry</code> values with some default value, e.g. <code>0</code> and <code>-1</code> (this is very arbitrary, just to demonstrate how it works, do not do things like these for real analysis unless you know what you are doing!)</p>
+<p>As noted above, you can also impute values. The simplest strategy is to use either a fixed or an average (mean, median, etc.) value. <a href="https://tidyr.tidyverse.org/">tidyr</a> function that performs a simple substitution is <a href="https://tidyr.tidyverse.org/reference/replace_na.html">replace_na()</a><a href="#fn62" class="footnote-ref" id="fnref62"><sup>62</sup></a> and, as a second parameter, it takes a named list of values <code>list(column_name = value_for_NA)</code>. For our toy table, we can replace missing <code>Attractiveness</code> and <code>Symmetry</code> values with some default value, e.g. <code>0</code> and <code>-1</code> (this is very arbitrary, just to demonstrate how it works, do not do things like these for real analysis unless you know what you are doing!)</p>
 <div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb419-1"><a href="missing-data.html#cb419-1" aria-hidden="true" tabindex="-1"></a>widish_df_with_NA <span class="sc">%&gt;%</span></span>
 <span id="cb419-2"><a href="missing-data.html#cb419-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">replace_na</span>(<span class="fu">list</span>(<span class="at">Attractiveness =</span> <span class="dv">0</span>, <span class="at">Symmetry =</span> <span class="sc">-</span><span class="dv">1</span>)) </span></code></pre></div>
 <table>
@@ -1193,7 +1193,7 @@ M-2
 <div class="infobox practice">
 <p>Do exercise 8.</p>
 </div>
-<p>Unfortunately, <code>replace_na()</code> works only with constant values and does not handle grouped tables very well<a href="#fn60" class="footnote-ref" id="fnref60"><sup>60</sup></a> So to replace an <code>NA</code> with a mean value of a <em>grouped</em> data, we need to combine some of our old knowledge with an <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/ifelse.html">ifelse(conditon, value_if_true, value_if_false)</a> function. This function is a vectorized cousin of the <a href="controling-computation-flow.html#if-else">if-else</a> that takes 1) a vector of logical values (<code>condition</code>), 2) a vector values that are returned if <code>condition</code> is true, 3) a vector of values that are returned if <code>condition</code> is false. Note that the usual rules of <a href="different-length-vectors">vector length-matching</a> apply, so if the three vectors have different length, they will be automaticall (and silently) adjusted to match the length of <code>condition</code> vector.</p>
+<p>Unfortunately, <code>replace_na()</code> works only with constant values and does not handle grouped tables very well<a href="#fn63" class="footnote-ref" id="fnref63"><sup>63</sup></a> So to replace an <code>NA</code> with a mean value of a <em>grouped</em> data, we need to combine some of our old knowledge with an <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/ifelse.html">ifelse(conditon, value_if_true, value_if_false)</a> function. This function is a vectorized cousin of the <a href="controling-computation-flow.html#if-else">if-else</a> that takes 1) a vector of logical values (<code>condition</code>), 2) a vector values that are returned if <code>condition</code> is true, 3) a vector of values that are returned if <code>condition</code> is false. Note that the usual rules of <a href="different-length-vectors">vector length-matching</a> apply, so if the three vectors have different length, they will be automaticall (and silently) adjusted to match the length of <code>condition</code> vector.</p>
 <p>Here is how it works to replace all negative values in a vector with a <code>0</code> and all non-negative with <code>1</code>:</p>
 <div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb420-1"><a href="missing-data.html#cb420-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">5</span>)</span>
 <span id="cb420-2"><a href="missing-data.html#cb420-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ifelse</span>(v <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
@@ -1499,9 +1499,9 @@ Quadro
 </div>
 <div class="footnotes">
 <hr />
-<ol start="59">
-<li id="fn59"><p>There is also an inverse function <a href="https://dplyr.tidyverse.org/reference/na_if.html">na_if()</a> that converts a specific value to an <code>NA</code>.<a href="missing-data.html#fnref59" class="footnote-back">↩︎</a></p></li>
-<li id="fn60"><p>At least I wasn’t able to figure out how to do this.<a href="missing-data.html#fnref60" class="footnote-back">↩︎</a></p></li>
+<ol start="62">
+<li id="fn62"><p>There is also an inverse function <a href="https://dplyr.tidyverse.org/reference/na_if.html">na_if()</a> that converts a specific value to an <code>NA</code>.<a href="missing-data.html#fnref62" class="footnote-back">↩︎</a></p></li>
+<li id="fn63"><p>At least I wasn’t able to figure out how to do this.<a href="missing-data.html#fnref63" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

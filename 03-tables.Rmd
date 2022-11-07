@@ -9,7 +9,7 @@ Please download the [exercise notebook](notebooks/Seminar 03 - Tables.Rmd) (**Al
 ## Primary data types {#primary-types}
 Last time we talked about the fact that everything^[Terms and conditions apply.] is a vector in R. All examples used numeric vectors which are two of the four primary types in R.
 
-* Real numbers (double precision floating point numbers) that can be written in decimal notation with or without a decimal point (`123.4` or `42`) or in a scientific notation (`3.14e10`). There are two special values specific to the real numbers: `Inf` ([infinity](https://stat.ethz.ch/R-manual/R-devel/library/base/html/is.finite.html)) and `NaN` ([not a number](https://stat.ethz.ch/R-manual/R-devel/library/base/html/is.finite.html)). The latter looks similar  `NA` ([Not Available / Missing Value](https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html)) but is a different special case (see [R documentation](https://stat.ethz.ch/R-manual/R-devel/library/base/html/is.finite.html) for details.
+* Real numbers (double precision floating point numbers) that can be written in decimal notation with or without a decimal point (`123.4` or `42`) or in a scientific notation (`3.14e10`). There are two special values specific to the real numbers: `Inf` ([infinity](https://stat.ethz.ch/R-manual/R-devel/library/base/html/is.finite.html)) and `NaN` ([not a number](https://stat.ethz.ch/R-manual/R-devel/library/base/html/is.finite.html)). The latter looks similar to `NA` ([Not Available / Missing Value](https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html)) but is a different special case (see [R documentation](https://stat.ethz.ch/R-manual/R-devel/library/base/html/is.finite.html) for details.
 * Integer numbers that can be specified by adding `L` to the end of an integer number `5L`. Without that `L` a _real_ value will be created (`5` would be stored as `5.0`).
 * Logical or Boolean values of `TRUE` and `FALSE`. They can also be written as `T` and `F`  but this practice is discouraged by the [Tidyverse style guide](https://style.tidyverse.org/syntax.html?q=TRUE#logical-vectors).
 * Character values (strings) that hold text between a pair of matching `"` or `'` characters. The two options mean that you can surround your text by `'` if you need to put a quote inside: `'"I have never let my schooling interfere with my education." Mark Twain'` or by `"` if you need an apostrophe `"participant's response"`. Note that a string **is not** a vector of characters. This would make a lot of sense but it is not. This is why [indexing](#vector-index) or [slicing](#vector-index-slicing) will not work and you need to use special functions.
@@ -47,7 +47,7 @@ Do exercise 2.
 :::
 
 ## Lists {#lists}
-(Atomic) vectors are (homogeneous)[#vectors-are-homogeneous] lists of [primary types](#primary-types) items, whereas [lists](https://stat.ethz.ch/R-manual/R-devel/library/base/html/list.html) are lists that can contain _any_ item including vectors of different primary type data, other lists, or other objects^[If you are familiar with Python, you can think of R lists as Python lists and dictionaries mixed together.].  Otherwise, (well, almost, see below) you work with them the same way is with vectors. You create a [list](https://stat.ethz.ch/R-manual/R-devel/library/base/html/list.html) via `list()` function and then you can concatenate lists via the same [c()]((https://stat.ethz.ch/R-manual/R-devel/library/base/html/c.html)) function, access individual elements via [numeric index](#vector-index) or [names](#names), use [slicing](#vector-index-slicing), etc.  
+(Atomic) vectors are [homogeneous](#vectors-are-homogeneous) lists of [primary types](#primary-types) items, whereas [lists](https://stat.ethz.ch/R-manual/R-devel/library/base/html/list.html) are lists that can contain _any_ item including vectors of different primary type data, other lists, or other objects^[If you are familiar with Python, you can think of R lists as Python lists and dictionaries mixed together.].  Otherwise, (well, almost, see below) you work with them the same way is with vectors. You create a [list](https://stat.ethz.ch/R-manual/R-devel/library/base/html/list.html) via `list()` function and then you can concatenate lists via the same [c()]((https://stat.ethz.ch/R-manual/R-devel/library/base/html/c.html)) function, access individual elements via [numeric index](#vector-index) or [names](#names), use [slicing](#vector-index-slicing), etc.  
 
 ## Subsetting, a fuller version {#subsetting}
 Unfortunately, this is the point where we need to talk about subsetting (accessing individual elements of a vector or of a list via indexes or names) yet again. This is because R has several different ways of doing this that look similar and, to make things worse, _sometimes_ produce identical results. I do not expect you to memorize or even fully appreciate all the intricate details (I am not even sure I know them all). But I do need you to understand the fundamental difference between the two ways of doing subsetting and to be aware of potential issues that can easily cause confusion. If the latter is the case, return to this section, read the [official manual](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Extract.html), or read the [subsetting](http://adv-r.had.co.nz/Subsetting.html) section in "Advanced R" book by Hadley Wickham.
@@ -58,7 +58,7 @@ In addition, you can use _double_ square brackets: `x[[1]]`. These are called _s
 
 Note that the simplifying notation allows you to extract content of only _one_ item. Therefore, you cannot use it with [slicing](#vector-index-slicing) (extracting content of many items), negative indexes (even if you will end up with just one index), or zero index. The good news is that R will actually generate an error message instead of failing silently, although error messages will be both mysterious and _different_ depending on exact circumstances. To deepen your feeling of arbitrariness of R design: using a non-existent _name_ index will generate an error for vectors but not for lists (you get `NULL`)^[Insert a hair-pulling picture of your preference here.].
 
-Confusing? Let us go through some examples, so you can see a difference these two kinds of brackets make for vectors and lists.
+Confusing? Let us go through some examples, so you can see the difference these two kinds of brackets make for vectors and lists.
 
 ### Subsetting for (atomics) vectors
 First, we create a named vector
@@ -87,7 +87,6 @@ x[[-(1:2)]]
 ```
 
 And the zero index generates an error as well but the error message is different.
-ex <real>"
 ```{r error=TRUE, width=60}
 x[[0]]
 ```
@@ -164,7 +163,7 @@ l[["d"]]
 
 **General rule:** use `[[]]` if you are interested in list or table content, e.g., you need a column from the table. Use `[]` if you interested in using a smaller (part of the original) list or table.
 
-If this is the point when you want to start running around screaming or bang your head against the screen, please tell me, cause I would definitely join you. Let us do some exercises that might help to build some intuition. However, as you probably noticed already, subsetting in R is fairly haphazard, so you probably will still end up being confused or have a code the does not work for seemingly mysterious reasons.
+If this is the point when you want to start running around screaming or bang your head against the screen, please tell me, cause I would definitely join you. Let us do some exercises that might help to build some intuition. However, as you probably noticed already, subsetting in R is fairly haphazard, so you probably will still end up being confused or have a code that does not work for seemingly mysterious reasons.
 
 ::: {.infobox .practice}
 Do exercise 3.
@@ -184,7 +183,7 @@ l$b
 l[['b']]
 ```
 
-My advice would be to stick to `[[]]` notation despite the ubiquitous use of `$` out where. It is slightly more strict and more universal: You can hard code a column/item name or put it into a variable for indexing. Only hard-coding works for `$`.
+My advice would be to stick to `[[]]` notation despite the ubiquitous use of `$` out where. `[[]]` is slightly more strict and more universal: You can hard code a column/item name or put it into a variable for indexing. Only hard-coding works for `$`.
 
 ```{r}
 l[["bb"]]
@@ -277,7 +276,8 @@ knitr::include_graphics("images/table-column.png")
 The only new thing is that, because tables are two-dimensionsional, you can use preserving subsetting to extract or access a rectangular region within a table. To select a subset rows and columns you write `table[rows, columns]`. If you omit either rows or columns this implies that you want _all_ rows or columns.
 
 ```{r}
-# getting ALL rows for the FIRST column -> this gives you a VECTOR
+# getting ALL rows for the FIRST column -> confusingly this gives you a VECTOR, 
+# so even though you used [] they work as simplifying subsetting
 our_first_table[, 1]
 
 # getting FIRST row for ALL columns -> this gives you DATA.FRAME
@@ -302,7 +302,7 @@ Do exercise 6.
 :::
 
 ## Using libraries {#library}
-There is a better way to construct a table but to use it, we need to first import a library that implements it. As with most modern programming languages, the real power of R is not in what comes bundled with it (very little, as a matter of fact) but in community developed libraries that extend it. We already discussed how you [install libraries](#install.packages). For that you use [library()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/library) function (it has a sister function `require()` but it should be used inside functions and packages not in scripts or notebooks). So, to use _tidyverse_ library that you already installed, you simply write
+There is a better way to construct a table but to use it, we need to first import a library that implements it. As with most modern programming languages, the real power of R is not in what comes bundled with it (very little, as a matter of fact) but in community developed libraries that extend it. We already discussed how you [install libraries](#install.packages).To use a library in your code, you use [library()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/library) function^[It has a sister function `require()` but it should be used inside functions and packages not in scripts or notebooks]. So, to use _tidyverse_ library that you already installed, you simply write
 ```{r eval=FALSE}
 library(tidyverse)
 # or
@@ -326,7 +326,7 @@ print(tribble(~a, 1))
 tibble::tribble(~a, 1)
 ```
 
-When using a notebook (so, in our case, always) put the libraries into _setup_ chunk of the notebook. This ensures that your libraries are always initialized, even if you first run some other chunk. Word of advice, keep you library list in alphabetical order. Libraries are very specialized, so you will need quite a few of them for a typical analysis. Keeping them alphabetically organized makes it easier to see whether you imported the required library and whether you need to install a new one.
+When using a notebook (so, in our case, always) put the libraries into the first chunk of the notebook. In case of Rmarkdown notebooks, this is a _setup_ chunk and this ensures that your libraries are always initialized, even if you first run some other chunk. Word of advice, keep you library list in alphabetical order. Libraries are very specialized, so you will need quite a few of them for a typical analysis. Keeping them alphabetically organized makes it easier to see whether you imported the required library and whether you need to install a new one.
 
 ## Tibble, a better data.frame {#tibble}
 Although the `data.frame()` function is the default way of creating a table, it is a legacy implementation with numerous shortcomings. Tidyverse implemented its own version of the table called [tibble()](https://tibble.tidyverse.org/) that provides a more rigorous control and more consistent behavior. For example, it allows you to use any symbol in columns names (including spaces), prints out only the beginning of the table rather than entire table, etc. It also gives more warnings. If you try to access a non-existing column both `data.frame()` and `tibble()` will return `NULL` but the former will do it silently, whereas the latter will give you a warning but only if you use the `$` notation^[Arbitrariness strikes again! But this also means that `$` is safer to use with tibbles but not with data.frames.].
@@ -438,7 +438,7 @@ There are several libraries that allow you to read Excel files directly. My pers
 Do exercise 9, you need [face_rank.xlsx](data/face_rank.xlsx) file for it.
 :::
 
-You can read about further options at the package's website but I would generally discourage you from using Excel for your work and, definitely, for your data analysis. Because, you see, Excel is very smart and it can figure out the _true_ meaning and type of columns by itself. The fact that you might disagree is your problem. Excel knows what is best for you. The easiest way to screw a CSV file up (at least in Germany) is to open it in Excel and immediately save it. The file name will remain the same but Excel will "adjust" the content as it feels is better for you (you don't need to be consulted with). If you think I am exaggerating, read this [article](https://www.theverge.com/2020/8/6/21355674/human-genes-rename-microsoft-excel-misreading-dates) at The Verge on how Excel messed up thousands of human genome data tables by turning some values into dates (because why not?). So now the entire community is _renaming_ some genes because it is easier to waste literally thousands of man-hours on that than to fix Excel. In short, friends don't let friends use Excel.
+You can read about further options at the package's website but I would generally discourage you from using Excel for your work and, definitely, for your data analysis. Because, you see, Excel is very smart and it can figure out the _true_ meaning and type of columns by itself. The fact that you might disagree is your problem. Excel knows what is best for you. The easiest way to screw a CSV file up (at least in Germany) is to open it in Excel and immediately save it. The file name will remain the same but Excel will "adjust" the content as it feels is better for you (you don't need to be consulted with). If you think I am exaggerating, read this [article](https://www.theverge.com/2020/8/6/21355674/human-genes-rename-microsoft-excel-misreading-dates) at The Verge on how Excel messed up thousands of human genome data tables by turning some values into dates because why not^[Best joke on that that I've heard so far is: Optimist thinks that the glass is half full, pessimist thinks it is half empty, Excel thinks is it second of February.]? So now the entire community is _renaming_ some genes because it is easier to waste literally thousands of man-hours on that than to fix Excel. In short, friends don't let friends use Excel.
 
 ## Reading files from other programs
 World is a very diverse place, so you are likely to encounter a wide range of data files generated by Matlab, SPSS, SAS, etc. There are two ways to import the data. First, that I would recommend, use the original program (Matlab, SPSS, SAS, etc.) to export data as a CSV file. Every program can read and write CSV, so it a good common ground. Moreover, this is a simple format with no embedded formulas (as in Excel), service structures, etc. Finally, if you store your data in CSV, you do not need a special program to work with it. In short, unless you have a good reason, store your data in CSV files. 
@@ -446,6 +446,7 @@ World is a very diverse place, so you are likely to encounter a wide range of da
 However, sometimes you have a file but you do not have the program (Matlab, SPSS, SAS, etc.). The second way is to use various R libaries, starting with [foreign](https://www.rdocumentation.org/packages/foreign), which can handle most typical cases, e.g., SPSS, SAS, State, or Minitab. The problem here is that all programs differ in the internal file formats and what exactly is included. For example, when importing from an SPSS sav-file via [read.spss](https://www.rdocumentation.org/packages/foreign/versions/0.8-80/topics/read.spss) you will get a list with various components rather than a table (`data.frame`). You can force the function to convert everything to a single table via `to.data.frame=TRUE` option but you may lose some information. Bottom line, you need to be extra careful when importing from other formats and the safest way is to ensure complete and full export of the data to a CSV from the original program.
 
 ## Writing and reading a single object {#rds}
+There is another option for saving and reading data in R via [saveRDS()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/readRDS.html) and [readRDS](https://stat.ethz.ch/R-manual/R-devel/library/base/html/readRDS.html) functions^[This is another example of odd inconsistencies in R. Why `readRDS()` instead of `loadRDS()`? Or `writeRDS()` if you read it.]. [saveRDS()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/readRDS.html) saves an arbitrary object (vector, list, table, model fit, etc.), whereas [readRDS](https://stat.ethz.ch/R-manual/R-devel/library/base/html/readRDS.html) reads it back. This is useful, if your table is very large, so using CSV is inefficient, or if you want to save something that is not a table, again, something like a model fit for later use. You probably will not use this frequently but it is a good option to keep in mind.
 
 ## Wrap up
 We have started with vectors and now extended them to tables. Next time, we will look at how to visualize the data using The Grammar of Graphics approach.
