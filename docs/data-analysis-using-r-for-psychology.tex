@@ -131,7 +131,7 @@
 
 \title{Data analysis using R for Psychology and Social Science}
 \author{Alexander (Sasha) Pastukhov}
-\date{2022-11-07}
+\date{2022-11-19}
 
 \begin{document}
 \maketitle
@@ -2555,53 +2555,53 @@ Normal(\mu=2*ConditionIndex, \sigma=0.4) + \\ Normal(\mu=Intensity, \sigma=0.4)\
 \hline
 Condition & Intensity & Response\\
 \hline
-A & 1 & -0.3941165\\
+A & 1 & 0.4562100\\
 \hline
-B & 1 & -2.3569170\\
+B & 1 & -1.1258993\\
 \hline
-C & 1 & -4.3355756\\
+C & 1 & -4.5217351\\
 \hline
-A & 2 & 0.3083759\\
+A & 2 & 0.5409688\\
 \hline
-B & 2 & -0.6553649\\
+B & 2 & -0.6114598\\
 \hline
-C & 2 & -3.1653605\\
+C & 2 & -3.4929254\\
 \hline
-A & 3 & 2.3251789\\
+A & 3 & 1.6375626\\
 \hline
-B & 3 & -0.5241260\\
+B & 3 & 0.8610479\\
 \hline
-C & 3 & -2.6241035\\
+C & 3 & -0.9405754\\
 \hline
-A & 4 & 2.7600366\\
+A & 4 & 2.1242412\\
 \hline
-B & 4 & 1.0786012\\
+B & 4 & 1.6366427\\
 \hline
-C & 4 & -1.7769648\\
+C & 4 & -1.0011613\\
 \hline
-A & 5 & 5.2519198\\
+A & 5 & 4.0807598\\
 \hline
-B & 5 & 2.1442990\\
+B & 5 & 2.3953123\\
 \hline
-C & 5 & 0.5783779\\
+C & 5 & 0.0590838\\
 \hline
-A & 6 & 4.5870479\\
+A & 6 & 2.9805128\\
 \hline
-B & 6 & 3.7475242\\
+B & 6 & 2.1864156\\
 \hline
-C & 6 & 0.0189858\\
+C & 6 & 1.3858527\\
 \hline
-A & 7 & 6.2393785\\
+A & 7 & 6.5335719\\
 \hline
-B & 7 & 3.6292589\\
+B & 7 & 4.4177153\\
 \hline
-C & 7 & 2.3854403\\
+C & 7 & 1.9235445\\
 \hline
-A & 8 & 7.6274901\\
+A & 8 & 6.8659134\\
 \hline
-B & 8 & 4.1691738\\
+B & 8 & 4.2343759\\
 \hline
-C & 8 & 4.3311562\\
+C & 8 & 3.1949796\\
 \hline
 \end{tabular}
 
@@ -2616,7 +2616,7 @@ We plot this data by 1) \emph{defining aesthetics} (mapping \texttt{Intensity} o
 
 \includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-117-1.pdf}
 
-As I already wrote, technically, the only thing you need to define is aesthetics, so let us not add anything to the plot (we drop the \texttt{+geom\_line()}).
+As I already wrote, technically, the only thing you need to define is aesthetics, so let us not add anything to the plot, so we drop the \texttt{+\ geom\_line()}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2626,7 +2626,7 @@ As I already wrote, technically, the only thing you need to define is aesthetics
 
 \begin{center}\includegraphics{data-analysis-using-r-for-psychology_files/figure-latex/unnamed-chunk-118-1} \end{center}
 
-Told you it will look empty and yet you can already see \emph{ggplot2} in action. Notice that axes are labeled and their limits are set. You cannot see the legend (they are not plotted without corresponding geometry) but it is also ready behind the scenes. This is because our initial call specified the most important part: how individual variables map on various properties even before we tell \emph{ggplot2} which visuals we will use to plot the data. When we specified that x-axis will represent the \texttt{Intensity}, ggplot2 figured out the range of values, so it knows \emph{where} it is going to plot whatever we decide to plot. Points, lines, bars, error bars and what not will span only that range. Same goes for other properties such as color. We wanted \emph{color} to represent the condition. Again, we may not know what exactly we will be plotting (points, lines?) or even how many different visuals we will be adding to the plot (just lines? points + lines? points + lines + linear fit?) but we do know that whatever visual we add, if it can have color, its color \emph{must} represent condition for that data point. The beauty of \emph{ggplot2} is that it analyses your data and figures out how many colors you need and is ready to apply them \emph{consistently} to all visuals you will add later. It will ensure that all points, bars, lines, etc. will have consistent coordinates scaling, color, size, fill mapping that are the same across the entire plot. This may sound trivial but typically (e.g., Matlab, Matplotlib), it is \emph{your} job to make sure that all these properties match and that they represent the same value across all visual elements. And this is a pretty tedious job, particularly when you decide to change your mappings and have to redo all individual components by hand. In \emph{ggplot2}, this dissociation between mapping and visuals means you can tinker with one of them at a time. E.g. keep the visuals but change grouping or see if effect of condition is easier to see via line type, size or shape of the point? Or you can keep the mapping and see whether adding another visual will make the plot easier to understand. Note that some mapping also \emph{groups} your data, so when you use group-based visual information (e.g., a linear regression line) it will know what data belongs together and so will perform this computation per group.
+Told you it will look empty and yet you can already see \emph{ggplot2} in action. Notice that axes are labeled and their limits are set. You cannot see the legend (they are not plotted without corresponding geometry) but it is also ready behind the scenes. This is because our initial call specified the most important part: how individual variables map on various properties even before we tell \emph{ggplot2} which visuals we will use to plot the data. When we specified that x-axis will represent the \texttt{Intensity}, ggplot2 figured out the range of values, so it knows \emph{where} it is going to plot whatever we decide to plot. Points, lines, bars, error bars and what not will span only that range. Same goes for other properties such as color. We wanted \emph{color} to represent the condition. Again, we may not know what exactly we will be plotting (points, lines?) or even how many different visuals we will be adding to the plot (just lines? points + lines? points + lines + linear fit?) but we do know that whatever visual we add, if it can have color, its color \emph{must} represent condition for that data point. The beauty of \emph{ggplot2} is that it analyses your data and figures out how many colors you need and is ready to apply them \emph{consistently} to all visuals you will add later. It will ensure that all points, bars, lines, etc. will have consistent coordinates scaling, color, size, fill mapping that are the same across the entire plot. This may sound trivial but typically (e.g., Matlab, Matplotlib), it is \emph{your} job to make sure that all these properties match and that they represent the same value across all visual elements. And this is a pretty tedious job, particularly when you decide to change your mappings and have to redo all individual components by hand. In \emph{ggplot2}, this dissociation between mapping and visuals means you can tinker with one of them at a time. E.g., keep the visuals but change grouping or see if effect of condition is easier to see via line type, size or shape of the point? Or you can keep the mapping and see whether adding another visual will make the plot easier to understand. Note that some mappings also \emph{group} your data, so when you use group-based visual information (e.g., a linear regression line) it will know what data belongs together and so will perform this computation per group.
 
 Let us see how you can keep the relationship mapping but add more visuals. Let us add both lines and points.
 
@@ -2695,13 +2695,13 @@ We start by visualizing how car efficiency, measured as miles-per-gallon, is aff
 First, let us look at the relationship between car efficiency in the city cycle (\texttt{cty}), engine displacement (\texttt{displ}), and drive train type (\texttt{drv}) using color points. Reminder, the call should look as
 
 \begin{verbatim}
-ggplot(data_table_name, [aes](https://ggplot2.tidyverse.org/reference/aes.html)(x = var1, y = var2, color = var3, shape = var4, ...)) + 
+ggplot(data_table_name, aes(x = var1, y = var2, color = var3, shape = var4, ...)) + 
   geom_primitive1() + 
   geom_primitive2() +
   ...
 \end{verbatim}
 
-Think about which variables are mapped on each axes and which is best depicted as color.
+Think about \href{https://ggplot2.tidyverse.org/reference/aes.html}{aesthetics}, i.e., which variables are mapped on each axes and which is best depicted as color.
 
 Do exercise 1.
 
@@ -2732,7 +2732,7 @@ The previous section use a continuous engine displacement variable for x-axis (a
 
 Do exercise 7.
 
-One problem with the plot is that all points are plotted at the same x-axis location. This means that if two points share the location, they overlap and appear as just one dot. This makes it hard to understand the density: one point can mean one point, or two, or a hundred. A better way to plot such data is by using \href{https://ggplot2.tidyverse.org/reference/geom_boxplot.html}{box} or \href{https://ggplot2.tidyverse.org/reference/geom_violin.html}{violin} plots. Experiment by using them instead of points.
+One problem with the plot is that all points are plotted at the same x-axis location. This means that if two points share the location, they overlap and appear as just one dot. This makes it hard to understand the density: one point can mean one point, or two, or a hundred. A better way to plot such data is by using \href{https://ggplot2.tidyverse.org/reference/geom_boxplot.html}{box} or \href{https://ggplot2.tidyverse.org/reference/geom_violin.html}{violin} plots\footnote{You can also use an excellent package called \href{https://github.com/eclarke/ggbeeswarm}{ggbeeswarm} that distributes dots to show the distribution.}. Experiment by using them instead of points.
 
 Do exercise 8.
 
@@ -2747,11 +2747,11 @@ Do exercise 10.
 \hypertarget{mammals-sleep-single-variable}{%
 \section{Mammals sleep: single variable}\label{mammals-sleep-single-variable}}
 
-Now lets us work on plotting a distribution for a single variable using \href{https://ggplot2.tidyverse.org/reference/msleep.html}{mammals sleep dataset}. For this, you need to map \texttt{sleep\_total} variable on x-axis and plot a \href{https://ggplot2.tidyverse.org/reference/geom_histogram.html}{histogram}. Explore the available options, in particular \texttt{bins} that determines the bins number and, therefore, their size. Note that there is no ``correct'' number of bins to use. \emph{ggplot2} defaults to 30 but a small sample would be probably better served with fewer bins and, vice versa, with a large data set you can afford hundred of bins.
+Now lets us work on plotting a distribution for a single variable using \href{https://ggplot2.tidyverse.org/reference/msleep.html}{mammals sleep dataset}. For this, you need to map \texttt{sleep\_total} variable on x-axis and plot a \href{https://ggplot2.tidyverse.org/reference/geom_histogram.html}{histogram}. Explore the available options, in particular \texttt{bins} that determines the bins number and, therefore, their size. Note that there is no ``correct'' number of bins to use. \emph{ggplot2} defaults to 30 but a small sample would be probably better served with fewer bins and, vice versa, with a large data set you can afford hundreds of bins.
 
 Do exercise 11.
 
-Using a histogram gives you exact counts per each bin. However, the appearance may change quite dramatically if you would use fewer or more bins. An alternative way to represent the same information is via \href{https://ggplot2.tidyverse.org/reference/geom_density.html}{smoothed density estimates}. They use a sliding window and compute an estimate at each point but also include points \emph{around} it and weight them according to a kernel (e.g., a Gaussian one). This makes the plot look smoother and will mask sudden jumps in density (counts) as you, effectively, average over many bins. Whether this approach is better for visualizing data depends on the sample you have and message you are trying to get across. It is always worth checking both (just like it is worth checking different number of bins in histogram) to see which way is the best for your specific case.
+Using a histogram gives you exact counts per each bin. However, the appearance may change quite dramatically if you would use fewer or more bins. An alternative way to represent the same information is via \href{https://ggplot2.tidyverse.org/reference/geom_density.html}{smoothed density estimates}. They use a sliding window and compute an estimate at each point but also include points \emph{around} it and weight them according to a kernel (e.g., a Gaussian one by default). This makes the plot look smoother and will mask sudden jumps in density (counts) as you, effectively, average over many bins. Whether this approach is better for visualizing data depends on the sample you have and message you are trying to get across. It is always worth checking both (just like it is worth checking different number of bins in histogram) to see which way is the best for your specific case.
 
 Do exercise 12.
 
@@ -2772,7 +2772,7 @@ Hmm, shouldn't we have more carnivores, what is going on? Opacity is the answer.
 \hypertarget{mapping-for-all-visuals-versus-just-one-visual}{%
 \section{Mapping for all visuals versus just one visual}\label{mapping-for-all-visuals-versus-just-one-visual}}
 
-In the previous exercise, you assigned a constant value to \texttt{alpha} (transparency) argument. You could do this in \emph{two} places, inside of either \texttt{ggplot()} or \texttt{geom\_histogram()} call. In the former case, you would have set \texttt{alpha} level for \emph{all} geometric primitives on the plot, whereas in the latter you do it only for the histogram. To better see the difference, reuse your code for plotting city cycle efficiency versus engine size (should be exercise \#6) and set \texttt{alpha} either for all visuals (in \texttt{ggplot2}) or in some visuals (e.g.~only for points) to see the difference.
+In the previous exercise, you assigned a constant value to \texttt{alpha} (transparency) argument. You could do this in \emph{two} places, inside of either \texttt{ggplot()} or \texttt{geom\_histogram()} call. In the former case, you would have set \texttt{alpha} level for \emph{all} geometric primitives on the plot, whereas in the latter you do it only for the histogram. To better see the difference, reuse your code for plotting city cycle efficiency versus engine size (should be exercise \#6) and set \texttt{alpha} either for all visuals (in \texttt{ggplot()}) or in some visuals (e.g.~only for points) to see the difference.
 
 Do exercise 16.
 
@@ -2808,7 +2808,7 @@ What you explored is just a tip of the iceberg. There are many more geometric pr
 \hypertarget{further-reading}{%
 \section{Further reading}\label{further-reading}}
 
-If plotting data is part of your daily routine, I recommend reading \href{https://ggplot2-book.org/}{ggplot2 book}. It gives you an in-depth view of the package and goes through many possibilities that it offers. You may need all of them but I find useful to know that they exists (who knows, I might need them one day). Another book worth reading is \href{https://kieranhealy.org/publications/dataviz/}{Data Visualization: A Practical Introduction.} by Kieran Healy.
+If plotting data is part of your daily routine, I recommend reading \href{https://ggplot2-book.org/}{ggplot2 book}. It gives you an in-depth view of the package and goes through many possibilities that it offers. You may not need all of them but I find useful to know that they exists (who knows, I might need them one day). Another book worth reading is \href{https://kieranhealy.org/publications/dataviz/}{Data Visualization: A Practical Introduction.} by Kieran Healy.
 
 \hypertarget{extending-ggplot2}{%
 \section{Extending ggplot2}\label{extending-ggplot2}}
@@ -4083,21 +4083,21 @@ D & 22\\
 \hline
 ID & Report\\
 \hline
-A & 4.577031\\
+A & 5.655052\\
 \hline
-A & 6.427745\\
+A & 2.273906\\
 \hline
-B & 5.267120\\
+B & 6.984352\\
 \hline
-B & 3.816742\\
+B & 3.487402\\
 \hline
-C & 3.152527\\
+C & 1.856549\\
 \hline
-C & 5.650791\\
+C & 2.729481\\
 \hline
-D & 3.521926\\
+D & 2.008681\\
 \hline
-D & 3.388860\\
+D & 4.195215\\
 \hline
 \end{tabular}
 \end{table}
@@ -4119,21 +4119,21 @@ To join two tables, you require ``key'' columns: columns that contain values tha
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 4.577031\\
+A & 20 & 5.655052\\
 \hline
-A & 20 & 6.427745\\
+A & 20 & 2.273906\\
 \hline
-B & 19 & 5.267120\\
+B & 19 & 6.984352\\
 \hline
-B & 19 & 3.816742\\
+B & 19 & 3.487402\\
 \hline
-C & 30 & 3.152527\\
+C & 30 & 1.856549\\
 \hline
-C & 30 & 5.650791\\
+C & 30 & 2.729481\\
 \hline
-D & 22 & 3.521926\\
+D & 22 & 2.008681\\
 \hline
-D & 22 & 3.388860\\
+D & 22 & 4.195215\\
 \hline
 \end{tabular}
 \centering
@@ -4141,21 +4141,21 @@ D & 22 & 3.388860\\
 \hline
 ID & Report & Age\\
 \hline
-A & 4.577031 & 20\\
+A & 5.655052 & 20\\
 \hline
-A & 6.427745 & 20\\
+A & 2.273906 & 20\\
 \hline
-B & 5.267120 & 19\\
+B & 6.984352 & 19\\
 \hline
-B & 3.816742 & 19\\
+B & 3.487402 & 19\\
 \hline
-C & 3.152527 & 30\\
+C & 1.856549 & 30\\
 \hline
-C & 5.650791 & 30\\
+C & 2.729481 & 30\\
 \hline
-D & 3.521926 & 22\\
+D & 2.008681 & 22\\
 \hline
-D & 3.388860 & 22\\
+D & 4.195215 & 22\\
 \hline
 \end{tabular}
 \end{table}
@@ -4207,21 +4207,21 @@ D & 22\\
 \hline
 ID & Report\\
 \hline
-A & 3.314145\\
+A & 4.436221\\
 \hline
-A & 1.887727\\
+A & 2.376053\\
 \hline
-B & 2.510888\\
+B & 2.725688\\
 \hline
-B & 1.834510\\
+B & 6.317094\\
 \hline
-C & 5.392972\\
+C & 6.304974\\
 \hline
-C & 6.448728\\
+C & 3.475411\\
 \hline
-E & 2.164366\\
+E & 1.183719\\
 \hline
-E & 1.604730\\
+E & 3.380089\\
 \hline
 \end{tabular}
 \end{table}
@@ -4243,17 +4243,17 @@ E & 1.604730\\
 \hline
 ID & Report & Age\\
 \hline
-A & 3.314145 & 20\\
+A & 4.436221 & 20\\
 \hline
-A & 1.887727 & 20\\
+A & 2.376053 & 20\\
 \hline
-B & 2.510888 & 19\\
+B & 2.725688 & 19\\
 \hline
-B & 1.834510 & 19\\
+B & 6.317094 & 19\\
 \hline
-C & 5.392972 & 30\\
+C & 6.304974 & 30\\
 \hline
-C & 6.448728 & 30\\
+C & 3.475411 & 30\\
 \hline
 \end{tabular}
 \end{table}
@@ -4275,23 +4275,23 @@ In contrast, \textbf{full join} is the most liberal as it includes all rows from
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 3.314145\\
+A & 20 & 4.436221\\
 \hline
-A & 20 & 1.887727\\
+A & 20 & 2.376053\\
 \hline
-B & 19 & 2.510888\\
+B & 19 & 2.725688\\
 \hline
-B & 19 & 1.834510\\
+B & 19 & 6.317094\\
 \hline
-C & 30 & 5.392972\\
+C & 30 & 6.304974\\
 \hline
-C & 30 & 6.448728\\
+C & 30 & 3.475411\\
 \hline
 D & 22 & NA\\
 \hline
-E & NA & 2.164366\\
+E & NA & 1.183719\\
 \hline
-E & NA & 1.604730\\
+E & NA & 3.380089\\
 \hline
 \end{tabular}
 \end{table}
@@ -4313,17 +4313,17 @@ E & NA & 1.604730\\
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 3.314145\\
+A & 20 & 4.436221\\
 \hline
-A & 20 & 1.887727\\
+A & 20 & 2.376053\\
 \hline
-B & 19 & 2.510888\\
+B & 19 & 2.725688\\
 \hline
-B & 19 & 1.834510\\
+B & 19 & 6.317094\\
 \hline
-C & 30 & 5.392972\\
+C & 30 & 6.304974\\
 \hline
-C & 30 & 6.448728\\
+C & 30 & 3.475411\\
 \hline
 D & 22 & NA\\
 \hline
@@ -4347,21 +4347,21 @@ D & 22 & NA\\
 \hline
 ID & Age & Report\\
 \hline
-A & 20 & 3.314145\\
+A & 20 & 4.436221\\
 \hline
-A & 20 & 1.887727\\
+A & 20 & 2.376053\\
 \hline
-B & 19 & 2.510888\\
+B & 19 & 2.725688\\
 \hline
-B & 19 & 1.834510\\
+B & 19 & 6.317094\\
 \hline
-C & 30 & 5.392972\\
+C & 30 & 6.304974\\
 \hline
-C & 30 & 6.448728\\
+C & 30 & 3.475411\\
 \hline
-E & NA & 2.164366\\
+E & NA & 1.183719\\
 \hline
-E & NA & 1.604730\\
+E & NA & 3.380089\\
 \hline
 \end{tabular}
 \end{table}
@@ -4401,13 +4401,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 6.361287\\
+A & M & 6.766603\\
 \hline
-B & F & 2.127766\\
+B & F & 1.526137\\
 \hline
-A & F & 2.736973\\
+A & F & 1.664181\\
 \hline
-B & M & 1.288939\\
+B & M & 2.192749\\
 \hline
 \end{tabular}
 \end{table}
@@ -4427,13 +4427,13 @@ B & M & 1.288939\\
 \hline
 ID & Gender & Age & Report\\
 \hline
-A & M & 20 & 6.361287\\
+A & M & 20 & 6.766603\\
 \hline
-B & F & 19 & 2.127766\\
+B & F & 19 & 1.526137\\
 \hline
-A & F & 30 & 2.736973\\
+A & F & 30 & 1.664181\\
 \hline
-B & M & 22 & 1.288939\\
+B & M & 22 & 2.192749\\
 \hline
 \end{tabular}
 \end{table}
@@ -4474,13 +4474,13 @@ B & M & 22\\
 \hline
 ID & Gender & Report\\
 \hline
-A & M & 6.958555\\
+A & M & 4.209153\\
 \hline
-B & F & 1.583676\\
+B & F & 5.688059\\
 \hline
-A & F & 3.782942\\
+A & F & 5.632764\\
 \hline
-B & M & 4.311466\\
+B & M & 3.711756\\
 \hline
 \end{tabular}
 \end{table}
@@ -4500,13 +4500,13 @@ B & M & 4.311466\\
 \hline
 VPCode & Sex & Age & Report\\
 \hline
-A & F & 30 & 3.782942\\
+A & F & 30 & 5.632764\\
 \hline
-A & M & 20 & 6.958555\\
+A & M & 20 & 4.209153\\
 \hline
-B & F & 19 & 1.583676\\
+B & F & 19 & 5.688059\\
 \hline
-B & M & 22 & 4.311466\\
+B & M & 22 & 3.711756\\
 \hline
 \end{tabular}
 \end{table}
@@ -4894,29 +4894,29 @@ Let us take a look at the importance of \texttt{id\_cols}. Imagine that we have 
 \hline
 Participant & Face & Scale & Response & RT\\
 \hline
-1 & M-1 & Symmetry & 6 & 1.26\\
+1 & M-1 & Symmetry & 6 & 1.21\\
 \hline
-1 & M-1 & Attractiveness & 4 & 0.45\\
+1 & M-1 & Attractiveness & 4 & 1.63\\
 \hline
-1 & M-1 & Trustworthiness & 3 & 0.69\\
+1 & M-1 & Trustworthiness & 3 & 1.03\\
 \hline
-1 & M-2 & Symmetry & 4 & 1.29\\
+1 & M-2 & Symmetry & 4 & 1.20\\
 \hline
-1 & M-2 & Attractiveness & 7 & 2.97\\
+1 & M-2 & Attractiveness & 7 & 1.30\\
 \hline
-1 & M-2 & Trustworthiness & 6 & 1.38\\
+1 & M-2 & Trustworthiness & 6 & 1.96\\
 \hline
-2 & M-1 & Symmetry & 5 & 1.02\\
+2 & M-1 & Symmetry & 5 & 0.71\\
 \hline
-2 & M-1 & Attractiveness & 2 & 1.17\\
+2 & M-1 & Attractiveness & 2 & 1.51\\
 \hline
-2 & M-1 & Trustworthiness & 1 & 1.08\\
+2 & M-1 & Trustworthiness & 1 & 1.25\\
 \hline
-2 & M-2 & Symmetry & 3 & 1.49\\
+2 & M-2 & Symmetry & 3 & 2.27\\
 \hline
-2 & M-2 & Attractiveness & 7 & 0.62\\
+2 & M-2 & Attractiveness & 7 & 1.95\\
 \hline
-2 & M-2 & Trustworthiness & 2 & 0.74\\
+2 & M-2 & Trustworthiness & 2 & 1.26\\
 \hline
 \end{tabular}
 
@@ -4933,29 +4933,29 @@ For \href{https://tidyr.tidyverse.org/reference/pivot_wider.html}{pivot\_wider},
 \hline
 Participant & Face & RT & Symmetry & Attractiveness & Trustworthiness\\
 \hline
-1 & M-1 & 1.26 & 6 & NA & NA\\
+1 & M-1 & 1.21 & 6 & NA & NA\\
 \hline
-1 & M-1 & 0.45 & NA & 4 & NA\\
+1 & M-1 & 1.63 & NA & 4 & NA\\
 \hline
-1 & M-1 & 0.69 & NA & NA & 3\\
+1 & M-1 & 1.03 & NA & NA & 3\\
 \hline
-1 & M-2 & 1.29 & 4 & NA & NA\\
+1 & M-2 & 1.20 & 4 & NA & NA\\
 \hline
-1 & M-2 & 2.97 & NA & 7 & NA\\
+1 & M-2 & 1.30 & NA & 7 & NA\\
 \hline
-1 & M-2 & 1.38 & NA & NA & 6\\
+1 & M-2 & 1.96 & NA & NA & 6\\
 \hline
-2 & M-1 & 1.02 & 5 & NA & NA\\
+2 & M-1 & 0.71 & 5 & NA & NA\\
 \hline
-2 & M-1 & 1.17 & NA & 2 & NA\\
+2 & M-1 & 1.51 & NA & 2 & NA\\
 \hline
-2 & M-1 & 1.08 & NA & NA & 1\\
+2 & M-1 & 1.25 & NA & NA & 1\\
 \hline
-2 & M-2 & 1.49 & 3 & NA & NA\\
+2 & M-2 & 2.27 & 3 & NA & NA\\
 \hline
-2 & M-2 & 0.62 & NA & 7 & NA\\
+2 & M-2 & 1.95 & NA & 7 & NA\\
 \hline
-2 & M-2 & 0.74 & NA & NA & 2\\
+2 & M-2 & 1.26 & NA & NA & 2\\
 \hline
 \end{tabular}
 
