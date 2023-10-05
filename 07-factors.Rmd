@@ -4,24 +4,24 @@
 library(tidyverse)
 ```
 
-Let us start with a "warm up" exercise that will require combining various things that you already learned. Download [persistence.csv](data/persistence.csv) file (remember, Chrome/Edge browsers may change the extension to _.xls_, just rename it back to _.csv_) and put it into _data_ subfolder in your seminar project folder. This is data from a Master thesis project by Kristina Burkel, published as an article in [Attention, Perception, & Psychophysics](http://link.springer.com/10.3758/s13414-019-01954-7). The work investigated how change in object's shape affected perceptual stability during brief interruptions (50 ms blank intervals). The research question was whether the results will match those for one other two history effects, which work at longer time scales. Such match would indicate that both history effects are likely to be produced by the same or shared neuronal representations of 3D rotation. Grab the [exercise notebook](notebooks/Seminar 07 - factors.Rmd) before we start.
+Let us start with a "warm up" exercise that will require combining various things that you already learned. Download [persistence.csv](data/persistence.csv) file (you can use the URL directly, but that will cause R to download it every time you call the function, so let's not overstress the server) and put it into _data_ subfolder in your seminar project folder. This is data from a Master thesis project by my student Kristina Burkel, published as an article in [Attention, Perception, & Psychophysics](http://link.springer.com/10.3758/s13414-019-01954-7). The work investigated how a change in object's shape affected perceptual stability during brief interruptions (50 ms blank intervals). The research question was whether the results will match those for one other two history effects, which work at longer time scales. Such match would indicate that both history effects are likely to be produced by the same or shared neuronal representations of 3D rotation. Grab the [exercise notebook](notebooks/Seminar 07 - factors.qmd) before we start.
 
 ## How to write code
 From now on, you will need to implement progressively longer analysis sequences. Unfortunately, the longer and the more complex the analysis is, the easier it is to make a mistake that will ruin everything after that stage. And you will make mistakes, simply because no one is perfect and everyone makes them. I make them all the time. Professional programmers make them. So the skill of programming is not about writing the perfect code on your first attempt, it is writing your code in an iterative manner, so that any mistake you make (and, again, you will make them!) will be spotted and fixed immediately, before you continue adding more code. It should be like walking blind through uncertain terrain: One step a time, no running, no jumping, as you have no idea what awaits you.
 
-What does this mean in practical terms? In a typical analysis (such as in the exercise below), you will need to do many things: read data, select columns, filter it, compute new variables, group data and summarize it, plot it, etc. You might be tempted to program the whole thing in one go but it is a terrible idea. Again, if your step #2 does not do what you think it should, your later stages will work with the wrong data and tracing it back to that step #2 may not be trivial (it almost never is). Instead, implement one step at a time and check that the results look as they should. E.g., in the exercise below, read the table. Check, does it look good, does it even have the data? Once you are sure that your reading bit works, proceed to columns selection. Run this two-step code and then check that it works and the table looks the way it should. It does (it has only the relevant columns)? Good, proceed to the next step. 
+What does this mean in practical terms? In a typical analysis (such as in the exercise below), you will need to do many things: read data, select columns, filter it, compute new variables, group data and summarize it, plot it, etc. You might be tempted to program the whole thing in one go but it is a terrible idea. If your step #2 does not do what you think it should, your later stages will work with the wrong data and tracing it back to that step #2 may not be trivial (it almost never is). Instead, implement one step at a time and check that the results look as they should. E.g., in the exercise below, read the table. Check, does it look good, does it even have the data? Once you are sure that your reading bit works, proceed to columns selection. Run this two-step code and then check that it works and the table looks the way it should. It does (it has only the relevant columns)? Good, proceed to the next step. 
 
 **Never** skip these checks! Always look at the results of each additional step, do not just _hope_ that they will be as they should. They might, they might not. In the latter case, if you are lucky, you will see that and are in for a long debugging session. But you may not even notice that computation is subtly broken and use its results to draw [erroneous conclusions](https://www.powerusersoftwares.com/post/2016/08/11/the-excel-formula-error-that-initiated-austerity-policies-after-the-crisis). It may feel overly slow to keep checking yourself continuously but it is a _faster_ way to program in a long term. Moreover, if you do it once step at a time, you actually _know_, not hope, that it works. 
 
-I've spent three paragraphs on it (and now adding even the forth one!), because, in my opinion, this approach is the main difference between novice and experienced programmers (or, one could go even further and say between good and bad programmers). And I see this mistake of writing everything in one go repeated again and again irrespective of the tool people use (you can make a really fine mess using SPSS!). So, pace yourself and let's start programming in earnest!
+I've spent three paragraphs on it (and now adding even the forth one!), because, in my opinion, this approach is the main difference between novice and experienced programmers (or, one could go even further and say between good and bad programmers). And I see this mistake of writing everything in one go repeated again and again irrespective of the tool people use (you can make a really fine mess using SPSS!). I makes a mess every time a deviate from this approach! So, pace yourself and let's start programming in earnest!
 
 ## Implementing a typical analysis
-In the first exercise, I want you to implement the actual analysis performed in the paper. Good news is that by now you know enough to program it!
+In the first exercise, I want you to implement the actual analysis performed in the paper. Good news is that by now you know enough to program it! Note that steps 1-4 (everything but plotting) should be implemented as a _single pipeline_. Start with the first action and keep adding more verbs to it but you should end up with a single chained computation. This is actually more important than you might think: Putting read-and-preprocessing into a single pipe means no lurking temporary / intermediate variables that you may have changed in the mean time. A single pipe ensures that you are guaranteed to get the same table you run it. Splitting it into a few smaller chunks means you can (which means you will) run them out-of-order, run one computation an extra time, forget that you modified the data and you need to reload it, etc. I have been caught by this way more often than I would like to admit, so having a single definitive computation is always a good idea.
 
 1. [Load](#readr) the data in a table. Name of the variable is up to you. Typically, I use names like `data`, `reports`, `results`, etc. Don't forget to specify columns' type.
 2. Exclude `filename` column (it duplicates `Participant` and `Session` columns).
 3. Compute a new variable `SameResponse` which is `TRUE` when `Response1` and `Response2` match each other (in the experiment, that means that an object was rotating in the same direction before and after the intervention).
-4. For every combination of `Participant`, `Prime` and `Probe` compute proportion of same responses. You can do this in to ways. Recall that `as.integer(TRUE)` is `1` and `as.integer(FALSE)` is `0`. Thus, you can either compute proportion as [mean](https://stat.ethz.ch/R-manual/R-patched/library/base/html/mean.html) or compute the  [sum](https://stat.ethz.ch/R-manual/R-patched/library/base/html/sum.html) of same responses and divide it by total number of trials. Use function [n()](https://dplyr.tidyverse.org/reference/n.html) for the latter, it returns the total number of rows in the table or the group. Try doing it both ways.
+4. For every combination of `Participant`, `Prime` and `Probe` compute proportion of same responses. You can do this in two ways. Recall that `as.integer(TRUE)` is `1` and `as.integer(FALSE)` is `0`. Thus, you can either compute proportion as [mean](https://stat.ethz.ch/R-manual/R-patched/library/base/html/mean.html) or compute the  [sum](https://stat.ethz.ch/R-manual/R-patched/library/base/html/sum.html) of same responses and divide it by total number of trials. Use function [n()](https://dplyr.tidyverse.org/reference/n.html) for the latter, it returns the total number of rows in the table or the group. Try doing it both ways.
 5. Plot the results with `Probe` variable on x-axis, proportion of same responses on y-axis, and use `Prime` to facet plots. Use box plots (or violin plots) to visualize the data. Try adding color, labels, etc. to make plots look nice.
 
 Your final plot should look something like this
@@ -41,11 +41,11 @@ results <- read_csv("data/persistence.csv",
                          RT1 = col_double(),
                          RT2 = col_double()))
 
-results %>%
-  select(-filename) %>%
-  mutate(SameResponse = Response1 == Response2)  %>%
-  group_by(Participant, Prime, Probe) %>%
-  summarise(Psame = mean(SameResponse), .groups="drop") %>%
+results |>
+  select(-filename) |>
+  mutate(SameResponse = Response1 == Response2)  |>
+  group_by(Participant, Prime, Probe) |>
+  summarise(Psame = mean(SameResponse), .groups="drop") |>
   
   ggplot(aes(x=Probe, y=Psame, color=Probe)) + 
   geom_boxplot() + 
@@ -61,10 +61,12 @@ When you examine the plot, you can see some sort of non-monotonic dependence wit
 ## Factors {#factors}
 Factors are categorical variables, thus variables that have a finite fixed and known set of possible values. They can be either _nominal_ (cannot be ordered) or _ordinal_ (have a specific order to them). An example of the former is the drive train (`drv`) variable in [mpg](https://ggplot2.tidyverse.org/reference/mpg.html) table. There is a finite set of possible values (`"f"` for front-wheel drive, `"r"` for rear wheel drive, and `"4"` for a four-wheel drive) but ordering them makes no sense. An example of an ordinal variable is a Likert scale that has a finite set of possible responses (for example, `"disagree"`, `"neither agree, nor disagree"`, `"agree"`) with a specific fixed order (participant's support for a statement is progressively stronger so that `"disagree"` < `"neither agree, nor disagree"` < `"agree"`).
 
-You can convert _any_ variable to a factor using [factor()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/factor.html) or `as.factor()` functions. The latter is a more limited version of the former, so it makes little sense to ever use it. Below, I will only use [factor()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/factor.html). When you convert a variable (a vector) to factor, R:
+You can convert _any_ variable to a factor using [factor()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/factor.html) or `as.factor()` functions. The latter is a more limited version of the former, so it makes little sense to ever use it. Below, I will only use [factor()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/factor.html).
+
+When you convert a variable (a vector) to factor, R:
 
 1. figures out all [unique](https://stat.ethz.ch/R-manual/R-devel/library/base/html/unique.html) values in this vector
-2. sorts them in an ascending order
+2. sorts them in an _ascending_ order
 3. assigns each value an integer index, a.k.a. "level"
 4. uses the actual value as a "label".
 
@@ -99,7 +101,7 @@ You can see _indexes_ that were assigned to each level by converting `letter_as_
 as.numeric(letters_as_factor)
 ```
 
-However, be careful when level labels are numbers. In the example below, you might think that `as.numeric(tens)` should give you `[20, 40, 30]`^[At least I tend to always think that.] but these are labels! If you need to convert labels to numbers, you have to do it in two steps `as.numeric(as.character(tens))`: `as.character()` turns factors to strings (using labels) and `as.numeric()` converts those labels to numbers (if that conversion can work).
+However, be careful when level labels are numbers. In the example below, you might think that `as.numeric(tens)` should give you `[20, 40, 30]`^[At least I tend to always think that.] but these are labels, not levels that go from $1$ to $3$! If you need to convert labels to numbers, you have to do it in two steps `as.numeric(as.character(tens))`: `as.character()` turns factors to strings (using labels) and `as.numeric()` converts those labels to numbers (if that conversion can work).
 ```{r}
 tens <- factor(c(20, 40, 30))
 print(tens)
@@ -110,17 +112,17 @@ print(as.numeric(as.character(tens)))
 For the next exercise, copy-paste the code from exercise #1 and alter it so the labels are `"sphere"` (for `"heavy poles sphere"`), `"quad band"` (for `"stripes-8"`), `"dual band"` (`"stripes-4"`), `"single band"` (for `"stripes-2"`) and levels are in that order. Your plot should look something like this.
 
 ```{r echo=FALSE, fig.align='center'}
-results %>%
-  select(-filename) %>%
-  mutate(SameResponse = Response1 == Response2)  %>%
+results |>
+  select(-filename) |>
+  mutate(SameResponse = Response1 == Response2)  |>
   mutate(Prime = factor(Prime, 
                         levels= c("heavy poles sphere", "stripes-8", "stripes-4", "stripes-2"),
                         labels = c("sphere", "quad band", "dual band", "single band")),
          Probe = factor(Probe, 
                         levels= c("heavy poles sphere", "stripes-8", "stripes-4", "stripes-2"),
-                        labels = c("sphere", "quad band", "dual band", "single band")),) %>%
-  group_by(Participant, Prime, Probe) %>%
-  summarise(Psame = mean(SameResponse), .groups="drop") %>%
+                        labels = c("sphere", "quad band", "dual band", "single band")),) |>
+  group_by(Participant, Prime, Probe) |>
+  summarise(Psame = mean(SameResponse), .groups="drop") |>
   
   ggplot(aes(x=Probe, y=Psame, color=Probe)) + 
   geom_boxplot() + 
@@ -132,7 +134,7 @@ Do exercise 2.
 :::
 
 ## Forcats {#forcats}
-Tidyverse has a package [forcats](https://forcats.tidyverse.org/)^[The package's name is anagram of _factors_.] that makes working with factors easier. For example, it allows to reorder levels either [by hand](https://forcats.tidyverse.org/reference/fct_relevel.html) or automatically based on the [order of appearance](https://forcats.tidyverse.org/reference/fct_inorder.html), [frequency](https://forcats.tidyverse.org/reference/fct_inorder.html), [value of other variable](https://forcats.tidyverse.org/reference/fct_reorder.html), etc. It also gives you flexible tools to changes labels either [by hand](https://forcats.tidyverse.org/reference/fct_recode.html), by [lumping](https://forcats.tidyverse.org/reference/fct_lump.html)  some levels together, by [anonymising them](https://forcats.tidyverse.org/reference/fct_anon.html), etc. In my work, I mostly use reordering ([fct_relevel()](https://forcats.tidyverse.org/reference/fct_relevel.html)) and renaming ([fct_recode()](https://forcats.tidyverse.org/reference/fct_recode.html)) of factors by hand. You will need to use these two functions in exercise #3. However, if you find yourself working with factors, it is a good idea to check other [forcats](https://forcats.tidyverse.org/) functions to see whether they can make your life easier.
+Tidyverse has a package [forcats](https://forcats.tidyverse.org/)^[The package's name is anagram of _factors_.] that makes working with factors easier. For example, it allows to reorder levels either [by hand](https://forcats.tidyverse.org/reference/fct_relevel.html) or automatically based on the [order of appearance](https://forcats.tidyverse.org/reference/fct_inorder.html), [frequency](https://forcats.tidyverse.org/reference/fct_inorder.html), [value of other variable](https://forcats.tidyverse.org/reference/fct_reorder.html), etc. It also gives you flexible tools to changes labels either [by hand](https://forcats.tidyverse.org/reference/fct_recode.html), by [lumping](https://forcats.tidyverse.org/reference/fct_lump.html) some levels together, by [anonymising them](https://forcats.tidyverse.org/reference/fct_anon.html), [dropping](https://forcats.tidyverse.org/reference/fct_drop.html) unused levels, etc. In my work, I mostly use reordering ([fct_relevel()](https://forcats.tidyverse.org/reference/fct_relevel.html)) and renaming ([fct_recode()](https://forcats.tidyverse.org/reference/fct_recode.html)) of factors by hand. You will need to use these two functions in exercise #3. However, if you find yourself working with factors, it is a good idea to check other [forcats](https://forcats.tidyverse.org/) functions to see whether they can make your life easier.
 
 To reorder factor by hand, you simply state the desired order of factors, similar to they way you specify this via `levels=` parameters in `factor()` function. However, in [fct_relevel()](https://forcats.tidyverse.org/reference/fct_relevel.html) you can move only _some_ factors and others are "pushed to the back".
 ```{r}
@@ -181,9 +183,9 @@ Let us keep practicing and extend our analysis to compute and plots averages for
 
 ```{r eval=FALSE}
 tibble(ID = c("A", "A", "B", "B"),
-       Response = c(1, 2, 4, 6)) %>%
+       Response = c(1, 2, 4, 6)) |>
   
-  group_by(ID) %>%
+  group_by(ID) |>
   summarise(Response = mean(Response),
             Range = max(Response) - min(Response))
 ```
@@ -193,19 +195,19 @@ I routinely assume that they should be `1` for `"A"` (because `2-1`) and `2` for
 Getting back to the exercise, compute average performance per `Prime`×`Probe`. Store the result of the computation in a new variable (I've called it `persistence_avg`) and check that results makes sense, e.g. you have just three columns `Prime`, `Probe`, and `Pavg` (or however you decided to name the column). They should look like this:
 ```{r echo=FALSE, fig.align='center'}
 persistence_avg <-
-  results %>%
-  select(-filename) %>%
-  mutate(SameResponse = Response1 == Response2)  %>%
+  results |>
+  select(-filename) |>
+  mutate(SameResponse = Response1 == Response2)  |>
   mutate(Prime = factor(Prime,
                         levels= c("heavy poles sphere", "stripes-8", "stripes-4", "stripes-2"),
                         labels = c("sphere", "quad band", "dual band", "single band")),
          Probe = factor(Probe,
                         levels= c("heavy poles sphere", "stripes-8", "stripes-4", "stripes-2"),
-                        labels = c("sphere", "quad band", "dual band", "single band")),) %>%
-  group_by(Participant, Prime, Probe) %>%
-  summarise(Psame = mean(SameResponse), .groups="drop") %>%
+                        labels = c("sphere", "quad band", "dual band", "single band")),) |>
+  group_by(Participant, Prime, Probe) |>
+  summarise(Psame = mean(SameResponse), .groups="drop") |>
 
-  group_by(Prime, Probe) %>%
+  group_by(Prime, Probe) |>
   summarise(Pavg = mean(Psame),
             .groups="drop")
 
@@ -217,21 +219,21 @@ Do exercise 4.
 
 Then, plot the results. Use [geom_point()](https://ggplot2.tidyverse.org/reference/geom_point.html) plus [geom_line()](https://ggplot2.tidyverse.org/reference/geom_path.html) to plot the mean response The plot should like like this (hint, drop color mapping and map `Prime` to `group` property). 
 ```{r echo=FALSE, fig.align='center'}
-results %>%
-  select(-filename) %>%
-  mutate(SameResponse = Response1 == Response2)  %>%
+results |>
+  select(-filename) |>
+  mutate(SameResponse = Response1 == Response2)  |>
   mutate(Prime = factor(Prime, 
                         levels= c("heavy poles sphere", "stripes-8", "stripes-4", "stripes-2"),
                         labels = c("sphere", "quad band", "dual band", "single band")),
          Probe = factor(Probe, 
                         levels= c("heavy poles sphere", "stripes-8", "stripes-4", "stripes-2"),
-                        labels = c("sphere", "quad band", "dual band", "single band")),) %>%
-  group_by(Participant, Prime, Probe) %>%
-  summarise(Psame = mean(SameResponse), .groups="drop") %>%
+                        labels = c("sphere", "quad band", "dual band", "single band")),) |>
+  group_by(Participant, Prime, Probe) |>
+  summarise(Psame = mean(SameResponse), .groups="drop") |>
   
-  group_by(Prime, Probe) %>%
+  group_by(Prime, Probe) |>
   summarise(Pavg = mean(Psame),
-            .groups="drop") %>%
+            .groups="drop") |>
   
   ggplot(aes(x=Probe, y=Pavg, y, group=Prime)) + 
   geom_point() + 
@@ -245,23 +247,23 @@ Do exercise 5.
 
 Tweak code from exercise 4 to plot all lines on the same plot and use color property to distinguish between different primes.
 ```{r echo=FALSE, fig.align='center'}
-results %>%
-  select(-filename) %>%
-  mutate(SameResponse = Response1 == Response2)  %>%
+results |>
+  select(-filename) |>
+  mutate(SameResponse = Response1 == Response2)  |>
   mutate(Prime = factor(Prime, 
                         levels= c("heavy poles sphere", "stripes-8", "stripes-4", "stripes-2"),
                         labels = c("sphere", "quad band", "dual band", "single band")),
          Probe = factor(Probe, 
                         levels= c("heavy poles sphere", "stripes-8", "stripes-4", "stripes-2"),
-                        labels = c("sphere", "quad band", "dual band", "single band")),) %>%
-  group_by(Participant, Prime, Probe) %>%
-  summarise(Psame = mean(SameResponse), .groups="drop") %>%
+                        labels = c("sphere", "quad band", "dual band", "single band")),) |>
+  group_by(Participant, Prime, Probe) |>
+  summarise(Psame = mean(SameResponse), .groups="drop") |>
   
-  group_by(Prime, Probe) %>%
+  group_by(Prime, Probe) |>
   summarise(Pavg = mean(Psame), 
             CIlower = quantile(Psame, (1-0.89)/2),
             CIupper = quantile(Psame, 1-(1-0.89)/2),
-            .groups="drop") %>%
+            .groups="drop") |>
   
   ggplot(aes(x=Probe, y=Pavg, ymin=CIlower, ymax=CIupper, color=Prime, group=Prime)) + 
   geom_point() + 
@@ -275,7 +277,7 @@ Do exercise 6.
 ## Plotting our confidence in group averages via quantiles
 From the plots above, you get a sense that identities of the probe and prime (objects before and after the interruption) matter. Single band appears to be the poorest prime (its line is lowest) and probe (its dots are lower than the rest). Conversely, sphere is an excellent prime (line at the top) and probe (dots are very high). However, averages that we plotted is just a point estimate for most likely effect strength but they alone cannot tell us whether differences in objects' shape do matter. For this, you need to perform statistical analysis but to get at least a feeling of how confident can you be about these differences, you need to plot a measure of variability associated with that _statistics_. I.e., `[1, 5, 9]` and `[4, 5, 6]` both have identical mean of 5 but their standard deviation is 4.5 _times_ different (4.51 vs. 1). In the second case, the true mean is likely to be somewhere very near to 5, whereas we would have much less confidence in the former one.
 
-One way to characterize the mean is by computing its [standard error](https://en.wikipedia.org/wiki/Standard_error). However, it is best used when actual data is distributed normally or, at least, symmetrically around the mean, i.e., the distance from an observation to the mean could be the same irrespective of whether it is larger or smaller. This is a luxury you can expect only for variables that live on ±∞ range (support) or if the practically observed range of values is very far from either the floor or the ceiling. Adult height is an example of the latter: You cannot have height below 0 but an average adult height is far enough from that limit so its distribution is normal and symmetric enough. Unfortunately, a lot of data that we collect in psychology or social science research does not fit this description:  Binomial data with yes/no or correct/incorrect responses lives on 0..1 range, response times have long right tail because they cannot be negative or even particularly short (200 ms would be a realistic floor for key presses, ~120 ms for eye saccadic response under _very_ specific experimental conditions.)^[I did not mention Likert scale data because it is an ordered categorical type data, so you cannot use raw data to compute even the mean, let alone its error.]
+One way to characterize the mean is by computing its [standard error](https://en.wikipedia.org/wiki/Standard_error). However, it is best used when actual data is distributed normally or, at least, symmetrically around the mean, i.e., the distance from an observation to the mean could be the same irrespective of whether it is larger or smaller. This is a luxury you can expect only for variables that live on ±∞ range (support) or if the practically observed range of values is very far from either the floor or the ceiling. Adult height is an example of the latter: You cannot have height below 0 but an average adult height is far enough from that limit so its distribution is normal and symmetric enough. Unfortunately, a lot of data that we collect in psychology or social science research does not fit this description:  Binomial data with yes/no or correct/incorrect responses lives on 0..1 range, response times have long right tail because they cannot be negative or even particularly short (200 ms would be a realistic floor for key presses, ~120 ms for eye saccadic response under _very_ specific experimental conditions.) End I did not mention Likert scale data because it is an ordered categorical type data, so you cannot use raw data to compute even the mean, let alone its error, so I will show you how to visualize it later.
 
 In our case the outcome variable is a _proportion_ limited to 0 to 1 range. From practical point of view this means that our measure of variability is unlikely to be symmetric relative to the mean (with a unique exception of the mean exactly 0.5). I.e., think about a group average $P_{avg} = 0.8$, points _below_ that average can be further away from the mean (up to 0.8) than points _above_ it (0.2 away at most). This compression is called either a ceiling (when you get squashed by the upper range) or flooring (when you cannot go below certain value) effect. Thus, we need a measure that would take this asymmetry into account. Later on you will learn how to do it using bootstrapping but we will start with a simpler approach of just using [quantiles](https://en.wikipedia.org/wiki/Quantile) of a distribution  to understand its variability.
 
@@ -285,7 +287,7 @@ quantile_example <-
   tibble(x = 0:50,
          Values = case_when(x < quantile(x, 0.1) ~ "10% of values are SMALLER (to the left of this line)",
                             x > quantile(x, 0.9) ~ "10% of values are LARGER (to the right of this line)",
-                            TRUE ~ "80% of values are between the lines")) %>%
+                            TRUE ~ "80% of values are between the lines")) |>
   mutate(Values = fct_relevel(Values, "10% of values are LARGER (to the right of this line)", "80% of values are between the lines"))
 
 ggplot(data=quantile_example, aes(x=x, y=1, color=Values)) + 
@@ -303,23 +305,23 @@ quantile(x, 0.1)
 Modify code from from exercise #5 to compute two additional variables/columns for lower and upper limits of the _89%_^[Why 89%? Because it is a prime number! If you think that it sounds arbitrary, you are perfectly correct. But so is using 95% and for that one you do not even have the "prime number" excuse!] interval (think about what these limits are for 89% interval). Then, use [geom_errorbar()](https://ggplot2.tidyverse.org/reference/geom_linerange.html) to plot 89% interval (you will need to map the two variable you computed to `ymin` and `ymax` properties). The plot should look like this (hint, drop color mapping and map `Prime` to `group` property).
 
 ```{r echo=FALSE, fig.align='center'}
-results %>%
-  select(-filename) %>%
-  mutate(SameResponse = Response1 == Response2)  %>%
+results |>
+  select(-filename) |>
+  mutate(SameResponse = Response1 == Response2)  |>
   mutate(Prime = factor(Prime, 
                         levels= c("heavy poles sphere", "stripes-8", "stripes-4", "stripes-2"),
                         labels = c("sphere", "quad band", "dual band", "single band")),
          Probe = factor(Probe, 
                         levels= c("heavy poles sphere", "stripes-8", "stripes-4", "stripes-2"),
-                        labels = c("sphere", "quad band", "dual band", "single band")),) %>%
-  group_by(Participant, Prime, Probe) %>%
-  summarise(Psame = mean(SameResponse), .groups="drop") %>%
+                        labels = c("sphere", "quad band", "dual band", "single band")),) |>
+  group_by(Participant, Prime, Probe) |>
+  summarise(Psame = mean(SameResponse), .groups="drop") |>
   
-  group_by(Prime, Probe) %>%
+  group_by(Prime, Probe) |>
   summarise(Pavg = mean(Psame), 
             CIlower = quantile(Psame, (1-0.89)/2),
             CIupper = quantile(Psame, 1-(1-0.89)/2),
-            .groups="drop") %>%
+            .groups="drop") |>
   
   ggplot(aes(x=Probe, y=Pavg, ymin=CIlower, ymax=CIupper, color=Prime, group=Prime)) + 
   geom_point() + 
@@ -331,37 +333,91 @@ results %>%
 Do exercise 7.
 :::
 
-## Looking at similarity
-A different study, which used same four objects, showed that a similar looking history effect but for longer interruptions (1000 ms rather than 50 ms) was modulated by objects similarity. Let us check that hypothesis by computing a rough difference measure. It will assume that their difference is proportional to the absolute "distance" between them on x-axis in the above plot^[This measure assumes metric distance, which is a very strong assumption.]. E.g., distance between a sphere and a sphere is 0, but between sphere and quad-band or single-band and dual-band is 1. Difference between sphere and dual-band is 2, etc. You can compute it by converting _factor_ variables `Prime` and `Probe` to integers (this assumes that levels are in the correct order). Then, you can compute the [absolute difference](https://stat.ethz.ch/R-manual/R-devel/library/base/html/MathFun.html) between those indexes and store it as a new column (e.g. `Difference`). Next, group by `Difference` and `Participant` to compute average probability of the same response. Your plot should look like this (you will need to map `Difference` on `group` to get four box plots rather than one).
+## Dealing with Likert scales
+Likert scales are one of the most popular ways to measure responses in psychology. And, at least this is my opinion of the literature, they tend to be misanalyzed and misreported (IMHO). It is quite common to report an average and a standard error of a response across all participants, but [these numbers cannot be actually computed](https://alexander-pastukhov.github.io/notes-on-statistics/ordered-categorical-data-i.e.-likert-scales.html) (because these are ordered categorical values, not numbers) and even if you trick the computer in doing so (by pretending that levels are actual numbers) these numbers are ill-suited to characterize the response, as you will see below. The proper analysis of Likert scale data requires a use of the "Item Response Theory" and although it is very straightforward, it is outside of the scope of this book. Instead, we will look at how you can visualize the responses in the meaninful way, although the complete story will have to wait until we learn about bootstrapping.
 
-```{r echo=FALSE, fig.align='center'}
-results %>%
-  select(-filename) %>%
-  mutate(SameResponse = Response1 == Response2)  %>%
-  mutate(Prime = factor(Prime, 
-                        levels= c("heavy poles sphere", "stripes-8", "stripes-4", "stripes-2"),
-                        labels = c("sphere", "quad band", "dual band", "single band")),
-         Probe = factor(Probe, 
-                        levels= c("heavy poles sphere", "stripes-8", "stripes-4", "stripes-2"),
-                        labels = c("sphere", "quad band", "dual band", "single band")),) %>%
-  group_by(Participant, Prime, Probe) %>%
-  summarise(Psame = mean(SameResponse), .groups="drop") %>%
-  
-  ungroup() %>%
-  mutate(iPrime = as.integer(Prime),
-         iProbe = as.integer(Probe),
-         Difference = abs(iPrime - iProbe)) %>%
-  
-  group_by(Participant, Difference) %>%
-  summarise(Pavg = mean(Psame), 
-            CIlower = quantile(Psame, (1-0.89)/2),
-            CIupper = quantile(Psame, 1-(1-0.89)/2),
-            .groups="drop") %>%
-  
-  ggplot(aes(x=Difference, y=Pavg, ymin=CIlower, ymax=CIupper, group=Difference)) + 
-  geom_boxplot()
+Below, we will use data collected using Intrinsic Motivation Inventory (IMI), where participants needed to respond on a 7-point Likert scale indicating indicate how true a statement (such as "I enjoyed doing this activity very much" or "I was pretty skilled at this activity.") is for them:
+
+1. Not at all true
+2. Hardly true
+3. Slightly true
+4. Somewhat true
+5. Mostly true
+6. Almost completely true
+7. Very true
+
+Before we visualize the data, we need to read and preprocess it. Perform the following using a single pipe:
+
+* Read the file [likert-scale.csv](data/likert-scale.csv) specifying column types
+* Convert _Condition_ column to factor where 1 is "game" and 2 is "experiment"
+* Convert _Response_ column to factor using levels described above. 
+
+Here is how the first five rows of the table look for me:
+```{r echo=FALSE}
+im_levels <- c("Not at all true", 
+               "Hardly true",
+               "Slightly true",
+               "Somewhat true",
+               "Mostly true",
+               "Almost completely true",
+               "Very true")
+
+
+likert_df <- 
+  read_csv("data/likert-scale.csv",
+            col_types = cols(Participant = col_character(),
+                             Condition = col_double(),
+                             Response = col_double())) |>
+  mutate(Condition = factor(Condition, levels = 1:2, labels = c("game", "experiment")),
+         Response = factor(Response, levels = 1:length(im_levels), labels = im_levels))
+
+knitr::kable(head(likert_df, 5))
 ```
 
 ::: {.infobox .practice}
 Do exercise 8.
+:::
+
+
+Hopefully, using actual labels instead of original number makes it clear that computing mean and standard error is impossible (what is an average of "Slightly true" and "Hardly true"?). Instead, we need to count the number of response per response level, convert that to a proportion of responses, and plot them to see the distribution. You know almost everything you need to perform this. Here is the logic:
+
+* [group](#group_by) data per response level
+* [summarize](#summarize) the data by computing [number](https://dplyr.tidyverse.org/reference/context.html) of entries per group, don't forget to ungroup table (you can also [count](https://dplyr.tidyverse.org/reference/count.html?q=count()) them)
+* compute proportion per response by dividing number of responses for each level by the total number of responses.
+
+Once you computed the aggregates, plot them using [geom_point()](https://ggplot2.tidyverse.org/reference/geom_point.html) and [geom_line()](https://ggplot2.tidyverse.org/reference/geom_path.html). The only catch here, is that [geom_line()](https://ggplot2.tidyverse.org/reference/geom_path.html) cannot work with discrete x-axis, so when specifying the aesthetics for x-axis, you need to use `as.integer(Response)` instead of just `Response` and you will need to use [scale_x_continuous()](https://ggplot2.tidyverse.org/reference/scale_continuous.html) to specify breaks (1 to 7) and labels (levels of our Likert scale). The end results should look as follows:
+
+
+```{r echo = FALSE, fig.align='center', out.width="100%"}
+likert_df |>
+  count(Response) |>
+  mutate(Probability = n / sum(n)) |>
+  
+  ggplot(aes(x = as.integer(Response), y = Probability)) +
+  geom_point() +
+  geom_line() +
+  scale_x_continuous(name = "Probability of the response", breaks = 1:7, labels = im_levels)
+```
+::: {.infobox .practice}
+Do exercise 9.
+:::
+
+The study in question used to experimental conditions, so it would be informative to see whether this produce difference in responses. The logic of computation is (almost) the same: You need to group by both response level and experimental condition when counting responses but by condition alone when computing the proportion (why?). When visualizing, you only need to add color aesthetics to distringuish between the groups. The end results should be as follows:
+
+```{r echo = FALSE, fig.align='center', out.width="100%"}
+likert_df |>
+  count(Condition, Response) |>
+  group_by(Condition) |>
+  mutate(Probability = n / sum(n)) |>
+  ungroup() |>
+  
+  ggplot(aes(x = as.integer(Response), y = Probability, color = Condition)) +
+  geom_point() +
+  geom_line() +
+  scale_x_continuous(name = "Probability of the response", breaks = 1:7, labels = im_levels) +
+  theme(legend.position = "top")
+```
+
+::: {.infobox .practice}
+Do exercise 10.
 :::
