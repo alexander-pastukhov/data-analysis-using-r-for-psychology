@@ -1,0 +1,279 @@
+## (Generalized) Linear regression
+
+
+```{r echo = FALSE, warning=FALSE, message=FALSE}
+library(tidyverse)
+
+library(binom)
+library(boot)
+```
+
+As I have warned you at the very beginning, this seminar will not teach you statistics. The latter is a big topic in itself and, in my experience, if you know statistics and you know which specific tool you need, figuring out how to use it in R is fairly trivial (just find a package that implements the analysis and read the docs). Conversely, if your knowledge of statistics is approximate, knowing how to call functions will do you little good. The catch about statistical models is that they are very easy to run (even if you implement them by hand from scratch) but they are easy to misuse and very hard to interpret^[In the Bayesian Statistics we spend three seminars learning how to understand and interpret a simple linear multiple regression with just two predictors. And the conclusion is that even in this simple case, you are not guaranteed to fully understand it. And if you think that you can easily interpret an interaction term even for two continuous predictors...].
+
+To make things worse, computers and algorithms do not care. In absolute majority of cases, statistical models will happily accept any input you provide, even if it is completely unsuitable, and spit out numbers. Unfortunately, it is on you, not on the computer, to know what you are doing and whether results even make sense. The only solution to this problem: do not spare any effort to learn statistics. Having a solid understanding of a basic regression analysis will help you in figuring out which statistical tools are applicable and, even more importantly, which will definitely misguide you. This is why I will give an general overview with some examples simulations but I will not explain here when and why you should use a particular tool or how to interpret the outputs. Want to know more? Attend my _Bayesian Statistics_ seminar or read an excellent [Statistical Rethinking](https://www.routledge.com/Statistical-Rethinking-A-Bayesian-Course-with-Examples-in-R-and-STAN/McElreath/p/book/9780367139919) by Richard McElreath that the seminar is based on.
+
+## Linear regression: simulating data
+Our first statistical model will be linear regression. When you experiment with analysis, it is easier to notice if something goes wrong if you already know the answer. Which is why let us simulate the data with a linear relationship in it: overall height versus foot length. [A conference paper](https://doi.org/246.726 10.3434) I have found online suggests that foot length distribution is 246.726±10.3434 mm (mean and standard deviation, assume [normal distribution](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html)) and the formula for estimate height is $Height = 710 + 4 \cdot Foot + \epsilon$^[I ahve rounded off the numbers a little to make it easier to read.] where $\epsilon$ (residual error) is [normally distributed](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html) around the zero with a standard deviation of 10. Generate the data (I used 100 points) putting it into a table with two columns (I called them `FootLength` and `Height`) and plot them to match the figure below. You can [set seed](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html) to 826 to replicate me exactly.
+
+```{r echo = FALSE, fig.align='center', out.width="100%"}
+set.seed(826)
+N <- 100
+height_df <- tibble(FootLength = rnorm(N, 246.726, 10.3434),
+                    Height = 710 + 4 + FootLength + rnorm(N, 0, 10))
+
+ggplot(height_df, aes(x = FootLength, y = Height)) +
+  geom_point() +
+  ylab("Height [mm]") +
+  xlab("Foot length [mm]")
+```
+
+::: {.infobox .practice}
+Do exercise 1.
+:::
+
+## Linear regression: statistical model
+
+Let us use a linear regression model to fit the data and see how accurately we can estimate both intercept and slope terms. R has a built-in function for linear regression model --- [lm()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/lm.html) --- that uses a common [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) design to specify relationship. This formula approach is widely used in R due to its power and simplicity. The syntax for a full factorial linear model with two predictors is `y ~ x1 + x2 + x1:x2` where individual effects are added via `+` and `:` mean "interaction" between the variables. There are many additional bells and whistles, such as specifying both main effects and an interaction of the variables via asterisk (same formula can be compressed to `y ~ x1 * x2`) or removing an intercept term (setting it explicitly to zero" `y ~ 0 + x1 * x2`). You can see more detail in the [online documentation](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) but statistical packages frequently expand it to accommodate additional features such as random effects. However, pay extra attention to the new syntax as different packages may use different symbols to encode a certain feature or, vice versa, use the same symbol for different features. E.g., `|` typically means a random effect but I was once mightily confused by a package that used it to denote variance term instead.
+
+Read the documentation for [lm()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/lm.html) and [summary()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/summary.lm.html) functions. Fit the model and print out the full summary for it. Your output should look like this
+
+```{r echo = FALSE}
+height_fit <- lm(Height ~ FootLength, data = height_df)
+summary(height_fit)
+```
+
+As you can see, our estimate for the intercept term is fairly close 725±24 mm versus 710 mm we used in the formula. However, the foot length slope is small than it should be (0.96±0.09 versus 4) showing that for such noisy data 100 samples is not enough to reliable estimate it.
+
+::: {.infobox .practice}
+Do exercise 2.
+:::
+
+I think it is nice to present information about the model fit alongside the plot, so let us prepare summary about both intercept and slope terms in a format _estimate [lower-97%-CI-limit..upper-97%-CI-limit]_. You can extract estimates themselves via [coef()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/coef.html) function and and their confidence intervals via [confint()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/confint.html). In both cases, 
+names of the terms are specified either as names of the vector or [rownames](https://stat.ethz.ch/R-manual/R-devel/library/base/html/colnames.html) of matrix. Think how would you handle this. My approach is to convert matrix with confidence intervals to a [data frame](https://stat.ethz.ch/R-manual/R-devel/library/base/html/data.frame.html) (converting directly to [tibble](#tibble) removes row names that we need later), turn row names into a column via [rownames_to_column()](https://tibble.tidyverse.org/reference/rownames.html), convert to a [tibble](#tibble) so I can [rename](https://dplyr.tidyverse.org/reference/rename.html) ugly converted column names, add estimates as a [new column](https://tibble.tidyverse.org/reference/add_column.html) to the table, and [relocate](https://dplyr.tidyverse.org/reference/relocate.html) columns for a consistent look. Then, I can combine them into a new variable via [string formatting](#strings) (I prefer [glue](#glue)). You need one(!) pipeline for this.
+My summary table looks like this
+
+```{r echo = FALSE, fig.align='center', out.width="100%"}
+terms <-
+  confint(height_fit, level = 0.97) |>
+  data.frame() |>
+  rownames_to_column("Term") |>
+  tibble() |>
+  rename(LowerCI = 2,
+         UpperCI = 3) |>
+  add_column(Estimate = coef(height_fit)) |>
+  relocate(Term, Estimate) |>
+  mutate(Summary = glue("{Term}: {round(Estimate, 2)} [{round(LowerCI, 2)}..{round(UpperCI, 2)}]"))
+
+knitr::kable(terms)
+```
+
+::: {.infobox .practice}
+Do exercise 3.
+:::
+
+Statistical model is only as good as its predictions, so whenever you fit a statistical model to the data, you should compare its predictions to the data visually. [ggplot2](#ggplot2) provides an easy solution to this via [geom_smooth()](https://ggplot2.tidyverse.org/reference/geom_smooth.html) that you have met earlier. For didactic purposes, let us use a slightly longer way of generating predictions ourselves and plotting them alongside the data. R provides a simple interface to generating prediction for a fitted model via [predict()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/predict.lm.html) function: you pass a fitted model to it and it will generate prediction for every original data point. However, you can also generate data for data points not present in the data (so-called "counterfactuals") by passing a table to `newdata` parameter. We will use the latter option. Generate a new table with a single column `FootLength` (or, however you called it in the original data) with a sequence of number going from the lowest to the highest range of our values (from about 220 to 270 in my case) in some regular steps (I picked a step of 1 but think of whether choosing a different one would make a difference). Pass this new data as `newdata` to predict, store predictions in the `Height` column (now the structure of your table with predictions matches that with real data) and use it with [geom_line()](https://ggplot2.tidyverse.org/reference/geom_path.html). Here's how my plot looks like. 
+```{r echo = FALSE}
+predictions_df <-  tibble(FootLength = seq(220, 270, 1)) 
+predictions_df$Height <- predict(height_fit, newdata = predictions_df)
+
+ggplot(height_df, aes(x = FootLength, y = Height)) +
+  geom_line(data = predictions_df) +
+  geom_point() +
+  ylab("Height [mm]") +
+  xlab("Foot length [mm]") +
+  labs(subtitle = glue("{terms$Summary[1]}\n{terms$Summary[2]}"))
+```
+
+::: {.infobox .practice}
+Do exercise 4.
+:::
+
+We can see the trend, but when working with statistical models, it is important to understand uncertainty of its predictions. For this, we need to plot not just the prediction for each foot length but also the confidence interval for the prediction. First, we will do it an easy way as [predict()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/predict.lm.html) function has options for that as well via its `interval` parameter (we want `"confidence"`). Use it to generate 97% confidence interval for each foot length you generated and plot it as a [geom_ribbon()](https://ggplot2.tidyverse.org/reference/geom_ribbon.html).
+
+```{r echo = FALSE, fig.align='center', out.width="100%"}
+predictions_df <-  tibble(FootLength = seq(220, 270, 1))
+predictions_df <- bind_cols(predictions_df,
+                            predict(height_fit, newdata = predictions_df, interval = "confidence", level = 0.97)) |>
+  rename(Height = fit)
+
+ggplot(height_df, aes(x = FootLength, y = Height)) +
+  geom_ribbon(data = predictions_df, aes(ymin = lwr, ymax = upr), alpha = 0.35) + 
+  geom_line(data = predictions_df) +
+  geom_point() +
+  ylab("Height [mm]") +
+  xlab("Foot length [mm]") +
+  labs(subtitle = glue("{terms$Summary[1]}\n{terms$Summary[2]}"))
+```
+
+
+::: {.infobox .practice}
+Do exercise 5.
+:::
+
+## Linear regression: bootstrapping predictions
+Let us replicate these results but use bootstrap approach. One iteration consists of:
+
+1. Randomly [sample](https://dplyr.tidyverse.org/reference/slice.html) original data table _with replacement_.
+2. Fit a linear model to that data.
+3. Generate predictions for the interval, the same way we did above, so that you end up with a table of `FootLength` (going from 220 to 270) and (predicted) `Height`.
+
+Write the code and put it into a function (think about which parameters it would need). Test it by running it the function a few times. Values for which column should stay the same or change?
+
+::: {.infobox .practice}
+Do exercise 6.
+:::
+
+Once you have this function, things are easy. All you need is to follow the same algorithm as for computing and visualizing confidence intervals for the [Likert scale](#likert-confidence):
+
+1. Call function multiple times recording the predictions (think [map()](https://purrr.tidyverse.org/reference/map.html) and [list_rbind()](https://purrr.tidyverse.org/reference/list_c.html))
+2. Compute 97% confidence interval for each foot length via [quantiles](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html)
+3. Plot them as [geom_ribbon()](https://ggplot2.tidyverse.org/reference/geom_ribbon.html) as before.
+
+```{r echo = FALSE, fig.align='center', out.width="100%"}
+sample_predictions <- function(df) {
+  df <- sample_frac(df, replace = TRUE)
+  fit <-  lm(Height ~ FootLength, data = df)
+  predict_df <-  tibble(FootLength = seq(220, 270, 1)) 
+  predict_df$Height <- predict(fit, newdata = predict_df)
+  predict_df
+}
+
+prediction_samples <- purrr::map(1:1000, ~sample_predictions(height_df)) |> list_rbind()
+prediction_CI <-
+  prediction_samples |>
+  group_by(FootLength) |>
+  summarise(LowerCI = quantile(Height, (1 - 0.97) / 2),
+            UpperCI = quantile(Height, 1 - (1 - 0.97) / 2),
+            .groups = "drop")
+
+ggplot(height_df, aes(x = FootLength, y = Height)) +
+  geom_ribbon(data = prediction_CI, aes(ymin = LowerCI, ymax = UpperCI, y = UpperCI), alpha = 0.35) + 
+  geom_line(data = predictions_df) +
+  geom_point() +
+  ylab("Height [mm]") +
+  xlab("Foot length [mm]") +
+  labs(subtitle = glue("{terms$Summary[1]}\n{terms$Summary[2]}"))
+```
+::: {.infobox .practice}
+Do exercise 7.
+:::
+
+## Logistic regression: simulating data
+Let us practice more but this time we will using binomial data. Let us assume that we measure success in playing video games for people drank tea versus coffee (I have no idea if there is any effect at all, you can use liquids of your liking for this example). Let us assume that we have measure thirty participants in each group and average probability of success was 0.4 for tea and 0.7 for coffee^[Yes, I am a coffee person.] groups. You very much know the drill by now, so use [rbinom()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Binomial.html) (you want twenty 0/1 values, so figure out which `size` and which `n` you need) to generate data for each condition, put it into a single table with 60 rows ([bind_rows()](https://dplyr.tidyverse.org/reference/bind.html) might be useful) and two columns (`Condition` and `Success`). Your table should look similar to this (my seed is 12987)
+
+```{r echo = FALSE}
+set.seed(12987)
+game_df <-
+  bind_rows(tibble(Condition = "Tea",
+                   Success = rbinom(size = 1, n = 30, prob = 0.4)),
+            tibble(Condition = "Coffee",
+                   Success = rbinom(size = 1, n = 30, prob = 0.7))) 
+  
+knitr::kable(slice_head(game_df, n = 5))
+```
+
+::: {.infobox .practice}
+Do exercise 8.
+:::
+
+Now, let us visualize data. You need to compute average and 97% confidence interval for each condition. The average is easy (divide total number of successes for condition by total number of participants) but confidence interval is trickier. Luckily for us, package [binom](https://cran.r-project.org/web/packages/binom/index.html) has us covered. It implements multiple methods for computing it. I used `binom.exact()` (use `?binom.exact` in the console to read the manual, once you loaded the library). You plot should look like this (or similar, if you did not set seed). Note that our mean probability for `Tea` condition is higher than we designed it (sampling variation!) and confidence intervals are asymmetric. The latter is easier to see for the coffee condition (redo it with probability of success 0.9 to make it more apparent) and is common for data on limited interval.
+
+```{r echo = FALSE, fig.align='center', out.width="100%"}
+game_avg <-
+  game_df |>
+  group_by(Condition) |>
+  summarise(Nsuccess = sum(Success),
+            Ntotal = n(),
+            P = Nsuccess / Ntotal,
+            LowerCI = binom.exact(Nsuccess, Ntotal, conf.level = 0.97)$lower,
+            UpperCI = binom.exact(Nsuccess, Ntotal, conf.level = 0.97)$upper,
+            .groups = "drop")
+
+ggplot(game_avg, aes(x = Condition, y = P, ymin = LowerCI, ymax = UpperCI)) +
+  geom_errorbar() +
+  geom_point()
+```
+
+::: {.infobox .practice}
+Do exercise 9.
+:::
+
+## Logistic regression: fitting data
+
+Let us fit the data using generalized linear models --- [glm](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/glm.html) --- with `"binomial"` family. That latter bit and the name of the function are the only new bits, as formula works the same way as in [lm()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/lm.html). Print out the [summary](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/summary.glm.html) and it should look like this.
+```{r echo = FALSE}
+game_fit <- glm(Success ~ Condition, data = game_df, family = "binomial") 
+summary(game_fit)
+```
+::: {.infobox .practice}
+Do exercise 10.
+:::
+
+Note that this is _logistic regression_, so the estimates need are harder to interpret. Slope term for condition `Tea` is in the units of log-odds and we see that it is negative, meaning that model predict fewer successes in tea than in coffee group. Intercept is trickier as you need inverted logit function (for example, implemented as [inv.logit()](https://stat.ethz.ch/R-manual/R-devel/library/boot/html/inv.logit.html) in _boot_ package) to convert it to probabilities. Here, 0 corresponds to probability of 0.5, so 1 is somewhere above that. Personally, I find these units very confusing, so to make sense of it we need to use estimates (`coef()` functio will work here as well) to compute _scores_ for each condition and then tranlate them to probabilities via [inv.logit()](https://stat.ethz.ch/R-manual/R-devel/library/boot/html/inv.logit.html). Coffee is our "baseline" group (simple alphabetically), so $logit(Coffee) = Intercept$ and $logit(Tea) = Intercept + ConditionTea$. In statistics, link function is applied to the left side, but we apply its inverse to the right side. I just wanted to show you this notation, so you would recognize it the next time you see it. 
+
+Your code should generate a _table_ with two columns (`Condition` and `P` for Probability). It should look like this
+```{r echo = FALSE}
+tibble(Condition = c("Coffee", "Tea"),
+       P = c(inv.logit(coef(game_fit)[1]), inv.logit(coef(game_fit)[1] + coef(game_fit)[2])))
+```
+
+::: {.infobox .practice}
+Do exercise 11.
+:::
+
+
+## Logistic regression: bootstrapping uncertainty
+
+Let us bootstrap _predicted_ probability of success following the template we used already twice but with a slight twist. Write a function (first write the inside code, make sure it works, then turn it into a function) that samples our data, fits the model, generates and returns model with prediction. The only twist is that we will sample each condition separately. [sample_frac()](https://dplyr.tidyverse.org/reference/sample_n.html) but you will need to group data by condition before that. Also, pass iteration index (the one you are purrring over) as a parameter to the function and store in a separate column `Iteration`. This will allows us to identify individual samples, making it easier to compute the difference between the conditions later on.
+
+Repeat this computation 1000 times and you will end up with a table with two columns (`Condition` and `P`) and 2000 rows (1000 per condition). Instead of computing aggregate information, visualize distributions using [geom_violin()](https://ggplot2.tidyverse.org/reference/geom_violin.html). Here's how the plot should look like.
+
+```{r echo = FALSE, fig.align='center', out.width="100%"}
+sample_binomial <- function(df, iteration){
+  fit  <- 
+    df |>
+    group_by(Condition) |>
+    sample_frac(size = 1, replace = TRUE) |>
+    glm(Success ~ Condition, data = _, family = "binomial")
+  
+  tibble(Condition = c("Coffee", "Tea"),
+         P = c(inv.logit(coef(fit)[1]), inv.logit(coef(fit)[1] + coef(fit)[2])),
+         Iteration = iteration)
+}
+
+binomial_bootstrapped <- purrr::map(1:1000, ~sample_binomial(game_df, .)) |> list_rbind()
+
+ggplot(game_avg, aes(x = Condition, y = P)) +
+  geom_violin(data = binomial_bootstrapped, alpha = 0.5) +
+  geom_errorbar(aes( ymin = LowerCI, ymax = UpperCI)) +
+  geom_point()
+```
+
+::: {.infobox .practice}
+Do exercise 12.
+:::
+
+As a final step, let us compute average and 97% confidence interval for the _difference_ between the conditions. You have the samples but in a long format, so you need to make table [wide](#pivot-wider). The only catch is that pivot function will be confused by the absence of ID rows, so you need to create an extra "RowIndex" column first, putting in a unique row index going from 1 to the [number of rows](https://dplyr.tidyverse.org/reference/context.html). So you will end up with three columns: `RowIndex`, Coffee`, and `Tea`. Compute a new column with difference between tea and coffee, compute and nicely format the statistics putting into the figure caption. Hint: you can [pull](https://dplyr.tidyverse.org/reference/pull.html) the difference column out of the table to make things easier.
+
+```{r echo = FALSE, fig.align='center', out.width="100%"}
+
+difference <-
+  binomial_bootstrapped |>
+  pivot_wider(names_from = Condition, values_from = P) |>
+  mutate(Difference = Tea - Coffee) |>
+  pull(Difference)
+
+avg_difference <- round(mean(difference), 2)
+lower_difference <- round(quantile(difference, (1 - 0.97) / 2), 2)
+upper_difference <- round(quantile(difference, 1 - (1 - 0.97) / 2), 2)
+
+ggplot(game_avg, aes(x = Condition, y = P)) +
+  geom_violin(data = binomial_bootstrapped, alpha = 0.5) +
+  geom_errorbar(aes( ymin = LowerCI, ymax = UpperCI)) +
+  geom_point() +
+  labs(subtitle = glue("Tea - Coffee = {avg_difference} [{lower_difference}..{upper_difference}]"))
+```
+
+::: {.infobox .practice}
+Do exercise 13.
+:::
