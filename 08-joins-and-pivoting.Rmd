@@ -1,5 +1,5 @@
 # Tidyng your data: joins and pivots {#tyding}
-It is fun to work with tidy complete data. Unfortunately, more often than not you will need to preprocess and tidy it up before you can analyze it. In addition to [dplyr](https://dplyr.tidyverse.org/), Tidyverse has [tidyr](https://tidyr.tidyverse.org/) package that helps you with some of the problems. Grab the [exercise notebook](notebooks/Seminar 08 - tidyr.Rmd) and let's get started.
+It is fun to work with tidy complete data. Unfortunately, more often than not you will need to preprocess and tidy it up before you can analyze it. In addition to [dplyr](https://dplyr.tidyverse.org/), Tidyverse has [tidyr](https://tidyr.tidyverse.org/) package that helps you with some of the problems. Grab the [exercise notebook](notebooks/Seminar 08 - tidyr.qmd) and let's get started.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(flextable)
@@ -7,15 +7,15 @@ library(tidyverse)
 ```
 
 ## Joining tables {#joins}
-Sometimes, results of a study are stored in separate tables. For example, demographic information can be stored separately from responses, as the former is the same for all trials and conditions, so it makes little sense to duplicate it. For the actual analysis, you may  eed to add this information, [merging](https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html) or, in SQL/Tidyverse-speak, [joining](https://dplyr.tidyverse.org/reference/mutate-joins.html) two tables (I'll use term "join" from hereon).
+Sometimes, results of a study are stored in separate tables. For example, demographic information can be stored separately from responses, as the former is the same for all trials and conditions, so it makes little sense to duplicate it. For the actual analysis, you may  need to add this information, [merging](https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html) or, in SQL/Tidyverse-speak, [joining](https://dplyr.tidyverse.org/reference/mutate-joins.html) two tables (I'll use term "join" from hereon).
 
 Examples make joining operations much easier to understand, so let us create two tables.
 ```{r}
 demographics <- tibble(ID = c("A", "B", "C", "D"),
                        Age = c(20, 19, 30, 22))
 reports <- 
-  tibble(ID = c("A", "B", "C", "D", "A", "B", "C", "D")) %>%
-  mutate(Report = runif(length(ID), 1, 7)) %>%
+  tibble(ID = c("A", "B", "C", "D", "A", "B", "C", "D")) |>
+  mutate(Report = round(runif(length(ID), 1, 7)), 2) |>
   arrange(ID)
 ```
 
@@ -26,14 +26,14 @@ kableExtra::kable(list(demographics, reports), caption = "demographics (left) an
 To join two tables, you require "key" columns: columns that contain values that will be used to identify matching rows in the two tables. You can use multiple and differently named columns for that purpose but we will start with a simplest case: a single column with same name `"ID"`.  A [join](https://dplyr.tidyverse.org/reference/mutate-joins.html) function (`inner_join()` here, see below for details on different joins) takes a first row in `demographics` table that has `"A"` in `ID` column and will look for all rows in table `reports` that has `ID == "A"`. Then, it will do the same for all remaining rows for `demographics` table, one row at a time. It takes three parameters: table `x` (first table), table `y` (second table), and `by` - a vector with key column names argument^[Theoretically, you can skip it and _dplyr_ will do its best to find matching columns. However, this is a dangerous thing to leave out, as your intuition and _dlpyr's_ matching rules may lead to different results. I strongly recommend to always specify key columns.]. A call to [merge()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html) function is very similar and produces identical results. Note how column order has changed for [merge()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html), because I used a different order of tables, but the content itself is the same.
 
 ```{r}
-via_join <- inner_join(demographics, reports, by="ID")
-via_merge <- merge(reports, demographics, by="ID")
+via_join <- inner_join(demographics, reports, by = "ID")
+via_merge <- merge(reports, demographics, by = "ID")
 ```
 
 ```{r echo=FALSE}
-kableExtra::kable(list(via_join, via_merge), caption="Joining/merging tables with fully matching keys via join (left) and merge (right). Note how a different order of tables results in a different order of columns.")
+kableExtra::kable(list(via_join, via_merge), 
+                  caption = "Joining/merging tables with fully matching keys via join (left) and merge (right). Note how a different order of tables results in a different order of columns.")
 ```
-
 
 Things are easy when every key in the first table has its counterpart in the second one and vice versa. Things get tricky, if that is not the case. Which is why there are _four_ different ways to join tables (note that they will all produce identical results for fully matching set of keys, as in the example above):
 
@@ -45,8 +45,8 @@ Things are easy when every key in the first table has its counterpart in the sec
 To see each join in action, let us slightly modify the `reports` table to include `ID` "E" instead of "D". Now, the "D" is missing the second table but "E" is missing in the `demographics`:
 ```{r}
 reports <- 
-  tibble(ID = c("A", "B", "C", "E", "A", "B", "C", "E")) %>%
-  mutate(Report = runif(length(ID), 1, 7)) %>%
+  tibble(ID = c("A", "B", "C", "E", "A", "B", "C", "E")) |>
+  mutate(Report = runif(length(ID), 1, 7)) |>
   arrange(ID)
 ```
 
@@ -57,43 +57,47 @@ kableExtra::kable(list(demographics, reports),
 
 **Inner join** is most conservative and excludes any non-matching keys, note that rows with _both_ `ID == "D"` and `ID == "E"` are missing. This is the _default_ behavior for the [merge](https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html) function.
 ```{r}
-inner_tidy <- inner_join(reports, demographics, by="ID") 
-inner_base <- merge(reports, demographics, by="ID")
+inner_tidy <- inner_join(reports, demographics, by = "ID") 
+inner_base <- merge(reports, demographics, by = "ID")
 ```
 
 ```{r echo=FALSE}
-kableExtra::kable(inner_tidy, caption='Inner join. Only rows for matching keys are merged')
+kableExtra::kable(inner_tidy,
+                  caption = 'Inner join. Only rows for matching keys are merged')
 ```
 
 
-In contrast, **full join** is the most liberal as it includes all rows from both tables, filling in missing values with `NA` (e.g., see `Report` for `ID == "D"` and `Age` for `ID == "E"`). In base R [merge()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html) function, you turn an inner join into a full one using `all=TRUE`.
+In contrast, **full join** is the most liberal as it includes all rows from both tables, filling in missing values with `NA` (e.g., see `Report` for `ID == "D"` and `Age` for `ID == "E"`). In base R [merge()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html) function, you turn an inner join into a full one using `all = TRUE`.
 ```{r}
-full_tidy <- full_join(demographics, reports, by="ID") 
-full_base <- merge(demographics, reports, by="ID", all=TRUE)
+full_tidy <- full_join(demographics, reports, by = "ID") 
+full_base <- merge(demographics, reports, by = "ID", all = TRUE)
 ```
 
 ```{r echo=FALSE}
-kableExtra::kable(full_tidy, caption="Full join. All rows are merged, `NA` are used for missing values in rows from a complementary table")
+kableExtra::kable(full_tidy,
+                  caption = "Full join. All rows are merged, `NA` are used for missing values in rows from a complementary table")
 ```
 
-**Left join** uses only rows from the left (first) table, dropping extra rows from the second one. Note `NA` in `Report` column for `ID == "D"` and no rows for `ID == "E"`. To do a left join via [merge()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html), you need to specify `all.x=TRUE`.
+**Left join** uses only rows from the left (first) table, dropping extra rows from the second one. Note `NA` in `Report` column for `ID == "D"` and no rows for `ID == "E"`. To do a left join via [merge()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html), you need to specify `all.x = TRUE`.
 ```{r}
-left_tidy <- left_join(demographics, reports, by="ID")
-left_base <- merge(demographics, reports, by="ID", all.x=TRUE)
+left_tidy <- left_join(demographics, reports, by = "ID")
+left_base <- merge(demographics, reports, by = "ID", all.x = TRUE)
 ```
 
 ```{r echo=FALSE}
- kableExtra::kable(left_tidy, caption="Left join. All rows from demographics tables are used and missing matching rows are filled with `NA`")
+ kableExtra::kable(left_tidy,
+                   caption = "Left join. All rows from demographics tables are used and missing matching rows are filled with `NA`")
 ```
 
-**Right join** is a mirror twin of the left join, so now rows for `ID == "D"` are missing and there are missing values for `ID=="E"`. You include `all.y=TRUE` for a right join via [merge()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html).
+**Right join** is a mirror twin of the left join, so now rows for `ID == "D"` are missing and there are missing values for `ID == "E"`. You include `all.y = TRUE` for a right join via [merge()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html).
 ```{r}
-right_tidy <- right_join(demographics, reports, by="ID") 
-right_base <- merge(demographics, reports, by="ID", all.y=TRUE)
+right_tidy <- right_join(demographics, reports, by = "ID") 
+right_base <- merge(demographics, reports, by = "ID", all.y = TRUE)
 ```
 
 ```{r echo=FALSE}
- kableExtra::kable(right_tidy, caption="Right join. All rows from reports tables are used and missing matching rows are filled with `NA`")
+kableExtra::kable(right_tidy,
+                  caption = "Right join. All rows from reports tables are used and missing matching rows are filled with `NA`")
 ```
 
 As noted above, you can also use more than one key.
@@ -107,18 +111,18 @@ reports <- tibble(ID = c("A", "B", "A", "B"),
 ```
 
 ```{r echo=FALSE}
-kableExtra::kable(list(demographics, reports), caption = "Two identically named key columns: ID and Gender.")
+kableExtra::kable(list(demographics, reports),
+                  caption = "Two identically named key columns: ID and Gender.")
 ```
 
 ```{r}
-inner_multi_tidy <- inner_join(demographics, reports, by=c("ID", "Gender"))
-inner_multi_base <- merge(demographics, reports, by=c("ID", "Gender"))
+inner_multi_tidy <- inner_join(demographics, reports, by = c("ID", "Gender"))
+inner_multi_base <- merge(demographics, reports, by = c("ID", "Gender"))
 ```
 
 ```{r echo=FALSE}
 kableExtra::kable(inner_multi_tidy, caption = "Joining/merging two tables by ID and Gender.")
 ```
-
 
 Finally, key columns can be named _differently_ in two tables. In this case, you need to "match" them explicitly. For [dplyr](https://dplyr.tidyverse.org/reference/mutate-joins.html) joins, you use a named vector to match pairs of individual columns. For [merge()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html), you supply two vectors: one for columns in the first table (parameter `by.x`) and one columns in the the second one (parameter `by.y`). Here, you need to be careful and check that columns order matches in both parameters.
 ```{r}
@@ -131,7 +135,8 @@ reports <- tibble(ID = c("A", "B", "A", "B"),
                   Report = runif(length(ID), 1, 7))
 ```
 ```{r echo=FALSE}
-kableExtra::kable(list(demographics, reports), caption = "Differently named key columns. VPCode in demographics table corresponds to ID in reports; sex in demographics corresponds to Gender in reports")
+kableExtra::kable(list(demographics, reports),
+                  caption = "Differently named key columns. VPCode in demographics table corresponds to ID in reports; sex in demographics corresponds to Gender in reports")
 ```
 
 ```{r}
@@ -139,18 +144,19 @@ inner_diff_tidy <- inner_join(demographics, reports, by=c("VPCode"="ID", "Sex"="
 inner_diff_base <- merge(demographics, reports, by.x=c("VPCode", "Sex"), by.y=c("ID", "Gender"))
 ```
 ```{r echo=FALSE}
-kableExtra::kable(inner_diff_base, caption="Joining tables by matching VPCode to ID and Sex to Gender.")
+kableExtra::kable(inner_diff_base,
+                  caption = "Joining tables by matching VPCode to ID and Sex to Gender.")
 ```
 
 As you saw from examples above, [dplyr joins](https://dplyr.tidyverse.org/reference/mutate-joins.html) and [merge()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html) produce identical results. However, I would recommend to use the former, simply because function names make it explicit which kind of join you perform (something you can figure out only by checking additional parameters of [merge()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html)).
 
-Download files [IM.csv](data/IM.csv) and [GP.csv](data/GP.csv) that you will need for exercise #1^[Remember, if you end up with `.xls` extension, just rename to `.csv`.]. These are participants responses on two questionnaires with each participant identified by their ID (`Participant` in _IM.csv_ and `Respondent` in _GP.csv_), `Condition` (which experimental group they belong to), and their `Gender`. Read both tables and join them so that there no missing values in the table (some participants are missing in `GP.csv`, so there are _three_ joins that can do this, which one will you pick?). Then, turn `Condition` and `Gender` into factors, so that for `Condition` levels are `"control"` (`2`) and `"game"` (`1`) and for `Gender` levels are `"female"` (`1`) and `"male"` (`2`). Your final table should look as follows (I've dropped most of the columns for `IM.csv`, so they would fit to the page):
+Download files [IM.csv](data/IM.csv) and [GP.csv](data/GP.csv) that you will need for exercise #1. These are participants responses on two questionnaires with each participant identified by their ID (`Participant` in _IM.csv_ and `Respondent` in _GP.csv_), `Condition` (which experimental group they belong to), and their `Gender`. Read both tables and join them so that there are no missing values in the table (some participants are missing in `GP.csv`, so there are _three_ joins that can do this, which one will you pick?). Then, turn `Condition` and `Gender` into factors, so that for `Condition` levels are `"control"` (`2`) and `"game"` (`1`) and for `Gender` levels are `"female"` (`1`) and `"male"` (`2`). Your final table should look as follows (I've dropped most of the columns for `IM.csv`, so they would fit to the page):
 
 ```{r echo=FALSE}
 im <- read_csv("data/IM.csv", 
                col_types = cols(
                  Participant = col_character(),
-                 .default = col_integer())) %>%
+                 .default = col_integer())) |>
   select(Participant:IM01_03)
 
 gp <- read_csv("data/GP.csv",
@@ -159,7 +165,7 @@ gp <- read_csv("data/GP.csv",
                  .default = col_integer()))
 
 im_gp <- 
-  inner_join(im, gp, by=c("Participant" = "Respondent", "Condition", "Gender")) %>%
+  inner_join(im, gp, by=c("Participant" = "Respondent", "Condition", "Gender")) |>
   mutate(Condition = factor(Condition, levels = c(1, 2), labels = c("game", "control")),
          Gender = factor(Gender, levels = c(1, 2), labels = c("female", "male")))
 
@@ -171,12 +177,14 @@ Do exercise 1.
 :::
 
 Repeat the same exercise but use [merge()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html).
+
 ::: {.infobox .practice}
 Do exercise 2.
 :::
 
 
-Now let us practice joining and simulating data as well. Create two tables that need to be joined by a single key column. In the first table, Use [rnorm()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html) function to generate normally distributed data with mean of 180 and standard deviation of 50 for column `x` (or use some other name that you like) (what range would you expect to cover 95% of the data?). In the second table, use same normal distribution but with mean of 10 and standard deviation of 2 for column `y` (again, you can pick another name). When filling in key column for both tables, do it so that _inner_ and _right_ join would give the same final table but _left_ and _full_ would give you a longer one (test this explicitly!). After joining two tables, plot `x` against `y` and superimpose linear regression fit. Are two columns correlated? Should they be?
+Now let us practice joining and simulating data as well. Create two tables that need to be joined by a single key column. In the first table, Use [rnorm()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html) function to generate normally distributed data with mean of 175 and standard deviation of 7.6 for column `Height` (what range would you expect to cover 95% of the data?). In the second table, use same normal distribution but with mean of 80 and standard deviation of 10 for column `Weight`. When fill in key column for both tables, do it so that _inner_ and _right_ join would give the same final table but _left_ and _full_ would give you a longer one (test this explicitly!). After joining two tables, plot `Height` against `Weight` and superimpose linear regression fit. Are two columns correlated? Should they be given how we generated the data?
+
 ::: {.infobox .practice}
 Do exercise 3.
 :::
@@ -203,18 +211,18 @@ kableExtra::kable(widish_df, align="c", caption="Wide non-tidy table.")
 
 Here, `Symmetry`, `Attractiveness`, `Trustworthiness` are different face properties participants responded on, whereas values are `Response` they gave. You can work with a table like that but it is often more convenient to have a column `Scale` that will code which face property participants respond on and a column `Response` to hold values. Then, you can easily split or group your data by property while performing the same analysis on all of them.
 
-You can do pivoting using base R [reshape()](https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html) function. But pivoting is a fairly confusing business, so Tidyverse alone offers three different solutions starting with [reshape2](https://cran.r-project.org/package=reshape2) package ^[It uses `melt` and `cast` functions for this.], and continuing with original [gather()](https://tidyr.tidyverse.org/reference/gather.html) and [spread()](https://tidyr.tidyverse.org/reference/spread.html)
+You can do pivoting using base R [reshape()](https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html) function. But pivoting is a fairly confusing business, so Tidyverse alone offers three different solutions starting with [reshape2](https://cran.r-project.org/package=reshape2) package^[It uses `melt` and `cast` functions for this.], and continuing with original [gather()](https://tidyr.tidyverse.org/reference/gather.html) and [spread()](https://tidyr.tidyverse.org/reference/spread.html)
 functions in [tidyr](https://tidyr.tidyverse.org/index.html) to modern [pivot_longer()](https://tidyr.tidyverse.org/reference/pivot_longer.html) and [pivot_wider()](https://tidyr.tidyverse.org/reference/pivot_wider.html) functions in the same package.
 
 ## Pivot longer {#pivot-longer}
 [pivot_longer()](https://tidyr.tidyverse.org/reference/pivot_longer.html) takes a table, which you can pipe to the function Tidyverse-style, and a vector of column names that need to be transformed. All _column names_ go to one new column and all the _values_ go to another new column. Defaults names of these two columns are, respectively, `"name"` and `"value"` but you can specify something more suitable via, respectively, `names_to` and `values_to` parameters.
 
-There are many more bells-and-whistles (name and value transformations, removing a prefix via regular expressions, etc.), so I recommend looking at the [manual](https://tidyr.tidyverse.org/reference/pivot_longer.html) and a [vignette](https://tidyr.tidyverse.org/articles/pivot.html). However, in most cases these four parameters will be all you need, so let us see [pivot_longer](https://tidyr.tidyverse.org/reference/pivot_longer.html) in action. 
+There are many more bells-and-whistles (name and value transformations, removing a prefix via regular expressions, etc.), so I recommend looking at the [manual](https://tidyr.tidyverse.org/reference/pivot_longer.html) and a [vignette](https://tidyr.tidyverse.org/articles/pivot.html). However, in most cases these four parameters will be all you need, so let us see [pivot_longer](https://tidyr.tidyverse.org/reference/pivot_longer.html) in action.
 
 I assume that table presented above is in `widish_df` table defined above. The columns that we want to transform are `Symmetry`, `Attractiveness`, `Trustworthiness`. Thus, the simplest call with all defaults is
 ```{r}
 long_tidy <- tidyr::pivot_longer(widish_df, 
-                               cols=c("Symmetry", "Attractiveness", "Trustworthiness"))
+                                cols=c("Symmetry", "Attractiveness", "Trustworthiness"))
 ```
 
 ```{r echo=FALSE}
@@ -254,40 +262,54 @@ long_base <- reshape(widish_df,
 kableExtra::kable(long_base, caption="Same table pivoted via reshape.")
 ```
 
-I strongly suggest experimenting with parameters of [reshape()](https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html) to get a feeling for how it should be (and should not be!) used.
+For using [reshape()](https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html), I strongly suggest experimenting with its parameters to get a feeling for how it should be (and should not be!) used. As you can see, it is more involved and uses fewer defaults than [pivot_longer()](https://tidyr.tidyverse.org/reference/pivot_longer.html), so you need to make sure you understand it.
 
-Let us put this new knowledge to practice, using [GP.csv](data/GP.csv) file. These is a questionnaire on gaming habits, which was conducted prior to an experiment to check whether two groups of participants assigned to _Game_ and _Experiment_ conditions have similar gaming habits. We would like to visually inspect responses to individual items in a questionnaire appear for different conditions, as this will tell us whether we should expect a difference. Split the computations below into two pipelines. One that loads and pre-processes the data (steps 1-3). Another one that produces a summary and stores it into a different table (step 4). Advice, implement it one step at a time, checking the table and making sure that you get expected results before piping it and adding the next operation.
+## Practice using Likert scale data {#likert-scale-02}
+
+Let us put this new knowledge to practice, using [GP.csv](data/GP.csv) file. This is a questionnaire on gaming habits, which was conducted prior to an experiment to check whether two groups of participants assigned to _Game_ and _Experiment_ conditions have similar gaming habits. We would like to visually inspect responses to individual items in a questionnaire appear for different conditions, as this will tell us whether we should expect a difference. For this, we will reuse our approach for summarizing and [plotting ordinal responses](#likert-scale-01) we did during the last seminar. Split the computations below into two pipelines. One that loads and pre-processes the data (steps 1-4). Another one that produces a summary and stores it into a different table (steps 5-6, see [previous seminar](#likert-scale-01) if you forgot how we did it). Advice, implement it one step at a time, checking the table and making sure that you get expected results before piping it and adding the next operation.
 
 1. Read the file, make sure you specify column types.
 2. Convert `Condition` column to a factor with "game" (1) and "control" (2).
-3. Pivot all `GP..` columns. You should get a table with five columns: `Respondent`, `Condition`, `Gender`, `name` (or a column name that you specified), and `value` (or a column name that you specified). Hint, you can use slicing `:` to specify the range of columns or [starts_with()](https://tidyselect.r-lib.org/reference/starts_with.html) function to specify a common prefix. Try both approaches.
-4. Group data by condition and GP item and compute median and [median absolute deviation](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/mad.html) of responses. These are robust versions of mean and standard deviation, better suitable for data with potential outliers.
+3. Pivot all `GP..` columns. You should get a table with five columns: `Respondent`, `Condition`, `Gender`, `Item` (column where original column names go), and `Response` (a column where original go). Hint, you can use slicing `:` to specify the range of columns or [starts_with()](https://tidyselect.r-lib.org/reference/starts_with.html) function to specify a common prefix. Try both approaches.
+4. Convert `Response` column to a factor assuming a seven-point scale, the levels are
+  1. Not at all
+  2. Slightly
+  3. Somewhat
+  4. Moderately
+  5. Quite a bit
+  6. Considerably
+  7. Very much
+5. Count responses for each item and condition.
+6. Convert counts to proportion of responses for each item and condition.
 
-You first table, in long format, should look like this (I show only first four rows)
+Your first table, in long format, should look like this (I show only first four rows)
 ```{r echo=FALSE, fig.align='center'}
+gp_levels <- c("Not at all", "Slightly", "Somewhat", "Moderately", "Quite a bit", "Considerably", "Very much")
 gp <-
   read_csv("data/GP.csv", 
            col_types = cols(.default=col_integer(),
                             Respondent = col_character(),
                             Condition = col_integer(),
-                            Gender = col_integer())) %>%
-  mutate(Condition = factor(Condition, labels=c("game", "control"))) %>%
-  pivot_longer(cols=starts_with("GP"), names_to="Item", values_to="Response")
+                            Gender = col_integer())) |>
+  mutate(Condition = factor(Condition, labels=c("game", "control"))) |>
+  pivot_longer(cols=starts_with("GP"), names_to="Item", values_to="Response") |>
+  mutate(Response = factor(Response, levels = 1:7, labels = gp_levels))
 
-head(gp, 4) %>%
-  knitr::kable()  
+
+head(gp, 4) |>
+  knitr::kable()
 ```
-And your second table, with aggregated results, show be like this
 
+And your second table, with aggregated results, show be like this
 ```{r echo=FALSE}
 gp_agg <-
-  gp %>%
-  group_by(Condition, Item) %>%
-  summarise(MedianResponse = median(Response),
-            ResponseMAD = mad(Response),
-            .groups="drop")
+  gp |>
+  count(Condition, Item, Response) |>
+  group_by(Condition, Item) |>
+  mutate(Proportion = n / sum(n)) |>
+  ungroup()
 
-head(gp_agg, 4) %>%
+head(gp_agg, 4) |>
   knitr::kable()
 ```
 
@@ -300,24 +322,50 @@ Repeat the exercise but now using base R [reshape()](https://stat.ethz.ch/R-manu
 Do exercise 5.
 :::
 
-Now you have a table that has median and MAD values for each combination and item. Plot them to compare them visually. Use median responses for y-value of points and median±MAD for error bars. Use facets and color to make it easier to identify the items and conditions. My take on the plot is below, do you think we should expect to find difference between the conditions?
+Now you have a table with proportion of response for each condition and item, lets plot them to compare visually. Use `Response` for x-axis, `Proportion` for y-axis, `Condition` for color, think about how facet the plot.
 ```{r echo=FALSE, fig.align='center'}
-ggplot(gp_agg, aes(x=Condition, y=MedianResponse, ymin=MedianResponse - ResponseMAD, ymax=MedianResponse+ResponseMAD, color=Condition)) + 
+ggplot(gp_agg, aes(x = as.integer(Response), y = Proportion, color=Condition)) + 
+  geom_line() +
   geom_point() + 
-  geom_errorbar() +
-  facet_wrap(.~Item, ncol=6)
+  facet_wrap(.~Item, ncol=6) +
+  scale_x_continuous(name = "Response", breaks = 1:7, labels = gp_levels) +
+  theme(legend.position = "top", axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 ```
 
 ::: {.infobox .practice}
 Do exercise 6.
 :::
 
-Perform similar analysis but do not group data and summarize the data. Instead, use box plots to show the variability. Which visualization do you prefer?
+Note that our computation and plot have a problem: whenever a response level was not used by any participant, it is missing both in the table and in the plot. However, we should have an entry for every response level but with 0 for both count and proportion, 0 counts for a response level is not a missing or absent response level. A way to solve this problem is by using function [complete()](https://tidyr.tidyverse.org/reference/complete.html) that adds missing combinations of the data based on a subset of columns you specified and fills in values for the remaining columns either with `NA` or with values that you specified. Here is an example for a table that contains columns `Class` and `Count`. Note that I defined `Class` as a factor with five levels ("A" till "E") and the latter is missing from the table. Complete adds the row and fill the remaining column with 'NA'.
 
+```{r}
+class_df <-
+  tibble(Class = c("A", "B", "C", "D"),
+         Count = c(20, 19, 30, 22)) |>
+  mutate(Class = factor(Class, levels = c("A", "B", "C", "D", "E")))
+
+class_df |>
+  complete(Class)
+```
+
+Although in some cases, filling with `NA` may be reasonable, here, we want to fill in the count and it should be 0 (the fact that a particular class is missing means that we never counted it). Note that `fill` parameter takes a named **list** not a named vector (Why is that? If about data types of different columns and if you are still not sure why, reread on difference between [atomic vectors](#vectors-are-homogeneous) and [lists](#lists)). 
+
+```{r}
+class_df |>
+  complete(Class, fill = list(Count = 0))
+```
+
+Here is how the plot look once we completed the table
 ```{r echo=FALSE, fig.align='center'}
-ggplot(gp, aes(x=Condition, y=Response, color=Condition)) + 
-  geom_boxplot() + 
-  facet_wrap(.~Item, ncol=6)
+gp_agg |> 
+  complete(Condition, Item, Response, fill = list(n = 0, Proportion = 0)) |>
+
+ggplot(aes(x = as.integer(Response), y = Proportion, color=Condition)) + 
+  geom_line() +
+  geom_point() + 
+  facet_wrap(.~Item, ncol=6) +
+  scale_x_continuous(name = "Response", breaks = 1:7, labels = gp_levels) +
+  theme(legend.position = "top", axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 ```
 
 ::: {.infobox .practice}
@@ -325,26 +373,26 @@ Do exercise 7.
 :::
 
 ## Pivot wider {#pivot-wider}
-You can also always go from a long to a wide representation via [pivot_wider()](https://tidyr.tidyverse.org/reference/pivot_wider.html) or [reshape](https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html) functions. The logic is reverse, you need to specify which columns _identify_ different rows that belong together, which columns contain column names, and which contain their values. For our example table the names of the columns are in the column `Scale` and values are in `Response`. But what about columns that identify the rows that belong together? In our case, these are `Participant` and `Face`, so all rows from a _long_ table that have same combination of `Participant` and `Face` values should be merged together into a single row. If you do not explicitly specify `id_cols`, then by default, [pivot_wider()](https://tidyr.tidyverse.org/reference/pivot_wider.html) will use _all other remaining columns_ to identify which rows belong together. This is irrelevant in this toy example, as `Participant` and `Face` is all we have left anyhow but below I will show you how things can get confusing and how to overcome this.
+You can also always go from a long to a wide representation via [pivot_wider()](https://tidyr.tidyverse.org/reference/pivot_wider.html) or [reshape](https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html) functions. The logic is reverse, you need to specify which columns _identify_ different rows that belong together, which columns contain column names, and which contain their values. For our example table on face ratings, the names of the columns are in the column `Scale` and values are in `Response`. But what about columns that identify the rows that belong together? In our case, these are `Participant` and `Face`, so all rows from a _long_ table that have same combination of `Participant` and `Face` values should be merged together into a single row. If you do not explicitly specify `id_cols`, then by default, [pivot_wider()](https://tidyr.tidyverse.org/reference/pivot_wider.html) will use _all other remaining columns_ to identify which rows belong together. This is irrelevant in this toy example, as `Participant` and `Face` is all we have left anyhow but below I will show you how things can get confusing and how to overcome this.
 
 Let us undo our previous wide-to-long transformation and get our original wide table back!^[I used table as an explicit first argument for `pivot_longer()` but piped it to `pivot_wider()`, why? To remind you that these two ways are the interchangeable and that both put the table as a parameter into the function.]
 ```{r}
 wide_again_tidy <-
-  long_tidy %>%
+  long_tidy |>
   pivot_wider(names_from = "Scale", values_from="Response")
 ```
 
 Or, using explicit `id_cols`
 ```{r}
 wide_again_tidy <-
-  long_tidy %>%
+  long_tidy |>
   pivot_wider(id_cols = c("Participant", "Face"), names_from = "Scale", values_from="Response")
 ```
 ```{r echo=FALSE}
 kableExtra::kable(wide_again_tidy, caption="Our table is wide again!")
 ```
 
-You can pivot wider using [reshape()](https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html) as well. However, note that, as of 01.11.2021, it works correctly _only_ with data frames, so if you have a [tibble](https://tibble.tidyverse.org/) (as I do), you need to convert it to a data frame via [data.frame()](https://stat.ethz.ch/R-manual/R-patched/library/base/html/data.frame.html) or [as.data.frame()](https://stat.ethz.ch/R-manual/R-patched/library/base/html/as.data.frame.html). Otherwise, you need to specify
+You can pivot wider using [reshape()](https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html) as well. However, note that, as of 07.10.2023, it works correctly _only_ with data frames, so if you have a [tibble](https://tibble.tidyverse.org/) (as I do), you need to convert it to a data frame via [data.frame()](https://stat.ethz.ch/R-manual/R-patched/library/base/html/data.frame.html) or [as.data.frame()](https://stat.ethz.ch/R-manual/R-patched/library/base/html/as.data.frame.html) (drop the `as.data.frame()` in the example above to see what I mean). Otherwise, you need to specify
 
 * `direction = "wide"`
 * `idvar` :  different rows that belong together. Same as `id_cols` for [pivot_wider()](https://tidyr.tidyverse.org/reference/pivot_wider.html) but no defaults here.
@@ -361,12 +409,15 @@ wide_again_base <- reshape(as.data.frame(long_tidy),
                            v.names = "Response",
                            sep = "_")
 ```
+```{r echo=FALSE}
+kableExtra::kable(wide_again_base, caption="Our table is wide again but via reshape()!")
+```
 
 Let us take a look at the importance of `id_cols`. Imagine that we have _another_ column, say, response times. So, our long table will look like this
 ```{r}
 long_tidy_rt <-
-  long_tidy %>%
-  ungroup() %>%
+  long_tidy |>
+  ungroup() |>
   mutate(RT = round(rgamma(n(), 4, 3), 2))
 ```
 ```{r echo=FALSE}
@@ -405,28 +456,28 @@ adaptation <-
                             Nsame = col_integer(),
                             Ntotal = col_integer()))
 
-adaptation %>% 
-  head(4) %>%
+adaptation |> 
+  head(4) |>
   knitr::kable()
 ```
 
-Let us turn it into a wider table, so that a single row corresponds to a single prime and four new column contain proportion of same responses for individual probes. The table will look like this (use [round()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Round.html) function to reduce the number of digits):
+Let us turn it into a wider table, so that a single row corresponds to a single prime and four new columns contain proportion of same responses for individual probes. The table should look like this (use [round()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Round.html) function to reduce the number of digits):
 
 ```{r echo=FALSE}
-adaptation %>%
-  mutate(Psame = round(Nsame / Ntotal, 2)) %>%
-  pivot_wider(id_cols = c("Participant", "Prime"), names_from="Probe", values_from="Psame") %>%
-  mutate(Average = rowSums(.[3:6]) / 4) %>%
-  head(4) %>%
+adaptation |>
+  mutate(Psame = round(Nsame / Ntotal, 2)) |>
+  pivot_wider(id_cols = c("Participant", "Prime"), names_from="Probe", values_from="Psame") |>
+  mutate(Average = round((Sphere + Quadro + Dual + Single) / 4, 2)) |>
+  head(4) |>
   knitr::kable()
 ```
 
-The overall procedure is fairly straightforward:
+The overall procedure is fairly straightforward (should be a single pipe!):
 
-1. Read the file (don't forget to specify column types)
-2. Computer `Psame` proportion of same responses given number of total responses for each .
+1. Read the file (don't forget to specify column types!)
+2. Computer `Psame` proportion of same responses given number of total responses for each `Probe`.
 3. Pivot the table wider, think about your id columns. Also try this without specifying any and see what you get.
-4. Compute an average stability across all probes and put it into a new `Average` column. You can do it "by hand" but, instead, use [rowSums()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/colSums.html) to compute it. Here, use `.` to refer to the table inside the `mutate()` function and you will need to normalize it by the number of probes to get an average instead of the sum.
+4. Compute an average stability across all probes and put it into a new `Average` column.
 5. Pipe it to the output, using [knitr::kable()](https://bookdown.org/yihui/rmarkdown-cookbook/kable.html).
 
 Use [pivot_wider()](https://tidyr.tidyverse.org/reference/pivot_wider.html) in exercise 8.
@@ -441,23 +492,21 @@ Repeat the analysis but now using the [reshape()](https://stat.ethz.ch/R-manual/
 Do exercise 9.
 :::
 
-
-
-Let us practice more and create group average summary as a square 5×4 table with a single row per _Prime_ and four columns for _Probe_ plus a column that says which prime the row corresponds to. As a value for each cell, we want to code a _median value. The table should look like this:
+Let us practice more and create group average summary as a square 5×4 table with a single row per _Prime_ and four columns for _Probe_ plus a column that says which prime the row corresponds to. As a value for each cell, we want to code a _median_ value. The table should look like this:
 
 ```{r echo=FALSE}
-adaptation %>%
+adaptation |>
   mutate(Psame = Nsame / Ntotal,
          Prime = factor(Prime, levels = c("Sphere", "Quadro", "Dual", "Single")),
-         Probe = factor(Probe, levels = c("Sphere", "Quadro", "Dual", "Single"))) %>%
-  group_by(Prime, Probe) %>%
+         Probe = factor(Probe, levels = c("Sphere", "Quadro", "Dual", "Single"))) |>
+  group_by(Prime, Probe) |>
   summarise(Pmedian = round(median(Psame), 2),
-            .groups = "drop") %>%
-  pivot_wider(id_cols = "Prime", names_from="Probe", values_from="Pmedian") %>%
+            .groups = "drop") |>
+  pivot_wider(id_cols = "Prime", names_from="Probe", values_from="Pmedian") |>
   knitr::kable(align = "c")
 ```
 
-You know almost everything you need, so think about how you would implement this as a _single_ pipeline. Hints: to match my table you will definitely to convert `Prime` and `Probe` to factors to ensure consistent ordering (otherwise, they will be sorted alphabetically), you will need to [group](https://dplyr.tidyverse.org/reference/group_by.html) individual combinations of prime and probe before computing a [summary statistics](https://dplyr.tidyverse.org/reference/summarise.html). And, of course, you will need to pivot the table wider (use your preferred method).
+You know almost everything you need, so think about how you would implement this as a _single_ pipeline. Hints: to match my table you will definitely to convert `Prime` and `Probe` to factors to ensure consistent ordering (otherwise, they will be sorted alphabetically), you will need to [group](#group_by) individual combinations of prime and probe before computing a [summary statistics](#summarize). And, of course, you will need to pivot the table wider (use your preferred method).
 
 ::: {.infobox .practice}
 Do exercise 10.

@@ -333,7 +333,7 @@ results |>
 Do exercise 7.
 :::
 
-## Dealing with Likert scales
+## Dealing with Likert scales {#likert-scale-01}
 Likert scales are one of the most popular ways to measure responses in psychology. And, at least this is my opinion of the literature, they tend to be misanalyzed and misreported (IMHO). It is quite common to report an average and a standard error of a response across all participants, but [these numbers cannot be actually computed](https://alexander-pastukhov.github.io/notes-on-statistics/ordered-categorical-data-i.e.-likert-scales.html) (because these are ordered categorical values, not numbers) and even if you trick the computer in doing so (by pretending that levels are actual numbers) these numbers are ill-suited to characterize the response, as you will see below. The proper analysis of Likert scale data requires a use of the "Item Response Theory" and although it is very straightforward, it is outside of the scope of this book. Instead, we will look at how you can visualize the responses in the meaninful way, although the complete story will have to wait until we learn about bootstrapping.
 
 Below, we will use data collected using Intrinsic Motivation Inventory (IMI), where participants needed to respond on a 7-point Likert scale indicating indicate how true a statement (such as "I enjoyed doing this activity very much" or "I was pretty skilled at this activity.") is for them:
@@ -382,7 +382,7 @@ Do exercise 8.
 Hopefully, using actual labels instead of original number makes it clear that computing mean and standard error is impossible (what is an average of "Slightly true" and "Hardly true"?). Instead, we need to count the number of response per response level, convert that to a proportion of responses, and plot them to see the distribution. You know almost everything you need to perform this. Here is the logic:
 
 * [group](#group_by) data per response level
-* [summarize](#summarize) the data by computing [number](https://dplyr.tidyverse.org/reference/context.html) of entries per group, don't forget to ungroup table (you can also [count](https://dplyr.tidyverse.org/reference/count.html?q=count()) them)
+* [summarize](#summarize) the data by computing [number](https://dplyr.tidyverse.org/reference/context.html) of entries per group, don't forget to ungroup table. You can also combine the two steps to [count](https://dplyr.tidyverse.org/reference/count.html?q=count()) responses per level.
 * compute proportion per response by dividing number of responses for each level by the total number of responses.
 
 Once you computed the aggregates, plot them using [geom_point()](https://ggplot2.tidyverse.org/reference/geom_point.html) and [geom_line()](https://ggplot2.tidyverse.org/reference/geom_path.html). The only catch here, is that [geom_line()](https://ggplot2.tidyverse.org/reference/geom_path.html) cannot work with discrete x-axis, so when specifying the aesthetics for x-axis, you need to use `as.integer(Response)` instead of just `Response` and you will need to use [scale_x_continuous()](https://ggplot2.tidyverse.org/reference/scale_continuous.html) to specify breaks (1 to 7) and labels (levels of our Likert scale). The end results should look as follows:
@@ -421,3 +421,6 @@ likert_df |>
 ::: {.infobox .practice}
 Do exercise 10.
 :::
+
+
+Note that we are missing information on uncertainty about proportion of response (i.e., error bars), but I will show you how to compute them once we get to bootstrapping. Also note that even if you would convert ordinal levels to real numbers, using mean and standard error would still be a bad idea. Note how squashed the distribution is to the lower side (particularly, when averaging across groups). Mean is a nice descriptor for symmetric distributions as then it coincides with both mode (most probable, highest point) and median (point that splits distribution half/half). But for skewed distributions, all three statistics --- mode, mean, and median --- will be at different locations and you should either report all or think about better ways to present the data. Same goes for a standard error which is a nice descriptor for a normally distributed data, less so for symmetric data (you'll be missing information about exact shape and probably thinking about a normal one), not very good for skewed data. Here, data does not lie equally on both sides, so a symmetric standard error will overestimate variance on the left side (there is not much space to vary on the left), while simultaneously underestimating it on the right side. In short, always look at the data before compacting it to various statistic, even if such practice is common (this does not make it a good practice). 

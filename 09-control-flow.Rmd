@@ -1,36 +1,38 @@
-# Controling computation flow
+# Controling computation flow{#control-flow-chapter}
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(tidyverse)
 ```
 
-Grab the [exercise notebook](notebooks/Seminar 09 - control flow.Rmd) before we start.
+Grab the [exercise notebook](notebooks/Seminar 09 - control flow.qmd) before we start.
 
-One the most powerful features of R is that it is vector-based. Remember, everything is a vector (or a list). In the previous seminars you saw you can apply a function, a filter, or perform a computation on all values of a vector or all rows in a table in a single call. However, sometimes, you need to go over one value or row at a time explicitly. For example, if you working with a time-series, it might be easier to use an explicit [for](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html) loop to compute current value based on previous state of the system. However, such instances are fairly rare, so the general rule for R is "you probably do not need a loop". Below, we will go through various tools that render explicit loops redundant.
+One of the most powerful features of R is that it is vector-based. Remember, everything is a vector (or a list). In the previous seminars you saw you can apply a function, a filter, or perform a computation on all values of a vector or all rows in a table in a single call. However, sometimes, you need to go over one value or row at a time explicitly. For example, if you working with a time-series, it might be easier to use an explicit [for](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html) loop to compute current value based on previous state of the system. However, such instances are fairly rare, so the general rule for R is "you probably do not need a loop". Below, we will go through various tools that render explicit loops redundant, but cover the loops themselves as well as conditional control statements (if-else) and functions (`ifelse`, `case_when`).
+
+Note that the material does not cover a [while (<condition-is-true>) {<do-code}](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html) loop mostly because it is rarely used in data analysis^[I tried to remember when was the last time I personally used it in R and could not remember, if I ever did this.] and I could not come up with examples that would not be very artificial looking. At the same time, if you do need it, it has a very simple structure, so understanding and using it should not be a challenge.
 
 ## `rep()` {#rep}
-The most basic repetition mechanism in R is [rep()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/rep.html) function. It takes a vector and repeats it specified number of _times_.
+The most basic repetition mechanism in R is [rep()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/rep.html) function. It takes a vector and repeats it specified number of `times`.
 ```{r}
-rep(c(1, 2, 3), times=4)
+rep(c(1, 2, 3), times = 4)
 ```
 
 Alternatively, you can repeat each element specified number of times before repeating the next one via `each` parameter. The difference between options lies only in the _order_ of elements in the new vector. As you can see both vectors have the same length and each individual value is repeated four times.
 ```{r}
-rep(c(1, 2, 3), each=4)
+rep(c(1, 2, 3), each = 4)
 ```
 
-You can specify length of the output vector via `length.out`. When combined with `times` it can be useful for producing truncated vectors. E.g., when we repeat a three element vector but we want to get ten values. Using `times` only, we can get either nine (`times=3`) or twelve (`times=4`), not ten. `length.out=10` makes it happen.
+You can specify length of the output vector via `length.out`. When combined with `times` it can be useful for producing truncated vectors. E.g., when we repeat a three element vector but we want to get ten values. Using `times` only, we can get either nine (`times = 3`) or twelve (`times = 4`), not ten. `length.out = 10` makes it happen.
 ```{r}
 rep(c(1, 2, 3), times=4, length.out = 10)
 ```
 
 However, you can also use subsetting of a new vector to achieve the same end.
 ```{r}
-rep(c(1, 2, 3), times=4)[1:10]
+rep(c(1, 2, 3), times = 4)[1:10]
 ```
 
 You should be more careful when combining `length.out` with `each`, as each value is repeated `each` times and, if `length.out` is longer, the same sequence is repeated again. Could be confusing and you might get a very unbalanced repeated sequence.
 ```{r}
-rep(c(1, 2, 3), each=8, length.out = 10)
+rep(c(1, 2, 3), each = 8, length.out = 10)
 ```
 
 ::: {.infobox .practice}
@@ -50,7 +52,7 @@ grid_base <- expand.grid(gender=c("female", "male"),
 knitr::kable(grid_base)
 ```
 
-[expand_grid()](https://tidyr.tidyverse.org/reference/expand_grid.html) works the same they but for the order in the values vary within columns.
+[expand_grid()](https://tidyr.tidyverse.org/reference/expand_grid.html) works the same they but for the order of values within columns.
 ```r
 expand_grid(gender=c("female", "male"), 
             handidness=c("right", "left"),
@@ -70,7 +72,7 @@ Do exercise 2.
 :::
 
 ## For loop {#forloop}
-You can loop (iterate) over elements of a vector or list via a [for](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html) loop, which is very similar to for-loops in other programming languages. However, use of the `for` loop in R is fairly rare, because vectors are a fundamental building block of R and, therefore, it is inherently vectorized (you can do the same thing to all values, not to one value at a time). In a sense, `for` loop is very un-R, so if you find yourself using it, consider whether there is a simpler or more expressive way to do this. At the same time, if `for` loop _is_ the simplest or clearest way to write you code, by all means, use it!
+You can loop (iterate) over elements of a vector or list via a [for](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html) loop, which is very similar to for-loops in other programming languages. However, use of the `for` loop in R is fairly rare, because vectors are a fundamental building block of R and, therefore, it is inherently vectorized (you can do the same thing to all values, not to one value at a time). In a sense, `for` loop is very un-R, so if you find yourself using it, consider whether there is a simpler or more expressive way to do this. At the same time, if `for` loop _is_ the simplest, clearest, or more robust way to write you code, by all means, use it!
 
 The general format is
 ```r
@@ -86,6 +88,7 @@ for(a_number in c(1, 5, 200)){
   print(a_number)
 }
 ```
+
 Here, we have three elements in a vector, therefore the code inside curly brackets is repeated three times with the variable `a_number` taking each value in turn. I.e., `a_number` is equal to 1 on a first iteration, 5 on a second, 200 on the third. Note that the code above is equivalent to just assigning one value at a time to `a_number` and calling `print()` function three times.
 ```{r}
 a_number <- 1 
@@ -95,7 +98,8 @@ print(a_number)
 a_number <- 200
 print(a_number)
 ```
-As you can see, it does not really matter _how_ you assign a value to a variable and repeat the code. However, the `for` loop approach is much more flexible, is easier to read and to maintain. I.e., imagine that you decided to alter the `print()` call with `cat()` instead. In the `for` loop version there is just one line to take care of. In the copy-paste version, there are three lines you need to alter. And imagine if you need to repeat the same code a hundred or thousand times, copy-paste is clearly not a viable solution.
+
+As you can see, it does not really matter _how_ you assign a value to a variable and repeat the code. However, the `for` loop approach is much more flexible, is easier to read and to maintain. I.e., let us assume that you decided to alter the [print()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/print.html) call with [cat()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/cat.html) instead. In the `for` loop version there is just one line to take care of. In the copy-paste version, there are three lines you need to alter. And imagine if you need to repeat the same code a hundred or thousand times, copy-paste is clearly not a viable solution.
 
 Also note that you might be interested in repeat the code inside the for loop given number of times but are not interested in a loop variable and values that it takes. For example, we might want to repeat `print("Ho!")` three times (because it is Christmas time and "Ho! Ho! Ho!" is what Santa Clause says). In this case, we still need a vector with three elements that we can loop over but we do not care what these three elements are.
 ```{r}
@@ -123,7 +127,7 @@ In short, number of elements in the vector determines how many times the code in
 Do exercises 3 and 4.
 :::
 
-A typical scenario is for the loop variable to be an _index_ that can be used to access an element of a vector or a list. You can build a vector of indexes via `start:stop` sequence tool we used for [slicing](#vector-index-slicing). You can compute a length of an object via [length()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/length.html) function. For a `data.frame` or a `tibble`, you can figure out number of rows and columns via, respectively, [nrow()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/nrow.html) and [ncol()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/nrow.html) functions. 
+One for a typical scenarios for the loop variable is when it is used as an _index_ to access an element of a vector or a list. You can build a vector of indexes via `start:stop` sequence tool we used for [slicing](#vector-index-slicing). You can compute a length of an object via [length()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/length.html) function. For a `data.frame` or a `tibble`, you can figure out number of rows and columns via, respectively, [nrow()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/nrow.html) and [ncol()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/nrow.html) functions. 
 
 ```{r}
 vector_of_some_numbers <- c(1, 5, 200)
@@ -136,8 +140,7 @@ for(index in 1:length(vector_of_some_numbers)){
 Do exercise 5.
 :::
 
-
-You can also _nest_ loops (wondering what [cat()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/cat.html) does? Concatenates and prints, so read the [manual](https://stat.ethz.ch/R-manual/R-devel/library/base/html/cat.html)!).
+You can also _nest_ loops
 ```{r}
 for(letter in c("A", "B", "C")){
   for(number in 1:2){
@@ -150,14 +153,21 @@ for(letter in c("A", "B", "C")){
 Do exercise 6.
 :::
 
-As I have noted above, loops are particularly useful when you current value depends on a previous one (or many previous values). In the next exercise, use `for` loop to create a random walk. It should start at zero (so, initial value for your variable should be zero). For each next step, draw a random value from a normal distribution with zero mean and standard deviation computed as `exp(value_on_previous_step)` (the function you are looking for is [rnorm()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html)). Generate a ten-step random walk, that might look like this
+One scenario when loops are particularly advantages is when a current value depends on a previous one (or many previous values). In this case, a new value depends on the previous one and, in turn, determines the following ones and they cannot be computed before it is known. This means that vectorized approach that applies the computation to all values in parallel will not work and we need to perform the computation in a sequantial manner.
+
+In the next exercise, use `for` loop to create a random walk. It should start at zero (so, initial value for your variable should be zero). For each next step, draw a random value from a normal distribution using _previous_ value as a mean (decide on the standard deviation yourself). The function you are looking for is [rnorm()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html)). Generate a ten-step random walk, that might look like this (you can my plot replicate exactly, if you [set.seed()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html) to 1977):
 ```{r echo=FALSE}
-set.seed(1950)
+set.seed(1977)
 random_walk <- 0
 for(i in 2:10){
-  random_walk <- c(random_walk, rnorm(1, 0, exp(random_walk[i-1])))  
+  random_walk <- c(random_walk, rnorm(1, random_walk[i-1], 1))  
 }
-random_walk
+
+tibble(Step = 1:10,
+       Value = random_walk) |>
+  ggplot(aes(x = Step, y = Value)) +
+  geom_line() +
+  geom_point()
 ```
 
 ::: {.infobox .practice}
@@ -165,7 +175,7 @@ Do exercise 7.
 :::
 
 ## Conditional statement {#if-else}
-As for all other programming languages, you can control the flow of execution using [if-else](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html) statements. The general usage is as follows.
+As in all other programming languages, you can control the flow of execution using [if-else](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html) statements. The general usage is as follows.
 ```{r eval=FALSE}
 if (some_condition) {
   # code runs if some_condition is TRUE
@@ -184,8 +194,8 @@ if (x > 0) {
 }
 ```
 
-However, be aware that the [if](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html) uses a _single_ logical value. If you have more than one value, it stops with an error^[If you use an older R-version, it will use _only the first one_ but, at least, it will give you a warning. Point bein that it is generally a good idea to use the latest R distribution.].
-```{r error=TRUE}
+However, be aware that the [if](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html) uses a _single_ logical value. If you have more than one value, it stops with an error^[If you use an older R-version, it will use _only the first one_ but, at least, it will give you a warning. Point being that it is generally a good idea to use the latest R distribution.].
+```{r error = TRUE}
 x <- c(10,  -3)
 if (x < 0) {
   cat("Bingo!")
@@ -194,30 +204,37 @@ if (x < 0) {
 }
 ```
 
-As in [logical indexing](#logical-indexing), you can combine several conditions using [logical operators](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Logic.html) such as _and_ `&` or _or_ `|`. For example, we can check whether x is smaller than zero but larger than -10.
+As in [logical indexing](#logical-indexing), you can combine several conditions using [logical operators](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Logic.html) such as _and_ `&&` or _or_ `||`. 
+
+For example, we can check whether x is smaller than zero but larger than -10.
 ```{r}
 x <- -3
-if ((x < 0) & (x > -10)) {
+if ((x < 0) && (x > -10)) {
   cat("Bingo!")
 } else {
   cat("I don't like this x.")
 }
 ```
 
-However, be aware that R has both `&`/`|` and `&&`/`||` versions of _and_ and _or_ logical operators (single versus double symbols). Both perform logical operations on vectors but double-symbol ones return only the _first_ value. E.g., single-symbol returns `TRUE`/`FALSE` for each value of `x`
+However, be aware that R has both `&`/`|` and `&&`/`||` versions of _and_ and _or_ logical operators (single versus double symbols). Both perform logical operations on vectors but double-symbol works only for a single value. E.g., single-symbol returns `TRUE`/`FALSE` for each value of `x`
 ```{r}
 x <- c(10, -3, -11)
 (x < 0) & (x > -10)
 ```
 
-But double-symbol  returns it only for the _first_ value _without warning you about discarding the rest of the values_. 
-```{r}
+`&&` and `||` will generate an error if vectors are longer^[This is a new and very nice behavior introduced recently. Prior to that both `&&` and `||` would _silently_ ignore all elements but the first, making them very dangerous to use, so that I recommended against their use in the previous version of the book. Now it is the other way around, so they are the preferred way when working with scalars.].
+```{r error = TRUE}
+# This works
+x <- -3
+(x < 0) && (x > -10)
+
+# This generates and error
 x <- c(10, -3, -11)
 (x < 0) && (x > -10)
 ```
-I am sure there is a perfectly logical explanation for this bizarre implementation but I do not know it. I am bringing this up, just so that you would _never_ use double-symbol logical operators! Chances are, you will forget about this "silently-return-only-the-first-value" behavior and expect them to act normally. They won't behave as you think they should, so simply stay away.
 
-Let us combine `for` loop with `if-else` operator.  Generate a vector of ten normally distributed values (again, [rnorm()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html) is the function). Loop over them in a `for` loop and [print()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/print.html) `"Positive"` if a value is larger than zero and `"Not positive"` if not.  The results should look like this^[Want exact same numbers as I do? Use `set.seed(164)`. This function, see [set.seed()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html) makes random generators start  at a specific point, so that the you will get the _same_ sequence of _random_ numbers as I did.]
+
+Let us combine `for` loop with `if-else` operator.  Generate a vector of ten normally distributed values (again, [rnorm()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html) is the function). Loop over them in a `for` loop and [print()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/print.html) or [cat()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/cat.html) `"Positive"` if a value is larger than zero and `"Not positive"` if not.  The results should look like this^[Want exact same numbers as I do? Use `set.seed(164)`. This function, see [set.seed()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html) makes random generators start  at a specific point, so that the you will get the _same_ sequence of _random_ numbers as I did.]
 
 ```{r  echo=FALSE}
 set.seed(164)
@@ -233,6 +250,58 @@ for(the_x in x){
 Do exercise 8.
 :::
 
+## ifelse() {#ifelse}
+As I wrote above, strength of R lies in built-in vectorization that typically renders loops unnecessary. Although we used the for loop to apply comparison to one element at a time, R has function [ifelse()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/ifelse.html) that performs the same task on vectors. It format is `ifelse(logical-vector, values-if-true, values-if-false)` where the logical vector of `TRUE` and `FALSE` values can be produced via a comparison. For example, we can classify letters into `"Vowel"` and `"Consonant"` using [%in%](https://stat.ethz.ch/R-manual/R-devel/library/base/html/match.html) to check whether each letter is _in_ the `vowels` list (note the `%`, this distinguished `%in%` for matching from `in` of the for loop).
+```{r}
+vowels <- c("a", "e", "i", "o", "u")
+letters <- c("a", "b", "c", "d", "e", "f")
+ifelse(letters %in% vowels, "Vowel", "Consonant")
+```
+
+Note that vectors `values-if-true` and `values-if-false` must not be of equal length. For example, one can use [ifelse()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/ifelse.html) to replace only vowels in the original vector but keep consonant letter as is by using `letters` vector for `values-if-false`
+```{r}
+ifelse(letters %in% vowels, "Vowel", letters)
+```
+
+However vectors `values-if-true` and `values-if-false` ideally should either match the length of the logical comparison vector or have a single value. Otherwise, they will be recycled which might lead to confusing results. E.g., here, can you figure out when `"Consonant1"` and `"Consonant2"` are used?
+```{r}
+ifelse(letters %in% vowels, "Vowel", c("Consonant1", "Consonant2"))
+```
+
+Use [ifelse()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/ifelse.html) to replicate exercise 8 without a loop.
+
+::: {.infobox .practice}
+Do exercise 9.
+:::
+
+
+## case_when {#case_when}
+Function [ifelse()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/ifelse.html) is useful when you have just two outcomes. You can use nested `ifelse` calls, just like you can use nested `if-else` statements but it becomes awkward and hard to read very fast. Instead, you can use function [case_when()](https://dplyr.tidyverse.org/reference/case_when.html) from [dplyr](https://dplyr.tidyverse.org/) library. Here, you can use as many conditions as you want. The general format is
+
+```r
+case_when(Condition1 ~ Value1,
+          Condition2 ~ Value2,
+          ...
+          ConditionN ~ ValueN)
+```
+
+For example, the internet tells me that letter `y` is complicated, as it can be either a consonant or a vowel depending on a word. Thus, we can label it as "Complicated" via [case_when()](https://dplyr.tidyverse.org/reference/case_when.html) (note the vectorized nature of it, as it applies this comparison to one element of the vector at a time)
+
+```{r}
+vowels <- c("a", "e", "i", "o", "u")
+letters <- c("a", "b", "c", "d", "e", "f", "y")
+case_when(letters == "y" ~ "Complicated",
+          letters %in% vowels ~ "Vowel",
+          TRUE ~ "Consonant")
+```
+
+Note the last condition that is always `TRUE`, it looks odd but this servers as a "default" branch: if you got that far, all other conditions must be `FALSE`, so this _must_ be `TRUE` (you have no other options left).
+
+::: {.infobox .practice}
+Do exercise 10.
+:::
+
+
 ## Breaking out of the loop
 The code inside the [for](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html) loop is typically repeated for every value of the vector that you have supplied. However, there is a way to [break](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Control.html) out of it using a `break` statement. This stops execution of the code _inside_ of the loop immediately and continues with the code immediately _after_ the loop.
 ```{r}
@@ -243,8 +312,9 @@ for(y in c(1, 2, 3)){
 }
 print("Now to the code AFTER the loop")
 ```
-Note that in this case, the code was executed (incompletely!) only once. Typically, `break` is used in combination with the `if-else` statement to break out of the loop, if a certain condition is met. Let us practice. Again, generate ten normally distributed numbers, loop over them and print each one. However, `break` after the _fifth_ value. For this, you need to loop over indexes of values (that go from 1 to the [length()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/length.html) of your vector). Thus, you loop variable will contain an index of each element of x (because of that I called it `ix`) and you need to use it to get a value at this position within the vector. If that index is equal to 5, break out of the loop.
-For the ten values I've generated above, the output will be the following ("Done for today" is printed after the loop).
+
+Note that in this case, the code was executed (incompletely!) only once. Typically, `break` is used in combination with the `if-else` statement to break out of the loop, if a certain condition is met. Let us practice. Again, generate ten normally distributed numbers, loop over them and print each one. However, `break` after the _fifth_ value. For this, you need to loop over indexes of values (that go from 1 to the [length()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/length.html) of your vector). Thus, you loop variable will contain an index of each element of `x` (because of that I called it `ix`) and you need to use it to get a value at this position within the vector. If that index is equal to 5, break out of the loop.
+For the ten values I've generated above, the output will be the following ("Done for today" is printed after the loop, also I could have first printed a value and then exited the loop, that is a analysis logic question, not a technical one).
 ```{r}
 set.seed(164)
 x <- rnorm(10)
@@ -256,11 +326,11 @@ print("Done for today")
 ```
 
 ::: {.infobox .practice}
-Do exercise 9.
+Do exercise 11.
 :::
 
 ## Using for loop to load and join multiple data files
-Your analysis starts with loading the data. Quite often, data for individual participants is stored in different files but with identical structure, so you need code that figures out which files you need to load, loads them on at a time and then binds them to one final table. Using a `for` loop is not the most elegant way to implement this but it does the job and gives you another example of how loops can be useful. I will walk you through details and then you We will implement the code that loads and merges individual files for persistence study. Download the [persistence.zip](data/persistence.zip) and unzip into `Persistence` subfolder (we do not want to create a mess in your main folder!).
+Your analysis starts with loading the data. Quite often, data for individual participants is stored in different files but with identical structure, so you need code that figures out which files you need to load, loads them one at a time and then binds them to one final table. Using a `for` loop is not the most elegant way to implement this but it does the job and gives you another example of how loops can be useful. I will walk you through details and then you We will implement the code that loads and merges individual files for persistence study. Download the [persistence.zip](data/persistence.zip) and unzip into `Persistence` subfolder (we do not want to create a mess in your main folder!).
 
 First, you need to have a character vector with relevant file names. Package you are looking for is [fs](https://github.com/r-lib/fs) (for File System). It has everything you need to work with the file system, including working with file names (dropping or adding path, extension, etc.), creating/moving/deleting files, checking whether file exists, and what not. One function that I use the most is [dir_ls()](https://www.rdocumentation.org/packages/fs/versions/1.5.0/topics/dir_ls) that list files in a specified folder. The two parameters you need are `path` to your folder (you can and should use a relative path) and, optionally, `glob` filter string. The latter is a [globbing](https://en.wikipedia.org/wiki/Glob_(programming)) wildcard pattern, where `*` stands for "any sequence of characters" and `?` stand for "one arbitrary character. For a csv file, this pattern would be `"*.csv"`. Test this single function call using appropriate `path` and `glob` parameters and make sure you get all the files in _Persistence_ folder.
 
@@ -286,14 +356,14 @@ for(file in fs::dir_ls(path="Persistence/", glob="*.csv"))
   results <- bind_rows(results, current_file)
 }
 
-results %>%
-  head(6) %>%
+results |>
+  head(6) |>
   knitr::kable()
 ```
 
   
 ::: {.infobox .practice}
-Do exercise 10.
+Do exercise 12.
 :::
  
 ## Apply {#apply}
@@ -320,12 +390,12 @@ a_matrix
 
 We would expect median value of any row or column to be 0 but because we have so few data points, they will be close but not exactly zero. Computing median for each row (we should get _three_ numbers)
 ```{r}
-apply(a_matrix, 1, median)
+apply(a_matrix, MARGIN = 1, FUN = median)
 ```
 
 Similarly for a column (here, it should be _four_ numbers)
 ```{r}
-apply(a_matrix, 2, median)
+apply(a_matrix, MARGIN = 2, FUN = median)
 ```
 
 I will not go into any further details on these functions, concentrating on similar functionality by [purrr](#purrr) package. However, if you find yourself working with matrices or needing to apply a function to rows of a data frame, [apply](https://stat.ethz.ch/R-manual/R-devel/library/base/html/apply.html) might be a simpler solution. Keep this option in mind, if you feel that either looping or purrring looks inadequate.
@@ -333,9 +403,9 @@ I will not go into any further details on these functions, concentrating on simi
 ## Purrr {#purrr}
 Package [purrr](https://purrr.tidyverse.org/) is part of the tidyverse. It provides functional programming approach similar to [apply](https://stat.ethz.ch/R-manual/R-devel/library/base/html/apply.html) but it easier to use (IMHO) and it has a more explicit and consistent way to describe and combine the output. Language-wise, you do not _apply_ a function, you use it to [map](https://purrr.tidyverse.org/reference/map.html) inputs on outputs^[Means the same thing but this is a linear algebra way of expressing of what a function does.] 
 
-The basic [map()](https://purrr.tidyverse.org/reference/map.html) function always returns a list but you can explicitly state that you expect function to return a number (`map_dbl()`) and all outputs will be combined into a numeric vector. And, unlike `apply`, `map_dbl()` will generate an error if outputs cannot be converted to numeric. Or, you can specify that you expect each output to be a `data.frame`. In this case, you can automatically bind them by rows via `map_dfr()` or by columns via `map_dfc()`. Again, if all outputs cannot be converted to a `data.frame`, either function will loudly complain (which is good!).
+The basic [map()](https://purrr.tidyverse.org/reference/map.html) function always returns a list but you can explicitly state that you expect function to return a number (`map_dbl()`) and all outputs will be combined into a numeric vector. And, unlike `apply`, `map_dbl()` will generate an error if outputs cannot be converted to numeric.
 
-The basic call is similar to [apply](#apply) but is easier to use as you can explicitly address current value via `.` variable (as in other parts of Tidyverse) and you can write a "normal" function call, prefixing it with a `~`. Here is the example of computing the sinus again. First, same a `apply`
+The basic call is similar to [apply](#apply) but is easier to use as you can explicitly address current value via `.` variable (as in other parts of Tidyverse) and you can write a "normal" function call, prefixing it with a `~`. Here is the example of computing the sinus again. First, same a `apply` via function name only
 ```{r}
 map_dbl(seq(0, pi, length.out = 5), sin)
 ```
@@ -345,20 +415,39 @@ Now, we a magic tilde `~`. Note an explicit call to `sin()` function with `.` as
 map_dbl(seq(0, pi, length.out = 5), ~sin(.))
 ```
 
-Again, using `map_dbl()` in this case looks as a complete overkill. So let us do something more relevant. Let us implement loading and merging of persistence study files. You already know how to get a vector with names of relevant files. Now you can use `map_dfr()` function on this vector to combine them into a single table. When using `~` call notation, remember `.` would then correspond to a single value from the vector of file names (so, a single filename). Again, you should get a single table with twelve columns and 5232 rows.
+Again, using `map_dbl()` in this case looks as a complete overkill. So let us do something more relevant. Let us implement loading and merging of persistence study files. You already know how to get a vector with names of relevant files. Now you can use [map()](https://purrr.tidyverse.org/reference/map.html) function on this vector to generate a list of tables and then combine them into a single table by piping it to [list_rbind()](https://purrr.tidyverse.org/reference/list_c.html) which binds tables by rows (there is a twin  `list_cbind()` function that binds table by columns). When using `~` call notation, remember `.` would then correspond to a single value from the vector of file names (so, a _single_ filename). Again, you should get a single table with twelve columns and 5232 rows. You need a _single_ pipeline for the entire operation.
 
 ::: {.infobox .practice}
-Do exercise 11.
+Do exercise 13.
 :::
 
 You have just _mapped_ inputs on outputs using `read_csv()` but functional programming is particularly useful, if you program your own functions. Let us program a function that takes a filename, loads the file and returns total number of trials/rows (if you forgot how to compute number of rows in a table, see [above](#forloop)). Once you have a function, use it with `map_dbl` and a vector of persistence filenames. You should get a vector of ten values. Now we can easily see that there was something wrong with one of the files and we must pay attention to the amount of data that we have.
 
 ```{r echo=FALSE}
-results %>%
-  group_by(Participant) %>%
-  summarise(N=n(), .groups="drop") %>%
+results <- 
+  fs::dir_ls(path = "data/persistence/", glob = "*.csv") |>
+  purrr::map(~read_csv(., col_types = cols(
+      Participant = col_character(),
+      Session = col_character(),
+      Block = col_integer(),
+      Trial = col_integer(),
+      OnsetDelay = col_double(),
+      Bias = col_character(),
+      Shape1 = col_character(),
+      Shape2 = col_character(),
+      Response1 = col_character(),
+      Response2 = col_character(),
+      RT1 = col_double(),
+      RT2 = col_double()
+    ))) |>
+  bind_rows()
+
+results |>
+  group_by(Participant) |>
+  summarise(N=n(), .groups="drop") |>
   pull(N)
 ```
+
 ::: {.infobox .practice}
-Do exercise 12.
+Do exercise 14.
 :::

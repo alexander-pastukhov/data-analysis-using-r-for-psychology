@@ -1,7 +1,7 @@
 # Sampling and simulations
-An ability to simulate and sample data is important whenever you analyze your data. Simulating data by sampling from predefined distributions allows you develop your analysis routine and ensure that it can correctly recover the anticipated effects even before you have seen or collected the data. Or even before you designed your study as such simulations form a core of the power analysis. Sampling your data paves way for non-paramatric bootstrapping and permutation testing that helps you whenever assumptions of parametric tests are violated or when you require an estimate that is not easy to derive analytically.
+An important trick in your toolbox is a skill to resample and simulate data. The latter, sampling from predefined distributions, allows you develop your analysis routine and ensure that it can correctly recover the anticipated effects even before you have collected the data and perform a power analysis. Resampling your data paves way for non-parametric bootstrapping and permutation testing that helps you whenever assumptions of parametric tests are violated or when you require an estimate that is not easy to derive analytically.
 
-Grab [exercise notebook](notebooks/Seminar 13 - resampling.Rmd) before reading on.
+Grab [exercise notebook](notebooks/Seminar 13 - resampling.qmd) before reading on.
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 library(glue)
@@ -9,68 +9,105 @@ library(tidyverse)
 ```
 
 ## Estimating mean of a normal distribution via resampling
-Let us start very simple. Your task will be to generate samples from a normal distribution and then use resampling approach to estimate the original mean. Step one is simple, decide on mean and standard deviation of the normal distribution and generate 20 samples using [rnorm()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html) function (`r<distribution` functions generate random number based on distribution and its parameters). Check your results visually by plotting a histogram and adding a red [vertical line](https://ggplot2.tidyverse.org/reference/geom_abline.html) to indicate the true mean of the distribution. We also need to see the difference between the true mean and the sample mean. So include a blue vertical line to indicate the _sample_ mean. Run your code several times to appreciate variability of the data and, therefore, of the sample mean. 
-Your plot should look something like this.
+Let us start very simple. Your task will be to generate samples from a normal distribution and then use resampling approach to estimate the original mean. Step one is simple, decide on mean and standard deviation of the normal distribution and generate 20 samples using [rnorm()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html) function (`r<distribution` functions generate random number based on distribution and its parameters). Check your results visually by plotting a histogram and adding a red [vertical line](https://ggplot2.tidyverse.org/reference/geom_abline.html) to indicate the true mean of the distribution. We also need to see the difference between the true mean and the sample mean, so include a blue vertical line to indicate the _sample_ mean. Finally, it is always nice to have both visual and textual information in the plots, so add information about the true mean, number of samples, and sample mean to the plot's title. Run your code several times to appreciate variability of the data and, therefore, of the sample mean. 
+Your plot should look something like this (my number of [set.seed](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html) is 1745).
 ```{r echo=FALSE}
 set.seed(1745)
 true_mean <- 10
 true_sd <- 2
-samples <- rnorm(20, true_mean, true_sd)
+samples_n <- 20
+samples <- rnorm(samples_n, true_mean, true_sd)
 ggplot(data=NULL, aes(x=samples)) + 
   geom_histogram(bins=10) +
   geom_vline(xintercept = true_mean, color="red") +
   geom_vline(xintercept = mean(samples), color="blue") +
-  xlab(glue("Samples from normal distribution with μ={true_mean} and σ={true_sd}"))
+  xlab(glue("Samples from normal distribution with μ={true_mean} and σ={true_sd}")) +
+  labs(subtitle = glue("{samples_n} samples with the sample mean of {round(mean(samples), 2)}"))
 ```
 
 ::: {.infobox .practice}
 Do exercise 1.
 :::
 
-In the real life, we do not know the true mean which is why we need to collect the data to begin with. We also know that our sample mean is different from the true mean and we would like to know how much can we trust that value. In other words, we would like to know how much the _sample mean_ would vary if we would draw some _other_ samples from the same distribution. Theoretically, you want to draw samples from that "true" distribution directly. Practically, you do not have access to it, apart from replicating your experiment or study many times. Instead, you can make either an educated guess about shape and parameters of this distribution. This is a parametric approach used to compute estimators analytically, e.g., from the [Student t Distribution](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/TDist.html). This is the way it is done in the [t.test()](
+In the real life, we do not know the true mean which is why we need to collect the data to begin with. We also know that our sample mean is different from the true mean^[Mean is an [unbiased estimator](https://en.wikipedia.org/wiki/Bias_of_an_estimator), so if we draw infinite samples, their distribution will center on the true mean but  mean for each sample will be either (a tad or a lot) large or smaller than the true one.] and we would like to know how much can we trust that value. In other words, we would like to know how much the _sample mean_ would vary if we would draw some _other_ samples from the same distribution. Theoretically, you want to draw samples from that "true" distribution directly. Practically, you do not have access to it, apart from replicating your experiment or study many times. Instead, you can make an educated guess about shape and parameters of this distribution. This is a parametric approach used to compute estimators analytically, e.g., from the [Student t Distribution](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/TDist.html). This is the way it is done in the [t.test()](
 https://stat.ethz.ch/R-manual/R-devel/library/stats/html/t.test.html).
 
 ```{r}
 t.test(samples, mu = 10)
 ```
 
-The other approach is to assume that your sample and, therefore, the data you collected is representative, so sampling from the data is just like sampling from the true distribution. This is obviously a strong assumption, particularly for small samples. However, this approach can work with any data, regardless of its distribution, and can be used to estimate statistic that is not easy to derive analytically. Thus, below we will use a brute force approach that relies on sheer computer power to compute the same confidence interval through resampling from the original data that you generated. 
+The other approach is to assume that your sample and, therefore, the data you collected is representative, so frequency of individual values in your sample is proportional to the their probability, i.e., the more often you see a particular value, the more likely it is. In this case, sampling from the data is just like sampling from the true distribution. This is obviously a strong assumption, particularly for small samples, however, this approach can work with any data, regardless of its distribution, and can be used to estimate statistic that is not easy to derive analytically. Thus, below we will use a brute force approach that relies on sheer computer power to compute the same confidence interval as one analytically computed by the t-test through resampling of the data that you generated. 
 
-You will need three functions for this. First, the function that samples you data: [sample()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/sample.html). It takes the original data (first parameter `x`) and randomly samples `size` items from it either with or without replacement (controlled by `replace` parameter that defaults to `FALSE`, so no replacement). In our case we want to get a sample of the size as the original data and we want to sample _with_ replacement. Again, this way we pretend that we get another data sample, as if we would run the study again, and the probability of individual entries depends on how frequently they appear in the original data. For our purposes, we want to resample data and compute its mean. Write the code that does just that. Run the chunk several times to see how computed mean value changes due to resampling. As an exercise, set `replace=FALSE` and think what value do you expect and whether and how it would change when run the chunk again.
+You will need three functions for this. First, the function that samples you data: [sample()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/sample.html). It takes the original data (first parameter `x`) and randomly samples `size` items from it either with or without replacement (controlled by `replace` parameter that defaults to `FALSE`, so no replacement). In our case we want to get a sample of the size as the original data and we want to sample _with_ replacement. _With replacement_ means that once a value is drawn from the sample, it is recorded and then _put back in_, so it can be drawn again. _With replacement_ procedure means that probability of drawing a particular value is always the same, whereas _without replacement_ their probabilities change with every draw simply because there fewer and fewer values left to sample from.  
+
+For our purposes, we want to resample data and compute its mean. Write the code that does just that. Run the chunk several times to see how computed mean value changes due to resampling. As an exercise, set `replace = FALSE` and, _before running the chunk_, think what value do you expect  and whether and how it would change when run the chunk again.
 
 ::: {.infobox .practice}
 Do exercise 2.
 :::
 
-Our second step is to repeat out first step many times. Say, 1000 times. The function that helps you to do this is [replicate()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/lapply.html). That takes number of repetitions (first parameter `n`) and an arbitrary R code that returns a value (our step one). Once you run it, you will get a vector of 1000 means from resampled data. Plot the histogram, overlaying the true and sample means as a reference
-```{r echo=FALSE}
-replisamples <- replicate(1000, mean(sample(samples, replace=TRUE)))
-ggplot(data=NULL, aes(x=replisamples)) + 
-  geom_histogram(bins=10) +
-  geom_vline(xintercept = true_mean, color="red") +
-  geom_vline(xintercept = mean(samples), color="blue") +
-  xlab("Distribution of resampled means")
-```
+Our resampling-and-computing-mean code is very simple and brief. However, it is generally a good idea to pack it into a function with a meaningful name. Do just that: turn the code of exercise 2 into a function (think about function parameters and what it should return) and call it to check that everything works (when you pass a sample to it, it should return a resampled mean for it).
 
-Our final step is to use [quantile()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile) function to compute 95% confidence interval. [quantile()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile) function takes a vector and computes a value that is greater than `probs` fraction of values in that vector. E.g., if `probs=c(0.25, 0.75)`, it will return a two values, so that 25% of values are smaller than the first one and 75% of them are smaller than the second. Or, to put it differently, 50% of all values are with `probs=c(0.25, 0.75)`. In our case, we want to compute 95% confidence interval, i.e., 95% of all values should be between the lower and upper confidence interval values. Once you run the code, you should see that 95% confidence interval from resampling is very similar to what the t-test reported (you want get the same values due to random sampling but they should also be close to the t-test's analytic estimate).
-```{r echo=FALSE}
-CI <- round(quantile(replisamples, c((1-0.95)/2, 1-(1-0.95)/2)), 6)
-glue("95% CI: {CI[1]} {CI[2]}")
-```
 ::: {.infobox .practice}
 Do exercise 3.
 :::
 
+Our second step is to repeat our first step many (say, 1000) times. The base R function that helps you to do this is [replicate()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/lapply.html). That takes number of repetitions (first parameter `n`) and an arbitrary R code that returns a value (our step one). Once you run it, you will get a vector of 1000 means from resampled data. Plot the histogram, overlaying the true and average samples' means (so mean of the means of samples, not a just a mean of all samples!) as a reference. Your plot should look like this
+```{r echo=FALSE}
+resample_mean <- function(values) {mean(sample(values, size = length(values), replace = TRUE))}
+iterations_n <- 1000
+replisamples <- replicate(iterations_n, mean(sample(samples, replace=TRUE)))
+
+ggplot(data=NULL, aes(x = replisamples)) + 
+  geom_histogram(bins=10) +
+  geom_vline(xintercept = true_mean, color="red") +
+  geom_vline(xintercept = mean(replisamples), color="blue") +
+  xlab("Distribution of resampled means") +
+  labs(subtitle = glue("Mean of {iterations_n} samples' means is {round(replisamples, 2)}"))
+```
+
+Our final step is to use [quantile()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile) function to compute 95% confidence interval. [quantile()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile) function takes a vector and computes a value that is greater than `probs` fraction of values in that vector. E.g., if `probs=c(0.25, 0.75)`, it will return a two values, so that 25% of values are smaller than the first one and 75% of them are smaller than the second. Or, to put it differently, 50% of all values are with `probs=c(0.25, 0.75)`. In our case, we want to compute 97%^[Because 97 is a prime number and 95 is not, so 97 is a bit less arbitrary than 95!] confidence interval, i.e., 97% of all values should be between the lower and upper confidence interval values. Once you run the code, you should see that 97% confidence interval from resampling is very similar to what the t-test reported (you want get the same values due to random sampling but they should also be close to the t-test's analytic estimate). Add this information to the caption (often, this information is put directly into the text, but I find it simpler if all quantitative information is together and easy to find)
+```{r echo=FALSE}
+CI <- 97
+mean_CI <- round(quantile(replisamples, c((1-CI/100)/2, 1-(1-CI/100)/2)), 2)
+
+ggplot(data=NULL, aes(x = replisamples)) + 
+  geom_histogram(bins=10) +
+  geom_vline(xintercept = true_mean, color="red") +
+  geom_vline(xintercept = mean(replisamples), color="blue") +
+  xlab("Distribution of resampled means") +
+  labs(subtitle = glue("Mean and {CI}% CI of {iterations_n} samples' means is {round(replisamples, 2)} [{mean_CI[1]}..{mean_CI[2]}]"))
+```
+::: {.infobox .practice}
+Do exercise 4.
+:::
+
+## Repeating computation via for loop
+As we discussed in the a [chapter on loops and repetitions](#control-flow-chapter), whereas many ways to repeat a computation in R. Let's replicate the sampling part of the code, using [for loop](#forloop). This is not the best way to perform our current task, but it is a safer approach if your computation is heavy and takes a long time, as it is easier to perform bookkeeping, retain data and restart the computation if something goes wrong (e.g., you run out of memory or file space), compared to functional programing via [replicate]((https://stat.ethz.ch/R-manual/R-devel/library/base/html/lapply.html)) or [purrr](https://purrr.tidyverse.org/), where you might need to start from scratch.
+
+Think about how you will define number of iterations, whether you need to use the loop variable, how you concatenate new sample mean to the vector, etc. 
+
+::: {.infobox .practice}
+Do exercise 5.
+:::
+
+## Repeating computation via purrr
+Practice makes perfect, so let us replicate the code repeating via [purrr](#purrr) library. Think about which [map function](https://purrr.tidyverse.org/reference/map.html) is best for the job, whether you need to use the special `.` variable, etc.
+
+::: {.infobox .practice}
+Do exercise 6.
+:::
+
 ## Bootstrapping via boot library
-The approach that we used is called ["bootstrapping"](https://en.wikipedia.org/wiki/Bootstrapping_(statistics)) and R conveniently has a [boot](https://cran.r-project.org/web/packages/boot/index.html) library to simplify and automate bootstrapping and the confidence interval computation. You do not need to install it (`boot` comes with base R) but you need to import it via `library(boot)`. 
+The approach that we used is called ["bootstrapping"](https://en.wikipedia.org/wiki/Bootstrapping_(statistics)) and R is all about giving you options, so it has a [boot](https://cran.r-project.org/web/packages/boot/index.html) library to simplify and automate bootstrapping and the confidence interval computation. You do not need to install it (`boot` comes with base R) but you need to import it via `library(boot)`. 
 
 The key function is [boot()](https://stat.ethz.ch/R-manual/R-devel/library/boot/html/boot.html). It has plenty of parameters that allow you to fine tune its performance but the three key compulsory parameters are 
 
 * `data`: your original data you want to use for bootstrapping.
-* `statistic`: function(s) that compute desired statistic, such as mean in our case.
+* `statistic`: function(s) that compute desired statistic, such is mean in our case.
 * `R`: the number of bootstrap replicates (we used 1000 when we did this by hand).
 
-For non-parametric bootstraping, like the one we used above, you will need to write the `statistic` function yourself even if you want to compute a statistic for which functions already exist, like mean or standard deviation. This is because `statistic` function must take at least two arguments: 1) the data that you passed and 2) how it should be resampled. By default, the second parameter will contain indexes of elements in the data. Note that bootstrap resamples _with_ replacement, so the same index can appear more than once meaning that the same element was drawn more than once (just as we did above).
+For non-parametric bootstrapping, like the one we used above, you will need to write the `statistic` function yourself even if you want to compute a statistic for which functions already exist, like mean or standard deviation. This is because `statistic` function must take at least two arguments: 1) the data that you passed and 2) how it should be resampled. By default, the second parameter will contain indexes of elements in the data. Note that bootstrap resamples _with_ replacement, so the same index can appear more than once, i.e., the same element is drawn more than once (just as we did above).
 
 Your statistic function should like as following, of course with a better name and an actual code inside.
 ```r
@@ -81,10 +118,10 @@ your_statistic_function <- function(data, indexes){
 
 Once you have this function, you can bootstrap samples via
 ```r
-booted_samples <- boot(samples, statistic = your_statistic_function, R=1000)
+booted_samples <- boot(samples, statistic = your_statistic_function, R = 1000)
 ```
 
-Next, use function [boot.ci()](https://stat.ethz.ch/R-manual/R-devel/library/boot/html/boot.html) to compute the confidence interval. It takes your bootstrapped samples as a first parameter. You can also specify the confidence interval you are interested in (`conf`, defaults to 0.95) and `type` of the confidence interval. The one we computed above is called percentile (`type="perc"`), so this is the type you should specify. Once you run the code the output should be similar to that below.
+Next, use function [boot.ci()](https://stat.ethz.ch/R-manual/R-devel/library/boot/html/boot.html) to compute the confidence interval, which takes your bootstrapped samples as a first parameter. You can also specify the confidence interval you are interested in (`conf`, defaults to 0.95 but we want 97!) and `type` of the confidence interval. The one we computed above is called percentile (`type="perc"`), so this is the type you should specify^[It also supports other kinds of intervals, including bias corrected and accelerated CIs, so once you get serious about bootstrapping, you can use boot for more advanced analysis as well.]. Once you run the code the output should be similar to that below.
  
 ```{r echo=FALSE}
 library(boot)
@@ -98,180 +135,101 @@ boot.ci(booted_samples, type="perc")
 As you can see, we very similar results as above (but for variation due to sampling). Thus, either approach will work but, in most cases, `boot` is more flexible solution (but do read on bootstrapping before using advanced options).
 
 ::: {.infobox .practice}
-Do exercise 4.
-:::
- 
-## More samples give you more confidence
-In the exercises above, we computed confidence intervals for the mean based on 20 original samples. However, this was an arbitrary number I came up with. For the real study, you would like to know how the number of samples (participants, trials per condition, etc.) affects the width of the confidence interval. For example, assuming that our data comes from a normal distribution centered at 0.5 with a standard deviation of 2, how many samples do we need to be certain that mean is not a zero (confidence interval does not overlap with zero)?
-
-The solution is to simulate this situation using different number of samples. We will need to package the simulation into function to make it simpler to work with it but let us start with plain script code first. Assume that variable (our future parameter) `n_samples` holds number of samples that you need to generate (set it to some arbitrary value, e.g., 10). You code should
-
-* draw `n_samples` random samples from a normal distribution with mean of 0.5 and standard deviation of 2.
-* bootstrap 1000 estimates of the mean.
-* compute percentile 95% confidence interval. 
-* store it into a tibble along with number of samples.
-
-The only tricky part is extracting the confidence interval values from the object that [boot.ci()](https://stat.ethz.ch/R-manual/R-devel/library/boot/html/boot.html) function returns. Assuming that you computed percentile CI and stored the value in variable `CI`, the lower limit is `CI$percent[4]` and the upper is in `CI$percent[5]`. Your final tibble should look as follows (`lowerCI` and `upperCI` will be different for you because of random sampling).
-```{r echo=FALSE}
-CI_for_sim <- function(n_samples){
-  data <- rnorm(n_samples, 0.5, 2)
-  booted_samples <- boot(data, statistic = custom_mean, R=1000)
-  CI <- boot.ci(booted_samples, type="perc")
-  tibble(avg = mean(data),
-         lowerCI = CI$percent[4],
-         upperCI = CI$percent[5])
-}
-
-CI_for_sim(10) %>%
-  select(-avg) %>%
-  knitr::kable()
-```
-
-Once you code is working, turn it into a function (I called it `CI_for_sim`) that takes `n_samples` as a parameter. Test it by calling it with `n_samples = 10`, the result should be exactly the same as before.
-
-::: {.infobox .practice}
-Do exercise 5.
-:::
-
-Next, we need to run this function for different number of samples and we want to end up with a table, like the one below.
-```{r echo=FALSE, cache=TRUE}
-set.seed(91637789)
-bootstrapped_CIs <- 
-  tibble(n_samples = 10:100) %>%
-  group_by(n_samples) %>%
-  group_modify(~CI_for_sim(.y$n_samples))
-knitr::kable(head(bootstrapped_CIs %>% select(-avg)))
-```
-
-There are different ways to do this but we will use this as an opportunity to learn about [group_modify()](https://dplyr.tidyverse.org/reference/group_map.html), a function that allows you to apply a function to each group in your table. The only condition for such function is that it must return a table. All tables are bind together by row so you end up with a single table. A table that function returns can be of any length and have as many columns as required. Thus, [group_modify()](https://dplyr.tidyverse.org/reference/group_map.html) is a powerful way to compute many columns at the same time, expand, modify, or summarize the group. Here is an example of how you use it.
-```{r}
-avg_mpg_per_cylinder <- function(mpg_values, cylinders_n) {
-  tibble(AvgMpgPerCylinder = mean(mpg_values) / cylinders_n,
-         Variance = var(mpg_values) / cylinders_n)
-}
-
-mpg %>%
-  group_by(cyl, year) %>%
-  group_modify(~avg_mpg_per_cylinder(.x$cty, .y$cyl)) %>%
-  knitr::kable()
-```
-
-The function takes a vector of values on fuel efficiency (`mpg_values`) and a number of cylinders (`cylinders_n`) and returns a table with mean and variance of fuel efficiency per cylinder. When calling this function inside the [group_modify()](https://dplyr.tidyverse.org/reference/group_map.html), you need to use `~` before the function call (tells Tidyverse that you want to execute the code as is) and use `.y$` for variables that define the group (would be `cyl` and `year` in our case) and `.x$` for other columns.
-
-Let us use [group_modify()](https://dplyr.tidyverse.org/reference/group_map.html) to simulate CIs for different number of samples. In a single pipe, 
-
-1. create a [tibble](https://tibble.tidyverse.org/reference/tibble.html) with a single column `n_samples` and assign some reasonable range of values to it (I went from 10 to 100)
-2. group data by the number of samples
-3. simulate data and compute CI by calling your `CI_for_sim()` function inside the [group_modify()](https://dplyr.tidyverse.org/reference/group_map.html).
-
-Once you are done, your table should look something like this.
-```{r echo=FALSE}
-knitr::kable(head(bootstrapped_CIs))
-```
-
-::: {.infobox .practice}
-Do exercise 6.
-:::
-
-It is much easier to understand the data once we visualize it. Plot the results using [geom_ribbon()](https://ggplot2.tidyverse.org/reference/geom_ribbon.html) (note that you will need to set `y` aesthetics to some variable or value even though it is not used) and [geom_hline()](https://ggplot2.tidyverse.org/reference/geom_abline.html). The plot should look similar to the one below.
-```{r echo=FALSE}
-ggplot(data=bootstrapped_CIs, aes(x=n_samples, y=lowerCI)) + 
-  geom_ribbon(aes(ymin=lowerCI, ymax=upperCI), alpha=0.25) + 
-  geom_hline(yintercept = 0, color="red") + 
-  ylab('Confidence interval') +
-  xlab('Number of samples')
-```
-
-::: {.infobox .practice}
 Do exercise 7.
 :::
 
-As you can see in the plot above, confidence intervals vary a lot, so it is hard to be certain about the number of samples we require. Thus, we need to sample the bootstrap as well. Redo the analysis but now create a tibble with two columns --- `n_samples` (go 10 to 100) and `iteration` (go 1 to 100) --- and fill the table with all combinations of these values (you should get 9100 rows). Next, simulate and compute CI for each combination of `n_samples` and `iteration` and then compute _average_ lower and upper interval for each `n_samples` value. Plot these averages as we did above and you should see a much smoother plot that makes it easier to decide on the required number of samples (probably around 75). Note, if your simulations takes too long, reduce the number of iterations or use a larger step between `n_samples` (not 1 as we did before but 2 or 5).
-```{r echo=FALSE, cache=TRUE}
-set.seed(91638957)
-bootstrapped_CIs <- 
-  expand_grid(iteration = 1:100,
-              n_samples = 10:100) %>%
-  group_by(iteration, n_samples) %>%
-  group_modify(~CI_for_sim(.y$n_samples))
+## Confidence about proportion of responses for Likert scale {#likert-confidence}
+We have looked at how one should present information on Likert scale responses a couple of times already. Let us return to it to see how you can compute not just a proportion of response level report, but also a percentile confidence interval for it, to see how reliable are these numbers. We will use a smaller file with just one scale --- [likert-scale.csv](data/likert-scale.csv) --- and your first task is to reuse your old from [chapter on factors](#likert-scale-01) but making sure that your counts are [complete](https://tidyr.tidyverse.org/reference/complete.html) as we did in [chapter on tidyr](#likert-scale-01). Package the code that counts and computes proportions per condition and response level into a function. It should take a data frame with original data as the first input and a second parameter `resample` that should be `FALSE` [by default](#default-values) (we will use it later). The function should return the summary table and you can reuse 
+that you can plot using the same code as in [chapter on factors](#likert-scale-01). Also, you can reuse you original code for reading and preprocessing the data, _before_ it is used to compute counts and proportions. Your plot should look almost exactly as before but for zeros where uncounted response levels were not plotted previously.
 
-avg <-
-bootstrapped_CIs %>%
-  group_by(n_samples) %>%
-  summarise(Avg = mean(avg),
-            lowerCI = mean(lowerCI),
-            upperCI = mean(upperCI),
-            .groups="drop")
+```{r echo = FALSE, fig.align='center', out.width="100%"}
+im_levels <- c("Not at all true", 
+               "Hardly true",
+               "Slightly true",
+               "Somewhat true",
+               "Mostly true",
+               "Almost completely true",
+               "Very true")
 
-ggplot(data=avg, aes(x=n_samples, y=lowerCI)) + 
-  geom_ribbon(aes(ymin=lowerCI, ymax=upperCI), alpha=0.25) + 
-  geom_hline(yintercept = 0, color="red") + 
-  ylab('Confidence interval') +
-  xlab('Number of samples')
+likert_df <- 
+  read_csv("data/likert-scale.csv",
+            col_types = cols(Participant = col_character(),
+                             Condition = col_double(),
+                             Response = col_double())) |>
+  mutate(Condition = factor(Condition, levels = 1:2, labels = c("game", "experiment")),
+         Response = factor(Response, levels = 1:length(im_levels), labels = im_levels))
+
+count_responses <- function(df, resample = FALSE) {
+  if (resample) df <- sample_frac(df, size = 1, replace = TRUE)
+  
+  df |>
+  count(Condition, Response) |>
+  complete(Condition, Response, fill = list(n = 0)) |>
+  mutate(Probability = n / sum(n))
+}
+
+likert_avg <- count_responses(likert_df)
+  
+ggplot(likert_avg, aes(x = as.integer(Response), y = Probability, color = Condition)) +
+  geom_point() +
+  geom_line() +
+  scale_x_continuous(name = "Probability of the response", breaks = 1:7, labels = im_levels) +
+  theme(legend.position = "top")
 ```
 
 ::: {.infobox .practice}
 Do exercise 8.
 :::
 
-## Adding average sample mean
-Let us redo the computation but add average sample mean to the plot. For this, you need to modify your `CI_for_sim()` function to include sample mean to the tibble that it return and average over mean for different iterations. Your final plot should resemble this. Note how estimated mean remains stable (unbiased) for different number of samples. It is our certainty about the value, as expressed by the confidence interval, that changes.
 
-```{r echo=FALSE}
-ggplot(data=avg, aes(x=n_samples, y=Avg)) + 
-  geom_ribbon(aes(ymin=lowerCI, ymax=upperCI), alpha=0.25) + 
-  geom_line()+
-  geom_hline(yintercept = 0, color="red") + 
-  ylab('Confidence interval') +
-  xlab('Number of samples')
-```
+Modify your function so that if `resample` parameter is `TRUE`, it samples the _entire_ table with replacement. The most suitable function for that is [sample_frac()](https://dplyr.tidyverse.org/reference/sample_n.html) from [dplyr](https://dplyr.tidyverse.org), as you can easily specify the `size` of data as 1 (as many row as in the original table). Or you can use [sample_n()](https://dplyr.tidyverse.org/reference/sample_n.html) but here you must specify the desired number of rows explicitly. Don't forget about replacement! Test your updated function by calling it with `resample = TRUE` and checking that you get _different_ averages every time.
 
 ::: {.infobox .practice}
 Do exercise 9.
 :::
 
-
-## Practice makes perfect
-Our simulations above used normally distributed data. In psychological research, you often use binomial responses (yes/no, correct/mistake). Here, with of a confidence intervals depends both number of samples but also the probability of success ("yes" or "correct" response). Repeat the analysis using four assumed probabilities of success: 0.6, 0.7, 0.8, and 0.9. The logic is the same but you need to use [rbinom()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Binomial.html) to generate random responses. Here, the `size` parameter is the number of samples that we draw, whereas `n` is how many times we draw these samples. It return a random number of successes out of `size` number of trials. E.g., here is how to generate number of successful trials assuming total of 20 trials and probability of success being 0.8.
-```{r}
-rbinom(n=1, size=20, prob=0.8)
-```
-
-Note that you can use `n` parameter to create many (iterations of) draws.
-```{r}
-rbinom(n=10, size=20, prob=0.8)
-
-# same as
-replicate(10, rbinom(n=1, size=20, prob=0.8))
-```
-
-Here, I did not use `boot` library. Instead, I have utilized [rbinom()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Binomial.html) to generate many draws of a given size and [quantile()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile) to compute percentile confidence interval. The final plot should look similar to this (but for quantitative differences due to sampling). As you can see, you need many trials when probability of success is closer to 0.5.
-```{r echo=FALSE}
-CI_for_binom_sim <- function(n_samples, psuccess){
-  data <- rbinom(n = 100, size = n_samples, prob = psuccess) / n_samples
-  tibble(avg = mean(data),
-         lowerCI = quantile(data, (1-0.95)/2),
-         upperCI = quantile(data, 1-(1-0.95)/2))
-}
-
-binom_CIs <- 
-  expand_grid(n_samples = 1:100, psuccess=c(0.6, 0.7, 0.8, 0.9)) %>%
-  group_by(n_samples, psuccess) %>%
-  group_modify(~CI_for_binom_sim(.y$n_samples, .y$psuccess)) %>%
-  mutate(Psuccess = factor(psuccess))
-
-ggplot(binom_CIs, aes(x=n_samples, y=avg, fill=Psuccess)) + 
-  geom_ribbon(aes(ymin=lowerCI, ymax=upperCI), alpha=0.25, show.legend=FALSE) + 
-  geom_line(aes(color=Psuccess), show.legend=FALSE) +
-  geom_hline(yintercept = 0.5, color="black") +
-  facet_grid(.~Psuccess) +
-  xlab("Number of trials") + 
-  ylab("Average and CI")
-```
+As with resampling the mean, now you need to repeat this many (1000, 2000) times over. Here, the prior approaches won't do, as they expect a single number (statistic) whereas our function returns a table of them. Our solution would be to use [map()](https://purrr.tidyverse.org/reference/map.html) function from [purrr](https://purrr.tidyverse.org) library and store these tables in a list that we can turn into a single table via [list_rbind()](https://purrr.tidyverse.org/reference/list_c.html). My suggestion would be to first program the `list_of_tables <- map(...)` part alone for just of couple iterations. Then you can check each table inside the list (remember how to use [simplifying subsetting](#list-subsetting)?) and if they look good and _different_, you can combine them via [list_rbind()](https://purrr.tidyverse.org/reference/list_c.html). Once you are sure that the computation works correctly, you can run it for more iterations to get more samples. Advice, read on `.progress` parameter of the [map()](https://purrr.tidyverse.org/reference/map.html) as it makes waiting for the code to finish a bit less stressful.
 
 ::: {.infobox .practice}
 Do exercise 10.
 :::
 
-## Starting with basics
-What we covered today are basics of simulations and resampling approach. However, once expanded they allow you to explore your models even before you have collected the data and perform power analysis to evalute their expected performance.
+We are on the final stretch! Your table with bootstrapped counts and proportions contains many samples for each combination of condition and response level (e.g., 1000). Use [quantile()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile) function to compute lower and upper limits for the 97% confidence interval. Think about which [dplyr](#dplyr) verbs do you need for this. The table with confidence intervals should look like this (but for variability due to sampling).
+
+```{r echo = FALSE, cache = TRUE}
+likert_resampled <- 
+  purrr::map(1:1000, ~count_responses(likert_df, resample = TRUE)) |>
+  list_rbind()
+
+likert_CI <-
+  likert_resampled |>
+  group_by(Condition, Response) |>
+  summarise(LowerCI = quantile(Probability, (1 - CI/100) / 2),
+            UpperCI = quantile(Probability, 1 - (1 - CI/100) / 2),
+            .groups = "drop")
+
+likert_CI |>
+  knitr::kable()
+```
+
+::: {.infobox .practice}
+Do exercise 11.
+:::
+
+The only thing left to do is to use this in combination with [geom_ribbon()](https://ggplot2.tidyverse.org/reference/geom_ribbon.html) or [geom_errorbar()](https://ggplot2.tidyverse.org/reference/geom_linerange.html) to add 97% CIs to our original plot. Now you have two tables for a single plot and you have two ways to handle this. First, you can [join](#joins) them into a single table. Or, you can pass the table with CIs to the geom itself. In the latter case, you need to use explicit named parameter `data = likert_CI` (or whatever the name of your table is) as geoms in [ggplot2](https://ggplot2.tidyverse.org) expect aesthetics as the first parameter. Also, your CIs table does not have the `Probability` column that you use as aesthetics for `y` and ggplot2 will complain. The solution is to set `y` to one of the limits, as it is not used in the geom itself and this will make no actual difference^[But it is still puzzling for me, why would ggplot2 insist on irrelevant aesthetic in cases like these.].
+
+The final plot should look like this. Note that with so little data our uncertainty about the actual proportion is quite low.
+```{r echo = FALSE, fig.align='center', out.width="100%"}
+ggplot(likert_avg, aes(x = as.integer(Response), y = Probability, color = Condition)) +
+  geom_ribbon(data = likert_CI, aes(ymin = LowerCI, ymax = UpperCI, y = UpperCI, fill = Condition), alpha = 0.5, color = NA) +
+  geom_point() +
+  geom_line() +
+  scale_x_continuous(name = "Probability of the response", breaks = 1:7, labels = im_levels) +  theme(legend.position = "top")
+
+```
+
+::: {.infobox .practice}
+Do exercise 12.
+:::
+
+The procedure and the plot above are my preferred way of reporting Likert scale data. You can use other approaches but always keep in mind that this is _ordinal_ data and should be treated as such, even if you label individual levels with numbers.

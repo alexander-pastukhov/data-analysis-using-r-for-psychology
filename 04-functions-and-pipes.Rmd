@@ -188,7 +188,7 @@ Do exercise 8.
 :::
 
 
-## Default values
+## Default values{#default-values}
 When you write a function, you can combine simplicity of its use with flexibility via _default values_. I.e., _some_ parameters can have sensible or commonly used values but, if desired, a user can specify their own values to modify functions behavior. For example, function  [mean](https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html) has _three_ parameters. You always need to specify the first one (`x`, a vector of values you are computing the mean of). But you can also specify trimming via `trim` and whether it should ignore `NA` via `na.rm`^[If you do not ignore `NA` then the mean of a vector with at least one `NA` in it is `NA` as well]. By default, you do not trim (`trim = 0`) and do not ignore `NA` (`na.rm = FALSE`). These defaults are sensible as they produce a typically expected behavior. At the same time their existence means that you can fine-tune your mean computation the way you require.
 
 When writing your own function, you specify the default values when you define an argument. E.g., here, the second parameter `r`, the radius, has a default value of 1, so you can only specify the direction of the vector to compute (x, y)  coordinates for a (default) _unit_ vector.
