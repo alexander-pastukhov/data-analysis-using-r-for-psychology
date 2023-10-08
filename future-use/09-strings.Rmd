@@ -1,0 +1,245 @@
+# Working with strings {#strings}
+
+## Creating strings via glue {#glue}
+Our table above gives us information about _median_ probability of seeing the same rotation. However, this is a _point estimate_ and we would like to quantify its uncertainty. We could supplement it via [median absolute deviation from the median](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/mad.html). However, that raises a question of how to put both values median and MAD into a single cell of our table. We will do it by creating a [string](https://stat.ethz.ch/R-manual/R-devel/library/base/html/character.html) "<median> ± <MAD>". The table should look like this:
+```{r echo=FALSE}
+adaptation %>%
+  mutate(Psame = Nsame / Ntotal,
+         Prime = factor(Prime, levels = c("Sphere", "Quadro", "Dual", "Single")),
+         Probe = factor(Probe, levels = c("Sphere", "Quadro", "Dual", "Single"))) %>%
+  group_by(Prime, Probe) %>%
+  summarise(Pmedian = round(median(Psame), 2),
+            Pmad = round(mad(Psame), 2),
+            Pinfo = glue::glue("{Pmedian} ± {Pmad}"),
+            .groups = "drop") %>%
+  pivot_wider(id_cols = "Prime", names_from="Probe", values_from="Pinfo") %>%
+  knitr::kable(align = "c", caption="Probability of persistence, median ± MAD")
+```
+
+There are different ways to construct this string, for example via [sprintf()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/sprintf.html), [paste()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/paste.html), or via [glue](https://glue.tidyverse.org/) package. We will start with Tidyverse's [glue()](https://glue.tidyverse.org/reference/glue.html) and explore base R functions later.
+
+[glue](https://glue.tidyverse.org/) package is part of the Tidyverse, so it should be already installed. However, it is not part of _core_ tidyverse, so it does not get imported automatically via `library(tidyverse)` and you do need to import it separately or use `glue::` prefix. Function [glue()](https://glue.tidyverse.org/reference/glue.html) allows you to "glue" values and code directly into a string: You simply surround _any_ R code by wiggly brackets and the result of the code execution is glued in. If you use just a variable, its value will be glued-in. But, again, you can put _any_ code inside, although, the more code you put, the harder it will be to read and understand it.
+```{r}
+answer <- 42
+bad_answer <- 41
+glue::glue("The answer is {answer}, not {abs(bad_answer / -4)}")
+```
+
+So, update your exercise 5 by computing [mad()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/mad.html) and putting "<median> ± <MAD>" (you will want to use [round()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Round.html) function to restrict values to just 2 digit after the decimal point). Think about _when_ you want to perform this computation (before or after pivoting?) and which column(s?) do you need to pivot wider.
+
+::: {.infobox .practice}
+Do exercise 6.
+:::
+
+## paste {#paste}
+Base R has functions [paste()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/paste.html) and [paste0()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/paste.html) that are conceptually very similar to [glue()](https://glue.tidyverse.org/reference/glue.html). The concatenate a vector a strings into a single string. If you recall, vector values can [only be of one (most flexible) type](#vectors-are-homogeneous). Therefore, if you have a vector that intersperses string with other values, they will _first_ converted to strings anyhow. The difference between the two is that `paste()` put a separator string in-between each value (defaults to `' '` but you can define your own), whereas where is no extra separator for `paste0()`. We can replicate our [glue()](https://glue.tidyverse.org/reference/glue.html) example.
+```{r}
+answer <- 42
+bad_answer <- 41
+paste("The answer is ", answer, ", not ", abs(bad_answer / -4), sep="")
+paste0("The answer is ", answer, ", not ", abs(bad_answer / -4))
+```
+
+Redo exercise 6 but using one of the [paste](https://stat.ethz.ch/R-manual/R-devel/library/base/html/paste.html) functions instead of the [glue()](https://glue.tidyverse.org/reference/glue.html).
+::: {.infobox .practice}
+Do exercise 7.
+:::
+
+## sprintf {#sprintf}
+Base R has another more traditional [sprintf()](https://stat.ethz.ch/R-manual/R-patched/library/base/html/sprintf.html) function that provides a C-style string formatting (same as Python's original string formatting). The general function call is `sprintf("string with formatting", value1, value2, value)`, where values are are inserted into the string. In `"string with formatting"`, you specify where you want to put the value via `%` symbol that is followed by an _optional_ formatting info and the _required_ symbol that defines the **type** of the value. The type symbols are
+
+* `s` for string
+* `d` for an integer
+* `f` for a float value using a "fixed point" decimal notation
+* `e` for a float value usaing an exponential notation (e.g., `1e2`).
+* `g` for an "optimally" printed float value, so that exponential notation is used for large values (_e.g._, `10e5` instead of `100000`).
+
+Here is an example of formatting a string using an integer:
+```{r}
+sprintf("I had %d pancakes for breakfast", 10)
+```
+
+You are not limited to a single value that you can put into a string. You can specify more locations via `%` but you must make sure that you pass the right number of values. Before running it, can you figure out which call will actually work (and what will be the output ) and which will produce an error?
+
+```{r eval=FALSE}
+sprintf("I had %d pancakes and either %d  or %d stakes for dinner", 2)
+sprintf("I had %d pancakes and %d stakes for dinner", 7, 10)
+sprintf("I had %d pancakes and %d stakes for dinner", 1, 7, 10)
+```
+
+In case of real values you have two options: `%f` and `%g`. The latter uses scientific notation (e.g. `1e10` for `10000000000`) to make a representation more compact. When formatting floating numbers, you can specify the number of decimal points to be displayed.
+```{r}
+e <- 2.71828182845904523536028747135266249775724709369995
+sprintf("Euler's number is roughly %.4f", e)
+```
+
+::: {.infobox .practice}
+Do exercise 8.
+:::
+
+Redo exercise #6 but use [sprintf()](https://stat.ethz.ch/R-manual/R-patched/library/base/html/sprintf.html) instead of [glue()](https://glue.tidyverse.org/reference/glue.html).
+::: {.infobox .practice}
+Do exercise 9.
+:::
+
+## Extracting information from a string
+Previous exercises dealt with combining various bits of information into a single string. Often, you also need to do the opposite: extract these information bits from a single string. For example, in the toy table on face perception, we have been working with, `Face` column code gender of the face `"M"` (table is short but you can easily assume that faces of both genders were used) and the second is its index (`1` and `2`). When we worked with [persistence](data/persistence.csv), `Participant` column encoded year of birth and gender, whereas `Session` contained detailed information about year, month, day, hour, minutes, and seconds all merged together. There are several ways to extract this information, either by extracting one piece at a time via [
+substr()]()
+
+[separate()](https://tidyr.tidyverse.org/reference/separate.html) function, discussed below, via [extract()](https://tidyr.tidyverse.org/reference/extract.html) function or extracting one piece at a time 
+string processing library [stringr](https://stringr.tidyverse.org/).
+
+## Separate
+Use of [separate()](https://tidyr.tidyverse.org/reference/separate.html) functions is generally straightforward: you pass the name of the column that you want to split, names of the columns it needs to be split into, a separator symbol or indexes of splitting positions. Examples using the face table should make it clear. Reminder, this is the original wide table and we want to separate `Face` into `FaceGender` and `FaceIndex`.
+
+```{r eacho=FALSE}
+widish_df %>%
+  knitr::kable()
+```
+
+As there is a very convenient "dash" between the two, we can use it for a separator symbol:
+```r
+widish_df %>%
+  separate(Face, into=c("FaceGender", "FaceIndex"), sep="-")
+```
+```{r echo=FALSE}
+widish_df %>%
+  separate(Face, into=c("FaceGender", "FaceIndex"), sep="-") %>%
+  knitr::kable()
+```
+
+Note that the original `Face` column is gone. We can keep it via `remove=FALSE` option
+```r
+widish_df %>%
+  separate(Face, into=c("FaceGender", "FaceIndex"), sep="-", remove=FALSE)
+```
+```{r echo=FALSE}
+widish_df %>%
+  separate(Face, into=c("FaceGender", "FaceIndex"), sep="-", remove=FALSE) %>%
+  knitr::kable()
+```
+
+We also do not need to extract _all_ information. For example, we can extract only face gender or face index. To get only the gender, we only specify _one_ `into` column and add `extra="drop"` parameter, telling `separate()` to drop any extra piece it obtained:
+```r
+widish_df %>%
+  separate(Face, into=c("Gender"), sep="-", remove=FALSE, extra="drop")
+```
+```{r echo=FALSE}
+widish_df %>%
+  separate(Face, into=c("Gender"), sep="-", remove=FALSE, extra="drop") %>%
+  knitr::kable()
+```
+
+Alternatively, we can explicitly _ignore_ pieces by using `NA` for their column name:
+```r
+widish_df %>%
+  separate(Face, into=c("Gender", NA), sep="-", remove=FALSE)
+```
+```{r}
+widish_df %>%
+  separate(Face, into=c("Gender", NA), sep="-", remove=FALSE) %>%
+  knitr::kable()
+```
+
+What about keeping only the _second_ piece in a `FaceIndex` column? We ignore the first one via `NA`
+```r
+widish_df %>%
+  separate(Face, into=c(NA, "Index"), sep="-", remove=FALSE)
+```
+```{r}
+widish_df %>%
+  separate(Face, into=c(NA, "Index"), sep="-", remove=FALSE) %>%
+  knitr::kable()
+```
+
+Let's practice. Use `separate()` to preprocess [persistence](data/persistence.csv) data and create two new columns for hour and minutes from `Session` column. Do it in a single pipeline, starting with reading the file. You results should look like this, think about columns that are drop or keep (this is only first four rows, think of how you can limit your output the same way via [head()](https://stat.ethz.ch/R-manual/R-devel/library/utils/html/head.html) function):
+```{r echo=FALSE}
+read_csv("data/persistence.csv",
+         col_types = cols(filename = col_character(),
+                          Participant = col_character(),
+                          Session = col_character(),
+                          Block = col_double(),
+                          Trial = col_double(),
+                          OnsetDelay = col_double(),
+                          Bias = col_character(),
+                          Prime = col_character(),
+                          Probe = col_character(),
+                          Response1 = col_character(),
+                          Response2 = col_character(),
+                          RT1 = col_double(),
+                          RT2 = col_double()
+                        )) %>%
+  select(-filename) %>%
+  separate(Session, into=c(NA, NA, NA, "Hour", "Minutes", NA), sep="-") %>%
+  head(4) %>%
+  knitr::kable()
+```
+
+::: {.infobox .practice}
+Do exercise 5.
+:::
+
+As noted above, if position of individual pieces is fixed, you can specify it explicitly. Let us make out toy table a bit more explicit
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+widish_df <- 
+  tibble(Participant = c(1, 1, 2, 2),
+         Face = rep(c("Female-01", "Female-02"), 2), 
+         Symmetry = c(6, 4, 5, 3),
+         Attractiveness = c(4, 7, 2, 7),
+         Trustworthiness = c(3, 6, 1, 2))
+
+knitr::kable(widish_df, align="c")
+```
+
+
+For our toy faces table, the first piece is the gender and the last one is its index. Thus, we tell `separate()` starting position each pieces, starting with the _second_ one:
+```r
+widish_df %>%
+  separate(Face, into=c("FaceGender", "Dash", "FaceIndex"), sep=c(6, 7))
+```
+```{r}
+widish_df %>%
+  separate(Face, into=c("FaceGender", "Dash", "FaceIndex"), sep=c(6, 7), remove=FALSE) %>%
+  knitr::kable()
+```
+
+Here, I've create `Dash` column for the separator but, of course, I could have omitted it via `NA` column name.
+```r
+widish_df %>%
+  separate(Face, into=c("FaceGender", NA, "FaceIndex"), sep=c(4, 5))
+```
+```{r}
+widish_df %>%
+  separate(Face, into=c("FaceGender", NA, "FaceIndex"), sep=c(6, 7)) %>%
+  knitr::kable()
+```
+
+Practice time! Using same [persistence](data/persistence.csv) data extract birth year and gender of participants from `Participant` code (keep the code though!). Put a nice extra touch by converting year to a number and gender into a factor type. Here is how should look like:
+
+```{r echo=FALSE}
+read_csv("data/persistence.csv",
+         col_types = cols(filename = col_character(),
+                          Participant = col_character(),
+                          Session = col_character(),
+                          Block = col_double(),
+                          Trial = col_double(),
+                          OnsetDelay = col_double(),
+                          Bias = col_character(),
+                          Prime = col_character(),
+                          Probe = col_character(),
+                          Response1 = col_character(),
+                          Response2 = col_character(),
+                          RT1 = col_double(),
+                          RT2 = col_double()
+                        )) %>%
+  select(-filename) %>%
+  separate(Participant, into=c(NA, "BirthYear", "Gender"), sep=c(3, 7), remove = FALSE) %>%
+  mutate(BirthYear = as.integer(BirthYear),
+         Gender = factor(Gender, levels=c("F", "M"), labels=c("Male", "Female"))) %>%
+  head(4) %>%
+  knitr::kable()
+```
+
+::: {.infobox .practice}
+Do exercise 6.
+:::

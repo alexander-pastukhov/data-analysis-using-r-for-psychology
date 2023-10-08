@@ -1,0 +1,311 @@
+# Christmas special
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(patchwork)
+library(png)
+library(tidyverse)
+```
+
+Today we will work on our Christmas spirit, while practicing in generating data and plotting. Our end-product will be a Christmas tree plot that you see below. For this project you will need [png](https://cran.r-project.org/package=png) library (you should have it already but check and install, if that is not the case) and a [background image](images/christmas-background.png) created by [Gordon Dylan Johnson](https://openclipart.org/artist/GDJ). Grab the [exercise notebook](notebooks/Seminar 10 - Christmas special.Rmd) as well!
+
+```{r echo=FALSE}
+# tree
+tree_left <- 
+  tibble(y = seq(-3, -0.3, length.out=100)) %>%
+  mutate(x = y - 0.3 * floor(y))
+
+tree_right <- 
+  tree_left %>%
+  mutate(x = -x) %>%
+  arrange(-row_number())
+
+tree_shape <-
+  bind_rows(tree_left, tree_right)
+
+tree <-
+  left_join(tree_left, tree_right, by="y", suffix=c("_left", "_right"))
+
+# background image
+background <- readPNG("images/christmas-background.png")
+
+# decoration
+balls <- 
+  tree %>%
+  mutate(x_range = x_right - x_left) %>%
+  slice_sample(prop = 0.5, weight_by = x_range, replace=TRUE) %>%
+  mutate(x = runif(n(), x_left, x_right),
+         size = rnorm(n(), 5, 1),
+         icolor = factor(sample(1:5, n(), replace=TRUE)))
+
+# star on top
+star_size <- 0.1
+star_n <-7
+star <- 
+  tibble(theta = (0:star_n) * (4 * pi / star_n)) %>%
+  mutate(x = star_size * sin(theta),
+         y = star_size* cos(theta) - 0.3)
+
+# plotting it all together
+ggplot(tree_left, aes(x=x, y=y)) + 
+  annotation_raster(background,
+                    xmin = -Inf, xmax = Inf,
+                    ymin = -Inf, ymax = Inf) +
+  geom_path(color="darkgreen") +
+  geom_ribbon(data=tree, aes(x=x_left, xmin=x_left, xmax=x_right), fill="darkgreen") +
+  geom_path(data=tree_right, color="darkgreen") +
+  geom_point(data=balls, aes(x=x, y=y, size=size, color=icolor), show.legend=FALSE) +
+  geom_polygon(data=star, aes(x=x, y=y), color="white", fill="white") + 
+  theme_void()
+```
+
+## Left side of the tree
+First we need a tree. We will generate its shape using a function: `x = y - 0.3 * floor(y)`, where `y` should vary between -3 and -0.3^[You should definitely try different values for both y range and for the linear part itself to get a feeling of what it does to the shape you generate.] (you already know how to generate a [sequence](https://stat.ethz.ch/R-manual/R-devel/library/base/html/seq.html), so just decide on how many point you want your shape to have). This function describes a _left_ part of the tree, so create a table called `tree_left` with corresponding `x` and `y` columns and plot it via [ggplot2](https://ggplot2.tidyverse.org/). Note that you need to use [geom_path()](https://ggplot2.tidyverse.org/reference/geom_path.html) rather than `geom_line()`. The former connects points in the order they appear in the table, whereas the latter first sort all variables based on the x-axis variable (try it out to see what I mean). You should get a plot like the one below.
+
+```{r echo=FALSE}
+ggplot(tree_left, aes(x=x, y=y)) + 
+  geom_path(color="darkgreen") +
+  coord_equal()
+```
+
+::: {.infobox .practice}
+Do exercise 1.
+:::
+
+## Right side of the tree
+
+We could use an almost the same formula to generate the right side of the tree. Or, we can create it as a mirror copy of the `tree_left`. In the latter case, we must flip the sign of the `x` (so negative `x` become positive). And, a more subtle point, we need to reverse the order of _all_ rows in the table, so that `y` goes from -0.3 to -3 (it is going from -3 to -0.3 in `tree_left`, take a look yourself). You can rearrange table using subsetting or by [arranging](https://dplyr.tidyverse.org/reference/arrange.html) the rows based on [descending order](https://dplyr.tidyverse.org/reference/desc.html?q=desc) of either `y` or [row_number()](https://dplyr.tidyverse.org/reference/ranking.html) (here, it will effectively give you an index for each row). The right side should look just like the left side (but mirrored!).
+
+```{r echo=FALSE}
+ggplot(tree_right, aes(x=x, y=y)) + 
+  geom_path(color="darkgreen") +
+  coord_equal()
+```
+
+::: {.infobox .practice}
+Do exercise 2.
+:::
+
+## The whole tree
+Now let us draw the entire tree. We will do it in two ways, to practice. First, [bind](https://dplyr.tidyverse.org/reference/bind.html) tables `tree_left` and `tree_right` by rows to create a new table (I called it `tree_shape`) and then reuse the same code with a single `geom_path()` call as before. Note that if you have an odd extra line going from bottom right to the top of the tree that means you did not reverse the `tree_right` table (see above).
+
+```{r echo=FALSE}
+ggplot(tree_shape, aes(x=x, y=y)) + 
+  geom_path(color="darkgreen") +
+  coord_equal()
+```
+
+::: {.infobox .practice}
+Do exercise 3.
+:::
+
+Alternatively, you can plot `tree_left` and `tree_right` separately by using two `geom_path()` calls. Here, you use data from _different_ tables in a single plot, so you need to specify `data` parameter more than once. There are three ways to do it here. First, do not specify any data and aesthetics in the `ggplot()` call itself and use it explicitly in each `geom_path()` call. Note that you need to use named parameters via `data=...`.
+```r
+ggplot() + 
+  geom_path(data=tree_left, aes(...), ...) +
+  geom_path(data=tree_right, aes(...), ...)
+```
+
+Or, you can use `tree_left` (or `tree_right`) as a "main" data source and specify a different one only in one of the `geom_path()` calls:
+```r
+ggplot(data=tree_left, aes(...), ...) + 
+  geom_path() +
+  geom_path(data=tree_right)
+```
+
+Here, I would suggest the first option of not specifying a "main" data source, as we will use even more different tables later on.
+
+::: {.infobox .practice}
+Do exercise 4.
+:::
+
+## Filling in the tree
+Now, let us "fill in" the shape between the lines. For this, we will use [geom_ribbon](https://ggplot2.tidyverse.org/reference/geom_ribbon.html) that fills in a shape either between vertical limits (when you specify `ymin` and `ymax` aesthetics) or between the horizontal ones (`xmin` and `xmax`). The latter is our case but first we need to combine our left and right shape into a single table with three columns: `y` coordinate and `x_left` and `x_right` coordinates. Think how can you join these the two tables `tree_left` and `tree_right` to achieve this (pause and ponder before reading further).
+
+```{r echo=FALSE}
+ggplot(tree_left, aes(x=x, y=y)) + 
+  geom_path(color="darkgreen") +
+  geom_ribbon(data=tree, aes(x=x_left, xmin=x_left, xmax=x_right), fill="darkgreen")
+```
+
+Hint: use a [join](https://dplyr.tidyverse.org/reference/mutate-joins.html) but pay attention to `suffix` parameter as it will be useful. Put the new table into the `tree` variable (we will use it later again). Take a look at the table you get before plotting it using [geom_ribbon](https://ggplot2.tidyverse.org/reference/geom_ribbon.html).
+
+::: {.infobox .practice}
+Do exercise 5.
+:::
+
+## Adding background image
+Our background is not very Christmasy. We should drop the grid altogether (which [theme](https://ggplot2.tidyverse.org/reference/ggtheme.html) would be the best?) and replace it with a [nice picture](images/christmas-background.png). To use this picture, you need the [png](https://cran.r-project.org/package=png) library (import it in the setup chunk, not here!) and then use `readPNG()` function (see [official docs](https://cran.r-project.org/web/packages/png/png.pdf) or just type `?readPNG` in console). Once you read an image into a variable (I imaginatively called it `background`), you can add it to the plot in two ways. A simpler way is by using function [background_image()](https://rpkgs.datanovia.com/ggpubr/reference/background_image.html) from [ggpubr](https://rpkgs.datanovia.com/ggpubr/) library. You add it to the plot just as you do with other geoms. However, this function is only a very thin wrapper for [annotation_raster()](https://ggplot2.tidyverse.org/reference/annotation_raster.html) call, so you could copy-paste it from the function body and use it directly:
+```{r}
+# code from ggpubr github repository
+background_image <- function(raster.img){
+  annotation_raster(raster.img,
+                    xmin = -Inf, xmax = Inf,
+                    ymin = -Inf, ymax = Inf)
+}
+```
+
+You new plot should look like this:
+```{r echo=FALSE}
+ggplot(tree_shape, aes(x=x, y=y)) + 
+  annotation_raster(background,
+                    xmin = -Inf, xmax = Inf,
+                    ymin = -Inf, ymax = Inf) +
+  geom_path(color="darkgreen") +
+  geom_ribbon(data=tree, aes(x=x_left, xmin=x_left, xmax=x_right), fill="darkgreen") +
+  theme_void()
+```
+
+::: {.infobox .practice}
+Do exercise 6.
+:::
+
+## Adding decoration (a boring one)
+We need some decoration on our tree. Our task is to generate "Christmas balls" ([geom_point()](https://ggplot2.tidyverse.org/reference/geom_point.html)) at various locations _within_ the tree. For this, we need to first randomly select rows from our `tree` table that you created in exercise 5 and then generate a random location _within_ the tree limits for each sampled row. Let us deal with the first problem (randomly selecting riws, so, effectively, randomly selecting y coordinate) first.
+
+To randomly sample rows from a table, you can use [slice_sample](https://dplyr.tidyverse.org/reference/slice.html) function from [dplyr](https://dplyr.tidyverse.org/index.html). It takes a table and returns a new table with randomly sampled rows. You only need to specify a number of rows that you want to have in a new table either directly (parameter `n`) or as a proportion of number of rows in the original table (parameter `prop`). In our case, I used the latter and sampled half of the original tree table. You also need to decide on whether the same row can be sampled more than once (so-called sampling with replacement). I opted for this via `replace=TRUE` parameter. Finally, we want rows that describe the lower part of the tree to be sampled more often than the upper ones because we can put more decoration on them (the tree is wider). For this, we need to compute width of the tree for each row (a new column that I called `x_range` but you can call it `width`) _before_ the sampling. Then, we can use that `x_range` for the `weight_by` parameter of the [slice_sample](https://dplyr.tidyverse.org/reference/slice.html). Put a sampled table into a new variable (I called it `balls`) and add it to the plot via [geom_point()](https://ggplot2.tidyverse.org/reference/geom_point.html). For the moment, use `x_left` for x-coordinate. It will put all the balls on the left edge of the tree but we will fix this shortly.
+
+```{r}
+balls <- 
+  tree %>%
+  mutate(x_range = x_right - x_left) %>%
+  slice_sample(prop = 0.5, weight_by = x_range, replace=TRUE) %>%
+  mutate(x = runif(n(), x_left, x_right),
+         size = rnorm(n(), 5, 1),
+         icolor = factor(sample(1:5, n(), replace=TRUE)))
+
+ggplot(tree_left, aes(x=x, y=y)) + 
+  annotation_raster(background,
+                    xmin = -Inf, xmax = Inf,
+                    ymin = -Inf, ymax = Inf) +
+  geom_path(color="darkgreen") +
+  geom_ribbon(data=tree, aes(x=x_left, xmin=x_left, xmax=x_right), fill="darkgreen") +
+  geom_path(data=tree_right, color="darkgreen") +
+  geom_point(data=balls, aes(x=x_left, y=y)) +
+  theme_void()
+```
+
+
+::: {.infobox .practice}
+Do exercise 7.
+:::
+
+## Adding decoration (a bit more fun one)
+We created the vertical location for each ball via random sampling. Now we need to generate a valid x-position somewhere in between `x_left` and `x_right` coordinates. Use [runif()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Uniform.html) function for using `x_left` and `x_right`. Note that you need to specify the number of random values to generate. That should be the number of rows in the table. If you do it within mutate, use function [n()](https://dplyr.tidyverse.org/reference/context.html). For base R, you can use [nrow()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/nrow.html). Create a new column `x` and use it for plotting. Note how plot changes every time you re-run the sampling or randomization code.
+
+```{r echo=FALSE}
+ggplot(tree_left, aes(x=x, y=y)) + 
+  annotation_raster(background,
+                    xmin = -Inf, xmax = Inf,
+                    ymin = -Inf, ymax = Inf) +
+  geom_path(color="darkgreen") +
+  geom_ribbon(data=tree, aes(x=x_left, xmin=x_left, xmax=x_right), fill="darkgreen") +
+  geom_path(data=tree_right, color="darkgreen") +
+  geom_point(data=balls, aes(x=x, y=y)) +
+  theme_void()
+```
+
+::: {.infobox .practice}
+Do exercise 8.
+:::
+
+## Adding decoration (the fun ones)
+Black tiny Christmas balls of the same size? That won't do! Generate a new column (I called it `size`) with random ball sizes drawn from a [normal distribution](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html). Decide on a reasonable mean and standard deviation but remember that you need to specify the number of random values that you want (just like for [runif()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Uniform.html) above).
+
+Second, let as specify color of individual balls as a factor variable. This way, we can use it for `color` aesthetics and ggplot2 will use it palettes to pick the colors for us. Just create a vector of some numbers (the number of unique entries will be your number of colors) and convert it to a factor (check what will happen, if you won't do this). Inside the [geom_point()](https://ggplot2.tidyverse.org/reference/geom_point.html) call, use `show.legend=FALSE` to suppress the legend (check what will happen, if you set it to `TRUE` or omit it).
+
+```{r echo=FALSE}
+# plotting it all together
+ggplot(tree_left, aes(x=x, y=y)) + 
+  annotation_raster(background,
+                    xmin = -Inf, xmax = Inf,
+                    ymin = -Inf, ymax = Inf) +
+  geom_path(color="darkgreen") +
+  geom_ribbon(data=tree, aes(x=x_left, xmin=x_left, xmax=x_right), fill="darkgreen") +
+  geom_path(data=tree_right, color="darkgreen") +
+  geom_point(data=balls, aes(x=x, y=y, size=size, color=icolor), show.legend=FALSE) +
+  theme_void()
+```
+
+::: {.infobox .practice}
+Do exercise 9.
+:::
+
+## A star on top
+Our final touch will be a star on the top of the tree. We could use another [geom_point](https://ggplot2.tidyverse.org/reference/geom_point.html) but with a different [shape](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html#sec:shape-spec) but instead we will draw it as a regular polygon with odd number of vertices, like the ones you see below. The numbers indicate the order in which vertices are created and drawn along the path. To make a closed contour, we very first (top) vertex needs to be also the last vertex, so you cannot see a label for #1 (it is covered by #6, #8, and #10 labels) but it is definitely where. Think how you can generate such a shape by walking around the circle with a given angular step and how you can compute x and y coordinates by knowing that angle and a radius (size) of the shape (here, I assumed radius to be 1).
+```{r}
+star_plots <- purrr::map(c(5, 7, 9),
+                         ~tibble(theta = (0:.) * (4 * pi / .)) %>%
+                          mutate(i = 1:n(),
+                                 x = sin(theta),
+                                 y = cos(theta)) %>%
+                          ggplot(aes(x=x, y=y)) + 
+                          geom_path() +
+                          geom_label(aes(label=i)) +
+                          coord_equal())
+
+                      
+star_plots[[1]] | star_plots[[2]] | star_plots[[3]]
+```
+
+If you examine the plots above, you will see that you go around the circle in exactly N steps, where N is 5, 7, or 9. Thus you can compute an angular step between _adjacent_ vertices by diving the length of a circle in degrees or radians by the number of steps you need to make. However, for our star we are not connecting each vertex to a adjacent one but to the _next_ one. Think about what it means to the step size. Once you've figured out the step size, you can generate location of each vertex in term of a _polar angle_ starting at 0 (top position) using that step. Note that you need to have N+1 vertices to close the contour and that serves as a nice sanity check as the polar angle for the first and the last entry mast be the same (keeping in mind that 0 is the same angle as 360° and $2\cdot\pi$). Later on, we want radians as we will use the angle with trigonometric functions but I suggest that you first generate a vector of angles in degrees, as it makes checking values easier.
+
+To turn a polar angle into x/y coordinates, you need to recall [basic trigonometry](https://en.wikipedia.org/wiki/List_of_trigonometric_identities) that is drawn below.
+
+```{r, echo=FALSE, out.width="50%", fig.align = 'center', fig.cap="Cosine and sine on the unit circle by Stephan Kulla (User:Stephan Kulla) - Own work, CC0, https://commons.wikimedia.org/w/index.php?curid=57551646."}
+knitr::include_graphics("images/cos_sin_on_unit_circle.png")
+```
+
+Pick the number of vertices that you like, generate polar angles, convert them to x and y coordinates, and plot the contour to check it visually. Try using [geom_polygon](https://ggplot2.tidyverse.org/reference/geom_polygon.html) with a fill color instead of [geom_path](https://ggplot2.tidyverse.org/reference/geom_path.html).
+
+::: {.infobox .practice}
+Do exercise 10.
+:::
+
+Our star is ready, we only need to add the [geom_polygon](https://ggplot2.tidyverse.org/reference/geom_polygon.html). However, your "default" star will look way to big and will not be on the top of the tree, as in the figure below.
+```{r echo=FALSE}
+star_size <- 0.1
+star_n <-7
+star <- 
+  tibble(theta = (0:star_n) * (4 * pi / star_n)) %>%
+  mutate(x = sin(theta),
+         y = cos(theta))
+
+ggplot(tree_left, aes(x=x, y=y)) + 
+  annotation_raster(background,
+                    xmin = -Inf, xmax = Inf,
+                    ymin = -Inf, ymax = Inf) +
+  geom_path(color="darkgreen") +
+  geom_ribbon(data=tree, aes(x=x_left, xmin=x_left, xmax=x_right), fill="darkgreen") +
+  geom_path(data=tree_right, color="darkgreen") +
+  geom_point(data=balls, aes(x=x, y=y, size=size, color=icolor), show.legend=FALSE) +
+  # geom_path(data=star, aes(x=x, y=y), color="red") +
+  geom_polygon(data=star, aes(x=x, y=y), color="white", fill="white") + 
+  theme_void()
+```
+Think how you can adjust the size (radius of the star) to make it smaller and what adjustment to y-coordinate do you need to make.
+```{r echo=FALSE}
+star_size <- 0.1
+star_n <-7
+star <- 
+  tibble(theta = (0:star_n) * (4 * pi / star_n)) %>%
+  mutate(x = star_size * sin(theta),
+         y = star_size * cos(theta) - 0.3)
+
+ggplot(tree_left, aes(x=x, y=y)) + 
+  annotation_raster(background,
+                    xmin = -Inf, xmax = Inf,
+                    ymin = -Inf, ymax = Inf) +
+  geom_path(color="darkgreen") +
+  geom_ribbon(data=tree, aes(x=x_left, xmin=x_left, xmax=x_right), fill="darkgreen") +
+  geom_path(data=tree_right, color="darkgreen") +
+  geom_point(data=balls, aes(x=x, y=y, size=size, color=icolor), show.legend=FALSE) +
+  # geom_path(data=star, aes(x=x, y=y), color="red") +
+  geom_polygon(data=star, aes(x=x, y=y), color="white", fill="white") + 
+  theme_void()
+```
+
+::: {.infobox .practice}
+Do exercise 11.
+:::
+
+## Merry Christmas!
+Although this assignment might look whimsical, it relies on techniques for parametrically generating data that are useful for real-life power analysis, prior predictive modelling, simulating data for model testing, etc.

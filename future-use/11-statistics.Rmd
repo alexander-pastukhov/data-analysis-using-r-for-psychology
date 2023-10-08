@@ -1,0 +1,552 @@
+# Statistical modeling {#seminar11}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+I suspect that this is a seminar that you were waiting for the most as it finally tells you how to call statistical functions in R. However, from my perspective, it is the least useful seminar in the entire course because if you know statistics and you know which specific tool you need, figuring out how to use it in R is fairly trivial. Conversely, if your knowledge of statistics is approximate, knowing how to call functions will do you little good. The catch about statistical models is that they are very easy to run (even if you implement them by hand from scratch) but they are easy to misuse and very hard to interpret^[In the Statistical Rethinking seminar we spend three seminars learning how to understand and interpret a simple linear multiple regression with just two predictors. And the conclusion is that even in this simple case, you are not guaranteed to fully understand it. And if you think that you can easily interpret an interaction term even for two continuous predictors...].
+
+To make things worse, computers and algorithms do not care. In absolute majority of cases, statistical models will happily accept any input you provide, even if it is completely unsuitable, and spit out numbers. Unfortunately, it is on you, not on the computer, to know what you are doing and whether results even make sense. The only solution to this problem: do not spare any effort to learn statistics. Having a solid understanding of a basic regression analysis will help you in figuring out which statistical tools are applicable and, even more importantly, which will definitely misguide you. This is why I will give an general overview with some examples simulations but I will not explain here when and why you should use a particular tool or how to interpret the outputs. Want to know more? Attend my **Statistical Rethinking** seminar or read an excellent [book](https://www.routledge.com/Statistical-Rethinking-A-Bayesian-Course-with-Examples-in-R-and-STAN/McElreath/p/book/9780367139919) by Richard McElreath that the seminar is based on.
+
+## Formula notation
+Using statistical models in R is particularly easy because most packages make use of a [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) to describe a model. Different functions and packages interpret the formula _mostly_ the same way with differences arising due to how random effects or additional parameters are described. Here is an example of a formula:
+```r
+y ~ 1 + x1 + x2 + x1:x2
+```
+
+It says that the outcome variable `y` should be a modeled as a linear combination of an intercept `1` (can be omitted in a formula), predictor variables `x1` and `x2`, plus their interaction `x1:x2`. This also assume that all these variables are in a single table that you also supply to the function (typically called `data` parameter). Same formula can be shortened by using `*` which means "all predictors and their interaction", thus (omitting redundant intercept)
+```r
+y ~ x1*x2
+```
+
+You can also _exclude_ specific terms via `-`. So, if you insist that the intercept _must_ go through 0, you write "exclude intercept term" as `-1`
+```r
+y ~ x1*x2 - 1
+```
+
+Or you can exclude a specific term or an interaction. The two formulas below are equivalent with a main effect for `x2` and an interaction term but no main effect for `x1`. However, I would generally discourage you from using `-` as the first formula is much harder to understand (or, much easier to misunderstand).
+```r
+y ~ x1*x2 - x1
+y ~ x2 + x1:x2
+```
+
+## Correlation
+To compute correlation, use function [cor()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.html). You have a choice of `method`, either `"pearson"` (default, Pearson's product moment correlation coefficient), or rank-based `"kendall"` (Kendall's tau) or `"spearman"` (Spearman's rho).
+
+```{r}
+df <- 
+  tibble(x = rnorm(100)) %>%
+  mutate(y = rnorm(n(), x, 0.5))
+cor(df$x, df$y, method="pearson")
+```
+Alternatively, you can use [cor.test()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cor.test.html) that also computes test statistics and significance.
+```{r}
+cor_result <- cor.test(df$x, df$y, method="pearson")
+cor_result
+```
+
+`cor.test` returns a list, so you can access its individual elements^[Use (names())[https://stat.ethz.ch/R-manual/R-devel/library/base/html/names.html] function to get names of all elements.] via a double-bracket or `$` notation.
+```{r}
+cor_result$p.value
+```
+
+Bayesian correlation with a posterior distribution for the correlation coefficient and Bayes Factor as a measure of significance, can be computed via `correlationBF()` function, which is part of [BayesFactor](https://richarddmorey.github.io/BayesFactor) package.
+```{r message=FALSE, warning=FALSE}
+library(BayesFactor)
+correlationBF(df$x, df$y)
+cor_bf <- correlationBF(df$x, df$y, posterior = TRUE, iterations=1000)
+ggplot(data=NULL, aes(x=c(cor_bf[, "rho"]))) + 
+  geom_histogram(bins=50, ) + 
+  xlab("Pearson's rho")
+```
+
+## Pairwise comparisons
+For pairwise comparisons for normally distributed data, you can use Student's t-Test via [t.test()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/t.test.html). Here, I generate to `x` as a normally distributed normal variable and `y`, as a normally distributed variable random whose mean is `x+0.5`. I am using library [ggbeeswarm](https://github.com/eclarke/ggbeeswarm) to generate the nicely looking cloud of dots.
+
+```{r}
+set.seed(14454)
+df <- 
+  tibble(x = rnorm(100, mean = 1, sd = 1)) %>%
+  mutate(y = rnorm(100, mean = x + 0.3, sd = 1))
+```
+```{r echo=FALSE}
+library(ggbeeswarm)
+tibble(Value = c(df$x, df$y),
+       Variable = c(rep("x", nrow(df)), rep("y", nrow(df)))) %>%
+  ggplot(aes(x=Variable, y=Value)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_quasirandom(method="tukeyDense")  
+```
+
+You can perform _t-test_ assuming that samples in two variables are independent 
+```{r}
+t.test(df$x, df$y, paired = FALSE)
+```
+Or, that they are paired, i.e., repeated-measures design (note the change in estimates, statistics, and significance).
+```{r}
+t.test(df$x, df$y, paired = TRUE)
+```
+
+You can also use formula notation, if one variable describes grouping
+```{r}
+df_group <-
+  tibble(x = c(df$x, df$y),
+         group = factor(c(rep("A", 100), rep("B", 100))))
+```
+```{r echo=FALSE}
+df_group %>%
+  head(4) %>%
+  knitr::kable()
+```
+```{r}
+t.test(x ~ group, data=df_group, paired=TRUE)
+```
+
+A Bayesian version is provided via `ttestBF()` function, which is part of the [BayesFactor](https://richarddmorey.github.io/BayesFactor) package.
+```{r}
+library(BayesFactor)
+ttestBF(x = df$x, y=df$y, paired=TRUE)
+```
+
+For a non-parametric pairwise test, you can use Wilcoxon Rank Sum and Signed Rank Tests [wilcox.test()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/wilcox.test.html). Package [coin](http://coin.r-forge.r-project.org/) implements many tests, including permutation tests, such as Two- and K-sample Fisher-Pitman permutation test via `oneway_test()` that tests for the equality of the distributions in _independent_ groups, see [vignette](https://cran.r-project.org/web/packages/coin/vignettes/coin.pdf) for details.
+
+## ANOVA
+**AN**alysis **O**f **VA**riance is probably the most widely used analysis in social sciences. However, I would strongly suggest considering [generalized linear mixed models](#GLMM) instead. Unlike ANOVA they can work when residuals are not normally distributed (binomial, count, Likert-scale ordered categorical, proportions data, etc.), they can tolerate missing values, and they tend to overfit less (their results are likely to better generalize to future data) by assuming that individual participants are more average than they appear in the raw data (so-called shrinkage).
+
+First, let us simulate data for ten participants and their responses, assuming that condition `B` increases their responses by 2 (arbitrary) units and `C` by 3^[[set.seed()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html) function initializes random numbers generator to a specific state to get a reproducible but random (as in, sequentially uncorrelated) sequence of values.].
+```{r}
+set.seed(519264)
+df_anova <-
+  # generate ten participants with five trials per condition
+  expand_grid(Participant  = factor(1:10),
+              Condition = factor(c(rep("A", 3), rep("B", 3), rep("C", 3)))) %>%
+  
+  # decide on a SINGLE baseline (intercept) for each participant
+  group_by(Participant) %>%
+  mutate(Intercept = rnorm(1, 5, 2.5)) %>%
+  
+  # simulate normally distributed responses, assuming that are 3 units higher for condition "B"
+  ungroup() %>%
+  mutate(Response = rnorm(n(), Intercept + 2 * as.integer(Condition == "B") + 3 * as.integer(Condition == "C"), 1.5)) %>%
+  select(-Intercept)
+```
+```{r echo=FALSE}
+ggplot(df_anova, aes(x=Condition, y=Response, color=Condition)) + 
+  geom_point() + 
+  facet_grid(.~Participant) + 
+  theme(legend.position = "none")
+```
+The base R ANOVA function is called [aov()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/aov.html), however, it does not support repeated measures. Instead, you can use function `anova_test` from package [rstatix](https://github.com/kassambara/rstatix)
+
+For the _repeated-measures_ ANOVA, we need to specify column with identity of participants via parameter `wid`
+```{r message=FALSE, warning=FALSE}
+library(rstatix)
+anova_test(data=df_anova, Response ~ Condition, wid=Participant)
+```
+
+
+You can perform various pairwise post-hoc tests, e.g. Tukey
+```r
+tukey_hsd(df_anova, Response ~ Condition)
+```
+```{r}
+tukey_hsd(df_anova, Response ~ Condition) %>%
+  knitr::kable()
+```
+
+A Bayesian ANOVA with posterior distributions for individual coefficients and significance via Bayes Factor can be performed 
+via `anovaBF` function from [BayesFactor](https://richarddmorey.github.io/BayesFactor) package.
+
+```{r}
+anovaBF(Response ~ Condition + Participant, whichRandom="Participant", data=data.frame(df_anova))
+```
+
+If you decide for repeated-measure ANOVA, I would suggest using and reporting results for both frequentist and Bayesian ANOVA, as it will demonstrate that they do not depend on the choice of the statistical approach.
+
+## (Generalized) Linear Models {#GLMM}
+Base R provides function to perform linear regression [lm()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/lm.html) and generalized linear models [glm()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/glm.html) for binomial, count, and other types of data.
+
+Let us generate a simple linear dependence between two parameters and see how `lm()` will infer the dependence. Our formula will be 
+$$ y = 20 + 4 * x + \epsilon$$
+where $\epsilon$ is normally distributed noise.
+
+```{r}
+df_lm <-
+  tibble(x = 1:100) %>%
+  mutate(y = rnorm(n(), 20 + 4 * x, 50))
+```
+```{r echo=FALSE}
+ggplot(data=df_lm, aes(x=x, y=y)) + 
+  geom_point() + 
+  geom_abline(intercept = 20, slope = 4)
+```
+
+Now let us fit the linear model using formula `y ~ x` and use [summary()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/summary.lm.html) function to see the details.
+```{r}
+lm_fit <- lm(y ~ x, data=df_lm)
+summary(lm_fit)
+```
+
+As you can see, values for both intercept and the slope are very close to our original design. If you need to extract information about individual coefficients, I recommend `tidy()` function from [broom](https://github.com/tidymodels/broom) package that returns information about the model in a "tidy" format:
+```r
+library(broom)
+tidy(lm_fit)
+```
+```{r echo=FALSE}
+library(broom)
+tidy(lm_fit) %>%
+  knitr::kable()
+```
+
+## (Generalized) Linear Mixed Models
+Generalized linear mixed models allow you to incorporate information about random factors into the model. One of the most popular packages in R is [lme4](https://github.com/lme4/lme4). Let us use LMM on data we generated for ANOVA. Here, we specify that we would like to have individual slopes for each participants via `(1|Participant)` notation^[Here, each participant must have their own intercept but they all share same single slope for `Condition`. You can also specify that they individual slopes that are either correlated or uncorrelated with their intercept.].
+
+```{r message=FALSE, warning=FALSE}
+library(lme4)
+lmer_fit <- lmer(Response ~ Condition + (1|Participant), data=df_anova)
+summary(lmer_fit)
+```
+
+To get tidy summary you need to use function `tidy` but from [broom.mixed](https://github.com/bbolker/broom.mixed)
+```r
+library(broom.mixed)
+tidy(lmer_fit)
+```
+```{r echo=FALSE}
+library(broom.mixed)
+tidy(lmer_fit) %>%
+  knitr::kable()
+```
+
+
+To also get information about formal statistical significance, you can use an extension package [lmerTest](https://github.com/runehaubo/lmerTestR)^[I use `lmerTest::` to tell R that I need function `lmer()` from package `lmerTest` and not from `lme4` as before].
+```{r message=FALSE, warning=FALSE}
+library(lmerTest)
+lmert_fit <- lmerTest::lmer(Response ~ Condition + (1|Participant), data=df_anova)
+summary(lmert_fit)
+```
+
+Again, we can use `tidy` to get coefficients information in a single table.
+```r
+tidy(lmert_fit)
+```
+```{r echo=FALSE}
+tidy(lmert_fit) %>%
+  knitr::kable()
+```
+
+Note that `lmer()` functions provide information about difference of each condition to the baseline (condition `A`) not no ANOVA-style significance for the "overall" effect of condition. For this, you can use function [drop1](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/add1.html), which test for a variable significance by dropping it from a model and checking whether it performed significantly worse _without_ it.
+```{r}
+drop1(lmert_fit)
+```
+
+You can also use Bayesian generalized linear modeling via [rstanarm](https://mc-stan.org/rstanarm/) and [BRMS](https://github.com/paul-buerkner/brms) packages. The former is somewhat faster, as it does not require model compilation (makes big difference when data is small but you test a lot of models), but is less flexible.
+
+## Practice
+
+For practice, we will use data from a gamification experiment. Participant performed the same challenging task setup as a typical (read, boring) experiment or styled as a game with trial score, combos, high score table, achievements, etc. The idea was to investigate whether this shallow gamification (there was no story and all elements were present only before or after each trial and provided no information on the task itself) would alter (hopefully, improve) their performance. We quantified it via proportion of correct responses, response time, and score achieved for each trial (that one, you will need to compute yourself). Below, we would like to understand effects of 
+
+1. Experimental group coded in variable `Condition`, either `"experiment"` or `"game"`.
+2. Task difficulty controller via cue-onset asynchrony. Participants could response while the stimulus was still on the scree (COA = -100 ms), shortly after it disappeared (COA=100 ms), or after a delay (COA = 1000 ms). We would expect that task is harder to longer COAs.
+3. Perceptual learning. As participants do the task, the become better at it and are likely to become both faster and more accurate for later blocks. So we need to incorporate that improvement over different blocks into our model. The overall block index is coded in `Block` variable but we will need to create a new variable `COABlock` that will encode index of the block within each difficulty.
+
+You will need to load data, preprocess data, plot accuracy, response times, and score relative for each condition, difficulty, and difficulty block, perform formal statistical analysis to see whether any of the factor have an effect. So, first, download [gamification.zip](data/gamification.zip) and unzip into your R-seminar project folder. You should get _gamification_ subfolder with all the files. There will be no template notebook, create it from scratch yourself and keep it organized, e.g., headings, comments, chunked code, etc.
+
+### Read files and preprocess data {-}
+
+The two steps should be a single pipe.
+1. Read and merge all CSV files in _gamification_ folder into a single table. It is "German Excel" formatted with `:` as a delimiter and `,` as a decimal point. To perform it most cleanly, use [read_delim](https://readr.tidyverse.org/reference/read_delim.html)
+function that allows you to specify the delimiter via `delim` parameter and the decimal point via `locale` parameter. You will need to read on how to specify the [locale](https://readr.tidyverse.org/reference/locale.html) first. My advice, debug reading on a single file and then add reading-and-merging either via for loop or purrr mapping.
+2. Compute whether response on each trial was correct (`Response` is equal to `Match` variable) and store it in `Correct` column. It is already present in the table but due to software glitch, some values are not correct. In general, it is not a bad idea to recompute such variables and compare them with table in the table, just to be on the safe side.
+3. Drop columns `SessionID`, `Color0`, `Color1`,  `Color2`, `Color3`, `Which` and `FlipComplimentary`. They are not relevant for the analysis and it is easier to look at uncluttered data.
+
+```{r echo=FALSE}
+raw_results <-
+  fs::dir_ls(path="gamification/", glob="*.csv") %>%
+  purrr::map_dfr(~read_delim(., delim = ";",  locale=locale(decimal_mark = ","), col_types = cols(
+    Observer = col_character(),
+    Condition = col_character(),
+    SessionID = col_character(),
+    Block = col_double(),
+    Trial = col_double(),
+    COA = col_double(),
+    Color0 = col_double(),
+    Color1 = col_double(),
+    Color2 = col_double(),
+    Color3 = col_double(),
+    Target = col_character(),
+    Which = col_double(),
+    Match = col_logical(),
+    FlipComplimentary = col_logical(),
+    Response = col_logical(),
+    RT = col_double(),
+    Correct = col_logical(),
+    OnsetDelay = col_double()))) %>%
+  
+  mutate(Correct = Response == Match) %>%
+  select(-c(SessionID, Color0:Color3, Which, FlipComplimentary))
+
+raw_results %>%
+  head(4) %>%
+  knitr::kable()
+```
+
+Now we need to compute block index per difficulty (and per participant and condition). We will spin it off as a separate table and then join it with the main one.
+1. Generate a summary table with a single row per `Observer`, `Condition`, `COA`, `Block`. Hint, you can use `summarise(.groups="drop")` with no additional arguments to get one row per group.
+```{r echo=FALSE}
+grouped_results <- 
+  raw_results %>%
+  group_by(Observer, Condition, COA, Block) %>%
+  summarise(.groups="drop")
+
+grouped_results %>%
+  head(4) %>%
+  knitr::kable()
+```
+
+2. Regroup the table by `Observer`, `Condition`, and `COA`  and compute `COABLock` block index. It is simply a sequence from 1 till number of rows in the group, you can get the latter via [n()](https://dplyr.tidyverse.org/reference/n.html) function.
+```{r echo=FALSE}
+grouped_results <-
+  grouped_results %>%
+  group_by(Observer, Condition, COA) %>%
+  mutate(COABlock = 1:n())
+
+grouped_results %>%
+  head(6) %>%
+  knitr::kable()
+```
+
+3. Now we can add `COABlock` to the main table by joining the two. I would strongly recommend to name the new full table differently, e.g., the original could be `results_raw` and the new one `results`. This is because if you join to table, overwriting one of them, and try to do joining again (you fixed it and now should work properly), you will get different column names as dplyr will enforce unique column names. It can get very confusing.
+4. Filter out any rows where `COABlock` is more than 4. Some participants volunteered to do more but for the analysis we need to have full data for everyone.
+```{r echo=FALSE}
+results <- 
+  left_join(raw_results, grouped_results, by=c("Observer", "Condition", "COA", "Block")) %>%
+  dplyr::filter(COABlock <= 4)
+
+results %>%
+  head(4) %>%
+  knitr::kable()
+```
+
+### Accuracy {-}
+Let us analyze accuracy, the results should be stored in a new separate table. 
+
+1. Compute number of correct trials each `Observer`, `Condition`, `COA` and `COABlock` combination. Also, store total number of trials for each combination in a separate variable (again, take a look at [n()](https://dplyr.tidyverse.org/reference/n.html) function). We need these two variables for the statistical analysis.
+2. Compute proportion of correct responses. You can compute it directly from `Correct` or from the two variables you computed on the previous step. We need this variable for visualization.
+```{r echo=FALSE}
+accuracy <-
+  results %>%
+  group_by(`Observer`, `Condition`, `COA`, `COABlock`) %>%
+  summarise(Ncorrect = sum(Correct),
+            Ntotal = n(),
+            Pcorrect = Ncorrect / Ntotal,
+            .groups = "drop")
+
+accuracy %>%
+  head(4) %>%
+  knitr::kable()
+```
+
+Let us visualize the performance. Generate a similar looking plot
+```{r echo=FALSE}
+ggplot(accuracy, aes(x = as.factor(COABlock), y=Pcorrect, color=Condition)) + 
+  geom_boxplot() + 
+  facet_grid(Condition~COA) +
+  xlab("Block index") +
+  theme(legend.position = "none")
+```
+
+And an alternative visualization.
+```{r echo=FALSE}
+ggplot(accuracy, aes(x = Condition, y=Pcorrect, color=Condition)) + 
+  geom_boxplot() + 
+  facet_grid(COA~ COABlock) +
+  xlab("Block index") +
+  theme(legend.position = "none")
+```
+
+The first one, shows an effect of experience (note how performance gets higher for the later blocks), for second one makes it easier to compare between conditions. Here, `experiment` tends to produce higher accuracy. However, this is just eye-balling the data, we need some actual numbers. For this, we will use Generalized Linear Mixed Model. It is _generalized_ because out data is binomial (participants were successful in `Ncorrect` trials out of `Ntotal`). It is  _linear_ because we assume a simple linear sum of individual effects. It is _mixed_, because we will add `Observer` as a random factor^[The magic machinery underneath will mix ordinary least squares (OLS) estimates for fixed effects with Best Linear Unbiased Predictions (BLUP) for random effects.]. We will also use `COA` as a factor variable to have a more direct comparison between individual `COA` levels. Read [documentation](https://www.rdocumentation.org/packages/lme4/versions/1.1-26/topics/glmer) to figure out how you specify the formula and binomial family. You will need to use library [lmer4](https://github.com/lme4/lme4) and I strongly suggest using `lmer4::glmer()` notation as we will later use [lmerTest]() package, which redefines some functions and it can be hard to figure out function from which package was actually called.
+
+The summary output of the model should look like this.
+```{r echo=FALSE}
+acc_model <- lme4::glmer(cbind(Ncorrect, Ntotal) ~ Condition + as.factor(COA) + COABlock + (1|Observer),
+                         family="binomial",
+                         data = accuracy)
+summary(acc_model)
+```
+
+As you can see, experience definitely improves the accuracy (effect for `COABlock` is positive and significant), there seems to be some effect of difficulty at least between extreme cases of COA = -100 ms (baseline) and COA = 1000 ms. But, does not seem to be much of an effect of the condition. We can also confirm this ANOVA-style with a single significance value for each fixed factor via [drop1()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/add1.html) function, you will need to specify `test = "Chisq"` as a parameter to get significance values.
+
+```{r echo=FALSE}
+drop1(acc_model, test = "Chisq")
+```
+
+### Response times {-}
+What about response times? Repeat the analysis but with a few changes. First, we only need to compute [median](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/median.html) response time instead of proportion of correct trials. Second, for the analysis, we use linear (not generalized) mixed models via [lmer()](https://www.rdocumentation.org/packages/lmerTest/versions/2.0-36/topics/lmer) function from [lmerTest](https://github.com/runehaubo/lmerTestR) package. Its advantage over the function with the same name from `lme4` package is in providing significance values. Again, use `lmerTest::lmer()` notation to use function from `lmerTest` and not the function of the same name in `lme4` package.
+
+```{r echo=FALSE}
+rt <-
+  results %>%
+  group_by(`Observer`, `Condition`, `COA`, `COABlock`) %>%
+  summarise(MedianRT = median(RT),
+            .groups = "drop")
+
+rt %>%
+  head(4) %>%
+  knitr::kable()
+```
+
+```{r echo=FALSE}
+ggplot(rt, aes(x = as.factor(COABlock), y=MedianRT, color=Condition)) + 
+  geom_boxplot() + 
+  facet_grid(Condition~COA) +
+  xlab("Block index") +
+  ylab("Median response time [s]") + 
+  theme(legend.position = "none")
+```
+  
+```{r echo=FALSE}
+ggplot(rt, aes(x = Condition, y=MedianRT, color=Condition)) + 
+  geom_boxplot() + 
+  facet_grid(COA~ COABlock) +
+  xlab("Block index") +
+  ylab("Median response time [s]") + 
+  theme(legend.position = "none")
+```
+
+```{r echo=FALSE}
+rt_model <- lmerTest::lmer(MedianRT ~ Condition + as.factor(COA) + COABlock + (1|Observer),
+                            data = rt)
+summary(rt_model)
+```
+
+```{r echo=FALSE}
+drop1(rt_model, test="Chisq")
+```
+
+### Computing the score {-} 
+
+First, we need to compute score for each trial. The catch is, the score depends on both participants response on a _current_ trial (correct or not and how fast was the response) and on _previous_ trials (the score is multiplied by a combo: number of correct responses on a row + 1). 
+
+We begin by computing a raw score for each trial using the following rules:
+
+* If the response is incorrect, the raw score is `0`, otherwise
+* $raw~score = ceiling(10 \cdot \frac{4-RT}{3})$ but it cannot be larger than 10 or smaller than 0. 
+
+Function [ceiling(x)](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Round.html) returns the smallest integers not less than the corresponding elements of x. There is no function that could "clip" a value between 0 and 10 in R, so you need to write it yourself. If should take three parameters 
+
+1. Vector of values to be clipped.
+2. Lower value limit.
+3. Higher value limit.
+
+```{r echo=FALSE}
+clip <- function(x, lower_limit, upper_limit){
+  x[x<lower_limit] <- lower_limit
+  x[x>upper_limit] <- upper_limit
+  x
+}
+```
+```{r}
+example_vector <- c(-1, 15, 2, 10, 0, -4)
+clip(example_vector, 0, 10)
+```
+
+Here is the head of the table with the computed raw score
+```{r echo=FALSE}
+results <-
+  results %>%
+  mutate(RawScore = clip(as.integer(Correct) * ceiling(10*(4-RT)/3), 0, 10))
+```
+```{r}
+results %>%
+  filter(RawScore==2) %>%
+  select(-c(Target, Match, Response, RT, COABlock, OnsetDelay)) %>%
+  head(10) %>%
+  knitr::kable()
+```
+
+To compute combo multiplier (number of correct responses on the row), we will write another function that loops over a vector of `Correct` responses. Every correct response (`TRUE`) add `1` to the multiplier for the _next_ trial. Every incorrect response resets it to `1`, again, for the _next_ trial.
+```{r echo=FALSE}
+compute_combo <- function(correct_responses){
+  current_combo <- 1
+  combo <- c()
+  
+  for(is_correct in correct_responses){
+    combo <- c(combo, current_combo)
+    current_combo <- ifelse(is_correct, current_combo + 1, 1)
+  }
+  combo
+}
+```
+```{r}
+correct <- c(TRUE, TRUE, TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, TRUE)
+compute_combo(correct)
+```
+
+Once you have the function and it work correctly, you can use to compute combo multiplier for the table. However, note that you need to do it per block, so you need to group data by `Observer`, `Condition`, `COA`, and `COABlock` first. Otherwise, your combo score won't be 1 at the beginning of each block.
+```{r echo=FALSE}
+results <-
+  results %>%
+  group_by(Observer, Condition, COA, COABlock) %>%
+  mutate(Combo = compute_combo(Correct)) %>%
+  ungroup()
+```
+```{r}
+results %>%
+  head(10) %>%
+  select(-c(Target, Match, Response, RT, COABlock, OnsetDelay)) %>%
+  knitr::kable()
+```
+
+To get the actual score you just multiply raw score and multiplier
+```{r echo=FALSE}
+results <-
+  results %>%
+  mutate(Score = RawScore * Combo)
+```
+```{r}
+results %>%
+  head(10) %>%
+  select(-c(Target, Match, Response, RT, COABlock, OnsetDelay)) %>%
+  knitr::kable()
+```
+
+Now that you have score per trial, perform analysis similar to response times but for each observer, condition, COA, and COA block compute a _total_ score for each block. Otherwise, plot and analyze it similar to response times.
+
+```{r echo=FALSE}
+score <- 
+  results %>%
+  group_by(`Observer`, `Condition`, `COA`, `COABlock`) %>%
+  summarise(TotalScore = sum(Score),
+            .groups = "drop")
+
+score %>%
+  head(6) %>%
+  knitr::kable()
+```
+
+```{r echo=FALSE}
+ggplot(score, aes(x = as.factor(COABlock), y=TotalScore, color=Condition)) + 
+  geom_boxplot() + 
+  facet_grid(Condition~COA) +
+  xlab("Block index") +
+  ylab("Block score") + 
+  theme(legend.position = "none")
+```
+  
+```{r echo=FALSE}
+ggplot(score, aes(x = Condition, y=TotalScore, color=Condition)) + 
+  geom_boxplot() + 
+  facet_grid(COA~ COABlock) +
+  xlab("Block index") +
+  ylab("Block score") + 
+  theme(legend.position = "none")
+```
+
+```{r echo=FALSE}
+score_model <- lmerTest::lmer(TotalScore ~ Condition + as.factor(COA) + COABlock + (1|Observer),
+                              data = score)
+summary(score_model)
+```
+
+```{r echo=FALSE}
+drop1(score_model, test="Chisq")
+```

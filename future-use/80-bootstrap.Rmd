@@ -1,0 +1,61 @@
+# Bootstrapping {#bootstrapping}
+We used quantiles for plots above, but a better approach is to compute variability of your estimate, such as mean, is via [resampling](https://en.wikipedia.org/wiki/Resampling_(statistics)). The idea is the following. From frequentist statistics point of you, you are not interested in the mean and variance of the collected data (your sample), you are interested in the mean and variance of the distribution that sample came from. This is the idea behind using analytically-derived estimators such as standard error of the mean:
+
+
+  $$S.E.M. = \frac{sd(x)}{\sqrt{n-1}}$$
+
+    where `n = length(x)`. It works on the assumption that the distribution is normal and computes exact numbers for standard error of the mean, if you would have access to that underlying distribution and would be able to draw an _infinite_ amount of samples. If you data is _not_ normal (our case), you can replace infinite number of samples drawn from a hypothetical normal distribution by finite number of samples drawn from the sample you have. Here, you make a (big) assumption that the sample you have is representative of that (inaccessible) distribution, so drawing from it _with replacement_ is like drawing from the distribution itself. Why did I stress _with replacement_? Because our sample is finite, so taking a particular value from it automatically changes the probability of observing it and other values. Imagine that our sample is [1, 1, 1, 2]. Initially, there is a 75% chance of drawing 1 but as soon as you take it out, you are left with [1, 1, 2] and probability of drawing 1 is just 2/3, whereas probability of drawing 2 jumped from 1/4 to 1/3. The (hypothetical) distribution is infinite, so you can draw that same value many times (proportional to its probability, of course). Sampling with replacement (meaning that you put the value back every time you draw it) mimics that infinite nature of distribution. Below, I will show you how you can perform resampling and use various methods to compute confidence intervals via [boot](https://cran.r-project.org/package=boot) library. However, the topic of resampling statistics is much broader, so I would recommend attending a course or reading a book, such as an [Introduction to Statistics Through Resampling Methods and R](https://www.wiley.com/en-ax/Introduction+to+Statistics+Through+Resampling+Methods+and+R,+2nd+Edition-p-9781118428214) by Phillip I. Good.
+
+  The first function that you need is [boot()](https://stat.ethz.ch/R-manual/R-devel/library/boot/html/boot.html) that takes your `data` as a first argument, a function that computes desired `statistic` as a second one, and number of replication `R` as a third one^[You also have many ways to fine tune `boot` behavior through multiple arguments but we will stick to defaults here.]. Your job is to write that function that, by default (`sim="ordinary"`) must accept two parameters:
+
+    * `data` - the original data you supplied to the `boot` function
+  * `indices` - indices of `data` items that should be used to compute
+
+  Thus, a `statistic` function for compute a standard deviation of a sample would be
+  ```{r}
+  sd_stat <- function(data, indices){
+    sd(data[indices])
+  }
+  ```
+  Note that you cannot use [sd()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/sd.html) directly because it will not handle indexing by itself.
+
+  Now, we can use this function to sample standard deviation of simulated data (note `statistic = sd_stat`, recall that function is just the code stored inside a variable, hence, we use a variable name without round brackets to pass the function code):
+    ```{r}
+  library(boot)
+
+  sim_data <- rnorm(1000, mean = 0, sd = 2)
+
+  sampled_sd <- boot(sim_data, statistic = sd_stat, R=2000)
+  sampled_sd
+  ```
+
+  The [boot()](https://stat.ethz.ch/R-manual/R-devel/library/boot/html/boot.html) does the resampling bit, so its output is fairly cryptic and it only tells us the _original_ single value of standard deviation of the sample itself. We need to use [boot.ci()](https://stat.ethz.ch/R-manual/R-devel/library/boot/html/boot.ci.html) function to compute the confidence interval. It takes samples produces by [boot](https://stat.ethz.ch/R-manual/R-devel/library/boot/html/boot.html) as the first argument, confidence level(s) as `conf` argument (defaults to 0.95), and _type_ of the confidence interval that you want to compute. There five options and it is a good idea to read an article that discusses [when, which, and what boostrapped CIs](https://doi.org/10.1002/(SICI)1097-0258(20000515)19:9%3C1141::AID-SIM479%3E3.0.CO;2-F) you should compute. Here, for the sake of brevity we will use a _percentile_ (`"perc"`) CI that uses the same quantiles principle that you used before^[Bias-corrected and accelerated `"bca"` is better as it corrects for difference between population (original data) and bootstrapped means (bias) and accounts for skewness  ]. The only difference is that we compute quantiles not for the sample but for distribution of statistic for the bootstrapped sample.
+
+  ```{r}
+  boot.ci(sampled_sd, conf=0.89, type="perc")
+  ```
+
+  As you can see, the 89% CI is very narrow around the true standard deviation of 2 that we specified for our simulated data. Of course, your bootstrapped confidence interval will depend on both on the size of the sample (the bigger the better, but in most cases you have what you have, even if the sample is small) and number of repetitions (`R` parameter). The latter will primarily influence how similar a CIs will be if you run bootstraping again but1000 or 2000 is typically considered to be a "reasonable" number. Note that no number of repetitions will substantially reduce a CI, if your sample is small!
+
+    ```{r}
+  sim_data20 <- rnorm(20, mean = 0, sd = 2)
+  boot(sim_data20, statistic = sd_stat, R=200) %>%
+    boot.ci(conf=0.89, type="perc")
+
+  boot(sim_data20, statistic = sd_stat, R=2000) %>%
+    boot.ci(conf=0.89, type="perc")
+  ```
+
+  You can store the output of [boot.ci()](https://stat.ethz.ch/R-manual/R-devel/library/boot/html/boot.ci.html). It is a `"bootci"` object but you can treat it as a list with `"percent"` being the name index of the item you are interested in^[Why type is `"perc"` but item named index is `"percent"`? Who knows!].
+  ```{r}
+  CI <- boot(sim_data20, statistic = sd_stat, R=2000) %>%
+    boot.ci(conf=0.89, type="perc")
+
+  CI
+
+  CI[["percent"]]
+  ```
+
+  As you can see you get _five_ values but you are only interested in the last two elements which are lower and upper limits^[The first one is the confidence level you specified and [read the docs](https://stat.ethz.ch/R-manual/R-devel/library/boot/html/boot.ci.html), if you want to know about the other two.].
+
+

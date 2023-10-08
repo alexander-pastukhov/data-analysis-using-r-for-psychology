@@ -1,0 +1,180 @@
+
+
+## More samples give you more confidence
+In the exercises above, we computed confidence intervals for the mean based on 20 original samples. However, this was an arbitrary number I came up with. For the real study, you would like to know how the number of samples (participants, trials per condition, etc.) affects the width of the confidence interval. For example, assuming that our data comes from a normal distribution centered at 0.5 with a standard deviation of 2, how many samples do we need to be certain that mean is not a zero (confidence interval does not overlap with zero)?
+
+The solution is to simulate this situation using different number of samples. We will need to package the simulation into function to make it simpler to work with it but let us start with plain script code first. Assume that variable (our future parameter) `n_samples` holds number of samples that you need to generate (set it to some arbitrary value, e.g., 10). You code should
+
+* draw `n_samples` random samples from a normal distribution with mean of 0.5 and standard deviation of 2.
+* bootstrap 1000 estimates of the mean.
+* compute percentile 95% confidence interval. 
+* store it into a tibble along with number of samples.
+
+The only tricky part is extracting the confidence interval values from the object that [boot.ci()](https://stat.ethz.ch/R-manual/R-devel/library/boot/html/boot.html) function returns. Assuming that you computed percentile CI and stored the value in variable `CI`, the lower limit is `CI$percent[4]` and the upper is in `CI$percent[5]`. Your final tibble should look as follows (`lowerCI` and `upperCI` will be different for you because of random sampling).
+```{r echo=FALSE}
+CI_for_sim <- function(n_samples){
+  data <- rnorm(n_samples, 0.5, 2)
+  booted_samples <- boot(data, statistic = custom_mean, R=1000)
+  CI <- boot.ci(booted_samples, type="perc")
+  tibble(avg = mean(data),
+         lowerCI = CI$percent[4],
+         upperCI = CI$percent[5])
+}
+
+CI_for_sim(10) %>%
+  select(-avg) %>%
+  knitr::kable()
+```
+
+Once you code is working, turn it into a function (I called it `CI_for_sim`) that takes `n_samples` as a parameter. Test it by calling it with `n_samples = 10`, the result should be exactly the same as before.
+
+::: {.infobox .practice}
+Do exercise 5.
+:::
+
+Next, we need to run this function for different number of samples and we want to end up with a table, like the one below.
+```{r echo=FALSE, cache=TRUE}
+set.seed(91637789)
+bootstrapped_CIs <- 
+  tibble(n_samples = 10:100) %>%
+  group_by(n_samples) %>%
+  group_modify(~CI_for_sim(.y$n_samples))
+knitr::kable(head(bootstrapped_CIs %>% select(-avg)))
+```
+
+There are different ways to do this but we will use this as an opportunity to learn about [group_modify()](https://dplyr.tidyverse.org/reference/group_map.html), a function that allows you to apply a function to each group in your table. The only condition for such function is that it must return a table. All tables are bind together by row so you end up with a single table. A table that function returns can be of any length and have as many columns as required. Thus, [group_modify()](https://dplyr.tidyverse.org/reference/group_map.html) is a powerful way to compute many columns at the same time, expand, modify, or summarize the group. Here is an example of how you use it.
+```{r}
+avg_mpg_per_cylinder <- function(mpg_values, cylinders_n) {
+  tibble(AvgMpgPerCylinder = mean(mpg_values) / cylinders_n,
+         Variance = var(mpg_values) / cylinders_n)
+}
+
+mpg %>%
+  group_by(cyl, year) %>%
+  group_modify(~avg_mpg_per_cylinder(.x$cty, .y$cyl)) %>%
+  knitr::kable()
+```
+
+The function takes a vector of values on fuel efficiency (`mpg_values`) and a number of cylinders (`cylinders_n`) and returns a table with mean and variance of fuel efficiency per cylinder. When calling this function inside the [group_modify()](https://dplyr.tidyverse.org/reference/group_map.html), you need to use `~` before the function call (tells Tidyverse that you want to execute the code as is) and use `.y$` for variables that define the group (would be `cyl` and `year` in our case) and `.x$` for other columns.
+
+Let us use [group_modify()](https://dplyr.tidyverse.org/reference/group_map.html) to simulate CIs for different number of samples. In a single pipe, 
+
+1. create a [tibble](https://tibble.tidyverse.org/reference/tibble.html) with a single column `n_samples` and assign some reasonable range of values to it (I went from 10 to 100)
+2. group data by the number of samples
+3. simulate data and compute CI by calling your `CI_for_sim()` function inside the [group_modify()](https://dplyr.tidyverse.org/reference/group_map.html).
+
+Once you are done, your table should look something like this.
+```{r echo=FALSE}
+knitr::kable(head(bootstrapped_CIs))
+```
+
+::: {.infobox .practice}
+Do exercise 6.
+:::
+
+It is much easier to understand the data once we visualize it. Plot the results using [geom_ribbon()](https://ggplot2.tidyverse.org/reference/geom_ribbon.html) (note that you will need to set `y` aesthetics to some variable or value even though it is not used) and [geom_hline()](https://ggplot2.tidyverse.org/reference/geom_abline.html). The plot should look similar to the one below.
+```{r echo=FALSE}
+ggplot(data=bootstrapped_CIs, aes(x=n_samples, y=lowerCI)) + 
+  geom_ribbon(aes(ymin=lowerCI, ymax=upperCI), alpha=0.25) + 
+  geom_hline(yintercept = 0, color="red") + 
+  ylab('Confidence interval') +
+  xlab('Number of samples')
+```
+
+::: {.infobox .practice}
+Do exercise 7.
+:::
+
+As you can see in the plot above, confidence intervals vary a lot, so it is hard to be certain about the number of samples we require. Thus, we need to sample the bootstrap as well. Redo the analysis but now create a tibble with two columns --- `n_samples` (go 10 to 100) and `iteration` (go 1 to 100) --- and fill the table with all combinations of these values (you should get 9100 rows). Next, simulate and compute CI for each combination of `n_samples` and `iteration` and then compute _average_ lower and upper interval for each `n_samples` value. Plot these averages as we did above and you should see a much smoother plot that makes it easier to decide on the required number of samples (probably around 75). Note, if your simulations takes too long, reduce the number of iterations or use a larger step between `n_samples` (not 1 as we did before but 2 or 5).
+```{r echo=FALSE, cache=TRUE}
+set.seed(91638957)
+bootstrapped_CIs <- 
+  expand_grid(iteration = 1:100,
+              n_samples = 10:100) %>%
+  group_by(iteration, n_samples) %>%
+  group_modify(~CI_for_sim(.y$n_samples))
+
+avg <-
+bootstrapped_CIs %>%
+  group_by(n_samples) %>%
+  summarise(Avg = mean(avg),
+            lowerCI = mean(lowerCI),
+            upperCI = mean(upperCI),
+            .groups="drop")
+
+ggplot(data=avg, aes(x=n_samples, y=lowerCI)) + 
+  geom_ribbon(aes(ymin=lowerCI, ymax=upperCI), alpha=0.25) + 
+  geom_hline(yintercept = 0, color="red") + 
+  ylab('Confidence interval') +
+  xlab('Number of samples')
+```
+
+::: {.infobox .practice}
+Do exercise 8.
+:::
+
+## Adding average sample mean
+Let us redo the computation but add average sample mean to the plot. For this, you need to modify your `CI_for_sim()` function to include sample mean to the tibble that it return and average over mean for different iterations. Your final plot should resemble this. Note how estimated mean remains stable (unbiased) for different number of samples. It is our certainty about the value, as expressed by the confidence interval, that changes.
+
+```{r echo=FALSE}
+ggplot(data=avg, aes(x=n_samples, y=Avg)) + 
+  geom_ribbon(aes(ymin=lowerCI, ymax=upperCI), alpha=0.25) + 
+  geom_line()+
+  geom_hline(yintercept = 0, color="red") + 
+  ylab('Confidence interval') +
+  xlab('Number of samples')
+```
+
+::: {.infobox .practice}
+Do exercise 9.
+:::
+
+
+## Practice makes perfect
+Our simulations above used normally distributed data. In psychological research, you often use binomial responses (yes/no, correct/mistake). Here, with of a confidence intervals depends both number of samples but also the probability of success ("yes" or "correct" response). Repeat the analysis using four assumed probabilities of success: 0.6, 0.7, 0.8, and 0.9. The logic is the same but you need to use [rbinom()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Binomial.html) to generate random responses. Here, the `size` parameter is the number of samples that we draw, whereas `n` is how many times we draw these samples. It return a random number of successes out of `size` number of trials. E.g., here is how to generate number of successful trials assuming total of 20 trials and probability of success being 0.8.
+```{r}
+rbinom(n=1, size=20, prob=0.8)
+```
+
+Note that you can use `n` parameter to create many (iterations of) draws.
+```{r}
+rbinom(n=10, size=20, prob=0.8)
+
+# same as
+replicate(10, rbinom(n=1, size=20, prob=0.8))
+```
+
+Here, I did not use `boot` library. Instead, I have utilized [rbinom()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Binomial.html) to generate many draws of a given size and [quantile()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile) to compute percentile confidence interval. The final plot should look similar to this (but for quantitative differences due to sampling). As you can see, you need many trials when probability of success is closer to 0.5.
+```{r echo=FALSE}
+CI_for_binom_sim <- function(n_samples, psuccess){
+  data <- rbinom(n = 100, size = n_samples, prob = psuccess) / n_samples
+  tibble(avg = mean(data),
+         lowerCI = quantile(data, (1-0.95)/2),
+         upperCI = quantile(data, 1-(1-0.95)/2))
+}
+
+binom_CIs <- 
+  expand_grid(n_samples = 1:100, psuccess=c(0.6, 0.7, 0.8, 0.9)) %>%
+  group_by(n_samples, psuccess) %>%
+  group_modify(~CI_for_binom_sim(.y$n_samples, .y$psuccess)) %>%
+  mutate(Psuccess = factor(psuccess))
+
+ggplot(binom_CIs, aes(x=n_samples, y=avg, fill=Psuccess)) + 
+  geom_ribbon(aes(ymin=lowerCI, ymax=upperCI), alpha=0.25, show.legend=FALSE) + 
+  geom_line(aes(color=Psuccess), show.legend=FALSE) +
+  geom_hline(yintercept = 0.5, color="black") +
+  facet_grid(.~Psuccess) +
+  xlab("Number of trials") + 
+  ylab("Average and CI")
+```
+
+::: {.infobox .practice}
+Do exercise 10.
+:::
+
+## Starting with basics
+What we covered today are basics of simulations and resampling approach. However, once expanded they allow you to explore your models even before you have collected the data and perform power analysis to evalute their expected performance.
+
+
+---
+

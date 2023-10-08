@@ -1,0 +1,275 @@
+# Practice {#seminar12}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+Today we will practice tidying up and plotting an almost real data. The _structure_ of the table is real, I've used it precisely because it is a sort of messy, untidy data you often get. The _actual values_ are, however, fake. Well, not fake, simulated! But that means that you should not use this particular data to make any inferences about Stroop task, which is what the original experiment was about.
+
+Here is the back story. Once upon a time, an experiment with the [Stroop task](https://en.wikipedia.org/wiki/Stroop_effect) was performed. There four different conditions, one control one, of course. And a continuous physiological signal (similar to skin conductance) was measured at five time points: 0) sometime before the task, 1) right before the task, 2) after first block, 3) after the second block, 4) 15 minutes after the task. What we would like to establish:
+
+* Did the task work in principle? I.e., do we see more errors and longer response times for when color and word were incongruent?
+* Was there an effect of conditions on  either the error count or response times?
+* Was out physiological signal different at different time-points? Particularly, if we compare it before the task and after a congruent or incongruent blocks? 
+
+Download [stroopsim.csv](data/stroopsim.csv) the table, read it, and read on to understand what individual columns mean and how we need to transform the table before it becomes usable. Create a markdown notebook yourself, make sure it is clearly structured!
+
+```{r echo=FALSE}
+results <- 
+  read_csv("data/stroopsim.csv",
+           col_types = cols(.default = col_double()))
+
+head(results) %>%
+  knitr::kable()
+```
+
+## Bad names to good names
+We have a couple of columns that are not easy to use:
+
+* `@#errorsCong` should be `errorsCongruent`
+* `@#errorsInco` should be `errorsIncongruent`
+
+```{r echo=FALSE}
+results <- 
+  results %>%
+  rename(errorsCongruent = "@#errorsCong",
+         errorsIncongruent = "@#errorsInco")
+
+head(results) %>%
+  select(sex, Condition, errorsCongruent, errorsIncongruent) %>% 
+  knitr::kable()
+```
+
+## Participant ID
+Currently, we have a _wide_ table with one row per participant. However, we will need to tidy it up, meaning that we need to keep track of which rows belong to which participants. For this, create a new column `HabitNr` which will simply have row index. To make things easier, use [relocate()](https://dplyr.tidyverse.org/reference/relocate.html) verb to make it the _first_ column in the table.
+
+```{r echo=FALSE}
+results <- 
+  results %>%
+  mutate(HabitNr = 1:n()) %>%
+  relocate(HabitNr)
+
+head(results) %>%
+  knitr::kable()
+```
+
+## Factors
+First, let us do easy bits, converting several columns to factors and setting up labels.
+
+* `sex` 
+  * 1 : `female` 
+  * 2 :  `male`
+* `Condition`: 
+  * 0 : `control`
+  * 1 : `speed` 
+  * 2 : `size`
+  * 3 : `random`
+* `IncongruentFirst` 
+  * 0 : `Congruent first`
+  * 1 : `Incongruent first`
+
+```{r echo=FALSE}
+results <-
+  results %>%
+  mutate(sex = factor(sex, levels = c(1, 2), labels = c("female", "male")),
+         Condition = factor(Condition, levels = c(0, 1, 2, 3), labels = c("control", "speed", "size", "random")),
+         IncongruentFirst = factor(IncongruentFirst,
+                                   levels = c(0, 1),
+                                   labels = c("Congruent first", "Incongruent first")))
+
+head(results) %>%
+  knitr::kable()
+```
+
+##  Response times
+Next, we need to "spin-off" a separate table that will contain information about response times per congruency manipulation. Thus we want a table where column `Congruency` indicates whether presentation was congruent, whereas two columns (`ReactiontimemeanCong` and `ReactiontimemeanInco`) for response times become two rows (we pivot table longer). Note that I have used better labels for congruent and incongruent conditions. You can first rename them pivot or pivot and relabel (choice is yours). At the moment, we do not need all other columns, see table below to see what I decided to keep.
+```{r echo=FALSE}
+rt <- 
+  results %>%
+  select(HabitNr, Condition, IncongruentFirst, ReactiontimemeanCong, ReactiontimemeanInco) %>%
+  pivot_longer(cols = c(ReactiontimemeanCong, ReactiontimemeanInco), 
+               names_to = "Congruency",
+               values_to = "RT") %>%
+  mutate(Congruency = factor(Congruency, 
+                             levels = c("ReactiontimemeanCong", "ReactiontimemeanInco"),
+                             labels = c("Congruent", "Incongruent")))
+
+head(rt) %>%
+  knitr::kable()
+```
+
+Let us see how condition and incongruency-order presentation affects our response times.
+
+```{r echo=FALSE}
+ggplot(rt, aes(x = Congruency, y=RT, color=Congruency)) + 
+  geom_boxplot() +
+  facet_grid(IncongruentFirst ~ Condition) + 
+  theme(axis.text.x = element_text(angle = 45, hjust=1))
+```
+
+Participants responses were clearly faster on trials when color and word were incongruent. But to better see the effect of condition, let us replot the data.
+
+```{r echo=FALSE}
+ggplot(rt, aes(x = Condition, y=RT, color=Congruency)) + 
+  geom_boxplot() +
+  facet_grid(. ~ IncongruentFirst)
+
+```
+
+Now, we can that some conditions do appear to be different as well. Let us confirm this via statistics. We will use linear mixed models (thus, package _lmerTest_) with `Condition`, `IncongruentFirst`, and `Congruency` as fixed effect and `HabitNr` (participant ID) as a random factor. We will not look at any interactions although they are most likely of interest for the follow up analysis.
+
+```{r echo=FALSE}
+rt_fit <- lmerTest::lmer(RT ~ Condition + IncongruentFirst + Congruency + (1|HabitNr),
+                         data = rt)
+summary(rt_fit)
+```
+
+```{r echo=FALSE}
+drop1(rt_fit)
+```
+
+In short, we a highly significant effect of color-word congruency (good news, otherwise out Stroop task wasn't very successful) and one condition (_random_) is clear difference. However, the _order_ of block (first congruent then incongruent or vice versa) did not really matter.
+
+## Accuracy
+Now let us perform the same analysis but on correct response count. What you need to know is that there were 120 trials in total for each block. We have information about _errors_ not _correct responses_ but it makes no difference for analysis, only for model interpretation. Extract column and pivot table same way as you did with response times.
+
+```{r echo=FALSE}
+trialsN <- 120
+errors <- 
+  results %>%
+  select(HabitNr, Condition, IncongruentFirst, errorsCongruent, errorsIncongruent) %>%
+  pivot_longer(cols = c(errorsCongruent, errorsIncongruent), 
+               names_to = "Congruency",
+               values_to = "Errors") %>%
+  mutate(Congruency = factor(Congruency, 
+                             levels = c("errorsCongruent", "errorsIncongruent"),
+                             labels = c("Congruent", "Incongruent")))
+
+head(errors) %>%
+  knitr::kable()
+```
+
+Again, let us plot data both ways
+
+```{r echo=FALSE}
+ggplot(errors, aes(x = Congruency, y=Errors, color=Congruency)) + 
+  geom_boxplot() +
+  facet_grid(IncongruentFirst ~ Condition) + 
+  theme(axis.text.x = element_text(angle = 45, hjust=1))
+```
+
+```{r echo=FALSE}
+ggplot(errors, aes(x = Condition, y=Errors, color=Congruency)) + 
+  geom_boxplot() +
+  facet_grid(. ~ IncongruentFirst)
+```
+
+Plots are very similar to those for response times. So let us perform the statistical analysis. This is a binomial data, so many errors per 120 trials, so use `glmer()` function (generalized linear mixed model) from `lme4` package with binomial family.
+
+```{r echo=FALSE}
+errors_fit <- lme4::glmer(cbind(Errors, 120) ~ Condition + IncongruentFirst + Congruency + (1|HabitNr),
+                          family = "binomial",
+                          data = errors)
+summary(errors_fit)
+```
+
+```{r echo=FALSE}
+drop1(errors_fit, test = c("Chisq"))
+```
+
+In comparison to response times, even the block order makes the difference with more errors if incongruent condition was presented first. For errors, `speed` condition was different from the `control` baseline. However, `size` conditions appears to be very boring, as we see no difference in neither error rate nor response times.
+
+## Physiological signal
+Now we come to the tricky part because information about physiological signal (I'll call is PS for short) is stored in columns `S0A` till `S4A` for some participant but in columns `Bs0` till `Bs4` for others. I.e., `S0A` codes the same information as `Bs0`, `S1A` same as `Bs1`, etc. The digit indicates the measurement time point. How can we fix this? Either using `ifelse()` or by splitting table by rows, converting each to a common long format and then merging them. For didactic purposes, we will do both!
+
+In case of `ifelse()` solution, let us store everything in first set of columns but overwrite their value only if they have `NA`. So, `S0A` is not `NA`, you leave it alone, otherwise you overwrite it with a value from `Bs0`. Here is the end-product (store data in a separate new table `clean_results`, so you can work on the original later again).
+```{r echo=FALSE}
+clean_results <-
+  results %>%
+  mutate(S0A = ifelse(is.na(S0A), Bs0, S0A),
+         S1A = ifelse(is.na(S1A), Bs1, S1A),
+         S2A = ifelse(is.na(S2A), Bs2, S2A),
+         S3A = ifelse(is.na(S3A), Bs3, S3A),
+         S4A = ifelse(is.na(S4A), Bs4, S4A))
+
+head(clean_results) %>%
+  select(HabitNr, S0A:S4A, Bs0:Bs4) %>%
+  knitr::kable() 
+``` 
+
+The alternative is more challenging but still fairly straightforward. First, let us spin-off two separate tables. One which has valid values for `S0A`:`S4A` dropping all the rows when they are `NA`. And, conversely, the other table that has valid values for columns `Bs0`:`Bs4`. Then, pivot each table longer (we need to do this anyhow) and recode labels to `t0` till `t4`. After that we can merge two tables by rows via `bind_rows`.
+
+Here is the first table after filtering
+```{r echo=FALSE}
+t1 <- 
+  results %>%
+  drop_na(S0A)
+
+head(t1) %>%
+  knitr::kable()
+```
+
+And here it is pivoted
+```{r echo=FALSE}
+t1 <- 
+  t1 %>%
+  select(HabitNr, Condition, IncongruentFirst, S0A:S4A) %>%
+  pivot_longer(cols=c(S0A:S4A), names_to = "Timepoint", values_to = "Signal") %>%
+  mutate(Timepoint = factor(Timepoint, 
+                            levels = c("S0A", "S1A", "S2A", "S3A", "S4A"),
+                            labels = c("t0", "t1", "t2", "t3", "t4")))
+head(t1) %>%
+  knitr::kable()
+```
+
+Again, same procedure for rows with valid `Bs0`:`Bs4` columns
+```{r echo=FALSE}
+t2 <- 
+  results %>%
+  drop_na(Bs0) %>%
+  select(HabitNr, Condition, IncongruentFirst, Bs0:Bs4) %>%
+  pivot_longer(cols=c(Bs0:Bs4), names_to = "Timepoint", values_to = "Signal") %>%
+  mutate(Timepoint = factor(Timepoint, 
+                            levels = c("Bs0", "Bs1", "Bs2", "Bs3", "Bs4"),
+                            labels = c("t0", "t1", "t2", "t3", "t4")))
+
+head(t2) %>%
+  knitr::kable()
+```
+
+Once you merged two tables by rows (see [bind_rows()](https://dplyr.tidyverse.org/reference/bind.html)).
+
+
+, let us take a look at the results.
+
+```{r echo=FALSE}
+signal <- bind_rows(t1, t2)
+
+ggplot(signal, aes(x = Timepoint, y=Signal)) +
+  geom_boxplot() +
+  facet_grid(IncongruentFirst ~ Condition)
+```
+
+There seems to be clear outliers, so let us drop all values above 1000 (filter inside the ggplot call) and plot again
+
+```{r echo=FALSE}
+ggplot(signal %>% filter(Signal < 1000), 
+       aes(x = Timepoint, y=Signal)) +
+  geom_boxplot() +
+  facet_grid(IncongruentFirst ~ Condition)
+```
+
+Well, certainly hard to tell, so no clear and consistent effect. Still, let us do stats via linear mixed models.
+
+```{r echo=FALSE}
+signal_fit <- lmerTest::lmer(Signal ~ Timepoint + Condition + IncongruentFirst + (1|HabitNr),
+                          data = signal)
+summary(signal_fit)
+```
+
+```{r echo=FALSE}
+drop1(signal_fit)
+```
+
+## Wrap up
+That's it for today but realistically, this is still an oversimplified version of the analysis. The original study had many more predictors and even here, there is likely to be an interaction between time point and whether congruent or incongruent condition was presented first. 
+
