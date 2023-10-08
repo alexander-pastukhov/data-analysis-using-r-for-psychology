@@ -1,0 +1,114 @@
+---
+title: "Linear regression"
+format: html
+---
+
+
+```{r setup}
+# add libraries that you require here
+```
+
+## Exercise 01
+Generate data (I used 100 data points) assuming that foot length is normally distributed with mean 246.726 and standard deviation 10.3434 mm. Height is related to it as Height = 709.3 + 3.93 * Foot Length + epsilon, where the latter comes from a zero-centered normal distribution with standard deviation of 10. Put both variables into a single column, plot the results. Random seed is 826.
+ 
+```{r exercise-01}
+```
+
+
+## Exercise 02
+Fit linear model to the data using lm() function and print out it summary.
+
+```{r exercise-02}
+```
+
+## Exercise 03
+Compile a table with estimate and 97% interval for each term. See example table and description in the text on how you might do it using functions confint() and coef().
+```{r exercise-03}
+```
+
+
+## Exercise 04
+Generate predictions for the fitted linear model using range of foot values (e.g., from 220 to 270) and plot the predictions alongside the data. Add information about the terms to the caption.
+```{r exercise-04}
+```
+
+
+## Exercise 05
+Generate 97% confidence interval for the fitted linear model using range of foot values (e.g., from 220 to 270) and plot the predictions alongside the data using geom_ribbon().
+```{r exercise-05}
+```
+
+
+## Exercise 06
+1. Randomly [sample](https://dplyr.tidyverse.org/reference/slice.html) original data table _with replacement_.
+2. Fit a linear model to that data.
+3. Generate predictions for the interval, the same way we did above, so that you end up with a table of `FootLength` (going from 220 to 270) and (predicted) `Height`.
+
+Write the code and put it into a function (think about which parameters it would need). Test it by running it the function a few times. Values for which column should stay the same or change?
+```{r exercise-06}
+```
+
+
+## Exercise 07
+Resample predictions many (1000) times, compute 97% percentile confidence interval for each foot length. Plot these confidence intervals using geom_ribbon().
+```{r exercise-07}
+```
+
+
+
+
+
+
+
+
+
+
+Compute 95% confidence interval by resampling _pairs_ of `x` and `y` data that you generated in exercise 01. You can sample indexes in combination with replicate() and quantile() or use boot() and boot.ci(). Compare your results with the output of cor.test()
+
+```{r exercise-02}
+```
+
+## Exercise 03
+Perform a simulation for how standard deviation of noise affects confidence interval width. Generate 1000 random data sets for each level of noise. Plot the results as in the text.
+
+```{r exercise-03}
+```
+
+
+## Exercise 04
+Perform a simulation for how number of samples affects confidence interval width. Generate 1000 random data sets for each number of samples. Plot the results as in the text.
+
+```{r exercise-04}
+```
+
+## Exercise 05
+Generate data as in the text, compute the t value using the formula. Compare it to the output of t.test() function (should be the same but for rounding)
+
+```{r exercise-05}
+```
+
+## Exercise 06
+Use pairwise resampling of data to compute 95% percentile confidence inteval. Again, you can sample() index of pairs in combination with replicate() and quantile() or use boot() + boot.ci(). Compare your bootstrapped 95% CI with that reported by t.test()
+
+```{r exercise-06}
+```
+
+## Exercise 07
+Compute t value while randomly permuting values. Compute the proportion of t values that are smaller than the t value for the original data. Compare that to the output of t.test(..., alternative  = "less").
+
+```{r exercise-07}
+```
+
+
+## Exercise 08
+Generated linear model data as shown in the text. Use resampling of rows (slice_sample()) to generated samples, fit a model, and extract estimates by broom::tidy(). Resample 1000 times and compute 95% confidence interval for each term. Compare it with an output of summary(lm(...)) for the original data.
+
+```{r exercise-08}
+```
+
+## Exercise 09
+Compute p value for term x but permuting it (shuffling the order of values) 1000 times, fitting the model to permuted data and extracting t value. Compute proportion of absolute values of permuted t values that exceed the absolute t value for the original (unpermuted) data. Compare this to a p value for `x` in summary(lm(...)) output.
+
+```{r exercise-09}
+```
+

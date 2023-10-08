@@ -1,0 +1,92 @@
+---
+title: "Seminar 09: joins and pivots"
+format: html
+---
+
+```{r setup}
+library(tidyverse)
+```
+
+
+## Exercise 01
+Download files **IM.csv** and **GP.csv** that you will need for exercise. These are participants responses on two questionnaires with each participant identified by their ID (`Participant` in _IM.csv_ and `Respondent` in _GP.csv_), `Condition` (which experimental group they belong to), and their `Gender`. Read both tables and join them so that there no missing values in the table (some participants are missing in `GP.csv`, so there are _three_ joins that can do this, which one will you pick?). Use a Tidyverse function for that. Then, turn `Condition` and `Gender` into factors, so that for `Condition` levels are `"control"` (`1`) and `"game"` (`2`) and for `Gender` levels are `"female"` (`1`) and `"male"` (`2`).
+```{r exercise 01}
+
+```
+
+## Exercise 02
+Repeat exercise 1 but use `merge()` function
+```{r exercise 02}
+
+```
+
+## Exercise 03
+Create two tables that need to be joined by a single key column. In the first table, Use [rnorm()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html) function to generate normally distributed data with mean of 175 and standard deviation of 7.6 for column `Height`. In the second table, use same normal distribution but with mean of 80 and standard deviation of 10 for column `Weight`. WWhen fill in key column for both tables, do it so that _inner_ and _right_ join would give the same final table but _left_ and _full_ would give you a longer one (test this explicitly!). After joining two tables, plot `Height` against `Weight` and superimpose linear regression fit.
+```{r exercise 03}
+```
+
+
+## Exercise 04.
+Preprocess _GP.csv_ data. Split the computations below into two pipelines. One that loads and pre-processes the data (steps 1-4). Another one that produces a summary and stores it into a different table (steps 5-6). Advice, implement it one step at a time, checking the table and making sure that you get expected results before piping it and adding the next operation.
+
+1. Read the file, make sure you specify column types.
+2. Convert `Condition` column to a factor with "game" (1) and "control" (2).
+3. Pivot all `GP..` columns. You should get a table with five columns: `Respondent`, `Condition`, `Gender`, `Item` (column where original column names go), and `Response` (a column where original go). Hint, you can use slicing `:` to specify the range of columns or [starts_with()](https://tidyselect.r-lib.org/reference/starts_with.html) function to specify a common prefix. Try both approaches.
+4. Convert `Response` column to a factor assuming a seven-point scale, the levels are
+  1. Not at all
+  2. Slightly
+  3. Somewhat
+  4. Moderately
+  5. Quite a bit
+  6. Considerably
+  7. Very much
+5. Count responses for each item and condition.
+6. Convert counts to proportion of responses for each item and condition.
+
+```{r exercise 04}
+
+```
+
+## Exercise 05
+Repeat exercise 4 but use `reshape()` function instead of `pivot_longer()`.
+```{r exercise 05}
+
+```
+
+## Exercise 06
+Plot results from the previous exercise to compare conditions visually. Use `Response` for x-axis, `Proportion` for y-axis, `Condition` for color, think about how facet the plot.
+```{r exercise 06}
+
+```
+
+## Exercise 07
+Use `complete()` to fill in missing combinations of Condition, Item, and Response so that both count and proportion columns are zero. Replot the updated table using code from the previous exercise.
+```{r exercise 07}
+
+```
+
+## Exercise 08
+
+Pivot _adaptation_ data to a wide format that is easier for humans to read. Use `pivot_wider()`. This should be a single pipeline.
+
+1. Read the file (don't forget to specify column types)
+2. Computer `Psame` proportion of same responses given number of total responses.
+3. Pivot the table wider, think about your id columns. Also try without specifying any and see what you get.
+4. Compute an average stability across all probes and put it into a new `Average` column. You can do it "by hand" or you can use [rowSums()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/colSums.html) to compute it. In the latter case, you need to use `.` to refer to the table inside the `mutate()` function and you will need to normalize it by the number of probes to get an average instead of the sum.
+5. Pipe it to the output, using [knitr::kable()](https://bookdown.org/yihui/rmarkdown-cookbook/kable.html).
+
+```{r exercise 08}
+
+```
+
+## Exercise 09
+Repeat exercise 8 but use `reshape()` function.
+```{r exercise 09}
+
+```
+
+## Exercise 10
+Using _adaptation_ data, create group average summary as a square 5×4 table with a single row per _Prime_ and four columns for _Probe_ plus a column that says which prime the row corresponds to. As a value for each cell, we want to code _median ± MAD_. Use `?median` and `?mad` in the console for information.
+```{r exercise 10}
+
+```

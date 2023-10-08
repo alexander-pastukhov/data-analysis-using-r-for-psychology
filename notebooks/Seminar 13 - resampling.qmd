@@ -1,0 +1,83 @@
+---
+title: "Simulations and resampling"
+format: html
+---
+
+```{r setup}
+# add libraries that you require here
+```
+
+## Exercise 01
+Generate 20 samples from a normal distribution, choose mean and standard deviation yourself. Plot histogram and adding a red vertical line to indicate the true mean of the distribution and a blue one for the sample mean. Report number of samples and sample mean in the title.
+
+```{r exercise-01}
+```
+
+## Exercise 02
+Use `sample()` to resample data from exercise 01 with replacement.
+
+```{r exercise-02}
+```
+
+## Exercise 03
+Turn code of the previous exercise into a function. Call it to ensure that it works correctly.
+```{r exercise-03}
+```
+
+
+## Exercise 04
+Use `replicate()` and `sample()` to compute mean for 1000 resampled values. Plot the distribution of _means_ and compute percentile 97% confidence interval via `quantile()`. Put quantitative information into the figure caption.
+```{r exercise-04}
+```
+
+## Exercise 05
+Repeat exercise 04 using for loop. You can copy-paste the plotting part.
+```{r exercise-05}
+```
+
+## Exercise 06
+Repeat exercise 04 using a mapping function from purrr library. You can copy-paste the plotting part.
+```{r exercise-06}
+```
+
+## Exercise 07
+Repeat exercise 04 but using `boot` library.
+```{r exercise-07}
+
+```
+
+## Exercise 08
+Use your code from the chapter on factors that you created to 
+1. read in likert-scale.csv file
+2. count number of responses per condition and response level and compute proportion of response per condition and level
+3. plot these results.
+
+Convert step 2 into a function that takes a table with original data as an input and returns the counts and proportions table. It should have a second parameter `resample` set to `FALSE` by default (we will use it later).
+```{r exercise-08}
+
+```
+
+## Exercise 09
+Modify your function so that if `resample` parameter is `TRUE`, it samples the _entire_ table with replacement. Test your updated function by calling it with `resample = TRUE` and checking that you get _different_ averages every time.
+```{r exercise-09}
+
+```
+
+## Exercise 10
+Use map() and list_rbind() to compute counts and proportions of resampled data N time. Start with 2 and without list_rbind() to check whether it works. Up it to 1000 and combine into a single table, once you are confident the code works correctly. 
+```{r exercise-10}
+
+```
+
+## Exercise 11
+Compute lower and upper limits for 97% confidence interval for the proportion of response per condition and level.
+```{r exercise-11}
+
+```
+
+## Exercise 12
+Add confidence intervals to the plot as either error bars or ribbons.
+```{r exercise-12}
+
+```
+
