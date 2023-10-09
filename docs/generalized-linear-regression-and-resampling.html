@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 13 (Generalized) Linear regression and Resampling | Data analysis using R for Psychology and Social Science</title>
+<meta name="author" content="Alexander (Sasha) Pastukhov">
+<meta name="description" content="As I have warned you at the very beginning, this seminar will not teach you statistics. The latter is a big topic in itself and, in my experience, if you know statistics and you know which...">
+<meta name="generator" content="bookdown 0.35 with bs4_book()">
+<meta property="og:title" content="Chapter 13 (Generalized) Linear regression and Resampling | Data analysis using R for Psychology and Social Science">
+<meta property="og:type" content="book">
+<meta property="og:description" content="As I have warned you at the very beginning, this seminar will not teach you statistics. The latter is a big topic in itself and, in my experience, if you know statistics and you know which...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 13 (Generalized) Linear regression and Resampling | Data analysis using R for Psychology and Social Science">
+<meta name="twitter:description" content="As I have warned you at the very beginning, this seminar will not teach you statistics. The latter is a big topic in itself and, in my experience, if you know statistics and you know which...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-QMVBLBE7DV"></script><script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-QMVBLBE7DV');
+    </script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="bs4_style.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Data analysis using R for Psychology and Social Science</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Introduction</a></li>
+<li><a class="" href="software.html">Software</a></li>
+<li><a class="" href="reproducable-research.html"><span class="header-section-number">1</span> Reproducable Research: Projects and Markdown Notebooks</a></li>
+<li><a class="" href="vectors.html"><span class="header-section-number">2</span> Vectors! Vectors everywhere!</a></li>
+<li><a class="" href="tables.html"><span class="header-section-number">3</span> Tables and Tibbles (and Tribbles)</a></li>
+<li><a class="" href="functions.html"><span class="header-section-number">4</span> Functions! Functions everywhere!</a></li>
+<li><a class="" href="ggplot2.html"><span class="header-section-number">5</span> ggplot2: Grammar of Graphics</a></li>
+<li><a class="" href="dplyr.html"><span class="header-section-number">6</span> Tidyverse: dplyr</a></li>
+<li><a class="" href="working-with-factors.html"><span class="header-section-number">7</span> Working with Factors</a></li>
+<li><a class="" href="tyding.html"><span class="header-section-number">8</span> Tidyng your data: joins and pivots</a></li>
+<li><a class="" href="control-flow-chapter.html"><span class="header-section-number">9</span> Controling computation flow</a></li>
+<li><a class="" href="missing-data.html"><span class="header-section-number">10</span> Missing data</a></li>
+<li><a class="" href="strings.html"><span class="header-section-number">11</span> Working with strings</a></li>
+<li><a class="" href="sampling-and-simulations.html"><span class="header-section-number">12</span> Sampling and simulations</a></li>
+<li><a class="active" href="generalized-linear-regression-and-resampling.html"><span class="header-section-number">13</span> (Generalized) Linear regression and Resampling</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/alexander-pastukhov/data-analysis-using-r-for-psychology">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="generalized-linear-regression-and-resampling" class="section level1" number="13">
+<h1>
+<span class="header-section-number">13</span> (Generalized) Linear regression and Resampling<a class="anchor" aria-label="anchor" href="#generalized-linear-regression-and-resampling"><i class="fas fa-link"></i></a>
+</h1>
+<p>As I have warned you at the very beginning, this seminar will not teach you statistics. The latter is a big topic in itself and, in my experience, if you know statistics and you know which specific tool you need, figuring out how to use it in R is fairly trivial (just find a package that implements the analysis and read the docs). Conversely, if your knowledge of statistics is approximate, knowing how to call functions will do you little good. The catch about statistical models is that they are very easy to run (even if you implement them by hand from scratch) but they are easy to misuse and very hard to interpret<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;In the Bayesian Statistics we spend three seminars learning how to understand and interpret a simple linear multiple regression with just two predictors. And the conclusion is that even in this simple case, you are not guaranteed to fully understand it. And if you think that you can easily interpret an interaction term even for two continuous predictors…&lt;/p&gt;"><sup>77</sup></a>.</p>
+<p>To make things worse, computers and algorithms do not care. In absolute majority of cases, statistical models will happily accept any input you provide, even if it is completely unsuitable, and spit out numbers. Unfortunately, it is on you, not on the computer, to know what you are doing and whether results even make sense. The only solution to this problem: do not spare any effort to learn statistics. Having a solid understanding of a basic regression analysis will help you in figuring out which statistical tools are applicable and, even more importantly, which will definitely misguide you. This is why I will give an general overview with some examples simulations but I will not explain here when and why you should use a particular tool or how to interpret the outputs. Want to know more? Attend my <em>Bayesian Statistics</em> seminar or read an excellent <a href="https://www.routledge.com/Statistical-Rethinking-A-Bayesian-Course-with-Examples-in-R-and-STAN/McElreath/p/book/9780367139919">Statistical Rethinking</a> by Richard McElreath that the seminar is based on.</p>
+<div id="linear-regression-simulating-data" class="section level2" number="13.1">
+<h2>
+<span class="header-section-number">13.1</span> Linear regression: simulating data<a class="anchor" aria-label="anchor" href="#linear-regression-simulating-data"><i class="fas fa-link"></i></a>
+</h2>
+<p>Our first statistical model will be linear regression. When you experiment with analysis, it is easier to notice if something goes wrong if you already know the answer. Which is why let us simulate the data with a linear relationship in it: overall height versus foot length. <a href="https://doi.org/246.726%2010.3434">A conference paper</a> I have found online suggests that foot length distribution is 246.726±10.3434 mm (mean and standard deviation, assume <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html">normal distribution</a>) and the formula for estimate height is <span class="math inline">\(Height = 710 + 4 \cdot Foot + \epsilon\)</span><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;I have rounded off the numbers a little to make it easier to read.&lt;/p&gt;"><sup>78</sup></a> where <span class="math inline">\(\epsilon\)</span> (residual error) is <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html">normally distributed</a> around the zero with a standard deviation of 10. Generate the data (I used 100 points) putting it into a table with two columns (I called them <code>FootLength</code> and <code>Height</code>) and plot them to match the figure below. You can <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html">set seed</a> to 826 to replicate me exactly.</p>
+<div class="inline-figure"><img src="data-analysis-using-r-for-psychology_files/figure-html/glm-01-create-height-df-1.png" width="100%" style="display: block; margin: auto;"></div>
+<div class="practice">
+<p>Do exercise 1.</p>
+</div>
+</div>
+<div id="linear-regression-statistical-model" class="section level2" number="13.2">
+<h2>
+<span class="header-section-number">13.2</span> Linear regression: statistical model<a class="anchor" aria-label="anchor" href="#linear-regression-statistical-model"><i class="fas fa-link"></i></a>
+</h2>
+<p>Let us use a linear regression model to fit the data and see how accurately we can estimate both intercept and slope terms. R has a built-in function for linear regression model — <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/lm.html">lm()</a> — that uses a common <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html">formula</a> design to specify relationship. This formula approach is widely used in R due to its power and simplicity. The syntax for a full factorial linear model with two predictors is <code>y ~ x1 + x2 + x1:x2</code> where individual effects are added via <code>+</code> and <code>:</code> mean “interaction” between the variables. There are many additional bells and whistles, such as specifying both main effects and an interaction of the variables via asterisk (same formula can be compressed to <code>y ~ x1 * x2</code>) or removing an intercept term (setting it explicitly to zero” <code>y ~ 0 + x1 * x2</code>). You can see more detail in the <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html">online documentation</a> but statistical packages frequently expand it to accommodate additional features such as random effects. However, pay extra attention to the new syntax as different packages may use different symbols to encode a certain feature or, vice versa, use the same symbol for different features. E.g., <code>|</code> typically means a random effect but I was once mightily confused by a package that used it to denote variance term instead.</p>
+<p>Read the documentation for <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/lm.html">lm()</a> and <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/summary.lm.html">summary()</a> functions. Fit the model and print out the full summary for it. Your output should look like this</p>
+<pre><code>## 
+## Call:
+## lm(formula = Height ~ FootLength, data = height_df)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -24.0149  -7.0855   0.7067   6.0991  26.6808 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 725.26822   24.12584  30.062  &lt; 2e-16 ***
+## FootLength    0.95535    0.09776   9.772 3.78e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 10.13 on 98 degrees of freedom
+## Multiple R-squared:  0.4935, Adjusted R-squared:  0.4884 
+## F-statistic: 95.49 on 1 and 98 DF,  p-value: 3.783e-16</code></pre>
+<p>As you can see, our estimate for the intercept term is fairly close 725±24 mm versus 710 mm we used in the formula. However, the foot length slope is small than it should be (0.96±0.09 versus 4) showing that for such noisy data 100 samples is not enough to reliable estimate it.</p>
+<div class="practice">
+<p>Do exercise 2.</p>
+</div>
+<p>I think it is nice to present information about the model fit alongside the plot, so let us prepare summary about both intercept and slope terms in a format <em>estimate [lower-97%-CI-limit..upper-97%-CI-limit]</em>. You can extract estimates themselves via <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/coef.html">coef()</a> function and and their confidence intervals via <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/confint.html">confint()</a>. In both cases,
+names of the terms are specified either as names of the vector or <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/colnames.html">rownames</a> of matrix. Think how would you handle this. My approach is to convert matrix with confidence intervals to a <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/data.frame.html">data frame</a> (converting directly to <a href="tables.html#tibble">tibble</a> removes row names that we need later), turn row names into a column via <a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column()</a>, convert to a <a href="tables.html#tibble">tibble</a> so I can <a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a> ugly converted column names, add estimates as a <a href="https://tibble.tidyverse.org/reference/add_column.html">new column</a> to the table, and <a href="https://dplyr.tidyverse.org/reference/relocate.html">relocate</a> columns for a consistent look. Then, I can combine them into a new variable via <a href="strings.html#strings">string formatting</a> (I prefer <a href="strings.html#glue">glue</a>). You need one(!) pipeline for this.
+My summary table looks like this</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr>
+<th style="text-align:left;">
+Term
+</th>
+<th style="text-align:right;">
+Estimate
+</th>
+<th style="text-align:right;">
+LowerCI
+</th>
+<th style="text-align:right;">
+UpperCI
+</th>
+<th style="text-align:left;">
+Summary
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+725.2682157
+</td>
+<td style="text-align:right;">
+672.1395797
+</td>
+<td style="text-align:right;">
+778.396852
+</td>
+<td style="text-align:left;">
+(Intercept): 725.27 [672.14..778.4]
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FootLength
+</td>
+<td style="text-align:right;">
+0.9553541
+</td>
+<td style="text-align:right;">
+0.7400622
+</td>
+<td style="text-align:right;">
+1.170646
+</td>
+<td style="text-align:left;">
+FootLength: 0.96 [0.74..1.17]
+</td>
+</tr>
+</tbody>
+</table></div>
+<div class="practice">
+<p>Do exercise 3.</p>
+</div>
+<p>Statistical model is only as good as its predictions, so whenever you fit a statistical model to the data, you should compare its predictions to the data visually. <a href="ggplot2.html#ggplot2">ggplot2</a> provides an easy solution to this via <a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth()</a> that you have met earlier. For didactic purposes, let us use a slightly longer way of generating predictions ourselves and plotting them alongside the data. R provides a simple interface to generating prediction for a fitted model via <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/predict.lm.html">predict()</a> function: you pass a fitted model to it and it will generate prediction for every original data point. However, you can also generate data for data points not present in the data (so-called “counterfactuals”) by passing a table to <code>newdata</code> parameter. We will use the latter option. Generate a new table with a single column <code>FootLength</code> (or, however you called it in the original data) with a sequence of number going from the lowest to the highest range of our values (from about 220 to 270 in my case) in some regular steps (I picked a step of 1 but think of whether choosing a different one would make a difference). Pass this new data as <code>newdata</code> to predict, store predictions in the <code>Height</code> column (now the structure of your table with predictions matches that with real data) and use it with <a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line()</a>. Here’s how my plot looks like.
+<img src="data-analysis-using-r-for-psychology_files/figure-html/glm-04-height-predictions-1.png" width="672"></p>
+<div class="practice">
+<p>Do exercise 4.</p>
+</div>
+<p>We can see the trend, but when working with statistical models, it is important to understand uncertainty of its predictions. For this, we need to plot not just the prediction for each foot length but also the confidence interval for the prediction. First, we will do it an easy way as <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/predict.lm.html">predict()</a> function has options for that as well via its <code>interval</code> parameter (we want <code>"confidence"</code>). Use it to generate 97% confidence interval for each foot length you generated and plot it as a <a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_ribbon()</a>.</p>
+<div class="inline-figure"><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-313-1.png" width="100%" style="display: block; margin: auto;"></div>
+<div class="practice">
+<p>Do exercise 5.</p>
+</div>
+</div>
+<div id="linear-regression-bootstrapping-predictions" class="section level2" number="13.3">
+<h2>
+<span class="header-section-number">13.3</span> Linear regression: bootstrapping predictions<a class="anchor" aria-label="anchor" href="#linear-regression-bootstrapping-predictions"><i class="fas fa-link"></i></a>
+</h2>
+<p>Let us replicate these results but use bootstrap approach, which will work even when you don’t have a convenience function. One iteration consists of:</p>
+<ol style="list-style-type: decimal">
+<li>Randomly <a href="https://dplyr.tidyverse.org/reference/slice.html">sample</a> original data table <em>with replacement</em>.</li>
+<li>Fit a linear model to that data.</li>
+<li>Generate predictions for the interval, the same way we did above, so that you end up with a table of <code>FootLength</code> (going from 220 to 270) and (predicted) <code>Height</code>.</li>
+</ol>
+<p>Write the code and put it into a function (think about which parameters it would need). Test it by running it the function a few times. Values for which column should stay the same or change?</p>
+<div class="practice">
+<p>Do exercise 6.</p>
+</div>
+<p>Once you have this function, things are easy. All you need is to follow the same algorithm as for computing and visualizing confidence intervals for the <a href="sampling-and-simulations.html#likert-confidence">Likert scale</a>:</p>
+<ol style="list-style-type: decimal">
+<li>Call function multiple times recording the predictions (think <a href="https://purrr.tidyverse.org/reference/map.html">map()</a> and <a href="https://purrr.tidyverse.org/reference/list_c.html">list_rbind()</a>)</li>
+<li>Compute 97% confidence interval for each foot length via <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html">quantiles</a>
+</li>
+<li>Plot them as <a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_ribbon()</a> as before.</li>
+</ol>
+<div class="inline-figure"><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-314-1.png" width="100%" style="display: block; margin: auto;"></div>
+<div class="practice">
+<p>Do exercise 7.</p>
+</div>
+</div>
+<div id="logistic-regression-simulating-data" class="section level2" number="13.4">
+<h2>
+<span class="header-section-number">13.4</span> Logistic regression: simulating data<a class="anchor" aria-label="anchor" href="#logistic-regression-simulating-data"><i class="fas fa-link"></i></a>
+</h2>
+<p>Let us practice more but this time we will using binomial data. Let us assume that we measure success in playing video games for people drank tea versus coffee (I have no idea if there is any effect at all, you can use liquids of your liking for this example). Let us assume that we have measure thirty participants in each group and average probability of success was 0.4 for tea and 0.7 for coffee<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Yes, I am a coffee person.&lt;/p&gt;"><sup>79</sup></a> groups. You very much know the drill by now, so use <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Binomial.html">rbinom()</a> (you want twenty 0/1 values, so figure out which <code>size</code> and which <code>n</code> you need) to generate data for each condition, put it into a single table with 60 rows (<a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows()</a> might be useful) and two columns (<code>Condition</code> and <code>Success</code>). Your table should look similar to this (my seed is 12987)</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr>
+<th style="text-align:left;">
+Condition
+</th>
+<th style="text-align:right;">
+Success
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Tea
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Tea
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Tea
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Tea
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Tea
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+</tbody>
+</table></div>
+<div class="practice">
+<p>Do exercise 8.</p>
+</div>
+<p>Now, let us visualize data. You need to compute average and 97% confidence interval for each condition. The average is easy (divide total number of successes for condition by total number of participants) but confidence interval is trickier. Luckily for us, package <a href="https://cran.r-project.org/web/packages/binom/index.html">binom</a> has us covered. It implements multiple methods for computing it. I used <code>binom.exact()</code> (use <code>?binom.exact</code> in the console to read the manual, once you loaded the library). You plot should look like this (or similar, if you did not set seed). Note that our mean probability for <code>Tea</code> condition is higher than we designed it (sampling variation!) and confidence intervals are asymmetric. The latter is easier to see for the coffee condition (redo it with probability of success 0.9 to make it more apparent) and is common for data on limited interval.</p>
+<div class="inline-figure"><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-316-1.png" width="100%" style="display: block; margin: auto;"></div>
+<div class="practice">
+<p>Do exercise 9.</p>
+</div>
+</div>
+<div id="logistic-regression-fitting-data" class="section level2" number="13.5">
+<h2>
+<span class="header-section-number">13.5</span> Logistic regression: fitting data<a class="anchor" aria-label="anchor" href="#logistic-regression-fitting-data"><i class="fas fa-link"></i></a>
+</h2>
+<p>Let us fit the data using generalized linear models — <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/glm.html">glm</a> — with <code>"binomial"</code> family. That latter bit and the name of the function are the only new bits, as formula works the same way as in <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/lm.html">lm()</a>. Print out the <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/summary.glm.html">summary</a> and it should look like this.</p>
+<pre><code>## 
+## Call:
+## glm(formula = Success ~ Condition, family = "binomial", data = game_df)
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)  
+## (Intercept)    1.0116     0.4129   2.450   0.0143 *
+## ConditionTea  -0.8781     0.5517  -1.592   0.1115  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 78.859  on 59  degrees of freedom
+## Residual deviance: 76.250  on 58  degrees of freedom
+## AIC: 80.25
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<div class="practice">
+<p>Do exercise 10.</p>
+</div>
+<p>Note that this is <em>logistic regression</em>, so the estimates need are harder to interpret. Slope term for condition <code>Tea</code> is in the units of log-odds and we see that it is negative, meaning that model predict fewer successes in tea than in coffee group. Intercept is trickier as you need inverted logit function (for example, implemented as <a href="https://stat.ethz.ch/R-manual/R-devel/library/boot/html/inv.logit.html">inv.logit()</a> in <em>boot</em> package) to convert it to probabilities. Here, 0 corresponds to probability of 0.5, so 1 is somewhere above that. Personally, I find these units very confusing, so to make sense of it we need to use estimates (<code><a href="https://rdrr.io/r/stats/coef.html">coef()</a></code> functio will work here as well) to compute <em>scores</em> for each condition and then tranlate them to probabilities via <a href="https://stat.ethz.ch/R-manual/R-devel/library/boot/html/inv.logit.html">inv.logit()</a>. Coffee is our “baseline” group (simple alphabetically), so <span class="math inline">\(logit(Coffee) = Intercept\)</span> and <span class="math inline">\(logit(Tea) = Intercept + ConditionTea\)</span>. In statistics, link function is applied to the left side, but we apply its inverse to the right side. I just wanted to show you this notation, so you would recognize it the next time you see it.</p>
+Your code should generate a <em>table</em> with two columns (<code>Condition</code> and <code>P</code> for Probability). It should look like this
+<div class="inline-table"><table class="table table-sm">
+<thead><tr>
+<th style="text-align:left;">
+Condition
+</th>
+<th style="text-align:right;">
+P
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Coffee
+</td>
+<td style="text-align:right;">
+0.7333333
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Tea
+</td>
+<td style="text-align:right;">
+0.5333333
+</td>
+</tr>
+</tbody>
+</table></div>
+<div class="practice">
+<p>Do exercise 11.</p>
+</div>
+</div>
+<div id="logistic-regression-bootstrapping-uncertainty" class="section level2" number="13.6">
+<h2>
+<span class="header-section-number">13.6</span> Logistic regression: bootstrapping uncertainty<a class="anchor" aria-label="anchor" href="#logistic-regression-bootstrapping-uncertainty"><i class="fas fa-link"></i></a>
+</h2>
+<p>Let us bootstrap <em>predicted</em> probability of success following the template we used already twice but with a slight twist. Write a function (first write the inside code, make sure it works, then turn it into a function) that samples our data, fits the model, generates and returns model with prediction. The only twist is that we will sample each condition separately. <a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_frac()</a> but you will need to group data by condition before that. Also, pass iteration index (the one you are purrring over) as a parameter to the function and store in a separate column <code>Iteration</code>. This will allows us to identify individual samples, making it easier to compute the difference between the conditions later on.</p>
+<p>Repeat this computation 1000 times and you will end up with a table with two columns (<code>Condition</code> and <code>P</code>) and 2000 rows (1000 per condition). Instead of computing aggregate information, visualize distributions using <a href="https://ggplot2.tidyverse.org/reference/geom_violin.html">geom_violin()</a>. Here’s how the plot should look like.</p>
+<div class="inline-figure"><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-319-1.png" width="100%" style="display: block; margin: auto;"></div>
+<div class="practice">
+<p>Do exercise 12.</p>
+</div>
+<p>As a final step, let us compute average and 97% confidence interval for the <em>difference</em> between the conditions. You have the samples but in a long format, so you need to make table <a href="tyding.html#pivot-wider">wide</a>. The only catch is that pivot function will be confused by the absence of ID rows, so you need to create an extra “RowIndex” column first, putting in a unique row index going from 1 to the <a href="https://dplyr.tidyverse.org/reference/context.html">number of rows</a>. So you will end up with three columns: <code>RowIndex</code>, Coffee<code>, and</code>Tea`. Compute a new column with difference between tea and coffee, compute and nicely format the statistics putting into the figure caption. Hint: you can <a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a> the difference column out of the table to make things easier.</p>
+<div class="inline-figure"><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-320-1.png" width="100%" style="display: block; margin: auto;"></div>
+<div class="practice">
+<p>Do exercise 13.</p>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="chapter-nav">
+<div class="prev"><a href="sampling-and-simulations.html"><span class="header-section-number">12</span> Sampling and simulations</a></div>
+<div class="empty"></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#generalized-linear-regression-and-resampling"><span class="header-section-number">13</span> (Generalized) Linear regression and Resampling</a></li>
+<li><a class="nav-link" href="#linear-regression-simulating-data"><span class="header-section-number">13.1</span> Linear regression: simulating data</a></li>
+<li><a class="nav-link" href="#linear-regression-statistical-model"><span class="header-section-number">13.2</span> Linear regression: statistical model</a></li>
+<li><a class="nav-link" href="#linear-regression-bootstrapping-predictions"><span class="header-section-number">13.3</span> Linear regression: bootstrapping predictions</a></li>
+<li><a class="nav-link" href="#logistic-regression-simulating-data"><span class="header-section-number">13.4</span> Logistic regression: simulating data</a></li>
+<li><a class="nav-link" href="#logistic-regression-fitting-data"><span class="header-section-number">13.5</span> Logistic regression: fitting data</a></li>
+<li><a class="nav-link" href="#logistic-regression-bootstrapping-uncertainty"><span class="header-section-number">13.6</span> Logistic regression: bootstrapping uncertainty</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/alexander-pastukhov/data-analysis-using-r-for-psychology/blob/master/14-glm.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/alexander-pastukhov/data-analysis-using-r-for-psychology/edit/master/14-glm.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Data analysis using R for Psychology and Social Science</strong>" was written by Alexander (Sasha) Pastukhov. It was last built on 2023-10-09.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>Please note that this website collects anonymized data via Google analytics. This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

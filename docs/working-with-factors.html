@@ -1,491 +1,237 @@
 <!DOCTYPE html>
-<html lang="" xml:lang="">
+<html lang="en">
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 7 Working with Factors | Data analysis using R for Psychology and Social Science</title>
+<meta name="author" content="Alexander (Sasha) Pastukhov">
+<meta name="description" content="Let us start with a “warm up” exercise that will require combining various things that you already learned. Download persistence.csv file (you can use the URL directly, but that will cause R to...">
+<meta name="generator" content="bookdown 0.35 with bs4_book()">
+<meta property="og:title" content="Chapter 7 Working with Factors | Data analysis using R for Psychology and Social Science">
+<meta property="og:type" content="book">
+<meta property="og:description" content="Let us start with a “warm up” exercise that will require combining various things that you already learned. Download persistence.csv file (you can use the URL directly, but that will cause R to...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 7 Working with Factors | Data analysis using R for Psychology and Social Science">
+<meta name="twitter:description" content="Let us start with a “warm up” exercise that will require combining various things that you already learned. Download persistence.csv file (you can use the URL directly, but that will cause R to...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-QMVBLBE7DV"></script><script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Seminar 7 Working with Factors | Data analysis using R for Psychology and Social Science</title>
-  <meta name="description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
-  <meta name="generator" content="bookdown 0.30 and GitBook 2.6.7" />
-
-  <meta property="og:title" content="Seminar 7 Working with Factors | Data analysis using R for Psychology and Social Science" />
-  <meta property="og:type" content="book" />
-  
-  <meta property="og:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
-  
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Seminar 7 Working with Factors | Data analysis using R for Psychology and Social Science" />
-  
-  <meta name="twitter:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
-  
-
-<meta name="author" content="Alexander (Sasha) Pastukhov" />
-
-
-<meta name="date" content="2022-11-19" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  
-  
-<link rel="prev" href="dplyr.html"/>
-<link rel="next" href="tyding.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
-<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
-
-
-
-
-
-
-
-<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
-<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
-<script src="libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-
-
-<style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-</style>
-
-
-<link rel="stylesheet" href="style.css" type="text/css" />
-<link rel="stylesheet" href="font-awesome.css" type="text/css" />
+      gtag('config', 'G-QMVBLBE7DV');
+    </script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="bs4_style.css">
+<link rel="stylesheet" href="style.css">
 </head>
+<body data-spy="scroll" data-target="#toc">
 
-<body>
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
 
-
-
-  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
-
-    <div class="book-summary">
-      <nav role="navigation">
-
-<ul class="summary">
-<li><a href="./">Data analysis using R for Psychology</a></li>
-
-<li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a>
-<ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-r"><i class="fa fa-check"></i>Why R?</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-tidyverse"><i class="fa fa-check"></i>Why Tidyverse</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-seminar-itself"><i class="fa fa-check"></i>About the seminar itself</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#thinking-like-a-computer"><i class="fa fa-check"></i>Thinking like a computer</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-material"><i class="fa fa-check"></i>About the material</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html"><i class="fa fa-check"></i>Software</a>
-<ul>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install-r"><i class="fa fa-check"></i>Installing R</a></li>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install-rstudio"><i class="fa fa-check"></i>Installing R-Studio</a></li>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install-rtools"><i class="fa fa-check"></i>Installing RTools</a></li>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install.packages"><i class="fa fa-check"></i>Installing packages</a></li>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html#minimal-set-of-packages"><i class="fa fa-check"></i>Minimal set of packages</a></li>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html#installr"><i class="fa fa-check"></i>Keeping R and packages up-to-date</a></li>
-</ul></li>
-<li class="chapter" data-level="1" data-path="reproducable-research.html"><a href="reproducable-research.html"><i class="fa fa-check"></i><b>1</b> Reproducable Research: Projects and Markdown Notebooks</a>
-<ul>
-<li class="chapter" data-level="1.1" data-path="reproducable-research.html"><a href="reproducable-research.html#projects"><i class="fa fa-check"></i><b>1.1</b> Projects</a></li>
-<li class="chapter" data-level="1.2" data-path="reproducable-research.html"><a href="reproducable-research.html#rmarkdown"><i class="fa fa-check"></i><b>1.2</b> Quattro and RMarkdown notebooks</a></li>
-<li class="chapter" data-level="1.3" data-path="reproducable-research.html"><a href="reproducable-research.html#exercise"><i class="fa fa-check"></i><b>1.3</b> Exercise</a></li>
-</ul></li>
-<li class="chapter" data-level="2" data-path="vectors.html"><a href="vectors.html"><i class="fa fa-check"></i><b>2</b> Vectors! Vectors everywhere!</a>
-<ul>
-<li class="chapter" data-level="2.1" data-path="vectors.html"><a href="vectors.html#variables"><i class="fa fa-check"></i><b>2.1</b> Variables as boxes</a></li>
-<li class="chapter" data-level="2.2" data-path="vectors.html"><a href="vectors.html#assignment-statement"><i class="fa fa-check"></i><b>2.2</b> Assignment statement in detail</a></li>
-<li class="chapter" data-level="2.3" data-path="vectors.html"><a href="vectors.html#vectors-scalars"><i class="fa fa-check"></i><b>2.3</b> Vectors and singluar values (scalars, which are also vectors)</a></li>
-<li class="chapter" data-level="2.4" data-path="vectors.html"><a href="vectors.html#vector-index"><i class="fa fa-check"></i><b>2.4</b> Vector indexes (subsetting)</a></li>
-<li class="chapter" data-level="2.5" data-path="vectors.html"><a href="vectors.html#names"><i class="fa fa-check"></i><b>2.5</b> Names as an Index</a></li>
-<li class="chapter" data-level="2.6" data-path="vectors.html"><a href="vectors.html#vector-index-slicing"><i class="fa fa-check"></i><b>2.6</b> Slicing</a></li>
-<li class="chapter" data-level="2.7" data-path="vectors.html"><a href="vectors.html#colon-sequence"><i class="fa fa-check"></i><b>2.7</b> Colon Operator and Sequence Generation</a></li>
-<li class="chapter" data-level="2.8" data-path="vectors.html"><a href="vectors.html#working-with-two-vectors-of-equal-length"><i class="fa fa-check"></i><b>2.8</b> Working with two vectors of <em>equal</em> length</a></li>
-<li class="chapter" data-level="2.9" data-path="vectors.html"><a href="vectors.html#different-length-vectors"><i class="fa fa-check"></i><b>2.9</b> Working with two vectors of <em>different</em> length</a></li>
-<li class="chapter" data-level="2.10" data-path="vectors.html"><a href="vectors.html#applying-functions-to-a-vector"><i class="fa fa-check"></i><b>2.10</b> Applying functions to a vector</a></li>
-<li class="chapter" data-level="2.11" data-path="vectors.html"><a href="vectors.html#wrap-up"><i class="fa fa-check"></i><b>2.11</b> Wrap up</a></li>
-</ul></li>
-<li class="chapter" data-level="3" data-path="tables.html"><a href="tables.html"><i class="fa fa-check"></i><b>3</b> Tables and Tibbles (and Tribbles)</a>
-<ul>
-<li class="chapter" data-level="3.1" data-path="tables.html"><a href="tables.html#primary-types"><i class="fa fa-check"></i><b>3.1</b> Primary data types</a></li>
-<li class="chapter" data-level="3.2" data-path="tables.html"><a href="tables.html#vectors-are-homogeneous"><i class="fa fa-check"></i><b>3.2</b> All vector values must be of the same type</a></li>
-<li class="chapter" data-level="3.3" data-path="tables.html"><a href="tables.html#lists"><i class="fa fa-check"></i><b>3.3</b> Lists</a></li>
-<li class="chapter" data-level="3.4" data-path="tables.html"><a href="tables.html#subsetting"><i class="fa fa-check"></i><b>3.4</b> Subsetting, a fuller version</a>
-<ul>
-<li class="chapter" data-level="3.4.1" data-path="tables.html"><a href="tables.html#subsetting-for-atomics-vectors"><i class="fa fa-check"></i><b>3.4.1</b> Subsetting for (atomics) vectors</a></li>
-<li class="chapter" data-level="3.4.2" data-path="tables.html"><a href="tables.html#subsetting-for-lists"><i class="fa fa-check"></i><b>3.4.2</b> Subsetting for lists</a></li>
-</ul></li>
-<li class="chapter" data-level="3.5" data-path="tables.html"><a href="tables.html#dollar-subsetting"><i class="fa fa-check"></i><b>3.5</b> Yet another subsetting via $</a></li>
-<li class="chapter" data-level="3.6" data-path="tables.html"><a href="tables.html#data.frame"><i class="fa fa-check"></i><b>3.6</b> Tables, a.k.a. data frames</a></li>
-<li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#table-subsetting"><i class="fa fa-check"></i><b>3.7</b> Subsetting tables</a></li>
-<li class="chapter" data-level="3.8" data-path="tables.html"><a href="tables.html#library"><i class="fa fa-check"></i><b>3.8</b> Using libraries</a></li>
-<li class="chapter" data-level="3.9" data-path="tables.html"><a href="tables.html#tibble"><i class="fa fa-check"></i><b>3.9</b> Tibble, a better data.frame</a></li>
-<li class="chapter" data-level="3.10" data-path="tables.html"><a href="tables.html#tribble"><i class="fa fa-check"></i><b>3.10</b> Tribble, table from text</a></li>
-<li class="chapter" data-level="3.11" data-path="tables.html"><a href="tables.html#data"><i class="fa fa-check"></i><b>3.11</b> Reading example tables</a></li>
-<li class="chapter" data-level="3.12" data-path="tables.html"><a href="tables.html#readr"><i class="fa fa-check"></i><b>3.12</b> Reading csv files</a></li>
-<li class="chapter" data-level="3.13" data-path="tables.html"><a href="tables.html#readxl"><i class="fa fa-check"></i><b>3.13</b> Reading Excel files</a></li>
-<li class="chapter" data-level="3.14" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.14</b> Reading files from other programs</a></li>
-<li class="chapter" data-level="3.15" data-path="tables.html"><a href="tables.html#rds"><i class="fa fa-check"></i><b>3.15</b> Writing and reading a single object</a></li>
-<li class="chapter" data-level="3.16" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.16</b> Wrap up</a></li>
-</ul></li>
-<li class="chapter" data-level="4" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>4</b> Functions! Functions everywhere!</a>
-<ul>
-<li class="chapter" data-level="4.1" data-path="functions.html"><a href="functions.html#functions-1"><i class="fa fa-check"></i><b>4.1</b> Functions</a></li>
-<li class="chapter" data-level="4.2" data-path="functions.html"><a href="functions.html#writing-a-function"><i class="fa fa-check"></i><b>4.2</b> Writing a function</a></li>
-<li class="chapter" data-level="4.3" data-path="functions.html"><a href="functions.html#scopes-global-versus-local-variables"><i class="fa fa-check"></i><b>4.3</b> Scopes: Global versus Local variables</a></li>
-<li class="chapter" data-level="4.4" data-path="functions.html"><a href="functions.html#function-with-two-parameters"><i class="fa fa-check"></i><b>4.4</b> Function with two parameters</a></li>
-<li class="chapter" data-level="4.5" data-path="functions.html"><a href="functions.html#table-as-a-parameter"><i class="fa fa-check"></i><b>4.5</b> Table as a parameter</a></li>
-<li class="chapter" data-level="4.6" data-path="functions.html"><a href="functions.html#named-versus-positional-arguments"><i class="fa fa-check"></i><b>4.6</b> Named versus positional arguments</a></li>
-<li class="chapter" data-level="4.7" data-path="functions.html"><a href="functions.html#default-values"><i class="fa fa-check"></i><b>4.7</b> Default values</a></li>
-<li class="chapter" data-level="4.8" data-path="functions.html"><a href="functions.html#nested-calls"><i class="fa fa-check"></i><b>4.8</b> Nested calls</a></li>
-<li class="chapter" data-level="4.9" data-path="functions.html"><a href="functions.html#pipe"><i class="fa fa-check"></i><b>4.9</b> Piping</a></li>
-<li class="chapter" data-level="4.10" data-path="functions.html"><a href="functions.html#function-is-just-a-code-stored-in-a-variable"><i class="fa fa-check"></i><b>4.10</b> Function is just a code stored in a variable</a></li>
-<li class="chapter" data-level="4.11" data-path="functions.html"><a href="functions.html#functions-functions-everywhere"><i class="fa fa-check"></i><b>4.11</b> Functions! Functions everywhere!</a></li>
-<li class="chapter" data-level="4.12" data-path="functions.html"><a href="functions.html#using-or-not-using-explicit-return-statement"><i class="fa fa-check"></i><b>4.12</b> Using (or not using) explicit return statement</a></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>5</b> ggplot2: Grammar of Graphics</a>
-<ul>
-<li class="chapter" data-level="5.1" data-path="ggplot2.html"><a href="ggplot2.html#tidydata"><i class="fa fa-check"></i><b>5.1</b> Tidy data</a></li>
-<li class="chapter" data-level="5.2" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-1"><i class="fa fa-check"></i><b>5.2</b> ggplot2</a></li>
-<li class="chapter" data-level="5.3" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-continuous-x-axis"><i class="fa fa-check"></i><b>5.3</b> Auto efficiency: continuous x-axis</a></li>
-<li class="chapter" data-level="5.4" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-discrete-x-axis"><i class="fa fa-check"></i><b>5.4</b> Auto efficiency: discrete x-axis</a></li>
-<li class="chapter" data-level="5.5" data-path="ggplot2.html"><a href="ggplot2.html#mammals-sleep-single-variable"><i class="fa fa-check"></i><b>5.5</b> Mammals sleep: single variable</a></li>
-<li class="chapter" data-level="5.6" data-path="ggplot2.html"><a href="ggplot2.html#mapping-for-all-visuals-versus-just-one-visual"><i class="fa fa-check"></i><b>5.6</b> Mapping for all visuals versus just one visual</a></li>
-<li class="chapter" data-level="5.7" data-path="ggplot2.html"><a href="ggplot2.html#mapping-on-variables-versus-constants"><i class="fa fa-check"></i><b>5.7</b> Mapping on variables versus constants</a></li>
-<li class="chapter" data-level="5.8" data-path="ggplot2.html"><a href="ggplot2.html#themes"><i class="fa fa-check"></i><b>5.8</b> Themes</a></li>
-<li class="chapter" data-level="5.9" data-path="ggplot2.html"><a href="ggplot2.html#you-aint-seen-nothing-yet"><i class="fa fa-check"></i><b>5.9</b> You ain’t seen nothing yet</a></li>
-<li class="chapter" data-level="5.10" data-path="ggplot2.html"><a href="ggplot2.html#further-reading"><i class="fa fa-check"></i><b>5.10</b> Further reading</a></li>
-<li class="chapter" data-level="5.11" data-path="ggplot2.html"><a href="ggplot2.html#extending-ggplot2"><i class="fa fa-check"></i><b>5.11</b> Extending ggplot2</a></li>
-<li class="chapter" data-level="5.12" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-cannot-do-everything"><i class="fa fa-check"></i><b>5.12</b> ggplot2 cannot do everything</a></li>
-</ul></li>
-<li class="chapter" data-level="6" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>6</b> Tidyverse: dplyr</a>
-<ul>
-<li class="chapter" data-level="6.1" data-path="dplyr.html"><a href="dplyr.html#tidyverse-philosophy"><i class="fa fa-check"></i><b>6.1</b> Tidyverse philosophy</a></li>
-<li class="chapter" data-level="6.2" data-path="dplyr.html"><a href="dplyr.html#select"><i class="fa fa-check"></i><b>6.2</b> <code>select()</code> columns by name</a></li>
-<li class="chapter" data-level="6.3" data-path="dplyr.html"><a href="dplyr.html#conditions"><i class="fa fa-check"></i><b>6.3</b> Conditions</a></li>
-<li class="chapter" data-level="6.4" data-path="dplyr.html"><a href="dplyr.html#logical-indexing"><i class="fa fa-check"></i><b>6.4</b> Logical indexing</a></li>
-<li class="chapter" data-level="6.5" data-path="dplyr.html"><a href="dplyr.html#filter-rows-by-values"><i class="fa fa-check"></i><b>6.5</b> <code>filter()</code> rows by values</a></li>
-<li class="chapter" data-level="6.6" data-path="dplyr.html"><a href="dplyr.html#arrange-rows-in-a-particular-order"><i class="fa fa-check"></i><b>6.6</b> <code>arrange()</code> rows in a particular order</a></li>
-<li class="chapter" data-level="6.7" data-path="dplyr.html"><a href="dplyr.html#mutate"><i class="fa fa-check"></i><b>6.7</b> <code>mutate()</code> columns</a></li>
-<li class="chapter" data-level="6.8" data-path="dplyr.html"><a href="dplyr.html#summarize"><i class="fa fa-check"></i><b>6.8</b> <code>summarize()</code> table by <code>groups</code></a></li>
-<li class="chapter" data-level="6.9" data-path="dplyr.html"><a href="dplyr.html#putting-it-all-together"><i class="fa fa-check"></i><b>6.9</b> Putting it all together</a></li>
-<li class="chapter" data-level="6.10" data-path="dplyr.html"><a href="dplyr.html#should-i-use-tidyverse"><i class="fa fa-check"></i><b>6.10</b> Should I use Tidyverse?</a></li>
-</ul></li>
-<li class="chapter" data-level="7" data-path="working-with-factors.html"><a href="working-with-factors.html"><i class="fa fa-check"></i><b>7</b> Working with Factors</a>
-<ul>
-<li class="chapter" data-level="7.1" data-path="working-with-factors.html"><a href="working-with-factors.html#how-to-write-code"><i class="fa fa-check"></i><b>7.1</b> How to write code</a></li>
-<li class="chapter" data-level="7.2" data-path="working-with-factors.html"><a href="working-with-factors.html#implementing-a-typical-analysis"><i class="fa fa-check"></i><b>7.2</b> Implementing a typical analysis</a></li>
-<li class="chapter" data-level="7.3" data-path="working-with-factors.html"><a href="working-with-factors.html#factors"><i class="fa fa-check"></i><b>7.3</b> Factors</a></li>
-<li class="chapter" data-level="7.4" data-path="working-with-factors.html"><a href="working-with-factors.html#forcats"><i class="fa fa-check"></i><b>7.4</b> Forcats</a></li>
-<li class="chapter" data-level="7.5" data-path="working-with-factors.html"><a href="working-with-factors.html#plotting-group-averages"><i class="fa fa-check"></i><b>7.5</b> Plotting group averages</a></li>
-<li class="chapter" data-level="7.6" data-path="working-with-factors.html"><a href="working-with-factors.html#plotting-our-confidence-in-group-averages-via-quantiles"><i class="fa fa-check"></i><b>7.6</b> Plotting our confidence in group averages via quantiles</a></li>
-<li class="chapter" data-level="7.7" data-path="working-with-factors.html"><a href="working-with-factors.html#looking-at-similarity"><i class="fa fa-check"></i><b>7.7</b> Looking at similarity</a></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="tyding.html"><a href="tyding.html"><i class="fa fa-check"></i><b>8</b> Tidyng your data: joins and pivots</a>
-<ul>
-<li class="chapter" data-level="8.1" data-path="tyding.html"><a href="tyding.html#joins"><i class="fa fa-check"></i><b>8.1</b> Joining tables</a></li>
-<li class="chapter" data-level="8.2" data-path="tyding.html"><a href="tyding.html#pivoting"><i class="fa fa-check"></i><b>8.2</b> Pivoting</a></li>
-<li class="chapter" data-level="8.3" data-path="tyding.html"><a href="tyding.html#pivot-longer"><i class="fa fa-check"></i><b>8.3</b> Pivot longer</a></li>
-<li class="chapter" data-level="8.4" data-path="tyding.html"><a href="tyding.html#pivot-wider"><i class="fa fa-check"></i><b>8.4</b> Pivot wider</a></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html"><i class="fa fa-check"></i><b>9</b> Controling computation flow</a>
-<ul>
-<li class="chapter" data-level="9.1" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#rep"><i class="fa fa-check"></i><b>9.1</b> <code>rep()</code></a></li>
-<li class="chapter" data-level="9.2" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#repeating-combinations"><i class="fa fa-check"></i><b>9.2</b> Repeating combinations</a></li>
-<li class="chapter" data-level="9.3" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#forloop"><i class="fa fa-check"></i><b>9.3</b> For loop</a></li>
-<li class="chapter" data-level="9.4" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#if-else"><i class="fa fa-check"></i><b>9.4</b> Conditional statement</a></li>
-<li class="chapter" data-level="9.5" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#breaking-out-of-the-loop"><i class="fa fa-check"></i><b>9.5</b> Breaking out of the loop</a></li>
-<li class="chapter" data-level="9.6" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#using-for-loop-to-load-and-join-multiple-data-files"><i class="fa fa-check"></i><b>9.6</b> Using for loop to load and join multiple data files</a></li>
-<li class="chapter" data-level="9.7" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#apply"><i class="fa fa-check"></i><b>9.7</b> Apply</a></li>
-<li class="chapter" data-level="9.8" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#purrr"><i class="fa fa-check"></i><b>9.8</b> Purrr</a></li>
-</ul></li>
-<li class="chapter" data-level="10" data-path="christmas-special.html"><a href="christmas-special.html"><i class="fa fa-check"></i><b>10</b> Christmas special</a>
-<ul>
-<li class="chapter" data-level="10.1" data-path="christmas-special.html"><a href="christmas-special.html#left-side-of-the-tree"><i class="fa fa-check"></i><b>10.1</b> Left side of the tree</a></li>
-<li class="chapter" data-level="10.2" data-path="christmas-special.html"><a href="christmas-special.html#right-side-of-the-tree"><i class="fa fa-check"></i><b>10.2</b> Right side of the tree</a></li>
-<li class="chapter" data-level="10.3" data-path="christmas-special.html"><a href="christmas-special.html#the-whole-tree"><i class="fa fa-check"></i><b>10.3</b> The whole tree</a></li>
-<li class="chapter" data-level="10.4" data-path="christmas-special.html"><a href="christmas-special.html#filling-in-the-tree"><i class="fa fa-check"></i><b>10.4</b> Filling in the tree</a></li>
-<li class="chapter" data-level="10.5" data-path="christmas-special.html"><a href="christmas-special.html#adding-background-image"><i class="fa fa-check"></i><b>10.5</b> Adding background image</a></li>
-<li class="chapter" data-level="10.6" data-path="christmas-special.html"><a href="christmas-special.html#adding-decoration-a-boring-one"><i class="fa fa-check"></i><b>10.6</b> Adding decoration (a boring one)</a></li>
-<li class="chapter" data-level="10.7" data-path="christmas-special.html"><a href="christmas-special.html#adding-decoration-a-bit-more-fun-one"><i class="fa fa-check"></i><b>10.7</b> Adding decoration (a bit more fun one)</a></li>
-<li class="chapter" data-level="10.8" data-path="christmas-special.html"><a href="christmas-special.html#adding-decoration-the-fun-ones"><i class="fa fa-check"></i><b>10.8</b> Adding decoration (the fun ones)</a></li>
-<li class="chapter" data-level="10.9" data-path="christmas-special.html"><a href="christmas-special.html#a-star-on-top"><i class="fa fa-check"></i><b>10.9</b> A star on top</a></li>
-<li class="chapter" data-level="10.10" data-path="christmas-special.html"><a href="christmas-special.html#merry-christmas"><i class="fa fa-check"></i><b>10.10</b> Merry Christmas!</a></li>
-</ul></li>
-<li class="chapter" data-level="11" data-path="missing-data.html"><a href="missing-data.html"><i class="fa fa-check"></i><b>11</b> Missing data</a>
-<ul>
-<li class="chapter" data-level="11.1" data-path="missing-data.html"><a href="missing-data.html#complete"><i class="fa fa-check"></i><b>11.1</b> Making missing data explicit (completing data)</a></li>
-<li class="chapter" data-level="11.2" data-path="missing-data.html"><a href="missing-data.html#na.omit"><i class="fa fa-check"></i><b>11.2</b> Dropping / omitting NAs</a></li>
-</ul></li>
-<li class="chapter" data-level="12" data-path="strings.html"><a href="strings.html"><i class="fa fa-check"></i><b>12</b> Working with strings</a>
-<ul>
-<li class="chapter" data-level="12.1" data-path="strings.html"><a href="strings.html#warming-up"><i class="fa fa-check"></i><b>12.1</b> Warming up</a></li>
-<li class="chapter" data-level="12.2" data-path="strings.html"><a href="strings.html#glue"><i class="fa fa-check"></i><b>12.2</b> Formatting strings via <code>glue()</code></a></li>
-<li class="chapter" data-level="12.3" data-path="strings.html"><a href="strings.html#paste"><i class="fa fa-check"></i><b>12.3</b> Formatting strings via <code>paste()</code></a></li>
-<li class="chapter" data-level="12.4" data-path="strings.html"><a href="strings.html#sprintf"><i class="fa fa-check"></i><b>12.4</b> Formatting strings via <code>sprintf()</code></a></li>
-<li class="chapter" data-level="12.5" data-path="strings.html"><a href="strings.html#extracting-information-from-a-string"><i class="fa fa-check"></i><b>12.5</b> Extracting information from a string</a></li>
-<li class="chapter" data-level="12.6" data-path="strings.html"><a href="strings.html#splitting-strings-via-separate"><i class="fa fa-check"></i><b>12.6</b> Splitting strings via <code>separate()</code></a></li>
-<li class="chapter" data-level="12.7" data-path="strings.html"><a href="strings.html#extracting-a-substring-when-you-know-its-location"><i class="fa fa-check"></i><b>12.7</b> Extracting a substring when you know its location</a></li>
-<li class="chapter" data-level="12.8" data-path="strings.html"><a href="strings.html#detecting-a-substring-using-regular-expressions"><i class="fa fa-check"></i><b>12.8</b> Detecting a substring using regular expressions</a></li>
-</ul></li>
-<li class="chapter" data-level="13" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html"><i class="fa fa-check"></i><b>13</b> Sampling and simulations</a>
-<ul>
-<li class="chapter" data-level="13.1" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#estimating-mean-of-a-normal-distribution-via-resampling"><i class="fa fa-check"></i><b>13.1</b> Estimating mean of a normal distribution via resampling</a></li>
-<li class="chapter" data-level="13.2" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#bootstrapping-via-boot-library"><i class="fa fa-check"></i><b>13.2</b> Bootstrapping via boot library</a></li>
-<li class="chapter" data-level="13.3" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#more-samples-give-you-more-confidence"><i class="fa fa-check"></i><b>13.3</b> More samples give you more confidence</a></li>
-<li class="chapter" data-level="13.4" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#adding-average-sample-mean"><i class="fa fa-check"></i><b>13.4</b> Adding average sample mean</a></li>
-<li class="chapter" data-level="13.5" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#practice-makes-perfect"><i class="fa fa-check"></i><b>13.5</b> Practice makes perfect</a></li>
-<li class="chapter" data-level="13.6" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#starting-with-basics"><i class="fa fa-check"></i><b>13.6</b> Starting with basics</a></li>
-</ul></li>
-<li class="chapter" data-level="14" data-path="statistical-modeling.html"><a href="statistical-modeling.html"><i class="fa fa-check"></i><b>14</b> Statistical modeling</a>
-<ul>
-<li class="chapter" data-level="14.1" data-path="statistical-modeling.html"><a href="statistical-modeling.html#correlation"><i class="fa fa-check"></i><b>14.1</b> Correlation</a></li>
-<li class="chapter" data-level="14.2" data-path="statistical-modeling.html"><a href="statistical-modeling.html#correlation-in-practice"><i class="fa fa-check"></i><b>14.2</b> Correlation in practice</a></li>
-<li class="chapter" data-level="14.3" data-path="statistical-modeling.html"><a href="statistical-modeling.html#pairwise-comparisons"><i class="fa fa-check"></i><b>14.3</b> Pairwise comparisons</a></li>
-<li class="chapter" data-level="14.4" data-path="statistical-modeling.html"><a href="statistical-modeling.html#t-tests-in-practice"><i class="fa fa-check"></i><b>14.4</b> T-tests in practice</a></li>
-<li class="chapter" data-level="14.5" data-path="statistical-modeling.html"><a href="statistical-modeling.html#formula-notation"><i class="fa fa-check"></i><b>14.5</b> Formula notation</a></li>
-<li class="chapter" data-level="14.6" data-path="statistical-modeling.html"><a href="statistical-modeling.html#using-t-test-via-formula"><i class="fa fa-check"></i><b>14.6</b> Using t-test via formula</a></li>
-<li class="chapter" data-level="14.7" data-path="statistical-modeling.html"><a href="statistical-modeling.html#anova"><i class="fa fa-check"></i><b>14.7</b> ANOVA</a></li>
-<li class="chapter" data-level="14.8" data-path="statistical-modeling.html"><a href="statistical-modeling.html#almost-everything-is-a-linear-regression-model"><i class="fa fa-check"></i><b>14.8</b> (Almost) everything is a linear regression model</a></li>
-<li class="chapter" data-level="14.9" data-path="statistical-modeling.html"><a href="statistical-modeling.html#GLMM"><i class="fa fa-check"></i><b>14.9</b> (Generalized) Linear Models</a></li>
-<li class="chapter" data-level="14.10" data-path="statistical-modeling.html"><a href="statistical-modeling.html#resampling-a-linear-model"><i class="fa fa-check"></i><b>14.10</b> Resampling a linear model</a></li>
-<li class="chapter" data-level="14.11" data-path="statistical-modeling.html"><a href="statistical-modeling.html#generalized-linear-mixed-models"><i class="fa fa-check"></i><b>14.11</b> (Generalized) Linear Mixed Models</a></li>
-<li class="chapter" data-level="14.12" data-path="statistical-modeling.html"><a href="statistical-modeling.html#disclaimer-repeated"><i class="fa fa-check"></i><b>14.12</b> Disclaimer, repeated</a></li>
-</ul></li>
-<li class="chapter" data-level="15" data-path="practice.html"><a href="practice.html"><i class="fa fa-check"></i><b>15</b> Practice</a>
-<ul>
-<li class="chapter" data-level="15.1" data-path="practice.html"><a href="practice.html#bad-names-to-good-names"><i class="fa fa-check"></i><b>15.1</b> Bad names to good names</a></li>
-<li class="chapter" data-level="15.2" data-path="practice.html"><a href="practice.html#participant-id"><i class="fa fa-check"></i><b>15.2</b> Participant ID</a></li>
-<li class="chapter" data-level="15.3" data-path="practice.html"><a href="practice.html#factors-1"><i class="fa fa-check"></i><b>15.3</b> Factors</a></li>
-<li class="chapter" data-level="15.4" data-path="practice.html"><a href="practice.html#response-times"><i class="fa fa-check"></i><b>15.4</b> Response times</a></li>
-<li class="chapter" data-level="15.5" data-path="practice.html"><a href="practice.html#accuracy"><i class="fa fa-check"></i><b>15.5</b> Accuracy</a></li>
-<li class="chapter" data-level="15.6" data-path="practice.html"><a href="practice.html#physiological-signal"><i class="fa fa-check"></i><b>15.6</b> Physiological signal</a></li>
-<li class="chapter" data-level="15.7" data-path="practice.html"><a href="practice.html#wrap-up-2"><i class="fa fa-check"></i><b>15.7</b> Wrap up</a></li>
-</ul></li>
-<li class="divider"></li>
-<li><a href="https://alexander-pastukhov.github.io/">Alexander (Sasha) Pastukhov</li>
-
-</ul>
-
-      </nav>
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Data analysis using R for Psychology and Social Science</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
     </div>
 
-    <div class="book-body">
-      <div class="body-inner">
-        <div class="book-header" role="navigation">
-          <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data analysis using R for Psychology and Social Science</a>
-          </h1>
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Introduction</a></li>
+<li><a class="" href="software.html">Software</a></li>
+<li><a class="" href="reproducable-research.html"><span class="header-section-number">1</span> Reproducable Research: Projects and Markdown Notebooks</a></li>
+<li><a class="" href="vectors.html"><span class="header-section-number">2</span> Vectors! Vectors everywhere!</a></li>
+<li><a class="" href="tables.html"><span class="header-section-number">3</span> Tables and Tibbles (and Tribbles)</a></li>
+<li><a class="" href="functions.html"><span class="header-section-number">4</span> Functions! Functions everywhere!</a></li>
+<li><a class="" href="ggplot2.html"><span class="header-section-number">5</span> ggplot2: Grammar of Graphics</a></li>
+<li><a class="" href="dplyr.html"><span class="header-section-number">6</span> Tidyverse: dplyr</a></li>
+<li><a class="active" href="working-with-factors.html"><span class="header-section-number">7</span> Working with Factors</a></li>
+<li><a class="" href="tyding.html"><span class="header-section-number">8</span> Tidyng your data: joins and pivots</a></li>
+<li><a class="" href="control-flow-chapter.html"><span class="header-section-number">9</span> Controling computation flow</a></li>
+<li><a class="" href="missing-data.html"><span class="header-section-number">10</span> Missing data</a></li>
+<li><a class="" href="strings.html"><span class="header-section-number">11</span> Working with strings</a></li>
+<li><a class="" href="sampling-and-simulations.html"><span class="header-section-number">12</span> Sampling and simulations</a></li>
+<li><a class="" href="generalized-linear-regression-and-resampling.html"><span class="header-section-number">13</span> (Generalized) Linear regression and Resampling</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/alexander-pastukhov/data-analysis-using-r-for-psychology">View book source <i class="fab fa-github"></i></a></p>
         </div>
-
-        <div class="page-wrapper" tabindex="-1" role="main">
-          <div class="page-inner">
-
-            <section class="normal" id="section-">
-<div id="working-with-factors" class="section level1 hasAnchor" number="7">
-<h1><span class="header-section-number">Seminar 7</span> Working with Factors<a href="working-with-factors.html#working-with-factors" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Let us start with a “warm up” exercise that will require combining various things that you already learned. Download <a href="data/persistence.csv">persistence.csv</a> file (remember, Chrome/Edge browsers may change the extension to <em>.xls</em>, just rename it back to <em>.csv</em>) and put it into <em>data</em> subfolder in your seminar project folder. This is data from a Master thesis project by Kristina Burkel, published as an article in <a href="http://link.springer.com/10.3758/s13414-019-01954-7">Attention, Perception, &amp; Psychophysics</a>. The work investigated how change in object’s shape affected perceptual stability during brief interruptions (50 ms blank intervals). The research question was whether the results will match those for one other two history effects, which work at longer time scales. Such match would indicate that both history effects are likely to be produced by the same or shared neuronal representations of 3D rotation. Grab the <a href="notebooks/Seminar%2007%20-%20factors.Rmd">exercise notebook</a> before we start.</p>
-<div id="how-to-write-code" class="section level2 hasAnchor" number="7.1">
-<h2><span class="header-section-number">7.1</span> How to write code<a href="working-with-factors.html#how-to-write-code" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>From now on, you will need to implement progressively longer analysis sequences. Unfortunately, the longer and the more complex the analysis is, the easier it is to make a mistake that will ruin everything after that stage. And you will make mistakes, simply because no one is perfect and everyone makes them. I make them all the time. Professional programmers make them. So the skill of programming is not about writing the perfect code on your first attempt, it is writing your code in an iterative manner, so that any mistake you make (and, again, you will make them!) will be spotted and fixed immediately, before you continue adding more code. It should be like walking blind through uncertain terrain: One step a time, no running, no jumping, as you have no idea what awaits you.</p>
-<p>What does this mean in practical terms? In a typical analysis (such as in the exercise below), you will need to do many things: read data, select columns, filter it, compute new variables, group data and summarize it, plot it, etc. You might be tempted to program the whole thing in one go but it is a terrible idea. Again, if your step #2 does not do what you think it should, your later stages will work with the wrong data and tracing it back to that step #2 may not be trivial (it almost never is). Instead, implement one step at a time and check that the results look as they should. E.g., in the exercise below, read the table. Check, does it look good, does it even have the data? Once you are sure that your reading bit works, proceed to columns selection. Run this two-step code and then check that it works and the table looks the way it should. It does (it has only the relevant columns)? Good, proceed to the next step.</p>
-<p><strong>Never</strong> skip these checks! Always look at the results of each additional step, do not just <em>hope</em> that they will be as they should. They might, they might not. In the latter case, if you are lucky, you will see that and are in for a long debugging session. But you may not even notice that computation is subtly broken and use its results to draw <a href="https://www.powerusersoftwares.com/post/2016/08/11/the-excel-formula-error-that-initiated-austerity-policies-after-the-crisis">erroneous conclusions</a>. It may feel overly slow to keep checking yourself continuously but it is a <em>faster</em> way to program in a long term. Moreover, if you do it once step at a time, you actually <em>know</em>, not hope, that it works.</p>
-<p>I’ve spent three paragraphs on it (and now adding even the forth one!), because, in my opinion, this approach is the main difference between novice and experienced programmers (or, one could go even further and say between good and bad programmers). And I see this mistake of writing everything in one go repeated again and again irrespective of the tool people use (you can make a really fine mess using SPSS!). So, pace yourself and let’s start programming in earnest!</p>
+      </nav>
 </div>
-<div id="implementing-a-typical-analysis" class="section level2 hasAnchor" number="7.2">
-<h2><span class="header-section-number">7.2</span> Implementing a typical analysis<a href="working-with-factors.html#implementing-a-typical-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>In the first exercise, I want you to implement the actual analysis performed in the paper. Good news is that by now you know enough to program it!</p>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="working-with-factors" class="section level1" number="7">
+<h1>
+<span class="header-section-number">7</span> Working with Factors<a class="anchor" aria-label="anchor" href="#working-with-factors"><i class="fas fa-link"></i></a>
+</h1>
+<p>Let us start with a “warm up” exercise that will require combining various things that you already learned. Download <a href="data/persistence.csv">persistence.csv</a> file (you can use the URL directly, but that will cause R to download it every time you call the function, so let’s not overstress the server) and put it into <em>data</em> subfolder in your seminar project folder. This is data from a Master thesis project by my student Kristina Burkel, published as an article in <a href="http://link.springer.com/10.3758/s13414-019-01954-7">Attention, Perception, &amp; Psychophysics</a>. The work investigated how a change in object’s shape affected perceptual stability during brief interruptions (50 ms blank intervals). The research question was whether the results will match those for one other two history effects, which work at longer time scales. Such match would indicate that both history effects are likely to be produced by the same or shared neuronal representations of 3D rotation. Grab the <a href="notebooks/Seminar%2007%20-%20factors.qmd">exercise notebook</a> before we start.</p>
+<div id="how-to-write-code" class="section level2" number="7.1">
+<h2>
+<span class="header-section-number">7.1</span> How to write code<a class="anchor" aria-label="anchor" href="#how-to-write-code"><i class="fas fa-link"></i></a>
+</h2>
+<p>From now on, you will need to implement progressively longer analysis sequences. Unfortunately, the longer and the more complex the analysis is, the easier it is to make a mistake that will ruin everything after that stage. And you will make mistakes, simply because no one is perfect and everyone makes them. I make them all the time. Professional programmers make them. So the skill of programming is not about writing the perfect code on your first attempt, it is writing your code in an iterative manner, so that any mistake you make (and, again, you will make them!) will be spotted and fixed immediately, before you continue adding more code. It should be like walking blind through uncertain terrain: One step a time, no running, no jumping, as you have no idea what awaits you.</p>
+<p>What does this mean in practical terms? In a typical analysis (such as in the exercise below), you will need to do many things: read data, select columns, filter it, compute new variables, group data and summarize it, plot it, etc. You might be tempted to program the whole thing in one go but it is a terrible idea. If your step #2 does not do what you think it should, your later stages will work with the wrong data and tracing it back to that step #2 may not be trivial (it almost never is). Instead, implement one step at a time and check that the results look as they should. E.g., in the exercise below, read the table. Check, does it look good, does it even have the data? Once you are sure that your reading bit works, proceed to columns selection. Run this two-step code and then check that it works and the table looks the way it should. It does (it has only the relevant columns)? Good, proceed to the next step.</p>
+<p><strong>Never</strong> skip these checks! Always look at the results of each additional step, do not just <em>hope</em> that they will be as they should. They might, they might not. In the latter case, if you are lucky, you will see that and are in for a long debugging session. But you may not even notice that computation is subtly broken and use its results to draw <a href="https://www.powerusersoftwares.com/post/2016/08/11/the-excel-formula-error-that-initiated-austerity-policies-after-the-crisis">erroneous conclusions</a>. It may feel overly slow to keep checking yourself continuously but it is a <em>faster</em> way to program in a long term. Moreover, if you do it once step at a time, you actually <em>know</em>, not hope, that it works.</p>
+<p>I’ve spent three paragraphs on it (and now adding even the forth one!), because, in my opinion, this approach is the main difference between novice and experienced programmers (or, one could go even further and say between good and bad programmers). And I see this mistake of writing everything in one go repeated again and again irrespective of the tool people use (you can make a really fine mess using SPSS!). I makes a mess every time a deviate from this approach! So, pace yourself and let’s start programming in earnest!</p>
+</div>
+<div id="implementing-a-typical-analysis" class="section level2" number="7.2">
+<h2>
+<span class="header-section-number">7.2</span> Implementing a typical analysis<a class="anchor" aria-label="anchor" href="#implementing-a-typical-analysis"><i class="fas fa-link"></i></a>
+</h2>
+<p>In the first exercise, I want you to implement the actual analysis performed in the paper. Good news is that by now you know enough to program it! Note that steps 1-4 (everything but plotting) should be implemented as a <em>single pipeline</em>. Start with the first action and keep adding more verbs to it but you should end up with a single chained computation. This is actually more important than you might think: Putting read-and-preprocessing into a single pipe means no lurking temporary / intermediate variables that you may have changed in the mean time. A single pipe ensures that you are guaranteed to get the same table you run it. Splitting it into a few smaller chunks means you can (which means you will) run them out-of-order, run one computation an extra time, forget that you modified the data and you need to reload it, etc. I have been caught by this way more often than I would like to admit, so having a single definitive computation is always a good idea.</p>
 <ol style="list-style-type: decimal">
-<li><a href="tables.html#readr">Load</a> the data in a table. Name of the variable is up to you. Typically, I use names like <code>data</code>, <code>reports</code>, <code>results</code>, etc. Don’t forget to specify columns’ type.</li>
+<li>
+<a href="tables.html#readr">Load</a> the data in a table. Name of the variable is up to you. Typically, I use names like <code>data</code>, <code>reports</code>, <code>results</code>, etc. Don’t forget to specify columns’ type.</li>
 <li>Exclude <code>filename</code> column (it duplicates <code>Participant</code> and <code>Session</code> columns).</li>
 <li>Compute a new variable <code>SameResponse</code> which is <code>TRUE</code> when <code>Response1</code> and <code>Response2</code> match each other (in the experiment, that means that an object was rotating in the same direction before and after the intervention).</li>
-<li>For every combination of <code>Participant</code>, <code>Prime</code> and <code>Probe</code> compute proportion of same responses. You can do this in to ways. Recall that <code>as.integer(TRUE)</code> is <code>1</code> and <code>as.integer(FALSE)</code> is <code>0</code>. Thus, you can either compute proportion as <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/mean.html">mean</a> or compute the <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/sum.html">sum</a> of same responses and divide it by total number of trials. Use function <a href="https://dplyr.tidyverse.org/reference/n.html">n()</a> for the latter, it returns the total number of rows in the table or the group. Try doing it both ways.</li>
+<li>For every combination of <code>Participant</code>, <code>Prime</code> and <code>Probe</code> compute proportion of same responses. You can do this in two ways. Recall that <code>as.integer(TRUE)</code> is <code>1</code> and <code>as.integer(FALSE)</code> is <code>0</code>. Thus, you can either compute proportion as <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/mean.html">mean</a> or compute the <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/sum.html">sum</a> of same responses and divide it by total number of trials. Use function <a href="https://dplyr.tidyverse.org/reference/n.html">n()</a> for the latter, it returns the total number of rows in the table or the group. Try doing it both ways.</li>
 <li>Plot the results with <code>Probe</code> variable on x-axis, proportion of same responses on y-axis, and use <code>Prime</code> to facet plots. Use box plots (or violin plots) to visualize the data. Try adding color, labels, etc. to make plots look nice.</li>
 </ol>
-<p>Your final plot should look something like this
-<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-153-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="infobox practice">
+<div class="inline-figure">Your final plot should look something like this
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-142-1.png" width="672" style="display: block; margin: auto;">
+</div>
+<div class="practice">
 <p>Do exercise 1.</p>
 </div>
 <p>When you examine the plot, you can see some sort of non-monotonic dependence with a dip for <code>"stripes-2"</code> and <code>"stripes-4"</code> objects. In reality, the dependence is monotonic, it is merely the order of values on the x-axis that is wrong. The correct order, based on the area of an object covered with dots, is <code>"heavy poles sphere"</code>, <code>"stripes-8"</code>, <code>"stripes-4"</code>, <code>"stripes-2"</code>. Both <code>Prime</code> and <code>Probe</code> are <em>ordinal</em> variables called <em>factors</em> in R. Thus, to fix the order and to make object names a bit better looking, we must figure out how to work with factors in R.</p>
 </div>
-<div id="factors" class="section level2 hasAnchor" number="7.3">
-<h2><span class="header-section-number">7.3</span> Factors<a href="working-with-factors.html#factors" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="factors" class="section level2" number="7.3">
+<h2>
+<span class="header-section-number">7.3</span> Factors<a class="anchor" aria-label="anchor" href="#factors"><i class="fas fa-link"></i></a>
+</h2>
 <p>Factors are categorical variables, thus variables that have a finite fixed and known set of possible values. They can be either <em>nominal</em> (cannot be ordered) or <em>ordinal</em> (have a specific order to them). An example of the former is the drive train (<code>drv</code>) variable in <a href="https://ggplot2.tidyverse.org/reference/mpg.html">mpg</a> table. There is a finite set of possible values (<code>"f"</code> for front-wheel drive, <code>"r"</code> for rear wheel drive, and <code>"4"</code> for a four-wheel drive) but ordering them makes no sense. An example of an ordinal variable is a Likert scale that has a finite set of possible responses (for example, <code>"disagree"</code>, <code>"neither agree, nor disagree"</code>, <code>"agree"</code>) with a specific fixed order (participant’s support for a statement is progressively stronger so that <code>"disagree"</code> &lt; <code>"neither agree, nor disagree"</code> &lt; <code>"agree"</code>).</p>
-<p>You can convert <em>any</em> variable to a factor using <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/factor.html">factor()</a> or <code>as.factor()</code> functions. The latter is a more limited version of the former, so it makes little sense to ever use it. Below, I will only use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/factor.html">factor()</a>. When you convert a variable (a vector) to factor, R:</p>
+<p>You can convert <em>any</em> variable to a factor using <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/factor.html">factor()</a> or <code><a href="https://rdrr.io/r/base/factor.html">as.factor()</a></code> functions. The latter is a more limited version of the former, so it makes little sense to ever use it. Below, I will only use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/factor.html">factor()</a>.</p>
+<p>When you convert a variable (a vector) to factor, R:</p>
 <ol style="list-style-type: decimal">
 <li>figures out all <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/unique.html">unique</a> values in this vector</li>
-<li>sorts them in an ascending order</li>
+<li>sorts them in an <em>ascending</em> order</li>
 <li>assigns each value an integer index, a.k.a. “level”</li>
 <li>uses the actual value as a “label”.</li>
 </ol>
 <p>Here is an example of this sequence: there four levels sorted alphabetically (note that R prints out not only the vector but also its levels).</p>
-<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="working-with-factors.html#cb289-1" aria-hidden="true" tabindex="-1"></a>letters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;C&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>)</span>
-<span id="cb289-2"><a href="working-with-factors.html#cb289-2" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">factor</span>(letters)</span>
-<span id="cb289-3"><a href="working-with-factors.html#cb289-3" aria-hidden="true" tabindex="-1"></a>letters_as_factor</span></code></pre></div>
+<div class="sourceCode" id="cb302"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">letters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"C"</span>, <span class="st">"A"</span>, <span class="st">"D"</span>, <span class="st">"B"</span>, <span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span></span>
+<span><span class="va">letters_as_factor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">letters</span><span class="op">)</span></span>
+<span><span class="va">letters_as_factor</span></span></code></pre></div>
 <pre><code>## [1] C A D B A B
 ## Levels: A B C D</code></pre>
 <p>You can extracts <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/levels.html">levels</a> of a factor variable by using the function of the same name</p>
-<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="working-with-factors.html#cb291-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(letters_as_factor)</span></code></pre></div>
-<pre><code>## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot;</code></pre>
+<div class="sourceCode" id="cb304"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">letters_as_factor</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] "A" "B" "C" "D"</code></pre>
 <p>You can specify the order of levels either during the <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/factor.html">factor()</a> call or later using <a href="https://forcats.tidyverse.org/">forcats</a> library (more on that later). For example, if we want to have levels in the reverse order we specify it via <code>levels</code> parameter. Note the opposite order of levels.</p>
-<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="working-with-factors.html#cb293-1" aria-hidden="true" tabindex="-1"></a>letters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;C&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>)</span>
-<span id="cb293-2"><a href="working-with-factors.html#cb293-2" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">factor</span>(letters, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;D&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>))</span>
-<span id="cb293-3"><a href="working-with-factors.html#cb293-3" aria-hidden="true" tabindex="-1"></a>letters_as_factor</span></code></pre></div>
+<div class="sourceCode" id="cb306"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">letters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"C"</span>, <span class="st">"A"</span>, <span class="st">"D"</span>, <span class="st">"B"</span>, <span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span></span>
+<span><span class="va">letters_as_factor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">letters</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"D"</span>, <span class="st">"C"</span>, <span class="st">"B"</span>, <span class="st">"A"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">letters_as_factor</span></span></code></pre></div>
 <pre><code>## [1] C A D B A B
 ## Levels: D C B A</code></pre>
 <p>We can also specify <code>labels</code> of individual labels instead of using values themselves. Note that the labels must match levels in <em>number</em> and <em>order</em>.</p>
-<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="working-with-factors.html#cb295-1" aria-hidden="true" tabindex="-1"></a>responses <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>)</span>
-<span id="cb295-2"><a href="working-with-factors.html#cb295-2" aria-hidden="true" tabindex="-1"></a>responses_as_factor <span class="ot">&lt;-</span> <span class="fu">factor</span>(responses, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;negative&quot;</span>, <span class="st">&quot;neutral&quot;</span>, <span class="st">&quot;positive&quot;</span>))</span>
-<span id="cb295-3"><a href="working-with-factors.html#cb295-3" aria-hidden="true" tabindex="-1"></a>responses_as_factor</span></code></pre></div>
+<div class="sourceCode" id="cb308"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">responses</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">responses_as_factor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">responses</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"negative"</span>, <span class="st">"neutral"</span>, <span class="st">"positive"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">responses_as_factor</span></span></code></pre></div>
 <pre><code>## [1] negative positive neutral  neutral  negative positive
 ## Levels: negative neutral positive</code></pre>
 <p>You can see <em>indexes</em> that were assigned to each level by converting <code>letter_as_factor</code> to a numeric vector. In this case, R throws away labels and returns indexes.</p>
-<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="working-with-factors.html#cb297-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(letters_as_factor)</span></code></pre></div>
+<div class="sourceCode" id="cb310"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">letters_as_factor</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 2 4 1 3 4 3</code></pre>
-<p>However, be careful when level labels are numbers. In the example below, you might think that <code>as.numeric(tens)</code> should give you <code>[20, 40, 30]</code><a href="#fn50" class="footnote-ref" id="fnref50"><sup>50</sup></a> but these are labels! If you need to convert labels to numbers, you have to do it in two steps <code>as.numeric(as.character(tens))</code>: <code>as.character()</code> turns factors to strings (using labels) and <code>as.numeric()</code> converts those labels to numbers (if that conversion can work).</p>
-<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="working-with-factors.html#cb299-1" aria-hidden="true" tabindex="-1"></a>tens <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">30</span>))</span>
-<span id="cb299-2"><a href="working-with-factors.html#cb299-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(tens)</span></code></pre></div>
+<p>However, be careful when level labels are numbers. In the example below, you might think that <code>as.numeric(tens)</code> should give you <code>[20, 40, 30]</code><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;At least I tend to always think that.&lt;/p&gt;"><sup>54</sup></a> but these are labels, not levels that go from <span class="math inline">\(1\)</span> to <span class="math inline">\(3\)</span>! If you need to convert labels to numbers, you have to do it in two steps <code>as.numeric(as.character(tens))</code>: <code><a href="https://rdrr.io/r/base/character.html">as.character()</a></code> turns factors to strings (using labels) and <code><a href="https://rdrr.io/r/base/numeric.html">as.numeric()</a></code> converts those labels to numbers (if that conversion can work).</p>
+<div class="sourceCode" id="cb312"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tens</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">40</span>, <span class="fl">30</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">tens</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 20 40 30
 ## Levels: 20 30 40</code></pre>
-<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="working-with-factors.html#cb301-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">as.numeric</span>(tens))</span></code></pre></div>
+<div class="sourceCode" id="cb314"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">tens</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 1 3 2</code></pre>
-<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="working-with-factors.html#cb303-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">as.numeric</span>(<span class="fu">as.character</span>(tens)))</span></code></pre></div>
+<div class="sourceCode" id="cb316"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">tens</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 20 40 30</code></pre>
 <p>For the next exercise, copy-paste the code from exercise #1 and alter it so the labels are <code>"sphere"</code> (for <code>"heavy poles sphere"</code>), <code>"quad band"</code> (for <code>"stripes-8"</code>), <code>"dual band"</code> (<code>"stripes-4"</code>), <code>"single band"</code> (for <code>"stripes-2"</code>) and levels are in that order. Your plot should look something like this.</p>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-160-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="infobox practice">
+<div class="inline-figure"><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-149-1.png" width="672" style="display: block; margin: auto;"></div>
+<div class="practice">
 <p>Do exercise 2.</p>
 </div>
 </div>
-<div id="forcats" class="section level2 hasAnchor" number="7.4">
-<h2><span class="header-section-number">7.4</span> Forcats<a href="working-with-factors.html#forcats" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Tidyverse has a package <a href="https://forcats.tidyverse.org/">forcats</a><a href="#fn51" class="footnote-ref" id="fnref51"><sup>51</sup></a> that makes working with factors easier. For example, it allows to reorder levels either <a href="https://forcats.tidyverse.org/reference/fct_relevel.html">by hand</a> or automatically based on the <a href="https://forcats.tidyverse.org/reference/fct_inorder.html">order of appearance</a>, <a href="https://forcats.tidyverse.org/reference/fct_inorder.html">frequency</a>, <a href="https://forcats.tidyverse.org/reference/fct_reorder.html">value of other variable</a>, etc. It also gives you flexible tools to changes labels either <a href="https://forcats.tidyverse.org/reference/fct_recode.html">by hand</a>, by <a href="https://forcats.tidyverse.org/reference/fct_lump.html">lumping</a> some levels together, by <a href="https://forcats.tidyverse.org/reference/fct_anon.html">anonymising them</a>, etc. In my work, I mostly use reordering (<a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel()</a>) and renaming (<a href="https://forcats.tidyverse.org/reference/fct_recode.html">fct_recode()</a>) of factors by hand. You will need to use these two functions in exercise #3. However, if you find yourself working with factors, it is a good idea to check other <a href="https://forcats.tidyverse.org/">forcats</a> functions to see whether they can make your life easier.</p>
-<p>To reorder factor by hand, you simply state the desired order of factors, similar to they way you specify this via <code>levels=</code> parameters in <code>factor()</code> function. However, in <a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel()</a> you can move only <em>some</em> factors and others are “pushed to the back”.</p>
-<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="working-with-factors.html#cb305-1" aria-hidden="true" tabindex="-1"></a>letters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;C&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>)</span>
-<span id="cb305-2"><a href="working-with-factors.html#cb305-2" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">factor</span>(letters, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;A&quot;</span>))</span>
-<span id="cb305-3"><a href="working-with-factors.html#cb305-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(letters_as_factor)</span></code></pre></div>
+<div id="forcats" class="section level2" number="7.4">
+<h2>
+<span class="header-section-number">7.4</span> Forcats<a class="anchor" aria-label="anchor" href="#forcats"><i class="fas fa-link"></i></a>
+</h2>
+<p>Tidyverse has a package <a href="https://forcats.tidyverse.org/">forcats</a><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;The package’s name is anagram of &lt;em&gt;factors&lt;/em&gt;.&lt;/p&gt;"><sup>55</sup></a> that makes working with factors easier. For example, it allows to reorder levels either <a href="https://forcats.tidyverse.org/reference/fct_relevel.html">by hand</a> or automatically based on the <a href="https://forcats.tidyverse.org/reference/fct_inorder.html">order of appearance</a>, <a href="https://forcats.tidyverse.org/reference/fct_inorder.html">frequency</a>, <a href="https://forcats.tidyverse.org/reference/fct_reorder.html">value of other variable</a>, etc. It also gives you flexible tools to changes labels either <a href="https://forcats.tidyverse.org/reference/fct_recode.html">by hand</a>, by <a href="https://forcats.tidyverse.org/reference/fct_lump.html">lumping</a> some levels together, by <a href="https://forcats.tidyverse.org/reference/fct_anon.html">anonymising them</a>, <a href="https://forcats.tidyverse.org/reference/fct_drop.html">dropping</a> unused levels, etc. In my work, I mostly use reordering (<a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel()</a>) and renaming (<a href="https://forcats.tidyverse.org/reference/fct_recode.html">fct_recode()</a>) of factors by hand. You will need to use these two functions in exercise #3. However, if you find yourself working with factors, it is a good idea to check other <a href="https://forcats.tidyverse.org/">forcats</a> functions to see whether they can make your life easier.</p>
+<p>To reorder factor by hand, you simply state the desired order of factors, similar to they way you specify this via <code>levels=</code> parameters in <code><a href="https://rdrr.io/r/base/factor.html">factor()</a></code> function. However, in <a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel()</a> you can move only <em>some</em> factors and others are “pushed to the back”.</p>
+<div class="sourceCode" id="cb318"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">letters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"C"</span>, <span class="st">"A"</span>, <span class="st">"D"</span>, <span class="st">"B"</span>, <span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span></span>
+<span><span class="va">letters_as_factor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">letters</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"A"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">letters_as_factor</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] C A D B A B
 ## Levels: B C D A</code></pre>
-<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="working-with-factors.html#cb307-1" aria-hidden="true" tabindex="-1"></a><span class="co"># specifying order for ALL levels</span></span>
-<span id="cb307-2"><a href="working-with-factors.html#cb307-2" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">fct_relevel</span>(letters_as_factor, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>)</span>
-<span id="cb307-3"><a href="working-with-factors.html#cb307-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(letters_as_factor)</span></code></pre></div>
+<div class="sourceCode" id="cb320"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># specifying order for ALL levels</span></span>
+<span><span class="va">letters_as_factor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel</a></span><span class="op">(</span><span class="va">letters_as_factor</span>, <span class="st">"D"</span>, <span class="st">"C"</span>, <span class="st">"B"</span>, <span class="st">"A"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">letters_as_factor</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] C A D B A B
 ## Levels: D C B A</code></pre>
-<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="working-with-factors.html#cb309-1" aria-hidden="true" tabindex="-1"></a><span class="co"># specifying order for just ONE level, the rest are &quot;pushed back&quot;</span></span>
-<span id="cb309-2"><a href="working-with-factors.html#cb309-2" aria-hidden="true" tabindex="-1"></a><span class="co"># &quot;A&quot; should now be the first level and the rest are pushed back in their original order</span></span>
-<span id="cb309-3"><a href="working-with-factors.html#cb309-3" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">fct_relevel</span>(letters_as_factor, <span class="st">&quot;A&quot;</span>)</span>
-<span id="cb309-4"><a href="working-with-factors.html#cb309-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(letters_as_factor)</span></code></pre></div>
+<div class="sourceCode" id="cb322"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># specifying order for just ONE level, the rest are "pushed back"</span></span>
+<span><span class="co"># "A" should now be the first level and the rest are pushed back in their original order</span></span>
+<span><span class="va">letters_as_factor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel</a></span><span class="op">(</span><span class="va">letters_as_factor</span>, <span class="st">"A"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">letters_as_factor</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] C A D B A B
 ## Levels: A D C B</code></pre>
 <p>You can also put a level at the very back, as second level, etc. <a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel()</a> is very flexible, so check reference whenever you use it.</p>
 <p>To rename individual levels you use <a href="https://forcats.tidyverse.org/reference/fct_recode.html">fct_recode()</a> by providing <code>new = old</code> pairs of values.</p>
-<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="working-with-factors.html#cb311-1" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;C&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</span>
-<span id="cb311-2"><a href="working-with-factors.html#cb311-2" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">fct_recode</span>(letters_as_factor, <span class="st">&quot;_A_&quot;</span> <span class="ot">=</span> <span class="st">&quot;A&quot;</span>, <span class="st">&quot;_C_&quot;</span> <span class="ot">=</span> <span class="st">&quot;C&quot;</span>)</span>
-<span id="cb311-3"><a href="working-with-factors.html#cb311-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(letters_as_factor)</span></code></pre></div>
+<div class="sourceCode" id="cb324"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">letters_as_factor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"C"</span>, <span class="st">"A"</span>, <span class="st">"D"</span>, <span class="st">"B"</span>, <span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">letters_as_factor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_recode.html">fct_recode</a></span><span class="op">(</span><span class="va">letters_as_factor</span>, <span class="st">"_A_"</span> <span class="op">=</span> <span class="st">"A"</span>, <span class="st">"_C_"</span> <span class="op">=</span> <span class="st">"C"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">letters_as_factor</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] _C_ _A_ D   B   _A_ B  
 ## Levels: _A_ B _C_ D</code></pre>
 <p>Note that this allows you to merge levels by hand.</p>
-<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="working-with-factors.html#cb313-1" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;C&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</span>
-<span id="cb313-2"><a href="working-with-factors.html#cb313-2" aria-hidden="true" tabindex="-1"></a>letters_as_factor <span class="ot">&lt;-</span> <span class="fu">fct_recode</span>(letters_as_factor, <span class="st">&quot;_AC_&quot;</span> <span class="ot">=</span> <span class="st">&quot;A&quot;</span>, <span class="st">&quot;_AC_&quot;</span> <span class="ot">=</span> <span class="st">&quot;C&quot;</span>)</span>
-<span id="cb313-3"><a href="working-with-factors.html#cb313-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(letters_as_factor)</span></code></pre></div>
+<div class="sourceCode" id="cb326"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">letters_as_factor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"C"</span>, <span class="st">"A"</span>, <span class="st">"D"</span>, <span class="st">"B"</span>, <span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">letters_as_factor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_recode.html">fct_recode</a></span><span class="op">(</span><span class="va">letters_as_factor</span>, <span class="st">"_AC_"</span> <span class="op">=</span> <span class="st">"A"</span>, <span class="st">"_AC_"</span> <span class="op">=</span> <span class="st">"C"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">letters_as_factor</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] _AC_ _AC_ D    B    _AC_ B   
 ## Levels: _AC_ B D</code></pre>
-<p>For exercise #3, redo exercise #2 but using <a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel()</a> and <a href="https://forcats.tidyverse.org/reference/fct_recode.html">fct_recode()</a>. You still need to use <code>factor()</code> function to convert <code>Prime</code> and <code>Probe</code> to factor but do not specify levels and labels. Use <a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel()</a> and <a href="https://forcats.tidyverse.org/reference/fct_recode.html">fct_recode()</a> inside <a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a> verbs to reorder and relabel factor values (or, first relabel and then reorder, whatever is more intuitive for you). The end product (the plot) should be the same.</p>
-<div class="infobox practice">
+<p>For exercise #3, redo exercise #2 but using <a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel()</a> and <a href="https://forcats.tidyverse.org/reference/fct_recode.html">fct_recode()</a>. You still need to use <code><a href="https://rdrr.io/r/base/factor.html">factor()</a></code> function to convert <code>Prime</code> and <code>Probe</code> to factor but do not specify levels and labels. Use <a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel()</a> and <a href="https://forcats.tidyverse.org/reference/fct_recode.html">fct_recode()</a> inside <a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a> verbs to reorder and relabel factor values (or, first relabel and then reorder, whatever is more intuitive for you). The end product (the plot) should be the same.</p>
+<div class="practice">
 <p>Do exercise 3.</p>
 </div>
 </div>
-<div id="plotting-group-averages" class="section level2 hasAnchor" number="7.5">
-<h2><span class="header-section-number">7.5</span> Plotting group averages<a href="working-with-factors.html#plotting-group-averages" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="plotting-group-averages" class="section level2" number="7.5">
+<h2>
+<span class="header-section-number">7.5</span> Plotting group averages<a class="anchor" aria-label="anchor" href="#plotting-group-averages"><i class="fas fa-link"></i></a>
+</h2>
 <p>Let us keep practicing and extend our analysis to compute and plots averages for each condition (<code>Prime</code>×<code>Probe</code>) over all participants. Use preprocessing code from exercise #3 but, once you compute a proportion per <code>Participant</code>×<code>Prime</code>×<code>Probe</code>, you need to group data over <code>Prime</code>×<code>Probe</code> to compute average performance across observers. Advice, <em>do not</em> reuse the name of the column, e.g., if you used <code>Psame</code> for proportion per <code>Participant</code>×<code>Prime</code>×<code>Probe</code>, use some <em>other</em> name for <code>Prime</code>×<code>Probe</code> (e.g. <code>Pavg</code>). Otherwise, it may turn out to be very confusing (at least, this is a mistake a make routinely). Take a look at the code below, what will the <code>Range</code> values be?</p>
-<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="working-with-factors.html#cb315-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
-<span id="cb315-2"><a href="working-with-factors.html#cb315-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">Response =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb315-3"><a href="working-with-factors.html#cb315-3" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb315-4"><a href="working-with-factors.html#cb315-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ID) <span class="sc">%&gt;%</span></span>
-<span id="cb315-5"><a href="working-with-factors.html#cb315-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Response =</span> <span class="fu">mean</span>(Response),</span>
-<span id="cb315-6"><a href="working-with-factors.html#cb315-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">Range =</span> <span class="fu">max</span>(Response) <span class="sc">-</span> <span class="fu">min</span>(Response))</span></code></pre></div>
-<p>I routinely assume that they should be <code>1</code> for <code>"A"</code> (because <code>2-1</code>) and <code>2</code> for <code>"B"</code> (<code>6-4</code>). Nope, both are <code>0</code> because by the time <code>Range = max(Response) - min(Response)</code> is executed, original values of <code>Response</code> are overwritten by <code>Response = mean(Response)</code>, so it has just <strong>one</strong> value, the mean. And <code>min()</code> and <code>max()</code> of a single value is that value, so their difference is <code>0</code>. It is obvious once you carefully consider the code but it is <em>not</em> obvious (at least to me) straightaway. In short, be <strong>very careful</strong> when you are reusing column names. Better still, do not reuse them, be creative, come up with new ones!</p>
+<div class="sourceCode" id="cb328"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>ID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"B"</span><span class="op">)</span>,</span>
+<span>       Response <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">ID</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>Response <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Response</span><span class="op">)</span>,</span>
+<span>            Range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">Response</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">Response</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>I routinely assume that they should be <code>1</code> for <code>"A"</code> (because <code>2-1</code>) and <code>2</code> for <code>"B"</code> (<code>6-4</code>). Nope, both are <code>0</code> because by the time <code>Range = max(Response) - min(Response)</code> is executed, original values of <code>Response</code> are overwritten by <code>Response = mean(Response)</code>, so it has just <strong>one</strong> value, the mean. And <code><a href="https://rdrr.io/r/base/Extremes.html">min()</a></code> and <code><a href="https://rdrr.io/r/base/Extremes.html">max()</a></code> of a single value is that value, so their difference is <code>0</code>. It is obvious once you carefully consider the code but it is <em>not</em> obvious (at least to me) straightaway. In short, be <strong>very careful</strong> when you are reusing column names. Better still, do not reuse them, be creative, come up with new ones!</p>
 <p>Getting back to the exercise, compute average performance per <code>Prime</code>×<code>Probe</code>. Store the result of the computation in a new variable (I’ve called it <code>persistence_avg</code>) and check that results makes sense, e.g. you have just three columns <code>Prime</code>, <code>Probe</code>, and <code>Pavg</code> (or however you decided to name the column). They should look like this:</p>
-<table>
-<thead>
-<tr class="header">
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
 <th align="left">Prime</th>
 <th align="left">Probe</th>
 <th align="right">Pavg</th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left">sphere</td>
@@ -568,121 +314,166 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="right">0.5792593</td>
 </tr>
 </tbody>
-</table>
-<div class="infobox practice">
+</table></div>
+<div class="practice">
 <p>Do exercise 4.</p>
 </div>
 <p>Then, plot the results. Use <a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point()</a> plus <a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line()</a> to plot the mean response The plot should like like this (hint, drop color mapping and map <code>Prime</code> to <code>group</code> property).
-<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-168-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="infobox practice">
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-157-1.png" width="672" style="display: block; margin: auto;"></p>
+<div class="practice">
 <p>Do exercise 5.</p>
 </div>
-<p>Tweak code from exercise 4 to plot all lines on the same plot and use color property to distinguish between different primes.
-<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-169-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="infobox practice">
+<div class="inline-figure">Tweak code from exercise 4 to plot all lines on the same plot and use color property to distinguish between different primes.
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-158-1.png" width="672" style="display: block; margin: auto;">
+</div>
+<div class="practice">
 <p>Do exercise 6.</p>
 </div>
 </div>
-<div id="plotting-our-confidence-in-group-averages-via-quantiles" class="section level2 hasAnchor" number="7.6">
-<h2><span class="header-section-number">7.6</span> Plotting our confidence in group averages via quantiles<a href="working-with-factors.html#plotting-our-confidence-in-group-averages-via-quantiles" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="plotting-our-confidence-in-group-averages-via-quantiles" class="section level2" number="7.6">
+<h2>
+<span class="header-section-number">7.6</span> Plotting our confidence in group averages via quantiles<a class="anchor" aria-label="anchor" href="#plotting-our-confidence-in-group-averages-via-quantiles"><i class="fas fa-link"></i></a>
+</h2>
 <p>From the plots above, you get a sense that identities of the probe and prime (objects before and after the interruption) matter. Single band appears to be the poorest prime (its line is lowest) and probe (its dots are lower than the rest). Conversely, sphere is an excellent prime (line at the top) and probe (dots are very high). However, averages that we plotted is just a point estimate for most likely effect strength but they alone cannot tell us whether differences in objects’ shape do matter. For this, you need to perform statistical analysis but to get at least a feeling of how confident can you be about these differences, you need to plot a measure of variability associated with that <em>statistics</em>. I.e., <code>[1, 5, 9]</code> and <code>[4, 5, 6]</code> both have identical mean of 5 but their standard deviation is 4.5 <em>times</em> different (4.51 vs. 1). In the second case, the true mean is likely to be somewhere very near to 5, whereas we would have much less confidence in the former one.</p>
-<p>One way to characterize the mean is by computing its <a href="https://en.wikipedia.org/wiki/Standard_error">standard error</a>. However, it is best used when actual data is distributed normally or, at least, symmetrically around the mean, i.e., the distance from an observation to the mean could be the same irrespective of whether it is larger or smaller. This is a luxury you can expect only for variables that live on ±∞ range (support) or if the practically observed range of values is very far from either the floor or the ceiling. Adult height is an example of the latter: You cannot have height below 0 but an average adult height is far enough from that limit so its distribution is normal and symmetric enough. Unfortunately, a lot of data that we collect in psychology or social science research does not fit this description: Binomial data with yes/no or correct/incorrect responses lives on 0..1 range, response times have long right tail because they cannot be negative or even particularly short (200 ms would be a realistic floor for key presses, ~120 ms for eye saccadic response under <em>very</em> specific experimental conditions.)<a href="#fn52" class="footnote-ref" id="fnref52"><sup>52</sup></a></p>
+<p>One way to characterize the mean is by computing its <a href="https://en.wikipedia.org/wiki/Standard_error">standard error</a>. However, it is best used when actual data is distributed normally or, at least, symmetrically around the mean, i.e., the distance from an observation to the mean could be the same irrespective of whether it is larger or smaller. This is a luxury you can expect only for variables that live on ±∞ range (support) or if the practically observed range of values is very far from either the floor or the ceiling. Adult height is an example of the latter: You cannot have height below 0 but an average adult height is far enough from that limit so its distribution is normal and symmetric enough. Unfortunately, a lot of data that we collect in psychology or social science research does not fit this description: Binomial data with yes/no or correct/incorrect responses lives on 0..1 range, response times have long right tail because they cannot be negative or even particularly short (200 ms would be a realistic floor for key presses, ~120 ms for eye saccadic response under <em>very</em> specific experimental conditions.) End I did not mention Likert scale data because it is an ordered categorical type data, so you cannot use raw data to compute even the mean, let alone its error, so I will show you how to visualize it later.</p>
 <p>In our case the outcome variable is a <em>proportion</em> limited to 0 to 1 range. From practical point of view this means that our measure of variability is unlikely to be symmetric relative to the mean (with a unique exception of the mean exactly 0.5). I.e., think about a group average <span class="math inline">\(P_{avg} = 0.8\)</span>, points <em>below</em> that average can be further away from the mean (up to 0.8) than points <em>above</em> it (0.2 away at most). This compression is called either a ceiling (when you get squashed by the upper range) or flooring (when you cannot go below certain value) effect. Thus, we need a measure that would take this asymmetry into account. Later on you will learn how to do it using bootstrapping but we will start with a simpler approach of just using <a href="https://en.wikipedia.org/wiki/Quantile">quantiles</a> of a distribution to understand its variability.</p>
 <p>To compute this quantiles-based interval, you need to compute its lower and upper limits separately via <a href="https://en.wikipedia.org/wiki/Quantile">quantiles</a>. A quantile for 0.1 (10%) returns a value, so that 10% of all values in the vector are below it, the quantile of 0.9 (90%) means that only 10% of values are above it (or 90% are below). So, an 80% confidence intervals includes values that are between 10% and 90% or, alternatively, between 0.1 and 0.9 quantiles.
-<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-170-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-159-1.png" width="100%" style="display: block; margin: auto;"></p>
 <p>To compute this, R has function <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html">quantile()</a>.</p>
-<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="working-with-factors.html#cb316-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">50</span></span>
-<span id="cb316-2"><a href="working-with-factors.html#cb316-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(x, <span class="fl">0.1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb329"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">0</span><span class="op">:</span><span class="fl">50</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">0.1</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 10% 
 ##   5</code></pre>
-<p>Modify code from from exercise #5 to compute two additional variables/columns for lower and upper limits of the <em>89%</em><a href="#fn53" class="footnote-ref" id="fnref53"><sup>53</sup></a> interval (think about what these limits are for 89% interval). Then, use <a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_errorbar()</a> to plot 89% interval (you will need to map the two variable you computed to <code>ymin</code> and <code>ymax</code> properties). The plot should look like this (hint, drop color mapping and map <code>Prime</code> to <code>group</code> property).</p>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-172-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="infobox practice">
+<p>Modify code from from exercise #5 to compute two additional variables/columns for lower and upper limits of the <em>89%</em><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Why 89%? Because it is a prime number! If you think that it sounds arbitrary, you are perfectly correct. But so is using 95% and for that one you do not even have the “prime number” excuse!&lt;/p&gt;"><sup>56</sup></a> interval (think about what these limits are for 89% interval). Then, use <a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_errorbar()</a> to plot 89% interval (you will need to map the two variable you computed to <code>ymin</code> and <code>ymax</code> properties). The plot should look like this (hint, drop color mapping and map <code>Prime</code> to <code>group</code> property).</p>
+<div class="inline-figure"><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-161-1.png" width="672" style="display: block; margin: auto;"></div>
+<div class="practice">
 <p>Do exercise 7.</p>
 </div>
 </div>
-<div id="looking-at-similarity" class="section level2 hasAnchor" number="7.7">
-<h2><span class="header-section-number">7.7</span> Looking at similarity<a href="working-with-factors.html#looking-at-similarity" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>A different study, which used same four objects, showed that a similar looking history effect but for longer interruptions (1000 ms rather than 50 ms) was modulated by objects similarity. Let us check that hypothesis by computing a rough difference measure. It will assume that their difference is proportional to the absolute “distance” between them on x-axis in the above plot<a href="#fn54" class="footnote-ref" id="fnref54"><sup>54</sup></a>. E.g., distance between a sphere and a sphere is 0, but between sphere and quad-band or single-band and dual-band is 1. Difference between sphere and dual-band is 2, etc. You can compute it by converting <em>factor</em> variables <code>Prime</code> and <code>Probe</code> to integers (this assumes that levels are in the correct order). Then, you can compute the <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/MathFun.html">absolute difference</a> between those indexes and store it as a new column (e.g. <code>Difference</code>). Next, group by <code>Difference</code> and <code>Participant</code> to compute average probability of the same response. Your plot should look like this (you will need to map <code>Difference</code> on <code>group</code> to get four box plots rather than one).</p>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-173-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="infobox practice">
+<div id="likert-scale-01" class="section level2" number="7.7">
+<h2>
+<span class="header-section-number">7.7</span> Dealing with Likert scales<a class="anchor" aria-label="anchor" href="#likert-scale-01"><i class="fas fa-link"></i></a>
+</h2>
+<p>Likert scales are one of the most popular ways to measure responses in psychology. And, at least this is my opinion of the literature, they tend to be misanalyzed and misreported (IMHO). It is quite common to report an average and a standard error of a response across all participants, but <a href="https://alexander-pastukhov.github.io/notes-on-statistics/ordered-categorical-data-i.e.-likert-scales.html">these numbers cannot be actually computed</a> (because these are ordered categorical values, not numbers) and even if you trick the computer in doing so (by pretending that levels are actual numbers) these numbers are ill-suited to characterize the response, as you will see below. The proper analysis of Likert scale data requires a use of the “Item Response Theory” and although it is very straightforward, it is outside of the scope of this book. Instead, we will look at how you can visualize the responses in the meaninful way, although the complete story will have to wait until we learn about bootstrapping.</p>
+<p>Below, we will use data collected using Intrinsic Motivation Inventory (IMI), where participants needed to respond on a 7-point Likert scale indicating indicate how true a statement (such as “I enjoyed doing this activity very much” or “I was pretty skilled at this activity.”) is for them:</p>
+<ol style="list-style-type: decimal">
+<li>Not at all true</li>
+<li>Hardly true</li>
+<li>Slightly true</li>
+<li>Somewhat true</li>
+<li>Mostly true</li>
+<li>Almost completely true</li>
+<li>Very true</li>
+</ol>
+<p>Before we visualize the data, we need to read and preprocess it. Perform the following using a single pipe:</p>
+<ul>
+<li>Read the file <a href="data/likert-scale.csv">likert-scale.csv</a> specifying column types</li>
+<li>Convert <em>Condition</em> column to factor where 1 is “game” and 2 is “experiment”</li>
+<li>Convert <em>Response</em> column to factor using levels described above.</li>
+</ul>
+<p>Here is how the first five rows of the table look for me:</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th align="left">Participant</th>
+<th align="left">Condition</th>
+<th align="left">Response</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">TMM1990w</td>
+<td align="left">game</td>
+<td align="left">Slightly true</td>
+</tr>
+<tr class="even">
+<td align="left">VEH1985w</td>
+<td align="left">experiment</td>
+<td align="left">Slightly true</td>
+</tr>
+<tr class="odd">
+<td align="left">CEN2000w</td>
+<td align="left">experiment</td>
+<td align="left">Hardly true</td>
+</tr>
+<tr class="even">
+<td align="left">YWH1992w</td>
+<td align="left">game</td>
+<td align="left">Mostly true</td>
+</tr>
+<tr class="odd">
+<td align="left">IDK1985w</td>
+<td align="left">experiment</td>
+<td align="left">Hardly true</td>
+</tr>
+</tbody>
+</table></div>
+<div class="practice">
 <p>Do exercise 8.</p>
 </div>
+<p>Hopefully, using actual labels instead of original number makes it clear that computing mean and standard error is impossible (what is an average of “Slightly true” and “Hardly true”?). Instead, we need to count the number of response per response level, convert that to a proportion of responses, and plot them to see the distribution. You know almost everything you need to perform this. Here is the logic:</p>
+<ul>
+<li>
+<a href="dplyr.html#group_by">group</a> data per response level</li>
+<li>
+<a href="dplyr.html#summarize">summarize</a> the data by computing <a href="https://dplyr.tidyverse.org/reference/context.html">number</a> of entries per group, don’t forget to ungroup table. You can also combine the two steps to <a href="https://dplyr.tidyverse.org/reference/count.html?q=count()">count</a> responses per level.</li>
+<li>compute proportion per response by dividing number of responses for each level by the total number of responses.</li>
+</ul>
+<p>Once you computed the aggregates, plot them using <a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point()</a> and <a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line()</a>. The only catch here, is that <a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line()</a> cannot work with discrete x-axis, so when specifying the aesthetics for x-axis, you need to use <code>as.integer(Response)</code> instead of just <code>Response</code> and you will need to use <a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous()</a> to specify breaks (1 to 7) and labels (levels of our Likert scale). The end results should look as follows:</p>
+<div class="inline-figure">
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-163-1.png" width="100%" style="display: block; margin: auto;">
+::: {.practice}
+Do exercise 9.
+:::</div>
+<p>The study in question used to experimental conditions, so it would be informative to see whether this produce difference in responses. The logic of computation is (almost) the same: You need to group by both response level and experimental condition when counting responses but by condition alone when computing the proportion (why?). When visualizing, you only need to add color aesthetics to distringuish between the groups. The end results should be as follows:</p>
+<div class="inline-figure"><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-164-1.png" width="100%" style="display: block; margin: auto;"></div>
+<div class="practice">
+<p>Do exercise 10.</p>
+</div>
+<p>Note that we are missing information on uncertainty about proportion of response (i.e., error bars), but I will show you how to compute them once we get to bootstrapping. Also note that even if you would convert ordinal levels to real numbers, using mean and standard error would still be a bad idea. Note how squashed the distribution is to the lower side (particularly, when averaging across groups). Mean is a nice descriptor for symmetric distributions as then it coincides with both mode (most probable, highest point) and median (point that splits distribution half/half). But for skewed distributions, all three statistics — mode, mean, and median — will be at different locations and you should either report all or think about better ways to present the data. Same goes for a standard error which is a nice descriptor for a normally distributed data, less so for symmetric data (you’ll be missing information about exact shape and probably thinking about a normal one), not very good for skewed data. Here, data does not lie equally on both sides, so a symmetric standard error will overestimate variance on the left side (there is not much space to vary on the left), while simultaneously underestimating it on the right side. In short, always look at the data before compacting it to various statistic, even if such practice is common (this does not make it a good practice).</p>
 
 </div>
 </div>
-<div class="footnotes">
-<hr />
-<ol start="50">
-<li id="fn50"><p>At least I tend to always think that.<a href="working-with-factors.html#fnref50" class="footnote-back">↩︎</a></p></li>
-<li id="fn51"><p>The package’s name is anagram of <em>factors</em>.<a href="working-with-factors.html#fnref51" class="footnote-back">↩︎</a></p></li>
-<li id="fn52"><p>I did not mention Likert scale data because it is an ordered categorical type data, so you cannot use raw data to compute even the mean, let alone its error.<a href="working-with-factors.html#fnref52" class="footnote-back">↩︎</a></p></li>
-<li id="fn53"><p>Why 89%? Because it is a prime number! If you think that it sounds arbitrary, you are perfectly correct. But so is using 95% and for that one you do not even have the “prime number” excuse!<a href="working-with-factors.html#fnref53" class="footnote-back">↩︎</a></p></li>
-<li id="fn54"><p>This measure assumes metric distance, which is a very strong assumption.<a href="working-with-factors.html#fnref54" class="footnote-back">↩︎</a></p></li>
-</ol>
-</div>
-            </section>
 
-          </div>
-        </div>
-      </div>
-<a href="dplyr.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="tyding.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
-    </div>
+  <div class="chapter-nav">
+<div class="prev"><a href="dplyr.html"><span class="header-section-number">6</span> Tidyverse: dplyr</a></div>
+<div class="next"><a href="tyding.html"><span class="header-section-number">8</span> Tidyng your data: joins and pivots</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#working-with-factors"><span class="header-section-number">7</span> Working with Factors</a></li>
+<li><a class="nav-link" href="#how-to-write-code"><span class="header-section-number">7.1</span> How to write code</a></li>
+<li><a class="nav-link" href="#implementing-a-typical-analysis"><span class="header-section-number">7.2</span> Implementing a typical analysis</a></li>
+<li><a class="nav-link" href="#factors"><span class="header-section-number">7.3</span> Factors</a></li>
+<li><a class="nav-link" href="#forcats"><span class="header-section-number">7.4</span> Forcats</a></li>
+<li><a class="nav-link" href="#plotting-group-averages"><span class="header-section-number">7.5</span> Plotting group averages</a></li>
+<li><a class="nav-link" href="#plotting-our-confidence-in-group-averages-via-quantiles"><span class="header-section-number">7.6</span> Plotting our confidence in group averages via quantiles</a></li>
+<li><a class="nav-link" href="#likert-scale-01"><span class="header-section-number">7.7</span> Dealing with Likert scales</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/alexander-pastukhov/data-analysis-using-r-for-psychology/blob/master/07-factors.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/alexander-pastukhov/data-analysis-using-r-for-psychology/edit/master/07-factors.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Data analysis using R for Psychology and Social Science</strong>" was written by Alexander (Sasha) Pastukhov. It was last built on 2023-10-09.</p>
   </div>
-<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
-<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
-<script>
-gitbook.require(["gitbook"], function(gitbook) {
-gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": null,
-"text": null
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["data-analysis-using-r-for-psychology.pdf", "data-analysis-using-r-for-psychology.epub"],
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
-});
-});
-</script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
+  <div class="col-12 col-md-6 mt-3">
+    <p>Please note that this website collects anonymized data via Google analytics. This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -694,7 +485,22 @@ gitbook.start({
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
 </script>
 </body>
-
 </html>

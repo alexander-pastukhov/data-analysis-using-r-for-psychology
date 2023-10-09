@@ -1,0 +1,99 @@
+---
+title: "Seminar 09: Control flow"
+format: html
+---
+
+```{r setup}
+```
+
+## Exercise 01.
+Function `rep()` is frequently used to create a vector of same values, e.g., all zeros, ones, or `NA`. Create a table (either `data.frame` or `tibble`) with three columns (names are up to you) and 10 rows. One should be initialized to ones, second one to a  repeating pattern `1, 2, 3, 4`, and the last one to `NA`. Use `rep()` explicitly in each case.
+
+```{r exercise-01}
+
+```
+
+## Exercise 02.
+Use `expand_grid()` function to create table with combinations of `gender` (values `female`, `male`) and `handedness` (values `right`, `left`, `ambidextrous`). However, you need to have _twelve_ rows, so that each combination appears twice. You can do it in one `expand_grid()` call, possibly, with a help of `rep()` function. Then, use piping and mutate to add `index` column that goes from 1 to number of rows (e.g., index of each participant). Use function [n()](https://dplyr.tidyverse.org/reference/context.html) to get number of rows in the table you are working on. 
+
+```{r exercise-02}
+
+```
+
+## Exercise 03.
+Use a for loop to replicate functionality of `rep()` function. Start with an empty (null) vector `target` (you can create an empty vector via `c()` function with empty input) and add (again, `c()` function!) values `1, 4, 2` to it four times. Think about the evaluation order, see "Assignment statement in detail" from the chapter on vectors! Thus, you end result should be `1, 4, 2, 1, 4, 2, 1, 4, 2, 1, 4, 2`.
+
+```{r exercise-03}
+
+```
+
+## Exercise 04.
+Use a for loop compute an average (`mean`) highway cycle efficiency (column `hwy`) for mpg table from package ggplot2. Compute the total sum of values using the loop (check that the number is correct by comparing it to a vectorized `sum()`) and then divide it by the total number of values. Check that your answer is correct via vectorized mean.
+```{r exercise-04}
+
+```
+
+## Exercise 05
+Repeat exercise 4 but your loop variable should be a row index. In other words, you loop over vector with row indexes, not over the values of the column itself, and use your loop variable as an index of a value within the column. You will need function `nrow()`.
+```{r exercise-05}
+
+```
+
+## Exercise 06.
+Use nested loop to replicate functionality of `expand_grid()` and results of exercise 02 (but excluding the `index` column, just `gender` and `handedness`). You can create two empty vectors, grow them in parallel and then use them to create a table. Think about how you loop over values and then do you add them to each vector.
+
+```{r exercise-06}
+
+```
+
+## Exercise 07.
+Use for loop to create a random walk. It should start at zero (so, initial value for your variable should be zero). For each next step, draw a random value from a normal distribution with previous value as the mean and decide yourself on standard deviation (I used 1). Plot the results, you can replicate my plot exactly, if you use function `set.seed()` with 1977.
+
+```{r exercise-07}
+
+```
+
+## Exercise 08.
+Generate a vector of ten normally distributed values (function `rnorm()`). Loop over them in a `for` loop and print `"Positive"` if a value is larger than zero and `"Not positive"` if not.
+```{r exercise-08}
+
+```
+
+## Exercise 09.
+Repeat exercise 08 but using ifelse() instead of a loop.
+```{r exercise-09}
+
+```
+
+## Exercise 10.
+Define a vector numeric values with some negative, some positive and some zero values. Use `case_when` to compute a vector with "Positive", "Zero", and "Negative" labels.
+```{r exercise-10}
+
+```
+
+## Exercise 11.
+Generate ten normally distributed numbers, loop over them and print each one. However, `break` after the _fifth_ value. For this, you need to loop over indexes of values.
+```{r exercise-11}
+
+```
+
+## Exercise 12.
+Read and merge all `Persistence` folder csv-files into a single full table. Create a full table variable (I, typically, call it `results` or `reports`) and initialize it to an empty `data.frame()`. Next, you loop over file names (use function [dir_ls()](https://www.rdocumentation.org/packages/fs/versions/1.5.0/topics/dir_ls) for this), [read](#readr) one file at a time (don't forget to specify column types or will get a lot of warnings), and then use [bind_rows](https://dplyr.tidyverse.org/reference/bind.html) to combine the full table and the new table you loaded. Note that [bind_rows](https://dplyr.tidyverse.org/reference/bind.html) returns a _new_ table, so you need to assign it back to the original full table variable. Once you are done, your table should have 5232 rows and twelve columns.
+
+```{r exercise-12}
+
+```
+
+## Exercise 13.
+Use `map_dfr()` to load  and merge all persistence study files, replicating result of exercise 6.  Use`~` call notation and remember that `.` would then correspond to a single value from the vector of file names. Again, you should get a single table with twelve columns and 5232 rows.
+
+```{r exercise-13}
+
+```
+
+## Exercise 14.
+Program a function that takes a filename, loads the file and returns total number of trials/rows. Once you have a function, use it with `map_dbl` and a vector of persistence filenames. You should get a vector of ten values. Now we can easily see that there was something wrong with one of the files and we must pay attention to the amount of data that we have.
+
+```{r exercise-14}
+
+```

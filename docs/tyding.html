@@ -1,389 +1,110 @@
 <!DOCTYPE html>
-<html lang="" xml:lang="">
+<html lang="en">
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 8 Tidyng your data: joins and pivots | Data analysis using R for Psychology and Social Science</title>
+<meta name="author" content="Alexander (Sasha) Pastukhov">
+<meta name="description" content="It is fun to work with tidy complete data. Unfortunately, more often than not you will need to preprocess and tidy it up before you can analyze it. In addition to dplyr, Tidyverse has tidyr...">
+<meta name="generator" content="bookdown 0.35 with bs4_book()">
+<meta property="og:title" content="Chapter 8 Tidyng your data: joins and pivots | Data analysis using R for Psychology and Social Science">
+<meta property="og:type" content="book">
+<meta property="og:description" content="It is fun to work with tidy complete data. Unfortunately, more often than not you will need to preprocess and tidy it up before you can analyze it. In addition to dplyr, Tidyverse has tidyr...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 8 Tidyng your data: joins and pivots | Data analysis using R for Psychology and Social Science">
+<meta name="twitter:description" content="It is fun to work with tidy complete data. Unfortunately, more often than not you will need to preprocess and tidy it up before you can analyze it. In addition to dplyr, Tidyverse has tidyr...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-QMVBLBE7DV"></script><script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Seminar 8 Tidyng your data: joins and pivots | Data analysis using R for Psychology and Social Science</title>
-  <meta name="description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
-  <meta name="generator" content="bookdown 0.30 and GitBook 2.6.7" />
-
-  <meta property="og:title" content="Seminar 8 Tidyng your data: joins and pivots | Data analysis using R for Psychology and Social Science" />
-  <meta property="og:type" content="book" />
-  
-  <meta property="og:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
-  
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Seminar 8 Tidyng your data: joins and pivots | Data analysis using R for Psychology and Social Science" />
-  
-  <meta name="twitter:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
-  
-
-<meta name="author" content="Alexander (Sasha) Pastukhov" />
-
-
-<meta name="date" content="2022-11-19" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  
-  
-<link rel="prev" href="working-with-factors.html"/>
-<link rel="next" href="controling-computation-flow.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
-<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
-
-
-
-
-
-
-
-<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
-<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
-<script src="libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-
-
-<style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-</style>
-
-
-<link rel="stylesheet" href="style.css" type="text/css" />
-<link rel="stylesheet" href="font-awesome.css" type="text/css" />
+      gtag('config', 'G-QMVBLBE7DV');
+    </script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="bs4_style.css">
+<link rel="stylesheet" href="style.css">
 </head>
+<body data-spy="scroll" data-target="#toc">
 
-<body>
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
 
-
-
-  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
-
-    <div class="book-summary">
-      <nav role="navigation">
-
-<ul class="summary">
-<li><a href="./">Data analysis using R for Psychology</a></li>
-
-<li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a>
-<ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-r"><i class="fa fa-check"></i>Why R?</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-tidyverse"><i class="fa fa-check"></i>Why Tidyverse</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-seminar-itself"><i class="fa fa-check"></i>About the seminar itself</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#thinking-like-a-computer"><i class="fa fa-check"></i>Thinking like a computer</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-material"><i class="fa fa-check"></i>About the material</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html"><i class="fa fa-check"></i>Software</a>
-<ul>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install-r"><i class="fa fa-check"></i>Installing R</a></li>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install-rstudio"><i class="fa fa-check"></i>Installing R-Studio</a></li>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install-rtools"><i class="fa fa-check"></i>Installing RTools</a></li>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install.packages"><i class="fa fa-check"></i>Installing packages</a></li>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html#minimal-set-of-packages"><i class="fa fa-check"></i>Minimal set of packages</a></li>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html#installr"><i class="fa fa-check"></i>Keeping R and packages up-to-date</a></li>
-</ul></li>
-<li class="chapter" data-level="1" data-path="reproducable-research.html"><a href="reproducable-research.html"><i class="fa fa-check"></i><b>1</b> Reproducable Research: Projects and Markdown Notebooks</a>
-<ul>
-<li class="chapter" data-level="1.1" data-path="reproducable-research.html"><a href="reproducable-research.html#projects"><i class="fa fa-check"></i><b>1.1</b> Projects</a></li>
-<li class="chapter" data-level="1.2" data-path="reproducable-research.html"><a href="reproducable-research.html#rmarkdown"><i class="fa fa-check"></i><b>1.2</b> Quattro and RMarkdown notebooks</a></li>
-<li class="chapter" data-level="1.3" data-path="reproducable-research.html"><a href="reproducable-research.html#exercise"><i class="fa fa-check"></i><b>1.3</b> Exercise</a></li>
-</ul></li>
-<li class="chapter" data-level="2" data-path="vectors.html"><a href="vectors.html"><i class="fa fa-check"></i><b>2</b> Vectors! Vectors everywhere!</a>
-<ul>
-<li class="chapter" data-level="2.1" data-path="vectors.html"><a href="vectors.html#variables"><i class="fa fa-check"></i><b>2.1</b> Variables as boxes</a></li>
-<li class="chapter" data-level="2.2" data-path="vectors.html"><a href="vectors.html#assignment-statement"><i class="fa fa-check"></i><b>2.2</b> Assignment statement in detail</a></li>
-<li class="chapter" data-level="2.3" data-path="vectors.html"><a href="vectors.html#vectors-scalars"><i class="fa fa-check"></i><b>2.3</b> Vectors and singluar values (scalars, which are also vectors)</a></li>
-<li class="chapter" data-level="2.4" data-path="vectors.html"><a href="vectors.html#vector-index"><i class="fa fa-check"></i><b>2.4</b> Vector indexes (subsetting)</a></li>
-<li class="chapter" data-level="2.5" data-path="vectors.html"><a href="vectors.html#names"><i class="fa fa-check"></i><b>2.5</b> Names as an Index</a></li>
-<li class="chapter" data-level="2.6" data-path="vectors.html"><a href="vectors.html#vector-index-slicing"><i class="fa fa-check"></i><b>2.6</b> Slicing</a></li>
-<li class="chapter" data-level="2.7" data-path="vectors.html"><a href="vectors.html#colon-sequence"><i class="fa fa-check"></i><b>2.7</b> Colon Operator and Sequence Generation</a></li>
-<li class="chapter" data-level="2.8" data-path="vectors.html"><a href="vectors.html#working-with-two-vectors-of-equal-length"><i class="fa fa-check"></i><b>2.8</b> Working with two vectors of <em>equal</em> length</a></li>
-<li class="chapter" data-level="2.9" data-path="vectors.html"><a href="vectors.html#different-length-vectors"><i class="fa fa-check"></i><b>2.9</b> Working with two vectors of <em>different</em> length</a></li>
-<li class="chapter" data-level="2.10" data-path="vectors.html"><a href="vectors.html#applying-functions-to-a-vector"><i class="fa fa-check"></i><b>2.10</b> Applying functions to a vector</a></li>
-<li class="chapter" data-level="2.11" data-path="vectors.html"><a href="vectors.html#wrap-up"><i class="fa fa-check"></i><b>2.11</b> Wrap up</a></li>
-</ul></li>
-<li class="chapter" data-level="3" data-path="tables.html"><a href="tables.html"><i class="fa fa-check"></i><b>3</b> Tables and Tibbles (and Tribbles)</a>
-<ul>
-<li class="chapter" data-level="3.1" data-path="tables.html"><a href="tables.html#primary-types"><i class="fa fa-check"></i><b>3.1</b> Primary data types</a></li>
-<li class="chapter" data-level="3.2" data-path="tables.html"><a href="tables.html#vectors-are-homogeneous"><i class="fa fa-check"></i><b>3.2</b> All vector values must be of the same type</a></li>
-<li class="chapter" data-level="3.3" data-path="tables.html"><a href="tables.html#lists"><i class="fa fa-check"></i><b>3.3</b> Lists</a></li>
-<li class="chapter" data-level="3.4" data-path="tables.html"><a href="tables.html#subsetting"><i class="fa fa-check"></i><b>3.4</b> Subsetting, a fuller version</a>
-<ul>
-<li class="chapter" data-level="3.4.1" data-path="tables.html"><a href="tables.html#subsetting-for-atomics-vectors"><i class="fa fa-check"></i><b>3.4.1</b> Subsetting for (atomics) vectors</a></li>
-<li class="chapter" data-level="3.4.2" data-path="tables.html"><a href="tables.html#subsetting-for-lists"><i class="fa fa-check"></i><b>3.4.2</b> Subsetting for lists</a></li>
-</ul></li>
-<li class="chapter" data-level="3.5" data-path="tables.html"><a href="tables.html#dollar-subsetting"><i class="fa fa-check"></i><b>3.5</b> Yet another subsetting via $</a></li>
-<li class="chapter" data-level="3.6" data-path="tables.html"><a href="tables.html#data.frame"><i class="fa fa-check"></i><b>3.6</b> Tables, a.k.a. data frames</a></li>
-<li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#table-subsetting"><i class="fa fa-check"></i><b>3.7</b> Subsetting tables</a></li>
-<li class="chapter" data-level="3.8" data-path="tables.html"><a href="tables.html#library"><i class="fa fa-check"></i><b>3.8</b> Using libraries</a></li>
-<li class="chapter" data-level="3.9" data-path="tables.html"><a href="tables.html#tibble"><i class="fa fa-check"></i><b>3.9</b> Tibble, a better data.frame</a></li>
-<li class="chapter" data-level="3.10" data-path="tables.html"><a href="tables.html#tribble"><i class="fa fa-check"></i><b>3.10</b> Tribble, table from text</a></li>
-<li class="chapter" data-level="3.11" data-path="tables.html"><a href="tables.html#data"><i class="fa fa-check"></i><b>3.11</b> Reading example tables</a></li>
-<li class="chapter" data-level="3.12" data-path="tables.html"><a href="tables.html#readr"><i class="fa fa-check"></i><b>3.12</b> Reading csv files</a></li>
-<li class="chapter" data-level="3.13" data-path="tables.html"><a href="tables.html#readxl"><i class="fa fa-check"></i><b>3.13</b> Reading Excel files</a></li>
-<li class="chapter" data-level="3.14" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.14</b> Reading files from other programs</a></li>
-<li class="chapter" data-level="3.15" data-path="tables.html"><a href="tables.html#rds"><i class="fa fa-check"></i><b>3.15</b> Writing and reading a single object</a></li>
-<li class="chapter" data-level="3.16" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.16</b> Wrap up</a></li>
-</ul></li>
-<li class="chapter" data-level="4" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>4</b> Functions! Functions everywhere!</a>
-<ul>
-<li class="chapter" data-level="4.1" data-path="functions.html"><a href="functions.html#functions-1"><i class="fa fa-check"></i><b>4.1</b> Functions</a></li>
-<li class="chapter" data-level="4.2" data-path="functions.html"><a href="functions.html#writing-a-function"><i class="fa fa-check"></i><b>4.2</b> Writing a function</a></li>
-<li class="chapter" data-level="4.3" data-path="functions.html"><a href="functions.html#scopes-global-versus-local-variables"><i class="fa fa-check"></i><b>4.3</b> Scopes: Global versus Local variables</a></li>
-<li class="chapter" data-level="4.4" data-path="functions.html"><a href="functions.html#function-with-two-parameters"><i class="fa fa-check"></i><b>4.4</b> Function with two parameters</a></li>
-<li class="chapter" data-level="4.5" data-path="functions.html"><a href="functions.html#table-as-a-parameter"><i class="fa fa-check"></i><b>4.5</b> Table as a parameter</a></li>
-<li class="chapter" data-level="4.6" data-path="functions.html"><a href="functions.html#named-versus-positional-arguments"><i class="fa fa-check"></i><b>4.6</b> Named versus positional arguments</a></li>
-<li class="chapter" data-level="4.7" data-path="functions.html"><a href="functions.html#default-values"><i class="fa fa-check"></i><b>4.7</b> Default values</a></li>
-<li class="chapter" data-level="4.8" data-path="functions.html"><a href="functions.html#nested-calls"><i class="fa fa-check"></i><b>4.8</b> Nested calls</a></li>
-<li class="chapter" data-level="4.9" data-path="functions.html"><a href="functions.html#pipe"><i class="fa fa-check"></i><b>4.9</b> Piping</a></li>
-<li class="chapter" data-level="4.10" data-path="functions.html"><a href="functions.html#function-is-just-a-code-stored-in-a-variable"><i class="fa fa-check"></i><b>4.10</b> Function is just a code stored in a variable</a></li>
-<li class="chapter" data-level="4.11" data-path="functions.html"><a href="functions.html#functions-functions-everywhere"><i class="fa fa-check"></i><b>4.11</b> Functions! Functions everywhere!</a></li>
-<li class="chapter" data-level="4.12" data-path="functions.html"><a href="functions.html#using-or-not-using-explicit-return-statement"><i class="fa fa-check"></i><b>4.12</b> Using (or not using) explicit return statement</a></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>5</b> ggplot2: Grammar of Graphics</a>
-<ul>
-<li class="chapter" data-level="5.1" data-path="ggplot2.html"><a href="ggplot2.html#tidydata"><i class="fa fa-check"></i><b>5.1</b> Tidy data</a></li>
-<li class="chapter" data-level="5.2" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-1"><i class="fa fa-check"></i><b>5.2</b> ggplot2</a></li>
-<li class="chapter" data-level="5.3" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-continuous-x-axis"><i class="fa fa-check"></i><b>5.3</b> Auto efficiency: continuous x-axis</a></li>
-<li class="chapter" data-level="5.4" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-discrete-x-axis"><i class="fa fa-check"></i><b>5.4</b> Auto efficiency: discrete x-axis</a></li>
-<li class="chapter" data-level="5.5" data-path="ggplot2.html"><a href="ggplot2.html#mammals-sleep-single-variable"><i class="fa fa-check"></i><b>5.5</b> Mammals sleep: single variable</a></li>
-<li class="chapter" data-level="5.6" data-path="ggplot2.html"><a href="ggplot2.html#mapping-for-all-visuals-versus-just-one-visual"><i class="fa fa-check"></i><b>5.6</b> Mapping for all visuals versus just one visual</a></li>
-<li class="chapter" data-level="5.7" data-path="ggplot2.html"><a href="ggplot2.html#mapping-on-variables-versus-constants"><i class="fa fa-check"></i><b>5.7</b> Mapping on variables versus constants</a></li>
-<li class="chapter" data-level="5.8" data-path="ggplot2.html"><a href="ggplot2.html#themes"><i class="fa fa-check"></i><b>5.8</b> Themes</a></li>
-<li class="chapter" data-level="5.9" data-path="ggplot2.html"><a href="ggplot2.html#you-aint-seen-nothing-yet"><i class="fa fa-check"></i><b>5.9</b> You ain’t seen nothing yet</a></li>
-<li class="chapter" data-level="5.10" data-path="ggplot2.html"><a href="ggplot2.html#further-reading"><i class="fa fa-check"></i><b>5.10</b> Further reading</a></li>
-<li class="chapter" data-level="5.11" data-path="ggplot2.html"><a href="ggplot2.html#extending-ggplot2"><i class="fa fa-check"></i><b>5.11</b> Extending ggplot2</a></li>
-<li class="chapter" data-level="5.12" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-cannot-do-everything"><i class="fa fa-check"></i><b>5.12</b> ggplot2 cannot do everything</a></li>
-</ul></li>
-<li class="chapter" data-level="6" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>6</b> Tidyverse: dplyr</a>
-<ul>
-<li class="chapter" data-level="6.1" data-path="dplyr.html"><a href="dplyr.html#tidyverse-philosophy"><i class="fa fa-check"></i><b>6.1</b> Tidyverse philosophy</a></li>
-<li class="chapter" data-level="6.2" data-path="dplyr.html"><a href="dplyr.html#select"><i class="fa fa-check"></i><b>6.2</b> <code>select()</code> columns by name</a></li>
-<li class="chapter" data-level="6.3" data-path="dplyr.html"><a href="dplyr.html#conditions"><i class="fa fa-check"></i><b>6.3</b> Conditions</a></li>
-<li class="chapter" data-level="6.4" data-path="dplyr.html"><a href="dplyr.html#logical-indexing"><i class="fa fa-check"></i><b>6.4</b> Logical indexing</a></li>
-<li class="chapter" data-level="6.5" data-path="dplyr.html"><a href="dplyr.html#filter-rows-by-values"><i class="fa fa-check"></i><b>6.5</b> <code>filter()</code> rows by values</a></li>
-<li class="chapter" data-level="6.6" data-path="dplyr.html"><a href="dplyr.html#arrange-rows-in-a-particular-order"><i class="fa fa-check"></i><b>6.6</b> <code>arrange()</code> rows in a particular order</a></li>
-<li class="chapter" data-level="6.7" data-path="dplyr.html"><a href="dplyr.html#mutate"><i class="fa fa-check"></i><b>6.7</b> <code>mutate()</code> columns</a></li>
-<li class="chapter" data-level="6.8" data-path="dplyr.html"><a href="dplyr.html#summarize"><i class="fa fa-check"></i><b>6.8</b> <code>summarize()</code> table by <code>groups</code></a></li>
-<li class="chapter" data-level="6.9" data-path="dplyr.html"><a href="dplyr.html#putting-it-all-together"><i class="fa fa-check"></i><b>6.9</b> Putting it all together</a></li>
-<li class="chapter" data-level="6.10" data-path="dplyr.html"><a href="dplyr.html#should-i-use-tidyverse"><i class="fa fa-check"></i><b>6.10</b> Should I use Tidyverse?</a></li>
-</ul></li>
-<li class="chapter" data-level="7" data-path="working-with-factors.html"><a href="working-with-factors.html"><i class="fa fa-check"></i><b>7</b> Working with Factors</a>
-<ul>
-<li class="chapter" data-level="7.1" data-path="working-with-factors.html"><a href="working-with-factors.html#how-to-write-code"><i class="fa fa-check"></i><b>7.1</b> How to write code</a></li>
-<li class="chapter" data-level="7.2" data-path="working-with-factors.html"><a href="working-with-factors.html#implementing-a-typical-analysis"><i class="fa fa-check"></i><b>7.2</b> Implementing a typical analysis</a></li>
-<li class="chapter" data-level="7.3" data-path="working-with-factors.html"><a href="working-with-factors.html#factors"><i class="fa fa-check"></i><b>7.3</b> Factors</a></li>
-<li class="chapter" data-level="7.4" data-path="working-with-factors.html"><a href="working-with-factors.html#forcats"><i class="fa fa-check"></i><b>7.4</b> Forcats</a></li>
-<li class="chapter" data-level="7.5" data-path="working-with-factors.html"><a href="working-with-factors.html#plotting-group-averages"><i class="fa fa-check"></i><b>7.5</b> Plotting group averages</a></li>
-<li class="chapter" data-level="7.6" data-path="working-with-factors.html"><a href="working-with-factors.html#plotting-our-confidence-in-group-averages-via-quantiles"><i class="fa fa-check"></i><b>7.6</b> Plotting our confidence in group averages via quantiles</a></li>
-<li class="chapter" data-level="7.7" data-path="working-with-factors.html"><a href="working-with-factors.html#looking-at-similarity"><i class="fa fa-check"></i><b>7.7</b> Looking at similarity</a></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="tyding.html"><a href="tyding.html"><i class="fa fa-check"></i><b>8</b> Tidyng your data: joins and pivots</a>
-<ul>
-<li class="chapter" data-level="8.1" data-path="tyding.html"><a href="tyding.html#joins"><i class="fa fa-check"></i><b>8.1</b> Joining tables</a></li>
-<li class="chapter" data-level="8.2" data-path="tyding.html"><a href="tyding.html#pivoting"><i class="fa fa-check"></i><b>8.2</b> Pivoting</a></li>
-<li class="chapter" data-level="8.3" data-path="tyding.html"><a href="tyding.html#pivot-longer"><i class="fa fa-check"></i><b>8.3</b> Pivot longer</a></li>
-<li class="chapter" data-level="8.4" data-path="tyding.html"><a href="tyding.html#pivot-wider"><i class="fa fa-check"></i><b>8.4</b> Pivot wider</a></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html"><i class="fa fa-check"></i><b>9</b> Controling computation flow</a>
-<ul>
-<li class="chapter" data-level="9.1" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#rep"><i class="fa fa-check"></i><b>9.1</b> <code>rep()</code></a></li>
-<li class="chapter" data-level="9.2" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#repeating-combinations"><i class="fa fa-check"></i><b>9.2</b> Repeating combinations</a></li>
-<li class="chapter" data-level="9.3" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#forloop"><i class="fa fa-check"></i><b>9.3</b> For loop</a></li>
-<li class="chapter" data-level="9.4" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#if-else"><i class="fa fa-check"></i><b>9.4</b> Conditional statement</a></li>
-<li class="chapter" data-level="9.5" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#breaking-out-of-the-loop"><i class="fa fa-check"></i><b>9.5</b> Breaking out of the loop</a></li>
-<li class="chapter" data-level="9.6" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#using-for-loop-to-load-and-join-multiple-data-files"><i class="fa fa-check"></i><b>9.6</b> Using for loop to load and join multiple data files</a></li>
-<li class="chapter" data-level="9.7" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#apply"><i class="fa fa-check"></i><b>9.7</b> Apply</a></li>
-<li class="chapter" data-level="9.8" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#purrr"><i class="fa fa-check"></i><b>9.8</b> Purrr</a></li>
-</ul></li>
-<li class="chapter" data-level="10" data-path="christmas-special.html"><a href="christmas-special.html"><i class="fa fa-check"></i><b>10</b> Christmas special</a>
-<ul>
-<li class="chapter" data-level="10.1" data-path="christmas-special.html"><a href="christmas-special.html#left-side-of-the-tree"><i class="fa fa-check"></i><b>10.1</b> Left side of the tree</a></li>
-<li class="chapter" data-level="10.2" data-path="christmas-special.html"><a href="christmas-special.html#right-side-of-the-tree"><i class="fa fa-check"></i><b>10.2</b> Right side of the tree</a></li>
-<li class="chapter" data-level="10.3" data-path="christmas-special.html"><a href="christmas-special.html#the-whole-tree"><i class="fa fa-check"></i><b>10.3</b> The whole tree</a></li>
-<li class="chapter" data-level="10.4" data-path="christmas-special.html"><a href="christmas-special.html#filling-in-the-tree"><i class="fa fa-check"></i><b>10.4</b> Filling in the tree</a></li>
-<li class="chapter" data-level="10.5" data-path="christmas-special.html"><a href="christmas-special.html#adding-background-image"><i class="fa fa-check"></i><b>10.5</b> Adding background image</a></li>
-<li class="chapter" data-level="10.6" data-path="christmas-special.html"><a href="christmas-special.html#adding-decoration-a-boring-one"><i class="fa fa-check"></i><b>10.6</b> Adding decoration (a boring one)</a></li>
-<li class="chapter" data-level="10.7" data-path="christmas-special.html"><a href="christmas-special.html#adding-decoration-a-bit-more-fun-one"><i class="fa fa-check"></i><b>10.7</b> Adding decoration (a bit more fun one)</a></li>
-<li class="chapter" data-level="10.8" data-path="christmas-special.html"><a href="christmas-special.html#adding-decoration-the-fun-ones"><i class="fa fa-check"></i><b>10.8</b> Adding decoration (the fun ones)</a></li>
-<li class="chapter" data-level="10.9" data-path="christmas-special.html"><a href="christmas-special.html#a-star-on-top"><i class="fa fa-check"></i><b>10.9</b> A star on top</a></li>
-<li class="chapter" data-level="10.10" data-path="christmas-special.html"><a href="christmas-special.html#merry-christmas"><i class="fa fa-check"></i><b>10.10</b> Merry Christmas!</a></li>
-</ul></li>
-<li class="chapter" data-level="11" data-path="missing-data.html"><a href="missing-data.html"><i class="fa fa-check"></i><b>11</b> Missing data</a>
-<ul>
-<li class="chapter" data-level="11.1" data-path="missing-data.html"><a href="missing-data.html#complete"><i class="fa fa-check"></i><b>11.1</b> Making missing data explicit (completing data)</a></li>
-<li class="chapter" data-level="11.2" data-path="missing-data.html"><a href="missing-data.html#na.omit"><i class="fa fa-check"></i><b>11.2</b> Dropping / omitting NAs</a></li>
-</ul></li>
-<li class="chapter" data-level="12" data-path="strings.html"><a href="strings.html"><i class="fa fa-check"></i><b>12</b> Working with strings</a>
-<ul>
-<li class="chapter" data-level="12.1" data-path="strings.html"><a href="strings.html#warming-up"><i class="fa fa-check"></i><b>12.1</b> Warming up</a></li>
-<li class="chapter" data-level="12.2" data-path="strings.html"><a href="strings.html#glue"><i class="fa fa-check"></i><b>12.2</b> Formatting strings via <code>glue()</code></a></li>
-<li class="chapter" data-level="12.3" data-path="strings.html"><a href="strings.html#paste"><i class="fa fa-check"></i><b>12.3</b> Formatting strings via <code>paste()</code></a></li>
-<li class="chapter" data-level="12.4" data-path="strings.html"><a href="strings.html#sprintf"><i class="fa fa-check"></i><b>12.4</b> Formatting strings via <code>sprintf()</code></a></li>
-<li class="chapter" data-level="12.5" data-path="strings.html"><a href="strings.html#extracting-information-from-a-string"><i class="fa fa-check"></i><b>12.5</b> Extracting information from a string</a></li>
-<li class="chapter" data-level="12.6" data-path="strings.html"><a href="strings.html#splitting-strings-via-separate"><i class="fa fa-check"></i><b>12.6</b> Splitting strings via <code>separate()</code></a></li>
-<li class="chapter" data-level="12.7" data-path="strings.html"><a href="strings.html#extracting-a-substring-when-you-know-its-location"><i class="fa fa-check"></i><b>12.7</b> Extracting a substring when you know its location</a></li>
-<li class="chapter" data-level="12.8" data-path="strings.html"><a href="strings.html#detecting-a-substring-using-regular-expressions"><i class="fa fa-check"></i><b>12.8</b> Detecting a substring using regular expressions</a></li>
-</ul></li>
-<li class="chapter" data-level="13" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html"><i class="fa fa-check"></i><b>13</b> Sampling and simulations</a>
-<ul>
-<li class="chapter" data-level="13.1" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#estimating-mean-of-a-normal-distribution-via-resampling"><i class="fa fa-check"></i><b>13.1</b> Estimating mean of a normal distribution via resampling</a></li>
-<li class="chapter" data-level="13.2" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#bootstrapping-via-boot-library"><i class="fa fa-check"></i><b>13.2</b> Bootstrapping via boot library</a></li>
-<li class="chapter" data-level="13.3" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#more-samples-give-you-more-confidence"><i class="fa fa-check"></i><b>13.3</b> More samples give you more confidence</a></li>
-<li class="chapter" data-level="13.4" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#adding-average-sample-mean"><i class="fa fa-check"></i><b>13.4</b> Adding average sample mean</a></li>
-<li class="chapter" data-level="13.5" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#practice-makes-perfect"><i class="fa fa-check"></i><b>13.5</b> Practice makes perfect</a></li>
-<li class="chapter" data-level="13.6" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#starting-with-basics"><i class="fa fa-check"></i><b>13.6</b> Starting with basics</a></li>
-</ul></li>
-<li class="chapter" data-level="14" data-path="statistical-modeling.html"><a href="statistical-modeling.html"><i class="fa fa-check"></i><b>14</b> Statistical modeling</a>
-<ul>
-<li class="chapter" data-level="14.1" data-path="statistical-modeling.html"><a href="statistical-modeling.html#correlation"><i class="fa fa-check"></i><b>14.1</b> Correlation</a></li>
-<li class="chapter" data-level="14.2" data-path="statistical-modeling.html"><a href="statistical-modeling.html#correlation-in-practice"><i class="fa fa-check"></i><b>14.2</b> Correlation in practice</a></li>
-<li class="chapter" data-level="14.3" data-path="statistical-modeling.html"><a href="statistical-modeling.html#pairwise-comparisons"><i class="fa fa-check"></i><b>14.3</b> Pairwise comparisons</a></li>
-<li class="chapter" data-level="14.4" data-path="statistical-modeling.html"><a href="statistical-modeling.html#t-tests-in-practice"><i class="fa fa-check"></i><b>14.4</b> T-tests in practice</a></li>
-<li class="chapter" data-level="14.5" data-path="statistical-modeling.html"><a href="statistical-modeling.html#formula-notation"><i class="fa fa-check"></i><b>14.5</b> Formula notation</a></li>
-<li class="chapter" data-level="14.6" data-path="statistical-modeling.html"><a href="statistical-modeling.html#using-t-test-via-formula"><i class="fa fa-check"></i><b>14.6</b> Using t-test via formula</a></li>
-<li class="chapter" data-level="14.7" data-path="statistical-modeling.html"><a href="statistical-modeling.html#anova"><i class="fa fa-check"></i><b>14.7</b> ANOVA</a></li>
-<li class="chapter" data-level="14.8" data-path="statistical-modeling.html"><a href="statistical-modeling.html#almost-everything-is-a-linear-regression-model"><i class="fa fa-check"></i><b>14.8</b> (Almost) everything is a linear regression model</a></li>
-<li class="chapter" data-level="14.9" data-path="statistical-modeling.html"><a href="statistical-modeling.html#GLMM"><i class="fa fa-check"></i><b>14.9</b> (Generalized) Linear Models</a></li>
-<li class="chapter" data-level="14.10" data-path="statistical-modeling.html"><a href="statistical-modeling.html#resampling-a-linear-model"><i class="fa fa-check"></i><b>14.10</b> Resampling a linear model</a></li>
-<li class="chapter" data-level="14.11" data-path="statistical-modeling.html"><a href="statistical-modeling.html#generalized-linear-mixed-models"><i class="fa fa-check"></i><b>14.11</b> (Generalized) Linear Mixed Models</a></li>
-<li class="chapter" data-level="14.12" data-path="statistical-modeling.html"><a href="statistical-modeling.html#disclaimer-repeated"><i class="fa fa-check"></i><b>14.12</b> Disclaimer, repeated</a></li>
-</ul></li>
-<li class="chapter" data-level="15" data-path="practice.html"><a href="practice.html"><i class="fa fa-check"></i><b>15</b> Practice</a>
-<ul>
-<li class="chapter" data-level="15.1" data-path="practice.html"><a href="practice.html#bad-names-to-good-names"><i class="fa fa-check"></i><b>15.1</b> Bad names to good names</a></li>
-<li class="chapter" data-level="15.2" data-path="practice.html"><a href="practice.html#participant-id"><i class="fa fa-check"></i><b>15.2</b> Participant ID</a></li>
-<li class="chapter" data-level="15.3" data-path="practice.html"><a href="practice.html#factors-1"><i class="fa fa-check"></i><b>15.3</b> Factors</a></li>
-<li class="chapter" data-level="15.4" data-path="practice.html"><a href="practice.html#response-times"><i class="fa fa-check"></i><b>15.4</b> Response times</a></li>
-<li class="chapter" data-level="15.5" data-path="practice.html"><a href="practice.html#accuracy"><i class="fa fa-check"></i><b>15.5</b> Accuracy</a></li>
-<li class="chapter" data-level="15.6" data-path="practice.html"><a href="practice.html#physiological-signal"><i class="fa fa-check"></i><b>15.6</b> Physiological signal</a></li>
-<li class="chapter" data-level="15.7" data-path="practice.html"><a href="practice.html#wrap-up-2"><i class="fa fa-check"></i><b>15.7</b> Wrap up</a></li>
-</ul></li>
-<li class="divider"></li>
-<li><a href="https://alexander-pastukhov.github.io/">Alexander (Sasha) Pastukhov</li>
-
-</ul>
-
-      </nav>
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Data analysis using R for Psychology and Social Science</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
     </div>
 
-    <div class="book-body">
-      <div class="body-inner">
-        <div class="book-header" role="navigation">
-          <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data analysis using R for Psychology and Social Science</a>
-          </h1>
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Introduction</a></li>
+<li><a class="" href="software.html">Software</a></li>
+<li><a class="" href="reproducable-research.html"><span class="header-section-number">1</span> Reproducable Research: Projects and Markdown Notebooks</a></li>
+<li><a class="" href="vectors.html"><span class="header-section-number">2</span> Vectors! Vectors everywhere!</a></li>
+<li><a class="" href="tables.html"><span class="header-section-number">3</span> Tables and Tibbles (and Tribbles)</a></li>
+<li><a class="" href="functions.html"><span class="header-section-number">4</span> Functions! Functions everywhere!</a></li>
+<li><a class="" href="ggplot2.html"><span class="header-section-number">5</span> ggplot2: Grammar of Graphics</a></li>
+<li><a class="" href="dplyr.html"><span class="header-section-number">6</span> Tidyverse: dplyr</a></li>
+<li><a class="" href="working-with-factors.html"><span class="header-section-number">7</span> Working with Factors</a></li>
+<li><a class="active" href="tyding.html"><span class="header-section-number">8</span> Tidyng your data: joins and pivots</a></li>
+<li><a class="" href="control-flow-chapter.html"><span class="header-section-number">9</span> Controling computation flow</a></li>
+<li><a class="" href="missing-data.html"><span class="header-section-number">10</span> Missing data</a></li>
+<li><a class="" href="strings.html"><span class="header-section-number">11</span> Working with strings</a></li>
+<li><a class="" href="sampling-and-simulations.html"><span class="header-section-number">12</span> Sampling and simulations</a></li>
+<li><a class="" href="generalized-linear-regression-and-resampling.html"><span class="header-section-number">13</span> (Generalized) Linear regression and Resampling</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/alexander-pastukhov/data-analysis-using-r-for-psychology">View book source <i class="fab fa-github"></i></a></p>
         </div>
-
-        <div class="page-wrapper" tabindex="-1" role="main">
-          <div class="page-inner">
-
-            <section class="normal" id="section-">
-<div id="tyding" class="section level1 hasAnchor" number="8">
-<h1><span class="header-section-number">Seminar 8</span> Tidyng your data: joins and pivots<a href="tyding.html#tyding" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>It is fun to work with tidy complete data. Unfortunately, more often than not you will need to preprocess and tidy it up before you can analyze it. In addition to <a href="https://dplyr.tidyverse.org/">dplyr</a>, Tidyverse has <a href="https://tidyr.tidyverse.org/">tidyr</a> package that helps you with some of the problems. Grab the <a href="notebooks/Seminar%2008%20-%20tidyr.Rmd">exercise notebook</a> and let’s get started.</p>
-<div id="joins" class="section level2 hasAnchor" number="8.1">
-<h2><span class="header-section-number">8.1</span> Joining tables<a href="tyding.html#joins" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Sometimes, results of a study are stored in separate tables. For example, demographic information can be stored separately from responses, as the former is the same for all trials and conditions, so it makes little sense to duplicate it. For the actual analysis, you may eed to add this information, <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merging</a> or, in SQL/Tidyverse-speak, <a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">joining</a> two tables (I’ll use term “join” from hereon).</p>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="tyding" class="section level1" number="8">
+<h1>
+<span class="header-section-number">8</span> Tidyng your data: joins and pivots<a class="anchor" aria-label="anchor" href="#tyding"><i class="fas fa-link"></i></a>
+</h1>
+<p>It is fun to work with tidy complete data. Unfortunately, more often than not you will need to preprocess and tidy it up before you can analyze it. In addition to <a href="https://dplyr.tidyverse.org/">dplyr</a>, Tidyverse has <a href="https://tidyr.tidyverse.org/">tidyr</a> package that helps you with some of the problems. Grab the <a href="notebooks/Seminar%2008%20-%20tidyr.qmd">exercise notebook</a> and let’s get started.</p>
+<div id="joins" class="section level2" number="8.1">
+<h2>
+<span class="header-section-number">8.1</span> Joining tables<a class="anchor" aria-label="anchor" href="#joins"><i class="fas fa-link"></i></a>
+</h2>
+<p>Sometimes, results of a study are stored in separate tables. For example, demographic information can be stored separately from responses, as the former is the same for all trials and conditions, so it makes little sense to duplicate it. For the actual analysis, you may need to add this information, <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merging</a> or, in SQL/Tidyverse-speak, <a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">joining</a> two tables (I’ll use term “join” from hereon).</p>
 <p>Examples make joining operations much easier to understand, so let us create two tables.</p>
-<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="tyding.html#cb318-1" aria-hidden="true" tabindex="-1"></a>demographics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>),</span>
-<span id="cb318-2"><a href="tyding.html#cb318-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">19</span>, <span class="dv">30</span>, <span class="dv">22</span>))</span>
-<span id="cb318-3"><a href="tyding.html#cb318-3" aria-hidden="true" tabindex="-1"></a>reports <span class="ot">&lt;-</span> </span>
-<span id="cb318-4"><a href="tyding.html#cb318-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb318-5"><a href="tyding.html#cb318-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Report =</span> <span class="fu">runif</span>(<span class="fu">length</span>(ID), <span class="dv">1</span>, <span class="dv">7</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb318-6"><a href="tyding.html#cb318-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(ID)</span></code></pre></div>
-<table class="kable_wrapper">
+<div class="sourceCode" id="cb331"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">demographics</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>ID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span><span class="op">)</span>,</span>
+<span>                       Age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">19</span>, <span class="fl">30</span>, <span class="fl">22</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">reports</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>ID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Report <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">ID</span><span class="op">)</span>, <span class="fl">1</span>, <span class="fl">7</span><span class="op">)</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">ID</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="kable_wrapper">
 <caption>
-<span id="tab:unnamed-chunk-176">Table 8.1: </span>demographics (left) and report (right) tables
+<span id="tab:unnamed-chunk-167">Table 8.1: </span>demographics (left) and report (right) tables
 </caption>
-<tbody>
-<tr>
+<tbody><tr>
 <td>
-<table>
-<thead>
-<tr>
+<table class="table table-sm">
+<thead><tr>
 <th style="text-align:left;">
 ID
 </th>
 <th style="text-align:right;">
 Age
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
@@ -421,24 +142,28 @@ D
 </table>
 </td>
 <td>
-<table>
-<thead>
-<tr>
+<table class="table table-sm">
+<thead><tr>
 <th style="text-align:left;">
 ID
 </th>
 <th style="text-align:right;">
 Report
 </th>
-</tr>
-</thead>
+<th style="text-align:right;">
+2
+</th>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
 A
 </td>
 <td style="text-align:right;">
-2.479897
+6
+</td>
+<td style="text-align:right;">
+2
 </td>
 </tr>
 <tr>
@@ -446,7 +171,10 @@ A
 A
 </td>
 <td style="text-align:right;">
-6.546408
+3
+</td>
+<td style="text-align:right;">
+2
 </td>
 </tr>
 <tr>
@@ -454,7 +182,10 @@ A
 B
 </td>
 <td style="text-align:right;">
-6.501633
+3
+</td>
+<td style="text-align:right;">
+2
 </td>
 </tr>
 <tr>
@@ -462,7 +193,10 @@ B
 B
 </td>
 <td style="text-align:right;">
-6.211486
+4
+</td>
+<td style="text-align:right;">
+2
 </td>
 </tr>
 <tr>
@@ -470,7 +204,10 @@ B
 C
 </td>
 <td style="text-align:right;">
-6.458150
+3
+</td>
+<td style="text-align:right;">
+2
 </td>
 </tr>
 <tr>
@@ -478,7 +215,10 @@ C
 C
 </td>
 <td style="text-align:right;">
-2.613489
+1
+</td>
+<td style="text-align:right;">
+2
 </td>
 </tr>
 <tr>
@@ -486,7 +226,10 @@ C
 D
 </td>
 <td style="text-align:right;">
-4.623795
+7
+</td>
+<td style="text-align:right;">
+2
 </td>
 </tr>
 <tr>
@@ -494,28 +237,29 @@ D
 D
 </td>
 <td style="text-align:right;">
-6.137628
+1
+</td>
+<td style="text-align:right;">
+2
 </td>
 </tr>
 </tbody>
 </table>
 </td>
-</tr>
-</tbody>
-</table>
-<p>To join two tables, you require “key” columns: columns that contain values that will be used to identify matching rows in the two tables. You can use multiple and differently named columns for that purpose but we will start with a simplest case: a single column with same name <code>"ID"</code>. A <a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">join</a> function (<code>inner_join()</code> here, see below for details on different joins) takes a first row in <code>demographics</code> table that has <code>"A"</code> in <code>ID</code> column and will look for all rows in table <code>reports</code> that has <code>ID == "A"</code>. Then, it will do the same for all remaining rows for <code>demographics</code> table, one row at a time. It takes three parameters: table <code>x</code> (first table), table <code>y</code> (second table), and <code>by</code> - a vector with key column names argument<a href="#fn55" class="footnote-ref" id="fnref55"><sup>55</sup></a>. A call to <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a> function is very similar and produces identical results. Note how column order has changed for <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a>, because I used a different order of tables, but the content itself is the same.</p>
-<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="tyding.html#cb319-1" aria-hidden="true" tabindex="-1"></a>via_join <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>)</span>
-<span id="cb319-2"><a href="tyding.html#cb319-2" aria-hidden="true" tabindex="-1"></a>via_merge <span class="ot">&lt;-</span> <span class="fu">merge</span>(reports, demographics, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>)</span></code></pre></div>
-<table class="kable_wrapper">
+</tr></tbody>
+</table></div>
+<p>To join two tables, you require “key” columns: columns that contain values that will be used to identify matching rows in the two tables. You can use multiple and differently named columns for that purpose but we will start with a simplest case: a single column with same name <code>"ID"</code>. A <a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">join</a> function (<code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join()</a></code> here, see below for details on different joins) takes a first row in <code>demographics</code> table that has <code>"A"</code> in <code>ID</code> column and will look for all rows in table <code>reports</code> that has <code>ID == "A"</code>. Then, it will do the same for all remaining rows for <code>demographics</code> table, one row at a time. It takes three parameters: table <code>x</code> (first table), table <code>y</code> (second table), and <code>by</code> - a vector with key column names argument<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Theoretically, you can skip it and &lt;em&gt;dplyr&lt;/em&gt; will do its best to find matching columns. However, this is a dangerous thing to leave out, as your intuition and &lt;em&gt;dlpyr’s&lt;/em&gt; matching rules may lead to different results. I strongly recommend to always specify key columns.&lt;/p&gt;"><sup>57</sup></a>. A call to <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a> function is very similar and produces identical results. Note how column order has changed for <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a>, because I used a different order of tables, but the content itself is the same.</p>
+<div class="sourceCode" id="cb332"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">via_join</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">demographics</span>, <span class="va">reports</span>, by <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span>
+<span><span class="va">via_merge</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">reports</span>, <span class="va">demographics</span>, by <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="kable_wrapper">
 <caption>
-<span id="tab:unnamed-chunk-178">Table 8.2: </span>Joining/merging tables with fully matching keys via join (left) and merge (right). Note how a different order of tables results in a different order of columns.
+<span id="tab:unnamed-chunk-169">Table 8.2: </span>Joining/merging tables with fully matching keys via join (left) and merge (right). Note how a different order of tables results in a different order of columns.
 </caption>
-<tbody>
-<tr>
+<tbody><tr>
 <td>
-<table>
-<thead>
-<tr>
+<table class="table table-sm">
+<thead><tr>
 <th style="text-align:left;">
 ID
 </th>
@@ -525,8 +269,10 @@ Age
 <th style="text-align:right;">
 Report
 </th>
-</tr>
-</thead>
+<th style="text-align:right;">
+2
+</th>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
@@ -536,7 +282,10 @@ A
 20
 </td>
 <td style="text-align:right;">
-2.479897
+6
+</td>
+<td style="text-align:right;">
+2
 </td>
 </tr>
 <tr>
@@ -547,7 +296,10 @@ A
 20
 </td>
 <td style="text-align:right;">
-6.546408
+3
+</td>
+<td style="text-align:right;">
+2
 </td>
 </tr>
 <tr>
@@ -558,7 +310,10 @@ B
 19
 </td>
 <td style="text-align:right;">
-6.501633
+3
+</td>
+<td style="text-align:right;">
+2
 </td>
 </tr>
 <tr>
@@ -569,7 +324,10 @@ B
 19
 </td>
 <td style="text-align:right;">
-6.211486
+4
+</td>
+<td style="text-align:right;">
+2
 </td>
 </tr>
 <tr>
@@ -580,7 +338,10 @@ C
 30
 </td>
 <td style="text-align:right;">
-6.458150
+3
+</td>
+<td style="text-align:right;">
+2
 </td>
 </tr>
 <tr>
@@ -591,7 +352,10 @@ C
 30
 </td>
 <td style="text-align:right;">
-2.613489
+1
+</td>
+<td style="text-align:right;">
+2
 </td>
 </tr>
 <tr>
@@ -602,7 +366,10 @@ D
 22
 </td>
 <td style="text-align:right;">
-4.623795
+7
+</td>
+<td style="text-align:right;">
+2
 </td>
 </tr>
 <tr>
@@ -613,16 +380,18 @@ D
 22
 </td>
 <td style="text-align:right;">
-6.137628
+1
+</td>
+<td style="text-align:right;">
+2
 </td>
 </tr>
 </tbody>
 </table>
 </td>
 <td>
-<table>
-<thead>
-<tr>
+<table class="table table-sm">
+<thead><tr>
 <th style="text-align:left;">
 ID
 </th>
@@ -630,17 +399,22 @@ ID
 Report
 </th>
 <th style="text-align:right;">
+2
+</th>
+<th style="text-align:right;">
 Age
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
 A
 </td>
 <td style="text-align:right;">
-2.479897
+6
+</td>
+<td style="text-align:right;">
+2
 </td>
 <td style="text-align:right;">
 20
@@ -651,7 +425,10 @@ A
 A
 </td>
 <td style="text-align:right;">
-6.546408
+3
+</td>
+<td style="text-align:right;">
+2
 </td>
 <td style="text-align:right;">
 20
@@ -662,7 +439,10 @@ A
 B
 </td>
 <td style="text-align:right;">
-6.501633
+3
+</td>
+<td style="text-align:right;">
+2
 </td>
 <td style="text-align:right;">
 19
@@ -673,7 +453,10 @@ B
 B
 </td>
 <td style="text-align:right;">
-6.211486
+4
+</td>
+<td style="text-align:right;">
+2
 </td>
 <td style="text-align:right;">
 19
@@ -684,7 +467,10 @@ B
 C
 </td>
 <td style="text-align:right;">
-6.458150
+3
+</td>
+<td style="text-align:right;">
+2
 </td>
 <td style="text-align:right;">
 30
@@ -695,7 +481,10 @@ C
 C
 </td>
 <td style="text-align:right;">
-2.613489
+1
+</td>
+<td style="text-align:right;">
+2
 </td>
 <td style="text-align:right;">
 30
@@ -706,7 +495,10 @@ C
 D
 </td>
 <td style="text-align:right;">
-4.623795
+7
+</td>
+<td style="text-align:right;">
+2
 </td>
 <td style="text-align:right;">
 22
@@ -717,7 +509,10 @@ D
 D
 </td>
 <td style="text-align:right;">
-6.137628
+1
+</td>
+<td style="text-align:right;">
+2
 </td>
 <td style="text-align:right;">
 22
@@ -726,39 +521,40 @@ D
 </tbody>
 </table>
 </td>
-</tr>
-</tbody>
-</table>
+</tr></tbody>
+</table></div>
 <p>Things are easy when every key in the first table has its counterpart in the second one and vice versa. Things get tricky, if that is not the case. Which is why there are <em>four</em> different ways to join tables (note that they will all produce identical results for fully matching set of keys, as in the example above):</p>
 <ul>
-<li><strong>inner</strong> join: uses only key values that are present in both tables.</li>
-<li><strong>full</strong> join: uses all key values from both tables, if matching keys are missing in one of the tables, rows are filled with <code>NA</code>.</li>
-<li><strong>left</strong> join: uses only key values that are present in the left (first) table, if matching keys are missing in the <em>right</em> table, , rows are filled with <code>NA</code>.</li>
-<li><strong>right</strong> join: mirror twin of the left join, uses only key values that are present in the right (second) table, if matching keys are missing in the <em>left</em> table, , rows are filled with <code>NA</code>.</li>
+<li>
+<strong>inner</strong> join: uses only key values that are present in both tables.</li>
+<li>
+<strong>full</strong> join: uses all key values from both tables, if matching keys are missing in one of the tables, rows are filled with <code>NA</code>.</li>
+<li>
+<strong>left</strong> join: uses only key values that are present in the left (first) table, if matching keys are missing in the <em>right</em> table, , rows are filled with <code>NA</code>.</li>
+<li>
+<strong>right</strong> join: mirror twin of the left join, uses only key values that are present in the right (second) table, if matching keys are missing in the <em>left</em> table, , rows are filled with <code>NA</code>.</li>
 </ul>
 <p>To see each join in action, let us slightly modify the <code>reports</code> table to include <code>ID</code> “E” instead of “D”. Now, the “D” is missing the second table but “E” is missing in the <code>demographics</code>:</p>
-<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="tyding.html#cb320-1" aria-hidden="true" tabindex="-1"></a>reports <span class="ot">&lt;-</span> </span>
-<span id="cb320-2"><a href="tyding.html#cb320-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;E&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;E&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb320-3"><a href="tyding.html#cb320-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Report =</span> <span class="fu">runif</span>(<span class="fu">length</span>(ID), <span class="dv">1</span>, <span class="dv">7</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb320-4"><a href="tyding.html#cb320-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(ID)</span></code></pre></div>
-<table class="kable_wrapper">
+<div class="sourceCode" id="cb333"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">reports</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>ID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"E"</span>, <span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"E"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Report <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">ID</span><span class="op">)</span>, <span class="fl">1</span>, <span class="fl">7</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">ID</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="kable_wrapper">
 <caption>
-<span id="tab:unnamed-chunk-180">Table 8.3: </span>Now demographics (left) and reports (right) table have unique keys (“D” for demographics, “E” for reports) without a match in the second table.
+<span id="tab:unnamed-chunk-171">Table 8.3: </span>Now demographics (left) and reports (right) table have unique keys (“D” for demographics, “E” for reports) without a match in the second table.
 </caption>
-<tbody>
-<tr>
+<tbody><tr>
 <td>
-<table>
-<thead>
-<tr>
+<table class="table table-sm">
+<thead><tr>
 <th style="text-align:left;">
 ID
 </th>
 <th style="text-align:right;">
 Age
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
@@ -796,24 +592,22 @@ D
 </table>
 </td>
 <td>
-<table>
-<thead>
-<tr>
+<table class="table table-sm">
+<thead><tr>
 <th style="text-align:left;">
 ID
 </th>
 <th style="text-align:right;">
 Report
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
 A
 </td>
 <td style="text-align:right;">
-5.684361
+2.689877
 </td>
 </tr>
 <tr>
@@ -821,7 +615,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-4.962287
+2.941084
 </td>
 </tr>
 <tr>
@@ -829,7 +623,7 @@ A
 B
 </td>
 <td style="text-align:right;">
-3.158657
+5.157974
 </td>
 </tr>
 <tr>
@@ -837,7 +631,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-6.873775
+5.074789
 </td>
 </tr>
 <tr>
@@ -845,7 +639,7 @@ B
 C
 </td>
 <td style="text-align:right;">
-1.990563
+6.758374
 </td>
 </tr>
 <tr>
@@ -853,7 +647,7 @@ C
 C
 </td>
 <td style="text-align:right;">
-6.504170
+5.293682
 </td>
 </tr>
 <tr>
@@ -861,7 +655,7 @@ C
 E
 </td>
 <td style="text-align:right;">
-6.566028
+3.740402
 </td>
 </tr>
 <tr>
@@ -869,24 +663,23 @@ E
 E
 </td>
 <td style="text-align:right;">
-4.077862
+4.694471
 </td>
 </tr>
 </tbody>
 </table>
 </td>
-</tr>
-</tbody>
-</table>
+</tr></tbody>
+</table></div>
 <p><strong>Inner join</strong> is most conservative and excludes any non-matching keys, note that rows with <em>both</em> <code>ID == "D"</code> and <code>ID == "E"</code> are missing. This is the <em>default</em> behavior for the <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge</a> function.</p>
-<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="tyding.html#cb321-1" aria-hidden="true" tabindex="-1"></a>inner_tidy <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(reports, demographics, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>) </span>
-<span id="cb321-2"><a href="tyding.html#cb321-2" aria-hidden="true" tabindex="-1"></a>inner_base <span class="ot">&lt;-</span> <span class="fu">merge</span>(reports, demographics, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>)</span></code></pre></div>
-<table>
+<div class="sourceCode" id="cb334"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">inner_tidy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">reports</span>, <span class="va">demographics</span>, by <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span> </span>
+<span><span class="va">inner_base</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">reports</span>, <span class="va">demographics</span>, by <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-182">Table 8.4: </span>Inner join. Only rows for matching keys are merged
+<span id="tab:unnamed-chunk-173">Table 8.4: </span>Inner join. Only rows for matching keys are merged
 </caption>
-<thead>
-<tr>
+<thead><tr>
 <th style="text-align:left;">
 ID
 </th>
@@ -896,15 +689,14 @@ Report
 <th style="text-align:right;">
 Age
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
 A
 </td>
 <td style="text-align:right;">
-5.684361
+2.689877
 </td>
 <td style="text-align:right;">
 20
@@ -915,7 +707,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-4.962287
+2.941084
 </td>
 <td style="text-align:right;">
 20
@@ -926,7 +718,7 @@ A
 B
 </td>
 <td style="text-align:right;">
-3.158657
+5.157974
 </td>
 <td style="text-align:right;">
 19
@@ -937,7 +729,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-6.873775
+5.074789
 </td>
 <td style="text-align:right;">
 19
@@ -948,7 +740,7 @@ B
 C
 </td>
 <td style="text-align:right;">
-1.990563
+6.758374
 </td>
 <td style="text-align:right;">
 30
@@ -959,23 +751,23 @@ C
 C
 </td>
 <td style="text-align:right;">
-6.504170
+5.293682
 </td>
 <td style="text-align:right;">
 30
 </td>
 </tr>
 </tbody>
-</table>
-<p>In contrast, <strong>full join</strong> is the most liberal as it includes all rows from both tables, filling in missing values with <code>NA</code> (e.g., see <code>Report</code> for <code>ID == "D"</code> and <code>Age</code> for <code>ID == "E"</code>). In base R <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a> function, you turn an inner join into a full one using <code>all=TRUE</code>.</p>
-<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="tyding.html#cb322-1" aria-hidden="true" tabindex="-1"></a>full_tidy <span class="ot">&lt;-</span> <span class="fu">full_join</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>) </span>
-<span id="cb322-2"><a href="tyding.html#cb322-2" aria-hidden="true" tabindex="-1"></a>full_base <span class="ot">&lt;-</span> <span class="fu">merge</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>, <span class="at">all=</span><span class="cn">TRUE</span>)</span></code></pre></div>
-<table>
+</table></div>
+<p>In contrast, <strong>full join</strong> is the most liberal as it includes all rows from both tables, filling in missing values with <code>NA</code> (e.g., see <code>Report</code> for <code>ID == "D"</code> and <code>Age</code> for <code>ID == "E"</code>). In base R <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a> function, you turn an inner join into a full one using <code>all = TRUE</code>.</p>
+<div class="sourceCode" id="cb335"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">full_tidy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">demographics</span>, <span class="va">reports</span>, by <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span> </span>
+<span><span class="va">full_base</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">demographics</span>, <span class="va">reports</span>, by <span class="op">=</span> <span class="st">"ID"</span>, all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-184">Table 8.5: </span>Full join. All rows are merged, <code>NA</code> are used for missing values in rows from a complementary table
+<span id="tab:unnamed-chunk-175">Table 8.5: </span>Full join. All rows are merged, <code>NA</code> are used for missing values in rows from a complementary table
 </caption>
-<thead>
-<tr>
+<thead><tr>
 <th style="text-align:left;">
 ID
 </th>
@@ -985,8 +777,7 @@ Age
 <th style="text-align:right;">
 Report
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
@@ -996,7 +787,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-5.684361
+2.689877
 </td>
 </tr>
 <tr>
@@ -1007,7 +798,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-4.962287
+2.941084
 </td>
 </tr>
 <tr>
@@ -1018,7 +809,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-3.158657
+5.157974
 </td>
 </tr>
 <tr>
@@ -1029,7 +820,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-6.873775
+5.074789
 </td>
 </tr>
 <tr>
@@ -1040,7 +831,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-1.990563
+6.758374
 </td>
 </tr>
 <tr>
@@ -1051,7 +842,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-6.504170
+5.293682
 </td>
 </tr>
 <tr>
@@ -1073,7 +864,7 @@ E
 NA
 </td>
 <td style="text-align:right;">
-6.566028
+3.740402
 </td>
 </tr>
 <tr>
@@ -1084,20 +875,20 @@ E
 NA
 </td>
 <td style="text-align:right;">
-4.077862
+4.694471
 </td>
 </tr>
 </tbody>
-</table>
-<p><strong>Left join</strong> uses only rows from the left (first) table, dropping extra rows from the second one. Note <code>NA</code> in <code>Report</code> column for <code>ID == "D"</code> and no rows for <code>ID == "E"</code>. To do a left join via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a>, you need to specify <code>all.x=TRUE</code>.</p>
-<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="tyding.html#cb323-1" aria-hidden="true" tabindex="-1"></a>left_tidy <span class="ot">&lt;-</span> <span class="fu">left_join</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>)</span>
-<span id="cb323-2"><a href="tyding.html#cb323-2" aria-hidden="true" tabindex="-1"></a>left_base <span class="ot">&lt;-</span> <span class="fu">merge</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>, <span class="at">all.x=</span><span class="cn">TRUE</span>)</span></code></pre></div>
-<table>
+</table></div>
+<p><strong>Left join</strong> uses only rows from the left (first) table, dropping extra rows from the second one. Note <code>NA</code> in <code>Report</code> column for <code>ID == "D"</code> and no rows for <code>ID == "E"</code>. To do a left join via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a>, you need to specify <code>all.x = TRUE</code>.</p>
+<div class="sourceCode" id="cb336"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">left_tidy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">demographics</span>, <span class="va">reports</span>, by <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span>
+<span><span class="va">left_base</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">demographics</span>, <span class="va">reports</span>, by <span class="op">=</span> <span class="st">"ID"</span>, all.x <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-186">Table 8.6: </span>Left join. All rows from demographics tables are used and missing matching rows are filled with <code>NA</code>
+<span id="tab:unnamed-chunk-177">Table 8.6: </span>Left join. All rows from demographics tables are used and missing matching rows are filled with <code>NA</code>
 </caption>
-<thead>
-<tr>
+<thead><tr>
 <th style="text-align:left;">
 ID
 </th>
@@ -1107,8 +898,7 @@ Age
 <th style="text-align:right;">
 Report
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
@@ -1118,7 +908,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-5.684361
+2.689877
 </td>
 </tr>
 <tr>
@@ -1129,7 +919,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-4.962287
+2.941084
 </td>
 </tr>
 <tr>
@@ -1140,7 +930,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-3.158657
+5.157974
 </td>
 </tr>
 <tr>
@@ -1151,7 +941,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-6.873775
+5.074789
 </td>
 </tr>
 <tr>
@@ -1162,7 +952,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-1.990563
+6.758374
 </td>
 </tr>
 <tr>
@@ -1173,7 +963,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-6.504170
+5.293682
 </td>
 </tr>
 <tr>
@@ -1188,16 +978,16 @@ NA
 </td>
 </tr>
 </tbody>
-</table>
-<p><strong>Right join</strong> is a mirror twin of the left join, so now rows for <code>ID == "D"</code> are missing and there are missing values for <code>ID=="E"</code>. You include <code>all.y=TRUE</code> for a right join via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a>.</p>
-<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="tyding.html#cb324-1" aria-hidden="true" tabindex="-1"></a>right_tidy <span class="ot">&lt;-</span> <span class="fu">right_join</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>) </span>
-<span id="cb324-2"><a href="tyding.html#cb324-2" aria-hidden="true" tabindex="-1"></a>right_base <span class="ot">&lt;-</span> <span class="fu">merge</span>(demographics, reports, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>, <span class="at">all.y=</span><span class="cn">TRUE</span>)</span></code></pre></div>
-<table>
+</table></div>
+<p><strong>Right join</strong> is a mirror twin of the left join, so now rows for <code>ID == "D"</code> are missing and there are missing values for <code>ID == "E"</code>. You include <code>all.y = TRUE</code> for a right join via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a>.</p>
+<div class="sourceCode" id="cb337"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">right_tidy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">right_join</a></span><span class="op">(</span><span class="va">demographics</span>, <span class="va">reports</span>, by <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span> </span>
+<span><span class="va">right_base</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">demographics</span>, <span class="va">reports</span>, by <span class="op">=</span> <span class="st">"ID"</span>, all.y <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-188">Table 8.7: </span>Right join. All rows from reports tables are used and missing matching rows are filled with <code>NA</code>
+<span id="tab:unnamed-chunk-179">Table 8.7: </span>Right join. All rows from reports tables are used and missing matching rows are filled with <code>NA</code>
 </caption>
-<thead>
-<tr>
+<thead><tr>
 <th style="text-align:left;">
 ID
 </th>
@@ -1207,8 +997,7 @@ Age
 <th style="text-align:right;">
 Report
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
@@ -1218,7 +1007,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-5.684361
+2.689877
 </td>
 </tr>
 <tr>
@@ -1229,7 +1018,7 @@ A
 20
 </td>
 <td style="text-align:right;">
-4.962287
+2.941084
 </td>
 </tr>
 <tr>
@@ -1240,7 +1029,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-3.158657
+5.157974
 </td>
 </tr>
 <tr>
@@ -1251,7 +1040,7 @@ B
 19
 </td>
 <td style="text-align:right;">
-6.873775
+5.074789
 </td>
 </tr>
 <tr>
@@ -1262,7 +1051,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-1.990563
+6.758374
 </td>
 </tr>
 <tr>
@@ -1273,7 +1062,7 @@ C
 30
 </td>
 <td style="text-align:right;">
-6.504170
+5.293682
 </td>
 </tr>
 <tr>
@@ -1284,7 +1073,7 @@ E
 NA
 </td>
 <td style="text-align:right;">
-6.566028
+3.740402
 </td>
 </tr>
 <tr>
@@ -1295,28 +1084,27 @@ E
 NA
 </td>
 <td style="text-align:right;">
-4.077862
+4.694471
 </td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>As noted above, you can also use more than one key.</p>
-<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="tyding.html#cb325-1" aria-hidden="true" tabindex="-1"></a>demographics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
-<span id="cb325-2"><a href="tyding.html#cb325-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Gender =</span> <span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;M&quot;</span>),</span>
-<span id="cb325-3"><a href="tyding.html#cb325-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">19</span>, <span class="dv">30</span>, <span class="dv">22</span>))</span>
-<span id="cb325-4"><a href="tyding.html#cb325-4" aria-hidden="true" tabindex="-1"></a>reports <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
-<span id="cb325-5"><a href="tyding.html#cb325-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Gender =</span> <span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;M&quot;</span>),</span>
-<span id="cb325-6"><a href="tyding.html#cb325-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Report =</span> <span class="fu">runif</span>(<span class="fu">length</span>(ID), <span class="dv">1</span>, <span class="dv">7</span>))</span></code></pre></div>
-<table class="kable_wrapper">
+<div class="sourceCode" id="cb338"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">demographics</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>ID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>,</span>
+<span>                       Gender <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"F"</span>, <span class="st">"M"</span><span class="op">)</span>,</span>
+<span>                       Age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">19</span>, <span class="fl">30</span>, <span class="fl">22</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">reports</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>ID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>,</span>
+<span>                  Gender <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"F"</span>, <span class="st">"M"</span><span class="op">)</span>,</span>
+<span>                  Report <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">ID</span><span class="op">)</span>, <span class="fl">1</span>, <span class="fl">7</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="kable_wrapper">
 <caption>
-<span id="tab:unnamed-chunk-190">Table 8.8: </span>Two identically named key columns: ID and Gender.
+<span id="tab:unnamed-chunk-181">Table 8.8: </span>Two identically named key columns: ID and Gender.
 </caption>
-<tbody>
-<tr>
+<tbody><tr>
 <td>
-<table>
-<thead>
-<tr>
+<table class="table table-sm">
+<thead><tr>
 <th style="text-align:left;">
 ID
 </th>
@@ -1326,8 +1114,7 @@ Gender
 <th style="text-align:right;">
 Age
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
@@ -1377,9 +1164,8 @@ M
 </table>
 </td>
 <td>
-<table>
-<thead>
-<tr>
+<table class="table table-sm">
+<thead><tr>
 <th style="text-align:left;">
 ID
 </th>
@@ -1389,8 +1175,7 @@ Gender
 <th style="text-align:right;">
 Report
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
@@ -1400,7 +1185,7 @@ A
 M
 </td>
 <td style="text-align:right;">
-4.167807
+5.459848
 </td>
 </tr>
 <tr>
@@ -1411,7 +1196,7 @@ B
 F
 </td>
 <td style="text-align:right;">
-5.583712
+4.202036
 </td>
 </tr>
 <tr>
@@ -1422,7 +1207,7 @@ A
 F
 </td>
 <td style="text-align:right;">
-2.501171
+6.121358
 </td>
 </tr>
 <tr>
@@ -1433,23 +1218,22 @@ B
 M
 </td>
 <td style="text-align:right;">
-3.951973
+3.387893
 </td>
 </tr>
 </tbody>
 </table>
 </td>
-</tr>
-</tbody>
-</table>
-<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="tyding.html#cb326-1" aria-hidden="true" tabindex="-1"></a>inner_multi_tidy <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(demographics, reports, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;Gender&quot;</span>))</span>
-<span id="cb326-2"><a href="tyding.html#cb326-2" aria-hidden="true" tabindex="-1"></a>inner_multi_base <span class="ot">&lt;-</span> <span class="fu">merge</span>(demographics, reports, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;Gender&quot;</span>))</span></code></pre></div>
-<table>
+</tr></tbody>
+</table></div>
+<div class="sourceCode" id="cb339"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">inner_multi_tidy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">demographics</span>, <span class="va">reports</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ID"</span>, <span class="st">"Gender"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">inner_multi_base</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">demographics</span>, <span class="va">reports</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ID"</span>, <span class="st">"Gender"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-192">Table 8.9: </span>Joining/merging two tables by ID and Gender.
+<span id="tab:unnamed-chunk-183">Table 8.9: </span>Joining/merging two tables by ID and Gender.
 </caption>
-<thead>
-<tr>
+<thead><tr>
 <th style="text-align:left;">
 ID
 </th>
@@ -1462,8 +1246,7 @@ Age
 <th style="text-align:right;">
 Report
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
@@ -1476,7 +1259,7 @@ M
 20
 </td>
 <td style="text-align:right;">
-4.167807
+5.459848
 </td>
 </tr>
 <tr>
@@ -1490,7 +1273,7 @@ F
 19
 </td>
 <td style="text-align:right;">
-5.583712
+4.202036
 </td>
 </tr>
 <tr>
@@ -1504,7 +1287,7 @@ F
 30
 </td>
 <td style="text-align:right;">
-2.501171
+6.121358
 </td>
 </tr>
 <tr>
@@ -1518,29 +1301,28 @@ M
 22
 </td>
 <td style="text-align:right;">
-3.951973
+3.387893
 </td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>Finally, key columns can be named <em>differently</em> in two tables. In this case, you need to “match” them explicitly. For <a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">dplyr</a> joins, you use a named vector to match pairs of individual columns. For <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a>, you supply two vectors: one for columns in the first table (parameter <code>by.x</code>) and one columns in the the second one (parameter <code>by.y</code>). Here, you need to be careful and check that columns order matches in both parameters.</p>
-<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="tyding.html#cb327-1" aria-hidden="true" tabindex="-1"></a>demographics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">VPCode =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
-<span id="cb327-2"><a href="tyding.html#cb327-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Sex =</span> <span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;M&quot;</span>),</span>
-<span id="cb327-3"><a href="tyding.html#cb327-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">19</span>, <span class="dv">30</span>, <span class="dv">22</span>))</span>
-<span id="cb327-4"><a href="tyding.html#cb327-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb327-5"><a href="tyding.html#cb327-5" aria-hidden="true" tabindex="-1"></a>reports <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
-<span id="cb327-6"><a href="tyding.html#cb327-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Gender =</span> <span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;M&quot;</span>),</span>
-<span id="cb327-7"><a href="tyding.html#cb327-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Report =</span> <span class="fu">runif</span>(<span class="fu">length</span>(ID), <span class="dv">1</span>, <span class="dv">7</span>))</span></code></pre></div>
-<table class="kable_wrapper">
+<div class="sourceCode" id="cb340"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">demographics</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>VPCode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>,</span>
+<span>                       Sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"F"</span>, <span class="st">"M"</span><span class="op">)</span>,</span>
+<span>                       Age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">19</span>, <span class="fl">30</span>, <span class="fl">22</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">reports</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>ID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>,</span>
+<span>                  Gender <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"F"</span>, <span class="st">"M"</span><span class="op">)</span>,</span>
+<span>                  Report <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">ID</span><span class="op">)</span>, <span class="fl">1</span>, <span class="fl">7</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="kable_wrapper">
 <caption>
-<span id="tab:unnamed-chunk-194">Table 8.10: </span>Differently named key columns. VPCode in demographics table corresponds to ID in reports; sex in demographics corresponds to Gender in reports
+<span id="tab:unnamed-chunk-185">Table 8.10: </span>Differently named key columns. VPCode in demographics table corresponds to ID in reports; sex in demographics corresponds to Gender in reports
 </caption>
-<tbody>
-<tr>
+<tbody><tr>
 <td>
-<table>
-<thead>
-<tr>
+<table class="table table-sm">
+<thead><tr>
 <th style="text-align:left;">
 VPCode
 </th>
@@ -1550,8 +1332,7 @@ Sex
 <th style="text-align:right;">
 Age
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
@@ -1601,9 +1382,8 @@ M
 </table>
 </td>
 <td>
-<table>
-<thead>
-<tr>
+<table class="table table-sm">
+<thead><tr>
 <th style="text-align:left;">
 ID
 </th>
@@ -1613,8 +1393,7 @@ Gender
 <th style="text-align:right;">
 Report
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
@@ -1624,7 +1403,7 @@ A
 M
 </td>
 <td style="text-align:right;">
-6.812112
+6.912820
 </td>
 </tr>
 <tr>
@@ -1635,7 +1414,7 @@ B
 F
 </td>
 <td style="text-align:right;">
-4.473038
+6.562393
 </td>
 </tr>
 <tr>
@@ -1646,7 +1425,7 @@ A
 F
 </td>
 <td style="text-align:right;">
-4.362084
+2.959276
 </td>
 </tr>
 <tr>
@@ -1657,23 +1436,22 @@ B
 M
 </td>
 <td style="text-align:right;">
-2.603496
+1.456096
 </td>
 </tr>
 </tbody>
 </table>
 </td>
-</tr>
-</tbody>
-</table>
-<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="tyding.html#cb328-1" aria-hidden="true" tabindex="-1"></a>inner_diff_tidy <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(demographics, reports, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;VPCode&quot;</span><span class="ot">=</span><span class="st">&quot;ID&quot;</span>, <span class="st">&quot;Sex&quot;</span><span class="ot">=</span><span class="st">&quot;Gender&quot;</span>))</span>
-<span id="cb328-2"><a href="tyding.html#cb328-2" aria-hidden="true" tabindex="-1"></a>inner_diff_base <span class="ot">&lt;-</span> <span class="fu">merge</span>(demographics, reports, <span class="at">by.x=</span><span class="fu">c</span>(<span class="st">&quot;VPCode&quot;</span>, <span class="st">&quot;Sex&quot;</span>), <span class="at">by.y=</span><span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;Gender&quot;</span>))</span></code></pre></div>
-<table>
+</tr></tbody>
+</table></div>
+<div class="sourceCode" id="cb341"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">inner_diff_tidy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">demographics</span>, <span class="va">reports</span>, by<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"VPCode"</span><span class="op">=</span><span class="st">"ID"</span>, <span class="st">"Sex"</span><span class="op">=</span><span class="st">"Gender"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">inner_diff_base</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">demographics</span>, <span class="va">reports</span>, by.x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"VPCode"</span>, <span class="st">"Sex"</span><span class="op">)</span>, by.y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ID"</span>, <span class="st">"Gender"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-196">Table 8.11: </span>Joining tables by matching VPCode to ID and Sex to Gender.
+<span id="tab:unnamed-chunk-187">Table 8.11: </span>Joining tables by matching VPCode to ID and Sex to Gender.
 </caption>
-<thead>
-<tr>
+<thead><tr>
 <th style="text-align:left;">
 VPCode
 </th>
@@ -1686,8 +1464,7 @@ Age
 <th style="text-align:right;">
 Report
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
@@ -1700,7 +1477,7 @@ F
 30
 </td>
 <td style="text-align:right;">
-4.362084
+2.959276
 </td>
 </tr>
 <tr>
@@ -1714,7 +1491,7 @@ M
 20
 </td>
 <td style="text-align:right;">
-6.812112
+6.912820
 </td>
 </tr>
 <tr>
@@ -1728,7 +1505,7 @@ F
 19
 </td>
 <td style="text-align:right;">
-4.473038
+6.562393
 </td>
 </tr>
 <tr>
@@ -1742,16 +1519,15 @@ M
 22
 </td>
 <td style="text-align:right;">
-2.603496
+1.456096
 </td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>As you saw from examples above, <a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">dplyr joins</a> and <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a> produce identical results. However, I would recommend to use the former, simply because function names make it explicit which kind of join you perform (something you can figure out only by checking additional parameters of <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a>).</p>
-<p>Download files <a href="data/IM.csv">IM.csv</a> and <a href="data/GP.csv">GP.csv</a> that you will need for exercise #1<a href="#fn56" class="footnote-ref" id="fnref56"><sup>56</sup></a>. These are participants responses on two questionnaires with each participant identified by their ID (<code>Participant</code> in <em>IM.csv</em> and <code>Respondent</code> in <em>GP.csv</em>), <code>Condition</code> (which experimental group they belong to), and their <code>Gender</code>. Read both tables and join them so that there no missing values in the table (some participants are missing in <code>GP.csv</code>, so there are <em>three</em> joins that can do this, which one will you pick?). Then, turn <code>Condition</code> and <code>Gender</code> into factors, so that for <code>Condition</code> levels are <code>"control"</code> (<code>2</code>) and <code>"game"</code> (<code>1</code>) and for <code>Gender</code> levels are <code>"female"</code> (<code>1</code>) and <code>"male"</code> (<code>2</code>). Your final table should look as follows (I’ve dropped most of the columns for <code>IM.csv</code>, so they would fit to the page):</p>
-<table>
-<thead>
-<tr>
+<p>Download files <a href="data/IM.csv">IM.csv</a> and <a href="data/GP.csv">GP.csv</a> that you will need for exercise #1. These are participants responses on two questionnaires with each participant identified by their ID (<code>Participant</code> in <em>IM.csv</em> and <code>Respondent</code> in <em>GP.csv</em>), <code>Condition</code> (which experimental group they belong to), and their <code>Gender</code>. Read both tables and join them so that there are no missing values in the table (some participants are missing in <code>GP.csv</code>, so there are <em>three</em> joins that can do this, which one will you pick?). Then, turn <code>Condition</code> and <code>Gender</code> into factors, so that for <code>Condition</code> levels are <code>"control"</code> (<code>2</code>) and <code>"game"</code> (<code>1</code>) and for <code>Gender</code> levels are <code>"female"</code> (<code>1</code>) and <code>"male"</code> (<code>2</code>). Your final table should look as follows (I’ve dropped most of the columns for <code>IM.csv</code>, so they would fit to the page):</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr>
 <th style="text-align:left;">
 Participant
 </th>
@@ -1803,12 +1579,11 @@ GP02_09
 <th style="text-align:right;">
 GP03_01
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
-TMM1990w
+wi1Kv
 </td>
 <td style="text-align:left;">
 game
@@ -1861,7 +1636,7 @@ female
 </tr>
 <tr>
 <td style="text-align:left;">
-VEH1985w
+9QQjf
 </td>
 <td style="text-align:left;">
 control
@@ -1914,60 +1689,7 @@ female
 </tr>
 <tr>
 <td style="text-align:left;">
-CEN2000w
-</td>
-<td style="text-align:left;">
-control
-</td>
-<td style="text-align:left;">
-female
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-IDK1985w
+qcp03
 </td>
 <td style="text-align:left;">
 control
@@ -1979,6 +1701,59 @@ female
 2
 </td>
 <td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+eV1RY
+</td>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
 5
 </td>
 <td style="text-align:right;">
@@ -2020,7 +1795,7 @@ female
 </tr>
 <tr>
 <td style="text-align:left;">
-AKB1996w
+JymeM
 </td>
 <td style="text-align:left;">
 control
@@ -2073,7 +1848,7 @@ female
 </tr>
 <tr>
 <td style="text-align:left;">
-SSF1993w
+hxrts
 </td>
 <td style="text-align:left;">
 game
@@ -2125,21 +1900,23 @@ female
 </td>
 </tr>
 </tbody>
-</table>
-<div class="infobox practice">
+</table></div>
+<div class="practice">
 <p>Do exercise 1.</p>
 </div>
-<p>Repeat the same exercise but use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a>.
-::: {.infobox .practice}
-Do exercise 2.
-:::</p>
-<p>Now let us practice joining and simulating data as well. Create two tables that need to be joined by a single key column. In the first table, Use <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html">rnorm()</a> function to generate normally distributed data with mean of 180 and standard deviation of 50 for column <code>x</code> (or use some other name that you like) (what range would you expect to cover 95% of the data?). In the second table, use same normal distribution but with mean of 10 and standard deviation of 2 for column <code>y</code> (again, you can pick another name). When filling in key column for both tables, do it so that <em>inner</em> and <em>right</em> join would give the same final table but <em>left</em> and <em>full</em> would give you a longer one (test this explicitly!). After joining two tables, plot <code>x</code> against <code>y</code> and superimpose linear regression fit. Are two columns correlated? Should they be?
-::: {.infobox .practice}
-Do exercise 3.
-:::</p>
+<p>Repeat the same exercise but use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a>.</p>
+<div class="practice">
+<p>Do exercise 2.</p>
 </div>
-<div id="pivoting" class="section level2 hasAnchor" number="8.2">
-<h2><span class="header-section-number">8.2</span> Pivoting<a href="tyding.html#pivoting" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Now let us practice joining and simulating data as well. Create two tables that need to be joined by a single key column. In the first table, Use <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html">rnorm()</a> function to generate normally distributed data with mean of 175 and standard deviation of 7.6 for column <code>Height</code> (what range would you expect to cover 95% of the data?). In the second table, use same normal distribution but with mean of 80 and standard deviation of 10 for column <code>Weight</code>. When fill in key column for both tables, do it so that <em>inner</em> and <em>right</em> join would give the same final table but <em>left</em> and <em>full</em> would give you a longer one (test this explicitly!). After joining two tables, plot <code>Height</code> against <code>Weight</code> and superimpose linear regression fit. Are two columns correlated? Should they be given how we generated the data?</p>
+<div class="practice">
+<p>Do exercise 3.</p>
+</div>
+</div>
+<div id="pivoting" class="section level2" number="8.2">
+<h2>
+<span class="header-section-number">8.2</span> Pivoting<a class="anchor" aria-label="anchor" href="#pivoting"><i class="fas fa-link"></i></a>
+</h2>
 <p>Recall the idea of <a href="ggplot2.html#tidydata">tidy data</a>:</p>
 <ul>
 <li>variables are in columns,</li>
@@ -2147,12 +1924,11 @@ Do exercise 3.
 <li>values are in cells.</li>
 </ul>
 <p>And, also recall, that quite often data is stored in a wide format that is easier for humans read.</p>
-<table>
+<div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-199">Table 8.12: </span>Wide non-tidy table.
+<span id="tab:unnamed-chunk-190">Table 8.12: </span>Wide non-tidy table.
 </caption>
-<thead>
-<tr>
+<thead><tr>
 <th style="text-align:center;">
 Participant
 </th>
@@ -2168,8 +1944,7 @@ Attractiveness
 <th style="text-align:center;">
 Trustworthiness
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:center;">
@@ -2240,21 +2015,23 @@ M-2
 </td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>Here, <code>Symmetry</code>, <code>Attractiveness</code>, <code>Trustworthiness</code> are different face properties participants responded on, whereas values are <code>Response</code> they gave. You can work with a table like that but it is often more convenient to have a column <code>Scale</code> that will code which face property participants respond on and a column <code>Response</code> to hold values. Then, you can easily split or group your data by property while performing the same analysis on all of them.</p>
-<p>You can do pivoting using base R <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape()</a> function. But pivoting is a fairly confusing business, so Tidyverse alone offers three different solutions starting with <a href="https://cran.r-project.org/package=reshape2">reshape2</a> package <a href="#fn57" class="footnote-ref" id="fnref57"><sup>57</sup></a>, and continuing with original <a href="https://tidyr.tidyverse.org/reference/gather.html">gather()</a> and <a href="https://tidyr.tidyverse.org/reference/spread.html">spread()</a>
+<p>You can do pivoting using base R <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape()</a> function. But pivoting is a fairly confusing business, so Tidyverse alone offers three different solutions starting with <a href="https://cran.r-project.org/package=reshape2">reshape2</a> package<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;It uses &lt;code&gt;melt&lt;/code&gt; and &lt;code&gt;cast&lt;/code&gt; functions for this.&lt;/p&gt;"><sup>58</sup></a>, and continuing with original <a href="https://tidyr.tidyverse.org/reference/gather.html">gather()</a> and <a href="https://tidyr.tidyverse.org/reference/spread.html">spread()</a>
 functions in <a href="https://tidyr.tidyverse.org/index.html">tidyr</a> to modern <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a> and <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a> functions in the same package.</p>
 </div>
-<div id="pivot-longer" class="section level2 hasAnchor" number="8.3">
-<h2><span class="header-section-number">8.3</span> Pivot longer<a href="tyding.html#pivot-longer" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="pivot-longer" class="section level2" number="8.3">
+<h2>
+<span class="header-section-number">8.3</span> Pivot longer<a class="anchor" aria-label="anchor" href="#pivot-longer"><i class="fas fa-link"></i></a>
+</h2>
 <p><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a> takes a table, which you can pipe to the function Tidyverse-style, and a vector of column names that need to be transformed. All <em>column names</em> go to one new column and all the <em>values</em> go to another new column. Defaults names of these two columns are, respectively, <code>"name"</code> and <code>"value"</code> but you can specify something more suitable via, respectively, <code>names_to</code> and <code>values_to</code> parameters.</p>
 <p>There are many more bells-and-whistles (name and value transformations, removing a prefix via regular expressions, etc.), so I recommend looking at the <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">manual</a> and a <a href="https://tidyr.tidyverse.org/articles/pivot.html">vignette</a>. However, in most cases these four parameters will be all you need, so let us see <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a> in action.</p>
 <p>I assume that table presented above is in <code>widish_df</code> table defined above. The columns that we want to transform are <code>Symmetry</code>, <code>Attractiveness</code>, <code>Trustworthiness</code>. Thus, the simplest call with all defaults is</p>
-<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="tyding.html#cb329-1" aria-hidden="true" tabindex="-1"></a>long_tidy <span class="ot">&lt;-</span> tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(widish_df, </span>
-<span id="cb329-2"><a href="tyding.html#cb329-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">cols=</span><span class="fu">c</span>(<span class="st">&quot;Symmetry&quot;</span>, <span class="st">&quot;Attractiveness&quot;</span>, <span class="st">&quot;Trustworthiness&quot;</span>))</span></code></pre></div>
-<table>
-<thead>
-<tr>
+<div class="sourceCode" id="cb342"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">long_tidy</span> <span class="op">&lt;-</span> <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="va">widish_df</span>, </span>
+<span>                                cols<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Symmetry"</span>, <span class="st">"Attractiveness"</span>, <span class="st">"Trustworthiness"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr>
 <th style="text-align:right;">
 Participant
 </th>
@@ -2267,8 +2044,7 @@ name
 <th style="text-align:right;">
 value
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:right;">
@@ -2439,15 +2215,15 @@ Trustworthiness
 </td>
 </tr>
 </tbody>
-</table>
-<p>When you compare the two tables, you will see that original three columns × four rows are now stretched into twelve rows and name-value pairs are consistent across the two tables<a href="#fn58" class="footnote-ref" id="fnref58"><sup>58</sup></a>. As noted above, we can improve on that by specifying proper names for new columns.</p>
-<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="tyding.html#cb330-1" aria-hidden="true" tabindex="-1"></a>long_tidy <span class="ot">&lt;-</span> tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(widish_df, </span>
-<span id="cb330-2"><a href="tyding.html#cb330-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">cols=</span><span class="fu">c</span>(<span class="st">&quot;Symmetry&quot;</span>, <span class="st">&quot;Attractiveness&quot;</span>, <span class="st">&quot;Trustworthiness&quot;</span>),</span>
-<span id="cb330-3"><a href="tyding.html#cb330-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">names_to =</span> <span class="st">&quot;Scale&quot;</span>,</span>
-<span id="cb330-4"><a href="tyding.html#cb330-4" aria-hidden="true" tabindex="-1"></a>                               <span class="at">values_to =</span> <span class="st">&quot;Response&quot;</span>)</span></code></pre></div>
-<table>
-<thead>
-<tr>
+</table></div>
+<p>When you compare the two tables, you will see that original three columns × four rows are now stretched into twelve rows and name-value pairs are consistent across the two tables<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;By the way, this simple check may seem as a trivial point but this is a kind of simple sanity check that you should perform routinely. This way you &lt;em&gt;know&lt;/em&gt; rather than &lt;em&gt;hope&lt;/em&gt; that transformation did what it should. I also check value is a few rows to make sure that I didn’t mess things up. Catching simple errors early saves you a lot of time!&lt;/p&gt;"><sup>59</sup></a>. As noted above, we can improve on that by specifying proper names for new columns.</p>
+<div class="sourceCode" id="cb343"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">long_tidy</span> <span class="op">&lt;-</span> <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="va">widish_df</span>, </span>
+<span>                               cols<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Symmetry"</span>, <span class="st">"Attractiveness"</span>, <span class="st">"Trustworthiness"</span><span class="op">)</span>,</span>
+<span>                               names_to <span class="op">=</span> <span class="st">"Scale"</span>,</span>
+<span>                               values_to <span class="op">=</span> <span class="st">"Response"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr>
 <th style="text-align:right;">
 Participant
 </th>
@@ -2460,8 +2236,7 @@ Scale
 <th style="text-align:right;">
 Response
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:right;">
@@ -2632,29 +2407,36 @@ Trustworthiness
 </td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>If you want to stick to base R, you can pivot longer via <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape()</a> function that can do both pivot to longer and wider tables. It is more flexible and, therefore, much more confusing (at least for me). Here are some parameters that we need to specify in order to emulate <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a> call above:</p>
 <ul>
-<li><code>direction</code>. Either <code>"long"</code> (here), or <code>"wide"</code>.</li>
-<li><code>idvar</code>: names of variables that identify multiple records in the long format. In contrast, <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a>, assumes that all columns that you did not transform are identity columns.</li>
-<li><code>varying</code>: names of columns that will be turned into a single variable that contains only <strong>values</strong> in a new long table. Corresponds to <code>cols</code> argument in <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a></li>
-<li><code>v.names</code>: name of the column with values. Corresponds to <code>values_to</code> parameter of <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a>.</li>
-<li><code>timevar</code> : sort of corresponds to <code>names_to</code> parameter of <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a>, so it is the name of the column where <em>indexes</em> or <em>labels</em> of transformed columns will go.</li>
-<li><code>times</code> : by default, <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape()</a> does not put column names into <code>timevar</code> column but uses their relative <em>indexes</em> instead. E.g., <code>Symmetry</code> column will get index of 1, <code>Attractiveness</code> will get 2, <code>Trustworthiness</code> will be 3. You can replaces these indexes with <em>any</em> labels. Below, I used the same labels as column names but I could have used <em>any</em> three values for this.</li>
+<li>
+<code>direction</code>. Either <code>"long"</code> (here), or <code>"wide"</code>.</li>
+<li>
+<code>idvar</code>: names of variables that identify multiple records in the long format. In contrast, <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a>, assumes that all columns that you did not transform are identity columns.</li>
+<li>
+<code>varying</code>: names of columns that will be turned into a single variable that contains only <strong>values</strong> in a new long table. Corresponds to <code>cols</code> argument in <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a>
+</li>
+<li>
+<code>v.names</code>: name of the column with values. Corresponds to <code>values_to</code> parameter of <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a>.</li>
+<li>
+<code>timevar</code> : sort of corresponds to <code>names_to</code> parameter of <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a>, so it is the name of the column where <em>indexes</em> or <em>labels</em> of transformed columns will go.</li>
+<li>
+<code>times</code> : by default, <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape()</a> does not put column names into <code>timevar</code> column but uses their relative <em>indexes</em> instead. E.g., <code>Symmetry</code> column will get index of 1, <code>Attractiveness</code> will get 2, <code>Trustworthiness</code> will be 3. You can replaces these indexes with <em>any</em> labels. Below, I used the same labels as column names but I could have used <em>any</em> three values for this.</li>
 </ul>
-<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="tyding.html#cb331-1" aria-hidden="true" tabindex="-1"></a>long_base <span class="ot">&lt;-</span> <span class="fu">reshape</span>(widish_df, </span>
-<span id="cb331-2"><a href="tyding.html#cb331-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">direction =</span> <span class="st">&quot;long&quot;</span>,</span>
-<span id="cb331-3"><a href="tyding.html#cb331-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">idvar =</span> <span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>,  <span class="st">&quot;Face&quot;</span>),</span>
-<span id="cb331-4"><a href="tyding.html#cb331-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">varying =</span> <span class="fu">c</span>(<span class="st">&quot;Symmetry&quot;</span>, <span class="st">&quot;Attractiveness&quot;</span>, <span class="st">&quot;Trustworthiness&quot;</span>),</span>
-<span id="cb331-5"><a href="tyding.html#cb331-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">v.names=</span><span class="st">&quot;Response&quot;</span>,</span>
-<span id="cb331-6"><a href="tyding.html#cb331-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">times =</span> <span class="fu">c</span>(<span class="st">&quot;Symmetry&quot;</span>, <span class="st">&quot;Attractiveness&quot;</span>, <span class="st">&quot;Trustworthiness&quot;</span>),</span>
-<span id="cb331-7"><a href="tyding.html#cb331-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">timevar =</span> <span class="st">&quot;Scale&quot;</span>)</span></code></pre></div>
-<table>
+<div class="sourceCode" id="cb344"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">long_base</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/reshape.html">reshape</a></span><span class="op">(</span><span class="va">widish_df</span>, </span>
+<span>                     direction <span class="op">=</span> <span class="st">"long"</span>,</span>
+<span>                     idvar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Participant"</span>,  <span class="st">"Face"</span><span class="op">)</span>,</span>
+<span>                     varying <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Symmetry"</span>, <span class="st">"Attractiveness"</span>, <span class="st">"Trustworthiness"</span><span class="op">)</span>,</span>
+<span>                     v.names<span class="op">=</span><span class="st">"Response"</span>,</span>
+<span>                     times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Symmetry"</span>, <span class="st">"Attractiveness"</span>, <span class="st">"Trustworthiness"</span><span class="op">)</span>,</span>
+<span>                     timevar <span class="op">=</span> <span class="st">"Scale"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-205">Table 8.13: </span>Same table pivoted via reshape.
+<span id="tab:unnamed-chunk-196">Table 8.13: </span>Same table pivoted via reshape.
 </caption>
-<thead>
-<tr>
+<thead><tr>
 <th style="text-align:right;">
 Participant
 </th>
@@ -2667,8 +2449,7 @@ Scale
 <th style="text-align:right;">
 Response
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:right;">
@@ -2839,19 +2620,32 @@ Trustworthiness
 </td>
 </tr>
 </tbody>
-</table>
-<p>I strongly suggest experimenting with parameters of <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape()</a> to get a feeling for how it should be (and should not be!) used.</p>
-<p>Let us put this new knowledge to practice, using <a href="data/GP.csv">GP.csv</a> file. These is a questionnaire on gaming habits, which was conducted prior to an experiment to check whether two groups of participants assigned to <em>Game</em> and <em>Experiment</em> conditions have similar gaming habits. We would like to visually inspect responses to individual items in a questionnaire appear for different conditions, as this will tell us whether we should expect a difference. Split the computations below into two pipelines. One that loads and pre-processes the data (steps 1-3). Another one that produces a summary and stores it into a different table (step 4). Advice, implement it one step at a time, checking the table and making sure that you get expected results before piping it and adding the next operation.</p>
+</table></div>
+<p>For using <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape()</a>, I strongly suggest experimenting with its parameters to get a feeling for how it should be (and should not be!) used. As you can see, it is more involved and uses fewer defaults than <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a>, so you need to make sure you understand it.</p>
+</div>
+<div id="likert-scale-02" class="section level2" number="8.4">
+<h2>
+<span class="header-section-number">8.4</span> Practice using Likert scale data<a class="anchor" aria-label="anchor" href="#likert-scale-02"><i class="fas fa-link"></i></a>
+</h2>
+<p>Let us put this new knowledge to practice, using <a href="data/GP.csv">GP.csv</a> file. This is a questionnaire on gaming habits, which was conducted prior to an experiment to check whether two groups of participants assigned to <em>Game</em> and <em>Experiment</em> conditions have similar gaming habits. We would like to visually inspect responses to individual items in a questionnaire appear for different conditions, as this will tell us whether we should expect a difference. For this, we will reuse our approach for summarizing and <a href="working-with-factors.html#likert-scale-01">plotting ordinal responses</a> we did during the last seminar. Split the computations below into two pipelines. One that loads and pre-processes the data (steps 1-4). Another one that produces a summary and stores it into a different table (steps 5-6, see <a href="working-with-factors.html#likert-scale-01">previous seminar</a> if you forgot how we did it). Advice, implement it one step at a time, checking the table and making sure that you get expected results before piping it and adding the next operation.</p>
 <ol style="list-style-type: decimal">
 <li>Read the file, make sure you specify column types.</li>
 <li>Convert <code>Condition</code> column to a factor with “game” (1) and “control” (2).</li>
-<li>Pivot all <code>GP..</code> columns. You should get a table with five columns: <code>Respondent</code>, <code>Condition</code>, <code>Gender</code>, <code>name</code> (or a column name that you specified), and <code>value</code> (or a column name that you specified). Hint, you can use slicing <code>:</code> to specify the range of columns or <a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with()</a> function to specify a common prefix. Try both approaches.</li>
-<li>Group data by condition and GP item and compute median and <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/mad.html">median absolute deviation</a> of responses. These are robust versions of mean and standard deviation, better suitable for data with potential outliers.</li>
+<li>Pivot all <code>GP..</code> columns. You should get a table with five columns: <code>Respondent</code>, <code>Condition</code>, <code>Gender</code>, <code>Item</code> (column where original column names go), and <code>Response</code> (a column where original go). Hint, you can use slicing <code>:</code> to specify the range of columns or <a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with()</a> function to specify a common prefix. Try both approaches.</li>
+<li>Convert <code>Response</code> column to a factor assuming a seven-point scale, the levels are</li>
+<li>Not at all</li>
+<li>Slightly</li>
+<li>Somewhat</li>
+<li>Moderately</li>
+<li>Quite a bit</li>
+<li>Considerably</li>
+<li>Very much</li>
+<li>Count responses for each item and condition.</li>
+<li>Convert counts to proportion of responses for each item and condition.</li>
 </ol>
-You first table, in long format, should look like this (I show only first four rows)
-<table>
-<thead>
-<tr>
+Your first table, in long format, should look like this (I show only first four rows)
+<div class="inline-table"><table class="table table-sm">
+<thead><tr>
 <th style="text-align:left;">
 Respondent
 </th>
@@ -2864,15 +2658,14 @@ Gender
 <th style="text-align:left;">
 Item
 </th>
-<th style="text-align:right;">
+<th style="text-align:left;">
 Response
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
-SBS1992w
+NV5UJ
 </td>
 <td style="text-align:left;">
 game
@@ -2883,13 +2676,13 @@ game
 <td style="text-align:left;">
 GP01_01
 </td>
-<td style="text-align:right;">
-1
+<td style="text-align:left;">
+Not at all
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-SBS1992w
+NV5UJ
 </td>
 <td style="text-align:left;">
 game
@@ -2900,13 +2693,13 @@ game
 <td style="text-align:left;">
 GP02_01
 </td>
-<td style="text-align:right;">
-1
+<td style="text-align:left;">
+Not at all
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-SBS1992w
+NV5UJ
 </td>
 <td style="text-align:left;">
 game
@@ -2917,13 +2710,13 @@ game
 <td style="text-align:left;">
 GP02_02
 </td>
-<td style="text-align:right;">
-1
+<td style="text-align:left;">
+Not at all
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-SBS1992w
+NV5UJ
 </td>
 <td style="text-align:left;">
 game
@@ -2934,30 +2727,31 @@ game
 <td style="text-align:left;">
 GP02_03
 </td>
-<td style="text-align:right;">
-3
+<td style="text-align:left;">
+Somewhat
 </td>
 </tr>
 </tbody>
-</table>
-<p>And your second table, with aggregated results, show be like this</p>
-<table>
-<thead>
-<tr>
+</table></div>
+And your second table, with aggregated results, show be like this
+<div class="inline-table"><table class="table table-sm">
+<thead><tr>
 <th style="text-align:left;">
 Condition
 </th>
 <th style="text-align:left;">
 Item
 </th>
-<th style="text-align:right;">
-MedianResponse
+<th style="text-align:left;">
+Response
 </th>
 <th style="text-align:right;">
-ResponseMAD
+n
 </th>
-</tr>
-</thead>
+<th style="text-align:right;">
+Proportion
+</th>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
@@ -2966,11 +2760,48 @@ game
 <td style="text-align:left;">
 GP01_01
 </td>
-<td style="text-align:right;">
-1.0
+<td style="text-align:left;">
+Not at all
 </td>
 <td style="text-align:right;">
-0.0000
+6
+</td>
+<td style="text-align:right;">
+0.6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+game
+</td>
+<td style="text-align:left;">
+GP01_01
+</td>
+<td style="text-align:left;">
+Slightly
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+game
+</td>
+<td style="text-align:left;">
+GP01_01
+</td>
+<td style="text-align:left;">
+Very much
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1
 </td>
 </tr>
 <tr>
@@ -2980,78 +2811,86 @@ game
 <td style="text-align:left;">
 GP02_01
 </td>
-<td style="text-align:right;">
-1.0
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-</tr>
-<tr>
 <td style="text-align:left;">
-game
-</td>
-<td style="text-align:left;">
-GP02_02
+Not at all
 </td>
 <td style="text-align:right;">
-1.0
+8
 </td>
 <td style="text-align:right;">
-0.0000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-game
-</td>
-<td style="text-align:left;">
-GP02_03
-</td>
-<td style="text-align:right;">
-3.5
-</td>
-<td style="text-align:right;">
-3.7065
+0.8
 </td>
 </tr>
 </tbody>
-</table>
-<div class="infobox practice">
+</table></div>
+<div class="practice">
 <p>Do exercise 4.</p>
 </div>
 <p>Repeat the exercise but now using base R <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape()</a> function.
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 5.
 :::</p>
-<p>Now you have a table that has median and MAD values for each combination and item. Plot them to compare them visually. Use median responses for y-value of points and median±MAD for error bars. Use facets and color to make it easier to identify the items and conditions. My take on the plot is below, do you think we should expect to find difference between the conditions?
-<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-208-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="infobox practice">
+<p>Now you have a table with proportion of response for each condition and item, lets plot them to compare visually. Use <code>Response</code> for x-axis, <code>Proportion</code> for y-axis, <code>Condition</code> for color, think about how facet the plot.
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-199-1.png" width="672" style="display: block; margin: auto;"></p>
+<div class="practice">
 <p>Do exercise 6.</p>
 </div>
-<p>Perform similar analysis but do not group data and summarize the data. Instead, use box plots to show the variability. Which visualization do you prefer?</p>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-209-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="infobox practice">
+<p>Note that our computation and plot have a problem: whenever a response level was not used by any participant, it is missing both in the table and in the plot. However, we should have an entry for every response level but with 0 for both count and proportion, 0 counts for a response level is not a missing or absent response level. A way to solve this problem is by using function <a href="https://tidyr.tidyverse.org/reference/complete.html">complete()</a> that adds missing combinations of the data based on a subset of columns you specified and fills in values for the remaining columns either with <code>NA</code> or with values that you specified. Here is an example for a table that contains columns <code>Class</code> and <code>Count</code>. Note that I defined <code>Class</code> as a factor with five levels (“A” till “E”) and the latter is missing from the table. Complete adds the row and fill the remaining column with ‘NA’.</p>
+<div class="sourceCode" id="cb345"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">class_df</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>Class <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span><span class="op">)</span>,</span>
+<span>         Count <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">19</span>, <span class="fl">30</span>, <span class="fl">22</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Class <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">Class</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">class_df</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/complete.html">complete</a></span><span class="op">(</span><span class="va">Class</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 5 x 2
+##   Class Count
+##   &lt;fct&gt; &lt;dbl&gt;
+## 1 A        20
+## 2 B        19
+## 3 C        30
+## 4 D        22
+## 5 E        NA</code></pre>
+<p>Although in some cases, filling with <code>NA</code> may be reasonable, here, we want to fill in the count and it should be 0 (the fact that a particular class is missing means that we never counted it). Note that <code>fill</code> parameter takes a named <strong>list</strong> not a named vector (Why is that? If about data types of different columns and if you are still not sure why, reread on difference between <a href="tables.html#vectors-are-homogeneous">atomic vectors</a> and <a href="tables.html#lists">lists</a>).</p>
+<div class="sourceCode" id="cb347"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">class_df</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/complete.html">complete</a></span><span class="op">(</span><span class="va">Class</span>, fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Count <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 5 x 2
+##   Class Count
+##   &lt;fct&gt; &lt;dbl&gt;
+## 1 A        20
+## 2 B        19
+## 3 C        30
+## 4 D        22
+## 5 E         0</code></pre>
+<div class="inline-figure">Here is how the plot look once we completed the table
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-202-1.png" width="672" style="display: block; margin: auto;">
+</div>
+<div class="practice">
 <p>Do exercise 7.</p>
 </div>
 </div>
-<div id="pivot-wider" class="section level2 hasAnchor" number="8.4">
-<h2><span class="header-section-number">8.4</span> Pivot wider<a href="tyding.html#pivot-wider" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>You can also always go from a long to a wide representation via <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a> or <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape</a> functions. The logic is reverse, you need to specify which columns <em>identify</em> different rows that belong together, which columns contain column names, and which contain their values. For our example table the names of the columns are in the column <code>Scale</code> and values are in <code>Response</code>. But what about columns that identify the rows that belong together? In our case, these are <code>Participant</code> and <code>Face</code>, so all rows from a <em>long</em> table that have same combination of <code>Participant</code> and <code>Face</code> values should be merged together into a single row. If you do not explicitly specify <code>id_cols</code>, then by default, <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a> will use <em>all other remaining columns</em> to identify which rows belong together. This is irrelevant in this toy example, as <code>Participant</code> and <code>Face</code> is all we have left anyhow but below I will show you how things can get confusing and how to overcome this.</p>
-<p>Let us undo our previous wide-to-long transformation and get our original wide table back!<a href="#fn59" class="footnote-ref" id="fnref59"><sup>59</sup></a></p>
-<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="tyding.html#cb332-1" aria-hidden="true" tabindex="-1"></a>wide_again_tidy <span class="ot">&lt;-</span></span>
-<span id="cb332-2"><a href="tyding.html#cb332-2" aria-hidden="true" tabindex="-1"></a>  long_tidy <span class="sc">%&gt;%</span></span>
-<span id="cb332-3"><a href="tyding.html#cb332-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">&quot;Scale&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Response&quot;</span>)</span></code></pre></div>
+<div id="pivot-wider" class="section level2" number="8.5">
+<h2>
+<span class="header-section-number">8.5</span> Pivot wider<a class="anchor" aria-label="anchor" href="#pivot-wider"><i class="fas fa-link"></i></a>
+</h2>
+<p>You can also always go from a long to a wide representation via <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a> or <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape</a> functions. The logic is reverse, you need to specify which columns <em>identify</em> different rows that belong together, which columns contain column names, and which contain their values. For our example table on face ratings, the names of the columns are in the column <code>Scale</code> and values are in <code>Response</code>. But what about columns that identify the rows that belong together? In our case, these are <code>Participant</code> and <code>Face</code>, so all rows from a <em>long</em> table that have same combination of <code>Participant</code> and <code>Face</code> values should be merged together into a single row. If you do not explicitly specify <code>id_cols</code>, then by default, <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a> will use <em>all other remaining columns</em> to identify which rows belong together. This is irrelevant in this toy example, as <code>Participant</code> and <code>Face</code> is all we have left anyhow but below I will show you how things can get confusing and how to overcome this.</p>
+<p>Let us undo our previous wide-to-long transformation and get our original wide table back!<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;I used table as an explicit first argument for &lt;code&gt;pivot_longer()&lt;/code&gt; but piped it to &lt;code&gt;pivot_wider()&lt;/code&gt;, why? To remind you that these two ways are the interchangeable and that both put the table as a parameter into the function.&lt;/p&gt;"><sup>60</sup></a></p>
+<div class="sourceCode" id="cb349"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">wide_again_tidy</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">long_tidy</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="st">"Scale"</span>, values_from<span class="op">=</span><span class="st">"Response"</span><span class="op">)</span></span></code></pre></div>
 <p>Or, using explicit <code>id_cols</code></p>
-<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="tyding.html#cb333-1" aria-hidden="true" tabindex="-1"></a>wide_again_tidy <span class="ot">&lt;-</span></span>
-<span id="cb333-2"><a href="tyding.html#cb333-2" aria-hidden="true" tabindex="-1"></a>  long_tidy <span class="sc">%&gt;%</span></span>
-<span id="cb333-3"><a href="tyding.html#cb333-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">id_cols =</span> <span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>, <span class="st">&quot;Face&quot;</span>), <span class="at">names_from =</span> <span class="st">&quot;Scale&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Response&quot;</span>)</span></code></pre></div>
-<table>
+<div class="sourceCode" id="cb350"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">wide_again_tidy</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">long_tidy</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>id_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Participant"</span>, <span class="st">"Face"</span><span class="op">)</span>, names_from <span class="op">=</span> <span class="st">"Scale"</span>, values_from<span class="op">=</span><span class="st">"Response"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-212">Table 8.14: </span>Our table is wide again!
+<span id="tab:unnamed-chunk-205">Table 8.14: </span>Our table is wide again!
 </caption>
-<thead>
-<tr>
+<thead><tr>
 <th style="text-align:right;">
 Participant
 </th>
@@ -3067,8 +2906,7 @@ Attractiveness
 <th style="text-align:right;">
 Trustworthiness
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:right;">
@@ -3139,30 +2977,141 @@ M-2
 </td>
 </tr>
 </tbody>
-</table>
-<p>You can pivot wider using <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape()</a> as well. However, note that, as of 01.11.2021, it works correctly <em>only</em> with data frames, so if you have a <a href="https://tibble.tidyverse.org/">tibble</a> (as I do), you need to convert it to a data frame via <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/data.frame.html">data.frame()</a> or <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/as.data.frame.html">as.data.frame()</a>. Otherwise, you need to specify</p>
+</table></div>
+<p>You can pivot wider using <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape()</a> as well. However, note that, as of 07.10.2023, it works correctly <em>only</em> with data frames, so if you have a <a href="https://tibble.tidyverse.org/">tibble</a> (as I do), you need to convert it to a data frame via <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/data.frame.html">data.frame()</a> or <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/as.data.frame.html">as.data.frame()</a> (drop the <code><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame()</a></code> in the example above to see what I mean). Otherwise, you need to specify</p>
 <ul>
 <li><code>direction = "wide"</code></li>
-<li><code>idvar</code> : different rows that belong together. Same as <code>id_cols</code> for <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a> but no defaults here.</li>
-<li><code>timevar</code> : same as <code>names_from</code> for <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a>, column with values that will be used as column names.</li>
-<li><code>v.names</code> : same as <code>values_from</code>.</li>
-<li><code>sep</code>: the new column names will constructed as <code>v.names</code> + <code>sep</code> + <code>timevar</code>. By default <code>sep="."</code>.</li>
+<li>
+<code>idvar</code> : different rows that belong together. Same as <code>id_cols</code> for <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a> but no defaults here.</li>
+<li>
+<code>timevar</code> : same as <code>names_from</code> for <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a>, column with values that will be used as column names.</li>
+<li>
+<code>v.names</code> : same as <code>values_from</code>.</li>
+<li>
+<code>sep</code>: the new column names will constructed as <code>v.names</code> + <code>sep</code> + <code>timevar</code>. By default <code>sep="."</code>.</li>
 </ul>
 <p>The main difference, as compared to <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a>, is how the column names are constructed. With <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape()</a> function, the <code>v.names</code> + <code>sep</code> + <code>timevar</code> rule means that you end up with column names such as <code>Response.Symmetry</code> instead of just <code>Symmetry</code>.</p>
-<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="tyding.html#cb334-1" aria-hidden="true" tabindex="-1"></a>wide_again_base <span class="ot">&lt;-</span> <span class="fu">reshape</span>(<span class="fu">as.data.frame</span>(long_tidy),</span>
-<span id="cb334-2"><a href="tyding.html#cb334-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">direction =</span> <span class="st">&quot;wide&quot;</span>,</span>
-<span id="cb334-3"><a href="tyding.html#cb334-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">idvar =</span> <span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>, <span class="st">&quot;Face&quot;</span>),</span>
-<span id="cb334-4"><a href="tyding.html#cb334-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">timevar =</span> <span class="st">&quot;Scale&quot;</span>,</span>
-<span id="cb334-5"><a href="tyding.html#cb334-5" aria-hidden="true" tabindex="-1"></a>                           <span class="at">v.names =</span> <span class="st">&quot;Response&quot;</span>,</span>
-<span id="cb334-6"><a href="tyding.html#cb334-6" aria-hidden="true" tabindex="-1"></a>                           <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>)</span></code></pre></div>
-<p>Let us take a look at the importance of <code>id_cols</code>. Imagine that we have <em>another</em> column, say, response times. So, our long table will look like this</p>
-<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="tyding.html#cb335-1" aria-hidden="true" tabindex="-1"></a>long_tidy_rt <span class="ot">&lt;-</span></span>
-<span id="cb335-2"><a href="tyding.html#cb335-2" aria-hidden="true" tabindex="-1"></a>  long_tidy <span class="sc">%&gt;%</span></span>
-<span id="cb335-3"><a href="tyding.html#cb335-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb335-4"><a href="tyding.html#cb335-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">RT =</span> <span class="fu">round</span>(<span class="fu">rgamma</span>(<span class="fu">n</span>(), <span class="dv">4</span>, <span class="dv">3</span>), <span class="dv">2</span>))</span></code></pre></div>
-<table>
-<thead>
+<div class="sourceCode" id="cb351"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">wide_again_base</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/reshape.html">reshape</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">long_tidy</span><span class="op">)</span>,</span>
+<span>                           direction <span class="op">=</span> <span class="st">"wide"</span>,</span>
+<span>                           idvar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Participant"</span>, <span class="st">"Face"</span><span class="op">)</span>,</span>
+<span>                           timevar <span class="op">=</span> <span class="st">"Scale"</span>,</span>
+<span>                           v.names <span class="op">=</span> <span class="st">"Response"</span>,</span>
+<span>                           sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:unnamed-chunk-207">Table 8.15: </span>Our table is wide again but via reshape()!
+</caption>
+<thead><tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Participant
+</th>
+<th style="text-align:left;">
+Face
+</th>
+<th style="text-align:right;">
+Response_Symmetry
+</th>
+<th style="text-align:right;">
+Response_Attractiveness
+</th>
+<th style="text-align:right;">
+Response_Trustworthiness
+</th>
+</tr></thead>
+<tbody>
 <tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+M-2
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+</tbody>
+</table></div>
+<p>Let us take a look at the importance of <code>id_cols</code>. Imagine that we have <em>another</em> column, say, response times. So, our long table will look like this</p>
+<div class="sourceCode" id="cb352"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">long_tidy_rt</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">long_tidy</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>RT <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">rgamma</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>, <span class="fl">4</span>, <span class="fl">3</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr>
 <th style="text-align:right;">
 Participant
 </th>
@@ -3178,8 +3127,7 @@ Response
 <th style="text-align:right;">
 RT
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:right;">
@@ -3195,7 +3143,7 @@ Symmetry
 6
 </td>
 <td style="text-align:right;">
-1.05
+1.20
 </td>
 </tr>
 <tr>
@@ -3212,7 +3160,7 @@ Attractiveness
 4
 </td>
 <td style="text-align:right;">
-1.24
+2.57
 </td>
 </tr>
 <tr>
@@ -3229,7 +3177,7 @@ Trustworthiness
 3
 </td>
 <td style="text-align:right;">
-1.65
+1.35
 </td>
 </tr>
 <tr>
@@ -3246,7 +3194,7 @@ Symmetry
 4
 </td>
 <td style="text-align:right;">
-0.82
+3.71
 </td>
 </tr>
 <tr>
@@ -3263,7 +3211,7 @@ Attractiveness
 7
 </td>
 <td style="text-align:right;">
-0.90
+1.17
 </td>
 </tr>
 <tr>
@@ -3280,7 +3228,7 @@ Trustworthiness
 6
 </td>
 <td style="text-align:right;">
-1.99
+1.61
 </td>
 </tr>
 <tr>
@@ -3297,7 +3245,7 @@ Symmetry
 5
 </td>
 <td style="text-align:right;">
-1.20
+2.48
 </td>
 </tr>
 <tr>
@@ -3314,7 +3262,7 @@ Attractiveness
 2
 </td>
 <td style="text-align:right;">
-0.35
+1.47
 </td>
 </tr>
 <tr>
@@ -3331,7 +3279,7 @@ Trustworthiness
 1
 </td>
 <td style="text-align:right;">
-1.29
+0.37
 </td>
 </tr>
 <tr>
@@ -3348,7 +3296,7 @@ Symmetry
 3
 </td>
 <td style="text-align:right;">
-1.24
+1.00
 </td>
 </tr>
 <tr>
@@ -3365,7 +3313,7 @@ Attractiveness
 7
 </td>
 <td style="text-align:right;">
-1.76
+1.79
 </td>
 </tr>
 <tr>
@@ -3382,17 +3330,17 @@ Trustworthiness
 2
 </td>
 <td style="text-align:right;">
-1.45
+0.70
 </td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>For <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a>, if we do not specify which columns identify rows that belong together, <code>RT</code> will be used as well. But, because it is different for every response, each row in the original table will be unique and we will end up with a weird looking table wit lots of <code>NAs</code>.</p>
-<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="tyding.html#cb336-1" aria-hidden="true" tabindex="-1"></a>wide_odd_rt <span class="ot">&lt;-</span></span>
-<span id="cb336-2"><a href="tyding.html#cb336-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(long_tidy_rt, <span class="at">names_from =</span> <span class="st">&quot;Scale&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Response&quot;</span>)</span></code></pre></div>
-<table>
-<thead>
-<tr>
+<div class="sourceCode" id="cb353"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">wide_odd_rt</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span><span class="va">long_tidy_rt</span>, names_from <span class="op">=</span> <span class="st">"Scale"</span>, values_from<span class="op">=</span><span class="st">"Response"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr>
 <th style="text-align:right;">
 Participant
 </th>
@@ -3411,8 +3359,7 @@ Attractiveness
 <th style="text-align:right;">
 Trustworthiness
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:right;">
@@ -3422,7 +3369,7 @@ Trustworthiness
 M-1
 </td>
 <td style="text-align:right;">
-1.05
+1.20
 </td>
 <td style="text-align:right;">
 6
@@ -3442,7 +3389,7 @@ NA
 M-1
 </td>
 <td style="text-align:right;">
-1.24
+2.57
 </td>
 <td style="text-align:right;">
 NA
@@ -3462,7 +3409,7 @@ NA
 M-1
 </td>
 <td style="text-align:right;">
-1.65
+1.35
 </td>
 <td style="text-align:right;">
 NA
@@ -3482,7 +3429,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-0.82
+3.71
 </td>
 <td style="text-align:right;">
 4
@@ -3502,7 +3449,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-0.90
+1.17
 </td>
 <td style="text-align:right;">
 NA
@@ -3522,7 +3469,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-1.99
+1.61
 </td>
 <td style="text-align:right;">
 NA
@@ -3542,7 +3489,7 @@ NA
 M-1
 </td>
 <td style="text-align:right;">
-1.20
+2.48
 </td>
 <td style="text-align:right;">
 5
@@ -3562,7 +3509,7 @@ NA
 M-1
 </td>
 <td style="text-align:right;">
-0.35
+1.47
 </td>
 <td style="text-align:right;">
 NA
@@ -3582,7 +3529,7 @@ NA
 M-1
 </td>
 <td style="text-align:right;">
-1.29
+0.37
 </td>
 <td style="text-align:right;">
 NA
@@ -3602,7 +3549,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-1.24
+1.00
 </td>
 <td style="text-align:right;">
 3
@@ -3622,7 +3569,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-1.76
+1.79
 </td>
 <td style="text-align:right;">
 NA
@@ -3642,7 +3589,7 @@ NA
 M-2
 </td>
 <td style="text-align:right;">
-1.45
+0.70
 </td>
 <td style="text-align:right;">
 NA
@@ -3655,16 +3602,16 @@ NA
 </td>
 </tr>
 </tbody>
-</table>
-<p>To remedy that, we need to specify id columns explicitly, so that <code>pivot_wider()</code> can ignore and <em>drop</em> the rest:</p>
-<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="tyding.html#cb337-1" aria-hidden="true" tabindex="-1"></a>wide_rt <span class="ot">&lt;-</span></span>
-<span id="cb337-2"><a href="tyding.html#cb337-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(long_tidy_rt,</span>
-<span id="cb337-3"><a href="tyding.html#cb337-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">id_cols =</span> <span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>, <span class="st">&quot;Face&quot;</span>),</span>
-<span id="cb337-4"><a href="tyding.html#cb337-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_from =</span> <span class="st">&quot;Scale&quot;</span>,</span>
-<span id="cb337-5"><a href="tyding.html#cb337-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from=</span><span class="st">&quot;Response&quot;</span>) </span></code></pre></div>
-<table>
-<thead>
-<tr>
+</table></div>
+<p>To remedy that, we need to specify id columns explicitly, so that <code><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a></code> can ignore and <em>drop</em> the rest:</p>
+<div class="sourceCode" id="cb354"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">wide_rt</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span><span class="va">long_tidy_rt</span>,</span>
+<span>              id_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Participant"</span>, <span class="st">"Face"</span><span class="op">)</span>,</span>
+<span>              names_from <span class="op">=</span> <span class="st">"Scale"</span>,</span>
+<span>              values_from<span class="op">=</span><span class="st">"Response"</span><span class="op">)</span> </span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr>
 <th style="text-align:right;">
 Participant
 </th>
@@ -3680,8 +3627,7 @@ Attractiveness
 <th style="text-align:right;">
 Trustworthiness
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:right;">
@@ -3752,11 +3698,10 @@ M-2
 </td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>For practice, let us take <a href="data/bands-adaptation.csv">adaptation</a> data and turn it onto a wide format that is easier for humans to read. In the original form, the table is a long format with a row for each pair of prime and probe stimuli.</p>
-<table>
-<thead>
-<tr>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr>
 <th style="text-align:left;">
 Participant
 </th>
@@ -3772,8 +3717,7 @@ Nsame
 <th style="text-align:right;">
 Ntotal
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
@@ -3844,11 +3788,10 @@ Single
 </td>
 </tr>
 </tbody>
-</table>
-<p>Let us turn it into a wider table, so that a single row corresponds to a single prime and four new column contain proportion of same responses for individual probes. The table will look like this (use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Round.html">round()</a> function to reduce the number of digits):</p>
-<table>
-<thead>
-<tr>
+</table></div>
+<p>Let us turn it into a wider table, so that a single row corresponds to a single prime and four new columns contain proportion of same responses for individual probes. The table should look like this (use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Round.html">round()</a> function to reduce the number of digits):</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr>
 <th style="text-align:left;">
 Participant
 </th>
@@ -3870,8 +3813,7 @@ Single
 <th style="text-align:right;">
 Average
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
@@ -3893,7 +3835,7 @@ Sphere
 0.27
 </td>
 <td style="text-align:right;">
-0.1900
+0.19
 </td>
 </tr>
 <tr>
@@ -3916,7 +3858,7 @@ Quadro
 0.34
 </td>
 <td style="text-align:right;">
-0.2275
+0.23
 </td>
 </tr>
 <tr>
@@ -3939,7 +3881,7 @@ Dual
 0.48
 </td>
 <td style="text-align:right;">
-0.3250
+0.32
 </td>
 </tr>
 <tr>
@@ -3962,31 +3904,30 @@ Single
 0.39
 </td>
 <td style="text-align:right;">
-0.3775
+0.38
 </td>
 </tr>
 </tbody>
-</table>
-<p>The overall procedure is fairly straightforward:</p>
+</table></div>
+<p>The overall procedure is fairly straightforward (should be a single pipe!):</p>
 <ol style="list-style-type: decimal">
-<li>Read the file (don’t forget to specify column types)</li>
-<li>Computer <code>Psame</code> proportion of same responses given number of total responses for each .</li>
+<li>Read the file (don’t forget to specify column types!)</li>
+<li>Computer <code>Psame</code> proportion of same responses given number of total responses for each <code>Probe</code>.</li>
 <li>Pivot the table wider, think about your id columns. Also try this without specifying any and see what you get.</li>
-<li>Compute an average stability across all probes and put it into a new <code>Average</code> column. You can do it “by hand” but, instead, use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/colSums.html">rowSums()</a> to compute it. Here, use <code>.</code> to refer to the table inside the <code>mutate()</code> function and you will need to normalize it by the number of probes to get an average instead of the sum.</li>
+<li>Compute an average stability across all probes and put it into a new <code>Average</code> column.</li>
 <li>Pipe it to the output, using <a href="https://bookdown.org/yihui/rmarkdown-cookbook/kable.html">knitr::kable()</a>.</li>
 </ol>
 <p>Use <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a> in exercise 8.</p>
-<div class="infobox practice">
+<div class="practice">
 <p>Do exercise 8.</p>
 </div>
 <p>Repeat the analysis but now using the <a href="https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape()</a> function.</p>
-<div class="infobox practice">
+<div class="practice">
 <p>Do exercise 9.</p>
 </div>
-<p>Let us practice more and create group average summary as a square 5×4 table with a single row per <em>Prime</em> and four columns for <em>Probe</em> plus a column that says which prime the row corresponds to. As a value for each cell, we want to code a _median value. The table should look like this:</p>
-<table>
-<thead>
-<tr>
+<p>Let us practice more and create group average summary as a square 5×4 table with a single row per <em>Prime</em> and four columns for <em>Probe</em> plus a column that says which prime the row corresponds to. As a value for each cell, we want to code a <em>median</em> value. The table should look like this:</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr>
 <th style="text-align:center;">
 Prime
 </th>
@@ -4002,8 +3943,7 @@ Dual
 <th style="text-align:center;">
 Single
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:center;">
@@ -4074,86 +4014,53 @@ Single
 </td>
 </tr>
 </tbody>
-</table>
-<p>You know almost everything you need, so think about how you would implement this as a <em>single</em> pipeline. Hints: to match my table you will definitely to convert <code>Prime</code> and <code>Probe</code> to factors to ensure consistent ordering (otherwise, they will be sorted alphabetically), you will need to <a href="https://dplyr.tidyverse.org/reference/group_by.html">group</a> individual combinations of prime and probe before computing a <a href="https://dplyr.tidyverse.org/reference/summarise.html">summary statistics</a>. And, of course, you will need to pivot the table wider (use your preferred method).</p>
-<div class="infobox practice">
+</table></div>
+<p>You know almost everything you need, so think about how you would implement this as a <em>single</em> pipeline. Hints: to match my table you will definitely to convert <code>Prime</code> and <code>Probe</code> to factors to ensure consistent ordering (otherwise, they will be sorted alphabetically), you will need to <a href="dplyr.html#group_by">group</a> individual combinations of prime and probe before computing a <a href="dplyr.html#summarize">summary statistics</a>. And, of course, you will need to pivot the table wider (use your preferred method).</p>
+<div class="practice">
 <p>Do exercise 10.</p>
 </div>
 
 </div>
 </div>
-<div class="footnotes">
-<hr />
-<ol start="55">
-<li id="fn55"><p>Theoretically, you can skip it and <em>dplyr</em> will do its best to find matching columns. However, this is a dangerous thing to leave out, as your intuition and <em>dlpyr’s</em> matching rules may lead to different results. I strongly recommend to always specify key columns.<a href="tyding.html#fnref55" class="footnote-back">↩︎</a></p></li>
-<li id="fn56"><p>Remember, if you end up with <code>.xls</code> extension, just rename to <code>.csv</code>.<a href="tyding.html#fnref56" class="footnote-back">↩︎</a></p></li>
-<li id="fn57"><p>It uses <code>melt</code> and <code>cast</code> functions for this.<a href="tyding.html#fnref57" class="footnote-back">↩︎</a></p></li>
-<li id="fn58"><p>By the way, this simple check may seem as a trivial point but this is a kind of simple sanity check that you should perform routinely. This way you <em>know</em> rather than <em>hope</em> that transformation did what it should. I also check value is a few rows to make sure that I didn’t mess things up. Catching simple errors early saves you a lot of time!<a href="tyding.html#fnref58" class="footnote-back">↩︎</a></p></li>
-<li id="fn59"><p>I used table as an explicit first argument for <code>pivot_longer()</code> but piped it to <code>pivot_wider()</code>, why? To remind you that these two ways are the interchangeable and that both put the table as a parameter into the function.<a href="tyding.html#fnref59" class="footnote-back">↩︎</a></p></li>
-</ol>
+
+  <div class="chapter-nav">
+<div class="prev"><a href="working-with-factors.html"><span class="header-section-number">7</span> Working with Factors</a></div>
+<div class="next"><a href="control-flow-chapter.html"><span class="header-section-number">9</span> Controling computation flow</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#tyding"><span class="header-section-number">8</span> Tidyng your data: joins and pivots</a></li>
+<li><a class="nav-link" href="#joins"><span class="header-section-number">8.1</span> Joining tables</a></li>
+<li><a class="nav-link" href="#pivoting"><span class="header-section-number">8.2</span> Pivoting</a></li>
+<li><a class="nav-link" href="#pivot-longer"><span class="header-section-number">8.3</span> Pivot longer</a></li>
+<li><a class="nav-link" href="#likert-scale-02"><span class="header-section-number">8.4</span> Practice using Likert scale data</a></li>
+<li><a class="nav-link" href="#pivot-wider"><span class="header-section-number">8.5</span> Pivot wider</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/alexander-pastukhov/data-analysis-using-r-for-psychology/blob/master/08-joins-and-pivoting.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/alexander-pastukhov/data-analysis-using-r-for-psychology/edit/master/08-joins-and-pivoting.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
 </div>
-            </section>
+    </nav>
+</div>
 
-          </div>
-        </div>
-      </div>
-<a href="working-with-factors.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="controling-computation-flow.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
-    </div>
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Data analysis using R for Psychology and Social Science</strong>" was written by Alexander (Sasha) Pastukhov. It was last built on 2023-10-09.</p>
   </div>
-<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
-<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
-<script>
-gitbook.require(["gitbook"], function(gitbook) {
-gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": null,
-"text": null
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["data-analysis-using-r-for-psychology.pdf", "data-analysis-using-r-for-psychology.epub"],
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
-});
-});
-</script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
+  <div class="col-12 col-md-6 mt-3">
+    <p>Please note that this website collects anonymized data via Google analytics. This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -4165,7 +4072,22 @@ gitbook.start({
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
 </script>
 </body>
-
 </html>

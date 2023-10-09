@@ -1,372 +1,96 @@
 <!DOCTYPE html>
-<html lang="" xml:lang="">
+<html lang="en">
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 12 Sampling and simulations | Data analysis using R for Psychology and Social Science</title>
+<meta name="author" content="Alexander (Sasha) Pastukhov">
+<meta name="description" content="An important trick in your toolbox is a skill to resample and simulate data. The latter, sampling from predefined distributions, allows you develop your analysis routine and ensure that it can...">
+<meta name="generator" content="bookdown 0.35 with bs4_book()">
+<meta property="og:title" content="Chapter 12 Sampling and simulations | Data analysis using R for Psychology and Social Science">
+<meta property="og:type" content="book">
+<meta property="og:description" content="An important trick in your toolbox is a skill to resample and simulate data. The latter, sampling from predefined distributions, allows you develop your analysis routine and ensure that it can...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 12 Sampling and simulations | Data analysis using R for Psychology and Social Science">
+<meta name="twitter:description" content="An important trick in your toolbox is a skill to resample and simulate data. The latter, sampling from predefined distributions, allows you develop your analysis routine and ensure that it can...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-QMVBLBE7DV"></script><script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Seminar 13 Sampling and simulations | Data analysis using R for Psychology and Social Science</title>
-  <meta name="description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
-  <meta name="generator" content="bookdown 0.30 and GitBook 2.6.7" />
-
-  <meta property="og:title" content="Seminar 13 Sampling and simulations | Data analysis using R for Psychology and Social Science" />
-  <meta property="og:type" content="book" />
-  
-  <meta property="og:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
-  
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Seminar 13 Sampling and simulations | Data analysis using R for Psychology and Social Science" />
-  
-  <meta name="twitter:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
-  
-
-<meta name="author" content="Alexander (Sasha) Pastukhov" />
-
-
-<meta name="date" content="2022-11-19" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  
-  
-<link rel="prev" href="strings.html"/>
-<link rel="next" href="statistical-modeling.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
-<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
-
-
-
-
-
-
-
-<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
-<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
-<script src="libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-
-
-<style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-</style>
-
-
-<link rel="stylesheet" href="style.css" type="text/css" />
-<link rel="stylesheet" href="font-awesome.css" type="text/css" />
+      gtag('config', 'G-QMVBLBE7DV');
+    </script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="bs4_style.css">
+<link rel="stylesheet" href="style.css">
 </head>
+<body data-spy="scroll" data-target="#toc">
 
-<body>
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
 
-
-
-  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
-
-    <div class="book-summary">
-      <nav role="navigation">
-
-<ul class="summary">
-<li><a href="./">Data analysis using R for Psychology</a></li>
-
-<li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a>
-<ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-r"><i class="fa fa-check"></i>Why R?</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-tidyverse"><i class="fa fa-check"></i>Why Tidyverse</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-seminar-itself"><i class="fa fa-check"></i>About the seminar itself</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#thinking-like-a-computer"><i class="fa fa-check"></i>Thinking like a computer</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-material"><i class="fa fa-check"></i>About the material</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html"><i class="fa fa-check"></i>Software</a>
-<ul>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install-r"><i class="fa fa-check"></i>Installing R</a></li>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install-rstudio"><i class="fa fa-check"></i>Installing R-Studio</a></li>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install-rtools"><i class="fa fa-check"></i>Installing RTools</a></li>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install.packages"><i class="fa fa-check"></i>Installing packages</a></li>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html#minimal-set-of-packages"><i class="fa fa-check"></i>Minimal set of packages</a></li>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html#installr"><i class="fa fa-check"></i>Keeping R and packages up-to-date</a></li>
-</ul></li>
-<li class="chapter" data-level="1" data-path="reproducable-research.html"><a href="reproducable-research.html"><i class="fa fa-check"></i><b>1</b> Reproducable Research: Projects and Markdown Notebooks</a>
-<ul>
-<li class="chapter" data-level="1.1" data-path="reproducable-research.html"><a href="reproducable-research.html#projects"><i class="fa fa-check"></i><b>1.1</b> Projects</a></li>
-<li class="chapter" data-level="1.2" data-path="reproducable-research.html"><a href="reproducable-research.html#rmarkdown"><i class="fa fa-check"></i><b>1.2</b> Quattro and RMarkdown notebooks</a></li>
-<li class="chapter" data-level="1.3" data-path="reproducable-research.html"><a href="reproducable-research.html#exercise"><i class="fa fa-check"></i><b>1.3</b> Exercise</a></li>
-</ul></li>
-<li class="chapter" data-level="2" data-path="vectors.html"><a href="vectors.html"><i class="fa fa-check"></i><b>2</b> Vectors! Vectors everywhere!</a>
-<ul>
-<li class="chapter" data-level="2.1" data-path="vectors.html"><a href="vectors.html#variables"><i class="fa fa-check"></i><b>2.1</b> Variables as boxes</a></li>
-<li class="chapter" data-level="2.2" data-path="vectors.html"><a href="vectors.html#assignment-statement"><i class="fa fa-check"></i><b>2.2</b> Assignment statement in detail</a></li>
-<li class="chapter" data-level="2.3" data-path="vectors.html"><a href="vectors.html#vectors-scalars"><i class="fa fa-check"></i><b>2.3</b> Vectors and singluar values (scalars, which are also vectors)</a></li>
-<li class="chapter" data-level="2.4" data-path="vectors.html"><a href="vectors.html#vector-index"><i class="fa fa-check"></i><b>2.4</b> Vector indexes (subsetting)</a></li>
-<li class="chapter" data-level="2.5" data-path="vectors.html"><a href="vectors.html#names"><i class="fa fa-check"></i><b>2.5</b> Names as an Index</a></li>
-<li class="chapter" data-level="2.6" data-path="vectors.html"><a href="vectors.html#vector-index-slicing"><i class="fa fa-check"></i><b>2.6</b> Slicing</a></li>
-<li class="chapter" data-level="2.7" data-path="vectors.html"><a href="vectors.html#colon-sequence"><i class="fa fa-check"></i><b>2.7</b> Colon Operator and Sequence Generation</a></li>
-<li class="chapter" data-level="2.8" data-path="vectors.html"><a href="vectors.html#working-with-two-vectors-of-equal-length"><i class="fa fa-check"></i><b>2.8</b> Working with two vectors of <em>equal</em> length</a></li>
-<li class="chapter" data-level="2.9" data-path="vectors.html"><a href="vectors.html#different-length-vectors"><i class="fa fa-check"></i><b>2.9</b> Working with two vectors of <em>different</em> length</a></li>
-<li class="chapter" data-level="2.10" data-path="vectors.html"><a href="vectors.html#applying-functions-to-a-vector"><i class="fa fa-check"></i><b>2.10</b> Applying functions to a vector</a></li>
-<li class="chapter" data-level="2.11" data-path="vectors.html"><a href="vectors.html#wrap-up"><i class="fa fa-check"></i><b>2.11</b> Wrap up</a></li>
-</ul></li>
-<li class="chapter" data-level="3" data-path="tables.html"><a href="tables.html"><i class="fa fa-check"></i><b>3</b> Tables and Tibbles (and Tribbles)</a>
-<ul>
-<li class="chapter" data-level="3.1" data-path="tables.html"><a href="tables.html#primary-types"><i class="fa fa-check"></i><b>3.1</b> Primary data types</a></li>
-<li class="chapter" data-level="3.2" data-path="tables.html"><a href="tables.html#vectors-are-homogeneous"><i class="fa fa-check"></i><b>3.2</b> All vector values must be of the same type</a></li>
-<li class="chapter" data-level="3.3" data-path="tables.html"><a href="tables.html#lists"><i class="fa fa-check"></i><b>3.3</b> Lists</a></li>
-<li class="chapter" data-level="3.4" data-path="tables.html"><a href="tables.html#subsetting"><i class="fa fa-check"></i><b>3.4</b> Subsetting, a fuller version</a>
-<ul>
-<li class="chapter" data-level="3.4.1" data-path="tables.html"><a href="tables.html#subsetting-for-atomics-vectors"><i class="fa fa-check"></i><b>3.4.1</b> Subsetting for (atomics) vectors</a></li>
-<li class="chapter" data-level="3.4.2" data-path="tables.html"><a href="tables.html#subsetting-for-lists"><i class="fa fa-check"></i><b>3.4.2</b> Subsetting for lists</a></li>
-</ul></li>
-<li class="chapter" data-level="3.5" data-path="tables.html"><a href="tables.html#dollar-subsetting"><i class="fa fa-check"></i><b>3.5</b> Yet another subsetting via $</a></li>
-<li class="chapter" data-level="3.6" data-path="tables.html"><a href="tables.html#data.frame"><i class="fa fa-check"></i><b>3.6</b> Tables, a.k.a. data frames</a></li>
-<li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#table-subsetting"><i class="fa fa-check"></i><b>3.7</b> Subsetting tables</a></li>
-<li class="chapter" data-level="3.8" data-path="tables.html"><a href="tables.html#library"><i class="fa fa-check"></i><b>3.8</b> Using libraries</a></li>
-<li class="chapter" data-level="3.9" data-path="tables.html"><a href="tables.html#tibble"><i class="fa fa-check"></i><b>3.9</b> Tibble, a better data.frame</a></li>
-<li class="chapter" data-level="3.10" data-path="tables.html"><a href="tables.html#tribble"><i class="fa fa-check"></i><b>3.10</b> Tribble, table from text</a></li>
-<li class="chapter" data-level="3.11" data-path="tables.html"><a href="tables.html#data"><i class="fa fa-check"></i><b>3.11</b> Reading example tables</a></li>
-<li class="chapter" data-level="3.12" data-path="tables.html"><a href="tables.html#readr"><i class="fa fa-check"></i><b>3.12</b> Reading csv files</a></li>
-<li class="chapter" data-level="3.13" data-path="tables.html"><a href="tables.html#readxl"><i class="fa fa-check"></i><b>3.13</b> Reading Excel files</a></li>
-<li class="chapter" data-level="3.14" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.14</b> Reading files from other programs</a></li>
-<li class="chapter" data-level="3.15" data-path="tables.html"><a href="tables.html#rds"><i class="fa fa-check"></i><b>3.15</b> Writing and reading a single object</a></li>
-<li class="chapter" data-level="3.16" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.16</b> Wrap up</a></li>
-</ul></li>
-<li class="chapter" data-level="4" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>4</b> Functions! Functions everywhere!</a>
-<ul>
-<li class="chapter" data-level="4.1" data-path="functions.html"><a href="functions.html#functions-1"><i class="fa fa-check"></i><b>4.1</b> Functions</a></li>
-<li class="chapter" data-level="4.2" data-path="functions.html"><a href="functions.html#writing-a-function"><i class="fa fa-check"></i><b>4.2</b> Writing a function</a></li>
-<li class="chapter" data-level="4.3" data-path="functions.html"><a href="functions.html#scopes-global-versus-local-variables"><i class="fa fa-check"></i><b>4.3</b> Scopes: Global versus Local variables</a></li>
-<li class="chapter" data-level="4.4" data-path="functions.html"><a href="functions.html#function-with-two-parameters"><i class="fa fa-check"></i><b>4.4</b> Function with two parameters</a></li>
-<li class="chapter" data-level="4.5" data-path="functions.html"><a href="functions.html#table-as-a-parameter"><i class="fa fa-check"></i><b>4.5</b> Table as a parameter</a></li>
-<li class="chapter" data-level="4.6" data-path="functions.html"><a href="functions.html#named-versus-positional-arguments"><i class="fa fa-check"></i><b>4.6</b> Named versus positional arguments</a></li>
-<li class="chapter" data-level="4.7" data-path="functions.html"><a href="functions.html#default-values"><i class="fa fa-check"></i><b>4.7</b> Default values</a></li>
-<li class="chapter" data-level="4.8" data-path="functions.html"><a href="functions.html#nested-calls"><i class="fa fa-check"></i><b>4.8</b> Nested calls</a></li>
-<li class="chapter" data-level="4.9" data-path="functions.html"><a href="functions.html#pipe"><i class="fa fa-check"></i><b>4.9</b> Piping</a></li>
-<li class="chapter" data-level="4.10" data-path="functions.html"><a href="functions.html#function-is-just-a-code-stored-in-a-variable"><i class="fa fa-check"></i><b>4.10</b> Function is just a code stored in a variable</a></li>
-<li class="chapter" data-level="4.11" data-path="functions.html"><a href="functions.html#functions-functions-everywhere"><i class="fa fa-check"></i><b>4.11</b> Functions! Functions everywhere!</a></li>
-<li class="chapter" data-level="4.12" data-path="functions.html"><a href="functions.html#using-or-not-using-explicit-return-statement"><i class="fa fa-check"></i><b>4.12</b> Using (or not using) explicit return statement</a></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>5</b> ggplot2: Grammar of Graphics</a>
-<ul>
-<li class="chapter" data-level="5.1" data-path="ggplot2.html"><a href="ggplot2.html#tidydata"><i class="fa fa-check"></i><b>5.1</b> Tidy data</a></li>
-<li class="chapter" data-level="5.2" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-1"><i class="fa fa-check"></i><b>5.2</b> ggplot2</a></li>
-<li class="chapter" data-level="5.3" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-continuous-x-axis"><i class="fa fa-check"></i><b>5.3</b> Auto efficiency: continuous x-axis</a></li>
-<li class="chapter" data-level="5.4" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-discrete-x-axis"><i class="fa fa-check"></i><b>5.4</b> Auto efficiency: discrete x-axis</a></li>
-<li class="chapter" data-level="5.5" data-path="ggplot2.html"><a href="ggplot2.html#mammals-sleep-single-variable"><i class="fa fa-check"></i><b>5.5</b> Mammals sleep: single variable</a></li>
-<li class="chapter" data-level="5.6" data-path="ggplot2.html"><a href="ggplot2.html#mapping-for-all-visuals-versus-just-one-visual"><i class="fa fa-check"></i><b>5.6</b> Mapping for all visuals versus just one visual</a></li>
-<li class="chapter" data-level="5.7" data-path="ggplot2.html"><a href="ggplot2.html#mapping-on-variables-versus-constants"><i class="fa fa-check"></i><b>5.7</b> Mapping on variables versus constants</a></li>
-<li class="chapter" data-level="5.8" data-path="ggplot2.html"><a href="ggplot2.html#themes"><i class="fa fa-check"></i><b>5.8</b> Themes</a></li>
-<li class="chapter" data-level="5.9" data-path="ggplot2.html"><a href="ggplot2.html#you-aint-seen-nothing-yet"><i class="fa fa-check"></i><b>5.9</b> You ain’t seen nothing yet</a></li>
-<li class="chapter" data-level="5.10" data-path="ggplot2.html"><a href="ggplot2.html#further-reading"><i class="fa fa-check"></i><b>5.10</b> Further reading</a></li>
-<li class="chapter" data-level="5.11" data-path="ggplot2.html"><a href="ggplot2.html#extending-ggplot2"><i class="fa fa-check"></i><b>5.11</b> Extending ggplot2</a></li>
-<li class="chapter" data-level="5.12" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-cannot-do-everything"><i class="fa fa-check"></i><b>5.12</b> ggplot2 cannot do everything</a></li>
-</ul></li>
-<li class="chapter" data-level="6" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>6</b> Tidyverse: dplyr</a>
-<ul>
-<li class="chapter" data-level="6.1" data-path="dplyr.html"><a href="dplyr.html#tidyverse-philosophy"><i class="fa fa-check"></i><b>6.1</b> Tidyverse philosophy</a></li>
-<li class="chapter" data-level="6.2" data-path="dplyr.html"><a href="dplyr.html#select"><i class="fa fa-check"></i><b>6.2</b> <code>select()</code> columns by name</a></li>
-<li class="chapter" data-level="6.3" data-path="dplyr.html"><a href="dplyr.html#conditions"><i class="fa fa-check"></i><b>6.3</b> Conditions</a></li>
-<li class="chapter" data-level="6.4" data-path="dplyr.html"><a href="dplyr.html#logical-indexing"><i class="fa fa-check"></i><b>6.4</b> Logical indexing</a></li>
-<li class="chapter" data-level="6.5" data-path="dplyr.html"><a href="dplyr.html#filter-rows-by-values"><i class="fa fa-check"></i><b>6.5</b> <code>filter()</code> rows by values</a></li>
-<li class="chapter" data-level="6.6" data-path="dplyr.html"><a href="dplyr.html#arrange-rows-in-a-particular-order"><i class="fa fa-check"></i><b>6.6</b> <code>arrange()</code> rows in a particular order</a></li>
-<li class="chapter" data-level="6.7" data-path="dplyr.html"><a href="dplyr.html#mutate"><i class="fa fa-check"></i><b>6.7</b> <code>mutate()</code> columns</a></li>
-<li class="chapter" data-level="6.8" data-path="dplyr.html"><a href="dplyr.html#summarize"><i class="fa fa-check"></i><b>6.8</b> <code>summarize()</code> table by <code>groups</code></a></li>
-<li class="chapter" data-level="6.9" data-path="dplyr.html"><a href="dplyr.html#putting-it-all-together"><i class="fa fa-check"></i><b>6.9</b> Putting it all together</a></li>
-<li class="chapter" data-level="6.10" data-path="dplyr.html"><a href="dplyr.html#should-i-use-tidyverse"><i class="fa fa-check"></i><b>6.10</b> Should I use Tidyverse?</a></li>
-</ul></li>
-<li class="chapter" data-level="7" data-path="working-with-factors.html"><a href="working-with-factors.html"><i class="fa fa-check"></i><b>7</b> Working with Factors</a>
-<ul>
-<li class="chapter" data-level="7.1" data-path="working-with-factors.html"><a href="working-with-factors.html#how-to-write-code"><i class="fa fa-check"></i><b>7.1</b> How to write code</a></li>
-<li class="chapter" data-level="7.2" data-path="working-with-factors.html"><a href="working-with-factors.html#implementing-a-typical-analysis"><i class="fa fa-check"></i><b>7.2</b> Implementing a typical analysis</a></li>
-<li class="chapter" data-level="7.3" data-path="working-with-factors.html"><a href="working-with-factors.html#factors"><i class="fa fa-check"></i><b>7.3</b> Factors</a></li>
-<li class="chapter" data-level="7.4" data-path="working-with-factors.html"><a href="working-with-factors.html#forcats"><i class="fa fa-check"></i><b>7.4</b> Forcats</a></li>
-<li class="chapter" data-level="7.5" data-path="working-with-factors.html"><a href="working-with-factors.html#plotting-group-averages"><i class="fa fa-check"></i><b>7.5</b> Plotting group averages</a></li>
-<li class="chapter" data-level="7.6" data-path="working-with-factors.html"><a href="working-with-factors.html#plotting-our-confidence-in-group-averages-via-quantiles"><i class="fa fa-check"></i><b>7.6</b> Plotting our confidence in group averages via quantiles</a></li>
-<li class="chapter" data-level="7.7" data-path="working-with-factors.html"><a href="working-with-factors.html#looking-at-similarity"><i class="fa fa-check"></i><b>7.7</b> Looking at similarity</a></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="tyding.html"><a href="tyding.html"><i class="fa fa-check"></i><b>8</b> Tidyng your data: joins and pivots</a>
-<ul>
-<li class="chapter" data-level="8.1" data-path="tyding.html"><a href="tyding.html#joins"><i class="fa fa-check"></i><b>8.1</b> Joining tables</a></li>
-<li class="chapter" data-level="8.2" data-path="tyding.html"><a href="tyding.html#pivoting"><i class="fa fa-check"></i><b>8.2</b> Pivoting</a></li>
-<li class="chapter" data-level="8.3" data-path="tyding.html"><a href="tyding.html#pivot-longer"><i class="fa fa-check"></i><b>8.3</b> Pivot longer</a></li>
-<li class="chapter" data-level="8.4" data-path="tyding.html"><a href="tyding.html#pivot-wider"><i class="fa fa-check"></i><b>8.4</b> Pivot wider</a></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html"><i class="fa fa-check"></i><b>9</b> Controling computation flow</a>
-<ul>
-<li class="chapter" data-level="9.1" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#rep"><i class="fa fa-check"></i><b>9.1</b> <code>rep()</code></a></li>
-<li class="chapter" data-level="9.2" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#repeating-combinations"><i class="fa fa-check"></i><b>9.2</b> Repeating combinations</a></li>
-<li class="chapter" data-level="9.3" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#forloop"><i class="fa fa-check"></i><b>9.3</b> For loop</a></li>
-<li class="chapter" data-level="9.4" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#if-else"><i class="fa fa-check"></i><b>9.4</b> Conditional statement</a></li>
-<li class="chapter" data-level="9.5" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#breaking-out-of-the-loop"><i class="fa fa-check"></i><b>9.5</b> Breaking out of the loop</a></li>
-<li class="chapter" data-level="9.6" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#using-for-loop-to-load-and-join-multiple-data-files"><i class="fa fa-check"></i><b>9.6</b> Using for loop to load and join multiple data files</a></li>
-<li class="chapter" data-level="9.7" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#apply"><i class="fa fa-check"></i><b>9.7</b> Apply</a></li>
-<li class="chapter" data-level="9.8" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#purrr"><i class="fa fa-check"></i><b>9.8</b> Purrr</a></li>
-</ul></li>
-<li class="chapter" data-level="10" data-path="christmas-special.html"><a href="christmas-special.html"><i class="fa fa-check"></i><b>10</b> Christmas special</a>
-<ul>
-<li class="chapter" data-level="10.1" data-path="christmas-special.html"><a href="christmas-special.html#left-side-of-the-tree"><i class="fa fa-check"></i><b>10.1</b> Left side of the tree</a></li>
-<li class="chapter" data-level="10.2" data-path="christmas-special.html"><a href="christmas-special.html#right-side-of-the-tree"><i class="fa fa-check"></i><b>10.2</b> Right side of the tree</a></li>
-<li class="chapter" data-level="10.3" data-path="christmas-special.html"><a href="christmas-special.html#the-whole-tree"><i class="fa fa-check"></i><b>10.3</b> The whole tree</a></li>
-<li class="chapter" data-level="10.4" data-path="christmas-special.html"><a href="christmas-special.html#filling-in-the-tree"><i class="fa fa-check"></i><b>10.4</b> Filling in the tree</a></li>
-<li class="chapter" data-level="10.5" data-path="christmas-special.html"><a href="christmas-special.html#adding-background-image"><i class="fa fa-check"></i><b>10.5</b> Adding background image</a></li>
-<li class="chapter" data-level="10.6" data-path="christmas-special.html"><a href="christmas-special.html#adding-decoration-a-boring-one"><i class="fa fa-check"></i><b>10.6</b> Adding decoration (a boring one)</a></li>
-<li class="chapter" data-level="10.7" data-path="christmas-special.html"><a href="christmas-special.html#adding-decoration-a-bit-more-fun-one"><i class="fa fa-check"></i><b>10.7</b> Adding decoration (a bit more fun one)</a></li>
-<li class="chapter" data-level="10.8" data-path="christmas-special.html"><a href="christmas-special.html#adding-decoration-the-fun-ones"><i class="fa fa-check"></i><b>10.8</b> Adding decoration (the fun ones)</a></li>
-<li class="chapter" data-level="10.9" data-path="christmas-special.html"><a href="christmas-special.html#a-star-on-top"><i class="fa fa-check"></i><b>10.9</b> A star on top</a></li>
-<li class="chapter" data-level="10.10" data-path="christmas-special.html"><a href="christmas-special.html#merry-christmas"><i class="fa fa-check"></i><b>10.10</b> Merry Christmas!</a></li>
-</ul></li>
-<li class="chapter" data-level="11" data-path="missing-data.html"><a href="missing-data.html"><i class="fa fa-check"></i><b>11</b> Missing data</a>
-<ul>
-<li class="chapter" data-level="11.1" data-path="missing-data.html"><a href="missing-data.html#complete"><i class="fa fa-check"></i><b>11.1</b> Making missing data explicit (completing data)</a></li>
-<li class="chapter" data-level="11.2" data-path="missing-data.html"><a href="missing-data.html#na.omit"><i class="fa fa-check"></i><b>11.2</b> Dropping / omitting NAs</a></li>
-</ul></li>
-<li class="chapter" data-level="12" data-path="strings.html"><a href="strings.html"><i class="fa fa-check"></i><b>12</b> Working with strings</a>
-<ul>
-<li class="chapter" data-level="12.1" data-path="strings.html"><a href="strings.html#warming-up"><i class="fa fa-check"></i><b>12.1</b> Warming up</a></li>
-<li class="chapter" data-level="12.2" data-path="strings.html"><a href="strings.html#glue"><i class="fa fa-check"></i><b>12.2</b> Formatting strings via <code>glue()</code></a></li>
-<li class="chapter" data-level="12.3" data-path="strings.html"><a href="strings.html#paste"><i class="fa fa-check"></i><b>12.3</b> Formatting strings via <code>paste()</code></a></li>
-<li class="chapter" data-level="12.4" data-path="strings.html"><a href="strings.html#sprintf"><i class="fa fa-check"></i><b>12.4</b> Formatting strings via <code>sprintf()</code></a></li>
-<li class="chapter" data-level="12.5" data-path="strings.html"><a href="strings.html#extracting-information-from-a-string"><i class="fa fa-check"></i><b>12.5</b> Extracting information from a string</a></li>
-<li class="chapter" data-level="12.6" data-path="strings.html"><a href="strings.html#splitting-strings-via-separate"><i class="fa fa-check"></i><b>12.6</b> Splitting strings via <code>separate()</code></a></li>
-<li class="chapter" data-level="12.7" data-path="strings.html"><a href="strings.html#extracting-a-substring-when-you-know-its-location"><i class="fa fa-check"></i><b>12.7</b> Extracting a substring when you know its location</a></li>
-<li class="chapter" data-level="12.8" data-path="strings.html"><a href="strings.html#detecting-a-substring-using-regular-expressions"><i class="fa fa-check"></i><b>12.8</b> Detecting a substring using regular expressions</a></li>
-</ul></li>
-<li class="chapter" data-level="13" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html"><i class="fa fa-check"></i><b>13</b> Sampling and simulations</a>
-<ul>
-<li class="chapter" data-level="13.1" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#estimating-mean-of-a-normal-distribution-via-resampling"><i class="fa fa-check"></i><b>13.1</b> Estimating mean of a normal distribution via resampling</a></li>
-<li class="chapter" data-level="13.2" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#bootstrapping-via-boot-library"><i class="fa fa-check"></i><b>13.2</b> Bootstrapping via boot library</a></li>
-<li class="chapter" data-level="13.3" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#more-samples-give-you-more-confidence"><i class="fa fa-check"></i><b>13.3</b> More samples give you more confidence</a></li>
-<li class="chapter" data-level="13.4" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#adding-average-sample-mean"><i class="fa fa-check"></i><b>13.4</b> Adding average sample mean</a></li>
-<li class="chapter" data-level="13.5" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#practice-makes-perfect"><i class="fa fa-check"></i><b>13.5</b> Practice makes perfect</a></li>
-<li class="chapter" data-level="13.6" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#starting-with-basics"><i class="fa fa-check"></i><b>13.6</b> Starting with basics</a></li>
-</ul></li>
-<li class="chapter" data-level="14" data-path="statistical-modeling.html"><a href="statistical-modeling.html"><i class="fa fa-check"></i><b>14</b> Statistical modeling</a>
-<ul>
-<li class="chapter" data-level="14.1" data-path="statistical-modeling.html"><a href="statistical-modeling.html#correlation"><i class="fa fa-check"></i><b>14.1</b> Correlation</a></li>
-<li class="chapter" data-level="14.2" data-path="statistical-modeling.html"><a href="statistical-modeling.html#correlation-in-practice"><i class="fa fa-check"></i><b>14.2</b> Correlation in practice</a></li>
-<li class="chapter" data-level="14.3" data-path="statistical-modeling.html"><a href="statistical-modeling.html#pairwise-comparisons"><i class="fa fa-check"></i><b>14.3</b> Pairwise comparisons</a></li>
-<li class="chapter" data-level="14.4" data-path="statistical-modeling.html"><a href="statistical-modeling.html#t-tests-in-practice"><i class="fa fa-check"></i><b>14.4</b> T-tests in practice</a></li>
-<li class="chapter" data-level="14.5" data-path="statistical-modeling.html"><a href="statistical-modeling.html#formula-notation"><i class="fa fa-check"></i><b>14.5</b> Formula notation</a></li>
-<li class="chapter" data-level="14.6" data-path="statistical-modeling.html"><a href="statistical-modeling.html#using-t-test-via-formula"><i class="fa fa-check"></i><b>14.6</b> Using t-test via formula</a></li>
-<li class="chapter" data-level="14.7" data-path="statistical-modeling.html"><a href="statistical-modeling.html#anova"><i class="fa fa-check"></i><b>14.7</b> ANOVA</a></li>
-<li class="chapter" data-level="14.8" data-path="statistical-modeling.html"><a href="statistical-modeling.html#almost-everything-is-a-linear-regression-model"><i class="fa fa-check"></i><b>14.8</b> (Almost) everything is a linear regression model</a></li>
-<li class="chapter" data-level="14.9" data-path="statistical-modeling.html"><a href="statistical-modeling.html#GLMM"><i class="fa fa-check"></i><b>14.9</b> (Generalized) Linear Models</a></li>
-<li class="chapter" data-level="14.10" data-path="statistical-modeling.html"><a href="statistical-modeling.html#resampling-a-linear-model"><i class="fa fa-check"></i><b>14.10</b> Resampling a linear model</a></li>
-<li class="chapter" data-level="14.11" data-path="statistical-modeling.html"><a href="statistical-modeling.html#generalized-linear-mixed-models"><i class="fa fa-check"></i><b>14.11</b> (Generalized) Linear Mixed Models</a></li>
-<li class="chapter" data-level="14.12" data-path="statistical-modeling.html"><a href="statistical-modeling.html#disclaimer-repeated"><i class="fa fa-check"></i><b>14.12</b> Disclaimer, repeated</a></li>
-</ul></li>
-<li class="chapter" data-level="15" data-path="practice.html"><a href="practice.html"><i class="fa fa-check"></i><b>15</b> Practice</a>
-<ul>
-<li class="chapter" data-level="15.1" data-path="practice.html"><a href="practice.html#bad-names-to-good-names"><i class="fa fa-check"></i><b>15.1</b> Bad names to good names</a></li>
-<li class="chapter" data-level="15.2" data-path="practice.html"><a href="practice.html#participant-id"><i class="fa fa-check"></i><b>15.2</b> Participant ID</a></li>
-<li class="chapter" data-level="15.3" data-path="practice.html"><a href="practice.html#factors-1"><i class="fa fa-check"></i><b>15.3</b> Factors</a></li>
-<li class="chapter" data-level="15.4" data-path="practice.html"><a href="practice.html#response-times"><i class="fa fa-check"></i><b>15.4</b> Response times</a></li>
-<li class="chapter" data-level="15.5" data-path="practice.html"><a href="practice.html#accuracy"><i class="fa fa-check"></i><b>15.5</b> Accuracy</a></li>
-<li class="chapter" data-level="15.6" data-path="practice.html"><a href="practice.html#physiological-signal"><i class="fa fa-check"></i><b>15.6</b> Physiological signal</a></li>
-<li class="chapter" data-level="15.7" data-path="practice.html"><a href="practice.html#wrap-up-2"><i class="fa fa-check"></i><b>15.7</b> Wrap up</a></li>
-</ul></li>
-<li class="divider"></li>
-<li><a href="https://alexander-pastukhov.github.io/">Alexander (Sasha) Pastukhov</li>
-
-</ul>
-
-      </nav>
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Data analysis using R for Psychology and Social Science</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
     </div>
 
-    <div class="book-body">
-      <div class="body-inner">
-        <div class="book-header" role="navigation">
-          <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data analysis using R for Psychology and Social Science</a>
-          </h1>
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Introduction</a></li>
+<li><a class="" href="software.html">Software</a></li>
+<li><a class="" href="reproducable-research.html"><span class="header-section-number">1</span> Reproducable Research: Projects and Markdown Notebooks</a></li>
+<li><a class="" href="vectors.html"><span class="header-section-number">2</span> Vectors! Vectors everywhere!</a></li>
+<li><a class="" href="tables.html"><span class="header-section-number">3</span> Tables and Tibbles (and Tribbles)</a></li>
+<li><a class="" href="functions.html"><span class="header-section-number">4</span> Functions! Functions everywhere!</a></li>
+<li><a class="" href="ggplot2.html"><span class="header-section-number">5</span> ggplot2: Grammar of Graphics</a></li>
+<li><a class="" href="dplyr.html"><span class="header-section-number">6</span> Tidyverse: dplyr</a></li>
+<li><a class="" href="working-with-factors.html"><span class="header-section-number">7</span> Working with Factors</a></li>
+<li><a class="" href="tyding.html"><span class="header-section-number">8</span> Tidyng your data: joins and pivots</a></li>
+<li><a class="" href="control-flow-chapter.html"><span class="header-section-number">9</span> Controling computation flow</a></li>
+<li><a class="" href="missing-data.html"><span class="header-section-number">10</span> Missing data</a></li>
+<li><a class="" href="strings.html"><span class="header-section-number">11</span> Working with strings</a></li>
+<li><a class="active" href="sampling-and-simulations.html"><span class="header-section-number">12</span> Sampling and simulations</a></li>
+<li><a class="" href="generalized-linear-regression-and-resampling.html"><span class="header-section-number">13</span> (Generalized) Linear regression and Resampling</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/alexander-pastukhov/data-analysis-using-r-for-psychology">View book source <i class="fab fa-github"></i></a></p>
         </div>
-
-        <div class="page-wrapper" tabindex="-1" role="main">
-          <div class="page-inner">
-
-            <section class="normal" id="section-">
-<div id="sampling-and-simulations" class="section level1 hasAnchor" number="13">
-<h1><span class="header-section-number">Seminar 13</span> Sampling and simulations<a href="sampling-and-simulations.html#sampling-and-simulations" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>An ability to simulate and sample data is important whenever you analyze your data. Simulating data by sampling from predefined distributions allows you develop your analysis routine and ensure that it can correctly recover the anticipated effects even before you have seen or collected the data. Or even before you designed your study as such simulations form a core of the power analysis. Sampling your data paves way for non-paramatric bootstrapping and permutation testing that helps you whenever assumptions of parametric tests are violated or when you require an estimate that is not easy to derive analytically.</p>
-<p>Grab <a href="notebooks/Seminar%2013%20-%20resampling.Rmd">exercise notebook</a> before reading on.</p>
-<div id="estimating-mean-of-a-normal-distribution-via-resampling" class="section level2 hasAnchor" number="13.1">
-<h2><span class="header-section-number">13.1</span> Estimating mean of a normal distribution via resampling<a href="sampling-and-simulations.html#estimating-mean-of-a-normal-distribution-via-resampling" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Let us start very simple. Your task will be to generate samples from a normal distribution and then use resampling approach to estimate the original mean. Step one is simple, decide on mean and standard deviation of the normal distribution and generate 20 samples using <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html">rnorm()</a> function (<code>r&lt;distribution</code> functions generate random number based on distribution and its parameters). Check your results visually by plotting a histogram and adding a red <a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">vertical line</a> to indicate the true mean of the distribution. We also need to see the difference between the true mean and the sample mean. So include a blue vertical line to indicate the <em>sample</em> mean. Run your code several times to appreciate variability of the data and, therefore, of the sample mean.
-Your plot should look something like this.
-<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-323-1.png" width="672" /></p>
-<div class="infobox practice">
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="sampling-and-simulations" class="section level1" number="12">
+<h1>
+<span class="header-section-number">12</span> Sampling and simulations<a class="anchor" aria-label="anchor" href="#sampling-and-simulations"><i class="fas fa-link"></i></a>
+</h1>
+<p>An important trick in your toolbox is a skill to resample and simulate data. The latter, sampling from predefined distributions, allows you develop your analysis routine and ensure that it can correctly recover the anticipated effects even before you have collected the data and perform a power analysis. Resampling your data paves way for non-parametric bootstrapping and permutation testing that helps you whenever assumptions of parametric tests are violated or when you require an estimate that is not easy to derive analytically.</p>
+<p>Grab <a href="notebooks/Seminar%2013%20-%20resampling.qmd">exercise notebook</a> before reading on.</p>
+<div id="estimating-mean-of-a-normal-distribution-via-resampling" class="section level2" number="12.1">
+<h2>
+<span class="header-section-number">12.1</span> Estimating mean of a normal distribution via resampling<a class="anchor" aria-label="anchor" href="#estimating-mean-of-a-normal-distribution-via-resampling"><i class="fas fa-link"></i></a>
+</h2>
+<p>Let us start very simple. Your task will be to generate samples from a normal distribution and then use resampling approach to estimate the original mean. Step one is simple, decide on mean and standard deviation of the normal distribution and generate 20 samples using <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html">rnorm()</a> function (<code>r&lt;distribution</code> functions generate random number based on distribution and its parameters). Check your results visually by plotting a histogram and adding a red <a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">vertical line</a> to indicate the true mean of the distribution. We also need to see the difference between the true mean and the sample mean, so include a blue vertical line to indicate the <em>sample</em> mean. Finally, it is always nice to have both visual and textual information in the plots, so add information about the true mean, number of samples, and sample mean to the plot’s title. Run your code several times to appreciate variability of the data and, therefore, of the sample mean.
+Your plot should look something like this (my number of <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html">set.seed</a> is 1745).
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-304-1.png" width="672"></p>
+<div class="practice">
 <p>Do exercise 1.</p>
 </div>
-<p>In the real life, we do not know the true mean which is why we need to collect the data to begin with. We also know that our sample mean is different from the true mean and we would like to know how much can we trust that value. In other words, we would like to know how much the <em>sample mean</em> would vary if we would draw some <em>other</em> samples from the same distribution. Theoretically, you want to draw samples from that “true” distribution directly. Practically, you do not have access to it, apart from replicating your experiment or study many times. Instead, you can make either an educated guess about shape and parameters of this distribution. This is a parametric approach used to compute estimators analytically, e.g., from the <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/TDist.html">Student t Distribution</a>. This is the way it is done in the <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/t.test.html">t.test()</a>.</p>
-<div class="sourceCode" id="cb467"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb467-1"><a href="sampling-and-simulations.html#cb467-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(samples, <span class="at">mu =</span> <span class="dv">10</span>)</span></code></pre></div>
+<p>In the real life, we do not know the true mean which is why we need to collect the data to begin with. We also know that our sample mean is different from the true mean<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Mean is an &lt;a href="https://en.wikipedia.org/wiki/Bias_of_an_estimator"&gt;unbiased estimator&lt;/a&gt;, so if we draw infinite samples, their distribution will center on the true mean but mean for each sample will be either (a tad or a lot) large or smaller than the true one.&lt;/p&gt;'><sup>73</sup></a> and we would like to know how much can we trust that value. In other words, we would like to know how much the <em>sample mean</em> would vary if we would draw some <em>other</em> samples from the same distribution. Theoretically, you want to draw samples from that “true” distribution directly. Practically, you do not have access to it, apart from replicating your experiment or study many times. Instead, you can make an educated guess about shape and parameters of this distribution. This is a parametric approach used to compute estimators analytically, e.g., from the <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/TDist.html">Student t Distribution</a>. This is the way it is done in the <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/t.test.html">t.test()</a>.</p>
+<div class="sourceCode" id="cb486"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">samples</span>, mu <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
 ##  One Sample t-test
 ## 
@@ -378,519 +102,368 @@ Your plot should look something like this.
 ## sample estimates:
 ## mean of x 
 ##  9.623264</code></pre>
-<p>The other approach is to assume that your sample and, therefore, the data you collected is representative, so sampling from the data is just like sampling from the true distribution. This is obviously a strong assumption, particularly for small samples. However, this approach can work with any data, regardless of its distribution, and can be used to estimate statistic that is not easy to derive analytically. Thus, below we will use a brute force approach that relies on sheer computer power to compute the same confidence interval through resampling from the original data that you generated.</p>
-<p>You will need three functions for this. First, the function that samples you data: <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/sample.html">sample()</a>. It takes the original data (first parameter <code>x</code>) and randomly samples <code>size</code> items from it either with or without replacement (controlled by <code>replace</code> parameter that defaults to <code>FALSE</code>, so no replacement). In our case we want to get a sample of the size as the original data and we want to sample <em>with</em> replacement. Again, this way we pretend that we get another data sample, as if we would run the study again, and the probability of individual entries depends on how frequently they appear in the original data. For our purposes, we want to resample data and compute its mean. Write the code that does just that. Run the chunk several times to see how computed mean value changes due to resampling. As an exercise, set <code>replace=FALSE</code> and think what value do you expect and whether and how it would change when run the chunk again.</p>
-<div class="infobox practice">
+<p>The other approach is to assume that your sample and, therefore, the data you collected is representative, so frequency of individual values in your sample is proportional to the their probability, i.e., the more often you see a particular value, the more likely it is. In this case, sampling from the data is just like sampling from the true distribution. This is obviously a strong assumption, particularly for small samples, however, this approach can work with any data, regardless of its distribution, and can be used to estimate statistic that is not easy to derive analytically. Thus, below we will use a brute force approach that relies on sheer computer power to compute the same confidence interval as one analytically computed by the t-test through resampling of the data that you generated.</p>
+<p>You will need three functions for this. First, the function that samples you data: <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/sample.html">sample()</a>. It takes the original data (first parameter <code>x</code>) and randomly samples <code>size</code> items from it either with or without replacement (controlled by <code>replace</code> parameter that defaults to <code>FALSE</code>, so no replacement). In our case we want to get a sample of the size as the original data and we want to sample <em>with</em> replacement. <em>With replacement</em> means that once a value is drawn from the sample, it is recorded and then <em>put back in</em>, so it can be drawn again. <em>With replacement</em> procedure means that probability of drawing a particular value is always the same, whereas <em>without replacement</em> their probabilities change with every draw simply because there fewer and fewer values left to sample from.</p>
+<p>For our purposes, we want to resample data and compute its mean. Write the code that does just that. Run the chunk several times to see how computed mean value changes due to resampling. As an exercise, set <code>replace = FALSE</code> and, <em>before running the chunk</em>, think what value do you expect and whether and how it would change when run the chunk again.</p>
+<div class="practice">
 <p>Do exercise 2.</p>
 </div>
-<p>Our second step is to repeat out first step many times. Say, 1000 times. The function that helps you to do this is <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/lapply.html">replicate()</a>. That takes number of repetitions (first parameter <code>n</code>) and an arbitrary R code that returns a value (our step one). Once you run it, you will get a vector of 1000 means from resampled data. Plot the histogram, overlaying the true and sample means as a reference
-<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-325-1.png" width="672" /></p>
-<p>Our final step is to use <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile">quantile()</a> function to compute 95% confidence interval. <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile">quantile()</a> function takes a vector and computes a value that is greater than <code>probs</code> fraction of values in that vector. E.g., if <code>probs=c(0.25, 0.75)</code>, it will return a two values, so that 25% of values are smaller than the first one and 75% of them are smaller than the second. Or, to put it differently, 50% of all values are with <code>probs=c(0.25, 0.75)</code>. In our case, we want to compute 95% confidence interval, i.e., 95% of all values should be between the lower and upper confidence interval values. Once you run the code, you should see that 95% confidence interval from resampling is very similar to what the t-test reported (you want get the same values due to random sampling but they should also be close to the t-test’s analytic estimate).</p>
-<pre><code>## 95% CI: 8.940554 10.316821</code></pre>
-<div class="infobox practice">
+<p>Our resampling-and-computing-mean code is very simple and brief. However, it is generally a good idea to pack it into a function with a meaningful name. Do just that: turn the code of exercise 2 into a function (think about function parameters and what it should return) and call it to check that everything works (when you pass a sample to it, it should return a resampled mean for it).</p>
+<div class="practice">
 <p>Do exercise 3.</p>
 </div>
+<p>Our second step is to repeat our first step many (say, 1000) times. The base R function that helps you to do this is <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/lapply.html">replicate()</a>. That takes number of repetitions (first parameter <code>n</code>) and an arbitrary R code that returns a value (our step one). Once you run it, you will get a vector of 1000 means from resampled data. Plot the histogram, overlaying the true and average samples’ means (so mean of the means of samples, not a just a mean of all samples!) as a reference. Your plot should look like this
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-306-1.png" width="672"></p>
+<p>Our final step is to use <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile">quantile()</a> function to compute 95% confidence interval. <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile">quantile()</a> function takes a vector and computes a value that is greater than <code>probs</code> fraction of values in that vector. E.g., if <code>probs=c(0.25, 0.75)</code>, it will return a two values, so that 25% of values are smaller than the first one and 75% of them are smaller than the second. Or, to put it differently, 50% of all values are with <code>probs=c(0.25, 0.75)</code>. In our case, we want to compute 97%<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Because 97 is a prime number and 95 is not, so 97 is a bit less arbitrary than 95!&lt;/p&gt;"><sup>74</sup></a> confidence interval, i.e., 97% of all values should be between the lower and upper confidence interval values. Once you run the code, you should see that 97% confidence interval from resampling is very similar to what the t-test reported (you want get the same values due to random sampling but they should also be close to the t-test’s analytic estimate). Add this information to the caption (often, this information is put directly into the text, but I find it simpler if all quantitative information is together and easy to find)
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-307-1.png" width="672">
+::: {.practice}
+Do exercise 4.
+:::</p>
 </div>
-<div id="bootstrapping-via-boot-library" class="section level2 hasAnchor" number="13.2">
-<h2><span class="header-section-number">13.2</span> Bootstrapping via boot library<a href="sampling-and-simulations.html#bootstrapping-via-boot-library" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The approach that we used is called <a href="https://en.wikipedia.org/wiki/Bootstrapping_(statistics)">“bootstrapping”</a> and R conveniently has a <a href="https://cran.r-project.org/web/packages/boot/index.html">boot</a> library to simplify and automate bootstrapping and the confidence interval computation. You do not need to install it (<code>boot</code> comes with base R) but you need to import it via <code>library(boot)</code>.</p>
+<div id="repeating-computation-via-for-loop" class="section level2" number="12.2">
+<h2>
+<span class="header-section-number">12.2</span> Repeating computation via for loop<a class="anchor" aria-label="anchor" href="#repeating-computation-via-for-loop"><i class="fas fa-link"></i></a>
+</h2>
+<p>As we discussed in the a <a href="control-flow-chapter.html#control-flow-chapter">chapter on loops and repetitions</a>, whereas many ways to repeat a computation in R. Let’s replicate the sampling part of the code, using <a href="control-flow-chapter.html#forloop">for loop</a>. This is not the best way to perform our current task, but it is a safer approach if your computation is heavy and takes a long time, as it is easier to perform bookkeeping, retain data and restart the computation if something goes wrong (e.g., you run out of memory or file space), compared to functional programing via <a href="(https://stat.ethz.ch/R-manual/R-devel/library/base/html/lapply.html)">replicate</a> or <a href="https://purrr.tidyverse.org/">purrr</a>, where you might need to start from scratch.</p>
+<p>Think about how you will define number of iterations, whether you need to use the loop variable, how you concatenate new sample mean to the vector, etc.</p>
+<div class="practice">
+<p>Do exercise 5.</p>
+</div>
+</div>
+<div id="repeating-computation-via-purrr" class="section level2" number="12.3">
+<h2>
+<span class="header-section-number">12.3</span> Repeating computation via purrr<a class="anchor" aria-label="anchor" href="#repeating-computation-via-purrr"><i class="fas fa-link"></i></a>
+</h2>
+<p>Practice makes perfect, so let us replicate the code repeating via <a href="control-flow-chapter.html#purrr">purrr</a> library. Think about which <a href="https://purrr.tidyverse.org/reference/map.html">map function</a> is best for the job, whether you need to use the special <code>.</code> variable, etc.</p>
+<div class="practice">
+<p>Do exercise 6.</p>
+</div>
+</div>
+<div id="bootstrapping-via-boot-library" class="section level2" number="12.4">
+<h2>
+<span class="header-section-number">12.4</span> Bootstrapping via boot library<a class="anchor" aria-label="anchor" href="#bootstrapping-via-boot-library"><i class="fas fa-link"></i></a>
+</h2>
+<p>The approach that we used is called <a href="https://en.wikipedia.org/wiki/Bootstrapping_(statistics)">“bootstrapping”</a> and R is all about giving you options, so it has a <a href="https://cran.r-project.org/web/packages/boot/index.html">boot</a> library to simplify and automate bootstrapping and the confidence interval computation. You do not need to install it (<code>boot</code> comes with base R) but you need to import it via <code><a href="https://rdrr.io/r/base/library.html">library(boot)</a></code>.</p>
 <p>The key function is <a href="https://stat.ethz.ch/R-manual/R-devel/library/boot/html/boot.html">boot()</a>. It has plenty of parameters that allow you to fine tune its performance but the three key compulsory parameters are</p>
 <ul>
-<li><code>data</code>: your original data you want to use for bootstrapping.</li>
-<li><code>statistic</code>: function(s) that compute desired statistic, such as mean in our case.</li>
-<li><code>R</code>: the number of bootstrap replicates (we used 1000 when we did this by hand).</li>
+<li>
+<code>data</code>: your original data you want to use for bootstrapping.</li>
+<li>
+<code>statistic</code>: function(s) that compute desired statistic, such is mean in our case.</li>
+<li>
+<code>R</code>: the number of bootstrap replicates (we used 1000 when we did this by hand).</li>
 </ul>
-<p>For non-parametric bootstraping, like the one we used above, you will need to write the <code>statistic</code> function yourself even if you want to compute a statistic for which functions already exist, like mean or standard deviation. This is because <code>statistic</code> function must take at least two arguments: 1) the data that you passed and 2) how it should be resampled. By default, the second parameter will contain indexes of elements in the data. Note that bootstrap resamples <em>with</em> replacement, so the same index can appear more than once meaning that the same element was drawn more than once (just as we did above).</p>
+<p>For non-parametric bootstrapping, like the one we used above, you will need to write the <code>statistic</code> function yourself even if you want to compute a statistic for which functions already exist, like mean or standard deviation. This is because <code>statistic</code> function must take at least two arguments: 1) the data that you passed and 2) how it should be resampled. By default, the second parameter will contain indexes of elements in the data. Note that bootstrap resamples <em>with</em> replacement, so the same index can appear more than once, i.e., the same element is drawn more than once (just as we did above).</p>
 <p>Your statistic function should like as following, of course with a better name and an actual code inside.</p>
-<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="sampling-and-simulations.html#cb470-1" aria-hidden="true" tabindex="-1"></a>your_statistic_function <span class="ot">&lt;-</span> <span class="cf">function</span>(data, indexes){</span>
-<span id="cb470-2"><a href="sampling-and-simulations.html#cb470-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># here you compute desired statistic subsetting data using indexes</span></span>
-<span id="cb470-3"><a href="sampling-and-simulations.html#cb470-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb488"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">your_statistic_function</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">indexes</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="co"># here you compute desired statistic subsetting data using indexes</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 <p>Once you have this function, you can bootstrap samples via</p>
-<div class="sourceCode" id="cb471"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb471-1"><a href="sampling-and-simulations.html#cb471-1" aria-hidden="true" tabindex="-1"></a>booted_samples <span class="ot">&lt;-</span> <span class="fu">boot</span>(samples, <span class="at">statistic =</span> your_statistic_function, <span class="at">R=</span><span class="dv">1000</span>)</span></code></pre></div>
-<p>Next, use function <a href="https://stat.ethz.ch/R-manual/R-devel/library/boot/html/boot.html">boot.ci()</a> to compute the confidence interval. It takes your bootstrapped samples as a first parameter. You can also specify the confidence interval you are interested in (<code>conf</code>, defaults to 0.95) and <code>type</code> of the confidence interval. The one we computed above is called percentile (<code>type="perc"</code>), so this is the type you should specify. Once you run the code the output should be similar to that below.</p>
+<div class="sourceCode" id="cb489"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">booted_samples</span> <span class="op">&lt;-</span> <span class="fu">boot</span><span class="op">(</span><span class="va">samples</span>, statistic <span class="op">=</span> <span class="va">your_statistic_function</span>, R <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></code></pre></div>
+<p>Next, use function <a href="https://stat.ethz.ch/R-manual/R-devel/library/boot/html/boot.html">boot.ci()</a> to compute the confidence interval, which takes your bootstrapped samples as a first parameter. You can also specify the confidence interval you are interested in (<code>conf</code>, defaults to 0.95 but we want 97!) and <code>type</code> of the confidence interval. The one we computed above is called percentile (<code>type="perc"</code>), so this is the type you should specify<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;It also supports other kinds of intervals, including bias corrected and accelerated CIs, so once you get serious about bootstrapping, you can use boot for more advanced analysis as well.&lt;/p&gt;"><sup>75</sup></a>. Once you run the code the output should be similar to that below.</p>
 <pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
 ## Based on 1000 bootstrap replicates
 ## 
 ## CALL : 
-## boot.ci(boot.out = booted_samples, type = &quot;perc&quot;)
+## boot.ci(boot.out = booted_samples, type = "perc")
 ## 
 ## Intervals : 
 ## Level     Percentile     
 ## 95%   ( 8.939, 10.242 )  
 ## Calculations and Intervals on Original Scale</code></pre>
 <p>As you can see, we very similar results as above (but for variation due to sampling). Thus, either approach will work but, in most cases, <code>boot</code> is more flexible solution (but do read on bootstrapping before using advanced options).</p>
-<div class="infobox practice">
-<p>Do exercise 4.</p>
-</div>
-</div>
-<div id="more-samples-give-you-more-confidence" class="section level2 hasAnchor" number="13.3">
-<h2><span class="header-section-number">13.3</span> More samples give you more confidence<a href="sampling-and-simulations.html#more-samples-give-you-more-confidence" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>In the exercises above, we computed confidence intervals for the mean based on 20 original samples. However, this was an arbitrary number I came up with. For the real study, you would like to know how the number of samples (participants, trials per condition, etc.) affects the width of the confidence interval. For example, assuming that our data comes from a normal distribution centered at 0.5 with a standard deviation of 2, how many samples do we need to be certain that mean is not a zero (confidence interval does not overlap with zero)?</p>
-<p>The solution is to simulate this situation using different number of samples. We will need to package the simulation into function to make it simpler to work with it but let us start with plain script code first. Assume that variable (our future parameter) <code>n_samples</code> holds number of samples that you need to generate (set it to some arbitrary value, e.g., 10). You code should</p>
-<ul>
-<li>draw <code>n_samples</code> random samples from a normal distribution with mean of 0.5 and standard deviation of 2.</li>
-<li>bootstrap 1000 estimates of the mean.</li>
-<li>compute percentile 95% confidence interval.</li>
-<li>store it into a tibble along with number of samples.</li>
-</ul>
-The only tricky part is extracting the confidence interval values from the object that <a href="https://stat.ethz.ch/R-manual/R-devel/library/boot/html/boot.html">boot.ci()</a> function returns. Assuming that you computed percentile CI and stored the value in variable <code>CI</code>, the lower limit is <code>CI$percent[4]</code> and the upper is in <code>CI$percent[5]</code>. Your final tibble should look as follows (<code>lowerCI</code> and <code>upperCI</code> will be different for you because of random sampling).
-<table>
-<thead>
-<tr>
-<th style="text-align:right;">
-lowerCI
-</th>
-<th style="text-align:right;">
-upperCI
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:right;">
-0.0859532
-</td>
-<td style="text-align:right;">
-1.940723
-</td>
-</tr>
-</tbody>
-</table>
-<p>Once you code is working, turn it into a function (I called it <code>CI_for_sim</code>) that takes <code>n_samples</code> as a parameter. Test it by calling it with <code>n_samples = 10</code>, the result should be exactly the same as before.</p>
-<div class="infobox practice">
-<p>Do exercise 5.</p>
-</div>
-Next, we need to run this function for different number of samples and we want to end up with a table, like the one below.
-<table>
-<thead>
-<tr>
-<th style="text-align:right;">
-n_samples
-</th>
-<th style="text-align:right;">
-lowerCI
-</th>
-<th style="text-align:right;">
-upperCI
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:right;">
-10
-</td>
-<td style="text-align:right;">
--1.0085864
-</td>
-<td style="text-align:right;">
-1.5596448
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-11
-</td>
-<td style="text-align:right;">
-0.4958008
-</td>
-<td style="text-align:right;">
-1.6589707
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-12
-</td>
-<td style="text-align:right;">
--0.3982136
-</td>
-<td style="text-align:right;">
-1.9194213
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-13
-</td>
-<td style="text-align:right;">
--0.5672158
-</td>
-<td style="text-align:right;">
-2.0918783
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-14
-</td>
-<td style="text-align:right;">
--1.2831007
-</td>
-<td style="text-align:right;">
-0.7664541
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-15
-</td>
-<td style="text-align:right;">
-0.4524685
-</td>
-<td style="text-align:right;">
-2.0642302
-</td>
-</tr>
-</tbody>
-</table>
-<p>There are different ways to do this but we will use this as an opportunity to learn about <a href="https://dplyr.tidyverse.org/reference/group_map.html">group_modify()</a>, a function that allows you to apply a function to each group in your table. The only condition for such function is that it must return a table. All tables are bind together by row so you end up with a single table. A table that function returns can be of any length and have as many columns as required. Thus, <a href="https://dplyr.tidyverse.org/reference/group_map.html">group_modify()</a> is a powerful way to compute many columns at the same time, expand, modify, or summarize the group. Here is an example of how you use it.</p>
-<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb473-1"><a href="sampling-and-simulations.html#cb473-1" aria-hidden="true" tabindex="-1"></a>avg_mpg_per_cylinder <span class="ot">&lt;-</span> <span class="cf">function</span>(mpg_values, cylinders_n) {</span>
-<span id="cb473-2"><a href="sampling-and-simulations.html#cb473-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">AvgMpgPerCylinder =</span> <span class="fu">mean</span>(mpg_values) <span class="sc">/</span> cylinders_n,</span>
-<span id="cb473-3"><a href="sampling-and-simulations.html#cb473-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">Variance =</span> <span class="fu">var</span>(mpg_values) <span class="sc">/</span> cylinders_n)</span>
-<span id="cb473-4"><a href="sampling-and-simulations.html#cb473-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb473-5"><a href="sampling-and-simulations.html#cb473-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb473-6"><a href="sampling-and-simulations.html#cb473-6" aria-hidden="true" tabindex="-1"></a>mpg <span class="sc">%&gt;%</span></span>
-<span id="cb473-7"><a href="sampling-and-simulations.html#cb473-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cyl, year) <span class="sc">%&gt;%</span></span>
-<span id="cb473-8"><a href="sampling-and-simulations.html#cb473-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_modify</span>(<span class="sc">~</span><span class="fu">avg_mpg_per_cylinder</span>(.x<span class="sc">$</span>cty, .y<span class="sc">$</span>cyl)) <span class="sc">%&gt;%</span></span>
-<span id="cb473-9"><a href="sampling-and-simulations.html#cb473-9" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
-<table>
-<thead>
-<tr>
-<th style="text-align:right;">
-cyl
-</th>
-<th style="text-align:right;">
-year
-</th>
-<th style="text-align:right;">
-AvgMpgPerCylinder
-</th>
-<th style="text-align:right;">
-Variance
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-1999
-</td>
-<td style="text-align:right;">
-5.211111
-</td>
-<td style="text-align:right;">
-4.4994949
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-2008
-</td>
-<td style="text-align:right;">
-5.305556
-</td>
-<td style="text-align:right;">
-1.3158730
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-2008
-</td>
-<td style="text-align:right;">
-4.100000
-</td>
-<td style="text-align:right;">
-0.0666667
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-1999
-</td>
-<td style="text-align:right;">
-2.677778
-</td>
-<td style="text-align:right;">
-0.4651515
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-2008
-</td>
-<td style="text-align:right;">
-2.735294
-</td>
-<td style="text-align:right;">
-0.6072490
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-8
-</td>
-<td style="text-align:right;">
-1999
-</td>
-<td style="text-align:right;">
-1.527778
-</td>
-<td style="text-align:right;">
-0.3397436
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-8
-</td>
-<td style="text-align:right;">
-2008
-</td>
-<td style="text-align:right;">
-1.598837
-</td>
-<td style="text-align:right;">
-0.4437984
-</td>
-</tr>
-</tbody>
-</table>
-<p>The function takes a vector of values on fuel efficiency (<code>mpg_values</code>) and a number of cylinders (<code>cylinders_n</code>) and returns a table with mean and variance of fuel efficiency per cylinder. When calling this function inside the <a href="https://dplyr.tidyverse.org/reference/group_map.html">group_modify()</a>, you need to use <code>~</code> before the function call (tells Tidyverse that you want to execute the code as is) and use <code>.y$</code> for variables that define the group (would be <code>cyl</code> and <code>year</code> in our case) and <code>.x$</code> for other columns.</p>
-<p>Let us use <a href="https://dplyr.tidyverse.org/reference/group_map.html">group_modify()</a> to simulate CIs for different number of samples. In a single pipe,</p>
-<ol style="list-style-type: decimal">
-<li>create a <a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a> with a single column <code>n_samples</code> and assign some reasonable range of values to it (I went from 10 to 100)</li>
-<li>group data by the number of samples</li>
-<li>simulate data and compute CI by calling your <code>CI_for_sim()</code> function inside the <a href="https://dplyr.tidyverse.org/reference/group_map.html">group_modify()</a>.</li>
-</ol>
-Once you are done, your table should look something like this.
-<table>
-<thead>
-<tr>
-<th style="text-align:right;">
-n_samples
-</th>
-<th style="text-align:right;">
-avg
-</th>
-<th style="text-align:right;">
-lowerCI
-</th>
-<th style="text-align:right;">
-upperCI
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:right;">
-10
-</td>
-<td style="text-align:right;">
-0.2716089
-</td>
-<td style="text-align:right;">
--1.0085864
-</td>
-<td style="text-align:right;">
-1.5596448
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-11
-</td>
-<td style="text-align:right;">
-1.0479285
-</td>
-<td style="text-align:right;">
-0.4958008
-</td>
-<td style="text-align:right;">
-1.6589707
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-12
-</td>
-<td style="text-align:right;">
-0.7077041
-</td>
-<td style="text-align:right;">
--0.3982136
-</td>
-<td style="text-align:right;">
-1.9194213
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-13
-</td>
-<td style="text-align:right;">
-0.7223447
-</td>
-<td style="text-align:right;">
--0.5672158
-</td>
-<td style="text-align:right;">
-2.0918783
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-14
-</td>
-<td style="text-align:right;">
--0.2562594
-</td>
-<td style="text-align:right;">
--1.2831007
-</td>
-<td style="text-align:right;">
-0.7664541
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-15
-</td>
-<td style="text-align:right;">
-1.2952590
-</td>
-<td style="text-align:right;">
-0.4524685
-</td>
-<td style="text-align:right;">
-2.0642302
-</td>
-</tr>
-</tbody>
-</table>
-<div class="infobox practice">
-<p>Do exercise 6.</p>
-</div>
-<p>It is much easier to understand the data once we visualize it. Plot the results using <a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_ribbon()</a> (note that you will need to set <code>y</code> aesthetics to some variable or value even though it is not used) and <a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline()</a>. The plot should look similar to the one below.
-<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-332-1.png" width="672" /></p>
-<div class="infobox practice">
+<div class="practice">
 <p>Do exercise 7.</p>
 </div>
-<p>As you can see in the plot above, confidence intervals vary a lot, so it is hard to be certain about the number of samples we require. Thus, we need to sample the bootstrap as well. Redo the analysis but now create a tibble with two columns — <code>n_samples</code> (go 10 to 100) and <code>iteration</code> (go 1 to 100) — and fill the table with all combinations of these values (you should get 9100 rows). Next, simulate and compute CI for each combination of <code>n_samples</code> and <code>iteration</code> and then compute <em>average</em> lower and upper interval for each <code>n_samples</code> value. Plot these averages as we did above and you should see a much smoother plot that makes it easier to decide on the required number of samples (probably around 75). Note, if your simulations takes too long, reduce the number of iterations or use a larger step between <code>n_samples</code> (not 1 as we did before but 2 or 5).
-<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-333-1.png" width="672" /></p>
-<div class="infobox practice">
+</div>
+<div id="likert-confidence" class="section level2" number="12.5">
+<h2>
+<span class="header-section-number">12.5</span> Confidence about proportion of responses for Likert scale<a class="anchor" aria-label="anchor" href="#likert-confidence"><i class="fas fa-link"></i></a>
+</h2>
+<p>We have looked at how one should present information on Likert scale responses a couple of times already. Let us return to it to see how you can compute not just a proportion of response level report, but also a percentile confidence interval for it, to see how reliable are these numbers. We will use a smaller file with just one scale — <a href="data/likert-scale.csv">likert-scale.csv</a> — and your first task is to reuse your old from <a href="working-with-factors.html#likert-scale-01">chapter on factors</a> but making sure that your counts are <a href="https://tidyr.tidyverse.org/reference/complete.html">complete</a> as we did in <a href="working-with-factors.html#likert-scale-01">chapter on tidyr</a>. Package the code that counts and computes proportions per condition and response level into a function. It should take a data frame with original data as the first input and a second parameter <code>resample</code> that should be <code>FALSE</code> <a href="functions.html#default-values">by default</a> (we will use it later). The function should return the summary table and you can reuse
+that you can plot using the same code as in <a href="working-with-factors.html#likert-scale-01">chapter on factors</a>. Also, you can reuse you original code for reading and preprocessing the data, <em>before</em> it is used to compute counts and proportions. Your plot should look almost exactly as before but for zeros where uncounted response levels were not plotted previously.</p>
+<div class="inline-figure"><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-309-1.png" width="100%" style="display: block; margin: auto;"></div>
+<div class="practice">
 <p>Do exercise 8.</p>
 </div>
-</div>
-<div id="adding-average-sample-mean" class="section level2 hasAnchor" number="13.4">
-<h2><span class="header-section-number">13.4</span> Adding average sample mean<a href="sampling-and-simulations.html#adding-average-sample-mean" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Let us redo the computation but add average sample mean to the plot. For this, you need to modify your <code>CI_for_sim()</code> function to include sample mean to the tibble that it return and average over mean for different iterations. Your final plot should resemble this. Note how estimated mean remains stable (unbiased) for different number of samples. It is our certainty about the value, as expressed by the confidence interval, that changes.</p>
-<p><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-334-1.png" width="672" /></p>
-<div class="infobox practice">
+<p>Modify your function so that if <code>resample</code> parameter is <code>TRUE</code>, it samples the <em>entire</em> table with replacement. The most suitable function for that is <a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_frac()</a> from <a href="https://dplyr.tidyverse.org">dplyr</a>, as you can easily specify the <code>size</code> of data as 1 (as many row as in the original table). Or you can use <a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n()</a> but here you must specify the desired number of rows explicitly. Don’t forget about replacement! Test your updated function by calling it with <code>resample = TRUE</code> and checking that you get <em>different</em> averages every time.</p>
+<div class="practice">
 <p>Do exercise 9.</p>
 </div>
-</div>
-<div id="practice-makes-perfect" class="section level2 hasAnchor" number="13.5">
-<h2><span class="header-section-number">13.5</span> Practice makes perfect<a href="sampling-and-simulations.html#practice-makes-perfect" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Our simulations above used normally distributed data. In psychological research, you often use binomial responses (yes/no, correct/mistake). Here, with of a confidence intervals depends both number of samples but also the probability of success (“yes” or “correct” response). Repeat the analysis using four assumed probabilities of success: 0.6, 0.7, 0.8, and 0.9. The logic is the same but you need to use <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Binomial.html">rbinom()</a> to generate random responses. Here, the <code>size</code> parameter is the number of samples that we draw, whereas <code>n</code> is how many times we draw these samples. It return a random number of successes out of <code>size</code> number of trials. E.g., here is how to generate number of successful trials assuming total of 20 trials and probability of success being 0.8.</p>
-<div class="sourceCode" id="cb474"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb474-1"><a href="sampling-and-simulations.html#cb474-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="at">n=</span><span class="dv">1</span>, <span class="at">size=</span><span class="dv">20</span>, <span class="at">prob=</span><span class="fl">0.8</span>)</span></code></pre></div>
-<pre><code>## [1] 18</code></pre>
-<p>Note that you can use <code>n</code> parameter to create many (iterations of) draws.</p>
-<div class="sourceCode" id="cb476"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb476-1"><a href="sampling-and-simulations.html#cb476-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="at">n=</span><span class="dv">10</span>, <span class="at">size=</span><span class="dv">20</span>, <span class="at">prob=</span><span class="fl">0.8</span>)</span></code></pre></div>
-<pre><code>##  [1] 17 18 16 15 12 18 17 14 15 14</code></pre>
-<div class="sourceCode" id="cb478"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb478-1"><a href="sampling-and-simulations.html#cb478-1" aria-hidden="true" tabindex="-1"></a><span class="co"># same as</span></span>
-<span id="cb478-2"><a href="sampling-and-simulations.html#cb478-2" aria-hidden="true" tabindex="-1"></a><span class="fu">replicate</span>(<span class="dv">10</span>, <span class="fu">rbinom</span>(<span class="at">n=</span><span class="dv">1</span>, <span class="at">size=</span><span class="dv">20</span>, <span class="at">prob=</span><span class="fl">0.8</span>))</span></code></pre></div>
-<pre><code>##  [1] 16 17 17 16 16 18 18 17 18 16</code></pre>
-<p>Here, I did not use <code>boot</code> library. Instead, I have utilized <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Binomial.html">rbinom()</a> to generate many draws of a given size and <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile">quantile()</a> to compute percentile confidence interval. The final plot should look similar to this (but for quantitative differences due to sampling). As you can see, you need many trials when probability of success is closer to 0.5.
-<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-337-1.png" width="672" /></p>
-<div class="infobox practice">
+<p>As with resampling the mean, now you need to repeat this many (1000, 2000) times over. Here, the prior approaches won’t do, as they expect a single number (statistic) whereas our function returns a table of them. Our solution would be to use <a href="https://purrr.tidyverse.org/reference/map.html">map()</a> function from <a href="https://purrr.tidyverse.org">purrr</a> library and store these tables in a list that we can turn into a single table via <a href="https://purrr.tidyverse.org/reference/list_c.html">list_rbind()</a>. My suggestion would be to first program the <code>list_of_tables &lt;- map(...)</code> part alone for just of couple iterations. Then you can check each table inside the list (remember how to use <a href="#list-subsetting">simplifying subsetting</a>?) and if they look good and <em>different</em>, you can combine them via <a href="https://purrr.tidyverse.org/reference/list_c.html">list_rbind()</a>. Once you are sure that the computation works correctly, you can run it for more iterations to get more samples. Advice, read on <code>.progress</code> parameter of the <a href="https://purrr.tidyverse.org/reference/map.html">map()</a> as it makes waiting for the code to finish a bit less stressful.</p>
+<div class="practice">
 <p>Do exercise 10.</p>
 </div>
+<p>We are on the final stretch! Your table with bootstrapped counts and proportions contains many samples for each combination of condition and response level (e.g., 1000). Use <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile">quantile()</a> function to compute lower and upper limits for the 97% confidence interval. Think about which <a href="dplyr.html#dplyr">dplyr</a> verbs do you need for this. The table with confidence intervals should look like this (but for variability due to sampling).</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr>
+<th style="text-align:left;">
+Condition
+</th>
+<th style="text-align:left;">
+Response
+</th>
+<th style="text-align:right;">
+LowerCI
+</th>
+<th style="text-align:right;">
+UpperCI
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+game
+</td>
+<td style="text-align:left;">
+Not at all true
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+0.1791071
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+game
+</td>
+<td style="text-align:left;">
+Hardly true
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+0.1785714
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+game
+</td>
+<td style="text-align:left;">
+Slightly true
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+0.2500000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+game
+</td>
+<td style="text-align:left;">
+Somewhat true
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+0.1785714
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+game
+</td>
+<td style="text-align:left;">
+Mostly true
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+0.2500000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+game
+</td>
+<td style="text-align:left;">
+Almost completely true
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+0.1071429
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+game
+</td>
+<td style="text-align:left;">
+Very true
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+0.1071429
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+experiment
+</td>
+<td style="text-align:left;">
+Not at all true
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+0.2142857
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+experiment
+</td>
+<td style="text-align:left;">
+Hardly true
+</td>
+<td style="text-align:right;">
+0.1071429
+</td>
+<td style="text-align:right;">
+0.4648214
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+experiment
+</td>
+<td style="text-align:left;">
+Slightly true
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+0.2500000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+experiment
+</td>
+<td style="text-align:left;">
+Somewhat true
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+0.1076786
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+experiment
+</td>
+<td style="text-align:left;">
+Mostly true
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+experiment
+</td>
+<td style="text-align:left;">
+Almost completely true
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+experiment
+</td>
+<td style="text-align:left;">
+Very true
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+</tbody>
+</table></div>
+<div class="practice">
+<p>Do exercise 11.</p>
 </div>
-<div id="starting-with-basics" class="section level2 hasAnchor" number="13.6">
-<h2><span class="header-section-number">13.6</span> Starting with basics<a href="sampling-and-simulations.html#starting-with-basics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>What we covered today are basics of simulations and resampling approach. However, once expanded they allow you to explore your models even before you have collected the data and perform power analysis to evalute their expected performance.</p>
+<p>The only thing left to do is to use this in combination with <a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_ribbon()</a> or <a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_errorbar()</a> to add 97% CIs to our original plot. Now you have two tables for a single plot and you have two ways to handle this. First, you can <a href="tyding.html#joins">join</a> them into a single table. Or, you can pass the table with CIs to the geom itself. In the latter case, you need to use explicit named parameter <code>data = likert_CI</code> (or whatever the name of your table is) as geoms in <a href="https://ggplot2.tidyverse.org">ggplot2</a> expect aesthetics as the first parameter. Also, your CIs table does not have the <code>Probability</code> column that you use as aesthetics for <code>y</code> and ggplot2 will complain. The solution is to set <code>y</code> to one of the limits, as it is not used in the geom itself and this will make no actual difference<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;But it is still puzzling for me, why would ggplot2 insist on irrelevant aesthetic in cases like these.&lt;/p&gt;"><sup>76</sup></a>.</p>
+<div class="inline-figure">The final plot should look like this. Note that with so little data our uncertainty about the actual proportion is quite low.
+<img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-311-1.png" width="100%" style="display: block; margin: auto;">
+</div>
+<div class="practice">
+<p>Do exercise 12.</p>
+</div>
+<p>The procedure and the plot above are my preferred way of reporting Likert scale data. You can use other approaches but always keep in mind that this is <em>ordinal</em> data and should be treated as such, even if you label individual levels with numbers.</p>
 
 </div>
 </div>
-            </section>
 
-          </div>
-        </div>
-      </div>
-<a href="strings.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="statistical-modeling.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
-    </div>
+  <div class="chapter-nav">
+<div class="prev"><a href="strings.html"><span class="header-section-number">11</span> Working with strings</a></div>
+<div class="next"><a href="generalized-linear-regression-and-resampling.html"><span class="header-section-number">13</span> (Generalized) Linear regression and Resampling</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#sampling-and-simulations"><span class="header-section-number">12</span> Sampling and simulations</a></li>
+<li><a class="nav-link" href="#estimating-mean-of-a-normal-distribution-via-resampling"><span class="header-section-number">12.1</span> Estimating mean of a normal distribution via resampling</a></li>
+<li><a class="nav-link" href="#repeating-computation-via-for-loop"><span class="header-section-number">12.2</span> Repeating computation via for loop</a></li>
+<li><a class="nav-link" href="#repeating-computation-via-purrr"><span class="header-section-number">12.3</span> Repeating computation via purrr</a></li>
+<li><a class="nav-link" href="#bootstrapping-via-boot-library"><span class="header-section-number">12.4</span> Bootstrapping via boot library</a></li>
+<li><a class="nav-link" href="#likert-confidence"><span class="header-section-number">12.5</span> Confidence about proportion of responses for Likert scale</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/alexander-pastukhov/data-analysis-using-r-for-psychology/blob/master/13-sampling.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/alexander-pastukhov/data-analysis-using-r-for-psychology/edit/master/13-sampling.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Data analysis using R for Psychology and Social Science</strong>" was written by Alexander (Sasha) Pastukhov. It was last built on 2023-10-09.</p>
   </div>
-<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
-<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
-<script>
-gitbook.require(["gitbook"], function(gitbook) {
-gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": null,
-"text": null
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["data-analysis-using-r-for-psychology.pdf", "data-analysis-using-r-for-psychology.epub"],
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
-});
-});
-</script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
+  <div class="col-12 col-md-6 mt-3">
+    <p>Please note that this website collects anonymized data via Google analytics. This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -902,7 +475,22 @@ gitbook.start({
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
 </script>
 </body>
-
 </html>

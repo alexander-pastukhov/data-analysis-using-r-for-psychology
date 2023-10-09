@@ -1,717 +1,475 @@
 <!DOCTYPE html>
-<html lang="" xml:lang="">
+<html lang="en">
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 2 Vectors! Vectors everywhere! | Data analysis using R for Psychology and Social Science</title>
+<meta name="author" content="Alexander (Sasha) Pastukhov">
+<meta name="description" content="Before reading the chapter, please download the exercise notebook (Alt+Click to download it or right-click as Save link as…), put it into your seminar project folder, and open the project. You...">
+<meta name="generator" content="bookdown 0.35 with bs4_book()">
+<meta property="og:title" content="Chapter 2 Vectors! Vectors everywhere! | Data analysis using R for Psychology and Social Science">
+<meta property="og:type" content="book">
+<meta property="og:description" content="Before reading the chapter, please download the exercise notebook (Alt+Click to download it or right-click as Save link as…), put it into your seminar project folder, and open the project. You...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 2 Vectors! Vectors everywhere! | Data analysis using R for Psychology and Social Science">
+<meta name="twitter:description" content="Before reading the chapter, please download the exercise notebook (Alt+Click to download it or right-click as Save link as…), put it into your seminar project folder, and open the project. You...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-QMVBLBE7DV"></script><script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Seminar 2 Vectors! Vectors everywhere! | Data analysis using R for Psychology and Social Science</title>
-  <meta name="description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
-  <meta name="generator" content="bookdown 0.30 and GitBook 2.6.7" />
-
-  <meta property="og:title" content="Seminar 2 Vectors! Vectors everywhere! | Data analysis using R for Psychology and Social Science" />
-  <meta property="og:type" content="book" />
-  
-  <meta property="og:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
-  
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Seminar 2 Vectors! Vectors everywhere! | Data analysis using R for Psychology and Social Science" />
-  
-  <meta name="twitter:description" content="Material and exercises for ‘Applied data analysis for psychology using the open-source software R’ seminar." />
-  
-
-<meta name="author" content="Alexander (Sasha) Pastukhov" />
-
-
-<meta name="date" content="2022-11-19" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  
-  
-<link rel="prev" href="reproducable-research.html"/>
-<link rel="next" href="tables.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
-<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
-
-
-
-
-
-
-
-<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
-<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
-<script src="libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-
-
-<style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-</style>
-
-
-<link rel="stylesheet" href="style.css" type="text/css" />
-<link rel="stylesheet" href="font-awesome.css" type="text/css" />
+      gtag('config', 'G-QMVBLBE7DV');
+    </script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="bs4_style.css">
+<link rel="stylesheet" href="style.css">
 </head>
+<body data-spy="scroll" data-target="#toc">
 
-<body>
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
 
-
-
-  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
-
-    <div class="book-summary">
-      <nav role="navigation">
-
-<ul class="summary">
-<li><a href="./">Data analysis using R for Psychology</a></li>
-
-<li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a>
-<ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-r"><i class="fa fa-check"></i>Why R?</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-tidyverse"><i class="fa fa-check"></i>Why Tidyverse</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-seminar-itself"><i class="fa fa-check"></i>About the seminar itself</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#thinking-like-a-computer"><i class="fa fa-check"></i>Thinking like a computer</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-material"><i class="fa fa-check"></i>About the material</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html"><i class="fa fa-check"></i>Software</a>
-<ul>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install-r"><i class="fa fa-check"></i>Installing R</a></li>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install-rstudio"><i class="fa fa-check"></i>Installing R-Studio</a></li>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install-rtools"><i class="fa fa-check"></i>Installing RTools</a></li>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html#install.packages"><i class="fa fa-check"></i>Installing packages</a></li>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html#minimal-set-of-packages"><i class="fa fa-check"></i>Minimal set of packages</a></li>
-<li class="chapter" data-level="" data-path="software.html"><a href="software.html#installr"><i class="fa fa-check"></i>Keeping R and packages up-to-date</a></li>
-</ul></li>
-<li class="chapter" data-level="1" data-path="reproducable-research.html"><a href="reproducable-research.html"><i class="fa fa-check"></i><b>1</b> Reproducable Research: Projects and Markdown Notebooks</a>
-<ul>
-<li class="chapter" data-level="1.1" data-path="reproducable-research.html"><a href="reproducable-research.html#projects"><i class="fa fa-check"></i><b>1.1</b> Projects</a></li>
-<li class="chapter" data-level="1.2" data-path="reproducable-research.html"><a href="reproducable-research.html#rmarkdown"><i class="fa fa-check"></i><b>1.2</b> Quattro and RMarkdown notebooks</a></li>
-<li class="chapter" data-level="1.3" data-path="reproducable-research.html"><a href="reproducable-research.html#exercise"><i class="fa fa-check"></i><b>1.3</b> Exercise</a></li>
-</ul></li>
-<li class="chapter" data-level="2" data-path="vectors.html"><a href="vectors.html"><i class="fa fa-check"></i><b>2</b> Vectors! Vectors everywhere!</a>
-<ul>
-<li class="chapter" data-level="2.1" data-path="vectors.html"><a href="vectors.html#variables"><i class="fa fa-check"></i><b>2.1</b> Variables as boxes</a></li>
-<li class="chapter" data-level="2.2" data-path="vectors.html"><a href="vectors.html#assignment-statement"><i class="fa fa-check"></i><b>2.2</b> Assignment statement in detail</a></li>
-<li class="chapter" data-level="2.3" data-path="vectors.html"><a href="vectors.html#vectors-scalars"><i class="fa fa-check"></i><b>2.3</b> Vectors and singluar values (scalars, which are also vectors)</a></li>
-<li class="chapter" data-level="2.4" data-path="vectors.html"><a href="vectors.html#vector-index"><i class="fa fa-check"></i><b>2.4</b> Vector indexes (subsetting)</a></li>
-<li class="chapter" data-level="2.5" data-path="vectors.html"><a href="vectors.html#names"><i class="fa fa-check"></i><b>2.5</b> Names as an Index</a></li>
-<li class="chapter" data-level="2.6" data-path="vectors.html"><a href="vectors.html#vector-index-slicing"><i class="fa fa-check"></i><b>2.6</b> Slicing</a></li>
-<li class="chapter" data-level="2.7" data-path="vectors.html"><a href="vectors.html#colon-sequence"><i class="fa fa-check"></i><b>2.7</b> Colon Operator and Sequence Generation</a></li>
-<li class="chapter" data-level="2.8" data-path="vectors.html"><a href="vectors.html#working-with-two-vectors-of-equal-length"><i class="fa fa-check"></i><b>2.8</b> Working with two vectors of <em>equal</em> length</a></li>
-<li class="chapter" data-level="2.9" data-path="vectors.html"><a href="vectors.html#different-length-vectors"><i class="fa fa-check"></i><b>2.9</b> Working with two vectors of <em>different</em> length</a></li>
-<li class="chapter" data-level="2.10" data-path="vectors.html"><a href="vectors.html#applying-functions-to-a-vector"><i class="fa fa-check"></i><b>2.10</b> Applying functions to a vector</a></li>
-<li class="chapter" data-level="2.11" data-path="vectors.html"><a href="vectors.html#wrap-up"><i class="fa fa-check"></i><b>2.11</b> Wrap up</a></li>
-</ul></li>
-<li class="chapter" data-level="3" data-path="tables.html"><a href="tables.html"><i class="fa fa-check"></i><b>3</b> Tables and Tibbles (and Tribbles)</a>
-<ul>
-<li class="chapter" data-level="3.1" data-path="tables.html"><a href="tables.html#primary-types"><i class="fa fa-check"></i><b>3.1</b> Primary data types</a></li>
-<li class="chapter" data-level="3.2" data-path="tables.html"><a href="tables.html#vectors-are-homogeneous"><i class="fa fa-check"></i><b>3.2</b> All vector values must be of the same type</a></li>
-<li class="chapter" data-level="3.3" data-path="tables.html"><a href="tables.html#lists"><i class="fa fa-check"></i><b>3.3</b> Lists</a></li>
-<li class="chapter" data-level="3.4" data-path="tables.html"><a href="tables.html#subsetting"><i class="fa fa-check"></i><b>3.4</b> Subsetting, a fuller version</a>
-<ul>
-<li class="chapter" data-level="3.4.1" data-path="tables.html"><a href="tables.html#subsetting-for-atomics-vectors"><i class="fa fa-check"></i><b>3.4.1</b> Subsetting for (atomics) vectors</a></li>
-<li class="chapter" data-level="3.4.2" data-path="tables.html"><a href="tables.html#subsetting-for-lists"><i class="fa fa-check"></i><b>3.4.2</b> Subsetting for lists</a></li>
-</ul></li>
-<li class="chapter" data-level="3.5" data-path="tables.html"><a href="tables.html#dollar-subsetting"><i class="fa fa-check"></i><b>3.5</b> Yet another subsetting via $</a></li>
-<li class="chapter" data-level="3.6" data-path="tables.html"><a href="tables.html#data.frame"><i class="fa fa-check"></i><b>3.6</b> Tables, a.k.a. data frames</a></li>
-<li class="chapter" data-level="3.7" data-path="tables.html"><a href="tables.html#table-subsetting"><i class="fa fa-check"></i><b>3.7</b> Subsetting tables</a></li>
-<li class="chapter" data-level="3.8" data-path="tables.html"><a href="tables.html#library"><i class="fa fa-check"></i><b>3.8</b> Using libraries</a></li>
-<li class="chapter" data-level="3.9" data-path="tables.html"><a href="tables.html#tibble"><i class="fa fa-check"></i><b>3.9</b> Tibble, a better data.frame</a></li>
-<li class="chapter" data-level="3.10" data-path="tables.html"><a href="tables.html#tribble"><i class="fa fa-check"></i><b>3.10</b> Tribble, table from text</a></li>
-<li class="chapter" data-level="3.11" data-path="tables.html"><a href="tables.html#data"><i class="fa fa-check"></i><b>3.11</b> Reading example tables</a></li>
-<li class="chapter" data-level="3.12" data-path="tables.html"><a href="tables.html#readr"><i class="fa fa-check"></i><b>3.12</b> Reading csv files</a></li>
-<li class="chapter" data-level="3.13" data-path="tables.html"><a href="tables.html#readxl"><i class="fa fa-check"></i><b>3.13</b> Reading Excel files</a></li>
-<li class="chapter" data-level="3.14" data-path="tables.html"><a href="tables.html#reading-files-from-other-programs"><i class="fa fa-check"></i><b>3.14</b> Reading files from other programs</a></li>
-<li class="chapter" data-level="3.15" data-path="tables.html"><a href="tables.html#rds"><i class="fa fa-check"></i><b>3.15</b> Writing and reading a single object</a></li>
-<li class="chapter" data-level="3.16" data-path="tables.html"><a href="tables.html#wrap-up-1"><i class="fa fa-check"></i><b>3.16</b> Wrap up</a></li>
-</ul></li>
-<li class="chapter" data-level="4" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>4</b> Functions! Functions everywhere!</a>
-<ul>
-<li class="chapter" data-level="4.1" data-path="functions.html"><a href="functions.html#functions-1"><i class="fa fa-check"></i><b>4.1</b> Functions</a></li>
-<li class="chapter" data-level="4.2" data-path="functions.html"><a href="functions.html#writing-a-function"><i class="fa fa-check"></i><b>4.2</b> Writing a function</a></li>
-<li class="chapter" data-level="4.3" data-path="functions.html"><a href="functions.html#scopes-global-versus-local-variables"><i class="fa fa-check"></i><b>4.3</b> Scopes: Global versus Local variables</a></li>
-<li class="chapter" data-level="4.4" data-path="functions.html"><a href="functions.html#function-with-two-parameters"><i class="fa fa-check"></i><b>4.4</b> Function with two parameters</a></li>
-<li class="chapter" data-level="4.5" data-path="functions.html"><a href="functions.html#table-as-a-parameter"><i class="fa fa-check"></i><b>4.5</b> Table as a parameter</a></li>
-<li class="chapter" data-level="4.6" data-path="functions.html"><a href="functions.html#named-versus-positional-arguments"><i class="fa fa-check"></i><b>4.6</b> Named versus positional arguments</a></li>
-<li class="chapter" data-level="4.7" data-path="functions.html"><a href="functions.html#default-values"><i class="fa fa-check"></i><b>4.7</b> Default values</a></li>
-<li class="chapter" data-level="4.8" data-path="functions.html"><a href="functions.html#nested-calls"><i class="fa fa-check"></i><b>4.8</b> Nested calls</a></li>
-<li class="chapter" data-level="4.9" data-path="functions.html"><a href="functions.html#pipe"><i class="fa fa-check"></i><b>4.9</b> Piping</a></li>
-<li class="chapter" data-level="4.10" data-path="functions.html"><a href="functions.html#function-is-just-a-code-stored-in-a-variable"><i class="fa fa-check"></i><b>4.10</b> Function is just a code stored in a variable</a></li>
-<li class="chapter" data-level="4.11" data-path="functions.html"><a href="functions.html#functions-functions-everywhere"><i class="fa fa-check"></i><b>4.11</b> Functions! Functions everywhere!</a></li>
-<li class="chapter" data-level="4.12" data-path="functions.html"><a href="functions.html#using-or-not-using-explicit-return-statement"><i class="fa fa-check"></i><b>4.12</b> Using (or not using) explicit return statement</a></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>5</b> ggplot2: Grammar of Graphics</a>
-<ul>
-<li class="chapter" data-level="5.1" data-path="ggplot2.html"><a href="ggplot2.html#tidydata"><i class="fa fa-check"></i><b>5.1</b> Tidy data</a></li>
-<li class="chapter" data-level="5.2" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-1"><i class="fa fa-check"></i><b>5.2</b> ggplot2</a></li>
-<li class="chapter" data-level="5.3" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-continuous-x-axis"><i class="fa fa-check"></i><b>5.3</b> Auto efficiency: continuous x-axis</a></li>
-<li class="chapter" data-level="5.4" data-path="ggplot2.html"><a href="ggplot2.html#auto-efficiency-discrete-x-axis"><i class="fa fa-check"></i><b>5.4</b> Auto efficiency: discrete x-axis</a></li>
-<li class="chapter" data-level="5.5" data-path="ggplot2.html"><a href="ggplot2.html#mammals-sleep-single-variable"><i class="fa fa-check"></i><b>5.5</b> Mammals sleep: single variable</a></li>
-<li class="chapter" data-level="5.6" data-path="ggplot2.html"><a href="ggplot2.html#mapping-for-all-visuals-versus-just-one-visual"><i class="fa fa-check"></i><b>5.6</b> Mapping for all visuals versus just one visual</a></li>
-<li class="chapter" data-level="5.7" data-path="ggplot2.html"><a href="ggplot2.html#mapping-on-variables-versus-constants"><i class="fa fa-check"></i><b>5.7</b> Mapping on variables versus constants</a></li>
-<li class="chapter" data-level="5.8" data-path="ggplot2.html"><a href="ggplot2.html#themes"><i class="fa fa-check"></i><b>5.8</b> Themes</a></li>
-<li class="chapter" data-level="5.9" data-path="ggplot2.html"><a href="ggplot2.html#you-aint-seen-nothing-yet"><i class="fa fa-check"></i><b>5.9</b> You ain’t seen nothing yet</a></li>
-<li class="chapter" data-level="5.10" data-path="ggplot2.html"><a href="ggplot2.html#further-reading"><i class="fa fa-check"></i><b>5.10</b> Further reading</a></li>
-<li class="chapter" data-level="5.11" data-path="ggplot2.html"><a href="ggplot2.html#extending-ggplot2"><i class="fa fa-check"></i><b>5.11</b> Extending ggplot2</a></li>
-<li class="chapter" data-level="5.12" data-path="ggplot2.html"><a href="ggplot2.html#ggplot2-cannot-do-everything"><i class="fa fa-check"></i><b>5.12</b> ggplot2 cannot do everything</a></li>
-</ul></li>
-<li class="chapter" data-level="6" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>6</b> Tidyverse: dplyr</a>
-<ul>
-<li class="chapter" data-level="6.1" data-path="dplyr.html"><a href="dplyr.html#tidyverse-philosophy"><i class="fa fa-check"></i><b>6.1</b> Tidyverse philosophy</a></li>
-<li class="chapter" data-level="6.2" data-path="dplyr.html"><a href="dplyr.html#select"><i class="fa fa-check"></i><b>6.2</b> <code>select()</code> columns by name</a></li>
-<li class="chapter" data-level="6.3" data-path="dplyr.html"><a href="dplyr.html#conditions"><i class="fa fa-check"></i><b>6.3</b> Conditions</a></li>
-<li class="chapter" data-level="6.4" data-path="dplyr.html"><a href="dplyr.html#logical-indexing"><i class="fa fa-check"></i><b>6.4</b> Logical indexing</a></li>
-<li class="chapter" data-level="6.5" data-path="dplyr.html"><a href="dplyr.html#filter-rows-by-values"><i class="fa fa-check"></i><b>6.5</b> <code>filter()</code> rows by values</a></li>
-<li class="chapter" data-level="6.6" data-path="dplyr.html"><a href="dplyr.html#arrange-rows-in-a-particular-order"><i class="fa fa-check"></i><b>6.6</b> <code>arrange()</code> rows in a particular order</a></li>
-<li class="chapter" data-level="6.7" data-path="dplyr.html"><a href="dplyr.html#mutate"><i class="fa fa-check"></i><b>6.7</b> <code>mutate()</code> columns</a></li>
-<li class="chapter" data-level="6.8" data-path="dplyr.html"><a href="dplyr.html#summarize"><i class="fa fa-check"></i><b>6.8</b> <code>summarize()</code> table by <code>groups</code></a></li>
-<li class="chapter" data-level="6.9" data-path="dplyr.html"><a href="dplyr.html#putting-it-all-together"><i class="fa fa-check"></i><b>6.9</b> Putting it all together</a></li>
-<li class="chapter" data-level="6.10" data-path="dplyr.html"><a href="dplyr.html#should-i-use-tidyverse"><i class="fa fa-check"></i><b>6.10</b> Should I use Tidyverse?</a></li>
-</ul></li>
-<li class="chapter" data-level="7" data-path="working-with-factors.html"><a href="working-with-factors.html"><i class="fa fa-check"></i><b>7</b> Working with Factors</a>
-<ul>
-<li class="chapter" data-level="7.1" data-path="working-with-factors.html"><a href="working-with-factors.html#how-to-write-code"><i class="fa fa-check"></i><b>7.1</b> How to write code</a></li>
-<li class="chapter" data-level="7.2" data-path="working-with-factors.html"><a href="working-with-factors.html#implementing-a-typical-analysis"><i class="fa fa-check"></i><b>7.2</b> Implementing a typical analysis</a></li>
-<li class="chapter" data-level="7.3" data-path="working-with-factors.html"><a href="working-with-factors.html#factors"><i class="fa fa-check"></i><b>7.3</b> Factors</a></li>
-<li class="chapter" data-level="7.4" data-path="working-with-factors.html"><a href="working-with-factors.html#forcats"><i class="fa fa-check"></i><b>7.4</b> Forcats</a></li>
-<li class="chapter" data-level="7.5" data-path="working-with-factors.html"><a href="working-with-factors.html#plotting-group-averages"><i class="fa fa-check"></i><b>7.5</b> Plotting group averages</a></li>
-<li class="chapter" data-level="7.6" data-path="working-with-factors.html"><a href="working-with-factors.html#plotting-our-confidence-in-group-averages-via-quantiles"><i class="fa fa-check"></i><b>7.6</b> Plotting our confidence in group averages via quantiles</a></li>
-<li class="chapter" data-level="7.7" data-path="working-with-factors.html"><a href="working-with-factors.html#looking-at-similarity"><i class="fa fa-check"></i><b>7.7</b> Looking at similarity</a></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="tyding.html"><a href="tyding.html"><i class="fa fa-check"></i><b>8</b> Tidyng your data: joins and pivots</a>
-<ul>
-<li class="chapter" data-level="8.1" data-path="tyding.html"><a href="tyding.html#joins"><i class="fa fa-check"></i><b>8.1</b> Joining tables</a></li>
-<li class="chapter" data-level="8.2" data-path="tyding.html"><a href="tyding.html#pivoting"><i class="fa fa-check"></i><b>8.2</b> Pivoting</a></li>
-<li class="chapter" data-level="8.3" data-path="tyding.html"><a href="tyding.html#pivot-longer"><i class="fa fa-check"></i><b>8.3</b> Pivot longer</a></li>
-<li class="chapter" data-level="8.4" data-path="tyding.html"><a href="tyding.html#pivot-wider"><i class="fa fa-check"></i><b>8.4</b> Pivot wider</a></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html"><i class="fa fa-check"></i><b>9</b> Controling computation flow</a>
-<ul>
-<li class="chapter" data-level="9.1" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#rep"><i class="fa fa-check"></i><b>9.1</b> <code>rep()</code></a></li>
-<li class="chapter" data-level="9.2" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#repeating-combinations"><i class="fa fa-check"></i><b>9.2</b> Repeating combinations</a></li>
-<li class="chapter" data-level="9.3" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#forloop"><i class="fa fa-check"></i><b>9.3</b> For loop</a></li>
-<li class="chapter" data-level="9.4" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#if-else"><i class="fa fa-check"></i><b>9.4</b> Conditional statement</a></li>
-<li class="chapter" data-level="9.5" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#breaking-out-of-the-loop"><i class="fa fa-check"></i><b>9.5</b> Breaking out of the loop</a></li>
-<li class="chapter" data-level="9.6" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#using-for-loop-to-load-and-join-multiple-data-files"><i class="fa fa-check"></i><b>9.6</b> Using for loop to load and join multiple data files</a></li>
-<li class="chapter" data-level="9.7" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#apply"><i class="fa fa-check"></i><b>9.7</b> Apply</a></li>
-<li class="chapter" data-level="9.8" data-path="controling-computation-flow.html"><a href="controling-computation-flow.html#purrr"><i class="fa fa-check"></i><b>9.8</b> Purrr</a></li>
-</ul></li>
-<li class="chapter" data-level="10" data-path="christmas-special.html"><a href="christmas-special.html"><i class="fa fa-check"></i><b>10</b> Christmas special</a>
-<ul>
-<li class="chapter" data-level="10.1" data-path="christmas-special.html"><a href="christmas-special.html#left-side-of-the-tree"><i class="fa fa-check"></i><b>10.1</b> Left side of the tree</a></li>
-<li class="chapter" data-level="10.2" data-path="christmas-special.html"><a href="christmas-special.html#right-side-of-the-tree"><i class="fa fa-check"></i><b>10.2</b> Right side of the tree</a></li>
-<li class="chapter" data-level="10.3" data-path="christmas-special.html"><a href="christmas-special.html#the-whole-tree"><i class="fa fa-check"></i><b>10.3</b> The whole tree</a></li>
-<li class="chapter" data-level="10.4" data-path="christmas-special.html"><a href="christmas-special.html#filling-in-the-tree"><i class="fa fa-check"></i><b>10.4</b> Filling in the tree</a></li>
-<li class="chapter" data-level="10.5" data-path="christmas-special.html"><a href="christmas-special.html#adding-background-image"><i class="fa fa-check"></i><b>10.5</b> Adding background image</a></li>
-<li class="chapter" data-level="10.6" data-path="christmas-special.html"><a href="christmas-special.html#adding-decoration-a-boring-one"><i class="fa fa-check"></i><b>10.6</b> Adding decoration (a boring one)</a></li>
-<li class="chapter" data-level="10.7" data-path="christmas-special.html"><a href="christmas-special.html#adding-decoration-a-bit-more-fun-one"><i class="fa fa-check"></i><b>10.7</b> Adding decoration (a bit more fun one)</a></li>
-<li class="chapter" data-level="10.8" data-path="christmas-special.html"><a href="christmas-special.html#adding-decoration-the-fun-ones"><i class="fa fa-check"></i><b>10.8</b> Adding decoration (the fun ones)</a></li>
-<li class="chapter" data-level="10.9" data-path="christmas-special.html"><a href="christmas-special.html#a-star-on-top"><i class="fa fa-check"></i><b>10.9</b> A star on top</a></li>
-<li class="chapter" data-level="10.10" data-path="christmas-special.html"><a href="christmas-special.html#merry-christmas"><i class="fa fa-check"></i><b>10.10</b> Merry Christmas!</a></li>
-</ul></li>
-<li class="chapter" data-level="11" data-path="missing-data.html"><a href="missing-data.html"><i class="fa fa-check"></i><b>11</b> Missing data</a>
-<ul>
-<li class="chapter" data-level="11.1" data-path="missing-data.html"><a href="missing-data.html#complete"><i class="fa fa-check"></i><b>11.1</b> Making missing data explicit (completing data)</a></li>
-<li class="chapter" data-level="11.2" data-path="missing-data.html"><a href="missing-data.html#na.omit"><i class="fa fa-check"></i><b>11.2</b> Dropping / omitting NAs</a></li>
-</ul></li>
-<li class="chapter" data-level="12" data-path="strings.html"><a href="strings.html"><i class="fa fa-check"></i><b>12</b> Working with strings</a>
-<ul>
-<li class="chapter" data-level="12.1" data-path="strings.html"><a href="strings.html#warming-up"><i class="fa fa-check"></i><b>12.1</b> Warming up</a></li>
-<li class="chapter" data-level="12.2" data-path="strings.html"><a href="strings.html#glue"><i class="fa fa-check"></i><b>12.2</b> Formatting strings via <code>glue()</code></a></li>
-<li class="chapter" data-level="12.3" data-path="strings.html"><a href="strings.html#paste"><i class="fa fa-check"></i><b>12.3</b> Formatting strings via <code>paste()</code></a></li>
-<li class="chapter" data-level="12.4" data-path="strings.html"><a href="strings.html#sprintf"><i class="fa fa-check"></i><b>12.4</b> Formatting strings via <code>sprintf()</code></a></li>
-<li class="chapter" data-level="12.5" data-path="strings.html"><a href="strings.html#extracting-information-from-a-string"><i class="fa fa-check"></i><b>12.5</b> Extracting information from a string</a></li>
-<li class="chapter" data-level="12.6" data-path="strings.html"><a href="strings.html#splitting-strings-via-separate"><i class="fa fa-check"></i><b>12.6</b> Splitting strings via <code>separate()</code></a></li>
-<li class="chapter" data-level="12.7" data-path="strings.html"><a href="strings.html#extracting-a-substring-when-you-know-its-location"><i class="fa fa-check"></i><b>12.7</b> Extracting a substring when you know its location</a></li>
-<li class="chapter" data-level="12.8" data-path="strings.html"><a href="strings.html#detecting-a-substring-using-regular-expressions"><i class="fa fa-check"></i><b>12.8</b> Detecting a substring using regular expressions</a></li>
-</ul></li>
-<li class="chapter" data-level="13" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html"><i class="fa fa-check"></i><b>13</b> Sampling and simulations</a>
-<ul>
-<li class="chapter" data-level="13.1" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#estimating-mean-of-a-normal-distribution-via-resampling"><i class="fa fa-check"></i><b>13.1</b> Estimating mean of a normal distribution via resampling</a></li>
-<li class="chapter" data-level="13.2" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#bootstrapping-via-boot-library"><i class="fa fa-check"></i><b>13.2</b> Bootstrapping via boot library</a></li>
-<li class="chapter" data-level="13.3" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#more-samples-give-you-more-confidence"><i class="fa fa-check"></i><b>13.3</b> More samples give you more confidence</a></li>
-<li class="chapter" data-level="13.4" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#adding-average-sample-mean"><i class="fa fa-check"></i><b>13.4</b> Adding average sample mean</a></li>
-<li class="chapter" data-level="13.5" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#practice-makes-perfect"><i class="fa fa-check"></i><b>13.5</b> Practice makes perfect</a></li>
-<li class="chapter" data-level="13.6" data-path="sampling-and-simulations.html"><a href="sampling-and-simulations.html#starting-with-basics"><i class="fa fa-check"></i><b>13.6</b> Starting with basics</a></li>
-</ul></li>
-<li class="chapter" data-level="14" data-path="statistical-modeling.html"><a href="statistical-modeling.html"><i class="fa fa-check"></i><b>14</b> Statistical modeling</a>
-<ul>
-<li class="chapter" data-level="14.1" data-path="statistical-modeling.html"><a href="statistical-modeling.html#correlation"><i class="fa fa-check"></i><b>14.1</b> Correlation</a></li>
-<li class="chapter" data-level="14.2" data-path="statistical-modeling.html"><a href="statistical-modeling.html#correlation-in-practice"><i class="fa fa-check"></i><b>14.2</b> Correlation in practice</a></li>
-<li class="chapter" data-level="14.3" data-path="statistical-modeling.html"><a href="statistical-modeling.html#pairwise-comparisons"><i class="fa fa-check"></i><b>14.3</b> Pairwise comparisons</a></li>
-<li class="chapter" data-level="14.4" data-path="statistical-modeling.html"><a href="statistical-modeling.html#t-tests-in-practice"><i class="fa fa-check"></i><b>14.4</b> T-tests in practice</a></li>
-<li class="chapter" data-level="14.5" data-path="statistical-modeling.html"><a href="statistical-modeling.html#formula-notation"><i class="fa fa-check"></i><b>14.5</b> Formula notation</a></li>
-<li class="chapter" data-level="14.6" data-path="statistical-modeling.html"><a href="statistical-modeling.html#using-t-test-via-formula"><i class="fa fa-check"></i><b>14.6</b> Using t-test via formula</a></li>
-<li class="chapter" data-level="14.7" data-path="statistical-modeling.html"><a href="statistical-modeling.html#anova"><i class="fa fa-check"></i><b>14.7</b> ANOVA</a></li>
-<li class="chapter" data-level="14.8" data-path="statistical-modeling.html"><a href="statistical-modeling.html#almost-everything-is-a-linear-regression-model"><i class="fa fa-check"></i><b>14.8</b> (Almost) everything is a linear regression model</a></li>
-<li class="chapter" data-level="14.9" data-path="statistical-modeling.html"><a href="statistical-modeling.html#GLMM"><i class="fa fa-check"></i><b>14.9</b> (Generalized) Linear Models</a></li>
-<li class="chapter" data-level="14.10" data-path="statistical-modeling.html"><a href="statistical-modeling.html#resampling-a-linear-model"><i class="fa fa-check"></i><b>14.10</b> Resampling a linear model</a></li>
-<li class="chapter" data-level="14.11" data-path="statistical-modeling.html"><a href="statistical-modeling.html#generalized-linear-mixed-models"><i class="fa fa-check"></i><b>14.11</b> (Generalized) Linear Mixed Models</a></li>
-<li class="chapter" data-level="14.12" data-path="statistical-modeling.html"><a href="statistical-modeling.html#disclaimer-repeated"><i class="fa fa-check"></i><b>14.12</b> Disclaimer, repeated</a></li>
-</ul></li>
-<li class="chapter" data-level="15" data-path="practice.html"><a href="practice.html"><i class="fa fa-check"></i><b>15</b> Practice</a>
-<ul>
-<li class="chapter" data-level="15.1" data-path="practice.html"><a href="practice.html#bad-names-to-good-names"><i class="fa fa-check"></i><b>15.1</b> Bad names to good names</a></li>
-<li class="chapter" data-level="15.2" data-path="practice.html"><a href="practice.html#participant-id"><i class="fa fa-check"></i><b>15.2</b> Participant ID</a></li>
-<li class="chapter" data-level="15.3" data-path="practice.html"><a href="practice.html#factors-1"><i class="fa fa-check"></i><b>15.3</b> Factors</a></li>
-<li class="chapter" data-level="15.4" data-path="practice.html"><a href="practice.html#response-times"><i class="fa fa-check"></i><b>15.4</b> Response times</a></li>
-<li class="chapter" data-level="15.5" data-path="practice.html"><a href="practice.html#accuracy"><i class="fa fa-check"></i><b>15.5</b> Accuracy</a></li>
-<li class="chapter" data-level="15.6" data-path="practice.html"><a href="practice.html#physiological-signal"><i class="fa fa-check"></i><b>15.6</b> Physiological signal</a></li>
-<li class="chapter" data-level="15.7" data-path="practice.html"><a href="practice.html#wrap-up-2"><i class="fa fa-check"></i><b>15.7</b> Wrap up</a></li>
-</ul></li>
-<li class="divider"></li>
-<li><a href="https://alexander-pastukhov.github.io/">Alexander (Sasha) Pastukhov</li>
-
-</ul>
-
-      </nav>
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Data analysis using R for Psychology and Social Science</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
     </div>
 
-    <div class="book-body">
-      <div class="body-inner">
-        <div class="book-header" role="navigation">
-          <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data analysis using R for Psychology and Social Science</a>
-          </h1>
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Introduction</a></li>
+<li><a class="" href="software.html">Software</a></li>
+<li><a class="" href="reproducable-research.html"><span class="header-section-number">1</span> Reproducable Research: Projects and Markdown Notebooks</a></li>
+<li><a class="active" href="vectors.html"><span class="header-section-number">2</span> Vectors! Vectors everywhere!</a></li>
+<li><a class="" href="tables.html"><span class="header-section-number">3</span> Tables and Tibbles (and Tribbles)</a></li>
+<li><a class="" href="functions.html"><span class="header-section-number">4</span> Functions! Functions everywhere!</a></li>
+<li><a class="" href="ggplot2.html"><span class="header-section-number">5</span> ggplot2: Grammar of Graphics</a></li>
+<li><a class="" href="dplyr.html"><span class="header-section-number">6</span> Tidyverse: dplyr</a></li>
+<li><a class="" href="working-with-factors.html"><span class="header-section-number">7</span> Working with Factors</a></li>
+<li><a class="" href="tyding.html"><span class="header-section-number">8</span> Tidyng your data: joins and pivots</a></li>
+<li><a class="" href="control-flow-chapter.html"><span class="header-section-number">9</span> Controling computation flow</a></li>
+<li><a class="" href="missing-data.html"><span class="header-section-number">10</span> Missing data</a></li>
+<li><a class="" href="strings.html"><span class="header-section-number">11</span> Working with strings</a></li>
+<li><a class="" href="sampling-and-simulations.html"><span class="header-section-number">12</span> Sampling and simulations</a></li>
+<li><a class="" href="generalized-linear-regression-and-resampling.html"><span class="header-section-number">13</span> (Generalized) Linear regression and Resampling</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/alexander-pastukhov/data-analysis-using-r-for-psychology">View book source <i class="fab fa-github"></i></a></p>
         </div>
-
-        <div class="page-wrapper" tabindex="-1" role="main">
-          <div class="page-inner">
-
-            <section class="normal" id="section-">
-<div id="vectors" class="section level1 hasAnchor" number="2">
-<h1><span class="header-section-number">Seminar 2</span> Vectors! Vectors everywhere!<a href="vectors.html#vectors" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Before reading the chapter, please download the <a href="notebooks/Seminar%2002%20-%20Vectors.Rmd">exercise notebook</a> (<strong>Alt+Click</strong> to download it or right-click as <em>Save link as…</em>), put it into your seminar <a href="reproducable-research.html#projects">project folder</a>, and open the project. You need both the text and the notebook with exercises to be open, as you will be switching between them.</p>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="vectors" class="section level1" number="2">
+<h1>
+<span class="header-section-number">2</span> Vectors! Vectors everywhere!<a class="anchor" aria-label="anchor" href="#vectors"><i class="fas fa-link"></i></a>
+</h1>
+<p>Before reading the chapter, please download the <a href="notebooks/Seminar%2002%20-%20Vectors.qmd">exercise notebook</a> (<strong>Alt+Click</strong> to download it or right-click as <em>Save link as…</em>), put it into your seminar <a href="reproducable-research.html#projects">project folder</a>, and open the project. You need both the text and the notebook with exercises to be open, as you will be switching between them.</p>
 <p>Before we can start using R for analysis, you need to learn about vectors. This is a key concept in R, so your understanding of it will determine how easy it will be for you to use R in general. Do all of the exercises and do not hesitate to ask me whenever something is unclear. Remember, you need to master vectors before you can master R!</p>
-<div id="variables" class="section level2 hasAnchor" number="2.1">
-<h2><span class="header-section-number">2.1</span> Variables as boxes<a href="vectors.html#variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="variables" class="section level2" number="2.1">
+<h2>
+<span class="header-section-number">2.1</span> Variables as boxes<a class="anchor" aria-label="anchor" href="#variables"><i class="fas fa-link"></i></a>
+</h2>
 <p>In programming, a concept of a variable is often described as a box you can put something in. A box has a name tag on it, which is the <em>name</em> of the variable. Whatever you put in is the <em>value</em> that you store.</p>
-<p><img src="images/variable-as-box.png" width="30%" style="display: block; margin: auto;" /></p>
+<div class="inline-figure"><img src="images/variable-as-box.png" width="30%" style="display: block; margin: auto;"></div>
 <p>This “putting in” concepts is reflected in R syntax</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="vectors.html#cb1-1" aria-hidden="true" tabindex="-1"></a>number_of_participants <span class="ot">&lt;-</span> <span class="dv">10</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">number_of_participants</span> <span class="op">&lt;-</span> <span class="fl">10</span></span></code></pre></div>
 <p>Here, <code>number_of_participants</code> is the name of the variable (name tag for the box that we will be using), <code>10</code> is the value you store, and <code>&lt;-</code> means <em>“put <code>10</code> into variable <code>number_of_participants</code>”</em>. If you know other programming languages, you probably expected the usual assignment operator <code>=</code>. Confusingly, you can use it in R as well, but there are some subtle, yet important, <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/assignOps.html">differences</a> in how they operate behind the scenes. We will meet <code>=</code> again when we will be talking about functions and, in particular, Tidyverse way of doing things but for now <strong>only use <code>&lt;-</code> operator</strong>!</p>
 </div>
-<div id="assignment-statement" class="section level2 hasAnchor" number="2.2">
-<h2><span class="header-section-number">2.2</span> Assignment statement in detail<a href="vectors.html#assignment-statement" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="assignment-statement" class="section level2" number="2.2">
+<h2>
+<span class="header-section-number">2.2</span> Assignment statement in detail<a class="anchor" aria-label="anchor" href="#assignment-statement"><i class="fas fa-link"></i></a>
+</h2>
 <p>One <em>very important</em> thing to remember about the assignment statement <code>&lt;variable&gt; &lt;- &lt;value&gt;</code>: The <em>right side</em> is evaluated first until the final value is established and then, and only then, it is stored in a <code>&lt;variable&gt;</code> specified on the left side. This means that you can use the same variable on <em>both</em> sides. Take a look at the example</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="vectors.html#cb2-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb2-2"><a href="vectors.html#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 2</code></pre>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="vectors.html#cb4-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> x <span class="sc">+</span> <span class="dv">5</span></span>
-<span id="cb4-2"><a href="vectors.html#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op">+</span> <span class="fl">5</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 7</code></pre>
 <p>We are storing value <code>2</code> in a variable <code>x</code>. In the next line, the <em>right side</em> is evaluated first. This means that the current value of <code>x</code> is substituted in its place on the right side: <code>x + 5</code> becomes <code>2 + 5</code>. This expression computed and we get <code>7</code>. Now, that the <em>right side</em> is fully evaluated, the value can be stored in <code>x</code> replacing (overwriting) the original value it had.</p>
 <p>R’s use of <code>&lt;-</code> makes it easier to memorize this <em>right side is fully evaluated first</em> rule. However, as noted above, we will meet <code>=</code> operator and this one makes it look like a mathematical equation. However, assignments (storing values in a variable) have nothing in common with mathematical equations (finding values of variables to ensure equality)!</p>
-<div class="infobox practice">
+<div class="practice">
 <p>Do exercise 1.</p>
 </div>
 </div>
-<div id="vectors-scalars" class="section level2 hasAnchor" number="2.3">
-<h2><span class="header-section-number">2.3</span> Vectors and singluar values (scalars, which are also vectors)<a href="vectors.html#vectors-scalars" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The box metaphor you’ve just learned, doesn’t quite work for R. Historically, R was developed as a language for statistical computing, so it was based on concepts of linear algebra instead of being a “normal” programming language like Python or C. This means that there is no conceptual divide between single values and containers (arrays, lists, dictionaries, etc.) that hold many single values. Instead, the primary data unit in R is a <em>vector</em>, which you may remember from geometry or, hopefully, from linear algebra, as an arrow that goes from 0 to a specific point in space. From computer science point of view, a vector is just a list of numbers (or some other values, as you will learn later). This means that there are no “single values” in R, there are only vectors of variable length. Special cases are vectors of length one, which are called <em>scalars</em> <a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> (but they are still vectors) and zero length vectors that are, sort of, a Platonic idea of a vector without actual values. With respect to the “box metaphor”, this means that we always have a box with indexed (numbered) slots in it. A simple assignment makes sure that “the box” has as many slots as values you want to put in and stores these values one after another starting with slot #1<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a>. Therefore, the example above <code>number_of_participants &lt;- 10</code> creates a <em>vector</em> variable with one (1) slot and stores the value in it.</p>
-<p><img src="images/box-with-a-slot.png" width="30%" style="display: block; margin: auto;" /></p>
+<div id="vectors-scalars" class="section level2" number="2.3">
+<h2>
+<span class="header-section-number">2.3</span> Vectors and singluar values (scalars, which are also vectors)<a class="anchor" aria-label="anchor" href="#vectors-scalars"><i class="fas fa-link"></i></a>
+</h2>
+<p>The box metaphor you’ve just learned, doesn’t quite work for R. Historically, R was developed as a language for statistical computing, so it is based on concepts of linear algebra instead of being a “normal” programming language like Python or C. This means that there is no conceptual divide between single values and containers (arrays, lists, dictionaries, etc.) that hold many single values. Instead, the primary data unit in R is a <em>vector</em>. From computer science point of view, a vector is just a list of numbers (or some other values, as you will learn later). This means that there are no “single values” in R, there are only vectors of variable length. Special cases are vectors of length one, which are called <em>scalars</em> <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Multiplication of a vector by another vector &lt;em&gt;transforms&lt;/em&gt; it but for a single element vector the only transformation you can get is “scaling”, hence, the name.&lt;/p&gt;"><sup>8</sup></a> (but they are still vectors) and zero length vectors that are, sort of, a Platonic idea of a vector without actual values. With respect to the “box metaphor”, this means that we always have a box with indexed (numbered) slots in it. A simple assignment makes sure that “the box” has as many slots as values you want to put in and stores these values one after another starting with slot #1<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;If you have experience with programming languages like Python, C, or Java: indexes in R start with 1, not with 0!&lt;/p&gt;"><sup>9</sup></a>. Therefore, the example above <code>number_of_participants &lt;- 10</code> creates a <em>vector</em> variable with one (1) slot and stores the value in it.</p>
+<div class="inline-figure"><img src="images/box-with-a-slot.png" width="30%" style="display: block; margin: auto;"></div>
 <p>But, as noted above, a single value (vector with length of one) is a special case. More generally you write:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="vectors.html#cb6-1" aria-hidden="true" tabindex="-1"></a>response <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">7</span>, <span class="dv">3</span>)</span></code></pre></div>
-<p>Here, you create a variable (box) named <code>response</code> that has three slots in it because you want to store three values. You put values <code>1</code>, <code>7</code>, <code>3</code> into the slots #1, #2, and #3. The <code>c(1, 7, 3)</code> notation is how you create a vector in R by <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/c"><strong>c</strong>oncatenating</a> (or <strong>c</strong>ombining) values<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a>. The figure below illustrates the idea:</p>
-<p><img src="images/box-3-slots.png" width="30%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">response</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">7</span>, <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<p>Here, you create a variable (box) named <code>response</code> that has three slots in it because you want to store three values. You put values <code>1</code>, <code>7</code>, <code>3</code> into the slots #1, #2, and #3. The <code>c(1, 7, 3)</code> notation is how you create a vector in R by <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/c"><strong>c</strong>oncatenating</a> (or <strong>c</strong>ombining) values<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;I find this to be a very poor choice of name but we are stuck with it, so your only option is to get used to it.&lt;/p&gt;"><sup>10</sup></a>. The figure below illustrates the idea:</p>
+<div class="inline-figure"><img src="images/box-3-slots.png" width="30%" style="display: block; margin: auto;"></div>
 <p>Building on the box metaphor: If you can store something in a box, you can take it out! In the world of computers it works even better, because rather than taking something out, you just make a copy of that and store this copy somewhere else or to use it to compute things. Minimally, we would like to see what is inside of the box. For this, you can use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/print.html">print</a> function:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="vectors.html#cb7-1" aria-hidden="true" tabindex="-1"></a>response <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">7</span>, <span class="dv">3</span>)</span>
-<span id="cb7-2"><a href="vectors.html#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(response)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">response</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">7</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">response</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 1 7 3</code></pre>
 <p>Or, we can make a copy of values in one variable and store them in another:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="vectors.html#cb9-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">9</span>)</span>
-<span id="cb9-2"><a href="vectors.html#cb9-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> x </span>
-<span id="cb9-3"><a href="vectors.html#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="vectors.html#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">6</span>, <span class="fl">9</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">x</span> </span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 3 6 9</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="vectors.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(y)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 3 6 9</code></pre>
-<p>Here, we create a 3-slot variable <code>x</code> so that we can put in a vector of length 3 created via concatenation <code>c(3, 6, 9)</code>. Next, we make a copy of these three values and store them in a different variable <code>y</code>. Importantly, the values in variable <code>x</code> stayed as they were. Take a look at the figure below, which graphically illustrate this:</p>
-<p><img src="images/copy-vector.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="infobox practice">
+<p>Here, we create a 3-slot variable <code>x</code> so that we can put in a vector of length 3 created via concatenation <code>c(3, 6, 9)</code>. Next, we make a copy of these three values and store them in a different variable <code>y</code>. Importantly, the values in variable <code>x</code> stayed as they were. Take a look at the figure below, which graphically illustrate this:
+<img src="images/copy-vector.png" width="100%" style="display: block; margin: auto;"></p>
+<div class="practice">
 <p>Do exercise 2.</p>
 </div>
 <p>Remember, everything is a vector! This means that <code>c(3, 6, 9)</code> does not concatenate numbers, it concatenates three length one vectors (scalars) <code>3</code>, <code>6</code>, <code>9</code>. Thus, concatenation works on longer vectors in exactly the same way:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="vectors.html#cb13-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
-<span id="cb13-2"><a href="vectors.html#cb13-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>)</span>
-<span id="cb13-3"><a href="vectors.html#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">c</span>(x, y))</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 1 2 3 4 5</code></pre>
-<div class="infobox practice">
+<div class="practice">
 <p>Do exercise 3.</p>
 </div>
 </div>
-<div id="vector-index" class="section level2 hasAnchor" number="2.4">
-<h2><span class="header-section-number">2.4</span> Vector indexes (subsetting)<a href="vectors.html#vector-index" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="vector-index" class="section level2" number="2.4">
+<h2>
+<span class="header-section-number">2.4</span> Vector indexes (subsetting)<a class="anchor" aria-label="anchor" href="#vector-index"><i class="fas fa-link"></i></a>
+</h2>
 <p>A vector is an ordered list of values (box with some slots) and, sometimes, you need only one of the values. Each value (slot in the box) has its own index from 1 till N, where N is the <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/length.html">length</a> of the vector. To access that slot you use square brackets <code>some_vector[index]</code>. You can both get and set the value for the individual slots the same way you do it for the whole vector.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="vectors.html#cb15-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
-<span id="cb15-2"><a href="vectors.html#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># set SECOND element to 4</span></span>
-<span id="cb15-3"><a href="vectors.html#cb15-3" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">4</span></span>
-<span id="cb15-4"><a href="vectors.html#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="vectors.html#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># print the entire vector</span></span>
-<span id="cb15-6"><a href="vectors.html#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co"># set SECOND element to 4</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">4</span></span>
+<span></span>
+<span><span class="co"># print the entire vector</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 1 4 3</code></pre>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="vectors.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># print only the third element</span></span>
-<span id="cb17-2"><a href="vectors.html#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x[<span class="dv">3</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># print only the third element</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 3</code></pre>
-<div class="infobox practice">
+<div class="practice">
 <p>Do exercise 4.</p>
 </div>
-<p>Unfortunately, vector indexing in R behaves in a way that may<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a> catch you by surprise. Or, even worse, you will not even notice that your indexing does not work and screwes up your analysis. If your vector contains five values, you would expect that an index of <code>0</code> (negative indexes are special and will be discussed below) or above <code>5</code> generates an error. Not in R! Index of <code>0</code> is a special case and produces an <em>empty vector</em> (vector of zero length).</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="vectors.html#cb19-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
-<span id="cb19-2"><a href="vectors.html#cb19-2" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">0</span>]</span></code></pre></div>
+<p>Unfortunately, vector indexing in R behaves in a way that may<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Who am I kidding? Will!&lt;/p&gt;"><sup>11</sup></a> catch you by surprise. Or, even worse, you will not even notice that your indexing does not work and screwed up your analysis. If your vector contains five values, you would expect that an index of <code>0</code> (negative indexes are special and will be discussed below) or above <code>5</code> generates an error. Not in R! Index of <code>0</code> is a special case and produces an <em>empty vector</em> (vector of zero length).</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="fl">0</span><span class="op">]</span></span></code></pre></div>
 <pre><code>## numeric(0)</code></pre>
 <p>If you try to get vector element using index that is larger than vector length (so <code>6</code> and above for a 5 element vector), R will return <code>NA</code> (<a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html">“Not Available” / Missing Value</a>).</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="vectors.html#cb21-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
-<span id="cb21-2"><a href="vectors.html#cb21-2" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">5</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="fl">5</span><span class="op">]</span></span></code></pre></div>
 <pre><code>## [1] NA</code></pre>
 <p>In both cases, it won’t generate an error or even warn you!</p>
 <p>When <em>setting</em> a value by index, using <code>0</code> will produce no effect, because you are trying to put a value into a vector with no “slots”. Oddly enough, this will also generate neither an error nor a warning, so beware!</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="vectors.html#cb23-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
-<span id="cb23-2"><a href="vectors.html#cb23-2" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">5</span></span>
-<span id="cb23-3"><a href="vectors.html#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="fl">0</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">5</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 1 2 3</code></pre>
 <p>If you set an element with index <strong>larger</strong> than vector length, the vector will be automatically expanded to that length and all the elements between the old values and the new one will be <code>NA</code> (<a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html">“Not Available” / Missing Value</a>).</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="vectors.html#cb25-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
-<span id="cb25-2"><a href="vectors.html#cb25-2" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">10</span>] <span class="ot">&lt;-</span> <span class="dv">5</span></span>
-<span id="cb25-3"><a href="vectors.html#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="fl">10</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">5</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##  [1]  1  2  3 NA NA NA NA NA NA  5</code></pre>
-<p>This may sound too technical but I want you to learn about this because R conventions are so different from other programming languages and, also, from what you would intuitively expect. If you are not aware of these highly peculiar rules, you may never realize that your code is not working properly because, remember, you will never see an error or even a warning! It should also make you more cautious and careful when programming in R. It is a very powerful language that allows you to be very flexible and expressive. Unfortunately, that flexibility means that base R won’t stop you from shooting yourself in a foot. Even worse, sometimes you won’t even notice that your foot is shot and bleeding because R won’t generate either errors or warnings, as in examples above. Good news is that things are far more restricted and consistent in Tidyverse.</p>
-<div class="infobox practice">
+<p>This may sound too technical but I want you to learn about this because R conventions are so different from other programming languages and, also, from what you would intuitively expect. If you are not aware of these highly peculiar rules, you may never realize that your code is not working properly because, remember, you will never see an error or even a warning! It should also make you more cautious and careful when programming in R. It is a very powerful language that allows you to be very flexible and expressive. Unfortunately, that flexibility means that base R won’t stop you from shooting yourself in a foot. Even worse, sometimes you won’t even notice that your foot is bleeding because R won’t generate either errors or warnings, as in examples above. Good news is that things are far more restricted and consistent in Tidyverse.</p>
+<div class="practice">
 <p>Do exercise 5.</p>
 </div>
-<p>You can also use <em>negative</em> indexes. In that case, you <em>exclude</em> the value with that index and return or modify the rest<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a>.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="vectors.html#cb27-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
-<span id="cb27-2"><a href="vectors.html#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># this will return all elements but #3</span></span>
-<span id="cb27-3"><a href="vectors.html#cb27-3" aria-hidden="true" tabindex="-1"></a>x[<span class="sc">-</span><span class="dv">3</span>] </span></code></pre></div>
+<p>You can also use <em>negative</em> indexes. In that case, you <em>exclude</em> the value with that index and return or modify the rest<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;People who use Python, please be aware that negatives indexes in R and in Python behave completely differently!&lt;/p&gt;"><sup>12</sup></a>.</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="co"># this will return all elements but #3</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="op">-</span><span class="fl">3</span><span class="op">]</span> </span></code></pre></div>
 <pre><code>## [1] 1 2 4 5</code></pre>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="vectors.html#cb29-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
-<span id="cb29-2"><a href="vectors.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># this will assign new value (by repeating length one vector) to all elements but #2</span></span>
-<span id="cb29-3"><a href="vectors.html#cb29-3" aria-hidden="true" tabindex="-1"></a>x[<span class="sc">-</span><span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb29-4"><a href="vectors.html#cb29-4" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="co"># this will assign new value (by repeating length one vector) to all elements but #2</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="op">-</span><span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
+<span><span class="va">x</span></span></code></pre></div>
 <pre><code>## [1] 10  2 10 10 10</code></pre>
 <p>Given that negative indexing returns everything <strong>but</strong> the indexed value, what do you think will happen here?</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="vectors.html#cb31-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>)</span>
-<span id="cb31-2"><a href="vectors.html#cb31-2" aria-hidden="true" tabindex="-1"></a>x[<span class="sc">-</span><span class="dv">10</span>]</span></code></pre></div>
-<div class="infobox practice">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">40</span>, <span class="fl">50</span><span class="op">)</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="op">-</span><span class="fl">10</span><span class="op">]</span></span></code></pre></div>
+<div class="practice">
 <p>Do exercise 6.</p>
 </div>
 <p>Finally, somewhat counterintuitively, the entire vector is returned if you do not specify an index in the square brackets. Here, lack of index means “everything”.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="vectors.html#cb32-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>)</span>
-<span id="cb32-2"><a href="vectors.html#cb32-2" aria-hidden="true" tabindex="-1"></a>x[]</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">40</span>, <span class="fl">50</span><span class="op">)</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="op">]</span></span></code></pre></div>
 <pre><code>## [1] 10 20 30 40 50</code></pre>
 </div>
-<div id="names" class="section level2 hasAnchor" number="2.5">
-<h2><span class="header-section-number">2.5</span> Names as an Index<a href="vectors.html#names" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="names" class="section level2" number="2.5">
+<h2>
+<span class="header-section-number">2.5</span> Names as an Index<a class="anchor" aria-label="anchor" href="#names"><i class="fas fa-link"></i></a>
+</h2>
 <p>As you’ve just learned, every slot in vector has its numeric (integer) index. However, this number only indicates an index (position) of a slot but tells you nothing on how it is conceptually different from a slot with a different index. For example, if we are storing width and height in a vector, remembering their order may be tricky: was it <code>box_size &lt;- c(&lt;width&gt;, &lt;depth&gt;, &lt;height&gt;)</code> or <code>box_size &lt;- c(&lt;height&gt;, &lt;width&gt;, &lt;depth&gt;)</code>? Similarly, looking at <code>box_size[1]</code> tells that you are definitely using the <em>first</em> dimension but is it <code>height</code> or <code>width</code> (or <code>depth</code>)?</p>
 <p>In R, you can use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/names.html">names</a> to supplement numeric indexes. It allows you to add meaning to a particular vector index, something that becomes extremely important when we use it for tables. There are two ways to assign names to indexes, either when you are creating the index via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/c.html">c()</a> function or, afterwards, via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/names.html">names()</a> function.</p>
 <p>To create named vector via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/c.html">c()</a> you specify a name before each value as <code>c(&lt;name1&gt; = &lt;value1&gt;, &lt;name2&gt; = &lt;value2&gt;, ...)</code>:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="vectors.html#cb34-1" aria-hidden="true" tabindex="-1"></a>box_size <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;width&quot;</span><span class="ot">=</span><span class="dv">2</span>, <span class="st">&quot;height&quot;</span><span class="ot">=</span><span class="dv">4</span>, <span class="st">&quot;depth&quot;</span><span class="ot">=</span><span class="dv">1</span>) </span>
-<span id="cb34-2"><a href="vectors.html#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(box_size)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">box_size</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"width"</span><span class="op">=</span><span class="fl">2</span>, <span class="st">"height"</span><span class="op">=</span><span class="fl">4</span>, <span class="st">"depth"</span><span class="op">=</span><span class="fl">1</span><span class="op">)</span> </span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">box_size</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##  width height  depth 
 ##      2      4      1</code></pre>
 <p>Note the names appearing above each value. You can now use either numeric index or name to access the value.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="vectors.html#cb36-1" aria-hidden="true" tabindex="-1"></a>box_size <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;width&quot;</span><span class="ot">=</span><span class="dv">2</span>, <span class="st">&quot;height&quot;</span><span class="ot">=</span><span class="dv">4</span>, <span class="st">&quot;depth&quot;</span><span class="ot">=</span><span class="dv">1</span>) </span>
-<span id="cb36-2"><a href="vectors.html#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(box_size[<span class="dv">1</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">box_size</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"width"</span><span class="op">=</span><span class="fl">2</span>, <span class="st">"height"</span><span class="op">=</span><span class="fl">4</span>, <span class="st">"depth"</span><span class="op">=</span><span class="fl">1</span><span class="op">)</span> </span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">box_size</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## width 
 ##     2</code></pre>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="vectors.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(box_size[<span class="st">&quot;depth&quot;</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">box_size</span><span class="op">[</span><span class="st">"depth"</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## depth 
 ##     1</code></pre>
 <p>Alternatively, you can use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/names.html">names()</a> function to both get and set the names. The latter works via a <em>very counterintuitive</em> syntax <code>names(&lt;vector&gt;) &lt;- &lt;vector-with-names&gt;</code></p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="vectors.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># without names</span></span>
-<span id="cb40-2"><a href="vectors.html#cb40-2" aria-hidden="true" tabindex="-1"></a>box_size <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">1</span>) </span>
-<span id="cb40-3"><a href="vectors.html#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(box_size)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># without names</span></span>
+<span><span class="va">box_size</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span> </span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">box_size</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 2 4 1</code></pre>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="vectors.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># with names</span></span>
-<span id="cb42-2"><a href="vectors.html#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(box_size) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;width&quot;</span>, <span class="st">&quot;height&quot;</span>, <span class="st">&quot;depth&quot;</span>)</span>
-<span id="cb42-3"><a href="vectors.html#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(box_size)</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># with names</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">box_size</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"width"</span>, <span class="st">"height"</span>, <span class="st">"depth"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">box_size</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##  width height  depth 
 ##      2      4      1</code></pre>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="vectors.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># getting all the names</span></span>
-<span id="cb44-2"><a href="vectors.html#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">names</span>(box_size))</span></code></pre></div>
-<pre><code>## [1] &quot;width&quot;  &quot;height&quot; &quot;depth&quot;</code></pre>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># getting all the names</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">box_size</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] "width"  "height" "depth"</code></pre>
 <p>Because everything is a vector, <code>names(&lt;vector&gt;)</code> is also a vector, meaning that you can get or set just one element of it.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="vectors.html#cb46-1" aria-hidden="true" tabindex="-1"></a>box_size <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;width&quot;</span><span class="ot">=</span><span class="dv">2</span>, <span class="st">&quot;height&quot;</span><span class="ot">=</span><span class="dv">4</span>, <span class="st">&quot;depth&quot;</span><span class="ot">=</span><span class="dv">1</span>) </span>
-<span id="cb46-2"><a href="vectors.html#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-3"><a href="vectors.html#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="co"># modify SECOND name</span></span>
-<span id="cb46-4"><a href="vectors.html#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(box_size)[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="st">&quot;HEIGHT&quot;</span></span>
-<span id="cb46-5"><a href="vectors.html#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(box_size)</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">box_size</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"width"</span><span class="op">=</span><span class="fl">2</span>, <span class="st">"height"</span><span class="op">=</span><span class="fl">4</span>, <span class="st">"depth"</span><span class="op">=</span><span class="fl">1</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="co"># modify SECOND name</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">box_size</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"HEIGHT"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">box_size</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##  width HEIGHT  depth 
 ##      2      4      1</code></pre>
-<p>Finally, if you use a name that is not in the index, this is like using numeric index larger than the vector length. Just as for out-of-range numeric index, there will be neither error not warning and you will get an <code>NA</code> back.</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="vectors.html#cb48-1" aria-hidden="true" tabindex="-1"></a>box_size <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;width&quot;</span><span class="ot">=</span><span class="dv">2</span>, <span class="st">&quot;height&quot;</span><span class="ot">=</span><span class="dv">4</span>, <span class="st">&quot;depth&quot;</span><span class="ot">=</span><span class="dv">1</span>) </span>
-<span id="cb48-2"><a href="vectors.html#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(box_size[<span class="st">&quot;radius&quot;</span>])</span></code></pre></div>
+<p>Finally, if you use a name that is not in the index, this is like using numeric index larger than the vector length. Just as for out-of-range numeric index, there will be neither error nor warning and you will get an <code>NA</code> back.</p>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">box_size</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"width"</span><span class="op">=</span><span class="fl">2</span>, <span class="st">"height"</span><span class="op">=</span><span class="fl">4</span>, <span class="st">"depth"</span><span class="op">=</span><span class="fl">1</span><span class="op">)</span> </span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">box_size</span><span class="op">[</span><span class="st">"radius"</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## &lt;NA&gt; 
 ##   NA</code></pre>
-<div class="infobox practice">
+<div class="practice">
 <p>Do exercise 7.</p>
 </div>
 </div>
-<div id="vector-index-slicing" class="section level2 hasAnchor" number="2.6">
-<h2><span class="header-section-number">2.6</span> Slicing<a href="vectors.html#vector-index-slicing" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="vector-index-slicing" class="section level2" number="2.6">
+<h2>
+<span class="header-section-number">2.6</span> Slicing<a class="anchor" aria-label="anchor" href="#vector-index-slicing"><i class="fas fa-link"></i></a>
+</h2>
 <p>So far we were reading or modifying either the whole vector or just one of its elements. However, the index you pass in square brackets (you’ve guessed it) is also a vector! Which means that you can construct a vector of indexes the same way you construct a vector of any values (the only restriction is that index values must integers and that you cannot mix negative and positive indexes).</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="vectors.html#cb50-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>)</span>
-<span id="cb50-2"><a href="vectors.html#cb50-2" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>)]</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">40</span>, <span class="fl">50</span><span class="op">)</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <pre><code>## [1] 20 30 50</code></pre>
 <p>When constructing a vector index, you can put index values in the order you require (normal ascending order, starting from the end of it, random order, etc.) or use the same index more than once.</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="vectors.html#cb52-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>)</span>
-<span id="cb52-2"><a href="vectors.html#cb52-2" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">4</span>)]</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">40</span>, <span class="fl">50</span><span class="op">)</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">4</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <pre><code>## [1] 30 50 10 10 40</code></pre>
 <p>You can also use several negative indexes to exclude multiple values and return the rest. Here, neither order nor duplicate indexes matter. Regardless of which value you exclude first or how many times you exclude it, you still get <em>the rest</em> of the vector in its default order.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="vectors.html#cb54-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>)</span>
-<span id="cb54-2"><a href="vectors.html#cb54-2" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">2</span>)]</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">40</span>, <span class="fl">50</span><span class="op">)</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">4</span>, <span class="op">-</span><span class="fl">2</span>, <span class="op">-</span><span class="fl">2</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <pre><code>## [1] 10 30 50</code></pre>
 <p>Note that you cannot mix positive and negative indexes as R will generate an error (at last!).</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="vectors.html#cb56-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>)</span>
-<span id="cb56-2"><a href="vectors.html#cb56-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-3"><a href="vectors.html#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="co"># THIS WILL GENERATE AN ERROR: </span></span>
-<span id="cb56-4"><a href="vectors.html#cb56-4" aria-hidden="true" tabindex="-1"></a><span class="co"># &quot;Error in x[c(-4, 2, -2)] : only 0&#39;s may be mixed with negative subscripts&quot;</span></span>
-<span id="cb56-5"><a href="vectors.html#cb56-5" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">2</span>, <span class="sc">-</span><span class="dv">2</span>)]</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">40</span>, <span class="fl">50</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># THIS WILL GENERATE AN ERROR: </span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">4</span>, <span class="fl">2</span>, <span class="op">-</span><span class="fl">2</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
+<pre><code>## Error in x[c(-4, 2, -2)]: only 0's may be mixed with negative subscripts</code></pre>
 <p>Finally, including zero index makes no difference but generates neither an error nor a warning.</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="vectors.html#cb57-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>)</span>
-<span id="cb57-2"><a href="vectors.html#cb57-2" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">2</span>)]</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">40</span>, <span class="fl">50</span><span class="op">)</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">5</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <pre><code>## [1] 10 50 20 20</code></pre>
 <p>You can also use names instead of numeric indexes.</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="vectors.html#cb59-1" aria-hidden="true" tabindex="-1"></a>box_size <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;width&quot;</span><span class="ot">=</span><span class="dv">2</span>, <span class="st">&quot;height&quot;</span><span class="ot">=</span><span class="dv">4</span>, <span class="st">&quot;depth&quot;</span><span class="ot">=</span><span class="dv">1</span>) </span>
-<span id="cb59-2"><a href="vectors.html#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(box_size[<span class="fu">c</span>(<span class="st">&quot;height&quot;</span>, <span class="st">&quot;width&quot;</span>)])</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">box_size</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"width"</span><span class="op">=</span><span class="fl">2</span>, <span class="st">"height"</span><span class="op">=</span><span class="fl">4</span>, <span class="st">"depth"</span><span class="op">=</span><span class="fl">1</span><span class="op">)</span> </span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">box_size</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"height"</span>, <span class="st">"width"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## height  width 
 ##      4      2</code></pre>
 <p>However, you cannot mix numeric indexes and names. The reason is that a vector can hold only values of one type (more on that next time), so all numeric values will be converted to text (<code>1</code> will become <code>"1"</code>) and treated as names rather than indexes.</p>
 </div>
-<div id="colon-sequence" class="section level2 hasAnchor" number="2.7">
-<h2><span class="header-section-number">2.7</span> Colon Operator and Sequence Generation<a href="vectors.html#colon-sequence" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>To simplify vector indexing, R provides you with a shortcut to create a range of values. An expression <code>A:B</code> (a.k.a.<a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Colon.html">Colon Operator</a>) builds a sequence of integers starting with <code>A</code> and ending with <strong>and including(!)</strong> <code>B</code><a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a>.</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="vectors.html#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span><span class="sc">:</span><span class="dv">7</span></span></code></pre></div>
+<div id="colon-sequence" class="section level2" number="2.7">
+<h2>
+<span class="header-section-number">2.7</span> Colon Operator and Sequence Generation<a class="anchor" aria-label="anchor" href="#colon-sequence"><i class="fas fa-link"></i></a>
+</h2>
+<p>To simplify vector indexing, R provides you with a shortcut to create a range of values. An expression <code>A:B</code> (a.k.a.<a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Colon.html">Colon Operator</a>) builds a sequence of integers starting with <code>A</code> and ending with <strong>and including(!)</strong> <code>B</code><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;The latter is not so obvious, if you come from Python&lt;/p&gt;"><sup>13</sup></a>.</p>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">3</span><span class="op">:</span><span class="fl">7</span></span></code></pre></div>
 <pre><code>## [1] 3 4 5 6 7</code></pre>
 <p>Thus, you can use it to easily create an index and, because everything is a vector!, combine it with other values.</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="vectors.html#cb63-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>)</span>
-<span id="cb63-2"><a href="vectors.html#cb63-2" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>)]</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">40</span>, <span class="fl">50</span><span class="op">)</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <pre><code>## [1] 10 30 40 50</code></pre>
 <p>The sequence above is increasing but you can also use the colon operator to construct a decreasing one.</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="vectors.html#cb65-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>)</span>
-<span id="cb65-2"><a href="vectors.html#cb65-2" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">c</span>(<span class="dv">5</span><span class="sc">:</span><span class="dv">2</span>)]</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">40</span>, <span class="fl">50</span><span class="op">)</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <pre><code>## [1] 50 40 30 20</code></pre>
 <p>The colon operator is limited to sequences with steps of <code>1</code> (if end value is larger than the start value) or <code>-1</code> (if end value is smaller than the start value). For more flexibility you can use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/seq.html">Sequence Generation</a> function: <code>seq(from, to, by, length.out)</code>. The <code>from</code> and <code>to</code> are starting and ending values (just like in the colon operator) and you can specify either a step via <code>by</code> parameter (as, in “from A to B by C”) or via <code>length.out</code> parameter (how many values you want to generate, effectively <code>by = ((to - from)/(length.out - 1)</code>).
 Using <code>by</code> version:</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="vectors.html#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="at">by=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span>, by <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 1 3 5</code></pre>
 <p>Same sequence but using <code>length.out</code> version:</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="vectors.html#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="at">length.out=</span><span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span>, length.out <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 1 3 5</code></pre>
 <p>You have probably spotted the <code>=</code> symbol. Here, it is not an assignment but is used to specify values of parameters when you call a function. Thus, we are still sticking with <code>&lt;-</code> <strong>outside</strong> of the function <em>calls</em> but are using <code>=</code> <strong>inside</strong> the function calls.</p>
-<div class="infobox practice">
+<div class="practice">
 <p>Do exercise 8.</p>
 </div>
 </div>
-<div id="working-with-two-vectors-of-equal-length" class="section level2 hasAnchor" number="2.8">
-<h2><span class="header-section-number">2.8</span> Working with two vectors of <em>equal</em> length<a href="vectors.html#working-with-two-vectors-of-equal-length" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="working-with-two-vectors-of-equal-length" class="section level2" number="2.8">
+<h2>
+<span class="header-section-number">2.8</span> Working with two vectors of <em>equal</em> length<a class="anchor" aria-label="anchor" href="#working-with-two-vectors-of-equal-length"><i class="fas fa-link"></i></a>
+</h2>
 <p>You can also use mathematical operations on several vectors. Here, vectors are matched element-wise. Thus, if you add two vectors of <em>equal</em> length, the <em>first</em> element of the first vector is added to the <em>first</em> element of the second vector, <em>second</em> element to <em>second</em>, etc.</p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="vectors.html#cb71-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
-<span id="cb71-2"><a href="vectors.html#cb71-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">7</span>, <span class="sc">-</span><span class="dv">3</span>)</span>
-<span id="cb71-3"><a href="vectors.html#cb71-3" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> x <span class="sc">+</span> y</span>
-<span id="cb71-4"><a href="vectors.html#cb71-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(z)</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">7</span>, <span class="op">-</span><span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">z</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op">+</span> <span class="va">y</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1]  3 11  2</code></pre>
-<div class="infobox practice">
+<div class="practice">
 <p>Do exercise 9.</p>
 </div>
 </div>
-<div id="different-length-vectors" class="section level2 hasAnchor" number="2.9">
-<h2><span class="header-section-number">2.9</span> Working with two vectors of <em>different</em> length<a href="vectors.html#different-length-vectors" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>What if vectors are of <em>different</em> length? If the length of the longer vector is a <em>multiple</em> of the shorter vector length, the shorter vector is “recycled” , i.e., repeated N-times (where <span class="math inline">\(N = length(longer~vector) / length(shorter~vector)\)</span>) and this length-matched vector is then used for the mathematical operation. Please note that this generate neither an error, nor a warning! This is another example of “convenience over safety” approach in R, so you should be very careful and <em>always</em> double-check length of your vectors. Otherwise, your code will work incorrectly and, <em>if you are lucky</em>, you might notice this.</p>
+<div id="different-length-vectors" class="section level2" number="2.9">
+<h2>
+<span class="header-section-number">2.9</span> Working with two vectors of <em>different</em> length<a class="anchor" aria-label="anchor" href="#different-length-vectors"><i class="fas fa-link"></i></a>
+</h2>
+<p>What if vectors are of <em>different</em> length? Unfortunately, R has a solution and that is not an error or a warning. Rather, if the length of the longer vector is a <em>multiple</em> of the shorter vector length, the shorter vector is “recycled” , i.e., repeated N-times (where <span class="math inline">\(N = length(longer~vector) / length(shorter~vector)\)</span>) and this length-matched vector is then used for the mathematical operation. Please note that this generate neither an error, nor a warning! This is another example of “convenience over safety” approach in R, so you should be very careful and <em>always</em> double-check length of your vectors. Otherwise, your code will work incorrectly and, <em>if you are lucky</em>, you might notice this.</p>
 <p>To see how recycling works, take a look at the results of the following computation</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="vectors.html#cb73-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span></span>
-<span id="cb73-2"><a href="vectors.html#cb73-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>)</span>
-<span id="cb73-3"><a href="vectors.html#cb73-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x <span class="sc">+</span> y)</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="va">y</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 3 5 5 7 7 9</code></pre>
 <p>Here, the values of <code>y</code> were repeated three times to match the length of <code>x</code>, so the actual computation was <code>c(1, 2, 3, 4, 5, 6) + c(2, 3, 2, 3, 2, 3)</code>. A vector of length 1 (scalar) is a special case because any integer is a multiple of 1, so that single value is repeated <code>length(longer_vector)</code> times before the operation is performed.</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="vectors.html#cb75-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span></span>
-<span id="cb75-2"><a href="vectors.html#cb75-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb75-3"><a href="vectors.html#cb75-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x <span class="sc">+</span> y)</span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="va">y</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 3 4 5 6 7 8</code></pre>
 <p>Again, the actual computation is <code>c(1, 2, 3, 4, 5, 6) + c(2, 2, 2, 2, 2, 2)</code>.</p>
 <p>If the length of the longer vector <strong>is not</strong> a multiple of the shorter vector length, R will repeat the shorter vector N times, so that <span class="math inline">\(N = ceiling(length(longer~vector) / length(shorter~vector))\)</span> (where <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Round.html">ceiling()</a> rounds a number up) and truncates (throws away) extra elements it does not need. Although R will do it, it will also issue a warning (yay!) about mismatching objects’ (vectors’) lengths.</p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="vectors.html#cb77-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>)</span>
-<span id="cb77-2"><a href="vectors.html#cb77-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb77-3"><a href="vectors.html#cb77-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x <span class="sc">+</span> y)</span></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="va">y</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Warning in x + y: longer object length is not a multiple of shorter object
 ## length</code></pre>
 <pre><code>## [1] 3 4 3 4 3</code></pre>
-<p>Finally, combining any vector with null length vector produces a null length vector<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a>.</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="vectors.html#cb80-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>)</span>
-<span id="cb80-2"><a href="vectors.html#cb80-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb80-3"><a href="vectors.html#cb80-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x <span class="sc">+</span> y[<span class="dv">0</span>])</span></code></pre></div>
+<p>Finally, combining any vector with null length vector produces a null length vector<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;No idea!&lt;/p&gt;"><sup>14</sup></a>.</p>
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="va">y</span><span class="op">[</span><span class="fl">0</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## numeric(0)</code></pre>
-<p>One thing to keep in mind: R does this length-matching-via-vector-repetition automatically and shows a warning only if two lengths are not multiples of each other. This means that vectors will be matched by length even if that was not your plan. Imagine that your vector, which contains experimental condition (e.g. contrast of the stimulus), is about all ten blocks that participants performed but your vector with responses is, accidentally, only for block #1. R will <strong>silently(!)</strong> replicate the responses 10 times to match their length without ever telling you about this. Thus, do make sure that your vectors are matched in their length, so that you are not caught surprised by this behavior (you can use function <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/length.html">length()</a> for this). Good news, it is much more strict in Tidyverse, which is designed to make shooting yourself in a foot much harder.</p>
-<div class="infobox practice">
+<p>One thing to keep in mind: R does this length-matching-via-vector-repetition automatically and shows a warning only if two lengths are not multiples of each other. This means that vectors will be matched by length even if that was not your plan. Imagine that your vector, which contains experimental condition (e.g. contrast of the stimulus), is about all ten blocks that participants performed but your vector with responses is, accidentally, only for block #1. R will <strong>silently(!)</strong> replicate the responses 10 times to match their length without ever(!) telling you about this. Thus, do make sure that your vectors are matched in their length, so that you are not caught surprised by this behavior (you can use function <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/length.html">length()</a> for this). Good news, it is much more strict in Tidyverse, which is designed to make shooting yourself in a foot much harder.</p>
+<div class="practice">
 <p>Do exercise 10.</p>
 </div>
 </div>
-<div id="applying-functions-to-a-vector" class="section level2 hasAnchor" number="2.10">
-<h2><span class="header-section-number">2.10</span> Applying functions to a vector<a href="vectors.html#applying-functions-to-a-vector" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="applying-functions-to-a-vector" class="section level2" number="2.10">
+<h2>
+<span class="header-section-number">2.10</span> Applying functions to a vector<a class="anchor" aria-label="anchor" href="#applying-functions-to-a-vector"><i class="fas fa-link"></i></a>
+</h2>
 <p>Did I mention that everything is a vector? This means that when you are using a function, you are always applying it to a vector. This, in turn, means that you apply the function to <strong>all values</strong> in one go. For example, you can compute a cosine of all values in the vector.</p>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="vectors.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cos</span>(<span class="fu">c</span>(<span class="dv">0</span>, pi<span class="sc">/</span><span class="dv">4</span>, pi<span class="sc">/</span><span class="dv">2</span>, pi, <span class="sc">-</span>pi))</span></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html">cos</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">pi</span><span class="op">/</span><span class="fl">4</span>, <span class="va">pi</span><span class="op">/</span><span class="fl">2</span>, <span class="va">pi</span>, <span class="op">-</span><span class="va">pi</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1]  1.000000e+00  7.071068e-01  6.123032e-17 -1.000000e+00 -1.000000e+00</code></pre>
 <p>In contrast, in Python or C you would need to loop over values and compute cosine for one value at a time (matrix-based NumPy library is a different story). Or think about Excel, where you need to extend formula over the rows but each row is computed independently (so you can deliberately or accidentally miss some rows). In R, because everything is the vector, the function is applied to every value automatically. Similarly, if you are using aggregating functions, such as <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html">mean()</a> or <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Extremes.html">max()</a>, you can pass a vector and it will return a length-one vector with the value.</p>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="vectors.html#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">6</span>, <span class="dv">9</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">6</span>, <span class="fl">9</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 4.5</code></pre>
 </div>
-<div id="wrap-up" class="section level2 hasAnchor" number="2.11">
-<h2><span class="header-section-number">2.11</span> Wrap up<a href="vectors.html#wrap-up" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="wrap-up" class="section level2" number="2.11">
+<h2>
+<span class="header-section-number">2.11</span> Wrap up<a class="anchor" aria-label="anchor" href="#wrap-up"><i class="fas fa-link"></i></a>
+</h2>
 <p>By now you have learned more about vectors, vector indexing, and vector operations in R than you probably bargained for. Admittedly, not the most exciting topic. On top of that, there was not a single word on psychology or data analysis! However, R is obsessed with vectors (everything is a vector!) and understanding them will make it easier to understand lists (a polyamorous cousin of a vector), tables (special kind of lists made of vectors), and functional programming (on which R is built on). Finish this seminar by doing remaining exercises. Let’s see whether R can still surprise you!</p>
-<div class="infobox practice">
-<p>Do exercises 11-18.</p>
+<div class="practice">
+<p>Do exercises 11-17.</p>
 </div>
 
 </div>
 </div>
-<div class="footnotes">
-<hr />
-<ol start="6">
-<li id="fn6"><p>Multiplication of a vector by another vector <em>transforms</em> it but for a single element vector the only transformation you can get is “scaling”, hence, the name.<a href="vectors.html#fnref6" class="footnote-back">↩︎</a></p></li>
-<li id="fn7"><p>If you have experience with programming languages like Python, C, or Java: indexes in R start with 1, not with 0.<a href="vectors.html#fnref7" class="footnote-back">↩︎</a></p></li>
-<li id="fn8"><p>I find this to be a very poor choice of name but we are stuck with it, so your only option is to get used to it.<a href="vectors.html#fnref8" class="footnote-back">↩︎</a></p></li>
-<li id="fn9"><p>Who am I kidding? Will!<a href="vectors.html#fnref9" class="footnote-back">↩︎</a></p></li>
-<li id="fn10"><p>People who use Python, please be aware that negatives indexes in R and in Python behave completely differently!<a href="vectors.html#fnref10" class="footnote-back">↩︎</a></p></li>
-<li id="fn11"><p>The latter is not so obvious, if you come from Python<a href="vectors.html#fnref11" class="footnote-back">↩︎</a></p></li>
-<li id="fn12"><p>No idea!<a href="vectors.html#fnref12" class="footnote-back">↩︎</a></p></li>
-</ol>
-</div>
-            </section>
 
-          </div>
-        </div>
-      </div>
-<a href="reproducable-research.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="tables.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
-    </div>
+  <div class="chapter-nav">
+<div class="prev"><a href="reproducable-research.html"><span class="header-section-number">1</span> Reproducable Research: Projects and Markdown Notebooks</a></div>
+<div class="next"><a href="tables.html"><span class="header-section-number">3</span> Tables and Tibbles (and Tribbles)</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#vectors"><span class="header-section-number">2</span> Vectors! Vectors everywhere!</a></li>
+<li><a class="nav-link" href="#variables"><span class="header-section-number">2.1</span> Variables as boxes</a></li>
+<li><a class="nav-link" href="#assignment-statement"><span class="header-section-number">2.2</span> Assignment statement in detail</a></li>
+<li><a class="nav-link" href="#vectors-scalars"><span class="header-section-number">2.3</span> Vectors and singluar values (scalars, which are also vectors)</a></li>
+<li><a class="nav-link" href="#vector-index"><span class="header-section-number">2.4</span> Vector indexes (subsetting)</a></li>
+<li><a class="nav-link" href="#names"><span class="header-section-number">2.5</span> Names as an Index</a></li>
+<li><a class="nav-link" href="#vector-index-slicing"><span class="header-section-number">2.6</span> Slicing</a></li>
+<li><a class="nav-link" href="#colon-sequence"><span class="header-section-number">2.7</span> Colon Operator and Sequence Generation</a></li>
+<li><a class="nav-link" href="#working-with-two-vectors-of-equal-length"><span class="header-section-number">2.8</span> Working with two vectors of equal length</a></li>
+<li><a class="nav-link" href="#different-length-vectors"><span class="header-section-number">2.9</span> Working with two vectors of different length</a></li>
+<li><a class="nav-link" href="#applying-functions-to-a-vector"><span class="header-section-number">2.10</span> Applying functions to a vector</a></li>
+<li><a class="nav-link" href="#wrap-up"><span class="header-section-number">2.11</span> Wrap up</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/alexander-pastukhov/data-analysis-using-r-for-psychology/blob/master/02-vectors.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/alexander-pastukhov/data-analysis-using-r-for-psychology/edit/master/02-vectors.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Data analysis using R for Psychology and Social Science</strong>" was written by Alexander (Sasha) Pastukhov. It was last built on 2023-10-09.</p>
   </div>
-<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
-<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
-<script>
-gitbook.require(["gitbook"], function(gitbook) {
-gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": null,
-"text": null
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["data-analysis-using-r-for-psychology.pdf", "data-analysis-using-r-for-psychology.epub"],
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
-});
-});
-</script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
+  <div class="col-12 col-md-6 mt-3">
+    <p>Please note that this website collects anonymized data via Google analytics. This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -723,7 +481,22 @@ gitbook.start({
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
 </script>
 </body>
-
 </html>
