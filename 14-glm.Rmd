@@ -1,4 +1,4 @@
-## (Generalized) Linear regression
+## (Generalized) Linear regression and Resampling
 
 
 ```{r echo = FALSE, warning=FALSE, message=FALSE}
@@ -6,6 +6,7 @@ library(tidyverse)
 
 library(binom)
 library(boot)
+library(glue)
 ```
 
 As I have warned you at the very beginning, this seminar will not teach you statistics. The latter is a big topic in itself and, in my experience, if you know statistics and you know which specific tool you need, figuring out how to use it in R is fairly trivial (just find a package that implements the analysis and read the docs). Conversely, if your knowledge of statistics is approximate, knowing how to call functions will do you little good. The catch about statistical models is that they are very easy to run (even if you implement them by hand from scratch) but they are easy to misuse and very hard to interpret^[In the Bayesian Statistics we spend three seminars learning how to understand and interpret a simple linear multiple regression with just two predictors. And the conclusion is that even in this simple case, you are not guaranteed to fully understand it. And if you think that you can easily interpret an interaction term even for two continuous predictors...].
@@ -15,7 +16,7 @@ To make things worse, computers and algorithms do not care. In absolute majority
 ## Linear regression: simulating data
 Our first statistical model will be linear regression. When you experiment with analysis, it is easier to notice if something goes wrong if you already know the answer. Which is why let us simulate the data with a linear relationship in it: overall height versus foot length. [A conference paper](https://doi.org/246.726 10.3434) I have found online suggests that foot length distribution is 246.726±10.3434 mm (mean and standard deviation, assume [normal distribution](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html)) and the formula for estimate height is $Height = 710 + 4 \cdot Foot + \epsilon$^[I ahve rounded off the numbers a little to make it easier to read.] where $\epsilon$ (residual error) is [normally distributed](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html) around the zero with a standard deviation of 10. Generate the data (I used 100 points) putting it into a table with two columns (I called them `FootLength` and `Height`) and plot them to match the figure below. You can [set seed](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html) to 826 to replicate me exactly.
 
-```{r echo = FALSE, fig.align='center', out.width="100%"}
+```{r glm-01-create-height-df echo = FALSE, fig.align='center', out.width="100%"}
 set.seed(826)
 N <- 100
 height_df <- tibble(FootLength = rnorm(N, 246.726, 10.3434),
@@ -37,7 +38,7 @@ Let us use a linear regression model to fit the data and see how accurately we c
 
 Read the documentation for [lm()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/lm.html) and [summary()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/summary.lm.html) functions. Fit the model and print out the full summary for it. Your output should look like this
 
-```{r echo = FALSE}
+```{r glm-02-fit-height echo = FALSE}
 height_fit <- lm(Height ~ FootLength, data = height_df)
 summary(height_fit)
 ```
@@ -52,7 +53,7 @@ I think it is nice to present information about the model fit alongside the plot
 names of the terms are specified either as names of the vector or [rownames](https://stat.ethz.ch/R-manual/R-devel/library/base/html/colnames.html) of matrix. Think how would you handle this. My approach is to convert matrix with confidence intervals to a [data frame](https://stat.ethz.ch/R-manual/R-devel/library/base/html/data.frame.html) (converting directly to [tibble](#tibble) removes row names that we need later), turn row names into a column via [rownames_to_column()](https://tibble.tidyverse.org/reference/rownames.html), convert to a [tibble](#tibble) so I can [rename](https://dplyr.tidyverse.org/reference/rename.html) ugly converted column names, add estimates as a [new column](https://tibble.tidyverse.org/reference/add_column.html) to the table, and [relocate](https://dplyr.tidyverse.org/reference/relocate.html) columns for a consistent look. Then, I can combine them into a new variable via [string formatting](#strings) (I prefer [glue](#glue)). You need one(!) pipeline for this.
 My summary table looks like this
 
-```{r echo = FALSE, fig.align='center', out.width="100%"}
+```{r glm-03-coefficients-table echo = FALSE, fig.align='center', out.width="100%"}
 terms <-
   confint(height_fit, level = 0.97) |>
   data.frame() |>
@@ -72,7 +73,7 @@ Do exercise 3.
 :::
 
 Statistical model is only as good as its predictions, so whenever you fit a statistical model to the data, you should compare its predictions to the data visually. [ggplot2](#ggplot2) provides an easy solution to this via [geom_smooth()](https://ggplot2.tidyverse.org/reference/geom_smooth.html) that you have met earlier. For didactic purposes, let us use a slightly longer way of generating predictions ourselves and plotting them alongside the data. R provides a simple interface to generating prediction for a fitted model via [predict()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/predict.lm.html) function: you pass a fitted model to it and it will generate prediction for every original data point. However, you can also generate data for data points not present in the data (so-called "counterfactuals") by passing a table to `newdata` parameter. We will use the latter option. Generate a new table with a single column `FootLength` (or, however you called it in the original data) with a sequence of number going from the lowest to the highest range of our values (from about 220 to 270 in my case) in some regular steps (I picked a step of 1 but think of whether choosing a different one would make a difference). Pass this new data as `newdata` to predict, store predictions in the `Height` column (now the structure of your table with predictions matches that with real data) and use it with [geom_line()](https://ggplot2.tidyverse.org/reference/geom_path.html). Here's how my plot looks like. 
-```{r echo = FALSE}
+```{r glm-04-height-predictions echo = FALSE}
 predictions_df <-  tibble(FootLength = seq(220, 270, 1)) 
 predictions_df$Height <- predict(height_fit, newdata = predictions_df)
 
@@ -129,7 +130,7 @@ Once you have this function, things are easy. All you need is to follow the same
 2. Compute 97% confidence interval for each foot length via [quantiles](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html)
 3. Plot them as [geom_ribbon()](https://ggplot2.tidyverse.org/reference/geom_ribbon.html) as before.
 
-```{r echo = FALSE, fig.align='center', out.width="100%"}
+```{r echo = FALSE, fig.align='center', out.width="100%", cache=TRUE}
 sample_predictions <- function(df) {
   df <- sample_frac(df, replace = TRUE)
   fit <-  lm(Height ~ FootLength, data = df)
@@ -228,7 +229,7 @@ Let us bootstrap _predicted_ probability of success following the template we us
 
 Repeat this computation 1000 times and you will end up with a table with two columns (`Condition` and `P`) and 2000 rows (1000 per condition). Instead of computing aggregate information, visualize distributions using [geom_violin()](https://ggplot2.tidyverse.org/reference/geom_violin.html). Here's how the plot should look like.
 
-```{r echo = FALSE, fig.align='center', out.width="100%"}
+```{r echo = FALSE, fig.align='center', out.width="100%", cache=TRUE}
 sample_binomial <- function(df, iteration){
   fit  <- 
     df |>
@@ -256,7 +257,6 @@ Do exercise 12.
 As a final step, let us compute average and 97% confidence interval for the _difference_ between the conditions. You have the samples but in a long format, so you need to make table [wide](#pivot-wider). The only catch is that pivot function will be confused by the absence of ID rows, so you need to create an extra "RowIndex" column first, putting in a unique row index going from 1 to the [number of rows](https://dplyr.tidyverse.org/reference/context.html). So you will end up with three columns: `RowIndex`, Coffee`, and `Tea`. Compute a new column with difference between tea and coffee, compute and nicely format the statistics putting into the figure caption. Hint: you can [pull](https://dplyr.tidyverse.org/reference/pull.html) the difference column out of the table to make things easier.
 
 ```{r echo = FALSE, fig.align='center', out.width="100%"}
-
 difference <-
   binomial_bootstrapped |>
   pivot_wider(names_from = Condition, values_from = P) |>
