@@ -55,7 +55,7 @@ rxy <- sum((x - mean(x)) * (y - mean(y))) / (sqrt(sum((x - mean(x))**2)) * sqrt(
 cat(glue::glue("cor(x, y) = {cor(x, y)}, rxy = {rxy}\n"))
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 1.
 :::
 
@@ -74,7 +74,7 @@ cat(glue::glue("95% CI via resampling: {round(quantile(rxys, (1-0.95)/2), 6)}..{
 cor.test(x, y)
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 2.
 :::
 
@@ -101,7 +101,7 @@ expand_grid(sigma_noise = seq(0, 10, length.out=100),
   xlab("Standard deviation of noise")
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 3.
 :::
 
@@ -124,7 +124,7 @@ expand_grid(n_samples = 10:100,
   xlab("Number of samples")
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 4.
 :::
 
@@ -180,7 +180,7 @@ cat(glue("t-statistic: {t}\n\n"))
 t.test(x, y, paired = TRUE)
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 5.
 :::
 
@@ -200,7 +200,7 @@ cat(glue::glue("resampled 95% percentile confidence interval: {quantile(xy_diff,
 t.test(x, y, paired = TRUE)
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 6.
 :::
 
@@ -234,7 +234,7 @@ cat(glue::glue("Proportion of t-statisic for permuted pairs < t-stat for origina
 t.test(x, y, paired = TRUE, alternative = "less")
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 7.
 :::
 
@@ -416,7 +416,7 @@ resampled_est %>%
 confint(lm(y~x, df_lm))
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 8.
 :::
 
@@ -447,7 +447,7 @@ cat(glue("Probability to observe more extreme t value by chance: {mean(abs(permu
 summary(lm(y ~ x, df_lm))$coef["x", ]
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 9.
 :::
 

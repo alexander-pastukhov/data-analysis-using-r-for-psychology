@@ -1,5 +1,3 @@
-
-
 ## More samples give you more confidence
 In the exercises above, we computed confidence intervals for the mean based on 20 original samples. However, this was an arbitrary number I came up with. For the real study, you would like to know how the number of samples (participants, trials per condition, etc.) affects the width of the confidence interval. For example, assuming that our data comes from a normal distribution centered at 0.5 with a standard deviation of 2, how many samples do we need to be certain that mean is not a zero (confidence interval does not overlap with zero)?
 
@@ -178,3 +176,34 @@ What we covered today are basics of simulations and resampling approach. However
 
 ---
 
+
+
+## Exercise 05
+Using `boot` library, create a function that takes number of samples as the only parameter, draws data from a normal distribution, bootstraps mean 1000 times, computes percential 95% confidence interval and returns it as a tibble.
+```{r exercise-05}
+```
+
+## Exercise 06
+Use `group_modify()` and your function from exercise 05 to create a table with `n_samples` (go from 10 to 100), `lowerCI`, and `upperCI`
+```{r exercise-06}
+```
+
+## Exercise 07
+Use `geom_ribbon()` and `geom_hline()` to plot results of exercise 06
+```{r exercise-07}
+```
+
+## Exercise 08
+Extend exercise 06 to repeat computation of CI 100 times for each number of samples. Compute average lower and upper CI limits and plot them.
+```{r exercise-08}
+```
+
+## Exercise 09
+Modify exercise 08 to include average sample mean.
+```{r exercise-09}
+```
+
+## Exercise 10
+Simulate effect of number of samples and probability of success using binomial distribution.
+```{r exercise-10}
+```
