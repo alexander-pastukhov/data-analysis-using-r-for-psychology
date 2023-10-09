@@ -7,7 +7,7 @@ You should also _always_ consider posting your results and analysis online at pu
 ## Projects {#projects}
 One of the most annoying features of R is that it looks for files and folders only relative to its "working directory", which is set via [setwd(dir)](https://stat.ethz.ch/R-manual/R-devel/library/base/html/getwd.html) function. What makes it particularly confusing is that your currently open file may be in some _other_ folder. If you simply use _File / Open_, navigate to that file and open it, it does not change your working directory. Similarly, in R-Studio you can navigate through file system using _Files_ tab and open some folder you are interested in but that **does not make it a working directory**. You need to click on _More_ and _Set As Working Directory_ to make this work (that trick won't work for an opened file).
 
-```{r echo=FALSE, out.width = "100%", fig.align = 'center'}
+```{r rmarkdown-setwd, echo=FALSE, out.width = "100%", fig.align = 'center'}
 knitr::include_graphics("images/setwd-gui.png")
 ```
 
@@ -25,7 +25,7 @@ Notebooks can be knitted into a variety of formats including HTML, PDF, Word doc
 We will start by learning the markdown, which is a family of human-oriented markup languages. Markup is a plain text that includes formatting syntax and can be translated into visually formatted text. For example, HTML and LaTeX are markup languages. The advantage of markup is that you do not need a special program to edit it, any plain text editor will suffice. However, you do need a special program to turn this plain text into the document. For example, you need Latex to compile a PDF or a browser to view HTML properly. However, anyone can read your original file even if they do not have Latex, PDF reader, or a browser installed (you do need Word to read a Word file!). **Markdown** markup language was designed to make formatting simple and unobtrusive, so the plain document is easier to read (you can read HTML but it is hardly fun!). It is not as feature-rich as HTML or LaTeX but covers most of your usual needs and is very easy to learn!
 
 Create a new markdown file via  _File / New File / Quatro Document..._ menu. Use `Seminar 1: Markdown` for its title and HTML as default output format. The new RStudio makes you life easier by giving you a WYSIWYG visual editor option, which you can use later, but for this seminar disable it and learn how to use markdown directly
-```{r echo=FALSE, out.width = "100%", fig.align = 'center'}
+```{r rmarkdown-new-quatro, echo=FALSE, out.width = "100%", fig.align = 'center'}
 knitr::include_graphics("images/new-quattro-document.png")
 ```
 
@@ -33,55 +33,55 @@ Save the file (press **Ctrl + S** or use _File/Save_ menu) calling it `seminar-0
 
 ### RMarkdown template
 
-```{r echo=FALSE, out.width = "100%", fig.align = 'center'}
+```{r rmarkdown-rmarkdown-template, echo=FALSE, out.width = "100%", fig.align = 'center'}
 knitr::include_graphics("images/default-notebook.png")
 ```
 
 Let us go through the default RMarkdown notebook that R Studio created for us (it has more content than a default Quatro document) that you can see above or can create yourself via _File / New File / R Markdown..._ (not _R notebook_!).
-```{r echo=FALSE, out.width = "100%", fig.align = 'center'}
+```{r rmarkdown-rmarkdown-template-header, echo=FALSE, out.width = "100%", fig.align = 'center'}
 knitr::include_graphics("images/notebook-header.png")
 ```
 
 The top part between two sets of `---` is a notebook header with various configuration options written in [YAML](https://yaml.org/) (yes, we have two different languages in one file). `title`, `author`, and `date` should be self-explanatory. `output` defines what kind of output document knitr will generate. You can specify it by hand (e.g., `word_document`) or just click on drop down next to `Knit` button and pick the option you like (we will use the default HTML most of the time). These are sufficient for us but there are numerous other options that you can specify, for example, to enable indexing of headers. You can read about this at [yihui.org/knitr](https://yihui.org/knitr/).
 
-```{r echo=FALSE, out.width = "100%", fig.align = 'center'}
+```{r rmarkdown-rmarkdown-template-setup, echo=FALSE, out.width = "100%", fig.align = 'center'}
 knitr::include_graphics("images/notebook-setup.png")
 ```
 
 The next section is the "setup code chunk" that specifies default options for how the code chunks are treated by default (whether they are executed, whether the output, warnings, or messages are shown, etc.). By default code in chunks is run and its output is shown (`echo = TRUE`) but you can change this behavior on per-chunk basis by pressing the gear button at the top-right. The setup chunk is also a good place to import your libraries (we will talk about this later) as it is always run before any other chunks (so, even if you forgot to run it to load libraries, R Studio will do this for you).
 
-```{r echo=FALSE, out.width = "100%", fig.align = 'center'}
+```{r rmarkdown-rmarkdown-template-text, echo=FALSE, out.width = "100%", fig.align = 'center'}
 knitr::include_graphics("images/notebook-text.png")
 ```
 
 Next, we have plain text with rmarkdown, which gets translated into formatted text when you click on _Knit_ button. You can write like this anywhere outside of code chunks to explain the logic of your analysis. You should write why and how the analysis is performed but leave technical details on programming to the chunk itself, where you can comment the code.
 
-```{r echo=FALSE, out.width = "100%", fig.align = 'center'}
+```{r rmarkdown-rmarkdown-template-chunk, echo=FALSE, out.width = "100%", fig.align = 'center'}
 knitr::include_graphics("images/notebook-chunk.png")
 ```
 
 Finally, we have our first "proper" chunk of code (the "setup" chunk above is a special case). A code chunk is simply the code embedded between 
 ` ```{r <name of the chunk} ` and the seconds set of ticks ` ``` `. Here `r` specifies that the code inside is written in R language but you can use other languages such as Python (via [reticulate](https://rstudio.github.io/reticulate/) package), [Stan](https://mc-stan.org/), or SQL. The `name of the chunk` is optional but I would recommend to specify it, as it reminds you what this code is about and it makes it easier to navigate in large notebooks. In the bottom-left corner, you can see which chunk or section you are currently at and, if you click on it, you can quickly navigate to a different chunk. If chunks are not explicitly named, they will get labels `Chunk 1`, `Chunk 2`, etc. making it hard to distinguish them.
 
-```{r echo=FALSE, out.width = "100%", fig.align = 'center'}
+```{r rmarkdown-rmarkdown-template-navigation, echo=FALSE, out.width = "100%", fig.align = 'center'}
 knitr::include_graphics("images/notebook-navigation.png")
 ```
 
 There are additional options that you can specify per chunk (whether to run the code, to show the output, what size the figures should be, etc.). Generally we won't need these options but you can get an idea about them by looking at the [official manual](https://yihui.org/knitr/options/). You can create a chunk by hand or click on "Create chunk" drop-down list (in this case, it will create the chunk at the position of the cursor)
 
-```{r echo=FALSE, out.width = "100%", fig.align = 'center'}
+```{r rmarkdown-rmarkdown-template-insert-chunk, echo=FALSE, out.width = "100%", fig.align = 'center'}
 knitr::include_graphics("images/notebook-insert-chunk.png")
 ```
 
 Finally, you run **all** the code in the chunk by clicking on _Run current chunk button_ at the top-right corner of the chunk or by pressing **Ctrl+Shift+Enter** when the you are inside the chunk. However, you can also run just a _single line_ or only _selected lines_ by pressing **Ctrl+Enter**. The cool thing about RMarkdown in RStudio is that you will see the output of that chunk right below it. This means that you can write you code chunk-by-chunk, ensure that each works as intended and only when knit the entire document. Run the chunks in your notebook to see what I mean.
 
-```{r echo=FALSE, out.width = "100%", fig.align = 'center'}
+```{r rmarkdown-rmarkdown-template-run-chunk, echo=FALSE, out.width = "100%", fig.align = 'center'}
 knitr::include_graphics("images/notebook-run-chunk.png")
 ```
 
 ### Quatro template
 
-```{r echo=FALSE, out.width = "100%", fig.align = 'center'}
+```{r rmarkdown-quatro-template, echo=FALSE, out.width = "100%", fig.align = 'center'}
 knitr::include_graphics("images/quatro-template.png")
 ```
 

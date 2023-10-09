@@ -45,7 +45,7 @@ extended_df <-
 knitr::kable(extended_df, caption="Completed missing data including F-1 face.")
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 1.
 :::
 
@@ -60,13 +60,13 @@ filled_df <-
 knitr::kable(filled_df, caption="Completed missing data with non-NA values.")
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 2.
 :::
 
 The [complete()](https://tidyr.tidyverse.org/reference/complete.html) is easy to use convenience function that you can easily replicate yourself. To do this, you need to create a new table that lists all combinations of variables that you are interested in (you can use either [expand.grid()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/expand.grid.html) or [expand_grid()](https://tidyr.tidyverse.org/reference/expand_grid.html) for this) and then [left joining](#joins) the original table to it (why left join? Could you use another join for the same purpose?). The results is the same as with a [complete()](https://tidyr.tidyverse.org/reference/complete.html) itself.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 3.
 :::
 
@@ -117,19 +117,19 @@ widish_df_with_NA |>
 
 Practice time. Create you own table with missing values and exclude missing values using [na.omit()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/na.fail.html) and [drop_na()](https://tidyr.tidyverse.org/reference/drop_na.html).
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 4.
 :::
 
 [drop_na()](https://tidyr.tidyverse.org/reference/drop_na.html) is a very convenient function but you can replicate it functionality using [is.na()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html) in combination with [filter](https://dplyr.tidyverse.org/reference/filter.html) dplyr function or [logical indexing](logical-indexing). Implement code that excludes rows if they contain `NA` in a specific column using these two approaches.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercises 5 and 6.
 :::
 
 Recall that you can write your own functions in R that you can use to create convenience wrappers like [drop_na()](https://tidyr.tidyverse.org/reference/drop_na.html). Implement code that uses logical indexing as a function that takes table (`data.frame`) as a first argument and name a of a single column as a second, filters out rows with `NA` in that column and returns the table back.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 7.
 :::
 
@@ -145,7 +145,7 @@ widish_df_with_NA |>
     knitr::kable(caption = "Missing values filled with 0 and -1")
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 8.
 :::
 
@@ -157,7 +157,7 @@ ifelse(v < 0, 0, v)
 
 We, essentially, tell the function, "if the condition is false, use the original value". Now, your turn! Using the same vector and [ifelse()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/ifelse.html) function, replace negative values with a [mean](https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html) value of the positive values in the vector.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 9.
 :::
 
@@ -190,6 +190,6 @@ adapt_df |>
   knitr::kable(caption = "adaptation\\_with\\_na.csv with imputed values")
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 10.
 :::

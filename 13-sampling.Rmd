@@ -25,7 +25,7 @@ ggplot(data=NULL, aes(x=samples)) +
   labs(subtitle = glue("{samples_n} samples with the sample mean of {round(mean(samples), 2)}"))
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 1.
 :::
 
@@ -42,13 +42,13 @@ You will need three functions for this. First, the function that samples you dat
 
 For our purposes, we want to resample data and compute its mean. Write the code that does just that. Run the chunk several times to see how computed mean value changes due to resampling. As an exercise, set `replace = FALSE` and, _before running the chunk_, think what value do you expect  and whether and how it would change when run the chunk again.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 2.
 :::
 
 Our resampling-and-computing-mean code is very simple and brief. However, it is generally a good idea to pack it into a function with a meaningful name. Do just that: turn the code of exercise 2 into a function (think about function parameters and what it should return) and call it to check that everything works (when you pass a sample to it, it should return a resampled mean for it).
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 3.
 :::
 
@@ -78,7 +78,7 @@ ggplot(data=NULL, aes(x = replisamples)) +
   xlab("Distribution of resampled means") +
   labs(subtitle = glue("Mean and {CI}% CI of {iterations_n} samples' means is {round(replisamples, 2)} [{mean_CI[1]}..{mean_CI[2]}]"))
 ```
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 4.
 :::
 
@@ -87,14 +87,14 @@ As we discussed in the a [chapter on loops and repetitions](#control-flow-chapte
 
 Think about how you will define number of iterations, whether you need to use the loop variable, how you concatenate new sample mean to the vector, etc. 
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 5.
 :::
 
 ## Repeating computation via purrr
 Practice makes perfect, so let us replicate the code repeating via [purrr](#purrr) library. Think about which [map function](https://purrr.tidyverse.org/reference/map.html) is best for the job, whether you need to use the special `.` variable, etc.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 6.
 :::
 
@@ -134,7 +134,7 @@ boot.ci(booted_samples, type="perc")
 ```
 As you can see, we very similar results as above (but for variation due to sampling). Thus, either approach will work but, in most cases, `boot` is more flexible solution (but do read on bootstrapping before using advanced options).
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 7.
 :::
 
@@ -177,20 +177,20 @@ ggplot(likert_avg, aes(x = as.integer(Response), y = Probability, color = Condit
   theme(legend.position = "top")
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 8.
 :::
 
 
 Modify your function so that if `resample` parameter is `TRUE`, it samples the _entire_ table with replacement. The most suitable function for that is [sample_frac()](https://dplyr.tidyverse.org/reference/sample_n.html) from [dplyr](https://dplyr.tidyverse.org), as you can easily specify the `size` of data as 1 (as many row as in the original table). Or you can use [sample_n()](https://dplyr.tidyverse.org/reference/sample_n.html) but here you must specify the desired number of rows explicitly. Don't forget about replacement! Test your updated function by calling it with `resample = TRUE` and checking that you get _different_ averages every time.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 9.
 :::
 
 As with resampling the mean, now you need to repeat this many (1000, 2000) times over. Here, the prior approaches won't do, as they expect a single number (statistic) whereas our function returns a table of them. Our solution would be to use [map()](https://purrr.tidyverse.org/reference/map.html) function from [purrr](https://purrr.tidyverse.org) library and store these tables in a list that we can turn into a single table via [list_rbind()](https://purrr.tidyverse.org/reference/list_c.html). My suggestion would be to first program the `list_of_tables <- map(...)` part alone for just of couple iterations. Then you can check each table inside the list (remember how to use [simplifying subsetting](#list-subsetting)?) and if they look good and _different_, you can combine them via [list_rbind()](https://purrr.tidyverse.org/reference/list_c.html). Once you are sure that the computation works correctly, you can run it for more iterations to get more samples. Advice, read on `.progress` parameter of the [map()](https://purrr.tidyverse.org/reference/map.html) as it makes waiting for the code to finish a bit less stressful.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 10.
 :::
 
@@ -212,7 +212,7 @@ likert_CI |>
   knitr::kable()
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 11.
 :::
 
@@ -228,7 +228,7 @@ ggplot(likert_avg, aes(x = as.integer(Response), y = Probability, color = Condit
 
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 12.
 :::
 

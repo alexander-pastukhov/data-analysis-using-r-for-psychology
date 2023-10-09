@@ -34,7 +34,7 @@ bands_df <- read_csv("data/bands-adaptation.csv",
 knitr::kable(bands_df, caption="bands\\_df")
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 1.
 :::
 
@@ -58,7 +58,7 @@ glue::glue("The answer is {answer}, not {abs(bad_answer / -4)}")
 ```
 Use the table that you prepared during exercise 1 to compute a new column with "<median> ± <MAD>" (you will want to use [round()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Round.html) function to restrict values to just 2 digit after the decimal point). Think about _when_ you want to perform this computation to make it easier (before or after pivoting?) and which column(s?) do you need to pivot wider.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 2.
 :::
 
@@ -73,7 +73,7 @@ paste0("The answer is ", answer, ", not ", abs(bad_answer / -4))
 
 Redo exercise 2 but using one of the [paste](https://stat.ethz.ch/R-manual/R-devel/library/base/html/paste.html) functions instead of the [glue()](https://glue.tidyverse.org/reference/glue.html).
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 3.
 :::
 
@@ -120,7 +120,7 @@ tibble(Number = 1:3) |>
 
 Redo exercise #2 but use [sprintf()](https://stat.ethz.ch/R-manual/R-patched/library/base/html/sprintf.html) instead of [glue()](https://glue.tidyverse.org/reference/glue.html).
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 4.
 :::
 
@@ -199,7 +199,7 @@ widish_df |>
 Let's practice. Use [separate()](https://tidyr.tidyverse.org/reference/separate.html) to preprocess [persistence](data/persistence.zip) data and create two new columns for hour and minutes from `Session` column. Do it in a single pipeline, starting with reading all files (use tidyverse [read_csv()](https://readr.tidyverse.org/reference/read_delim.html) and specify column types!) and renaming `Shape1` (`Prime`) and `Shape2` (`Probe`) columns. Your results should look like this, think about columns that you drop or keep (this is only first four rows, think of how you can limit your output the same way via [head()](https://stat.ethz.ch/R-manual/R-devel/library/utils/html/head.html) or [slice_head()](https://dplyr.tidyverse.org/reference/slice.html) functions):
 ```{r echo=FALSE}
 results <-
-  fs::dir_ls(path = "persistence/") |>
+  fs::dir_ls(path = "data/persistence/") |>
   purrr::map_dfr(~read_csv(.,
                           col_types = cols(
                             Participant = col_character(),
@@ -223,7 +223,7 @@ results |>
   knitr::kable()
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 5.
 :::
 
@@ -277,7 +277,7 @@ results |>
   knitr::kable()
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 6.
 :::
 
@@ -291,7 +291,7 @@ substr(face_img, 2, 3)
 
 Repeat exercise 6 but use [substr()](https://stat.ethz.ch/R-manual/R-patched/library/base/html/substr.html) to extract each column (`BirthYear` and `Gender`) from the participant code.  
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 7.
 :::
 
@@ -304,7 +304,7 @@ str_sub(face_img, 2, 3)
 
 Repeat exercise 7 but using [str_sub()](https://stringr.tidyverse.org/reference/str_sub.html) function.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 8.
 :::
 
@@ -352,7 +352,7 @@ Still, if you need to work with text they are indispensable, so your should reme
 
 In the next exercise, use a regular expression to [filter()](https://dplyr.tidyverse.org/reference/filter.html) out Primes and Probes that _end_ with a _single_ digit. I know that all of them end with a single digit, if digit is in them, so you can make a very simple expression that would do the job. But I want you to practice working with the [cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/strings.pdf), so it must specify that only one digit is allowed and that it must be the last symbol. When you pattern works, you should end up with a table where all Primes and Probes are `"heavy poles sphere"`.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 9.
 :::
 
@@ -360,7 +360,7 @@ Do exercise 9.
 
 You can not just detect a substring defined by a regular expression but also extract it. The advantage is that you may not know how many symbols are in the substring or where it starts, so regular expression give you maximal flexibility. The function for this is [str_extract()](https://stringr.tidyverse.org/reference/str_extract.html) that works very similar to [str_detect()](https://stringr.tidyverse.org/reference/str_detect.html) but returns an actual detected substring instead of just `TRUE` or `FALSE`. Use it to extract the participants unique code, the first three letters of `Participant` column. Again, here you can simply use a [substr()](https://stat.ethz.ch/R-manual/R-patched/library/base/html/substr.html) but I want you write a pattern that matches 1) one or more 2) upper case letters 3) at the beginning of the string.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 10.
 :::
 
@@ -375,12 +375,12 @@ results |>
   knitr::kable()
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 11.
 :::
 
 Now, repeat the exercise by replace _any_ single digit with '-'. Which functions do you use to produce the same results as in exercise 11?
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 12.
 :::

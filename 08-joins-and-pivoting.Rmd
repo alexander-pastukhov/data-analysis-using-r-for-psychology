@@ -172,20 +172,20 @@ im_gp <-
 knitr::kable(head(im_gp))
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 1.
 :::
 
 Repeat the same exercise but use [merge()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html).
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 2.
 :::
 
 
 Now let us practice joining and simulating data as well. Create two tables that need to be joined by a single key column. In the first table, Use [rnorm()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html) function to generate normally distributed data with mean of 175 and standard deviation of 7.6 for column `Height` (what range would you expect to cover 95% of the data?). In the second table, use same normal distribution but with mean of 80 and standard deviation of 10 for column `Weight`. When fill in key column for both tables, do it so that _inner_ and _right_ join would give the same final table but _left_ and _full_ would give you a longer one (test this explicitly!). After joining two tables, plot `Height` against `Weight` and superimpose linear regression fit. Are two columns correlated? Should they be given how we generated the data?
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 3.
 :::
 
@@ -313,12 +313,12 @@ head(gp_agg, 4) |>
   knitr::kable()
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 4.
 :::
 
 Repeat the exercise but now using base R [reshape()](https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html) function.
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 5.
 :::
 
@@ -332,7 +332,7 @@ ggplot(gp_agg, aes(x = as.integer(Response), y = Proportion, color=Condition)) +
   theme(legend.position = "top", axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 6.
 :::
 
@@ -368,7 +368,7 @@ ggplot(aes(x = as.integer(Response), y = Proportion, color=Condition)) +
   theme(legend.position = "top", axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 7.
 :::
 
@@ -482,13 +482,13 @@ The overall procedure is fairly straightforward (should be a single pipe!):
 
 Use [pivot_wider()](https://tidyr.tidyverse.org/reference/pivot_wider.html) in exercise 8.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 8.
 :::
 
 Repeat the analysis but now using the [reshape()](https://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html) function.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 9.
 :::
 
@@ -508,6 +508,6 @@ adaptation |>
 
 You know almost everything you need, so think about how you would implement this as a _single_ pipeline. Hints: to match my table you will definitely to convert `Prime` and `Probe` to factors to ensure consistent ordering (otherwise, they will be sorted alphabetically), you will need to [group](#group_by) individual combinations of prime and probe before computing a [summary statistics](#summarize). And, of course, you will need to pivot the table wider (use your preferred method).
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 10.
 :::

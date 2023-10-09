@@ -8,12 +8,12 @@ Before we can start using R for analysis, you need to learn about vectors. This 
 
 In programming, a concept of a variable is often described as a box you can put something in. A box has a name tag on it, which is the _name_ of the variable. Whatever you put in is the _value_ that you store. 
 
-```{r echo=FALSE, out.width = "30%", fig.align = 'center'}
+```{r vectors-figure-variable-as-box, echo=FALSE, out.width = "30%", fig.align = 'center'}
 knitr::include_graphics("images/variable-as-box.png")
 ```
 
 This "putting in" concepts is reflected in R syntax
-```{r eval=FALSE}
+```r
 number_of_participants <- 10
 ```
 
@@ -21,7 +21,7 @@ Here, `number_of_participants` is the name of the variable (name tag for the box
 
 ## Assignment statement in detail {#assignment-statement}
 One _very important_ thing to remember about the assignment statement `<variable> <- <value>`:  The _right side_ is evaluated first until the final value is established and then, and only then, it is stored in a `<variable>` specified on the left side. This means that you can use the same variable on _both_ sides. Take a look at the example
-```{r}
+```{r vectors-change-value}
 x <- 2
 print(x)
 x <- x + 5
@@ -32,7 +32,7 @@ We are storing value `2` in a variable `x`. In the next line, the _right side_ i
 
 R's use of `<-` makes it easier to memorize this _right side is fully evaluated first_ rule. However, as noted above, we will meet `=` operator and this one makes it look like a mathematical equation. However, assignments (storing values in a variable) have nothing in common with mathematical equations (finding values of variables to ensure equality)!
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 1.
 :::
 
@@ -76,7 +76,7 @@ Here, we create a 3-slot variable `x` so that we can put in a vector of length 3
 knitr::include_graphics("images/copy-vector.png")
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 2.
 :::
 
@@ -87,7 +87,7 @@ y <- c(4, 5)
 print(c(x, y))
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 3.
 :::
 
@@ -106,7 +106,7 @@ print(x)
 print(x[3])
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 4.
 :::
 
@@ -140,7 +140,7 @@ print(x)
 
 This may sound too technical but I want you to learn about this because R conventions are so different from other programming languages and, also, from what you would intuitively expect. If you are not aware of these highly peculiar rules, you may never realize that your code is not working properly because, remember, you will never see an error or even a warning! It should also make you more cautious and careful when programming in R. It is a very powerful language that allows you to be very flexible and expressive. Unfortunately, that flexibility means that base R won't stop you from shooting yourself in a foot. Even worse, sometimes you won't even notice that your foot is bleeding because R won't generate either errors or warnings, as in examples above. Good news is that things are far more restricted and consistent in Tidyverse.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 5.
 :::
 
@@ -164,7 +164,7 @@ x <- c(10, 20, 30, 40, 50)
 x[-10]
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 6.
 :::
 
@@ -221,7 +221,7 @@ box_size <- c("width"=2, "height"=4, "depth"=1)
 print(box_size["radius"])
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 7.
 :::
 
@@ -298,7 +298,7 @@ seq(1, 5, length.out = 3)
 
 You have probably spotted the `=` symbol. Here, it is not an assignment but is used to specify values of parameters when you call a function. Thus, we are still sticking with `<-` **outside** of the function _calls_ but are using `=` **inside** the function calls.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 8.
 :::
 
@@ -312,7 +312,7 @@ print(z)
 ```
 
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 9.
 :::
 
@@ -352,7 +352,7 @@ print(x + y[0])
 
 One thing to keep in mind: R does this length-matching-via-vector-repetition automatically and shows a warning only if two lengths are not multiples of each other. This means that vectors will be matched by length even if that was not your plan. Imagine that your vector, which contains experimental condition (e.g. contrast of the stimulus), is about all ten blocks that participants performed but your vector with responses is, accidentally, only for block #1. R will **silently(!)** replicate the responses 10 times to match their length without ever(!) telling you about this. Thus, do make sure that your vectors are matched in their length, so that you are not caught surprised by this behavior (you can use function [length()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/length.html) for this). Good news, it is much more strict in Tidyverse, which is designed to make shooting yourself in a foot much harder.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 10.
 :::
 
@@ -372,6 +372,6 @@ mean(c(1, 2, 6, 9))
 ## Wrap up
 By now you have learned more about vectors, vector indexing, and vector operations in R than you probably bargained for. Admittedly, not the most exciting topic. On top of that, there was not a single word on psychology or data analysis! However, R is obsessed with vectors (everything is a vector!) and understanding them will make it easier to understand lists (a polyamorous cousin of a vector), tables (special kind of lists made of vectors), and functional programming  (on which R is built on). Finish this seminar by doing remaining exercises. Let's see whether R can still surprise you!
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercises 11-17.
 :::

@@ -35,7 +35,7 @@ You should be more careful when combining `length.out` with `each`, as each valu
 rep(c(1, 2, 3), each = 8, length.out = 10)
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 1.
 :::
 
@@ -67,7 +67,7 @@ grid_tidyr <- expand_grid(gender=c("female", "male"),
 knitr::kable(grid_tidyr)
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 2.
 :::
 
@@ -123,7 +123,7 @@ for(temp in seq(100, 300, length.out=3)){
 
 In short, number of elements in the vector determines how many times the code inside the loop will be repeat. Vector elements are stored in the loop variable on each iteration and you can either use it (`a_number` example above) or ignore them ("Ho! Ho! Ho!") example.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercises 3 and 4.
 :::
 
@@ -136,7 +136,7 @@ for(index in 1:length(vector_of_some_numbers)){
 }
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 5.
 :::
 
@@ -149,7 +149,7 @@ for(letter in c("A", "B", "C")){
 }
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 6.
 :::
 
@@ -170,7 +170,7 @@ tibble(Step = 1:10,
   geom_point()
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 7.
 :::
 
@@ -246,7 +246,7 @@ for(the_x in x){
 }
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 8.
 :::
 
@@ -270,7 +270,7 @@ ifelse(letters %in% vowels, "Vowel", c("Consonant1", "Consonant2"))
 
 Use [ifelse()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/ifelse.html) to replicate exercise 8 without a loop.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 9.
 :::
 
@@ -297,7 +297,7 @@ case_when(letters == "y" ~ "Complicated",
 
 Note the last condition that is always `TRUE`, it looks odd but this servers as a "default" branch: if you got that far, all other conditions must be `FALSE`, so this _must_ be `TRUE` (you have no other options left).
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 10.
 :::
 
@@ -325,7 +325,7 @@ for(ix in 1:length(x)){
 print("Done for today")
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 11.
 :::
 
@@ -337,7 +337,7 @@ First, you need to have a character vector with relevant file names. Package you
 Next, you need to create a full table variable (I, typically, call it `results` or `reports`) and initialize it to an empty `data.frame()` (or an empty `tibble`). You loop over file names, [read](#readr) one file at a time (don't forget to specify column types), and then use [bind_rows()](https://dplyr.tidyverse.org/reference/bind.html) to combine the full table and the new table you loaded. Note that [bind_rows()](https://dplyr.tidyverse.org/reference/bind.html) returns a _new_ table, so you need to assign it back to the original full table variable. Once you are done, your table should have 5232 rows and twelve columns.
 ```{r echo=FALSE}
 results <- data.frame()
-for(file in fs::dir_ls(path="Persistence/", glob="*.csv"))
+for(file in fs::dir_ls(path="data/Persistence/", glob="*.csv"))
 {
   current_file <- read_csv(file, 
                            col_types = cols(Participant = col_character(),
@@ -362,7 +362,7 @@ results |>
 ```
 
   
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 12.
 :::
  
@@ -417,7 +417,7 @@ map_dbl(seq(0, pi, length.out = 5), ~sin(.))
 
 Again, using `map_dbl()` in this case looks as a complete overkill. So let us do something more relevant. Let us implement loading and merging of persistence study files. You already know how to get a vector with names of relevant files. Now you can use [map()](https://purrr.tidyverse.org/reference/map.html) function on this vector to generate a list of tables and then combine them into a single table by piping it to [list_rbind()](https://purrr.tidyverse.org/reference/list_c.html) which binds tables by rows (there is a twin  `list_cbind()` function that binds table by columns). When using `~` call notation, remember `.` would then correspond to a single value from the vector of file names (so, a _single_ filename). Again, you should get a single table with twelve columns and 5232 rows. You need a _single_ pipeline for the entire operation.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 13.
 :::
 
@@ -448,6 +448,6 @@ results |>
   pull(N)
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 14.
 :::

@@ -60,14 +60,14 @@ atan2 <- function(y, x){
 }
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 1.
 :::
 
 ## Writing your own function
 Let us start practicing computing things in R and writing functions at the same time. We will begin by implementing a very simple function that doubles a given number. We will write this function in steps. First, think about how you would name^[`double_or_nothing`?] this function (meaningful names are your path to readable and re-usable code!) and how many parameters it will have. Write the definition of the function without any code inside of wiggly brackets (so, no actual computation or a return statement at the end of it).
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 2.1
 :::
 
@@ -77,7 +77,7 @@ the_number <- 1
 ...my code to double the value usign the_number variable...
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 2.2
 :::
 
@@ -95,7 +95,7 @@ By now you have your formal function definition (exercise 2.1) and the actual co
 ```
 Do it _both_ ways in exercises 2.3 and 2.4. Call the function using different inputs to test that it works.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 2.3 and 2.4
 :::
 
@@ -103,7 +103,7 @@ More practice is always good, so write a function that converts an angle in _deg
 $$rad = \frac{deg \cdot \pi}{180}$$
 Decide whether you want to a have an intermediate local variable inside the function or to return the results of the computation directly. My personal preference for writing function is to follow the inside-out sequence when writing functions as in exercise 2. Decide on function definition and parameter names, then create variables with same names as parameters to write and debug the code. Once I am sure the code is working, I put it into a function, _restart R session_ or clear the workspace to get rid of temporary variables, and run the function to check that everything works as it should^[If you have experience with a proper debugger, RStudio has you (somewhat) covered: you can [debug](https://support.posit.co/hc/en-us/articles/205612627-Debugging-with-the-RStudio-IDE) your code with all the usual tools but only R-scripts, not the notebooks that we are using here (at least it is much more complicated for the latter).].
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 3
 :::
 
@@ -148,7 +148,7 @@ i_am_test_function(5)
 print(glue("UNCHANGED global_variable after the function call: {global_variable}"))
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 4 to build understanding of scopes.
 :::
 
@@ -157,14 +157,14 @@ Let us write a function that takes _two_ parameters --— `x` and `y` --— and 
 $$R = \sqrt{x^2 + y^2}$$
 This is very similar to exercises 2 and 3, with number of parameters being the only difference. Again, I would suggest first writing and debugging the code in a separate chunk and then putting it inside of the formal function definition (and the testing it again!)
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 5.
 :::
 
 ## Table as a parameter
 So far, we only passed vectors (a.k.a. values) to functions but you can pass any object including tables^[And even functions themselves, not just what they computed! This is part of _functional programming_ you will learn about later.]. Let us use [mpg](https://ggplot2.tidyverse.org/reference/mpg.html) table from the _ggplot2_ package. Write a function that takes a table as a _parameter_. This mean that the function should not assume that a table with this name exists in the global environment. Do not use `mpg` as a parameter name (makes it confusing and hard to understand which table global or local you actually mean), call it something else^[I tend to use `df`, if it is reasonably easy to deduce what sort of `data.frame` I mean.]. The function should compute and return average miles-per-gallon efficiency of  city `cty` and highway `hwy` test cycles for each car (so, you need to compute 234 values). Do it _two_ ways. First, compute and return _a vector_ based on the table passed as parameter. Second, do the same computation but add the result _to the table that function received as a parameter_ (call the new column `avg_mpg`) and return the entire table (remember, modifying table is not enough, as you are working _on a copy_).
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 6.
 :::
 
@@ -172,7 +172,7 @@ Let us write another function that computes [mean](https://stat.ethz.ch/R-manual
 ```r
 average_efficiency(mpg, "cty") # should return 16.85897
 ```
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 7.
 :::
 
@@ -183,7 +183,7 @@ Then you pass arguments by _position_, values are put into corresponding argumen
 
 When should you use which? That depends solely on which way is clearer or possible. For a single parameter or widely used mathematical functions, like [mean](https://stat.ethz.ch/R-manual/R-devel/library/base/html/mean.html) or [sin](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Trig.html) there is little point in using names (particularly, because the only argument is named `x`). At the same time, I _always_ use named parameters for [atan2](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Trig.html) simply because I am never 100% sure about the order (i.e., `x` followed by `y` occurs far more often). At the same time, formulas for statistical models in R have a very specific look and are typically a first argument, so it is probably redundant to specify that `formula = y ~ x`.Returning to the [seq()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/seq.html) function, the `length.out` is actually its _fourth_ argument with `by` (an alternative way to define how many values you will get in the sequence) being third. But because both parameters define, essentially, the same thing, it is _impossible_ to specify `length.out` using positional arguments only. Finally, if a function has more than a couple of parameters, it is probably a good idea to use named arguments. In short, use you own better judgement on whatever makes understanding the code easier.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 8.
 :::
 
@@ -198,7 +198,7 @@ polar_to_cartesian <- function(angle, r=1) {
 }
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 9.
 :::
 
@@ -216,7 +216,7 @@ sin(deg2rad(90)) # returns 1
 
 In this case, the computation proceeds in an _inside-out_ order: The innermost function gets computed first, the function that uses its return value is next, etc. Kind of like assembling a Russian doll: you start with an innermost, put it inside a slightly bigger one, now take that one put it inside the next, etc. Nesting means that you do not need to pollute you memory with temporary variables^[The worst case scenario is when you use same `temp` variable for things like that, forget to initialize / change its value properly at some point, spend half-a-day trying to understand why your code does not generate an error but results don't make sense.] and make your code more expressive as nesting explicitly informs the reader that intermediate results are of no value by themselves and are not saved for later use.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 10.
 :::
 
@@ -230,12 +230,17 @@ deg2rad(90) |> sin() # also returns 1
 90 |> deg2rad() |> sin() # also returns 1
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 11.
 :::
 
 
 All functions you used in the exercise had only one parameter because `single-output |> single-input` piping is very straightforward. But what if one of the functions takes more than one parameter? By default, `|>` puts the piped value into the _first_ parameter. Thus `4 |> radius(3)` is equivalent to `radius(4, 3)`. Although this default is very useful (the entire Tidyverse is build around this idea of piping a value into the _first_ parameter to streamline your experience), sometimes you need that value as some _other_ parameter (e.g., when you are pre-processing the data before piping it into a statistical test, the latter typically takes `formula` as the first parameter and `data` as second). For this, you can use a special underscore variable `_` for `|>` and a dot variable `.` for `%>%`. The latter is more flexible, as it can be used for both named and positional arguments many times, whereas the former is more restrictive and can be used only with named parameters. Both of these variables are hidden ^[As in: It won't show up in your Global Environment tab.] temporary variable that holds the value you are piping through via either `|>` or `%>%`^[Yes, it is the same variable that you use over-and-over again but it is clean up after each call, so you are not in danger of incidentally using a value from a previous call.]. Thus, for a standard pipe `|>`
+
+```{r echo = FALSE}
+radius <- function(x, y) {sqrt(x^2 + y^2)}
+```
+
 ```{r}
 z <- 4
 w <- 3
@@ -272,7 +277,7 @@ z %>% radius(., .) # equivalent to radius(z, z)
 
 As you can see `%>%` is more flexible but, to be honest, I have realized that I never really bumped into the limitations of the standard pipe `|>` until I started to compile these examples. Thus, my advice is to stick to `|>` and use `%>%` only if you actually need it (R is so liberal that at least some restrictions are good.)
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 12.
 :::
 

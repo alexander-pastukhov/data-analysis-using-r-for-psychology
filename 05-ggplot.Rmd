@@ -140,62 +140,62 @@ ggplot(data_table_name, aes(x = var1, y = var2, color = var3, shape = var4, ...)
 ```
 Think about [aesthetics](https://ggplot2.tidyverse.org/reference/aes.html), i.e., which variables are mapped on each axes and which is best depicted as color.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 1.
 :::
 
 Do you see any clear dependence? Let us try to making it more evident by adding [geom_smooth](https://ggplot2.tidyverse.org/reference/geom_smooth.html) geometric primitive.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 2.
 :::
 
 Both engine size (displacement) and drive train have a clear effect on car efficiency. Let us visualize the number of cylinders (`cyl`) as well. Including it by mapping it on the _size_ of geometry.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 3.
 :::
 
 Currently, we are mixing together cars produced at different times. Let us visually separate them by turning each year into a subplot via [facet_wrap](https://ggplot2.tidyverse.org/reference/facet_wrap.html) function.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 4.
 :::
 
 The dependence you plotted does not look linear but instead is saturating at certain low level of efficiency. This sort of dependencies could be easier to see on a logarithmic scale. See functions for different [scales](https://ggplot2.tidyverse.org/reference/scale_continuous.html) and use logarithmic scaling for y-axis.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 5.
 :::
 
 Note that by now we managed to include _five_ variables into our plots. We can continue this by including transmission or fuel type but that would be pushing it, as too many variables can make a plot confusing and cryptic. Instead, let us make it prettier by using more meaningful axes labels (`xlab()`, `ylab()` functions) and adding a plot title ([labs](https://ggplot2.tidyverse.org/reference/labs.html)).
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 6.
 :::
 
 ## Auto efficiency: discrete x-axis
 The previous section use a continuous engine displacement variable for x-axis (at least that is my assumption on how you mapped the variables). Frequently, you need to plot data for discrete groups: experimental groups, conditions, treatments, etc. Let us practice on the same [mpg](https://ggplot2.tidyverse.org/reference/mpg.html) data set but visualize relationship between the drive train (`drv`) and highway cycle efficiency (`hwy`). Start by using point as visuals.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 7.
 :::
 
 One problem with the plot is that all points are plotted at the same x-axis location. This means that if two points share the location, they overlap and appear as just one dot. This makes it hard to understand the density: one point can mean one point, or two, or a hundred. A better way to plot such data is by using [box](https://ggplot2.tidyverse.org/reference/geom_boxplot.html) or [violin](https://ggplot2.tidyverse.org/reference/geom_violin.html) plots^[You can also use an excellent package called [ggbeeswarm](https://github.com/eclarke/ggbeeswarm) that distributes dots to show the distribution.]. Experiment by using them instead of points.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 8.
 :::
 
 Again, let's up the ante and split plots via both number of cylinders and year of manufacturing. Use [facet_grid](https://ggplot2.tidyverse.org/reference/facet_grid.html) function to generate grid of plots.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 9.
 :::
 
 Let us again improve our presentation by using better axes labels and figure title.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 10.
 :::
 
@@ -203,31 +203,31 @@ Do exercise 10.
 ## Mammals sleep: single variable
 Now lets us work on plotting a distribution for a single variable using [mammals sleep dataset](https://ggplot2.tidyverse.org/reference/msleep.html). For this, you need to map `sleep_total` variable on x-axis and plot a [histogram](https://ggplot2.tidyverse.org/reference/geom_histogram.html). Explore available options, in particular `bins` that determines the bins number and, therefore, their size. Note that there is no "correct" number of bins to use. _ggplot2_ defaults to 30 but a small sample would be probably better served with fewer bins and, vice versa, with a large data set you can afford hundreds of bins.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 11.
 :::
 
 Using a histogram gives you exact counts per each bin. However, the appearance may change quite dramatically if you would use fewer or more bins. An alternative way to represent the same information is via [smoothed density estimates](https://ggplot2.tidyverse.org/reference/geom_density.html). They use a sliding window and compute an estimate at each point but also include points _around_ it and weight them according to a kernel (e.g., a Gaussian one by default). This makes the plot look smoother and will mask sudden jumps in density (counts) as you, effectively, average over many bins. Whether this approach is better for visualizing data depends on the sample you have and message you are trying to get across. It is always worth checking both (just like it is worth checking different number of bins in histogram) to see which way is the best for your specific case.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 12.
 :::
 
 Let us return to using histograms and plot a distribution per `vore` variable (it is `carnivore`, `omnivore`, `herbivore`, or `NA`). You can map it on the `fill` color of the histogram, so that each _vore_ kind will be binned separately.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 13.
 :::
 
 The plot may look confusing because by default _ggplot2_ colors values for each group differently but stacks all of them together to produce the total histogram counts^[Perhaps it is me, but I find this more confusing than helpful.]. One way to disentangle the individual histograms is via [facet_grid](https://ggplot2.tidyverse.org/reference/facet_grid.html) function. Use it to plot `vore` distribution in separate rows.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 14.
 :::
 
 That did the trick but there is an alternative way to plot individual distributions on the same plot by setting `position` argument of geom_histogram to `"identity"` (it is `"stack"` by default).
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 15.
 :::
 
@@ -236,7 +236,7 @@ Hmm, shouldn't we have more carnivores, what is going on? Opacity is the answer.
 ## Mapping for all visuals versus just one visual
 In the previous exercise, you assigned a constant value to `alpha` (transparency) argument. You could do this in _two_ places,  inside of either `ggplot()` or `geom_histogram()` call. In the former case, you would have set `alpha` level for _all_ geometric primitives on the plot, whereas in the latter you do it only for the histogram. To better see the difference, reuse your code for plotting city cycle efficiency versus engine size (should be exercise #6) and set `alpha` either for all visuals (in `ggplot()` call) or in some visuals (e.g. only for points) to see the difference.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 16.
 :::
 
@@ -248,7 +248,7 @@ In the previous exercise, you assigned a constant value to `alpha` (transparency
 
 Test this but setting the `size` in the previous plot to a constant outside of aesthetics or to a variable inside of it.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 17.
 :::
 
@@ -256,7 +256,7 @@ Do exercise 17.
 
 Finally, if you are not a fan of the way the plots look, you can quickly modify this by using some other theme. You can define it yourself (there are lots of options you can specify for your [theme](https://ggplot2.tidyverse.org/reference/theme.html)) or can use one of the [ready-mades](https://ggplot2.tidyverse.org/reference/ggtheme.html). Explore the latter option, find the one you like the best.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 18.
 :::
 

@@ -174,7 +174,7 @@ short_mpg |>
 
 So, bottom line, do not mix positive and negative indexing in `select`! I am showing you this only to signal the potential danger.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 1.
 :::
 
@@ -190,7 +190,7 @@ print(x == 3)
 
 For numeric values, you can use all usual comparison operators including _not equal_ `!=`, _less than_ `<`, _greater than_ `>`, _less than or equal to_ `<=` (note the order of symbols!), and _greater than or equal to_ `>=` (again, note the order of symbols).
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 2.
 :::
 
@@ -202,7 +202,7 @@ print(!(x == 3))
 
 
 ```
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 3.
 :::
 
@@ -217,13 +217,13 @@ print((x != 5) | (y == 1))
 # x less than 10 AND y is greater than or equal to 1
 print((x < 10) & (y >= 1))
 ```
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 4.
 :::
 
 All examples above used scalars but you remember that _everything is a vector_, including values that we used (they are just vectors of length one). Accordingly, same logic works for vectors of arbitrary length with comparisons working element-wise, so you get a vector of the same length with `TRUE` or `FALSE` values for each _pairwise_ comparison.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 5.
 :::
 
@@ -245,7 +245,7 @@ You can have conditions of any complexity by combining them via _and_ `&` and _o
 x <- c(-2, 5, 3, -5, -1)
 x[(x < -1) | (x > 3)]
 ```
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 6.
 :::
 
@@ -278,7 +278,7 @@ mpg |>
   knitr::kable()  
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 7.
 :::
 
@@ -305,7 +305,7 @@ short_mpg |>
   knitr::kable()
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 8.
 :::
 
@@ -318,7 +318,7 @@ short_mpg[order(short_mpg[["cty"]], rev(short_mpg[["displ"]])), ]
 short_mpg[order(short_mpg[["cty"]], rev(short_mpg[["displ"]])), ] |>
   knitr::kable()
 ```
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 9.
 :::
 
@@ -351,7 +351,7 @@ short_mpg |>
 
 As shown in the example above, you can perform several computations within a single `mutate` call and they are executed one after another, just as they would be when using base R.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 10.
 :::
 
@@ -418,7 +418,7 @@ The `.groups` parameter of the summarize function determines whether grouping yo
 
 Finally, there is a cousin verb [rowwise()](https://dplyr.tidyverse.org/reference/rowwise.html) that groups by row. I.e., every row of the table becomes its own group, which could be useful if you need to apply a computation per row and the usual [mutate()](https://dplyr.tidyverse.org/reference/mutate.html) approach does not work (however, this is something of an advanced topic, so it is more about recognizing it than using it).
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 11.
 :::
 
@@ -427,7 +427,7 @@ You can replicate the functionality of `group_by` + `summarize` in base R via [a
 ## Putting it all together
 Now you have enough tools at your disposal to start programming a continuous analysis pipeline!
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 12.
 :::
 

@@ -2,6 +2,7 @@
 
 ```{r include=FALSE}
 Sys.setenv(lang = "en_US")
+library(tidyverse)
 ```
 
 Please download the [exercise notebook](notebooks/Seminar 03 - Tables.qmd) (**Alt+Click** to download it or right-click as _Save link as..._), put it into your seminar project folder and open the project. You need both the text and the notebook with exercises to be open, as you will be switching between them.
@@ -37,14 +38,14 @@ You can convert from one type to another and check whether a particular vector i
     * logical `TRUE`/`T` and `FALSE`/`T` are converted to `"TRUE"` and `"FALSE"`.
     * `NA` → `NA`
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 1.
 :::
 
 ## All vector values must be of the same type {#vectors-are-homogeneous}
 _All_ values in a vector must be of the same type --- all integer, all double, all logical, or all strings, which is why they are also called _atomic_ vectors. This ensures that you can apply the same function or operation to the entire vector without worrying about type compatibility. However, this means that you cannot mix different value types in a vector. If you do try to concatenate vectors of different types, all values will be converted to a more general / flexible type. Thus, if you mix numbers and logical values, you will end up with a vector of numbers. Mixing anything with strings will convert the entire vector to string. Mixing in `NA` does not change the vector type.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 2.
 :::
 
@@ -167,7 +168,7 @@ l[["d"]]
 
 If this is the point when you want to start running around screaming or bang your head against the screen, please tell me, cause I would definitely join you. Let us do some exercises that might help to build some intuition. However, as you probably noticed already, subsetting in R is fairly haphazard, so you probably will still end up being confused or have a code that does not work for seemingly mysterious reasons.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 3.
 :::
 
@@ -209,7 +210,7 @@ Once you create a table, it will appear in your environment, so you can see it i
 knitr::include_graphics("images/viewing-table.png")
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 4.
 :::
 
@@ -229,7 +230,7 @@ the_table <- data.frame(numeric_column = 1:7,                 # length 7
                         character_column = c("A", "B", "C"))  # length 3, cannot be multiplied by an integer to get 7
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 5.
 :::
 
@@ -300,7 +301,7 @@ our_first_table[1:2, "logical_column"]
 knitr::include_graphics("images/table-rows-columns.png")
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 6.
 :::
 
@@ -313,10 +314,22 @@ library("tidyverse")
 ```
 
 One thing to keep in mind is that if you import two libraries that have a function with same name, the function from the _latter_ package will overwrite (mask) the function from the former. You will get a warning but if you miss it, it may be very confusing. My favorite stumbling block are functions `filter()` from `dplyr` package (we will use it extensively, as it filters a table by row) and `filter()` function from `signal` package (applies a filter to a time-series)^[There is also a filter function is stats library.]. This overwriting of one function by another can lead to very odd looking mistakes. In my case I think that I am using `dplyr::filter()` and get confused by error messages that I get (they are not really informative). The first time I did this, it took me an hour to figure it out. Here are the warnings I should have paid attention to.
-```{r}
+```r
 library(signal)
-library(dplyr)
+
+
+Attaching package: ‘signal’
+
+The following object is masked from ‘package:dplyr’:
+
+    filter
+
+The following objects are masked from ‘package:stats’:
+
+    filter, poly
 ```
+
+
 
 Thus, keep that in mind or, better still, explicitly mention which package the function is coming from via `library::function()` notation. In this case, you will use the function that you are interested in and need not to worry about other functions with the same name that may conflict with it. In general, it is a good idea to _always_ disambiguate function via library but in practice it may make your code hard to read by cluttering it with `library::` prefixes. Thus, you will need to find a balance between disambiguation and readability.
 ```{r}
@@ -366,7 +379,7 @@ tribble(
 )
 ```
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 7.
 :::
 
@@ -439,7 +452,7 @@ Personally, I would prefer for `read_csv()` to loudly fail with an error in case
 
 You will need [face_rank.csv](data/face_rank.csv) file for exercise 8. Download it and place it in the project folder. _Warning_, if you use Chrome or any Chromium-based browsers like MS Edge, Opera,  etc. they might, for some odd reason, automatically *rename it* into _face_rank.xls_ during the download (it does not happen as I write this, but it was an issue at some point of time). Just rename it back to _face_rank.csv_, because the file itself is not converted to an Excel, it is only the extension that gets changed^[why? No idea, ask Google!].
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 8.
 :::
 
@@ -453,7 +466,7 @@ There are several libraries that allow you to read Excel files directly. My pers
 
 For the exercise 9, you need [face_rank.xlsx](data/face_rank.xlsx) file for it. Download it or use the URL directly. Also, think about which library you need to do to perform the task. Add this library to the "setup" chunk at the beginning, not to the exercise chunk itself!
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 9.
 :::
 
@@ -466,14 +479,14 @@ However, sometimes you have a file but you do not have the program (Matlab, SPSS
 
 For the next exercise, you need [band_members.sav](data/band_members.sav) file. You need `read.spss()` function from library `foreign` (again, if you need to import it, do it in the "setup" chunk). 
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 10.
 :::
 
 ## Writing and reading a single object {#rds}
 There is another option for saving and reading data in R via [saveRDS()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/readRDS.html) and [readRDS](https://stat.ethz.ch/R-manual/R-devel/library/base/html/readRDS.html) functions^[This is another example of odd inconsistencies in R. Why `readRDS()` instead of `loadRDS()`? Or `writeRDS()` if you read it.]. [saveRDS()](https://stat.ethz.ch/R-manual/R-devel/library/base/html/readRDS.html) saves an arbitrary object (vector, list, table, model fit, etc.), whereas [readRDS](https://stat.ethz.ch/R-manual/R-devel/library/base/html/readRDS.html) reads it back. This is useful, if your table is very large, so using CSV is inefficient, or if you want to save something that is not a table, again, something like a model fit for later use. This is an R-specific format, so you will not be able to use this file with other program, so you probably will not use this frequently but it is a good option to keep in mind.
 
-::: {.infobox .practice}
+::: {.practice}
 Do exercise 11.
 :::
 
