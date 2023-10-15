@@ -155,7 +155,7 @@
 <h2>
 <span class="header-section-number">3.4</span> Subsetting, a fuller version<a class="anchor" aria-label="anchor" href="#subsetting"><i class="fas fa-link"></i></a>
 </h2>
-<p>Unfortunately, this is the point where we need to talk about subsetting (accessing individual elements of a vector or of a list via indexes or names) yet again. This is because R has several<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://adv-r.hadley.nz/subsetting.html#introduction-3"&gt;Advanced R&lt;/a&gt; lists six(!) ways to subset atomic vectors, three(!) subsetting operatoes, and they can interact!&lt;/p&gt;'><sup>18</sup></a> different ways of doing this that look similar and, to make things worse, <em>sometimes</em> produce identical results. I do not expect you to memorize or even fully appreciate all the intricate details (I am not even sure I know them all). But I do need you to understand the fundamental difference between the two ways of doing subsetting and to be aware of potential issues that can easily cause confusion. If the latter is the case, return to this section, read the <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Extract.html">official manual</a>, or read the <a href="http://adv-r.had.co.nz/Subsetting.html">subsetting</a> section in “Advanced R” book by Hadley Wickham.</p>
+<p>Unfortunately, this is the point where we need to talk about subsetting (accessing individual elements of a vector or of a list via indexes or names) yet again. This is because R has several<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://adv-r.hadley.nz/subsetting.html#introduction-3"&gt;Advanced R&lt;/a&gt; lists six(!) ways to subset atomic vectors, three(!) subsetting operators, and they can interact!&lt;/p&gt;'><sup>18</sup></a> different ways of doing this that look similar and, to make things worse, <em>sometimes</em> produce identical results. I do not expect you to memorize or even fully appreciate all the intricate details (I am not even sure I know them all). But I do need you to understand the fundamental difference between the two ways of doing subsetting and to be aware of potential issues that can easily cause confusion. If the latter is the case, return to this section, read the <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Extract.html">official manual</a>, or read the <a href="http://adv-r.had.co.nz/Subsetting.html">subsetting</a> section in “Advanced R” book by Hadley Wickham.</p>
 <p>You <a href="vectors.html#vector-index">already know</a> subsetting via <em>single</em> square brackets: <code>x[1]</code>. This is called <em>preserving</em> subsetting because it returns a <em>part of an object</em> (vector or list) that your requested <em>as is</em>. I.e., if you used them to access part of a a vector, you get a vector. If you used them to access a list or a <a href="tables.html#data.frame">table</a>, you get a list or a table.</p>
 <p>In addition, you can use <em>double</em> square brackets: <code>x[[1]]</code>. These are called <em>simplifying</em> subsetting because they extract <em>content</em> at that location. If you have a list of vectors <code>l</code> then <code>l[2]</code> (preserving) would return a single item list (with a vector as an item inside that list) but <code>l[[2]]</code> would return a vector stored at that location. A metaphor based on <a href="https://twitter.com/rlangtip">@RLangTip</a>: “If list <code>x</code> is a train carrying objects, then <code>x[[5]]</code> is the object in car 5; <code>x[5]</code> is a train consisting only of car 5.”</p>
 <p>Note that the simplifying notation allows you to extract content of only <em>one</em> item. Therefore, you cannot use it with <a href="vectors.html#vector-index-slicing">slicing</a> (extracting content of many items), negative indexes (even if you will end up with just one index), or zero index. The good news is that R will actually generate an error message instead of failing silently, although error messages will be both mysterious and <em>different</em> depending on exact circumstances. To deepen your feeling of arbitrariness of R design: using a non-existent <em>name</em> index will generate an error for vectors but not for lists (you get <code>NULL</code>)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Insert a hair-pulling picture of your preference here.&lt;/p&gt;"><sup>19</sup></a>.</p>
@@ -208,9 +208,9 @@
 <pre><code>## Error in x[["d"]]: subscript out of bounds</code></pre>
 <p><strong>General rule:</strong> when using vectors, always use <code>[]</code>. The only potential usage-case I can see is wanting to strip a name off a single item (not sure I ever needed to do this). If, for some reason, this is what you need, you should write a comment explaining that. Otherwise, everyone including future-you will be confused and think that this is a typo.</p>
 </div>
-<div id="subsetting-for-listslist-subsetting" class="section level3" number="3.4.2">
+<div id="list-subsetting" class="section level3" number="3.4.2">
 <h3>
-<span class="header-section-number">3.4.2</span> Subsetting for lists[#list-subsetting]<a class="anchor" aria-label="anchor" href="#subsetting-for-listslist-subsetting"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.4.2</span> Subsetting for lists<a class="anchor" aria-label="anchor" href="#list-subsetting"><i class="fas fa-link"></i></a>
 </h3>
 <p>First, we create a named list that includes another list as one of the items</p>
 <div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
@@ -558,7 +558,7 @@ A1,1,2,0.05,FALSE
 <div class="sourceCode" id="cb183"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/example.csv"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Rows: 3 Columns: 5
-## -- Column specification ----------------
+## -- Column specification ----------------------------------
 ## Delimiter: ","
 ## chr (1): Participant
 ## dbl (3): Block, Trial, Contrast
@@ -609,9 +609,8 @@ A1,1,2,0.05,FALSE
 <span>                                     Contrast <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_atomic.html">col_double</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>                                     Correct <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_atomic.html">col_integer</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Warning: The following named parsers don't match the column names: TheBlock</code></pre>
-<pre><code>## Warning: One or more parsing issues, call
-## `problems()` on your data frame for
-## details, e.g.:
+<pre><code>## Warning: One or more parsing issues, call `problems()` on your
+## data frame for details, e.g.:
 ##   dat &lt;- vroom(...)
 ##   problems(dat)</code></pre>
 <div class="sourceCode" id="cb194"><pre class="downlit sourceCode r">
@@ -678,7 +677,7 @@ A1,1,2,0.05,FALSE
 <li>
 <a class="nav-link" href="#subsetting"><span class="header-section-number">3.4</span> Subsetting, a fuller version</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#subsetting-for-atomics-vectors"><span class="header-section-number">3.4.1</span> Subsetting for (atomics) vectors</a></li>
-<li><a class="nav-link" href="#subsetting-for-listslist-subsetting"><span class="header-section-number">3.4.2</span> Subsetting for lists[#list-subsetting]</a></li>
+<li><a class="nav-link" href="#list-subsetting"><span class="header-section-number">3.4.2</span> Subsetting for lists</a></li>
 </ul>
 </li>
 <li><a class="nav-link" href="#dollar-subsetting"><span class="header-section-number">3.5</span> Yet another subsetting via $</a></li>
@@ -710,7 +709,7 @@ A1,1,2,0.05,FALSE
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data analysis using R for Psychology and Social Science</strong>" was written by Alexander (Sasha) Pastukhov. It was last built on 2023-10-13.</p>
+    <p>"<strong>Data analysis using R for Psychology and Social Science</strong>" was written by Alexander (Sasha) Pastukhov. It was last built on 2023-10-15.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

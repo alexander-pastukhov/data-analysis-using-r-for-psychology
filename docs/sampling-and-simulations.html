@@ -192,7 +192,7 @@ that you can plot using the same code as in <a href="working-with-factors.html#l
 <div class="practice">
 <p>Do exercise 9.</p>
 </div>
-<p>As with resampling the mean, now you need to repeat this many (1000, 2000) times over. Here, the prior approaches won’t do, as they expect a single number (statistic) whereas our function returns a table of them. Our solution would be to use <a href="https://purrr.tidyverse.org/reference/map.html">map()</a> function from <a href="https://purrr.tidyverse.org">purrr</a> library and store these tables in a list that we can turn into a single table via <a href="https://purrr.tidyverse.org/reference/list_c.html">list_rbind()</a>. My suggestion would be to first program the <code>list_of_tables &lt;- map(...)</code> part alone for just of couple iterations. Then you can check each table inside the list (remember how to use <a href="#list-subsetting">simplifying subsetting</a>?) and if they look good and <em>different</em>, you can combine them via <a href="https://purrr.tidyverse.org/reference/list_c.html">list_rbind()</a>. Once you are sure that the computation works correctly, you can run it for more iterations to get more samples. Advice, read on <code>.progress</code> parameter of the <a href="https://purrr.tidyverse.org/reference/map.html">map()</a> as it makes waiting for the code to finish a bit less stressful.</p>
+<p>As with resampling the mean, now you need to repeat this many (1000, 2000) times over. Here, the prior approaches won’t do, as they expect a single number (statistic) whereas our function returns a table of them. Our solution would be to use <a href="https://purrr.tidyverse.org/reference/map.html">map()</a> function from <a href="https://purrr.tidyverse.org">purrr</a> library and store these tables in a list that we can turn into a single table via <a href="https://purrr.tidyverse.org/reference/list_c.html">list_rbind()</a>. My suggestion would be to first program the <code>list_of_tables &lt;- map(...)</code> part alone for just of couple iterations. Then you can check each table inside the list (remember how to use <a href="tables.html#list-subsetting">simplifying subsetting</a>?) and if they look good and <em>different</em>, you can combine them via <a href="https://purrr.tidyverse.org/reference/list_c.html">list_rbind()</a>. Once you are sure that the computation works correctly, you can run it for more iterations to get more samples. Advice, read on <code>.progress</code> parameter of the <a href="https://purrr.tidyverse.org/reference/map.html">map()</a> as it makes waiting for the code to finish a bit less stressful.</p>
 <div class="practice">
 <p>Do exercise 10.</p>
 </div>
@@ -455,7 +455,7 @@ Very true
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data analysis using R for Psychology and Social Science</strong>" was written by Alexander (Sasha) Pastukhov. It was last built on 2023-10-13.</p>
+    <p>"<strong>Data analysis using R for Psychology and Social Science</strong>" was written by Alexander (Sasha) Pastukhov. It was last built on 2023-10-15.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
