@@ -1,0 +1,85 @@
+---
+title: "Linear regression"
+format: html
+---
+
+
+```{r setup}
+# add libraries that you require here
+```
+
+## Exercise 01
+Generate data (I used 100 data points) assuming that foot length is normally distributed with mean 246.726 and standard deviation 10.3434 mm. Height is related to it as Height = 709.3 + 3.93 * Foot Length + epsilon, where the latter comes from a zero-centered normal distribution with standard deviation of 10. Put both variables into a single column, plot the results. Random seed is 826.
+ 
+```{r exercise-01}
+```
+
+
+## Exercise 02
+Fit linear model to the data using lm() function and print out it summary.
+
+```{r exercise-02}
+```
+
+## Exercise 03
+Compile a table with estimate and 97% interval for each term. See example table and description in the text on how you might do it using functions confint() and coef().
+```{r exercise-03}
+```
+
+
+## Exercise 04
+Generate predictions for the fitted linear model using range of foot values (e.g., from 220 to 270) and plot the predictions alongside the data. Add information about the terms to the caption.
+```{r exercise-04}
+```
+
+
+## Exercise 05
+Generate 97% confidence interval for the fitted linear model using range of foot values (e.g., from 220 to 270) and plot the predictions alongside the data using geom_ribbon().
+```{r exercise-05}
+```
+
+
+## Exercise 06
+1. Randomly [sample](https://dplyr.tidyverse.org/reference/slice.html) original data table _with replacement_.
+2. Fit a linear model to that data.
+3. Generate predictions for the interval, the same way we did above, so that you end up with a table of `FootLength` (going from 220 to 270) and (predicted) `Height`.
+
+Write the code and put it into a function (think about which parameters it would need). Test it by running it the function a few times. Values for which column should stay the same or change?
+```{r exercise-06}
+```
+
+
+## Exercise 07
+Resample predictions many (1000) times, compute 97% percentile confidence interval for each foot length. Plot these confidence intervals using geom_ribbon().
+```{r exercise-07}
+```
+
+## Exercise 08
+Generate binomial data (`?rbinom`) for two conditions (tea and coffee) with probability of success, respectively 0.4 and 0.7. Generate 30 0/1 (failure/success) values for each condition. You should have a single table with 60 rows (bind_rows() might be useful) and two columns (Condition and Success).
+```{r exercise-08}
+```
+
+## Exercise 09
+Compute sample mean probability of success per condition. Use package binom to compute 97% confidence intervals. Plot sample averages and CIs.
+```{r exercise-09}
+```
+
+## Exercise 10
+Fit a logistic regression model using function glm() with binomial family. Print out model's summary.
+```{r exercise-10}
+```
+
+## Exercise 11
+Generate a table with predicted probability of success for each condition. Use will need to use function inv.logit() from boot library.
+```{r exercise-11}
+```
+
+## Exercise 12
+Bootstrap predicted probability for resampled data 1000 times. Plot distribution of bootstrapped probabilities using geom_violin()
+```{r exercise-12}
+```
+
+## Exercise 13
+Compute difference between condition per sample. Summaries this difference as avg [lower 97% CI..upper 97% CI], put this information into the caption of the figure.
+```{r exercise-13}
+```

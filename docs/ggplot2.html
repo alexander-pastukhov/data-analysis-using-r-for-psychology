@@ -7,7 +7,7 @@
 <title>Chapter 5 ggplot2: Grammar of Graphics | Data analysis using R for Psychology and Social Science</title>
 <meta name="author" content="Alexander (Sasha) Pastukhov">
 <meta name="description" content="In previous chapters, you have learned about tables that are the main way of representing data in psychological research and in R. In the following ones, you will learn how to manipulate data in...">
-<meta name="generator" content="bookdown 0.35 with bs4_book()">
+<meta name="generator" content="bookdown 0.37 with bs4_book()">
 <meta property="og:title" content="Chapter 5 ggplot2: Grammar of Graphics | Data analysis using R for Psychology and Social Science">
 <meta property="og:type" content="book">
 <meta property="og:description" content="In previous chapters, you have learned about tables that are the main way of representing data in psychological research and in R. In the following ones, you will learn how to manipulate data in...">
@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="In previous chapters, you have learned about tables that are the main way of representing data in psychological research and in R. In the following ones, you will learn how to manipulate data in...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.6.1/transition.js"></script><script src="libs/bs3compat-0.6.1/tabs.js"></script><script src="libs/bs3compat-0.6.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><link rel="shortcut icon" href="images/R_course_logo.svg">
 <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-QMVBLBE7DV"></script><script>
       window.dataLayer = window.dataLayer || [];
@@ -281,122 +281,122 @@ Normal(\mu=2*ConditionIndex, \sigma=0.4) + \\ Normal(\mu=Intensity, \sigma=0.4)\
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">1</td>
-<td align="right">-0.0328550</td>
+<td align="right">0.0309416</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">1</td>
-<td align="right">-2.6336984</td>
+<td align="right">-3.1151799</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">1</td>
-<td align="right">-3.9779401</td>
+<td align="right">-4.1965185</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">2</td>
-<td align="right">1.2866808</td>
+<td align="right">1.8057376</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">2</td>
-<td align="right">-0.6895573</td>
+<td align="right">-1.2633502</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">2</td>
-<td align="right">-3.3772478</td>
+<td align="right">-2.6338944</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">3</td>
-<td align="right">2.3422482</td>
+<td align="right">3.3755999</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">3</td>
-<td align="right">-0.2485984</td>
+<td align="right">1.1094867</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">3</td>
-<td align="right">-3.4097880</td>
+<td align="right">-2.4560251</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">4</td>
-<td align="right">3.3437725</td>
+<td align="right">2.0981211</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">4</td>
-<td align="right">1.4351651</td>
+<td align="right">0.6626727</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">4</td>
-<td align="right">-1.0499770</td>
+<td align="right">-0.2936765</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">5</td>
-<td align="right">4.2331126</td>
+<td align="right">2.4623230</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">5</td>
-<td align="right">2.1201568</td>
+<td align="right">1.8423013</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">5</td>
-<td align="right">-1.3034882</td>
+<td align="right">-0.8455257</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">6</td>
-<td align="right">4.7328648</td>
+<td align="right">5.7423471</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">6</td>
-<td align="right">1.5457873</td>
+<td align="right">3.1993819</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">6</td>
-<td align="right">1.0534675</td>
+<td align="right">1.7000246</td>
 </tr>
 <tr class="odd">
 <td align="left">A</td>
 <td align="right">7</td>
-<td align="right">5.0158976</td>
+<td align="right">5.6311816</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
 <td align="right">7</td>
-<td align="right">4.0120522</td>
+<td align="right">4.3623368</td>
 </tr>
 <tr class="odd">
 <td align="left">C</td>
 <td align="right">7</td>
-<td align="right">1.6447442</td>
+<td align="right">1.8299595</td>
 </tr>
 <tr class="even">
 <td align="left">A</td>
 <td align="right">8</td>
-<td align="right">6.2448611</td>
+<td align="right">7.1660446</td>
 </tr>
 <tr class="odd">
 <td align="left">B</td>
 <td align="right">8</td>
-<td align="right">5.5621983</td>
+<td align="right">4.4843617</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
 <td align="right">8</td>
-<td align="right">2.4540440</td>
+<td align="right">3.3629425</td>
 </tr>
 </tbody>
 </table></div>
@@ -625,7 +625,7 @@ Normal(\mu=2*ConditionIndex, \sigma=0.4) + \\ Normal(\mu=Intensity, \sigma=0.4)\
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data analysis using R for Psychology and Social Science</strong>" was written by Alexander (Sasha) Pastukhov. It was last built on 2023-10-15.</p>
+    <p>"<strong>Data analysis using R for Psychology and Social Science</strong>" was written by Alexander (Sasha) Pastukhov. It was last built on 2024-01-17.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
