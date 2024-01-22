@@ -21,7 +21,7 @@ Our first statistical model will be linear regression. When you experiment with 
 set.seed(826)
 N <- 100
 height_df <- tibble(FootLength = rnorm(N, 246.726, 10.3434),
-                    Height = 710 + 4 + FootLength + rnorm(N, 0, 10))
+                    Height = 710 + 4 * FootLength + rnorm(N, 0, 10))
 
 ggplot(height_df, aes(x = FootLength, y = Height)) +
   geom_point() +
