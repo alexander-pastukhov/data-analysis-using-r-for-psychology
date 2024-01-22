@@ -272,7 +272,7 @@ Practice time! Using same [persistence](data/persistence.csv) data extract birth
 results |>
   separate(Participant, into=c(NA, "BirthYear", "Gender"), sep=c(3, 7), remove = FALSE) |>
   mutate(BirthYear = as.integer(BirthYear),
-         Gender = factor(Gender, levels=c("F", "M"), labels=c("Male", "Female"))) |>
+         Gender = factor(Gender, levels=c("F", "M"), labels=c("Female", "Male"))) |>
   head(4) |>
   knitr::kable()
 ```
