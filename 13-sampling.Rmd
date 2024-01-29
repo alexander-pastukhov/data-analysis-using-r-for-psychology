@@ -63,7 +63,7 @@ ggplot(data=NULL, aes(x = replisamples)) +
   geom_vline(xintercept = true_mean, color="red") +
   geom_vline(xintercept = mean(replisamples), color="blue") +
   xlab("Distribution of resampled means") +
-  labs(subtitle = glue("Mean of {iterations_n} samples' means is {round(replisamples, 2)}"))
+  labs(subtitle = glue("Mean of {iterations_n} samples' means is {round(mean(replisamples), 2)}"))
 ```
 
 Our final step is to use [quantile()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile) function to compute 95% confidence interval. [quantile()](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile) function takes a vector and computes a value that is greater than `probs` fraction of values in that vector. E.g., if `probs=c(0.25, 0.75)`, it will return a two values, so that 25% of values are smaller than the first one and 75% of them are smaller than the second. Or, to put it differently, 50% of all values are with `probs=c(0.25, 0.75)`. In our case, we want to compute 97%^[Because 97 is a prime number and 95 is not, so 97 is a bit less arbitrary than 95!] confidence interval, i.e., 97% of all values should be between the lower and upper confidence interval values. Once you run the code, you should see that 97% confidence interval from resampling is very similar to what the t-test reported (you want get the same values due to random sampling but they should also be close to the t-test's analytic estimate). Add this information to the caption (often, this information is put directly into the text, but I find it simpler if all quantitative information is together and easy to find)
@@ -76,7 +76,7 @@ ggplot(data=NULL, aes(x = replisamples)) +
   geom_vline(xintercept = true_mean, color="red") +
   geom_vline(xintercept = mean(replisamples), color="blue") +
   xlab("Distribution of resampled means") +
-  labs(subtitle = glue("Mean and {CI}% CI of {iterations_n} samples' means is {round(replisamples, 2)} [{mean_CI[1]}..{mean_CI[2]}]"))
+  labs(subtitle = glue("Mean and {CI}% CI of {iterations_n} samples' means is {round(mean(replisamples), 2)} [{mean_CI[1]}..{mean_CI[2]}]"))
 ```
 ::: {.practice}
 Do exercise 4.
