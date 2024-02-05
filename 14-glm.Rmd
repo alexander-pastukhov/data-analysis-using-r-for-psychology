@@ -257,7 +257,7 @@ ggplot(game_avg, aes(x = Condition, y = P)) +
 Do exercise 12.
 :::
 
-As a final step, let us compute average and 97% confidence interval for the _difference_ between the conditions. You have the samples but in a long format, so you need to make table [wide](#pivot-wider). The only catch is that pivot function will be confused by the absence of ID rows, so you need to create an extra "RowIndex" column first, putting in a unique row index going from 1 to the [number of rows](https://dplyr.tidyverse.org/reference/context.html). So you will end up with three columns: `RowIndex`, Coffee`, and `Tea`. Compute a new column with difference between tea and coffee, compute and nicely format the statistics putting into the figure caption. Hint: you can [pull](https://dplyr.tidyverse.org/reference/pull.html) the difference column out of the table to make things easier.
+As a final step, let us compute average and 97% confidence interval for the _difference_ between the conditions. You have the samples but in a long format, so you need to make table [wide](#pivot-wider), so you will end up with three columns: `Iteration`, Coffee`, and `Tea`. Compute a new column with difference between tea and coffee, compute and nicely format the statistics putting into the figure caption. Hint: you can [pull](https://dplyr.tidyverse.org/reference/pull.html) the difference column out of the table to make things easier.
 
 ```{r echo = FALSE, fig.align='center', out.width="100%"}
 difference <-
