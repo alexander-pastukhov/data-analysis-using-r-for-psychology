@@ -114,7 +114,7 @@
 ## Residual standard error: 10.13 on 98 degrees of freedom
 ## Multiple R-squared:  0.9435, Adjusted R-squared:  0.9429 
 ## F-statistic:  1637 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
-<p>As you can see, our estimate for the intercept term is fairly close 725±24 mm versus 710 mm we used in the formula. However, the foot length slope is small than it should be (0.96±0.09 versus 4) showing that for such noisy data 100 samples is not enough to reliable estimate it.</p>
+<p>As you can see, our estimate for the intercept term is fairly close 725±24 mm versus 710 mm we used in the formula. Same goes for the foot length slope: 3.95±0.1 versus 4.</p>
 <div class="practice">
 <p>Do exercise 2.</p>
 </div>
@@ -352,7 +352,7 @@ Tea
 <div class="practice">
 <p>Do exercise 12.</p>
 </div>
-<p>As a final step, let us compute average and 97% confidence interval for the <em>difference</em> between the conditions. You have the samples but in a long format, so you need to make table <a href="tyding.html#pivot-wider">wide</a>. The only catch is that pivot function will be confused by the absence of ID rows, so you need to create an extra “RowIndex” column first, putting in a unique row index going from 1 to the <a href="https://dplyr.tidyverse.org/reference/context.html">number of rows</a>. So you will end up with three columns: <code>RowIndex</code>, Coffee<code>, and</code>Tea`. Compute a new column with difference between tea and coffee, compute and nicely format the statistics putting into the figure caption. Hint: you can <a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a> the difference column out of the table to make things easier.</p>
+<p>As a final step, let us compute average and 97% confidence interval for the <em>difference</em> between the conditions. You have the samples but in a long format, so you need to make table <a href="tyding.html#pivot-wider">wide</a>, so you will end up with three columns: <code>Iteration</code>, Coffee<code>, and</code>Tea`. Compute a new column with difference between tea and coffee, compute and nicely format the statistics putting into the figure caption. Hint: you can <a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a> the difference column out of the table to make things easier.</p>
 <div class="inline-figure"><img src="data-analysis-using-r-for-psychology_files/figure-html/unnamed-chunk-320-1.png" width="100%" style="display: block; margin: auto;"></div>
 <div class="practice">
 <p>Do exercise 13.</p>
@@ -475,7 +475,7 @@ Tea
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data analysis using R for Psychology and Social Science</strong>" was written by Alexander (Sasha) Pastukhov. It was last built on 2024-01-29.</p>
+    <p>"<strong>Data analysis using R for Psychology and Social Science</strong>" was written by Alexander (Sasha) Pastukhov. It was last built on 2024-02-05.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
