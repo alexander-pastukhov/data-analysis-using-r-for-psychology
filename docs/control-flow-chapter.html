@@ -7,7 +7,7 @@
 <title>Chapter 9 Controling computation flow | Data analysis using R for Psychology and Social Science</title>
 <meta name="author" content="Alexander (Sasha) Pastukhov">
 <meta name="description" content="Grab the exercise notebook before we start. One of the most powerful features of R is that it is vector-based. Remember, everything is a vector (or a list). In the previous seminars you saw you...">
-<meta name="generator" content="bookdown 0.37 with bs4_book()">
+<meta name="generator" content="bookdown 0.41 with bs4_book()">
 <meta property="og:title" content="Chapter 9 Controling computation flow | Data analysis using R for Psychology and Social Science">
 <meta property="og:type" content="book">
 <meta property="og:description" content="Grab the exercise notebook before we start. One of the most powerful features of R is that it is vector-based. Remember, everything is a vector (or a list). In the previous seminars you saw you...">
@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="Grab the exercise notebook before we start. One of the most powerful features of R is that it is vector-based. Remember, everything is a vector (or a list). In the previous seminars you saw you...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.6.1/transition.js"></script><script src="libs/bs3compat-0.6.1/tabs.js"></script><script src="libs/bs3compat-0.6.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><link rel="shortcut icon" href="images/R_course_logo.svg">
 <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-QMVBLBE7DV"></script><script>
       window.dataLayer = window.dataLayer || [];
@@ -117,105 +117,51 @@
 <div class="sourceCode" id="cb365"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">grid_base</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:left;">
-gender
-</th>
-<th style="text-align:left;">
-handidness
-</th>
-<th style="text-align:left;">
-colorblindness
-</th>
+<thead><tr class="header">
+<th align="left">gender</th>
+<th align="left">handidness</th>
+<th align="left">colorblindness</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-female
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
+<tr class="odd">
+<td align="left">female</td>
+<td align="left">right</td>
+<td align="left">TRUE</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-male
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
+<tr class="even">
+<td align="left">male</td>
+<td align="left">right</td>
+<td align="left">TRUE</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-female
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
+<tr class="odd">
+<td align="left">female</td>
+<td align="left">left</td>
+<td align="left">TRUE</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-male
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
+<tr class="even">
+<td align="left">male</td>
+<td align="left">left</td>
+<td align="left">TRUE</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-female
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
+<tr class="odd">
+<td align="left">female</td>
+<td align="left">right</td>
+<td align="left">FALSE</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-male
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
+<tr class="even">
+<td align="left">male</td>
+<td align="left">right</td>
+<td align="left">FALSE</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-female
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
+<tr class="odd">
+<td align="left">female</td>
+<td align="left">left</td>
+<td align="left">FALSE</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-male
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
+<tr class="even">
+<td align="left">male</td>
+<td align="left">left</td>
+<td align="left">FALSE</td>
 </tr>
 </tbody>
 </table></div>
@@ -227,105 +173,51 @@ FALSE
 <div class="sourceCode" id="cb367"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">grid_tidyr</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:left;">
-gender
-</th>
-<th style="text-align:left;">
-handidness
-</th>
-<th style="text-align:left;">
-colorblindness
-</th>
+<thead><tr class="header">
+<th align="left">gender</th>
+<th align="left">handidness</th>
+<th align="left">colorblindness</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-female
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
+<tr class="odd">
+<td align="left">female</td>
+<td align="left">right</td>
+<td align="left">TRUE</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-female
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
+<tr class="even">
+<td align="left">female</td>
+<td align="left">right</td>
+<td align="left">FALSE</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-female
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
+<tr class="odd">
+<td align="left">female</td>
+<td align="left">left</td>
+<td align="left">TRUE</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-female
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
+<tr class="even">
+<td align="left">female</td>
+<td align="left">left</td>
+<td align="left">FALSE</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-male
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
+<tr class="odd">
+<td align="left">male</td>
+<td align="left">right</td>
+<td align="left">TRUE</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-male
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
+<tr class="even">
+<td align="left">male</td>
+<td align="left">right</td>
+<td align="left">FALSE</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-male
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
+<tr class="odd">
+<td align="left">male</td>
+<td align="left">left</td>
+<td align="left">TRUE</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-male
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
+<tr class="even">
+<td align="left">male</td>
+<td align="left">left</td>
+<td align="left">FALSE</td>
 </tr>
 </tbody>
 </table></div>
@@ -589,274 +481,120 @@ For the ten values I’ve generated above, the output will be the following (“
 </h2>
 <p>Your analysis starts with loading the data. Quite often, data for individual participants is stored in different files but with identical structure, so you need code that figures out which files you need to load, loads them one at a time and then binds them to one final table. Using a <code>for</code> loop is not the most elegant way to implement this but it does the job and gives you another example of how loops can be useful. I will walk you through details and then you We will implement the code that loads and merges individual files for persistence study. Download the <a href="data/persistence.zip">persistence.zip</a> and unzip into <code>Persistence</code> subfolder (we do not want to create a mess in your main folder!).</p>
 <p>First, you need to have a character vector with relevant file names. Package you are looking for is <a href="https://github.com/r-lib/fs">fs</a> (for File System). It has everything you need to work with the file system, including working with file names (dropping or adding path, extension, etc.), creating/moving/deleting files, checking whether file exists, and what not. One function that I use the most is <a href="https://www.rdocumentation.org/packages/fs/versions/1.5.0/topics/dir_ls">dir_ls()</a> that list files in a specified folder. The two parameters you need are <code>path</code> to your folder (you can and should use a relative path) and, optionally, <code>glob</code> filter string. The latter is a <a href="https://en.wikipedia.org/wiki/Glob_(programming)">globbing</a> wildcard pattern, where <code>*</code> stands for “any sequence of characters” and <code>?</code> stand for “one arbitrary character. For a csv file, this pattern would be <code>"*.csv"</code>. Test this single function call using appropriate <code>path</code> and <code>glob</code> parameters and make sure you get all the files in <em>Persistence</em> folder.</p>
-Next, you need to create a full table variable (I, typically, call it <code>results</code> or <code>reports</code>) and initialize it to an empty <code><a href="https://rdrr.io/r/base/data.frame.html">data.frame()</a></code> (or an empty <code>tibble</code>). You loop over file names, <a href="tables.html#readr">read</a> one file at a time (don’t forget to specify column types), and then use <a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows()</a> to combine the full table and the new table you loaded. Note that <a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows()</a> returns a <em>new</em> table, so you need to assign it back to the original full table variable. Once you are done, your table should have 5232 rows and twelve columns.
+<p>Next, you need to create a full table variable (I, typically, call it <code>results</code> or <code>reports</code>) and initialize it to an empty <code><a href="https://rdrr.io/r/base/data.frame.html">data.frame()</a></code> (or an empty <code>tibble</code>). You loop over file names, <a href="tables.html#readr">read</a> one file at a time (don’t forget to specify column types), and then use <a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows()</a> to combine the full table and the new table you loaded. Note that <a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows()</a> returns a <em>new</em> table, so you need to assign it back to the original full table variable. Once you are done, your table should have 5232 rows and twelve columns.</p>
 <div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:left;">
-Participant
-</th>
-<th style="text-align:left;">
-Session
-</th>
-<th style="text-align:right;">
-Block
-</th>
-<th style="text-align:right;">
-Trial
-</th>
-<th style="text-align:right;">
-OnsetDelay
-</th>
-<th style="text-align:left;">
-Bias
-</th>
-<th style="text-align:left;">
-Shape1
-</th>
-<th style="text-align:left;">
-Shape2
-</th>
-<th style="text-align:left;">
-Response1
-</th>
-<th style="text-align:left;">
-Response2
-</th>
-<th style="text-align:right;">
-RT1
-</th>
-<th style="text-align:right;">
-RT2
-</th>
+<colgroup>
+<col width="9%">
+<col width="15%">
+<col width="4%">
+<col width="4%">
+<col width="8%">
+<col width="4%">
+<col width="7%">
+<col width="14%">
+<col width="7%">
+<col width="7%">
+<col width="7%">
+<col width="7%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Participant</th>
+<th align="left">Session</th>
+<th align="right">Block</th>
+<th align="right">Trial</th>
+<th align="right">OnsetDelay</th>
+<th align="left">Bias</th>
+<th align="left">Shape1</th>
+<th align="left">Shape2</th>
+<th align="left">Response1</th>
+<th align="left">Response2</th>
+<th align="right">RT1</th>
+<th align="right">RT2</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-AKM1995M
-</td>
-<td style="text-align:left;">
-2019-06-12-14-07-17
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0.5746952
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:left;">
-stripes-8
-</td>
-<td style="text-align:left;">
-stripes-4
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:right;">
-5.0554813
-</td>
-<td style="text-align:right;">
-1.0238089
-</td>
+<tr class="odd">
+<td align="left">AKM1995M</td>
+<td align="left">2019-06-12-14-07-17</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.5746952</td>
+<td align="left">left</td>
+<td align="left">stripes-8</td>
+<td align="left">stripes-4</td>
+<td align="left">right</td>
+<td align="left">left</td>
+<td align="right">5.0554813</td>
+<td align="right">1.0238089</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-AKM1995M
-</td>
-<td style="text-align:left;">
-2019-06-12-14-07-17
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-0.5741707
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:left;">
-stripes-4
-</td>
-<td style="text-align:left;">
-heavy poles sphere
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:right;">
-2.9692460
-</td>
-<td style="text-align:right;">
-0.8239294
-</td>
+<tr class="even">
+<td align="left">AKM1995M</td>
+<td align="left">2019-06-12-14-07-17</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0.5741707</td>
+<td align="left">left</td>
+<td align="left">stripes-4</td>
+<td align="left">heavy poles sphere</td>
+<td align="left">left</td>
+<td align="left">right</td>
+<td align="right">2.9692460</td>
+<td align="right">0.8239294</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-AKM1995M
-</td>
-<td style="text-align:left;">
-2019-06-12-14-07-17
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-0.5082200
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:left;">
-stripes-2
-</td>
-<td style="text-align:left;">
-stripes-2
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:right;">
-3.1623310
-</td>
-<td style="text-align:right;">
-0.6718403
-</td>
+<tr class="odd">
+<td align="left">AKM1995M</td>
+<td align="left">2019-06-12-14-07-17</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0.5082200</td>
+<td align="left">left</td>
+<td align="left">stripes-2</td>
+<td align="left">stripes-2</td>
+<td align="left">right</td>
+<td align="left">left</td>
+<td align="right">3.1623310</td>
+<td align="right">0.6718403</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-AKM1995M
-</td>
-<td style="text-align:left;">
-2019-06-12-14-07-17
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-0.6065058
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:left;">
-stripes-8
-</td>
-<td style="text-align:left;">
-stripes-2
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:right;">
-1.0211627
-</td>
-<td style="text-align:right;">
-0.5919555
-</td>
+<tr class="even">
+<td align="left">AKM1995M</td>
+<td align="left">2019-06-12-14-07-17</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">0.6065058</td>
+<td align="left">right</td>
+<td align="left">stripes-8</td>
+<td align="left">stripes-2</td>
+<td align="left">right</td>
+<td align="left">right</td>
+<td align="right">1.0211627</td>
+<td align="right">0.5919555</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-AKM1995M
-</td>
-<td style="text-align:left;">
-2019-06-12-14-07-17
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-0.5359504
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:left;">
-stripes-2
-</td>
-<td style="text-align:left;">
-heavy poles sphere
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:right;">
-0.9426957
-</td>
-<td style="text-align:right;">
-0.6157635
-</td>
+<tr class="odd">
+<td align="left">AKM1995M</td>
+<td align="left">2019-06-12-14-07-17</td>
+<td align="right">0</td>
+<td align="right">4</td>
+<td align="right">0.5359504</td>
+<td align="left">left</td>
+<td align="left">stripes-2</td>
+<td align="left">heavy poles sphere</td>
+<td align="left">right</td>
+<td align="left">right</td>
+<td align="right">0.9426957</td>
+<td align="right">0.6157635</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-AKM1995M
-</td>
-<td style="text-align:left;">
-2019-06-12-14-07-17
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-0.6435367
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:left;">
-stripes-4
-</td>
-<td style="text-align:left;">
-stripes-4
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:right;">
-1.1646056
-</td>
-<td style="text-align:right;">
-0.6398231
-</td>
+<tr class="even">
+<td align="left">AKM1995M</td>
+<td align="left">2019-06-12-14-07-17</td>
+<td align="right">0</td>
+<td align="right">5</td>
+<td align="right">0.6435367</td>
+<td align="left">right</td>
+<td align="left">stripes-4</td>
+<td align="left">stripes-4</td>
+<td align="left">right</td>
+<td align="left">right</td>
+<td align="right">1.1646056</td>
+<td align="right">0.6398231</td>
 </tr>
 </tbody>
 </table></div>
@@ -957,7 +695,7 @@ right
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data analysis using R for Psychology and Social Science</strong>" was written by Alexander (Sasha) Pastukhov. It was last built on 2024-02-05.</p>
+    <p>"<strong>Data analysis using R for Psychology and Social Science</strong>" was written by Alexander (Sasha) Pastukhov. It was last built on 2024-11-09.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

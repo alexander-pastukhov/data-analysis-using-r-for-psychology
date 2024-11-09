@@ -7,7 +7,7 @@
 <title>Chapter 4 Functions! Functions everywhere! | Data analysis using R for Psychology and Social Science</title>
 <meta name="author" content="Alexander (Sasha) Pastukhov">
 <meta name="description" content="In this chapter you will learn about functions in R, as they are the second most important concept in R and are everywhere (just like vectors and lists). You will also learn how to pipe your...">
-<meta name="generator" content="bookdown 0.37 with bs4_book()">
+<meta name="generator" content="bookdown 0.41 with bs4_book()">
 <meta property="og:title" content="Chapter 4 Functions! Functions everywhere! | Data analysis using R for Psychology and Social Science">
 <meta property="og:type" content="book">
 <meta property="og:description" content="In this chapter you will learn about functions in R, as they are the second most important concept in R and are everywhere (just like vectors and lists). You will also learn how to pipe your...">
@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="In this chapter you will learn about functions in R, as they are the second most important concept in R and are everywhere (just like vectors and lists). You will also learn how to pipe your...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.6.1/transition.js"></script><script src="libs/bs3compat-0.6.1/tabs.js"></script><script src="libs/bs3compat-0.6.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><link rel="shortcut icon" href="images/R_course_logo.svg">
 <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-QMVBLBE7DV"></script><script>
       window.dataLayer = window.dataLayer || [];
@@ -270,7 +270,7 @@ This is very similar to exercises 2 and 3, with number of parameters being the o
 <h2>
 <span class="header-section-number">4.9</span> Piping<a class="anchor" aria-label="anchor" href="#pipe"><i class="fas fa-link"></i></a>
 </h2>
-<p>Although nesting is better than having tons of intermediate variables, lots of nesting can be mightily confusing. Tidyverse has an alternative way to chain or, in Tidyverse-speak, <a href="https://magrittr.tidyverse.org/reference/pipe.html">pipe</a> a computation through a series of function calls. The magic operator is <code>|&gt;</code> (that’s the pipe). There is another pipe operator that you are very likely to encounter: <code>%&gt;%</code>. This is the “original” pipe introduced by <a href="https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html">magrittr</a> library and widely used, particularly in Tidyverse, before R version 4.1.0 provided a built-in <code>|&gt;</code> solution. As far as you are concerned, these two operators are synonyms and can be used interchangably (same goes when you read somebody else’s code). However, you do need to import either <code>tidyverse</code> or one of its libraries to enable <code>%&gt;%</code> and <code>|&gt;</code> is an official future, so I strongly recommend to using <code>|&gt;</code> in your code<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;It also uses 1 symbol less!&lt;/p&gt;"><sup>40</sup></a> Here is how a pipe transforms our nested call</p>
+<p>Although nesting is better than having tons of intermediate variables, lots of nesting can be mightily confusing. Tidyverse has an alternative way to chain or, in Tidyverse-speak, <a href="https://magrittr.tidyverse.org/reference/pipe.html">pipe</a> a computation through a series of function calls. The magic operator is <code>|&gt;</code> (that’s the pipe). There is another pipe operator that you are very likely to encounter: <code>%&gt;%</code>. This is the “original” pipe introduced by <a href="https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html">magrittr</a> library and widely used, particularly in Tidyverse, before R version 4.1.0 provided a built-in <code>|&gt;</code> solution. As far as you are concerned, these two operators are synonyms and can be used interchangeably (same goes when you read someone else’s code). However, you do need to import either <code>tidyverse</code> or one of its libraries to enable <code>%&gt;%</code> and <code>|&gt;</code> is an official future, so I strongly recommend to using <code>|&gt;</code> in your code<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;It also uses 1 symbol less!&lt;/p&gt;"><sup>40</sup></a> Here is how a pipe transforms our nested call</p>
 <div class="sourceCode" id="cb217"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="fu">deg2rad</span><span class="op">(</span><span class="fl">90</span><span class="op">)</span><span class="op">)</span> <span class="co"># returns 1</span></span>
 <span></span>
@@ -298,7 +298,7 @@ This is very similar to exercises 2 and 3, with number of parameters being the o
 <span id="cb224-3"><a href="functions.html#cb224-3" tabindex="-1"></a></span>
 <span id="cb224-4"><a href="functions.html#cb224-4" tabindex="-1"></a><span class="co"># Using it twice is also not allowed</span></span>
 <span id="cb224-5"><a href="functions.html#cb224-5" tabindex="-1"></a>z <span class="sc">|&gt;</span> <span class="fu">radius</span>(<span class="at">x =</span> _, <span class="at">y =</span> _)</span></code></pre></div>
-<pre><code>## Error: pipe placeholder can only be used as a named argument (&lt;text&gt;:2:6)</code></pre>
+<pre><code>## Error in radius("_", w): pipe placeholder can only be used as a named argument (&lt;input&gt;:2:6)</code></pre>
 <p>For the magritt pipe <code>%&gt;%</code> you can use it anyway you want and even multiple times.</p>
 <div class="sourceCode" id="cb226"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">z</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">radius</span><span class="op">(</span><span class="va">w</span><span class="op">)</span> <span class="co"># equivalent to radius(z, w)</span></span></code></pre></div>
@@ -420,7 +420,7 @@ This is very similar to exercises 2 and 3, with number of parameters being the o
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data analysis using R for Psychology and Social Science</strong>" was written by Alexander (Sasha) Pastukhov. It was last built on 2024-02-05.</p>
+    <p>"<strong>Data analysis using R for Psychology and Social Science</strong>" was written by Alexander (Sasha) Pastukhov. It was last built on 2024-11-09.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

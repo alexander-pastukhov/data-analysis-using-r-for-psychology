@@ -7,7 +7,7 @@
 <title>Chapter 3 Tables and Tibbles (and Tribbles) | Data analysis using R for Psychology and Social Science</title>
 <meta name="author" content="Alexander (Sasha) Pastukhov">
 <meta name="description" content="Please download the exercise notebook (Alt+Click to download it or right-click as Save link as…), put it into your seminar project folder and open the project. You need both the text and the...">
-<meta name="generator" content="bookdown 0.37 with bs4_book()">
+<meta name="generator" content="bookdown 0.41 with bs4_book()">
 <meta property="og:title" content="Chapter 3 Tables and Tibbles (and Tribbles) | Data analysis using R for Psychology and Social Science">
 <meta property="og:type" content="book">
 <meta property="og:description" content="Please download the exercise notebook (Alt+Click to download it or right-click as Save link as…), put it into your seminar project folder and open the project. You need both the text and the...">
@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="Please download the exercise notebook (Alt+Click to download it or right-click as Save link as…), put it into your seminar project folder and open the project. You need both the text and the...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.6.1/transition.js"></script><script src="libs/bs3compat-0.6.1/tabs.js"></script><script src="libs/bs3compat-0.6.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><link rel="shortcut icon" href="images/R_course_logo.svg">
 <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-QMVBLBE7DV"></script><script>
       window.dataLayer = window.dataLayer || [];
@@ -450,14 +450,14 @@
 <span></span>
 <span><span class="co"># imported from the library into the global environment</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span><span class="op">~</span><span class="va">a</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## # A tibble: 1 x 1
+<pre><code>## # A tibble: 1 × 1
 ##       a
 ##   &lt;dbl&gt;
 ## 1     1</code></pre>
 <div class="sourceCode" id="cb167"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># used directly from the package</span></span>
 <span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span><span class="op">~</span><span class="va">a</span>, <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## # A tibble: 1 x 1
+<pre><code>## # A tibble: 1 × 1
 ##       a
 ##   &lt;dbl&gt;
 ## 1     1</code></pre>
@@ -500,7 +500,7 @@
 <span>    <span class="fl">1</span>,  <span class="st">"a"</span>,</span>
 <span>    <span class="fl">2</span>,  <span class="st">"b"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code>## # A tibble: 2 x 2
+<pre><code>## # A tibble: 2 × 2
 ##       x y    
 ##   &lt;dbl&gt; &lt;chr&gt;
 ## 1     1 a    
@@ -518,20 +518,20 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">mpg</span><span class="op">)</span> <span class="co"># this creates a "promise" of the data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">mpg</span><span class="op">)</span> <span class="co"># any action on the promise leads to data appearing in the environment</span></span></code></pre></div>
-<pre><code>## # A tibble: 234 x 11
+<pre><code>## # A tibble: 234 × 11
 ##    manufacturer model      displ  year   cyl trans drv     cty   hwy fl    class
 ##    &lt;chr&gt;        &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
-##  1 audi         a4           1.8  1999     4 auto~ f        18    29 p     comp~
-##  2 audi         a4           1.8  1999     4 manu~ f        21    29 p     comp~
-##  3 audi         a4           2    2008     4 manu~ f        20    31 p     comp~
-##  4 audi         a4           2    2008     4 auto~ f        21    30 p     comp~
-##  5 audi         a4           2.8  1999     6 auto~ f        16    26 p     comp~
-##  6 audi         a4           2.8  1999     6 manu~ f        18    26 p     comp~
-##  7 audi         a4           3.1  2008     6 auto~ f        18    27 p     comp~
-##  8 audi         a4 quattro   1.8  1999     4 manu~ 4        18    26 p     comp~
-##  9 audi         a4 quattro   1.8  1999     4 auto~ 4        16    25 p     comp~
-## 10 audi         a4 quattro   2    2008     4 manu~ 4        20    28 p     comp~
-## # i 224 more rows</code></pre>
+##  1 audi         a4           1.8  1999     4 auto… f        18    29 p     comp…
+##  2 audi         a4           1.8  1999     4 manu… f        21    29 p     comp…
+##  3 audi         a4           2    2008     4 manu… f        20    31 p     comp…
+##  4 audi         a4           2    2008     4 auto… f        21    30 p     comp…
+##  5 audi         a4           2.8  1999     6 auto… f        16    26 p     comp…
+##  6 audi         a4           2.8  1999     6 manu… f        18    26 p     comp…
+##  7 audi         a4           3.1  2008     6 auto… f        18    27 p     comp…
+##  8 audi         a4 quattro   1.8  1999     4 manu… 4        18    26 p     comp…
+##  9 audi         a4 quattro   1.8  1999     4 auto… 4        16    25 p     comp…
+## 10 audi         a4 quattro   2    2008     4 manu… 4        20    28 p     comp…
+## # ℹ 224 more rows</code></pre>
 </div>
 <div id="readr" class="section level2" number="3.12">
 <h2>
@@ -559,17 +559,17 @@ A1,1,2,0.05,FALSE
 <div class="sourceCode" id="cb183"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/example.csv"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Rows: 3 Columns: 5
-## -- Column specification ------
+## ── Column specification ─────────────────────────────────────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (1): Participant
 ## dbl (3): Block, Trial, Contrast
 ## lgl (1): Correct
 ## 
-## i Use `spec()` to retrieve the full column specification for this data.
-## i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <div class="sourceCode" id="cb185"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span></span></code></pre></div>
-<pre><code>## # A tibble: 3 x 5
+<pre><code>## # A tibble: 3 × 5
 ##   Participant Block Trial Contrast Correct
 ##   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;  
 ## 1 A1              1     1     0.5  TRUE   
@@ -595,7 +595,7 @@ A1,1,2,0.05,FALSE
 <span>                                     Contrast <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_atomic.html">col_double</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>                                     Correct <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_atomic.html">col_logical</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">results</span></span></code></pre></div>
-<pre><code>## # A tibble: 3 x 5
+<pre><code>## # A tibble: 3 × 5
 ##   Participant Block Trial Contrast Correct
 ##   &lt;chr&gt;       &lt;int&gt; &lt;int&gt;    &lt;dbl&gt; &lt;lgl&gt;  
 ## 1 A1              1     1     0.5  TRUE   
@@ -610,9 +610,7 @@ A1,1,2,0.05,FALSE
 <span>                                     Contrast <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_atomic.html">col_double</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>                                     Correct <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_atomic.html">col_integer</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Warning: The following named parsers don't match the column names: TheBlock</code></pre>
-<pre><code>## Warning: One or more parsing issues,
-## call `problems()` on your
-## data frame for details, e.g.:
+<pre><code>## Warning: One or more parsing issues, call `problems()` on your data frame for details, e.g.:
 ##   dat &lt;- vroom(...)
 ##   problems(dat)</code></pre>
 <div class="sourceCode" id="cb194"><pre class="downlit sourceCode r">
@@ -711,7 +709,7 @@ A1,1,2,0.05,FALSE
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data analysis using R for Psychology and Social Science</strong>" was written by Alexander (Sasha) Pastukhov. It was last built on 2024-02-05.</p>
+    <p>"<strong>Data analysis using R for Psychology and Social Science</strong>" was written by Alexander (Sasha) Pastukhov. It was last built on 2024-11-09.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

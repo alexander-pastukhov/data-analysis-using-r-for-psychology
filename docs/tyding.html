@@ -7,7 +7,7 @@
 <title>Chapter 8 Tidyng your data: joins and pivots | Data analysis using R for Psychology and Social Science</title>
 <meta name="author" content="Alexander (Sasha) Pastukhov">
 <meta name="description" content="It is fun to work with tidy complete data. Unfortunately, more often than not you will need to preprocess and tidy it up before you can analyze it. In addition to dplyr, Tidyverse has tidyr...">
-<meta name="generator" content="bookdown 0.37 with bs4_book()">
+<meta name="generator" content="bookdown 0.41 with bs4_book()">
 <meta property="og:title" content="Chapter 8 Tidyng your data: joins and pivots | Data analysis using R for Psychology and Social Science">
 <meta property="og:type" content="book">
 <meta property="og:description" content="It is fun to work with tidy complete data. Unfortunately, more often than not you will need to preprocess and tidy it up before you can analyze it. In addition to dplyr, Tidyverse has tidyr...">
@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="It is fun to work with tidy complete data. Unfortunately, more often than not you will need to preprocess and tidy it up before you can analyze it. In addition to dplyr, Tidyverse has tidyr...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.6.1/transition.js"></script><script src="libs/bs3compat-0.6.1/tabs.js"></script><script src="libs/bs3compat-0.6.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><link rel="shortcut icon" href="images/R_course_logo.svg">
 <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-QMVBLBE7DV"></script><script>
       window.dataLayer = window.dataLayer || [];
@@ -98,151 +98,77 @@
 <tbody><tr>
 <td>
 <table class="table table-sm">
-<thead><tr>
-<th style="text-align:left;">
-ID
-</th>
-<th style="text-align:right;">
-Age
-</th>
+<thead><tr class="header">
+<th align="left">ID</th>
+<th align="right">Age</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:right;">
-20
-</td>
+<tr class="odd">
+<td align="left">A</td>
+<td align="right">20</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:right;">
-19
-</td>
+<tr class="even">
+<td align="left">B</td>
+<td align="right">19</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-C
-</td>
-<td style="text-align:right;">
-30
-</td>
+<tr class="odd">
+<td align="left">C</td>
+<td align="right">30</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-D
-</td>
-<td style="text-align:right;">
-22
-</td>
+<tr class="even">
+<td align="left">D</td>
+<td align="right">22</td>
 </tr>
 </tbody>
 </table>
 </td>
 <td>
 <table class="table table-sm">
-<thead><tr>
-<th style="text-align:left;">
-ID
-</th>
-<th style="text-align:right;">
-Report
-</th>
-<th style="text-align:right;">
-2
-</th>
+<thead><tr class="header">
+<th align="left">ID</th>
+<th align="right">Report</th>
+<th align="right">2</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="odd">
+<td align="left">A</td>
+<td align="right">3</td>
+<td align="right">2</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="even">
+<td align="left">A</td>
+<td align="right">4</td>
+<td align="right">2</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="odd">
+<td align="left">B</td>
+<td align="right">5</td>
+<td align="right">2</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="even">
+<td align="left">B</td>
+<td align="right">3</td>
+<td align="right">2</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-C
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="odd">
+<td align="left">C</td>
+<td align="right">2</td>
+<td align="right">2</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-C
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="even">
+<td align="left">C</td>
+<td align="right">2</td>
+<td align="right">2</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-D
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="odd">
+<td align="left">D</td>
+<td align="right">6</td>
+<td align="right">2</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-D
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="even">
+<td align="left">D</td>
+<td align="right">2</td>
+<td align="right">2</td>
 </tr>
 </tbody>
 </table>
@@ -260,264 +186,120 @@ D
 <tbody><tr>
 <td>
 <table class="table table-sm">
-<thead><tr>
-<th style="text-align:left;">
-ID
-</th>
-<th style="text-align:right;">
-Age
-</th>
-<th style="text-align:right;">
-Report
-</th>
-<th style="text-align:right;">
-2
-</th>
+<thead><tr class="header">
+<th align="left">ID</th>
+<th align="right">Age</th>
+<th align="right">Report</th>
+<th align="right">2</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:right;">
-20
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="odd">
+<td align="left">A</td>
+<td align="right">20</td>
+<td align="right">3</td>
+<td align="right">2</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:right;">
-20
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="even">
+<td align="left">A</td>
+<td align="right">20</td>
+<td align="right">4</td>
+<td align="right">2</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:right;">
-19
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="odd">
+<td align="left">B</td>
+<td align="right">19</td>
+<td align="right">5</td>
+<td align="right">2</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:right;">
-19
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="even">
+<td align="left">B</td>
+<td align="right">19</td>
+<td align="right">3</td>
+<td align="right">2</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-C
-</td>
-<td style="text-align:right;">
-30
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="odd">
+<td align="left">C</td>
+<td align="right">30</td>
+<td align="right">2</td>
+<td align="right">2</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-C
-</td>
-<td style="text-align:right;">
-30
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="even">
+<td align="left">C</td>
+<td align="right">30</td>
+<td align="right">2</td>
+<td align="right">2</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-D
-</td>
-<td style="text-align:right;">
-22
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="odd">
+<td align="left">D</td>
+<td align="right">22</td>
+<td align="right">6</td>
+<td align="right">2</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-D
-</td>
-<td style="text-align:right;">
-22
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="even">
+<td align="left">D</td>
+<td align="right">22</td>
+<td align="right">2</td>
+<td align="right">2</td>
 </tr>
 </tbody>
 </table>
 </td>
 <td>
 <table class="table table-sm">
-<thead><tr>
-<th style="text-align:left;">
-ID
-</th>
-<th style="text-align:right;">
-Report
-</th>
-<th style="text-align:right;">
-2
-</th>
-<th style="text-align:right;">
-Age
-</th>
+<thead><tr class="header">
+<th align="left">ID</th>
+<th align="right">Report</th>
+<th align="right">2</th>
+<th align="right">Age</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-20
-</td>
+<tr class="odd">
+<td align="left">A</td>
+<td align="right">3</td>
+<td align="right">2</td>
+<td align="right">20</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-20
-</td>
+<tr class="even">
+<td align="left">A</td>
+<td align="right">4</td>
+<td align="right">2</td>
+<td align="right">20</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-19
-</td>
+<tr class="odd">
+<td align="left">B</td>
+<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">19</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-19
-</td>
+<tr class="even">
+<td align="left">B</td>
+<td align="right">3</td>
+<td align="right">2</td>
+<td align="right">19</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-C
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-30
-</td>
+<tr class="odd">
+<td align="left">C</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">30</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-C
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-30
-</td>
+<tr class="even">
+<td align="left">C</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">30</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-D
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-22
-</td>
+<tr class="odd">
+<td align="left">D</td>
+<td align="right">6</td>
+<td align="right">2</td>
+<td align="right">22</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-D
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-22
-</td>
+<tr class="even">
+<td align="left">D</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">22</td>
 </tr>
 </tbody>
 </table>
@@ -548,124 +330,68 @@ D
 <tbody><tr>
 <td>
 <table class="table table-sm">
-<thead><tr>
-<th style="text-align:left;">
-ID
-</th>
-<th style="text-align:right;">
-Age
-</th>
+<thead><tr class="header">
+<th align="left">ID</th>
+<th align="right">Age</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:right;">
-20
-</td>
+<tr class="odd">
+<td align="left">A</td>
+<td align="right">20</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:right;">
-19
-</td>
+<tr class="even">
+<td align="left">B</td>
+<td align="right">19</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-C
-</td>
-<td style="text-align:right;">
-30
-</td>
+<tr class="odd">
+<td align="left">C</td>
+<td align="right">30</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-D
-</td>
-<td style="text-align:right;">
-22
-</td>
+<tr class="even">
+<td align="left">D</td>
+<td align="right">22</td>
 </tr>
 </tbody>
 </table>
 </td>
 <td>
 <table class="table table-sm">
-<thead><tr>
-<th style="text-align:left;">
-ID
-</th>
-<th style="text-align:right;">
-Report
-</th>
+<thead><tr class="header">
+<th align="left">ID</th>
+<th align="right">Report</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:right;">
-5.049373
-</td>
+<tr class="odd">
+<td align="left">A</td>
+<td align="right">5.385452</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:right;">
-2.364149
-</td>
+<tr class="even">
+<td align="left">A</td>
+<td align="right">5.352737</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:right;">
-5.406722
-</td>
+<tr class="odd">
+<td align="left">B</td>
+<td align="right">4.680362</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:right;">
-1.712982
-</td>
+<tr class="even">
+<td align="left">B</td>
+<td align="right">3.324572</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-C
-</td>
-<td style="text-align:right;">
-4.460129
-</td>
+<tr class="odd">
+<td align="left">C</td>
+<td align="right">1.823460</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-C
-</td>
-<td style="text-align:right;">
-2.055873
-</td>
+<tr class="even">
+<td align="left">C</td>
+<td align="right">5.869701</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-E
-</td>
-<td style="text-align:right;">
-5.500388
-</td>
+<tr class="odd">
+<td align="left">E</td>
+<td align="right">6.068197</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-E
-</td>
-<td style="text-align:right;">
-2.932832
-</td>
+<tr class="even">
+<td align="left">E</td>
+<td align="right">4.819549</td>
 </tr>
 </tbody>
 </table>
@@ -678,85 +404,42 @@ E
 <span><span class="va">inner_base</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">reports</span>, <span class="va">demographics</span>, by <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-173">Table 8.4: </span>Inner join. Only rows for matching keys are merged
-</caption>
-<thead><tr>
-<th style="text-align:left;">
-ID
-</th>
-<th style="text-align:right;">
-Report
-</th>
-<th style="text-align:right;">
-Age
-</th>
+<span id="tab:unnamed-chunk-173">Table 8.4: </span>Inner join. Only rows for matching keys are merged</caption>
+<thead><tr class="header">
+<th align="left">ID</th>
+<th align="right">Report</th>
+<th align="right">Age</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:right;">
-5.049373
-</td>
-<td style="text-align:right;">
-20
-</td>
+<tr class="odd">
+<td align="left">A</td>
+<td align="right">5.385452</td>
+<td align="right">20</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:right;">
-2.364149
-</td>
-<td style="text-align:right;">
-20
-</td>
+<tr class="even">
+<td align="left">A</td>
+<td align="right">5.352737</td>
+<td align="right">20</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:right;">
-5.406722
-</td>
-<td style="text-align:right;">
-19
-</td>
+<tr class="odd">
+<td align="left">B</td>
+<td align="right">4.680362</td>
+<td align="right">19</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:right;">
-1.712982
-</td>
-<td style="text-align:right;">
-19
-</td>
+<tr class="even">
+<td align="left">B</td>
+<td align="right">3.324572</td>
+<td align="right">19</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-C
-</td>
-<td style="text-align:right;">
-4.460129
-</td>
-<td style="text-align:right;">
-30
-</td>
+<tr class="odd">
+<td align="left">C</td>
+<td align="right">1.823460</td>
+<td align="right">30</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-C
-</td>
-<td style="text-align:right;">
-2.055873
-</td>
-<td style="text-align:right;">
-30
-</td>
+<tr class="even">
+<td align="left">C</td>
+<td align="right">5.869701</td>
+<td align="right">30</td>
 </tr>
 </tbody>
 </table></div>
@@ -766,118 +449,57 @@ C
 <span><span class="va">full_base</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">demographics</span>, <span class="va">reports</span>, by <span class="op">=</span> <span class="st">"ID"</span>, all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-175">Table 8.5: </span>Full join. All rows are merged, <code>NA</code> are used for missing values in rows from a complementary table
-</caption>
-<thead><tr>
-<th style="text-align:left;">
-ID
-</th>
-<th style="text-align:right;">
-Age
-</th>
-<th style="text-align:right;">
-Report
-</th>
+<span id="tab:unnamed-chunk-175">Table 8.5: </span>Full join. All rows are merged, <code>NA</code> are used for missing values in rows from a complementary table</caption>
+<thead><tr class="header">
+<th align="left">ID</th>
+<th align="right">Age</th>
+<th align="right">Report</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:right;">
-20
-</td>
-<td style="text-align:right;">
-5.049373
-</td>
+<tr class="odd">
+<td align="left">A</td>
+<td align="right">20</td>
+<td align="right">5.385452</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:right;">
-20
-</td>
-<td style="text-align:right;">
-2.364149
-</td>
+<tr class="even">
+<td align="left">A</td>
+<td align="right">20</td>
+<td align="right">5.352737</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:right;">
-19
-</td>
-<td style="text-align:right;">
-5.406722
-</td>
+<tr class="odd">
+<td align="left">B</td>
+<td align="right">19</td>
+<td align="right">4.680362</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:right;">
-19
-</td>
-<td style="text-align:right;">
-1.712982
-</td>
+<tr class="even">
+<td align="left">B</td>
+<td align="right">19</td>
+<td align="right">3.324572</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-C
-</td>
-<td style="text-align:right;">
-30
-</td>
-<td style="text-align:right;">
-4.460129
-</td>
+<tr class="odd">
+<td align="left">C</td>
+<td align="right">30</td>
+<td align="right">1.823460</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-C
-</td>
-<td style="text-align:right;">
-30
-</td>
-<td style="text-align:right;">
-2.055873
-</td>
+<tr class="even">
+<td align="left">C</td>
+<td align="right">30</td>
+<td align="right">5.869701</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-D
-</td>
-<td style="text-align:right;">
-22
-</td>
-<td style="text-align:right;">
-NA
-</td>
+<tr class="odd">
+<td align="left">D</td>
+<td align="right">22</td>
+<td align="right">NA</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-E
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-5.500388
-</td>
+<tr class="even">
+<td align="left">E</td>
+<td align="right">NA</td>
+<td align="right">6.068197</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-E
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-2.932832
-</td>
+<tr class="odd">
+<td align="left">E</td>
+<td align="right">NA</td>
+<td align="right">4.819549</td>
 </tr>
 </tbody>
 </table></div>
@@ -889,94 +511,46 @@ NA
 <caption>
 <span id="tab:unnamed-chunk-177">Table 8.6: </span>Left join. All rows from demographics tables are used and missing matching rows are filled with <code>NA</code>
 </caption>
-<thead><tr>
-<th style="text-align:left;">
-ID
-</th>
-<th style="text-align:right;">
-Age
-</th>
-<th style="text-align:right;">
-Report
-</th>
+<thead><tr class="header">
+<th align="left">ID</th>
+<th align="right">Age</th>
+<th align="right">Report</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:right;">
-20
-</td>
-<td style="text-align:right;">
-5.049373
-</td>
+<tr class="odd">
+<td align="left">A</td>
+<td align="right">20</td>
+<td align="right">5.385452</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:right;">
-20
-</td>
-<td style="text-align:right;">
-2.364149
-</td>
+<tr class="even">
+<td align="left">A</td>
+<td align="right">20</td>
+<td align="right">5.352737</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:right;">
-19
-</td>
-<td style="text-align:right;">
-5.406722
-</td>
+<tr class="odd">
+<td align="left">B</td>
+<td align="right">19</td>
+<td align="right">4.680362</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:right;">
-19
-</td>
-<td style="text-align:right;">
-1.712982
-</td>
+<tr class="even">
+<td align="left">B</td>
+<td align="right">19</td>
+<td align="right">3.324572</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-C
-</td>
-<td style="text-align:right;">
-30
-</td>
-<td style="text-align:right;">
-4.460129
-</td>
+<tr class="odd">
+<td align="left">C</td>
+<td align="right">30</td>
+<td align="right">1.823460</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-C
-</td>
-<td style="text-align:right;">
-30
-</td>
-<td style="text-align:right;">
-2.055873
-</td>
+<tr class="even">
+<td align="left">C</td>
+<td align="right">30</td>
+<td align="right">5.869701</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-D
-</td>
-<td style="text-align:right;">
-22
-</td>
-<td style="text-align:right;">
-NA
-</td>
+<tr class="odd">
+<td align="left">D</td>
+<td align="right">22</td>
+<td align="right">NA</td>
 </tr>
 </tbody>
 </table></div>
@@ -988,105 +562,51 @@ NA
 <caption>
 <span id="tab:unnamed-chunk-179">Table 8.7: </span>Right join. All rows from reports tables are used and missing matching rows are filled with <code>NA</code>
 </caption>
-<thead><tr>
-<th style="text-align:left;">
-ID
-</th>
-<th style="text-align:right;">
-Age
-</th>
-<th style="text-align:right;">
-Report
-</th>
+<thead><tr class="header">
+<th align="left">ID</th>
+<th align="right">Age</th>
+<th align="right">Report</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:right;">
-20
-</td>
-<td style="text-align:right;">
-5.049373
-</td>
+<tr class="odd">
+<td align="left">A</td>
+<td align="right">20</td>
+<td align="right">5.385452</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:right;">
-20
-</td>
-<td style="text-align:right;">
-2.364149
-</td>
+<tr class="even">
+<td align="left">A</td>
+<td align="right">20</td>
+<td align="right">5.352737</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:right;">
-19
-</td>
-<td style="text-align:right;">
-5.406722
-</td>
+<tr class="odd">
+<td align="left">B</td>
+<td align="right">19</td>
+<td align="right">4.680362</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:right;">
-19
-</td>
-<td style="text-align:right;">
-1.712982
-</td>
+<tr class="even">
+<td align="left">B</td>
+<td align="right">19</td>
+<td align="right">3.324572</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-C
-</td>
-<td style="text-align:right;">
-30
-</td>
-<td style="text-align:right;">
-4.460129
-</td>
+<tr class="odd">
+<td align="left">C</td>
+<td align="right">30</td>
+<td align="right">1.823460</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-C
-</td>
-<td style="text-align:right;">
-30
-</td>
-<td style="text-align:right;">
-2.055873
-</td>
+<tr class="even">
+<td align="left">C</td>
+<td align="right">30</td>
+<td align="right">5.869701</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-E
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-5.500388
-</td>
+<tr class="odd">
+<td align="left">E</td>
+<td align="right">NA</td>
+<td align="right">6.068197</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-E
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-2.932832
-</td>
+<tr class="even">
+<td align="left">E</td>
+<td align="right">NA</td>
+<td align="right">4.819549</td>
 </tr>
 </tbody>
 </table></div>
@@ -1105,122 +625,62 @@ NA
 <tbody><tr>
 <td>
 <table class="table table-sm">
-<thead><tr>
-<th style="text-align:left;">
-ID
-</th>
-<th style="text-align:left;">
-Gender
-</th>
-<th style="text-align:right;">
-Age
-</th>
+<thead><tr class="header">
+<th align="left">ID</th>
+<th align="left">Gender</th>
+<th align="right">Age</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:right;">
-20
-</td>
+<tr class="odd">
+<td align="left">A</td>
+<td align="left">M</td>
+<td align="right">20</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:left;">
-F
-</td>
-<td style="text-align:right;">
-19
-</td>
+<tr class="even">
+<td align="left">B</td>
+<td align="left">F</td>
+<td align="right">19</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:left;">
-F
-</td>
-<td style="text-align:right;">
-30
-</td>
+<tr class="odd">
+<td align="left">A</td>
+<td align="left">F</td>
+<td align="right">30</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:right;">
-22
-</td>
+<tr class="even">
+<td align="left">B</td>
+<td align="left">M</td>
+<td align="right">22</td>
 </tr>
 </tbody>
 </table>
 </td>
 <td>
 <table class="table table-sm">
-<thead><tr>
-<th style="text-align:left;">
-ID
-</th>
-<th style="text-align:left;">
-Gender
-</th>
-<th style="text-align:right;">
-Report
-</th>
+<thead><tr class="header">
+<th align="left">ID</th>
+<th align="left">Gender</th>
+<th align="right">Report</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:right;">
-5.501210
-</td>
+<tr class="odd">
+<td align="left">A</td>
+<td align="left">M</td>
+<td align="right">2.238370</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:left;">
-F
-</td>
-<td style="text-align:right;">
-2.377711
-</td>
+<tr class="even">
+<td align="left">B</td>
+<td align="left">F</td>
+<td align="right">4.419620</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:left;">
-F
-</td>
-<td style="text-align:right;">
-3.543415
-</td>
+<tr class="odd">
+<td align="left">A</td>
+<td align="left">F</td>
+<td align="right">1.890573</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:right;">
-4.912266
-</td>
+<tr class="even">
+<td align="left">B</td>
+<td align="left">M</td>
+<td align="right">4.810310</td>
 </tr>
 </tbody>
 </table>
@@ -1232,78 +692,37 @@ M
 <span><span class="va">inner_multi_base</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">demographics</span>, <span class="va">reports</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ID"</span>, <span class="st">"Gender"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-183">Table 8.9: </span>Joining/merging two tables by ID and Gender.
-</caption>
-<thead><tr>
-<th style="text-align:left;">
-ID
-</th>
-<th style="text-align:left;">
-Gender
-</th>
-<th style="text-align:right;">
-Age
-</th>
-<th style="text-align:right;">
-Report
-</th>
+<span id="tab:unnamed-chunk-183">Table 8.9: </span>Joining/merging two tables by ID and Gender.</caption>
+<thead><tr class="header">
+<th align="left">ID</th>
+<th align="left">Gender</th>
+<th align="right">Age</th>
+<th align="right">Report</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:right;">
-20
-</td>
-<td style="text-align:right;">
-5.501210
-</td>
+<tr class="odd">
+<td align="left">A</td>
+<td align="left">M</td>
+<td align="right">20</td>
+<td align="right">2.238370</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:left;">
-F
-</td>
-<td style="text-align:right;">
-19
-</td>
-<td style="text-align:right;">
-2.377711
-</td>
+<tr class="even">
+<td align="left">B</td>
+<td align="left">F</td>
+<td align="right">19</td>
+<td align="right">4.419620</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:left;">
-F
-</td>
-<td style="text-align:right;">
-30
-</td>
-<td style="text-align:right;">
-3.543415
-</td>
+<tr class="odd">
+<td align="left">A</td>
+<td align="left">F</td>
+<td align="right">30</td>
+<td align="right">1.890573</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:right;">
-22
-</td>
-<td style="text-align:right;">
-4.912266
-</td>
+<tr class="even">
+<td align="left">B</td>
+<td align="left">M</td>
+<td align="right">22</td>
+<td align="right">4.810310</td>
 </tr>
 </tbody>
 </table></div>
@@ -1323,122 +742,62 @@ M
 <tbody><tr>
 <td>
 <table class="table table-sm">
-<thead><tr>
-<th style="text-align:left;">
-VPCode
-</th>
-<th style="text-align:left;">
-Sex
-</th>
-<th style="text-align:right;">
-Age
-</th>
+<thead><tr class="header">
+<th align="left">VPCode</th>
+<th align="left">Sex</th>
+<th align="right">Age</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:right;">
-20
-</td>
+<tr class="odd">
+<td align="left">A</td>
+<td align="left">M</td>
+<td align="right">20</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:left;">
-F
-</td>
-<td style="text-align:right;">
-19
-</td>
+<tr class="even">
+<td align="left">B</td>
+<td align="left">F</td>
+<td align="right">19</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:left;">
-F
-</td>
-<td style="text-align:right;">
-30
-</td>
+<tr class="odd">
+<td align="left">A</td>
+<td align="left">F</td>
+<td align="right">30</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:right;">
-22
-</td>
+<tr class="even">
+<td align="left">B</td>
+<td align="left">M</td>
+<td align="right">22</td>
 </tr>
 </tbody>
 </table>
 </td>
 <td>
 <table class="table table-sm">
-<thead><tr>
-<th style="text-align:left;">
-ID
-</th>
-<th style="text-align:left;">
-Gender
-</th>
-<th style="text-align:right;">
-Report
-</th>
+<thead><tr class="header">
+<th align="left">ID</th>
+<th align="left">Gender</th>
+<th align="right">Report</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:right;">
-1.475147
-</td>
+<tr class="odd">
+<td align="left">A</td>
+<td align="left">M</td>
+<td align="right">3.447083</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:left;">
-F
-</td>
-<td style="text-align:right;">
-3.427061
-</td>
+<tr class="even">
+<td align="left">B</td>
+<td align="left">F</td>
+<td align="right">6.000400</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:left;">
-F
-</td>
-<td style="text-align:right;">
-2.174806
-</td>
+<tr class="odd">
+<td align="left">A</td>
+<td align="left">F</td>
+<td align="right">4.517875</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:right;">
-4.177253
-</td>
+<tr class="even">
+<td align="left">B</td>
+<td align="left">M</td>
+<td align="right">5.822510</td>
 </tr>
 </tbody>
 </table>
@@ -1450,455 +809,195 @@ M
 <span><span class="va">inner_diff_base</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">demographics</span>, <span class="va">reports</span>, by.x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"VPCode"</span>, <span class="st">"Sex"</span><span class="op">)</span>, by.y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ID"</span>, <span class="st">"Gender"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-187">Table 8.11: </span>Joining tables by matching VPCode to ID and Sex to Gender.
-</caption>
-<thead><tr>
-<th style="text-align:left;">
-VPCode
-</th>
-<th style="text-align:left;">
-Sex
-</th>
-<th style="text-align:right;">
-Age
-</th>
-<th style="text-align:right;">
-Report
-</th>
+<span id="tab:unnamed-chunk-187">Table 8.11: </span>Joining tables by matching VPCode to ID and Sex to Gender.</caption>
+<thead><tr class="header">
+<th align="left">VPCode</th>
+<th align="left">Sex</th>
+<th align="right">Age</th>
+<th align="right">Report</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:left;">
-F
-</td>
-<td style="text-align:right;">
-30
-</td>
-<td style="text-align:right;">
-2.174806
-</td>
+<tr class="odd">
+<td align="left">A</td>
+<td align="left">F</td>
+<td align="right">30</td>
+<td align="right">4.517875</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:right;">
-20
-</td>
-<td style="text-align:right;">
-1.475147
-</td>
+<tr class="even">
+<td align="left">A</td>
+<td align="left">M</td>
+<td align="right">20</td>
+<td align="right">3.447083</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:left;">
-F
-</td>
-<td style="text-align:right;">
-19
-</td>
-<td style="text-align:right;">
-3.427061
-</td>
+<tr class="odd">
+<td align="left">B</td>
+<td align="left">F</td>
+<td align="right">19</td>
+<td align="right">6.000400</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-B
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:right;">
-22
-</td>
-<td style="text-align:right;">
-4.177253
-</td>
+<tr class="even">
+<td align="left">B</td>
+<td align="left">M</td>
+<td align="right">22</td>
+<td align="right">5.822510</td>
 </tr>
 </tbody>
 </table></div>
 <p>As you saw from examples above, <a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">dplyr joins</a> and <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a> produce identical results. However, I would recommend to use the former, simply because function names make it explicit which kind of join you perform (something you can figure out only by checking additional parameters of <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html">merge()</a>).</p>
 <p>Download files <a href="data/IM.csv">IM.csv</a> and <a href="data/GP.csv">GP.csv</a> that you will need for exercise #1. These are participants responses on two questionnaires with each participant identified by their ID (<code>Participant</code> in <em>IM.csv</em> and <code>Respondent</code> in <em>GP.csv</em>), <code>Condition</code> (which experimental group they belong to), and their <code>Gender</code>. Read both tables and join them so that there are no missing values in the table (some participants are missing in <code>GP.csv</code>, so there are <em>three</em> joins that can do this, which one will you pick?). Then, turn <code>Condition</code> and <code>Gender</code> into factors, so that for <code>Condition</code> levels are <code>"control"</code> (<code>2</code>) and <code>"game"</code> (<code>1</code>) and for <code>Gender</code> levels are <code>"female"</code> (<code>1</code>) and <code>"male"</code> (<code>2</code>). Your final table should look as follows (I’ve dropped most of the columns for <code>IM.csv</code>, so they would fit to the page):</p>
-<div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:left;">
-Participant
-</th>
-<th style="text-align:left;">
-Condition
-</th>
-<th style="text-align:left;">
-Gender
-</th>
-<th style="text-align:right;">
-IM01_01
-</th>
-<th style="text-align:right;">
-IM01_02
-</th>
-<th style="text-align:right;">
-IM01_03
-</th>
-<th style="text-align:right;">
-GP01_01
-</th>
-<th style="text-align:right;">
-GP02_01
-</th>
-<th style="text-align:right;">
-GP02_02
-</th>
-<th style="text-align:right;">
-GP02_03
-</th>
-<th style="text-align:right;">
-GP02_04
-</th>
-<th style="text-align:right;">
-GP02_05
-</th>
-<th style="text-align:right;">
-GP02_06
-</th>
-<th style="text-align:right;">
-GP02_07
-</th>
-<th style="text-align:right;">
-GP02_08
-</th>
-<th style="text-align:right;">
-GP02_09
-</th>
-<th style="text-align:right;">
-GP03_01
-</th>
+<div class="inline-table"><table style="width:100%;" class="table table-sm">
+<colgroup>
+<col width="8%">
+<col width="7%">
+<col width="4%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Participant</th>
+<th align="left">Condition</th>
+<th align="left">Gender</th>
+<th align="right">IM01_01</th>
+<th align="right">IM01_02</th>
+<th align="right">IM01_03</th>
+<th align="right">GP01_01</th>
+<th align="right">GP02_01</th>
+<th align="right">GP02_02</th>
+<th align="right">GP02_03</th>
+<th align="right">GP02_04</th>
+<th align="right">GP02_05</th>
+<th align="right">GP02_06</th>
+<th align="right">GP02_07</th>
+<th align="right">GP02_08</th>
+<th align="right">GP02_09</th>
+<th align="right">GP03_01</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-wi1Kv
-</td>
-<td style="text-align:left;">
-game
-</td>
-<td style="text-align:left;">
-female
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
+<tr class="odd">
+<td align="left">wi1Kv</td>
+<td align="left">game</td>
+<td align="left">female</td>
+<td align="right">3</td>
+<td align="right">2</td>
+<td align="right">5</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">6</td>
+<td align="right">7</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-9QQjf
-</td>
-<td style="text-align:left;">
-control
-</td>
-<td style="text-align:left;">
-female
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-4
-</td>
+<tr class="even">
+<td align="left">9QQjf</td>
+<td align="left">control</td>
+<td align="left">female</td>
+<td align="right">3</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td align="right">6</td>
+<td align="right">4</td>
+<td align="right">6</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td align="right">4</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-qcp03
-</td>
-<td style="text-align:left;">
-control
-</td>
-<td style="text-align:left;">
-female
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
+<tr class="odd">
+<td align="left">qcp03</td>
+<td align="left">control</td>
+<td align="left">female</td>
+<td align="right">2</td>
+<td align="right">3</td>
+<td align="right">6</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td align="right">5</td>
+<td align="right">4</td>
+<td align="right">1</td>
+<td align="right">1</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-eV1RY
-</td>
-<td style="text-align:left;">
-control
-</td>
-<td style="text-align:left;">
-female
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-3
-</td>
+<tr class="even">
+<td align="left">eV1RY</td>
+<td align="left">control</td>
+<td align="left">female</td>
+<td align="right">2</td>
+<td align="right">5</td>
+<td align="right">6</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">7</td>
+<td align="right">7</td>
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">1</td>
+<td align="right">3</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-JymeM
-</td>
-<td style="text-align:left;">
-control
-</td>
-<td style="text-align:left;">
-female
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-3
-</td>
+<tr class="odd">
+<td align="left">JymeM</td>
+<td align="left">control</td>
+<td align="left">female</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">5</td>
+<td align="right">1</td>
+<td align="right">3</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-hxrts
-</td>
-<td style="text-align:left;">
-game
-</td>
-<td style="text-align:left;">
-female
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="even">
+<td align="left">hxrts</td>
+<td align="left">game</td>
+<td align="left">female</td>
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">5</td>
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">5</td>
+<td align="right">3</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td align="right">2</td>
 </tr>
 </tbody>
 </table></div>
@@ -1927,93 +1026,42 @@ female
 <p>And, also recall, that quite often data is stored in a wide format that is easier for humans read.</p>
 <div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-190">Table 8.12: </span>Wide non-tidy table.
-</caption>
-<thead><tr>
-<th style="text-align:center;">
-Participant
-</th>
-<th style="text-align:center;">
-Face
-</th>
-<th style="text-align:center;">
-Symmetry
-</th>
-<th style="text-align:center;">
-Attractiveness
-</th>
-<th style="text-align:center;">
-Trustworthiness
-</th>
+<span id="tab:unnamed-chunk-190">Table 8.12: </span>Wide non-tidy table.</caption>
+<thead><tr class="header">
+<th align="center">Participant</th>
+<th align="center">Face</th>
+<th align="center">Symmetry</th>
+<th align="center">Attractiveness</th>
+<th align="center">Trustworthiness</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:center;">
-1
-</td>
-<td style="text-align:center;">
-M-1
-</td>
-<td style="text-align:center;">
-6
-</td>
-<td style="text-align:center;">
-4
-</td>
-<td style="text-align:center;">
-3
-</td>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">M-1</td>
+<td align="center">6</td>
+<td align="center">4</td>
+<td align="center">3</td>
 </tr>
-<tr>
-<td style="text-align:center;">
-1
-</td>
-<td style="text-align:center;">
-M-2
-</td>
-<td style="text-align:center;">
-4
-</td>
-<td style="text-align:center;">
-7
-</td>
-<td style="text-align:center;">
-6
-</td>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">M-2</td>
+<td align="center">4</td>
+<td align="center">7</td>
+<td align="center">6</td>
 </tr>
-<tr>
-<td style="text-align:center;">
-2
-</td>
-<td style="text-align:center;">
-M-1
-</td>
-<td style="text-align:center;">
-5
-</td>
-<td style="text-align:center;">
-2
-</td>
-<td style="text-align:center;">
-1
-</td>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">M-1</td>
+<td align="center">5</td>
+<td align="center">2</td>
+<td align="center">1</td>
 </tr>
-<tr>
-<td style="text-align:center;">
-2
-</td>
-<td style="text-align:center;">
-M-2
-</td>
-<td style="text-align:center;">
-3
-</td>
-<td style="text-align:center;">
-7
-</td>
-<td style="text-align:center;">
-2
-</td>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">M-2</td>
+<td align="center">3</td>
+<td align="center">7</td>
+<td align="center">2</td>
 </tr>
 </tbody>
 </table></div>
@@ -2032,188 +1080,84 @@ functions in <a href="https://tidyr.tidyverse.org/index.html">tidyr</a> to moder
 <code class="sourceCode R"><span><span class="va">long_tidy</span> <span class="op">&lt;-</span> <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="va">widish_df</span>, </span>
 <span>                                cols<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Symmetry"</span>, <span class="st">"Attractiveness"</span>, <span class="st">"Trustworthiness"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:right;">
-Participant
-</th>
-<th style="text-align:left;">
-Face
-</th>
-<th style="text-align:left;">
-name
-</th>
-<th style="text-align:right;">
-value
-</th>
+<thead><tr class="header">
+<th align="right">Participant</th>
+<th align="left">Face</th>
+<th align="left">name</th>
+<th align="right">value</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:left;">
-Symmetry
-</td>
-<td style="text-align:right;">
-6
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M-1</td>
+<td align="left">Symmetry</td>
+<td align="right">6</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:left;">
-Attractiveness
-</td>
-<td style="text-align:right;">
-4
-</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">M-1</td>
+<td align="left">Attractiveness</td>
+<td align="right">4</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:left;">
-Trustworthiness
-</td>
-<td style="text-align:right;">
-3
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M-1</td>
+<td align="left">Trustworthiness</td>
+<td align="right">3</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:left;">
-Symmetry
-</td>
-<td style="text-align:right;">
-4
-</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">M-2</td>
+<td align="left">Symmetry</td>
+<td align="right">4</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:left;">
-Attractiveness
-</td>
-<td style="text-align:right;">
-7
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M-2</td>
+<td align="left">Attractiveness</td>
+<td align="right">7</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:left;">
-Trustworthiness
-</td>
-<td style="text-align:right;">
-6
-</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">M-2</td>
+<td align="left">Trustworthiness</td>
+<td align="right">6</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:left;">
-Symmetry
-</td>
-<td style="text-align:right;">
-5
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="left">Symmetry</td>
+<td align="right">5</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:left;">
-Attractiveness
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="left">Attractiveness</td>
+<td align="right">2</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:left;">
-Trustworthiness
-</td>
-<td style="text-align:right;">
-1
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="left">Trustworthiness</td>
+<td align="right">1</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:left;">
-Symmetry
-</td>
-<td style="text-align:right;">
-3
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="left">Symmetry</td>
+<td align="right">3</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:left;">
-Attractiveness
-</td>
-<td style="text-align:right;">
-7
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="left">Attractiveness</td>
+<td align="right">7</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:left;">
-Trustworthiness
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="left">Trustworthiness</td>
+<td align="right">2</td>
 </tr>
 </tbody>
 </table></div>
@@ -2224,188 +1168,84 @@ Trustworthiness
 <span>                               names_to <span class="op">=</span> <span class="st">"Scale"</span>,</span>
 <span>                               values_to <span class="op">=</span> <span class="st">"Response"</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:right;">
-Participant
-</th>
-<th style="text-align:left;">
-Face
-</th>
-<th style="text-align:left;">
-Scale
-</th>
-<th style="text-align:right;">
-Response
-</th>
+<thead><tr class="header">
+<th align="right">Participant</th>
+<th align="left">Face</th>
+<th align="left">Scale</th>
+<th align="right">Response</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:left;">
-Symmetry
-</td>
-<td style="text-align:right;">
-6
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M-1</td>
+<td align="left">Symmetry</td>
+<td align="right">6</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:left;">
-Attractiveness
-</td>
-<td style="text-align:right;">
-4
-</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">M-1</td>
+<td align="left">Attractiveness</td>
+<td align="right">4</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:left;">
-Trustworthiness
-</td>
-<td style="text-align:right;">
-3
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M-1</td>
+<td align="left">Trustworthiness</td>
+<td align="right">3</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:left;">
-Symmetry
-</td>
-<td style="text-align:right;">
-4
-</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">M-2</td>
+<td align="left">Symmetry</td>
+<td align="right">4</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:left;">
-Attractiveness
-</td>
-<td style="text-align:right;">
-7
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M-2</td>
+<td align="left">Attractiveness</td>
+<td align="right">7</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:left;">
-Trustworthiness
-</td>
-<td style="text-align:right;">
-6
-</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">M-2</td>
+<td align="left">Trustworthiness</td>
+<td align="right">6</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:left;">
-Symmetry
-</td>
-<td style="text-align:right;">
-5
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="left">Symmetry</td>
+<td align="right">5</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:left;">
-Attractiveness
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="left">Attractiveness</td>
+<td align="right">2</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:left;">
-Trustworthiness
-</td>
-<td style="text-align:right;">
-1
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="left">Trustworthiness</td>
+<td align="right">1</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:left;">
-Symmetry
-</td>
-<td style="text-align:right;">
-3
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="left">Symmetry</td>
+<td align="right">3</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:left;">
-Attractiveness
-</td>
-<td style="text-align:right;">
-7
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="left">Attractiveness</td>
+<td align="right">7</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:left;">
-Trustworthiness
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="left">Trustworthiness</td>
+<td align="right">2</td>
 </tr>
 </tbody>
 </table></div>
@@ -2435,190 +1275,85 @@ Trustworthiness
 <span>                     timevar <span class="op">=</span> <span class="st">"Scale"</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-196">Table 8.13: </span>Same table pivoted via reshape.
-</caption>
-<thead><tr>
-<th style="text-align:right;">
-Participant
-</th>
-<th style="text-align:left;">
-Face
-</th>
-<th style="text-align:left;">
-Scale
-</th>
-<th style="text-align:right;">
-Response
-</th>
+<span id="tab:unnamed-chunk-196">Table 8.13: </span>Same table pivoted via reshape.</caption>
+<thead><tr class="header">
+<th align="right">Participant</th>
+<th align="left">Face</th>
+<th align="left">Scale</th>
+<th align="right">Response</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:left;">
-Symmetry
-</td>
-<td style="text-align:right;">
-6
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M-1</td>
+<td align="left">Symmetry</td>
+<td align="right">6</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:left;">
-Symmetry
-</td>
-<td style="text-align:right;">
-4
-</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">M-2</td>
+<td align="left">Symmetry</td>
+<td align="right">4</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:left;">
-Symmetry
-</td>
-<td style="text-align:right;">
-5
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="left">Symmetry</td>
+<td align="right">5</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:left;">
-Symmetry
-</td>
-<td style="text-align:right;">
-3
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="left">Symmetry</td>
+<td align="right">3</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:left;">
-Attractiveness
-</td>
-<td style="text-align:right;">
-4
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M-1</td>
+<td align="left">Attractiveness</td>
+<td align="right">4</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:left;">
-Attractiveness
-</td>
-<td style="text-align:right;">
-7
-</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">M-2</td>
+<td align="left">Attractiveness</td>
+<td align="right">7</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:left;">
-Attractiveness
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="left">Attractiveness</td>
+<td align="right">2</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:left;">
-Attractiveness
-</td>
-<td style="text-align:right;">
-7
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="left">Attractiveness</td>
+<td align="right">7</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:left;">
-Trustworthiness
-</td>
-<td style="text-align:right;">
-3
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M-1</td>
+<td align="left">Trustworthiness</td>
+<td align="right">3</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:left;">
-Trustworthiness
-</td>
-<td style="text-align:right;">
-6
-</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">M-2</td>
+<td align="left">Trustworthiness</td>
+<td align="right">6</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:left;">
-Trustworthiness
-</td>
-<td style="text-align:right;">
-1
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="left">Trustworthiness</td>
+<td align="right">1</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:left;">
-Trustworthiness
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="left">Trustworthiness</td>
+<td align="right">2</td>
 </tr>
 </tbody>
 </table></div>
@@ -2644,183 +1379,83 @@ Trustworthiness
 <li>Count responses for each item and condition.</li>
 <li>Convert counts to proportion of responses for each item and condition.</li>
 </ol>
-Your first table, in long format, should look like this (I show only first four rows)
+<p>Your first table, in long format, should look like this (I show only first four rows)</p>
 <div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:left;">
-Respondent
-</th>
-<th style="text-align:left;">
-Condition
-</th>
-<th style="text-align:right;">
-Gender
-</th>
-<th style="text-align:left;">
-Item
-</th>
-<th style="text-align:left;">
-Response
-</th>
+<thead><tr class="header">
+<th align="left">Respondent</th>
+<th align="left">Condition</th>
+<th align="right">Gender</th>
+<th align="left">Item</th>
+<th align="left">Response</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-NV5UJ
-</td>
-<td style="text-align:left;">
-game
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-GP01_01
-</td>
-<td style="text-align:left;">
-Not at all
-</td>
+<tr class="odd">
+<td align="left">NV5UJ</td>
+<td align="left">game</td>
+<td align="right">1</td>
+<td align="left">GP01_01</td>
+<td align="left">Not at all</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-NV5UJ
-</td>
-<td style="text-align:left;">
-game
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-GP02_01
-</td>
-<td style="text-align:left;">
-Not at all
-</td>
+<tr class="even">
+<td align="left">NV5UJ</td>
+<td align="left">game</td>
+<td align="right">1</td>
+<td align="left">GP02_01</td>
+<td align="left">Not at all</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-NV5UJ
-</td>
-<td style="text-align:left;">
-game
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-GP02_02
-</td>
-<td style="text-align:left;">
-Not at all
-</td>
+<tr class="odd">
+<td align="left">NV5UJ</td>
+<td align="left">game</td>
+<td align="right">1</td>
+<td align="left">GP02_02</td>
+<td align="left">Not at all</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-NV5UJ
-</td>
-<td style="text-align:left;">
-game
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-GP02_03
-</td>
-<td style="text-align:left;">
-Somewhat
-</td>
+<tr class="even">
+<td align="left">NV5UJ</td>
+<td align="left">game</td>
+<td align="right">1</td>
+<td align="left">GP02_03</td>
+<td align="left">Somewhat</td>
 </tr>
 </tbody>
 </table></div>
-And your second table, with aggregated results, show be like this
+<p>And your second table, with aggregated results, show be like this</p>
 <div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:left;">
-Condition
-</th>
-<th style="text-align:left;">
-Item
-</th>
-<th style="text-align:left;">
-Response
-</th>
-<th style="text-align:right;">
-n
-</th>
-<th style="text-align:right;">
-Proportion
-</th>
+<thead><tr class="header">
+<th align="left">Condition</th>
+<th align="left">Item</th>
+<th align="left">Response</th>
+<th align="right">n</th>
+<th align="right">Proportion</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-game
-</td>
-<td style="text-align:left;">
-GP01_01
-</td>
-<td style="text-align:left;">
-Not at all
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-0.6
-</td>
+<tr class="odd">
+<td align="left">game</td>
+<td align="left">GP01_01</td>
+<td align="left">Not at all</td>
+<td align="right">6</td>
+<td align="right">0.6</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-game
-</td>
-<td style="text-align:left;">
-GP01_01
-</td>
-<td style="text-align:left;">
-Slightly
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-0.3
-</td>
+<tr class="even">
+<td align="left">game</td>
+<td align="left">GP01_01</td>
+<td align="left">Slightly</td>
+<td align="right">3</td>
+<td align="right">0.3</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-game
-</td>
-<td style="text-align:left;">
-GP01_01
-</td>
-<td style="text-align:left;">
-Very much
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-0.1
-</td>
+<tr class="odd">
+<td align="left">game</td>
+<td align="left">GP01_01</td>
+<td align="left">Very much</td>
+<td align="right">1</td>
+<td align="right">0.1</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-game
-</td>
-<td style="text-align:left;">
-GP02_01
-</td>
-<td style="text-align:left;">
-Not at all
-</td>
-<td style="text-align:right;">
-8
-</td>
-<td style="text-align:right;">
-0.8
-</td>
+<tr class="even">
+<td align="left">game</td>
+<td align="left">GP02_01</td>
+<td align="left">Not at all</td>
+<td align="right">8</td>
+<td align="right">0.8</td>
 </tr>
 </tbody>
 </table></div>
@@ -2845,7 +1480,7 @@ Do exercise 5.
 <span></span>
 <span><span class="va">class_df</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/complete.html">complete</a></span><span class="op">(</span><span class="va">Class</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## # A tibble: 5 x 2
+<pre><code>## # A tibble: 5 × 2
 ##   Class Count
 ##   &lt;fct&gt; &lt;dbl&gt;
 ## 1 A        20
@@ -2857,7 +1492,7 @@ Do exercise 5.
 <div class="sourceCode" id="cb347"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">class_df</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/complete.html">complete</a></span><span class="op">(</span><span class="va">Class</span>, fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Count <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## # A tibble: 5 x 2
+<pre><code>## # A tibble: 5 × 2
 ##   Class Count
 ##   &lt;fct&gt; &lt;dbl&gt;
 ## 1 A        20
@@ -2889,93 +1524,42 @@ Do exercise 5.
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>id_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Participant"</span>, <span class="st">"Face"</span><span class="op">)</span>, names_from <span class="op">=</span> <span class="st">"Scale"</span>, values_from<span class="op">=</span><span class="st">"Response"</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-205">Table 8.14: </span>Our table is wide again!
-</caption>
-<thead><tr>
-<th style="text-align:right;">
-Participant
-</th>
-<th style="text-align:left;">
-Face
-</th>
-<th style="text-align:right;">
-Symmetry
-</th>
-<th style="text-align:right;">
-Attractiveness
-</th>
-<th style="text-align:right;">
-Trustworthiness
-</th>
+<span id="tab:unnamed-chunk-205">Table 8.14: </span>Our table is wide again!</caption>
+<thead><tr class="header">
+<th align="right">Participant</th>
+<th align="left">Face</th>
+<th align="right">Symmetry</th>
+<th align="right">Attractiveness</th>
+<th align="right">Trustworthiness</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-3
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M-1</td>
+<td align="right">6</td>
+<td align="right">4</td>
+<td align="right">3</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-6
-</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">M-2</td>
+<td align="right">4</td>
+<td align="right">7</td>
+<td align="right">6</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">1</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="right">3</td>
+<td align="right">7</td>
+<td align="right">2</td>
 </tr>
 </tbody>
 </table></div>
@@ -3001,107 +1585,55 @@ M-2
 <span>                           sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-207">Table 8.15: </span>Our table is wide again but via reshape()!
-</caption>
-<thead><tr>
-<th style="text-align:left;">
-</th>
-<th style="text-align:right;">
-Participant
-</th>
-<th style="text-align:left;">
-Face
-</th>
-<th style="text-align:right;">
-Response_Symmetry
-</th>
-<th style="text-align:right;">
-Response_Attractiveness
-</th>
-<th style="text-align:right;">
-Response_Trustworthiness
-</th>
+<span id="tab:unnamed-chunk-207">Table 8.15: </span>Our table is wide again but via reshape()!</caption>
+<colgroup>
+<col width="3%">
+<col width="13%">
+<col width="5%">
+<col width="20%">
+<col width="27%">
+<col width="28%">
+</colgroup>
+<thead><tr class="header">
+<th align="left"></th>
+<th align="right">Participant</th>
+<th align="left">Face</th>
+<th align="right">Response_Symmetry</th>
+<th align="right">Response_Attractiveness</th>
+<th align="right">Response_Trustworthiness</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-3
-</td>
+<tr class="odd">
+<td align="left">1</td>
+<td align="right">1</td>
+<td align="left">M-1</td>
+<td align="right">6</td>
+<td align="right">4</td>
+<td align="right">3</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-4
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-6
-</td>
+<tr class="even">
+<td align="left">4</td>
+<td align="right">1</td>
+<td align="left">M-2</td>
+<td align="right">4</td>
+<td align="right">7</td>
+<td align="right">6</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-7
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1
-</td>
+<tr class="odd">
+<td align="left">7</td>
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">1</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-10
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="even">
+<td align="left">10</td>
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="right">3</td>
+<td align="right">7</td>
+<td align="right">2</td>
 </tr>
 </tbody>
 </table></div>
@@ -3112,227 +1644,97 @@ M-2
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>RT <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">rgamma</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>, <span class="fl">4</span>, <span class="fl">3</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:right;">
-Participant
-</th>
-<th style="text-align:left;">
-Face
-</th>
-<th style="text-align:left;">
-Scale
-</th>
-<th style="text-align:right;">
-Response
-</th>
-<th style="text-align:right;">
-RT
-</th>
+<thead><tr class="header">
+<th align="right">Participant</th>
+<th align="left">Face</th>
+<th align="left">Scale</th>
+<th align="right">Response</th>
+<th align="right">RT</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:left;">
-Symmetry
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-0.65
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M-1</td>
+<td align="left">Symmetry</td>
+<td align="right">6</td>
+<td align="right">1.86</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:left;">
-Attractiveness
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-1.59
-</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">M-1</td>
+<td align="left">Attractiveness</td>
+<td align="right">4</td>
+<td align="right">1.03</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:left;">
-Trustworthiness
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-1.35
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M-1</td>
+<td align="left">Trustworthiness</td>
+<td align="right">3</td>
+<td align="right">1.52</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:left;">
-Symmetry
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-1.54
-</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">M-2</td>
+<td align="left">Symmetry</td>
+<td align="right">4</td>
+<td align="right">0.88</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:left;">
-Attractiveness
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-0.38
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M-2</td>
+<td align="left">Attractiveness</td>
+<td align="right">7</td>
+<td align="right">0.89</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:left;">
-Trustworthiness
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-1.27
-</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">M-2</td>
+<td align="left">Trustworthiness</td>
+<td align="right">6</td>
+<td align="right">1.76</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:left;">
-Symmetry
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-2.78
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="left">Symmetry</td>
+<td align="right">5</td>
+<td align="right">1.33</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:left;">
-Attractiveness
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-0.93
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="left">Attractiveness</td>
+<td align="right">2</td>
+<td align="right">1.56</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:left;">
-Trustworthiness
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1.28
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="left">Trustworthiness</td>
+<td align="right">1</td>
+<td align="right">2.33</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:left;">
-Symmetry
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-1.02
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="left">Symmetry</td>
+<td align="right">3</td>
+<td align="right">1.21</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:left;">
-Attractiveness
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-1.35
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="left">Attractiveness</td>
+<td align="right">7</td>
+<td align="right">0.68</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:left;">
-Trustworthiness
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1.08
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="left">Trustworthiness</td>
+<td align="right">2</td>
+<td align="right">1.50</td>
 </tr>
 </tbody>
 </table></div>
@@ -3341,266 +1743,110 @@ Trustworthiness
 <code class="sourceCode R"><span><span class="va">wide_odd_rt</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span><span class="va">long_tidy_rt</span>, names_from <span class="op">=</span> <span class="st">"Scale"</span>, values_from<span class="op">=</span><span class="st">"Response"</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:right;">
-Participant
-</th>
-<th style="text-align:left;">
-Face
-</th>
-<th style="text-align:right;">
-RT
-</th>
-<th style="text-align:right;">
-Symmetry
-</th>
-<th style="text-align:right;">
-Attractiveness
-</th>
-<th style="text-align:right;">
-Trustworthiness
-</th>
+<thead><tr class="header">
+<th align="right">Participant</th>
+<th align="left">Face</th>
+<th align="right">RT</th>
+<th align="right">Symmetry</th>
+<th align="right">Attractiveness</th>
+<th align="right">Trustworthiness</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-0.65
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M-1</td>
+<td align="right">1.86</td>
+<td align="right">6</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-1.59
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-NA
-</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">M-1</td>
+<td align="right">1.03</td>
+<td align="right">NA</td>
+<td align="right">4</td>
+<td align="right">NA</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-1.35
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-3
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M-1</td>
+<td align="right">1.52</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">3</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-1.54
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">M-2</td>
+<td align="right">0.88</td>
+<td align="right">4</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-0.38
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-NA
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M-2</td>
+<td align="right">0.89</td>
+<td align="right">NA</td>
+<td align="right">7</td>
+<td align="right">NA</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-1.27
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-6
-</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">M-2</td>
+<td align="right">1.76</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">6</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-2.78
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="right">1.33</td>
+<td align="right">5</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-0.93
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-NA
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="right">1.56</td>
+<td align="right">NA</td>
+<td align="right">2</td>
+<td align="right">NA</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-1.28
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-1
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="right">2.33</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">1</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-1.02
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="right">1.21</td>
+<td align="right">3</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-1.35
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-NA
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="right">0.68</td>
+<td align="right">NA</td>
+<td align="right">7</td>
+<td align="right">NA</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-1.08
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="right">1.50</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">2</td>
 </tr>
 </tbody>
 </table></div>
@@ -3612,301 +1858,131 @@ NA
 <span>              names_from <span class="op">=</span> <span class="st">"Scale"</span>,</span>
 <span>              values_from<span class="op">=</span><span class="st">"Response"</span><span class="op">)</span> </span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:right;">
-Participant
-</th>
-<th style="text-align:left;">
-Face
-</th>
-<th style="text-align:right;">
-Symmetry
-</th>
-<th style="text-align:right;">
-Attractiveness
-</th>
-<th style="text-align:right;">
-Trustworthiness
-</th>
+<thead><tr class="header">
+<th align="right">Participant</th>
+<th align="left">Face</th>
+<th align="right">Symmetry</th>
+<th align="right">Attractiveness</th>
+<th align="right">Trustworthiness</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-3
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M-1</td>
+<td align="right">6</td>
+<td align="right">4</td>
+<td align="right">3</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-6
-</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">M-2</td>
+<td align="right">4</td>
+<td align="right">7</td>
+<td align="right">6</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">1</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="right">3</td>
+<td align="right">7</td>
+<td align="right">2</td>
 </tr>
 </tbody>
 </table></div>
 <p>For practice, let us take <a href="data/bands-adaptation.csv">adaptation</a> data and turn it onto a wide format that is easier for humans to read. In the original form, the table is a long format with a row for each pair of prime and probe stimuli.</p>
 <div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:left;">
-Participant
-</th>
-<th style="text-align:left;">
-Prime
-</th>
-<th style="text-align:left;">
-Probe
-</th>
-<th style="text-align:right;">
-Nsame
-</th>
-<th style="text-align:right;">
-Ntotal
-</th>
+<thead><tr class="header">
+<th align="left">Participant</th>
+<th align="left">Prime</th>
+<th align="left">Probe</th>
+<th align="right">Nsame</th>
+<th align="right">Ntotal</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-LUH-1992-M
-</td>
-<td style="text-align:left;">
-Sphere
-</td>
-<td style="text-align:left;">
-Sphere
-</td>
-<td style="text-align:right;">
-22
-</td>
-<td style="text-align:right;">
-119
-</td>
+<tr class="odd">
+<td align="left">LUH-1992-M</td>
+<td align="left">Sphere</td>
+<td align="left">Sphere</td>
+<td align="right">22</td>
+<td align="right">119</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-LUH-1992-M
-</td>
-<td style="text-align:left;">
-Sphere
-</td>
-<td style="text-align:left;">
-Quadro
-</td>
-<td style="text-align:right;">
-23
-</td>
-<td style="text-align:right;">
-118
-</td>
+<tr class="even">
+<td align="left">LUH-1992-M</td>
+<td align="left">Sphere</td>
+<td align="left">Quadro</td>
+<td align="right">23</td>
+<td align="right">118</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-LUH-1992-M
-</td>
-<td style="text-align:left;">
-Sphere
-</td>
-<td style="text-align:left;">
-Dual
-</td>
-<td style="text-align:right;">
-15
-</td>
-<td style="text-align:right;">
-120
-</td>
+<tr class="odd">
+<td align="left">LUH-1992-M</td>
+<td align="left">Sphere</td>
+<td align="left">Dual</td>
+<td align="right">15</td>
+<td align="right">120</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-LUH-1992-M
-</td>
-<td style="text-align:left;">
-Sphere
-</td>
-<td style="text-align:left;">
-Single
-</td>
-<td style="text-align:right;">
-31
-</td>
-<td style="text-align:right;">
-115
-</td>
+<tr class="even">
+<td align="left">LUH-1992-M</td>
+<td align="left">Sphere</td>
+<td align="left">Single</td>
+<td align="right">31</td>
+<td align="right">115</td>
 </tr>
 </tbody>
 </table></div>
 <p>Let us turn it into a wider table, so that a single row corresponds to a single prime and four new columns contain proportion of same responses for individual probes. The table should look like this (use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Round.html">round()</a> function to reduce the number of digits):</p>
 <div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:left;">
-Participant
-</th>
-<th style="text-align:left;">
-Prime
-</th>
-<th style="text-align:right;">
-Sphere
-</th>
-<th style="text-align:right;">
-Quadro
-</th>
-<th style="text-align:right;">
-Dual
-</th>
-<th style="text-align:right;">
-Single
-</th>
-<th style="text-align:right;">
-Average
-</th>
+<thead><tr class="header">
+<th align="left">Participant</th>
+<th align="left">Prime</th>
+<th align="right">Sphere</th>
+<th align="right">Quadro</th>
+<th align="right">Dual</th>
+<th align="right">Single</th>
+<th align="right">Average</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-LUH-1992-M
-</td>
-<td style="text-align:left;">
-Sphere
-</td>
-<td style="text-align:right;">
-0.18
-</td>
-<td style="text-align:right;">
-0.19
-</td>
-<td style="text-align:right;">
-0.12
-</td>
-<td style="text-align:right;">
-0.27
-</td>
-<td style="text-align:right;">
-0.19
-</td>
+<tr class="odd">
+<td align="left">LUH-1992-M</td>
+<td align="left">Sphere</td>
+<td align="right">0.18</td>
+<td align="right">0.19</td>
+<td align="right">0.12</td>
+<td align="right">0.27</td>
+<td align="right">0.19</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-LUH-1992-M
-</td>
-<td style="text-align:left;">
-Quadro
-</td>
-<td style="text-align:right;">
-0.21
-</td>
-<td style="text-align:right;">
-0.22
-</td>
-<td style="text-align:right;">
-0.14
-</td>
-<td style="text-align:right;">
-0.34
-</td>
-<td style="text-align:right;">
-0.23
-</td>
+<tr class="even">
+<td align="left">LUH-1992-M</td>
+<td align="left">Quadro</td>
+<td align="right">0.21</td>
+<td align="right">0.22</td>
+<td align="right">0.14</td>
+<td align="right">0.34</td>
+<td align="right">0.23</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-LUH-1992-M
-</td>
-<td style="text-align:left;">
-Dual
-</td>
-<td style="text-align:right;">
-0.25
-</td>
-<td style="text-align:right;">
-0.30
-</td>
-<td style="text-align:right;">
-0.27
-</td>
-<td style="text-align:right;">
-0.48
-</td>
-<td style="text-align:right;">
-0.32
-</td>
+<tr class="odd">
+<td align="left">LUH-1992-M</td>
+<td align="left">Dual</td>
+<td align="right">0.25</td>
+<td align="right">0.30</td>
+<td align="right">0.27</td>
+<td align="right">0.48</td>
+<td align="right">0.32</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-LUH-1992-M
-</td>
-<td style="text-align:left;">
-Single
-</td>
-<td style="text-align:right;">
-0.34
-</td>
-<td style="text-align:right;">
-0.30
-</td>
-<td style="text-align:right;">
-0.48
-</td>
-<td style="text-align:right;">
-0.39
-</td>
-<td style="text-align:right;">
-0.38
-</td>
+<tr class="even">
+<td align="left">LUH-1992-M</td>
+<td align="left">Single</td>
+<td align="right">0.34</td>
+<td align="right">0.30</td>
+<td align="right">0.48</td>
+<td align="right">0.39</td>
+<td align="right">0.38</td>
 </tr>
 </tbody>
 </table></div>
@@ -3928,91 +2004,41 @@ Single
 </div>
 <p>Let us practice more and create group average summary as a square 5×4 table with a single row per <em>Prime</em> and four columns for <em>Probe</em> plus a column that says which prime the row corresponds to. As a value for each cell, we want to code a <em>median</em> value. The table should look like this:</p>
 <div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:center;">
-Prime
-</th>
-<th style="text-align:center;">
-Sphere
-</th>
-<th style="text-align:center;">
-Quadro
-</th>
-<th style="text-align:center;">
-Dual
-</th>
-<th style="text-align:center;">
-Single
-</th>
+<thead><tr class="header">
+<th align="center">Prime</th>
+<th align="center">Sphere</th>
+<th align="center">Quadro</th>
+<th align="center">Dual</th>
+<th align="center">Single</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:center;">
-Sphere
-</td>
-<td style="text-align:center;">
-0.13
-</td>
-<td style="text-align:center;">
-0.13
-</td>
-<td style="text-align:center;">
-0.17
-</td>
-<td style="text-align:center;">
-0.32
-</td>
+<tr class="odd">
+<td align="center">Sphere</td>
+<td align="center">0.13</td>
+<td align="center">0.13</td>
+<td align="center">0.17</td>
+<td align="center">0.32</td>
 </tr>
-<tr>
-<td style="text-align:center;">
-Quadro
-</td>
-<td style="text-align:center;">
-0.19
-</td>
-<td style="text-align:center;">
-0.12
-</td>
-<td style="text-align:center;">
-0.21
-</td>
-<td style="text-align:center;">
-0.38
-</td>
+<tr class="even">
+<td align="center">Quadro</td>
+<td align="center">0.19</td>
+<td align="center">0.12</td>
+<td align="center">0.21</td>
+<td align="center">0.38</td>
 </tr>
-<tr>
-<td style="text-align:center;">
-Dual
-</td>
-<td style="text-align:center;">
-0.15
-</td>
-<td style="text-align:center;">
-0.30
-</td>
-<td style="text-align:center;">
-0.27
-</td>
-<td style="text-align:center;">
-0.48
-</td>
+<tr class="odd">
+<td align="center">Dual</td>
+<td align="center">0.15</td>
+<td align="center">0.30</td>
+<td align="center">0.27</td>
+<td align="center">0.48</td>
 </tr>
-<tr>
-<td style="text-align:center;">
-Single
-</td>
-<td style="text-align:center;">
-0.34
-</td>
-<td style="text-align:center;">
-0.30
-</td>
-<td style="text-align:center;">
-0.48
-</td>
-<td style="text-align:center;">
-0.51
-</td>
+<tr class="even">
+<td align="center">Single</td>
+<td align="center">0.34</td>
+<td align="center">0.30</td>
+<td align="center">0.48</td>
+<td align="center">0.51</td>
 </tr>
 </tbody>
 </table></div>
@@ -4053,7 +2079,7 @@ Single
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data analysis using R for Psychology and Social Science</strong>" was written by Alexander (Sasha) Pastukhov. It was last built on 2024-02-05.</p>
+    <p>"<strong>Data analysis using R for Psychology and Social Science</strong>" was written by Alexander (Sasha) Pastukhov. It was last built on 2024-11-09.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -7,7 +7,7 @@
 <title>Chapter 12 Sampling and simulations | Data analysis using R for Psychology and Social Science</title>
 <meta name="author" content="Alexander (Sasha) Pastukhov">
 <meta name="description" content="An important trick in your toolbox is a skill to resample and simulate data. The latter, sampling from predefined distributions, allows you develop your analysis routine and ensure that it can...">
-<meta name="generator" content="bookdown 0.37 with bs4_book()">
+<meta name="generator" content="bookdown 0.41 with bs4_book()">
 <meta property="og:title" content="Chapter 12 Sampling and simulations | Data analysis using R for Psychology and Social Science">
 <meta property="og:type" content="book">
 <meta property="og:description" content="An important trick in your toolbox is a skill to resample and simulate data. The latter, sampling from predefined distributions, allows you develop your analysis routine and ensure that it can...">
@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="An important trick in your toolbox is a skill to resample and simulate data. The latter, sampling from predefined distributions, allows you develop your analysis routine and ensure that it can...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.6.1/transition.js"></script><script src="libs/bs3compat-0.6.1/tabs.js"></script><script src="libs/bs3compat-0.6.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><link rel="shortcut icon" href="images/R_course_logo.svg">
 <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-QMVBLBE7DV"></script><script>
       window.dataLayer = window.dataLayer || [];
@@ -199,216 +199,96 @@ that you can plot using the same code as in <a href="working-with-factors.html#l
 </div>
 <p>We are on the final stretch! Your table with bootstrapped counts and proportions contains many samples for each combination of condition and response level (e.g., 1000). Use <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile">quantile()</a> function to compute lower and upper limits for the 97% confidence interval. Think about which <a href="dplyr.html#dplyr">dplyr</a> verbs do you need for this. The table with confidence intervals should look like this (but for variability due to sampling).</p>
 <div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:left;">
-Condition
-</th>
-<th style="text-align:left;">
-Response
-</th>
-<th style="text-align:right;">
-LowerCI
-</th>
-<th style="text-align:right;">
-UpperCI
-</th>
+<thead><tr class="header">
+<th align="left">Condition</th>
+<th align="left">Response</th>
+<th align="right">LowerCI</th>
+<th align="right">UpperCI</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-game
-</td>
-<td style="text-align:left;">
-Not at all true
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
-<td style="text-align:right;">
-0.1791071
-</td>
+<tr class="odd">
+<td align="left">game</td>
+<td align="left">Not at all true</td>
+<td align="right">0.0000000</td>
+<td align="right">0.1791071</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-game
-</td>
-<td style="text-align:left;">
-Hardly true
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
-<td style="text-align:right;">
-0.1785714
-</td>
+<tr class="even">
+<td align="left">game</td>
+<td align="left">Hardly true</td>
+<td align="right">0.0000000</td>
+<td align="right">0.1785714</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-game
-</td>
-<td style="text-align:left;">
-Slightly true
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
-<td style="text-align:right;">
-0.2500000
-</td>
+<tr class="odd">
+<td align="left">game</td>
+<td align="left">Slightly true</td>
+<td align="right">0.0000000</td>
+<td align="right">0.2500000</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-game
-</td>
-<td style="text-align:left;">
-Somewhat true
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
-<td style="text-align:right;">
-0.1785714
-</td>
+<tr class="even">
+<td align="left">game</td>
+<td align="left">Somewhat true</td>
+<td align="right">0.0000000</td>
+<td align="right">0.1785714</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-game
-</td>
-<td style="text-align:left;">
-Mostly true
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
-<td style="text-align:right;">
-0.2500000
-</td>
+<tr class="odd">
+<td align="left">game</td>
+<td align="left">Mostly true</td>
+<td align="right">0.0000000</td>
+<td align="right">0.2500000</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-game
-</td>
-<td style="text-align:left;">
-Almost completely true
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
-<td style="text-align:right;">
-0.1071429
-</td>
+<tr class="even">
+<td align="left">game</td>
+<td align="left">Almost completely true</td>
+<td align="right">0.0000000</td>
+<td align="right">0.1071429</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-game
-</td>
-<td style="text-align:left;">
-Very true
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
-<td style="text-align:right;">
-0.1071429
-</td>
+<tr class="odd">
+<td align="left">game</td>
+<td align="left">Very true</td>
+<td align="right">0.0000000</td>
+<td align="right">0.1071429</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-experiment
-</td>
-<td style="text-align:left;">
-Not at all true
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
-<td style="text-align:right;">
-0.2142857
-</td>
+<tr class="even">
+<td align="left">experiment</td>
+<td align="left">Not at all true</td>
+<td align="right">0.0000000</td>
+<td align="right">0.2142857</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-experiment
-</td>
-<td style="text-align:left;">
-Hardly true
-</td>
-<td style="text-align:right;">
-0.1071429
-</td>
-<td style="text-align:right;">
-0.4648214
-</td>
+<tr class="odd">
+<td align="left">experiment</td>
+<td align="left">Hardly true</td>
+<td align="right">0.1071429</td>
+<td align="right">0.4648214</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-experiment
-</td>
-<td style="text-align:left;">
-Slightly true
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
-<td style="text-align:right;">
-0.2500000
-</td>
+<tr class="even">
+<td align="left">experiment</td>
+<td align="left">Slightly true</td>
+<td align="right">0.0000000</td>
+<td align="right">0.2500000</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-experiment
-</td>
-<td style="text-align:left;">
-Somewhat true
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
-<td style="text-align:right;">
-0.1076786
-</td>
+<tr class="odd">
+<td align="left">experiment</td>
+<td align="left">Somewhat true</td>
+<td align="right">0.0000000</td>
+<td align="right">0.1076786</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-experiment
-</td>
-<td style="text-align:left;">
-Mostly true
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
+<tr class="even">
+<td align="left">experiment</td>
+<td align="left">Mostly true</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-experiment
-</td>
-<td style="text-align:left;">
-Almost completely true
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
+<tr class="odd">
+<td align="left">experiment</td>
+<td align="left">Almost completely true</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-experiment
-</td>
-<td style="text-align:left;">
-Very true
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
+<tr class="even">
+<td align="left">experiment</td>
+<td align="left">Very true</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
 </tr>
 </tbody>
 </table></div>
@@ -456,7 +336,7 @@ Very true
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data analysis using R for Psychology and Social Science</strong>" was written by Alexander (Sasha) Pastukhov. It was last built on 2024-02-05.</p>
+    <p>"<strong>Data analysis using R for Psychology and Social Science</strong>" was written by Alexander (Sasha) Pastukhov. It was last built on 2024-11-09.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

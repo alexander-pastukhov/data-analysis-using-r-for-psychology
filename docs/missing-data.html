@@ -7,7 +7,7 @@
 <title>Chapter 10 Missing data | Data analysis using R for Psychology and Social Science</title>
 <meta name="author" content="Alexander (Sasha) Pastukhov">
 <meta name="description" content="Grab an exercise notebook before we start! Sometimes data is missing. It can be missing explicitly with NA standing for Not Available / Missing data. Or, it can be missing implicitly when there is...">
-<meta name="generator" content="bookdown 0.37 with bs4_book()">
+<meta name="generator" content="bookdown 0.41 with bs4_book()">
 <meta property="og:title" content="Chapter 10 Missing data | Data analysis using R for Psychology and Social Science">
 <meta property="og:type" content="book">
 <meta property="og:description" content="Grab an exercise notebook before we start! Sometimes data is missing. It can be missing explicitly with NA standing for Not Available / Missing data. Or, it can be missing implicitly when there is...">
@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="Grab an exercise notebook before we start! Sometimes data is missing. It can be missing explicitly with NA standing for Not Available / Missing data. Or, it can be missing implicitly when there is...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.6.1/transition.js"></script><script src="libs/bs3compat-0.6.1/tabs.js"></script><script src="libs/bs3compat-0.6.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><link rel="shortcut icon" href="images/R_course_logo.svg">
 <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-QMVBLBE7DV"></script><script>
       window.dataLayer = window.dataLayer || [];
@@ -84,79 +84,38 @@
 <h2>
 <span class="header-section-number">10.1</span> Making missing data explicit (completing data)<a class="anchor" aria-label="anchor" href="#complete"><i class="fas fa-link"></i></a>
 </h2>
-To make implicit missing data explicit, <em>tidyr</em> provides a function <a href="https://tidyr.tidyverse.org/reference/complete.html">complete()</a> that you already met. It figures out all combinations of values for columns that you specified, finds missing combinations, and adds them using <code>NA</code> (or some other specified value) for other columns. Imagine a toy incomplete table (no data for Participant <code>2</code> and Face <code>M-2</code>).
+<p>To make implicit missing data explicit, <em>tidyr</em> provides a function <a href="https://tidyr.tidyverse.org/reference/complete.html">complete()</a> that you already met. It figures out all combinations of values for columns that you specified, finds missing combinations, and adds them using <code>NA</code> (or some other specified value) for other columns. Imagine a toy incomplete table (no data for Participant <code>2</code> and Face <code>M-2</code>).</p>
 <div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-258">Table 10.1: </span>Table with no data for Face M2 for Participant 2.
-</caption>
-<thead><tr>
-<th style="text-align:right;">
-Participant
-</th>
-<th style="text-align:left;">
-Face
-</th>
-<th style="text-align:right;">
-Symmetry
-</th>
-<th style="text-align:right;">
-Attractiveness
-</th>
-<th style="text-align:right;">
-Trustworthiness
-</th>
+<span id="tab:unnamed-chunk-258">Table 10.1: </span>Table with no data for Face M2 for Participant 2.</caption>
+<thead><tr class="header">
+<th align="right">Participant</th>
+<th align="left">Face</th>
+<th align="right">Symmetry</th>
+<th align="right">Attractiveness</th>
+<th align="right">Trustworthiness</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-3
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M-1</td>
+<td align="right">6</td>
+<td align="right">4</td>
+<td align="right">3</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-6
-</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">M-2</td>
+<td align="right">4</td>
+<td align="right">7</td>
+<td align="right">6</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">1</td>
 </tr>
 </tbody>
 </table></div>
@@ -165,93 +124,42 @@ M-1
 <code class="sourceCode R"><span><span class="va">complete_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/complete.html">complete</a></span><span class="op">(</span><span class="va">incomplete_df</span>, <span class="va">Participant</span>, <span class="va">Face</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-260">Table 10.2: </span>Completed table with explicit NAs
-</caption>
-<thead><tr>
-<th style="text-align:right;">
-Participant
-</th>
-<th style="text-align:left;">
-Face
-</th>
-<th style="text-align:right;">
-Symmetry
-</th>
-<th style="text-align:right;">
-Attractiveness
-</th>
-<th style="text-align:right;">
-Trustworthiness
-</th>
+<span id="tab:unnamed-chunk-260">Table 10.2: </span>Completed table with explicit NAs</caption>
+<thead><tr class="header">
+<th align="right">Participant</th>
+<th align="left">Face</th>
+<th align="right">Symmetry</th>
+<th align="right">Attractiveness</th>
+<th align="right">Trustworthiness</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-3
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M-1</td>
+<td align="right">6</td>
+<td align="right">4</td>
+<td align="right">3</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-6
-</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">M-2</td>
+<td align="right">4</td>
+<td align="right">7</td>
+<td align="right">6</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">1</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
 </tbody>
 </table></div>
@@ -265,127 +173,56 @@ NA
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/complete.html">complete</a></span><span class="op">(</span><span class="va">Participant</span>, <span class="va">Face</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-262">Table 10.3: </span>Completed missing data including F-1 face.
-</caption>
-<thead><tr>
-<th style="text-align:right;">
-Participant
-</th>
-<th style="text-align:left;">
-Face
-</th>
-<th style="text-align:right;">
-Symmetry
-</th>
-<th style="text-align:right;">
-Attractiveness
-</th>
-<th style="text-align:right;">
-Trustworthiness
-</th>
+<span id="tab:unnamed-chunk-262">Table 10.3: </span>Completed missing data including F-1 face.</caption>
+<thead><tr class="header">
+<th align="right">Participant</th>
+<th align="left">Face</th>
+<th align="right">Symmetry</th>
+<th align="right">Attractiveness</th>
+<th align="right">Trustworthiness</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-3
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M-1</td>
+<td align="right">6</td>
+<td align="right">4</td>
+<td align="right">3</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-6
-</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">M-2</td>
+<td align="right">4</td>
+<td align="right">7</td>
+<td align="right">6</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-F-1
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">F-1</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">1</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-F-1
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">F-1</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
 </tbody>
 </table></div>
@@ -399,93 +236,42 @@ NA
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/complete.html">complete</a></span><span class="op">(</span><span class="va">Participant</span>, <span class="va">Face</span>, fill<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Attractiveness<span class="op">=</span><span class="fl">0</span>, Symmetry<span class="op">=</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-264">Table 10.4: </span>Completed missing data with non-NA values.
-</caption>
-<thead><tr>
-<th style="text-align:right;">
-Participant
-</th>
-<th style="text-align:left;">
-Face
-</th>
-<th style="text-align:right;">
-Symmetry
-</th>
-<th style="text-align:right;">
-Attractiveness
-</th>
-<th style="text-align:right;">
-Trustworthiness
-</th>
+<span id="tab:unnamed-chunk-264">Table 10.4: </span>Completed missing data with non-NA values.</caption>
+<thead><tr class="header">
+<th align="right">Participant</th>
+<th align="left">Face</th>
+<th align="right">Symmetry</th>
+<th align="right">Attractiveness</th>
+<th align="right">Trustworthiness</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-3
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M-1</td>
+<td align="right">6</td>
+<td align="right">4</td>
+<td align="right">3</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-6
-</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">M-2</td>
+<td align="right">4</td>
+<td align="right">7</td>
+<td align="right">6</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">1</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-NA
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
 </tbody>
 </table></div>
@@ -502,96 +288,45 @@ NA
 <span class="header-section-number">10.2</span> Dropping / omitting NAs<a class="anchor" aria-label="anchor" href="#na.omit"><i class="fas fa-link"></i></a>
 </h2>
 <p>There are two approaches for excluding missing values. You can exclude all incomplete rows which have missing values in <em>any</em> variable via <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/na.fail.html">na.omit()</a> (base R function) or <a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na()</a> (<a href="https://tidyr.tidyverse.org/">tidyr</a> package function). Or you can exclude rows only if they have <code>NA</code> in a specific columns by specifying their names.</p>
-For a table you see below
+<p>For a table you see below</p>
 <div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-265">Table 10.5: </span>Table with missing values.
-</caption>
-<thead><tr>
-<th style="text-align:right;">
-Participant
-</th>
-<th style="text-align:left;">
-Face
-</th>
-<th style="text-align:right;">
-Symmetry
-</th>
-<th style="text-align:right;">
-Attractiveness
-</th>
-<th style="text-align:right;">
-Trustworthiness
-</th>
+<span id="tab:unnamed-chunk-265">Table 10.5: </span>Table with missing values.</caption>
+<thead><tr class="header">
+<th align="right">Participant</th>
+<th align="left">Face</th>
+<th align="right">Symmetry</th>
+<th align="right">Attractiveness</th>
+<th align="right">Trustworthiness</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-3
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M-1</td>
+<td align="right">6</td>
+<td align="right">NA</td>
+<td align="right">3</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-NA
-</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">M-2</td>
+<td align="right">NA</td>
+<td align="right">7</td>
+<td align="right">NA</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">1</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="right">3</td>
+<td align="right">7</td>
+<td align="right">2</td>
 </tr>
 </tbody>
 </table></div>
@@ -600,59 +335,28 @@ M-2
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="va">widish_df_with_NA</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-266">Table 10.6: </span>Complete cases via na.omit()
-</caption>
-<thead><tr>
-<th style="text-align:right;">
-Participant
-</th>
-<th style="text-align:left;">
-Face
-</th>
-<th style="text-align:right;">
-Symmetry
-</th>
-<th style="text-align:right;">
-Attractiveness
-</th>
-<th style="text-align:right;">
-Trustworthiness
-</th>
+<span id="tab:unnamed-chunk-266">Table 10.6: </span>Complete cases via na.omit()</caption>
+<thead><tr class="header">
+<th align="right">Participant</th>
+<th align="left">Face</th>
+<th align="right">Symmetry</th>
+<th align="right">Attractiveness</th>
+<th align="right">Trustworthiness</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">1</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="right">3</td>
+<td align="right">7</td>
+<td align="right">2</td>
 </tr>
 </tbody>
 </table></div>
@@ -662,59 +366,28 @@ M-2
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-267">Table 10.7: </span>Complete cases via drop_na()
-</caption>
-<thead><tr>
-<th style="text-align:right;">
-Participant
-</th>
-<th style="text-align:left;">
-Face
-</th>
-<th style="text-align:right;">
-Symmetry
-</th>
-<th style="text-align:right;">
-Attractiveness
-</th>
-<th style="text-align:right;">
-Trustworthiness
-</th>
+<span id="tab:unnamed-chunk-267">Table 10.7: </span>Complete cases via drop_na()</caption>
+<thead><tr class="header">
+<th align="right">Participant</th>
+<th align="left">Face</th>
+<th align="right">Symmetry</th>
+<th align="right">Attractiveness</th>
+<th align="right">Trustworthiness</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">1</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="right">3</td>
+<td align="right">7</td>
+<td align="right">2</td>
 </tr>
 </tbody>
 </table></div>
@@ -724,76 +397,35 @@ M-2
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na</a></span><span class="op">(</span><span class="va">Attractiveness</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-268">Table 10.8: </span>Complete Attractiveness via drop_na()
-</caption>
-<thead><tr>
-<th style="text-align:right;">
-Participant
-</th>
-<th style="text-align:left;">
-Face
-</th>
-<th style="text-align:right;">
-Symmetry
-</th>
-<th style="text-align:right;">
-Attractiveness
-</th>
-<th style="text-align:right;">
-Trustworthiness
-</th>
+<span id="tab:unnamed-chunk-268">Table 10.8: </span>Complete Attractiveness via drop_na()</caption>
+<thead><tr class="header">
+<th align="right">Participant</th>
+<th align="left">Face</th>
+<th align="right">Symmetry</th>
+<th align="right">Attractiveness</th>
+<th align="right">Trustworthiness</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-NA
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M-2</td>
+<td align="right">NA</td>
+<td align="right">7</td>
+<td align="right">NA</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">1</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="right">3</td>
+<td align="right">7</td>
+<td align="right">2</td>
 </tr>
 </tbody>
 </table></div>
@@ -815,93 +447,42 @@ M-2
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/replace_na.html">replace_na</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Attractiveness <span class="op">=</span> <span class="fl">0</span>, Symmetry <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-270">Table 10.9: </span>Missing values filled with 0 and -1
-</caption>
-<thead><tr>
-<th style="text-align:right;">
-Participant
-</th>
-<th style="text-align:left;">
-Face
-</th>
-<th style="text-align:right;">
-Symmetry
-</th>
-<th style="text-align:right;">
-Attractiveness
-</th>
-<th style="text-align:right;">
-Trustworthiness
-</th>
+<span id="tab:unnamed-chunk-270">Table 10.9: </span>Missing values filled with 0 and -1</caption>
+<thead><tr class="header">
+<th align="right">Participant</th>
+<th align="left">Face</th>
+<th align="right">Symmetry</th>
+<th align="right">Attractiveness</th>
+<th align="right">Trustworthiness</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-3
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M-1</td>
+<td align="right">6</td>
+<td align="right">0</td>
+<td align="right">3</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
--1
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-NA
-</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">M-2</td>
+<td align="right">-1</td>
+<td align="right">7</td>
+<td align="right">NA</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">1</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="right">3</td>
+<td align="right">7</td>
+<td align="right">2</td>
 </tr>
 </tbody>
 </table></div>
@@ -920,275 +501,119 @@ M-2
 <p>Now that you know how to use <code><a href="https://rdrr.io/r/base/ifelse.html">ifelse()</a></code>, replacing <code>NA</code> with a mean will be (relatively) easy. Use <a href="data/adaptation_with_na.csv">adaptation_with_na</a> table and replace missing information using participant-specific values.</p>
 <div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-272">Table 10.10: </span>adaptation_with_na.csv with missing values
-</caption>
-<thead><tr>
-<th style="text-align:left;">
-Participant
-</th>
-<th style="text-align:left;">
-Prime
-</th>
-<th style="text-align:left;">
-Probe
-</th>
-<th style="text-align:right;">
-Nsame
-</th>
-<th style="text-align:right;">
-Ntotal
-</th>
+<span id="tab:unnamed-chunk-272">Table 10.10: </span>adaptation_with_na.csv with missing values</caption>
+<thead><tr class="header">
+<th align="left">Participant</th>
+<th align="left">Prime</th>
+<th align="left">Probe</th>
+<th align="right">Nsame</th>
+<th align="right">Ntotal</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-ma2
-</td>
-<td style="text-align:left;">
-Sphere
-</td>
-<td style="text-align:left;">
-Sphere
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-119
-</td>
+<tr class="odd">
+<td align="left">ma2</td>
+<td align="left">Sphere</td>
+<td align="left">Sphere</td>
+<td align="right">NA</td>
+<td align="right">119</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-ma2
-</td>
-<td style="text-align:left;">
-Sphere
-</td>
-<td style="text-align:left;">
-Quadro
-</td>
-<td style="text-align:right;">
-23
-</td>
-<td style="text-align:right;">
-NA
-</td>
+<tr class="even">
+<td align="left">ma2</td>
+<td align="left">Sphere</td>
+<td align="left">Quadro</td>
+<td align="right">23</td>
+<td align="right">NA</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-ma2
-</td>
-<td style="text-align:left;">
-Sphere
-</td>
-<td style="text-align:left;">
-Dual
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-120
-</td>
+<tr class="odd">
+<td align="left">ma2</td>
+<td align="left">Sphere</td>
+<td align="left">Dual</td>
+<td align="right">NA</td>
+<td align="right">120</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-ma2
-</td>
-<td style="text-align:left;">
-Sphere
-</td>
-<td style="text-align:left;">
-Single
-</td>
-<td style="text-align:right;">
-31
-</td>
-<td style="text-align:right;">
-115
-</td>
+<tr class="even">
+<td align="left">ma2</td>
+<td align="left">Sphere</td>
+<td align="left">Single</td>
+<td align="right">31</td>
+<td align="right">115</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-ma2
-</td>
-<td style="text-align:left;">
-Quadro
-</td>
-<td style="text-align:left;">
-Sphere
-</td>
-<td style="text-align:right;">
-25
-</td>
-<td style="text-align:right;">
-120
-</td>
+<tr class="odd">
+<td align="left">ma2</td>
+<td align="left">Quadro</td>
+<td align="left">Sphere</td>
+<td align="right">25</td>
+<td align="right">120</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-ma2
-</td>
-<td style="text-align:left;">
-Quadro
-</td>
-<td style="text-align:left;">
-Quadro
-</td>
-<td style="text-align:right;">
-26
-</td>
-<td style="text-align:right;">
-120
-</td>
+<tr class="even">
+<td align="left">ma2</td>
+<td align="left">Quadro</td>
+<td align="left">Quadro</td>
+<td align="right">26</td>
+<td align="right">120</td>
 </tr>
 </tbody>
 </table></div>
-We have missing data in different columns, so we have to use different for each case. Here is one way to approach this problem. We cannot know the number of trials for a specific Prime × Probe combination, but we can replace missing values for <code>Ntotal</code> with a participant-specific <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/median.html">median</a> value (a “typical” and integer number of trials but do not forget about <code>na.rm</code> option, see manual for details). <code>Nsame</code> is trickier. For this, compute proportion of same response for each condition <code>Psame = Nsame / Ntotal</code>. This will produce missing values whenever <code>Nsame</code> is missing. Now, replace missing <code>Psame</code> values (<a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html">is.na()</a>) with a mean <code>Psame</code> <em>per participant</em> (again, watch our for <code>na.rm</code>!) using <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/ifelse.html">ifelse()</a> (you can use it inside <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code>). Finally, compute missing values for <code>Nsame</code> from <code>Psame</code> and <code>Ntotal</code> (do not forget to round them, so you end up with integer number of trials). This entire computation should be implemented as a single pipeline. You will end up with a following table.
+<p>We have missing data in different columns, so we have to use different for each case. Here is one way to approach this problem. We cannot know the number of trials for a specific Prime × Probe combination, but we can replace missing values for <code>Ntotal</code> with a participant-specific <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/median.html">median</a> value (a “typical” and integer number of trials but do not forget about <code>na.rm</code> option, see manual for details). <code>Nsame</code> is trickier. For this, compute proportion of same response for each condition <code>Psame = Nsame / Ntotal</code>. This will produce missing values whenever <code>Nsame</code> is missing. Now, replace missing <code>Psame</code> values (<a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html">is.na()</a>) with a mean <code>Psame</code> <em>per participant</em> (again, watch our for <code>na.rm</code>!) using <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/ifelse.html">ifelse()</a> (you can use it inside <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code>). Finally, compute missing values for <code>Nsame</code> from <code>Psame</code> and <code>Ntotal</code> (do not forget to round them, so you end up with integer number of trials). This entire computation should be implemented as a single pipeline. You will end up with a following table.</p>
 <div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-273">Table 10.11: </span>adaptation_with_na.csv with imputed values
-</caption>
-<thead><tr>
-<th style="text-align:left;">
-Participant
-</th>
-<th style="text-align:left;">
-Prime
-</th>
-<th style="text-align:left;">
-Probe
-</th>
-<th style="text-align:right;">
-Nsame
-</th>
-<th style="text-align:right;">
-Ntotal
-</th>
-<th style="text-align:right;">
-Psame
-</th>
+<span id="tab:unnamed-chunk-273">Table 10.11: </span>adaptation_with_na.csv with imputed values</caption>
+<thead><tr class="header">
+<th align="left">Participant</th>
+<th align="left">Prime</th>
+<th align="left">Probe</th>
+<th align="right">Nsame</th>
+<th align="right">Ntotal</th>
+<th align="right">Psame</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-ma2
-</td>
-<td style="text-align:left;">
-Sphere
-</td>
-<td style="text-align:left;">
-Sphere
-</td>
-<td style="text-align:right;">
-36
-</td>
-<td style="text-align:right;">
-119
-</td>
-<td style="text-align:right;">
-0.2983741
-</td>
+<tr class="odd">
+<td align="left">ma2</td>
+<td align="left">Sphere</td>
+<td align="left">Sphere</td>
+<td align="right">36</td>
+<td align="right">119</td>
+<td align="right">0.2983741</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-ma2
-</td>
-<td style="text-align:left;">
-Sphere
-</td>
-<td style="text-align:left;">
-Quadro
-</td>
-<td style="text-align:right;">
-23
-</td>
-<td style="text-align:right;">
-120
-</td>
-<td style="text-align:right;">
-0.1916667
-</td>
+<tr class="even">
+<td align="left">ma2</td>
+<td align="left">Sphere</td>
+<td align="left">Quadro</td>
+<td align="right">23</td>
+<td align="right">120</td>
+<td align="right">0.1916667</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-ma2
-</td>
-<td style="text-align:left;">
-Sphere
-</td>
-<td style="text-align:left;">
-Dual
-</td>
-<td style="text-align:right;">
-36
-</td>
-<td style="text-align:right;">
-120
-</td>
-<td style="text-align:right;">
-0.2983741
-</td>
+<tr class="odd">
+<td align="left">ma2</td>
+<td align="left">Sphere</td>
+<td align="left">Dual</td>
+<td align="right">36</td>
+<td align="right">120</td>
+<td align="right">0.2983741</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-ma2
-</td>
-<td style="text-align:left;">
-Sphere
-</td>
-<td style="text-align:left;">
-Single
-</td>
-<td style="text-align:right;">
-31
-</td>
-<td style="text-align:right;">
-115
-</td>
-<td style="text-align:right;">
-0.2695652
-</td>
+<tr class="even">
+<td align="left">ma2</td>
+<td align="left">Sphere</td>
+<td align="left">Single</td>
+<td align="right">31</td>
+<td align="right">115</td>
+<td align="right">0.2695652</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-ma2
-</td>
-<td style="text-align:left;">
-Quadro
-</td>
-<td style="text-align:left;">
-Sphere
-</td>
-<td style="text-align:right;">
-25
-</td>
-<td style="text-align:right;">
-120
-</td>
-<td style="text-align:right;">
-0.2083333
-</td>
+<tr class="odd">
+<td align="left">ma2</td>
+<td align="left">Quadro</td>
+<td align="left">Sphere</td>
+<td align="right">25</td>
+<td align="right">120</td>
+<td align="right">0.2083333</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-ma2
-</td>
-<td style="text-align:left;">
-Quadro
-</td>
-<td style="text-align:left;">
-Quadro
-</td>
-<td style="text-align:right;">
-26
-</td>
-<td style="text-align:right;">
-120
-</td>
-<td style="text-align:right;">
-0.2166667
-</td>
+<tr class="even">
+<td align="left">ma2</td>
+<td align="left">Quadro</td>
+<td align="left">Quadro</td>
+<td align="right">26</td>
+<td align="right">120</td>
+<td align="right">0.2166667</td>
 </tr>
 </tbody>
 </table></div>
@@ -1225,7 +650,7 @@ Quadro
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data analysis using R for Psychology and Social Science</strong>" was written by Alexander (Sasha) Pastukhov. It was last built on 2024-02-05.</p>
+    <p>"<strong>Data analysis using R for Psychology and Social Science</strong>" was written by Alexander (Sasha) Pastukhov. It was last built on 2024-11-09.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

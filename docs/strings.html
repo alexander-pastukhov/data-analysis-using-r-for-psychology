@@ -7,7 +7,7 @@
 <title>Chapter 11 Working with strings | Data analysis using R for Psychology and Social Science</title>
 <meta name="author" content="Alexander (Sasha) Pastukhov">
 <meta name="description" content="When working with strings, I strongly suggest consulting a manual and vignettes of the stringr package. It has many functions that cover most needs. Grab exercise notebook before we start.  11.1...">
-<meta name="generator" content="bookdown 0.37 with bs4_book()">
+<meta name="generator" content="bookdown 0.41 with bs4_book()">
 <meta property="og:title" content="Chapter 11 Working with strings | Data analysis using R for Psychology and Social Science">
 <meta property="og:type" content="book">
 <meta property="og:description" content="When working with strings, I strongly suggest consulting a manual and vignettes of the stringr package. It has many functions that cover most needs. Grab exercise notebook before we start.  11.1...">
@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="When working with strings, I strongly suggest consulting a manual and vignettes of the stringr package. It has many functions that cover most needs. Grab exercise notebook before we start.  11.1...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.6.1/transition.js"></script><script src="libs/bs3compat-0.6.1/tabs.js"></script><script src="libs/bs3compat-0.6.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><link rel="shortcut icon" href="images/R_course_logo.svg">
 <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-QMVBLBE7DV"></script><script>
       window.dataLayer = window.dataLayer || [];
@@ -89,249 +89,112 @@
 <li>Convert <code>Prime</code> and <code>Probe</code> column to factors with the order “Sphere”, “Quadro”, “Dual”, “Single”.</li>
 <li>Compute <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/median.html">median</a> and <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/mad.html">median absolute deviation from the median</a> for <code>Psame</code> for all combinations of <code>Prime</code> and <code>Probe</code>.</li>
 </ol>
-Your table should look as follows:
+<p>Your table should look as follows:</p>
 <div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-275">Table 11.1: </span>bands_df
-</caption>
-<thead><tr>
-<th style="text-align:left;">
-Prime
-</th>
-<th style="text-align:left;">
-Probe
-</th>
-<th style="text-align:right;">
-Pmedian
-</th>
-<th style="text-align:right;">
-Pmad
-</th>
+<span id="tab:unnamed-chunk-275">Table 11.1: </span>bands_df</caption>
+<thead><tr class="header">
+<th align="left">Prime</th>
+<th align="left">Probe</th>
+<th align="right">Pmedian</th>
+<th align="right">Pmad</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-Sphere
-</td>
-<td style="text-align:left;">
-Sphere
-</td>
-<td style="text-align:right;">
-0.13
-</td>
-<td style="text-align:right;">
-0.06
-</td>
+<tr class="odd">
+<td align="left">Sphere</td>
+<td align="left">Sphere</td>
+<td align="right">0.13</td>
+<td align="right">0.06</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-Sphere
-</td>
-<td style="text-align:left;">
-Quadro
-</td>
-<td style="text-align:right;">
-0.13
-</td>
-<td style="text-align:right;">
-0.04
-</td>
+<tr class="even">
+<td align="left">Sphere</td>
+<td align="left">Quadro</td>
+<td align="right">0.13</td>
+<td align="right">0.04</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-Sphere
-</td>
-<td style="text-align:left;">
-Dual
-</td>
-<td style="text-align:right;">
-0.17
-</td>
-<td style="text-align:right;">
-0.10
-</td>
+<tr class="odd">
+<td align="left">Sphere</td>
+<td align="left">Dual</td>
+<td align="right">0.17</td>
+<td align="right">0.10</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-Sphere
-</td>
-<td style="text-align:left;">
-Single
-</td>
-<td style="text-align:right;">
-0.32
-</td>
-<td style="text-align:right;">
-0.08
-</td>
+<tr class="even">
+<td align="left">Sphere</td>
+<td align="left">Single</td>
+<td align="right">0.32</td>
+<td align="right">0.08</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-Quadro
-</td>
-<td style="text-align:left;">
-Sphere
-</td>
-<td style="text-align:right;">
-0.19
-</td>
-<td style="text-align:right;">
-0.07
-</td>
+<tr class="odd">
+<td align="left">Quadro</td>
+<td align="left">Sphere</td>
+<td align="right">0.19</td>
+<td align="right">0.07</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-Quadro
-</td>
-<td style="text-align:left;">
-Quadro
-</td>
-<td style="text-align:right;">
-0.12
-</td>
-<td style="text-align:right;">
-0.12
-</td>
+<tr class="even">
+<td align="left">Quadro</td>
+<td align="left">Quadro</td>
+<td align="right">0.12</td>
+<td align="right">0.12</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-Quadro
-</td>
-<td style="text-align:left;">
-Dual
-</td>
-<td style="text-align:right;">
-0.21
-</td>
-<td style="text-align:right;">
-0.19
-</td>
+<tr class="odd">
+<td align="left">Quadro</td>
+<td align="left">Dual</td>
+<td align="right">0.21</td>
+<td align="right">0.19</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-Quadro
-</td>
-<td style="text-align:left;">
-Single
-</td>
-<td style="text-align:right;">
-0.38
-</td>
-<td style="text-align:right;">
-0.07
-</td>
+<tr class="even">
+<td align="left">Quadro</td>
+<td align="left">Single</td>
+<td align="right">0.38</td>
+<td align="right">0.07</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-Dual
-</td>
-<td style="text-align:left;">
-Sphere
-</td>
-<td style="text-align:right;">
-0.15
-</td>
-<td style="text-align:right;">
-0.15
-</td>
+<tr class="odd">
+<td align="left">Dual</td>
+<td align="left">Sphere</td>
+<td align="right">0.15</td>
+<td align="right">0.15</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-Dual
-</td>
-<td style="text-align:left;">
-Quadro
-</td>
-<td style="text-align:right;">
-0.30
-</td>
-<td style="text-align:right;">
-0.14
-</td>
+<tr class="even">
+<td align="left">Dual</td>
+<td align="left">Quadro</td>
+<td align="right">0.30</td>
+<td align="right">0.14</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-Dual
-</td>
-<td style="text-align:left;">
-Dual
-</td>
-<td style="text-align:right;">
-0.27
-</td>
-<td style="text-align:right;">
-0.15
-</td>
+<tr class="odd">
+<td align="left">Dual</td>
+<td align="left">Dual</td>
+<td align="right">0.27</td>
+<td align="right">0.15</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-Dual
-</td>
-<td style="text-align:left;">
-Single
-</td>
-<td style="text-align:right;">
-0.48
-</td>
-<td style="text-align:right;">
-0.16
-</td>
+<tr class="even">
+<td align="left">Dual</td>
+<td align="left">Single</td>
+<td align="right">0.48</td>
+<td align="right">0.16</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-Single
-</td>
-<td style="text-align:left;">
-Sphere
-</td>
-<td style="text-align:right;">
-0.34
-</td>
-<td style="text-align:right;">
-0.18
-</td>
+<tr class="odd">
+<td align="left">Single</td>
+<td align="left">Sphere</td>
+<td align="right">0.34</td>
+<td align="right">0.18</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-Single
-</td>
-<td style="text-align:left;">
-Quadro
-</td>
-<td style="text-align:right;">
-0.30
-</td>
-<td style="text-align:right;">
-0.20
-</td>
+<tr class="even">
+<td align="left">Single</td>
+<td align="left">Quadro</td>
+<td align="right">0.30</td>
+<td align="right">0.20</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-Single
-</td>
-<td style="text-align:left;">
-Dual
-</td>
-<td style="text-align:right;">
-0.48
-</td>
-<td style="text-align:right;">
-0.12
-</td>
+<tr class="odd">
+<td align="left">Single</td>
+<td align="left">Dual</td>
+<td align="right">0.48</td>
+<td align="right">0.12</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-Single
-</td>
-<td style="text-align:left;">
-Single
-</td>
-<td style="text-align:right;">
-0.51
-</td>
-<td style="text-align:right;">
-0.18
-</td>
+<tr class="even">
+<td align="left">Single</td>
+<td align="left">Single</td>
+<td align="right">0.51</td>
+<td align="right">0.18</td>
 </tr>
 </tbody>
 </table></div>
@@ -343,99 +206,48 @@ Single
 <h2>
 <span class="header-section-number">11.2</span> Formatting strings via <code>glue()</code><a class="anchor" aria-label="anchor" href="#glue"><i class="fas fa-link"></i></a>
 </h2>
-The table above gives us information about <em>median</em> probability of seeing the same rotation and about its absolute deviation from the median. However, it would be more convenient for a reader if we combine these two pieces of information into a single entry in form for of “<median> ± <mad>”. Plus, it would be easier to see the pattern in a square table with one <code>Prime</code> per row and one <code>Probe</code> per column. The table I have in mind look like this:
-<table class="table table-sm">
+<p>The table above gives us information about <em>median</em> probability of seeing the same rotation and about its absolute deviation from the median. However, it would be more convenient for a reader if we combine these two pieces of information into a single entry in form for of “<median> ± <mad>”. Plus, it would be easier to see the pattern in a square table with one <code>Prime</code> per row and one <code>Probe</code> per column. The table I have in mind look like this:</mad></median></p>
+<div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:unnamed-chunk-276">Table 11.2: </span>Probability of persistence, median ± MAD
-</caption>
-<thead><tr>
-<th style="text-align:center;">
-Prime
-</th>
-<th style="text-align:center;">
-Sphere
-</th>
-<th style="text-align:center;">
-Quadro
-</th>
-<th style="text-align:center;">
-Dual
-</th>
-<th style="text-align:center;">
-Single
-</th>
+<span id="tab:unnamed-chunk-276">Table 11.2: </span>Probability of persistence, median ± MAD</caption>
+<thead><tr class="header">
+<th align="center">Prime</th>
+<th align="center">Sphere</th>
+<th align="center">Quadro</th>
+<th align="center">Dual</th>
+<th align="center">Single</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:center;">
-Sphere
-</td>
-<td style="text-align:center;">
-0.13 ± 0.06
-</td>
-<td style="text-align:center;">
-0.13 ± 0.04
-</td>
-<td style="text-align:center;">
-0.17 ± 0.1
-</td>
-<td style="text-align:center;">
-0.32 ± 0.08
-</td>
+<tr class="odd">
+<td align="center">Sphere</td>
+<td align="center">0.13 ± 0.06</td>
+<td align="center">0.13 ± 0.04</td>
+<td align="center">0.17 ± 0.1</td>
+<td align="center">0.32 ± 0.08</td>
 </tr>
-<tr>
-<td style="text-align:center;">
-Quadro
-</td>
-<td style="text-align:center;">
-0.19 ± 0.07
-</td>
-<td style="text-align:center;">
-0.12 ± 0.12
-</td>
-<td style="text-align:center;">
-0.21 ± 0.19
-</td>
-<td style="text-align:center;">
-0.38 ± 0.07
-</td>
+<tr class="even">
+<td align="center">Quadro</td>
+<td align="center">0.19 ± 0.07</td>
+<td align="center">0.12 ± 0.12</td>
+<td align="center">0.21 ± 0.19</td>
+<td align="center">0.38 ± 0.07</td>
 </tr>
-<tr>
-<td style="text-align:center;">
-Dual
-</td>
-<td style="text-align:center;">
-0.15 ± 0.15
-</td>
-<td style="text-align:center;">
-0.3 ± 0.14
-</td>
-<td style="text-align:center;">
-0.27 ± 0.15
-</td>
-<td style="text-align:center;">
-0.48 ± 0.16
-</td>
+<tr class="odd">
+<td align="center">Dual</td>
+<td align="center">0.15 ± 0.15</td>
+<td align="center">0.3 ± 0.14</td>
+<td align="center">0.27 ± 0.15</td>
+<td align="center">0.48 ± 0.16</td>
 </tr>
-<tr>
-<td style="text-align:center;">
-Single
-</td>
-<td style="text-align:center;">
-0.34 ± 0.18
-</td>
-<td style="text-align:center;">
-0.3 ± 0.2
-</td>
-<td style="text-align:center;">
-0.48 ± 0.12
-</td>
-<td style="text-align:center;">
-0.51 ± 0.18
-</td>
+<tr class="even">
+<td align="center">Single</td>
+<td align="center">0.34 ± 0.18</td>
+<td align="center">0.3 ± 0.2</td>
+<td align="center">0.48 ± 0.12</td>
+<td align="center">0.51 ± 0.18</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>You already know how to perform the second step (pivoting table wider to turn <code>Probe</code> factor levels into columns). For the first step, you need to combine two values into a string. There are different ways to construct this string via <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/sprintf.html">sprintf()</a>, <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/paste.html">paste()</a>, or via <a href="https://glue.tidyverse.org/">glue</a> package. We will start with Tidyverse’s <a href="https://glue.tidyverse.org/reference/glue.html">glue()</a> and explore base R functions later.</p>
 <p><a href="https://glue.tidyverse.org/">glue</a> package is part of the Tidyverse, so it should be already installed. However, it is not part of <em>core</em> tidyverse, so it does not get imported automatically via <code><a href="https://tidyverse.tidyverse.org">library(tidyverse)</a></code> and you need to import it separately or use <code>glue::</code> prefix. Function <a href="https://glue.tidyverse.org/reference/glue.html">glue()</a> allows you to “glue” values and code directly into a string. You simply surround <em>any</em> R code by wiggly brackets inside the string and the result of the code execution is glued in. If you use just a variable, its value will be glued-in. But you can put <em>any</em> code inside, although, the more code you put, the harder it will be to read and understand it.</p>
 <div class="sourceCode" id="cb443"><pre class="downlit sourceCode r">
@@ -447,7 +259,6 @@ Single
 <div class="practice">
 <p>Do exercise 2.</p>
 </div>
-</mad></median>
 </div>
 <div id="paste" class="section level2" number="11.3">
 <h2>
@@ -508,38 +319,22 @@ Single
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Message <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span><span class="op">(</span><span class="st">"The number is %d"</span>, <span class="va">Number</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:right;">
-Number
-</th>
-<th style="text-align:left;">
-Message
-</th>
+<thead><tr class="header">
+<th align="right">Number</th>
+<th align="left">Message</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-The number is 1
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">The number is 1</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-The number is 2
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">The number is 2</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:left;">
-The number is 3
-</td>
+<tr class="odd">
+<td align="right">3</td>
+<td align="left">The number is 3</td>
 </tr>
 </tbody>
 </table></div>
@@ -569,91 +364,41 @@ The number is 3
 <span></span>
 <span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">widish_df</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:right;">
-Participant
-</th>
-<th style="text-align:left;">
-Face
-</th>
-<th style="text-align:right;">
-Symmetry
-</th>
-<th style="text-align:right;">
-Attractiveness
-</th>
-<th style="text-align:right;">
-Trustworthiness
-</th>
+<thead><tr class="header">
+<th align="right">Participant</th>
+<th align="left">Face</th>
+<th align="right">Symmetry</th>
+<th align="right">Attractiveness</th>
+<th align="right">Trustworthiness</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-3
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M-1</td>
+<td align="right">6</td>
+<td align="right">4</td>
+<td align="right">3</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-6
-</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">M-2</td>
+<td align="right">4</td>
+<td align="right">7</td>
+<td align="right">6</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">1</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="right">3</td>
+<td align="right">7</td>
+<td align="right">2</td>
 </tr>
 </tbody>
 </table></div>
@@ -662,106 +407,54 @@ M-2
 <code class="sourceCode R"><span><span class="va">widish_df</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html">separate</a></span><span class="op">(</span><span class="va">Face</span>, into<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"FaceGender"</span>, <span class="st">"FaceIndex"</span><span class="op">)</span>, sep<span class="op">=</span><span class="st">"-"</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:center;">
-Participant
-</th>
-<th style="text-align:center;">
-FaceGender
-</th>
-<th style="text-align:center;">
-FaceIndex
-</th>
-<th style="text-align:center;">
-Symmetry
-</th>
-<th style="text-align:center;">
-Attractiveness
-</th>
-<th style="text-align:center;">
-Trustworthiness
-</th>
+<colgroup>
+<col width="16%">
+<col width="15%">
+<col width="13%">
+<col width="12%">
+<col width="20%">
+<col width="21%">
+</colgroup>
+<thead><tr class="header">
+<th align="center">Participant</th>
+<th align="center">FaceGender</th>
+<th align="center">FaceIndex</th>
+<th align="center">Symmetry</th>
+<th align="center">Attractiveness</th>
+<th align="center">Trustworthiness</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:center;">
-1
-</td>
-<td style="text-align:center;">
-M
-</td>
-<td style="text-align:center;">
-1
-</td>
-<td style="text-align:center;">
-6
-</td>
-<td style="text-align:center;">
-4
-</td>
-<td style="text-align:center;">
-3
-</td>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">M</td>
+<td align="center">1</td>
+<td align="center">6</td>
+<td align="center">4</td>
+<td align="center">3</td>
 </tr>
-<tr>
-<td style="text-align:center;">
-1
-</td>
-<td style="text-align:center;">
-M
-</td>
-<td style="text-align:center;">
-2
-</td>
-<td style="text-align:center;">
-4
-</td>
-<td style="text-align:center;">
-7
-</td>
-<td style="text-align:center;">
-6
-</td>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">M</td>
+<td align="center">2</td>
+<td align="center">4</td>
+<td align="center">7</td>
+<td align="center">6</td>
 </tr>
-<tr>
-<td style="text-align:center;">
-2
-</td>
-<td style="text-align:center;">
-M
-</td>
-<td style="text-align:center;">
-1
-</td>
-<td style="text-align:center;">
-5
-</td>
-<td style="text-align:center;">
-2
-</td>
-<td style="text-align:center;">
-1
-</td>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">M</td>
+<td align="center">1</td>
+<td align="center">5</td>
+<td align="center">2</td>
+<td align="center">1</td>
 </tr>
-<tr>
-<td style="text-align:center;">
-2
-</td>
-<td style="text-align:center;">
-M
-</td>
-<td style="text-align:center;">
-2
-</td>
-<td style="text-align:center;">
-3
-</td>
-<td style="text-align:center;">
-7
-</td>
-<td style="text-align:center;">
-2
-</td>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">M</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">7</td>
+<td align="center">2</td>
 </tr>
 </tbody>
 </table></div>
@@ -770,121 +463,60 @@ M
 <code class="sourceCode R"><span><span class="va">widish_df</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html">separate</a></span><span class="op">(</span><span class="va">Face</span>, into<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"FaceGender"</span>, <span class="st">"FaceIndex"</span><span class="op">)</span>, sep<span class="op">=</span><span class="st">"-"</span>, remove<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:center;">
-Participant
-</th>
-<th style="text-align:center;">
-Face
-</th>
-<th style="text-align:center;">
-FaceGender
-</th>
-<th style="text-align:center;">
-FaceIndex
-</th>
-<th style="text-align:center;">
-Symmetry
-</th>
-<th style="text-align:center;">
-Attractiveness
-</th>
-<th style="text-align:center;">
-Trustworthiness
-</th>
+<colgroup>
+<col width="15%">
+<col width="7%">
+<col width="14%">
+<col width="12%">
+<col width="11%">
+<col width="18%">
+<col width="20%">
+</colgroup>
+<thead><tr class="header">
+<th align="center">Participant</th>
+<th align="center">Face</th>
+<th align="center">FaceGender</th>
+<th align="center">FaceIndex</th>
+<th align="center">Symmetry</th>
+<th align="center">Attractiveness</th>
+<th align="center">Trustworthiness</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:center;">
-1
-</td>
-<td style="text-align:center;">
-M-1
-</td>
-<td style="text-align:center;">
-M
-</td>
-<td style="text-align:center;">
-1
-</td>
-<td style="text-align:center;">
-6
-</td>
-<td style="text-align:center;">
-4
-</td>
-<td style="text-align:center;">
-3
-</td>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">M-1</td>
+<td align="center">M</td>
+<td align="center">1</td>
+<td align="center">6</td>
+<td align="center">4</td>
+<td align="center">3</td>
 </tr>
-<tr>
-<td style="text-align:center;">
-1
-</td>
-<td style="text-align:center;">
-M-2
-</td>
-<td style="text-align:center;">
-M
-</td>
-<td style="text-align:center;">
-2
-</td>
-<td style="text-align:center;">
-4
-</td>
-<td style="text-align:center;">
-7
-</td>
-<td style="text-align:center;">
-6
-</td>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">M-2</td>
+<td align="center">M</td>
+<td align="center">2</td>
+<td align="center">4</td>
+<td align="center">7</td>
+<td align="center">6</td>
 </tr>
-<tr>
-<td style="text-align:center;">
-2
-</td>
-<td style="text-align:center;">
-M-1
-</td>
-<td style="text-align:center;">
-M
-</td>
-<td style="text-align:center;">
-1
-</td>
-<td style="text-align:center;">
-5
-</td>
-<td style="text-align:center;">
-2
-</td>
-<td style="text-align:center;">
-1
-</td>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">M-1</td>
+<td align="center">M</td>
+<td align="center">1</td>
+<td align="center">5</td>
+<td align="center">2</td>
+<td align="center">1</td>
 </tr>
-<tr>
-<td style="text-align:center;">
-2
-</td>
-<td style="text-align:center;">
-M-2
-</td>
-<td style="text-align:center;">
-M
-</td>
-<td style="text-align:center;">
-2
-</td>
-<td style="text-align:center;">
-3
-</td>
-<td style="text-align:center;">
-7
-</td>
-<td style="text-align:center;">
-2
-</td>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">M-2</td>
+<td align="center">M</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">7</td>
+<td align="center">2</td>
 </tr>
 </tbody>
 </table></div>
@@ -893,106 +525,54 @@ M
 <code class="sourceCode R"><span><span class="va">widish_df</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html">separate</a></span><span class="op">(</span><span class="va">Face</span>, into<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Gender"</span><span class="op">)</span>, sep<span class="op">=</span><span class="st">"-"</span>, remove<span class="op">=</span><span class="cn">FALSE</span>, extra<span class="op">=</span><span class="st">"drop"</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:center;">
-Participant
-</th>
-<th style="text-align:center;">
-Face
-</th>
-<th style="text-align:center;">
-Gender
-</th>
-<th style="text-align:center;">
-Symmetry
-</th>
-<th style="text-align:center;">
-Attractiveness
-</th>
-<th style="text-align:center;">
-Trustworthiness
-</th>
+<colgroup>
+<col width="18%">
+<col width="8%">
+<col width="11%">
+<col width="14%">
+<col width="22%">
+<col width="24%">
+</colgroup>
+<thead><tr class="header">
+<th align="center">Participant</th>
+<th align="center">Face</th>
+<th align="center">Gender</th>
+<th align="center">Symmetry</th>
+<th align="center">Attractiveness</th>
+<th align="center">Trustworthiness</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:center;">
-1
-</td>
-<td style="text-align:center;">
-M-1
-</td>
-<td style="text-align:center;">
-M
-</td>
-<td style="text-align:center;">
-6
-</td>
-<td style="text-align:center;">
-4
-</td>
-<td style="text-align:center;">
-3
-</td>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">M-1</td>
+<td align="center">M</td>
+<td align="center">6</td>
+<td align="center">4</td>
+<td align="center">3</td>
 </tr>
-<tr>
-<td style="text-align:center;">
-1
-</td>
-<td style="text-align:center;">
-M-2
-</td>
-<td style="text-align:center;">
-M
-</td>
-<td style="text-align:center;">
-4
-</td>
-<td style="text-align:center;">
-7
-</td>
-<td style="text-align:center;">
-6
-</td>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">M-2</td>
+<td align="center">M</td>
+<td align="center">4</td>
+<td align="center">7</td>
+<td align="center">6</td>
 </tr>
-<tr>
-<td style="text-align:center;">
-2
-</td>
-<td style="text-align:center;">
-M-1
-</td>
-<td style="text-align:center;">
-M
-</td>
-<td style="text-align:center;">
-5
-</td>
-<td style="text-align:center;">
-2
-</td>
-<td style="text-align:center;">
-1
-</td>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">M-1</td>
+<td align="center">M</td>
+<td align="center">5</td>
+<td align="center">2</td>
+<td align="center">1</td>
 </tr>
-<tr>
-<td style="text-align:center;">
-2
-</td>
-<td style="text-align:center;">
-M-2
-</td>
-<td style="text-align:center;">
-M
-</td>
-<td style="text-align:center;">
-3
-</td>
-<td style="text-align:center;">
-7
-</td>
-<td style="text-align:center;">
-2
-</td>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">M-2</td>
+<td align="center">M</td>
+<td align="center">3</td>
+<td align="center">7</td>
+<td align="center">2</td>
 </tr>
 </tbody>
 </table></div>
@@ -1005,106 +585,46 @@ M
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html">separate</a></span><span class="op">(</span><span class="va">Face</span>, into<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Gender"</span>, <span class="cn">NA</span><span class="op">)</span>, sep<span class="op">=</span><span class="st">"-"</span>, remove<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:right;">
-Participant
-</th>
-<th style="text-align:left;">
-Face
-</th>
-<th style="text-align:left;">
-Gender
-</th>
-<th style="text-align:right;">
-Symmetry
-</th>
-<th style="text-align:right;">
-Attractiveness
-</th>
-<th style="text-align:right;">
-Trustworthiness
-</th>
+<thead><tr class="header">
+<th align="right">Participant</th>
+<th align="left">Face</th>
+<th align="left">Gender</th>
+<th align="right">Symmetry</th>
+<th align="right">Attractiveness</th>
+<th align="right">Trustworthiness</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-3
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M-1</td>
+<td align="left">M</td>
+<td align="right">6</td>
+<td align="right">4</td>
+<td align="right">3</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-6
-</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">M-2</td>
+<td align="left">M</td>
+<td align="right">4</td>
+<td align="right">7</td>
+<td align="right">6</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-1
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-1</td>
+<td align="left">M</td>
+<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">1</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-2
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">M-2</td>
+<td align="left">M</td>
+<td align="right">3</td>
+<td align="right">7</td>
+<td align="right">2</td>
 </tr>
 </tbody>
 </table></div>
@@ -1117,409 +637,192 @@ M
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html">separate</a></span><span class="op">(</span><span class="va">Face</span>, into<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="st">"Index"</span><span class="op">)</span>, sep<span class="op">=</span><span class="st">"-"</span>, remove<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span>align <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:center;">
-Participant
-</th>
-<th style="text-align:center;">
-Face
-</th>
-<th style="text-align:center;">
-Index
-</th>
-<th style="text-align:center;">
-Symmetry
-</th>
-<th style="text-align:center;">
-Attractiveness
-</th>
-<th style="text-align:center;">
-Trustworthiness
-</th>
+<colgroup>
+<col width="18%">
+<col width="8%">
+<col width="10%">
+<col width="14%">
+<col width="23%">
+<col width="24%">
+</colgroup>
+<thead><tr class="header">
+<th align="center">Participant</th>
+<th align="center">Face</th>
+<th align="center">Index</th>
+<th align="center">Symmetry</th>
+<th align="center">Attractiveness</th>
+<th align="center">Trustworthiness</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:center;">
-1
-</td>
-<td style="text-align:center;">
-M-1
-</td>
-<td style="text-align:center;">
-1
-</td>
-<td style="text-align:center;">
-6
-</td>
-<td style="text-align:center;">
-4
-</td>
-<td style="text-align:center;">
-3
-</td>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">M-1</td>
+<td align="center">1</td>
+<td align="center">6</td>
+<td align="center">4</td>
+<td align="center">3</td>
 </tr>
-<tr>
-<td style="text-align:center;">
-1
-</td>
-<td style="text-align:center;">
-M-2
-</td>
-<td style="text-align:center;">
-2
-</td>
-<td style="text-align:center;">
-4
-</td>
-<td style="text-align:center;">
-7
-</td>
-<td style="text-align:center;">
-6
-</td>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">M-2</td>
+<td align="center">2</td>
+<td align="center">4</td>
+<td align="center">7</td>
+<td align="center">6</td>
 </tr>
-<tr>
-<td style="text-align:center;">
-2
-</td>
-<td style="text-align:center;">
-M-1
-</td>
-<td style="text-align:center;">
-1
-</td>
-<td style="text-align:center;">
-5
-</td>
-<td style="text-align:center;">
-2
-</td>
-<td style="text-align:center;">
-1
-</td>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">M-1</td>
+<td align="center">1</td>
+<td align="center">5</td>
+<td align="center">2</td>
+<td align="center">1</td>
 </tr>
-<tr>
-<td style="text-align:center;">
-2
-</td>
-<td style="text-align:center;">
-M-2
-</td>
-<td style="text-align:center;">
-2
-</td>
-<td style="text-align:center;">
-3
-</td>
-<td style="text-align:center;">
-7
-</td>
-<td style="text-align:center;">
-2
-</td>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">M-2</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">7</td>
+<td align="center">2</td>
 </tr>
 </tbody>
 </table></div>
-Let’s practice. Use <a href="https://tidyr.tidyverse.org/reference/separate.html">separate()</a> to preprocess <a href="data/persistence.zip">persistence</a> data and create two new columns for hour and minutes from <code>Session</code> column. Do it in a single pipeline, starting with reading all files (use tidyverse <a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv()</a> and specify column types!) and renaming <code>Shape1</code> (<code>Prime</code>) and <code>Shape2</code> (<code>Probe</code>) columns. Your results should look like this, think about columns that you drop or keep (this is only first four rows, think of how you can limit your output the same way via <a href="https://stat.ethz.ch/R-manual/R-devel/library/utils/html/head.html">head()</a> or <a href="https://dplyr.tidyverse.org/reference/slice.html">slice_head()</a> functions):
-<div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:left;">
-Participant
-</th>
-<th style="text-align:left;">
-Hour
-</th>
-<th style="text-align:left;">
-Minutes
-</th>
-<th style="text-align:right;">
-Block
-</th>
-<th style="text-align:right;">
-Trial
-</th>
-<th style="text-align:right;">
-OnsetDelay
-</th>
-<th style="text-align:left;">
-Bias
-</th>
-<th style="text-align:left;">
-Prime
-</th>
-<th style="text-align:left;">
-Probe
-</th>
-<th style="text-align:left;">
-Response1
-</th>
-<th style="text-align:left;">
-Response2
-</th>
-<th style="text-align:right;">
-RT1
-</th>
-<th style="text-align:right;">
-RT2
-</th>
+<p>Let’s practice. Use <a href="https://tidyr.tidyverse.org/reference/separate.html">separate()</a> to preprocess <a href="data/persistence.zip">persistence</a> data and create two new columns for hour and minutes from <code>Session</code> column. Do it in a single pipeline, starting with reading all files (use tidyverse <a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv()</a> and specify column types!) and renaming <code>Shape1</code> (<code>Prime</code>) and <code>Shape2</code> (<code>Probe</code>) columns. Your results should look like this, think about columns that you drop or keep (this is only first four rows, think of how you can limit your output the same way via <a href="https://stat.ethz.ch/R-manual/R-devel/library/utils/html/head.html">head()</a> or <a href="https://dplyr.tidyverse.org/reference/slice.html">slice_head()</a> functions):</p>
+<div class="inline-table"><table style="width:100%;" class="table table-sm">
+<colgroup>
+<col width="9%">
+<col width="4%">
+<col width="6%">
+<col width="4%">
+<col width="4%">
+<col width="9%">
+<col width="4%">
+<col width="8%">
+<col width="15%">
+<col width="8%">
+<col width="8%">
+<col width="7%">
+<col width="8%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Participant</th>
+<th align="left">Hour</th>
+<th align="left">Minutes</th>
+<th align="right">Block</th>
+<th align="right">Trial</th>
+<th align="right">OnsetDelay</th>
+<th align="left">Bias</th>
+<th align="left">Prime</th>
+<th align="left">Probe</th>
+<th align="left">Response1</th>
+<th align="left">Response2</th>
+<th align="right">RT1</th>
+<th align="right">RT2</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-AKM1995M
-</td>
-<td style="text-align:left;">
-14
-</td>
-<td style="text-align:left;">
-07
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0.5746952
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:left;">
-stripes-8
-</td>
-<td style="text-align:left;">
-stripes-4
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:right;">
-5.055481
-</td>
-<td style="text-align:right;">
-1.0238089
-</td>
+<tr class="odd">
+<td align="left">AKM1995M</td>
+<td align="left">14</td>
+<td align="left">07</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.5746952</td>
+<td align="left">left</td>
+<td align="left">stripes-8</td>
+<td align="left">stripes-4</td>
+<td align="left">right</td>
+<td align="left">left</td>
+<td align="right">5.055481</td>
+<td align="right">1.0238089</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-AKM1995M
-</td>
-<td style="text-align:left;">
-14
-</td>
-<td style="text-align:left;">
-07
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-0.5741707
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:left;">
-stripes-4
-</td>
-<td style="text-align:left;">
-heavy poles sphere
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:right;">
-2.969246
-</td>
-<td style="text-align:right;">
-0.8239294
-</td>
+<tr class="even">
+<td align="left">AKM1995M</td>
+<td align="left">14</td>
+<td align="left">07</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0.5741707</td>
+<td align="left">left</td>
+<td align="left">stripes-4</td>
+<td align="left">heavy poles sphere</td>
+<td align="left">left</td>
+<td align="left">right</td>
+<td align="right">2.969246</td>
+<td align="right">0.8239294</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-AKM1995M
-</td>
-<td style="text-align:left;">
-14
-</td>
-<td style="text-align:left;">
-07
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-0.5082200
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:left;">
-stripes-2
-</td>
-<td style="text-align:left;">
-stripes-2
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:right;">
-3.162331
-</td>
-<td style="text-align:right;">
-0.6718403
-</td>
+<tr class="odd">
+<td align="left">AKM1995M</td>
+<td align="left">14</td>
+<td align="left">07</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0.5082200</td>
+<td align="left">left</td>
+<td align="left">stripes-2</td>
+<td align="left">stripes-2</td>
+<td align="left">right</td>
+<td align="left">left</td>
+<td align="right">3.162331</td>
+<td align="right">0.6718403</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-AKM1995M
-</td>
-<td style="text-align:left;">
-14
-</td>
-<td style="text-align:left;">
-07
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-0.6065058
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:left;">
-stripes-8
-</td>
-<td style="text-align:left;">
-stripes-2
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:right;">
-1.021163
-</td>
-<td style="text-align:right;">
-0.5919555
-</td>
+<tr class="even">
+<td align="left">AKM1995M</td>
+<td align="left">14</td>
+<td align="left">07</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">0.6065058</td>
+<td align="left">right</td>
+<td align="left">stripes-8</td>
+<td align="left">stripes-2</td>
+<td align="left">right</td>
+<td align="left">right</td>
+<td align="right">1.021163</td>
+<td align="right">0.5919555</td>
 </tr>
 </tbody>
 </table></div>
 <div class="practice">
 <p>Do exercise 5.</p>
 </div>
-As noted above, if position of individual pieces is fixed, you can specify it explicitly. Let us make out toy table a bit more explicit
+<p>As noted above, if position of individual pieces is fixed, you can specify it explicitly. Let us make out toy table a bit more explicit</p>
 <div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:center;">
-Participant
-</th>
-<th style="text-align:center;">
-Face
-</th>
-<th style="text-align:center;">
-Symmetry
-</th>
-<th style="text-align:center;">
-Attractiveness
-</th>
-<th style="text-align:center;">
-Trustworthiness
-</th>
+<thead><tr class="header">
+<th align="center">Participant</th>
+<th align="center">Face</th>
+<th align="center">Symmetry</th>
+<th align="center">Attractiveness</th>
+<th align="center">Trustworthiness</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:center;">
-1
-</td>
-<td style="text-align:center;">
-M-01
-</td>
-<td style="text-align:center;">
-6
-</td>
-<td style="text-align:center;">
-4
-</td>
-<td style="text-align:center;">
-3
-</td>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">M-01</td>
+<td align="center">6</td>
+<td align="center">4</td>
+<td align="center">3</td>
 </tr>
-<tr>
-<td style="text-align:center;">
-1
-</td>
-<td style="text-align:center;">
-F-02
-</td>
-<td style="text-align:center;">
-4
-</td>
-<td style="text-align:center;">
-7
-</td>
-<td style="text-align:center;">
-6
-</td>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">F-02</td>
+<td align="center">4</td>
+<td align="center">7</td>
+<td align="center">6</td>
 </tr>
-<tr>
-<td style="text-align:center;">
-2
-</td>
-<td style="text-align:center;">
-M-01
-</td>
-<td style="text-align:center;">
-5
-</td>
-<td style="text-align:center;">
-2
-</td>
-<td style="text-align:center;">
-1
-</td>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">M-01</td>
+<td align="center">5</td>
+<td align="center">2</td>
+<td align="center">1</td>
 </tr>
-<tr>
-<td style="text-align:center;">
-2
-</td>
-<td style="text-align:center;">
-F-02
-</td>
-<td style="text-align:center;">
-3
-</td>
-<td style="text-align:center;">
-7
-</td>
-<td style="text-align:center;">
-2
-</td>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">F-02</td>
+<td align="center">3</td>
+<td align="center">7</td>
+<td align="center">2</td>
 </tr>
 </tbody>
 </table></div>
@@ -1535,136 +838,66 @@ F-02
 <span>           remove <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:right;">
-Participant
-</th>
-<th style="text-align:left;">
-Face
-</th>
-<th style="text-align:left;">
-FaceGender
-</th>
-<th style="text-align:left;">
-Dash
-</th>
-<th style="text-align:left;">
-FaceIndex
-</th>
-<th style="text-align:right;">
-Symmetry
-</th>
-<th style="text-align:right;">
-Attractiveness
-</th>
-<th style="text-align:right;">
-Trustworthiness
-</th>
+<colgroup>
+<col width="14%">
+<col width="6%">
+<col width="13%">
+<col width="6%">
+<col width="12%">
+<col width="10%">
+<col width="18%">
+<col width="19%">
+</colgroup>
+<thead><tr class="header">
+<th align="right">Participant</th>
+<th align="left">Face</th>
+<th align="left">FaceGender</th>
+<th align="left">Dash</th>
+<th align="left">FaceIndex</th>
+<th align="right">Symmetry</th>
+<th align="right">Attractiveness</th>
+<th align="right">Trustworthiness</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M-01
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:left;">
-<ul><li></ul>
-</td>
-<td style="text-align:left;">
-01
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-3
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M-01</td>
+<td align="left">M</td>
+<td align="left">-</td>
+<td align="left">01</td>
+<td align="right">6</td>
+<td align="right">4</td>
+<td align="right">3</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-F-02
-</td>
-<td style="text-align:left;">
-F
-</td>
-<td style="text-align:left;">
-<ul><li></ul>
-</td>
-<td style="text-align:left;">
-02
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-6
-</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">F-02</td>
+<td align="left">F</td>
+<td align="left">-</td>
+<td align="left">02</td>
+<td align="right">4</td>
+<td align="right">7</td>
+<td align="right">6</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M-01
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:left;">
-<ul><li></ul>
-</td>
-<td style="text-align:left;">
-01
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M-01</td>
+<td align="left">M</td>
+<td align="left">-</td>
+<td align="left">01</td>
+<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">1</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-F-02
-</td>
-<td style="text-align:left;">
-F
-</td>
-<td style="text-align:left;">
-<ul><li></ul>
-</td>
-<td style="text-align:left;">
-02
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">F-02</td>
+<td align="left">F</td>
+<td align="left">-</td>
+<td align="left">02</td>
+<td align="right">3</td>
+<td align="right">7</td>
+<td align="right">2</td>
 </tr>
 </tbody>
 </table></div>
@@ -1679,346 +912,161 @@ F
 <span>           sep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:right;">
-Participant
-</th>
-<th style="text-align:left;">
-FaceGender
-</th>
-<th style="text-align:left;">
-FaceIndex
-</th>
-<th style="text-align:right;">
-Symmetry
-</th>
-<th style="text-align:right;">
-Attractiveness
-</th>
-<th style="text-align:right;">
-Trustworthiness
-</th>
+<colgroup>
+<col width="16%">
+<col width="15%">
+<col width="13%">
+<col width="12%">
+<col width="20%">
+<col width="21%">
+</colgroup>
+<thead><tr class="header">
+<th align="right">Participant</th>
+<th align="left">FaceGender</th>
+<th align="left">FaceIndex</th>
+<th align="right">Symmetry</th>
+<th align="right">Attractiveness</th>
+<th align="right">Trustworthiness</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:left;">
-01
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-3
-</td>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">M</td>
+<td align="left">01</td>
+<td align="right">6</td>
+<td align="right">4</td>
+<td align="right">3</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-F
-</td>
-<td style="text-align:left;">
-02
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-6
-</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">F</td>
+<td align="left">02</td>
+<td align="right">4</td>
+<td align="right">7</td>
+<td align="right">6</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:left;">
-01
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1
-</td>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">M</td>
+<td align="left">01</td>
+<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">1</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-F
-</td>
-<td style="text-align:left;">
-02
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-2
-</td>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">F</td>
+<td align="left">02</td>
+<td align="right">3</td>
+<td align="right">7</td>
+<td align="right">2</td>
 </tr>
 </tbody>
 </table></div>
 <p>Practice time! Using same <a href="data/persistence.csv">persistence</a> data extract birth year and gender of participants from <code>Participant</code> code (however, keep the code column). Put a nice extra touch by converting year to a number (<a href="https://tidyr.tidyverse.org/reference/separate.html">separate()</a> splits a string into strings as well) and gender into a factor type with better labels. Here is how should look like:</p>
 <div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:left;">
-Participant
-</th>
-<th style="text-align:right;">
-BirthYear
-</th>
-<th style="text-align:left;">
-Gender
-</th>
-<th style="text-align:left;">
-Hour
-</th>
-<th style="text-align:left;">
-Minutes
-</th>
-<th style="text-align:right;">
-Block
-</th>
-<th style="text-align:right;">
-Trial
-</th>
-<th style="text-align:right;">
-OnsetDelay
-</th>
-<th style="text-align:left;">
-Bias
-</th>
-<th style="text-align:left;">
-Prime
-</th>
-<th style="text-align:left;">
-Probe
-</th>
-<th style="text-align:left;">
-Response1
-</th>
-<th style="text-align:left;">
-Response2
-</th>
-<th style="text-align:right;">
-RT1
-</th>
-<th style="text-align:right;">
-RT2
-</th>
+<colgroup>
+<col width="8%">
+<col width="7%">
+<col width="5%">
+<col width="3%">
+<col width="5%">
+<col width="4%">
+<col width="4%">
+<col width="7%">
+<col width="4%">
+<col width="7%">
+<col width="13%">
+<col width="7%">
+<col width="7%">
+<col width="6%">
+<col width="7%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Participant</th>
+<th align="right">BirthYear</th>
+<th align="left">Gender</th>
+<th align="left">Hour</th>
+<th align="left">Minutes</th>
+<th align="right">Block</th>
+<th align="right">Trial</th>
+<th align="right">OnsetDelay</th>
+<th align="left">Bias</th>
+<th align="left">Prime</th>
+<th align="left">Probe</th>
+<th align="left">Response1</th>
+<th align="left">Response2</th>
+<th align="right">RT1</th>
+<th align="right">RT2</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-AKM1995M
-</td>
-<td style="text-align:right;">
-1995
-</td>
-<td style="text-align:left;">
-Male
-</td>
-<td style="text-align:left;">
-14
-</td>
-<td style="text-align:left;">
-07
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0.5746952
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:left;">
-stripes-8
-</td>
-<td style="text-align:left;">
-stripes-4
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:right;">
-5.055481
-</td>
-<td style="text-align:right;">
-1.0238089
-</td>
+<tr class="odd">
+<td align="left">AKM1995M</td>
+<td align="right">1995</td>
+<td align="left">Male</td>
+<td align="left">14</td>
+<td align="left">07</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.5746952</td>
+<td align="left">left</td>
+<td align="left">stripes-8</td>
+<td align="left">stripes-4</td>
+<td align="left">right</td>
+<td align="left">left</td>
+<td align="right">5.055481</td>
+<td align="right">1.0238089</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-AKM1995M
-</td>
-<td style="text-align:right;">
-1995
-</td>
-<td style="text-align:left;">
-Male
-</td>
-<td style="text-align:left;">
-14
-</td>
-<td style="text-align:left;">
-07
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-0.5741707
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:left;">
-stripes-4
-</td>
-<td style="text-align:left;">
-heavy poles sphere
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:right;">
-2.969246
-</td>
-<td style="text-align:right;">
-0.8239294
-</td>
+<tr class="even">
+<td align="left">AKM1995M</td>
+<td align="right">1995</td>
+<td align="left">Male</td>
+<td align="left">14</td>
+<td align="left">07</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0.5741707</td>
+<td align="left">left</td>
+<td align="left">stripes-4</td>
+<td align="left">heavy poles sphere</td>
+<td align="left">left</td>
+<td align="left">right</td>
+<td align="right">2.969246</td>
+<td align="right">0.8239294</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-AKM1995M
-</td>
-<td style="text-align:right;">
-1995
-</td>
-<td style="text-align:left;">
-Male
-</td>
-<td style="text-align:left;">
-14
-</td>
-<td style="text-align:left;">
-07
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-0.5082200
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:left;">
-stripes-2
-</td>
-<td style="text-align:left;">
-stripes-2
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:right;">
-3.162331
-</td>
-<td style="text-align:right;">
-0.6718403
-</td>
+<tr class="odd">
+<td align="left">AKM1995M</td>
+<td align="right">1995</td>
+<td align="left">Male</td>
+<td align="left">14</td>
+<td align="left">07</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0.5082200</td>
+<td align="left">left</td>
+<td align="left">stripes-2</td>
+<td align="left">stripes-2</td>
+<td align="left">right</td>
+<td align="left">left</td>
+<td align="right">3.162331</td>
+<td align="right">0.6718403</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-AKM1995M
-</td>
-<td style="text-align:right;">
-1995
-</td>
-<td style="text-align:left;">
-Male
-</td>
-<td style="text-align:left;">
-14
-</td>
-<td style="text-align:left;">
-07
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-0.6065058
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:left;">
-stripes-8
-</td>
-<td style="text-align:left;">
-stripes-2
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:right;">
-1.021163
-</td>
-<td style="text-align:right;">
-0.5919555
-</td>
+<tr class="even">
+<td align="left">AKM1995M</td>
+<td align="right">1995</td>
+<td align="left">Male</td>
+<td align="left">14</td>
+<td align="left">07</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">0.6065058</td>
+<td align="left">right</td>
+<td align="left">stripes-8</td>
+<td align="left">stripes-2</td>
+<td align="left">right</td>
+<td align="left">right</td>
+<td align="right">1.021163</td>
+<td align="right">0.5919555</td>
 </tr>
 </tbody>
 </table></div>
@@ -2105,213 +1153,98 @@ right
 <span class="header-section-number">11.10</span> Replacing substring defined by a regular expression<a class="anchor" aria-label="anchor" href="#replacing-substring-defined-by-a-regular-expression"><i class="fas fa-link"></i></a>
 </h2>
 <p>Another manipulation is to replace an arbitrary substring with a fixed one. The base R provides functions <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/grep.html">sub()</a> that replaces only the <em>first</em> occurence of the matched pattern and <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/grep.html">gsub()</a> that replaces <em>all</em> matched substring. <a href="https://stringr.tidyverse.org">Stringr</a> equivalents are <a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace()</a> and <a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all()</a>. The main difference, as with <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/grep.html">grepl()</a> versus <a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect()</a> is the order of parameters: for <a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect()</a> input string is the first parameter, followed by a pattern and a replacement string, whereas for <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/grep.html">grepl()</a> it is pattern, replacement, input string order.</p>
-As an exercise, use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/grep.html">sub()</a> and <a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace()</a> to anonymize the birth year of our participants. You need to replace the four digits that represent their birth year with a <em>single</em> <code>"-"</code>. The table should look as follows:
-<div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:left;">
-Participant
-</th>
-<th style="text-align:left;">
-Hour
-</th>
-<th style="text-align:left;">
-Minutes
-</th>
-<th style="text-align:right;">
-Block
-</th>
-<th style="text-align:right;">
-Trial
-</th>
-<th style="text-align:right;">
-OnsetDelay
-</th>
-<th style="text-align:left;">
-Bias
-</th>
-<th style="text-align:left;">
-Prime
-</th>
-<th style="text-align:left;">
-Probe
-</th>
-<th style="text-align:left;">
-Response1
-</th>
-<th style="text-align:left;">
-Response2
-</th>
-<th style="text-align:right;">
-RT1
-</th>
-<th style="text-align:right;">
-RT2
-</th>
+<p>As an exercise, use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/grep.html">sub()</a> and <a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace()</a> to anonymize the birth year of our participants. You need to replace the four digits that represent their birth year with a <em>single</em> <code>"-"</code>. The table should look as follows:</p>
+<div class="inline-table"><table style="width:100%;" class="table table-sm">
+<colgroup>
+<col width="9%">
+<col width="4%">
+<col width="6%">
+<col width="4%">
+<col width="4%">
+<col width="9%">
+<col width="4%">
+<col width="8%">
+<col width="15%">
+<col width="8%">
+<col width="8%">
+<col width="7%">
+<col width="8%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Participant</th>
+<th align="left">Hour</th>
+<th align="left">Minutes</th>
+<th align="right">Block</th>
+<th align="right">Trial</th>
+<th align="right">OnsetDelay</th>
+<th align="left">Bias</th>
+<th align="left">Prime</th>
+<th align="left">Probe</th>
+<th align="left">Response1</th>
+<th align="left">Response2</th>
+<th align="right">RT1</th>
+<th align="right">RT2</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-AKM-M
-</td>
-<td style="text-align:left;">
-14
-</td>
-<td style="text-align:left;">
-07
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0.5746952
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:left;">
-stripes-8
-</td>
-<td style="text-align:left;">
-stripes-4
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:right;">
-5.055481
-</td>
-<td style="text-align:right;">
-1.0238089
-</td>
+<tr class="odd">
+<td align="left">AKM-M</td>
+<td align="left">14</td>
+<td align="left">07</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.5746952</td>
+<td align="left">left</td>
+<td align="left">stripes-8</td>
+<td align="left">stripes-4</td>
+<td align="left">right</td>
+<td align="left">left</td>
+<td align="right">5.055481</td>
+<td align="right">1.0238089</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-AKM-M
-</td>
-<td style="text-align:left;">
-14
-</td>
-<td style="text-align:left;">
-07
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-0.5741707
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:left;">
-stripes-4
-</td>
-<td style="text-align:left;">
-heavy poles sphere
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:right;">
-2.969246
-</td>
-<td style="text-align:right;">
-0.8239294
-</td>
+<tr class="even">
+<td align="left">AKM-M</td>
+<td align="left">14</td>
+<td align="left">07</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0.5741707</td>
+<td align="left">left</td>
+<td align="left">stripes-4</td>
+<td align="left">heavy poles sphere</td>
+<td align="left">left</td>
+<td align="left">right</td>
+<td align="right">2.969246</td>
+<td align="right">0.8239294</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-AKM-M
-</td>
-<td style="text-align:left;">
-14
-</td>
-<td style="text-align:left;">
-07
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-0.5082200
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:left;">
-stripes-2
-</td>
-<td style="text-align:left;">
-stripes-2
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:left;">
-left
-</td>
-<td style="text-align:right;">
-3.162331
-</td>
-<td style="text-align:right;">
-0.6718403
-</td>
+<tr class="odd">
+<td align="left">AKM-M</td>
+<td align="left">14</td>
+<td align="left">07</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0.5082200</td>
+<td align="left">left</td>
+<td align="left">stripes-2</td>
+<td align="left">stripes-2</td>
+<td align="left">right</td>
+<td align="left">left</td>
+<td align="right">3.162331</td>
+<td align="right">0.6718403</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-AKM-M
-</td>
-<td style="text-align:left;">
-14
-</td>
-<td style="text-align:left;">
-07
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-0.6065058
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:left;">
-stripes-8
-</td>
-<td style="text-align:left;">
-stripes-2
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:left;">
-right
-</td>
-<td style="text-align:right;">
-1.021163
-</td>
-<td style="text-align:right;">
-0.5919555
-</td>
+<tr class="even">
+<td align="left">AKM-M</td>
+<td align="left">14</td>
+<td align="left">07</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">0.6065058</td>
+<td align="left">right</td>
+<td align="left">stripes-8</td>
+<td align="left">stripes-2</td>
+<td align="left">right</td>
+<td align="left">right</td>
+<td align="right">1.021163</td>
+<td align="right">0.5919555</td>
 </tr>
 </tbody>
 </table></div>
@@ -2360,7 +1293,7 @@ right
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data analysis using R for Psychology and Social Science</strong>" was written by Alexander (Sasha) Pastukhov. It was last built on 2024-02-05.</p>
+    <p>"<strong>Data analysis using R for Psychology and Social Science</strong>" was written by Alexander (Sasha) Pastukhov. It was last built on 2024-11-09.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
