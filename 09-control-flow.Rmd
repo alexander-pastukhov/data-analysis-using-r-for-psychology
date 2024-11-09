@@ -337,7 +337,7 @@ First, you need to have a character vector with relevant file names. Package you
 Next, you need to create a full table variable (I, typically, call it `results` or `reports`) and initialize it to an empty `data.frame()` (or an empty `tibble`). You loop over file names, [read](#readr) one file at a time (don't forget to specify column types), and then use [bind_rows()](https://dplyr.tidyverse.org/reference/bind.html) to combine the full table and the new table you loaded. Note that [bind_rows()](https://dplyr.tidyverse.org/reference/bind.html) returns a _new_ table, so you need to assign it back to the original full table variable. Once you are done, your table should have 5232 rows and twelve columns.
 ```{r echo=FALSE}
 results <- data.frame()
-for(file in fs::dir_ls(path="data/Persistence/", glob="*.csv"))
+for(file in fs::dir_ls(path="data/persistence/", glob="*.csv"))
 {
   current_file <- read_csv(file, 
                            col_types = cols(Participant = col_character(),
